@@ -436,7 +436,7 @@ called, percentage usage and the command."
     (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))))
 
 (use-package notmuch
-  :defer t
+  :bind (("C-. C-n" . notmuch))
   :config
   (progn
     ;; REDEFINED FROM notmuch-unread-mode
