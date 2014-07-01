@@ -549,7 +549,7 @@ The current directory is assumed to be the project's root otherwise."
     (add-hook 'html-mode-hook 'my-html-mode-setup)))
 
 (use-package skeleton-complete
-  :defer t
+  :commands skeleton-complete-mode
   :diminish skeleton-complete-mode)
 
 (use-package smartparens
