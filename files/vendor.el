@@ -439,6 +439,7 @@ called, percentage usage and the command."
   :bind (("C-. C-n" . notmuch))
   :config
   (progn
+    (use-package notmuch-unread)
     ;; REDEFINED FROM notmuch-unread-mode
     ;; Don't show anything if there's no unread mail
     (defun notmuch-unread-update-handler ()

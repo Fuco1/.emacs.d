@@ -186,7 +186,6 @@
  '(mweb-default-major-mode (quote html-mode))
  '(notmuch-archive-tags (quote ("-inbox" "-unread" "+archived")))
  '(notmuch-search-oldest-first nil)
- '(notmuch-unread-mode t nil (notmuch))
  '(org-M-RET-may-split-line nil)
  '(org-agenda-clock-consistency-checks (quote (:max-duration "10:00" :min-duration 0 :max-gap "0:20" :gap-ok-around ("4:00") :default-face ((:foreground "Red")) :overlap-face nil :gap-face nil :no-end-time-face nil :long-face nil :short-face nil)))
  '(org-agenda-compact-blocks t)
