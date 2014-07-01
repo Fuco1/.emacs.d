@@ -19,20 +19,19 @@
 
 (use-package-with-elapsed-timer "Initializing packages"
   (package-initialize)
-  ;; TODO: get rid of autoinstall, rewrite it using something nicer
+  (load "~/.emacs.d/dev/dash.el/dash")
+  (load "~/.emacs.d/dev/dash.el/dash-functional")
   (load "~/.emacs.d/autoinstall")
 
   (require 'parenface)
   (require 'uniquify)
-  (load "dev/dash.el/dash.el")
-  (load "dev/dash.el/dash-functional.el")
   (require 'f)
-  (require 's))
+  (require 's)
 
-;; add load paths
-(add-to-list 'load-path "~/.emacs.d/")
-(mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
-(mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
+  ;; add load paths
+  (add-to-list 'load-path "~/.emacs.d/")
+  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
+  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects")))
 
 ;; autoloads
 (autoload 'calc-same-interface "calc" nil t)
@@ -52,7 +51,7 @@
   (load "site-lisp/vendor")
   (load "site-lisp/redef")
 
-  ;; ;; load keys
+  ;; load keys
   (load "files/keys"))
 
 ;; load settings
@@ -81,11 +80,6 @@
 
 ;; Reload theme -- hackish
 (load "~/.emacs.d/themes/my-tango-dark-theme")
-
-;; xiki support
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp")
-;; (require 'el4r)
-;; (el4r-boot)
 
 ;;; post init.
 (when window-system

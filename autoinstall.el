@@ -1,10 +1,6 @@
-;; autoinstall packages
-(require 'cl)
-
-(defvar prelude-packages
+(defvar autoinstall-packages
   '(
-    ace-jump-mode
-    ack-and-a-half
+    ag
     bookmark+
     browse-kill-ring
     dash
@@ -13,6 +9,8 @@
     dired+
     dired-details
     eldoc-eval
+    eimp
+    elfeed
     emmet-mode
     expand-region
     f
@@ -21,21 +19,23 @@
     fuzzy-match
     golden-ratio
     haskell-mode
+    helm-descbinds
     ibuffer-vc
     icicles
     ido-ubiquitous
     jump-char
     keyfreq
+    legalese
     macrostep
     magit
-    map-regexp
+    make-it-so
     markdown-mode
     markdown-mode+
     multi-web-mode
     multiple-cursors
     noflet
+    ov
     parenface
-    php-mode
     pos-tip
     projectile
     rainbow-mode
@@ -43,22 +43,19 @@
     shell-pop
     smex
     undo-tree
-    w32-browser
+    visual-regexp
+    wgrep-ag
+    world-time-mode
     )
   "A list of packages to ensure are installed at launch.")
 
-(defun prelude-packages-installed-p ()
-  (loop for p in prelude-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
-
-(unless (prelude-packages-installed-p)
+(when (--any? (not (package-installed-p it)) autoinstall-packages)
   ;; check for new packages (package versions)
-  (message "%s" "Emacs Prelude is now refreshing its package database...")
+  (message "%s" "Emacs is now refreshing its package database...")
   (package-refresh-contents)
   (message "%s" " done.")
   ;; install the missing packages
-  (dolist (p prelude-packages)
+  (dolist (p autoinstall-packages)
     (when (not (package-installed-p p))
       (package-install p))))
 
