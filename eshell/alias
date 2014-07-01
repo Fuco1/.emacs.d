@@ -1,0 +1,10 @@
+alias gp git push
+alias gs git status
+alias ff find-file $1
+alias gbva git branch -va
+alias gcb git checkout -b $*
+alias gc git checkout $*
+alias lla ls -la
+alias du1 du --max-depth=1 -h
+alias ga git add $*
+alias hc hg commit -m "Update"
