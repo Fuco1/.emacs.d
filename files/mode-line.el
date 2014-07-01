@@ -1,4 +1,6 @@
 ;; set frame format
+(setq global-mode-string '(""))
+
 (setq-default
  frame-title-format
  '("%b ; %*"
