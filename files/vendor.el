@@ -62,8 +62,9 @@ return to regular interpretation of self-insert characters."
     (define-key Info-mode-map "o" 'bjump-info-link-jump)
     (define-key help-mode-map "o" 'bjump-help-link-jump)))
 
+;; TODO: fix the binding autoload
 (use-package bookmark+
-  :bind ("C-x j t t" . my-tag-jump)
+  :bind (("C-x j t t" . my-tag-jump))
   :init
   (progn
     (require 'bookmark+-autoloads))
@@ -528,14 +529,6 @@ The current directory is assumed to be the project's root otherwise."
        (mapconcat (lambda (x)
                     (concat "-path \"*/" x "\"")) projectile-globally-ignored-directories " -not ")
        " -type f -print0"))))
-
-(use-package recentf
-  :bind (("C-c r f" . recentf-open-files)
-         ("C-x C-r" . recentf-open-files)
-         ("C-c r c" . recentf-cleanup))
-  :config
-  (progn
-    (load "files/recentf-defs")))
 
 (use-package revbufs
   :bind ("C-<f5>" . revbufs))
