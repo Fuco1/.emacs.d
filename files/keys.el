@@ -227,26 +227,22 @@
 
 (bind-key "C-h D" 'describe-personal-keybindings)
 
-(defvar ctl-dot-prefix-map)
-(define-prefix-command 'ctl-dot-prefix-map)
-(bind-key "C-." 'ctl-dot-prefix-map)
-(bind-key "C-. p f" 'elp-instrument-function)
-(bind-key "C-. p r" 'elp-results)
-(bind-key "C-. p R" 'elp-restore-all)
+(bind-keys :prefix "C-."
+           :prefix-map ctl-dot-prefix-map
+           :prefix-docstring "Second auxiliary map on C-."
+  ("p f" . elp-instrument-function)
+  ("p r" . elp-results)
+  ("p R" . elp-restore-all)
+  ("c" . create-scratch-buffer)
+  ("k" . browse-kill-ring)
+  ("m s" . kmacro-set-counter)
+  ("m a" . kmacro-add-counter)
+  ("m f" . kmacro-set-format)
+  ("z" . my-insert-no-move)
+  ("-" . macrostep-expand)
+  ("0" . my-kill-pp-eval-expression-window))
 
-(bind-key "C-. u" 'unfill-paragraph)
-(bind-key "C-. c" 'create-scratch-buffer)
-(bind-key "C-. k" 'browse-kill-ring)
-
-(bind-key "C-. m s" 'kmacro-set-counter)
-(bind-key "C-. m a" 'kmacro-add-counter)
-(bind-key "C-. m f" 'kmacro-set-format)
-
-(bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
-
-(bind-key "C-. z" 'my-insert-no-move)
-
-(bind-key "C-. -" 'macrostep-expand)
+(bind-key "e" 'eval-region emacs-lisp-mode-map)
 
 (bind-key "<XF86HomePage>" 'toggle-input-method)
 (bind-keys :prefix "C-. i"

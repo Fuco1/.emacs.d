@@ -99,3 +99,8 @@ Including indent-buffer, which should not be called automatically on save."
   "Fix the display of octal chars instead of decoded text."
   (set-buffer-multibyte nil)
   (set-buffer-multibyte t))
+
+(defun my-kill-pp-eval-expression-window ()
+  (interactive)
+  (--when-let (--first (equal (buffer-name (window-buffer it)) "*Pp Eval Output*") (window-list))
+    (delete-window it)))
