@@ -242,7 +242,7 @@
   ("-" . macrostep-expand)
   ("0" . my-kill-pp-eval-expression-window))
 
-(bind-key "e" 'eval-region emacs-lisp-mode-map)
+(bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
 
 (bind-key "<XF86HomePage>" 'toggle-input-method)
 (bind-keys :prefix "C-. i"
