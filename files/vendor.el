@@ -62,9 +62,8 @@ return to regular interpretation of self-insert characters."
     (define-key Info-mode-map "o" 'bjump-info-link-jump)
     (define-key help-mode-map "o" 'bjump-help-link-jump)))
 
-;; TODO: fix the binding autoload
 (use-package bookmark+
-  :bind (("C-x j t t" . my-tag-jump))
+  :defer t
   :init
   (progn
     (require 'bookmark+-autoloads))
@@ -74,12 +73,14 @@ return to regular interpretation of self-insert characters."
       "Jump to bookmark that has TAG.
 
 This is like `bmkp-some-tags-jump' but reads only one tag."
+      (require 'bookmark+) ;; is this the best solution?
       (bookmark-maybe-load-default-file)
       (interactive (list (completing-read "Tag: " bmkp-tags-alist nil t)))
       (let* ((alist (bmkp-some-tags-alist-only (list tag))))
         (unless alist (error "No bookmarks have any of the specified tags"))
         (bookmark-jump
          (bookmark-completing-read "Bookmark" (bmkp-default-bookmark-name alist) alist))))
+    (bind-key "C-x j t t" 'my-tag-jump)
     (bind-key "M-o" 'elwm-activate-window bookmark-bmenu-mode-map)))
 
 (use-package calc
