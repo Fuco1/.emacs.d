@@ -93,6 +93,12 @@ Also used for highlighting.")
       ("p" . dired-ranger-paste)
       ("m" . dired-ranger-move))))
 
+(use-package dired-narrow
+  :init
+  (progn
+    (bind-keys :map dired-mode-map
+      ("s" . dired-narrow))))
+
 (use-package make-it-so
   :init
   (bind-keys :map dired-mode-map
@@ -193,6 +199,7 @@ Also used for highlighting.")
     ("M-<f6>" . dired-arc-unpack-file)
 
     ("* r" . diredp-mark-region-files)
+    ("`" . dired-sort-toggle-or-edit)
     ("E" . my-dired-encrypt-file))
 
   (dired-filter-mode t)
