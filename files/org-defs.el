@@ -97,7 +97,9 @@
 
   ("C-c M-`" . org-mark-ring-goto)
 
-  ("C-c C-N" . my-org-add-sibling))
+  ("C-c C-S-n" . my-org-add-sibling)
+  ("C-c C-n" . outline-next-visible-heading))
+
 
 ;; global keys
 (bind-keys
