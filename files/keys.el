@@ -80,7 +80,6 @@
 
 ;; Easier buffer killing
 (bind-key "M-k" 'my-kill-this-buffer)
-(bind-key "M-K" (lambda () (interactive) (kill-buffer (window-buffer (next-window)))))
 (bind-key "C-x C-k" 'kill-buffer-and-window)
 
 ;; imenu

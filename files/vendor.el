@@ -56,7 +56,9 @@ return to regular interpretation of self-insert characters."
 (use-package better-jump
   :bind (("C-\\" . bjump-word-jump)
          ("A-l" . bjump-word-jump-line)
-         ("A-;" . bjump-word-jump-paragraph))
+         ("A-;" . bjump-word-jump-paragraph)
+         ("s-o" . bjump-window-jump)
+         ("A-k" . bjump-window-delete))
   :config
   (progn
     (define-key Info-mode-map "o" 'bjump-info-link-jump)
