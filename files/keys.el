@@ -255,10 +255,11 @@
   ("r" . (lambda () "Toggle on russian-computer input method." (interactive) (set-input-method "russian-computer")))
   ("q" . (lambda () "Toggle on cyrillic-translit input method." (interactive) (set-input-method "cyrillic-translit")))
   ("i" . (lambda () "Toggle on italian-keyboard input method." (interactive) (set-input-method "italian-keyboard")))
-  ("g" . (lambda () "Toggle on german input method." (interactive) (set-input-method "german")))
+  ("d" . (lambda () "Toggle on german input method." (interactive) (set-input-method "german")))
   ("t" . (lambda () "Toggle on TeX input method." (interactive) (set-input-method "TeX")))
   ("l" . (lambda () "Toggle on latin-macrons input method." (interactive) (set-input-method "latin-macrons")))
-  ("f" . (lambda () "Toggle on french-keyboard input method." (interactive) (set-input-method "french-keyboard"))))
+  ("f" . (lambda () "Toggle on french-keyboard input method." (interactive) (set-input-method "french-keyboard")))
+  ("g" . (lambda () "Toggle on greek-mizuochi input method." (interactive) (set-input-method "greek-mizuochi"))))
 
 (bind-key "H-u" 'universal-argument)
 (bind-key "H-u" 'universal-argument-more universal-argument-map)
