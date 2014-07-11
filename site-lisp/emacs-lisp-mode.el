@@ -59,7 +59,7 @@ function on `my-emacs-lisp-open-line-list'."
       (let ((function (function-called-at-point))
             (variable (variable-at-point)))
         (cond
-         ((/= variable 0) (describe-variable variable))
+         ((not (numberp variable)) (describe-variable variable))
          (function (describe-function function)))))
 
     (defun backward-down-list (&optional n)
