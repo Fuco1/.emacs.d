@@ -193,7 +193,7 @@ Also used for highlighting.")
     ("M-<f6>" . dired-arc-unpack-file)
 
     ("* r" . diredp-mark-region-files)
-    )
+    ("E" . my-dired-encrypt-file))
 
   (dired-filter-mode t)
   (visual-line-mode -1)
@@ -715,6 +715,16 @@ With \\[universal-argument] present user with list of possible methods to unpack
         (goto-char 1)
         (replace-string "\\" "/")
         (dired-mode "/")))))
+
+;;;_. gpg stuff
+;; gpg --output passwords.gpg --symmetric passwords.txt
+(defun my-dired-encrypt-file ()
+  (interactive)
+  (require 'epa)
+  (if (not (dired-utils-is-file-p))
+      (message "We can only encrypt single files.")
+    (epa-encrypt-file (dired-utils-get-filename) nil)
+    (revert-buffer)))
 
 ;;;_. Local var settings
 
