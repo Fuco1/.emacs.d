@@ -2,13 +2,6 @@
   (modify-syntax-entry ?\" "$\""))
 (add-hook 'gfm-mode-hook 'my-markdown-init)
 
-(defun -repeat (n x)
-  "Return a list with X repeated N times.
-Returns nil if N is less than 1."
-  (let (ret)
-    (--dotimes n (!cons x ret))
-    ret))
-
 (defun my-markdown-toc ()
   "Generate table of content from # to ####### headers."
   (interactive)
