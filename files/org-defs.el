@@ -518,7 +518,17 @@ point and rebuild the agenda view."
         ("h" "Habits" tags-todo "STYLE=\"habit\""
          ((org-agenda-overriding-header "Habits")
           (org-agenda-sorting-strategy '(todo-state-down effort-up category-keep))))
-        ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))))
+        ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
+        ("k" . "Knowledge-base operations")
+        ("ks" "Knowledge-base search" search nil
+         ((org-agenda-files '("~/org/kb.org"))))
+        ("km" "Knowledge-base tag match" tags nil
+         ((org-agenda-files '("~/org/kb.org"))))
+        ("b" . "Bookmarks operations")
+        ("bs" "Bookmarks search" search nil
+         ((org-agenda-files '("~/org/bookmarks.org"))))
+        ("bm" "Bookmakrs tag match" tags nil
+         ((org-agenda-files '("~/org/bookmarks.org"))))))
 
 (defun my-org-compare-closed-entries (a b)
   "Compare two agenda entries A and B based on CLOSED time."
