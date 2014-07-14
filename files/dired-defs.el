@@ -34,7 +34,15 @@ Also used for highlighting.")
 (use-package dired+)
 (use-package cl-lib)
 (use-package dired-details
-  :commands dired-details-toggle)
+  :commands dired-details-toggle
+  :init
+  (progn
+    (add-hook 'dired-after-readin-hook 'dired-details-activate)
+
+    (bind-key "(" 'dired-details-toggle dired-mode-map)
+
+    (defadvice dired-revert (before remember-the-details activate)
+      (dired-details-delete-overlays))))
 (use-package w32-browser
   :commands dired-w32-browser)
 (use-package dired-avfs)
@@ -194,7 +202,6 @@ Also used for highlighting.")
     ("<delete>" . dired-unmark-backward)
     ("<backspace>" . dired-up-directory)
     ("C-o" . dired-filter-mode)
-    ("(" . dired-details-toggle)
     ("M-<f5>" . dired-arc-pack-files)
     ("M-<f6>" . dired-arc-unpack-file)
 
