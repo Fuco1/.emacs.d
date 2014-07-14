@@ -441,6 +441,15 @@ called, percentage usage and the command."
 
 (use-package notmuch
   :bind (("C-. C-n" . notmuch))
+  :init
+  (progn
+    (defun my-notmuch-unread ()
+      "Display buffer with unread mail."
+      (interactive)
+      (require 'notmuch)
+      (notmuch-search "tag:unread"))
+
+    (bind-key "C-. C-u" 'my-notmuch-unread))
   :config
   (progn
     (use-package notmuch-unread)
@@ -456,6 +465,7 @@ called, percentage usage and the command."
       (force-mode-line-update))
 
     (defun my-notmuch-update-mail ()
+      (interactive)
       (start-process "mail-update" nil "/bin/bash" "/home/matus/bin/run-getmail"))
 
     (defvar my-notmuch-update-mail-timer
