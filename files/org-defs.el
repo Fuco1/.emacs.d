@@ -41,7 +41,9 @@
              ("P" . my-org-narrow-to-project)
              ("U" . my-org-narrow-to-parent)
              ("N" . my-org-narrow-to-subtree)
-             ("W" . my-org-widen)))
+             ("W" . my-org-widen)
+             ("/" . my-org-agenda-filter-by-tag)
+             ("\\" . my-org-agenda-filter-by-tag-refine)))
 
 (use-package org-protocol
   :init
@@ -794,3 +796,45 @@ sibling before the next header."
       (outline-next-heading)))
     (if (= (point) (point-max)) (newline) (open-line 1))
     (insert (make-string cdepth ?*) " ")))
+
+
+;; better org-agenda s/m UI
+;; TODO: move to defun-macros
+(defmacro my-with-each-line (&rest body)
+  (declare (indent 0)
+           (debug (body)))
+  `(save-excursion
+     (goto-char (point-min))
+     ,@body
+     (while (= (forward-line) 0)
+       ,@body)))
+
+(defun my-org--get-agenda-tags ()
+  "Return all tags present in current agenda view."
+  (let (tags)
+    (my-with-each-line
+      (--when-let (org-get-at-bol 'tags)
+        (--each it (push it tags))))
+    (-uniq tags)))
+
+(defun my-org-agenda-filter-by-tag-refine (strip &optional char)
+  "Just like `org-agenda-filter-by-tag-refine' but with tags from
+current agenda view added to `org-tag-alist'."
+  (interactive "P")
+  (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
+    (org-set-local 'org-global-tags-completion-table
+                   (-uniq (-map 'downcase
+                                (-concat (my-org--get-agenda-tags)
+                                         (-filter 'stringp (-map 'car org-tag-alist)))))))
+  (org-agenda-filter-by-tag-refine strip char))
+
+(defun my-org-agenda-filter-by-tag (strip &optional char narrow)
+  "Just like `org-agenda-filter-by-tag' but with tags from
+current agenda view added to `org-tag-alist'."
+  (interactive "P")
+  (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
+    (org-set-local 'org-global-tags-completion-table
+                   (-uniq (-map 'downcase
+                                (-concat (my-org--get-agenda-tags)
+                                         (-filter 'stringp (-map 'car org-tag-alist)))))))
+  (org-agenda-filter-by-tag strip char narrow))
