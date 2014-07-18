@@ -34,7 +34,6 @@ Also used for highlighting.")
 (use-package dired+)
 (use-package cl-lib)
 (use-package dired-details
-  :commands dired-details-toggle
   :init
   (progn
     (add-hook 'dired-after-readin-hook 'dired-details-activate)
