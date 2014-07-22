@@ -331,8 +331,8 @@ point and rebuild the agenda view."
         ("w" "water" table-line (file+datetree "~/org/water.org")
          "|%<%H:%M:%S>|%?|" :table-line-pos "III-1")
         ("b" "bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
-         "* %:description\n- source: %:link\n%(if (not (equal %:initial \"\"))
-                                                        (concat \"- selection:\n  \" %:initial) \"\")")))
+         "* %:description\n- %:link\n%(if (not (equal %:initial \"\"))
+                                        (concat \"- \" %:initial) \"\")")))
 
 (defun my-org-handle-bookmark ()
   (let ((link (caar org-stored-links)))
