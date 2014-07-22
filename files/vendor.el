@@ -249,12 +249,13 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
               (require 'icicles))
             (setq current-prefix-arg -1)
             (call-interactively 'diredp-dired-files))
-        (ido-dired)))
-
-    (defun dired-hack-local-variables () nil))
+        (ido-dired))))
   :config
   (progn
-    (load "files/dired-defs")))
+    (load "files/dired-defs")
+
+    ;; overload to fix bullshit
+    (defun dired-hack-local-variables () nil)))
 
 (use-package ediff
   :pre-init
