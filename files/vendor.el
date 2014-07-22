@@ -352,6 +352,28 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
 (use-package google-maps
   :commands google-maps)
 
+(use-package google-this
+  :defer t
+  :init
+  (progn
+    (defvar google-this-mode-submap)
+    (define-prefix-command 'google-this-mode-submap)
+    (define-key google-this-mode-submap [return] 'google-search)
+    (define-key google-this-mode-submap " " 'google-region)
+    (define-key google-this-mode-submap "t" 'google-this)
+    (define-key google-this-mode-submap "g" 'google-lucky-search)
+    (define-key google-this-mode-submap "i" 'google-lucky-and-insert-url)
+    (define-key google-this-mode-submap "w" 'google-word)
+    (define-key google-this-mode-submap "s" 'google-symbol)
+    (define-key google-this-mode-submap "l" 'google-line)
+    (define-key google-this-mode-submap "e" 'google-error)
+    (define-key google-this-mode-submap "f" 'google-forecast)
+    (define-key google-this-mode-submap "r" 'google-cpp-reference)
+    (define-key google-this-mode-submap "m" 'google-maps)
+    ;; "c" is for "convert language" :-P
+    (define-key google-this-mode-submap "c" 'google-translate-query-or-region)
+    (bind-key "C-x g" google-this-mode-submap)))
+
 (use-package guide-key
   :diminish guide-key-mode
   :config
