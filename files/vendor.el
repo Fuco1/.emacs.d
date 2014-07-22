@@ -119,8 +119,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (setq lui-highlight-keywords
           '(("^--> .*" (face (:foreground "#4e9a06")))
             ;; specific nick highlights
-            ("^<taylanub[`_]*>" (face (:foreground "#204a87")))
-            ("^<wasamasa[`_]*>" (face (:foreground "#222222")))
+            ("^<taylanub[`_]*>" (face (:foreground "#3465a4")))
             ("<queen[`_]*>" (face (:foreground "#e6a8df")))
             ("<jordigh[`_]*>" (face (:foreground "#e6a8df")))
             ("<fsbot[`_]*>" (face (:foreground "#41423f")))
@@ -138,6 +137,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
             ("<godmy[`_]*>" (face (:foreground "#ef2929")))
             ("<lambdabot[`_]*>" (face (:foreground "#41423f")))
             ("<wgreenhouse[`_]*>" (face (:foreground "#8ae234")))
+            ("<tali713[`_]*>" (face (:foreground "#8ae234")))
             ("<forcer[`_]*>" (face (:foreground "#4e9a06")))
             ("<tonitrus[`_]*>" (face (:foreground "#4e9a06")))
             ;; default nick
@@ -150,7 +150,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (defun my-circe-channel-setup ()
       "Setup channel buffer."
       (my-init-text-based-modes)
-      (smartparens-strict-mode -1))
+      (smartparens-mode t))
 
     (add-hook 'circe-channel-mode-hook 'my-circe-channel-setup)
 
