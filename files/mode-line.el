@@ -1,5 +1,6 @@
 ;; set frame format
 (setq global-mode-string '(""))
+(add-to-list 'mode-line-misc-info '(tracking-mode ("" tracking-mode-line-buffers " ")) t)
 
 (setq-default
  frame-title-format
