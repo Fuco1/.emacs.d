@@ -848,3 +848,38 @@ current agenda view added to `org-tag-alist'."
                                 (-concat (my-org--get-agenda-tags)
                                          (-filter 'stringp (-map 'car org-tag-alist)))))))
   (org-agenda-filter-by-tag strip char narrow))
+
+
+;; tags
+(defun my-org-add-tags-at (tags)
+  "Add TAGS to current entry."
+  (let* ((ctags (org-get-local-tags-at))
+         (tags (-union tags ctags)))
+    (org-set-tags-to tags)))
+
+(defun my-org-remove-tags-at (tags)
+  "Remove TAGS from current entry."
+  (let* ((ctags (org-get-local-tags-at))
+         (tags (-difference ctags tags)))
+    (org-set-tags-to tags)))
+
+
+;; more org macros
+(defmacro my-org-with-children (&rest body)
+  "Execute BODY with point at the beginning of each child of current node."
+  (declare (indent 0)
+           (debug (body)))
+  `(let ((start-level (org-current-level)))
+     (while (and (outline-next-heading)
+                 (> (org-current-level) start-level))
+       (when (= (org-current-level) (1+ start-level))
+         ,@body))))
+
+(defmacro my-org-with-descendants (&rest body)
+  "Execute BODY with point at the beginning of each descendant of current node."
+  (declare (indent 0)
+           (debug (body)))
+  `(let ((start-level (org-current-level)))
+     (while (and (outline-next-heading)
+                 (> (org-current-level) start-level))
+       ,@body)))
