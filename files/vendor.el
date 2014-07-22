@@ -107,6 +107,73 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
         ad-do-it
         (mapc (lambda (w) (when (car w) (delete-window (cdr w)))) wins-to-kill)))))
 
+(use-package circe
+  :commands circe
+  :init
+  (progn
+    (defun my-circe-get-dasnet-irssi-passwd (_)
+      (with-temp-buffer
+        (insert-file "~/secrets/dasnet-irssi-proxy.gpg")
+        (buffer-string)))
+
+    (setq lui-highlight-keywords
+          '(("^--> .*" (face (:foreground "#4e9a06")))
+            ;; specific nick highlights
+            ("^<taylanub[`_]*>" (face (:foreground "#204a87")))
+            ("^<wasamasa[`_]*>" (face (:foreground "#222222")))
+            ("<queen[`_]*>" (face (:foreground "#e6a8df")))
+            ("<jordigh[`_]*>" (face (:foreground "#e6a8df")))
+            ("<fsbot[`_]*>" (face (:foreground "#41423f")))
+            ("<rudybot[`_]*>" (face (:foreground "#41423f")))
+            ("<rhemaxx0s[`_]*>" (face (:foreground "#8ae234")))
+            ("<rhemax0s[`_]*>" (face (:foreground "#8ae234")))
+            ("<rhemaxxos[`_]*>" (face (:foreground "#8ae234")))
+            ("<rhemaxos[`_]*>" (face (:foreground "#8ae234")))
+            ("<magnars[`_]*>" (face (:foreground "#5c3566")))
+            ("<tanagoljerova[`_]*>" (face (:foreground "#ef2929")))
+            ("<nicferrier[`_]*>" (face (:foreground "#ef2929")))
+            ("<macrobat[`_]*>" (face (:foreground "#5c3566")))
+            ("<ijp[`_]*>" (face (:foreground "#729fcf")))
+            ("<johnw[`_]*>" (face (:foreground "#5c3566")))
+            ("<godmy[`_]*>" (face (:foreground "#ef2929")))
+            ("<lambdabot[`_]*>" (face (:foreground "#41423f")))
+            ("<wgreenhouse[`_]*>" (face (:foreground "#8ae234")))
+            ("<forcer[`_]*>" (face (:foreground "#4e9a06")))
+            ("<tonitrus[`_]*>" (face (:foreground "#4e9a06")))
+            ;; default nick
+            ("^<.*?>" circe-originator-face))))
+  :config
+  (progn
+    (sp-with-modes 'circe-channel-mode
+      (sp-local-pair "`" "'"))
+
+    (defun my-circe-channel-setup ()
+      "Setup channel buffer."
+      (my-init-text-based-modes)
+      (smartparens-strict-mode -1))
+
+    (add-hook 'circe-channel-mode-hook 'my-circe-channel-setup)
+
+    (defun my-circe-kill-all-irc-buffers ()
+      "Kill all circe buffers."
+      (interactive)
+      (--each (buffer-list)
+        (with-current-buffer it
+          (when (eq major-mode circe-server-mode)
+            (kill-buffer it))))
+      (--each (buffer-list)
+        (with-current-buffer it
+          (when (eq major-mode circe-channel-mode)
+            (kill-buffer it)))))
+
+    (defun my-circe-open-irc-frame ()
+      "Open an IRC frame."
+      (interactive)
+      (select-frame (make-frame-command))
+      (set-frame-parameter (selected-frame) :frame-type :circe)
+      (set-frame-parameter (selected-frame) 'name "Circe")
+      (set-frame-parameter (selected-frame) 'explicit-name "Circe"))))
+
 (use-package clippy
   :commands clippy-describe-function)
 

@@ -105,6 +105,11 @@ is extension of default `tango-dark' face.")
    `(erc-nick-default-face ((,class (:foreground ,butter-2 :weight bold))))
    `(erc-prompt-face ((,class (:background ,alum-6 :foreground ,alum-1 :weight bold))))
    `(erc-timestamp-face ((,class nil))) ;; wtf?
+   ;; Circe
+   `(circe-highlight-nick-face ((,class (:foreground ,red-1))))
+   `(circe-my-message-face ((,class (:foreground ,blue-0))))
+   `(circe-originator-face ((,class (:foreground ,butter-2))))
+   `(lui-button-face ((,class (:inherit link))))
    ;; Message faces
    `(message-header-name ((,class (:foreground ,blue-1))))
    `(message-header-cc ((,class (:foreground ,butter-3))))
