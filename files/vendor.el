@@ -159,11 +159,11 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
       (interactive)
       (--each (buffer-list)
         (with-current-buffer it
-          (when (eq major-mode circe-server-mode)
+          (when (eq major-mode 'circe-server-mode)
             (kill-buffer it))))
       (--each (buffer-list)
         (with-current-buffer it
-          (when (eq major-mode circe-channel-mode)
+          (when (eq major-mode 'circe-channel-mode)
             (kill-buffer it)))))
 
     (defun my-circe-open-irc-frame ()
