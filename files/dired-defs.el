@@ -101,10 +101,9 @@ Also used for highlighting.")
       ("m" . dired-ranger-move))))
 
 (use-package dired-narrow
+  :commands dired-narrow
   :init
-  (progn
-    (bind-keys :map dired-mode-map
-      ("s" . dired-narrow))))
+  (bind-key "s" 'dired-narrow dired-mode-map))
 
 (use-package make-it-so
   :init
