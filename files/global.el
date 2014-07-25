@@ -52,7 +52,8 @@
   (my-buffer-face-mode-variable)
   (setq cursor-type 'bar)
   (setq indent-tabs-mode t)
-  (turn-on-visual-line-mode))
+  (turn-on-visual-line-mode)
+  (smartparens-mode 1))
 
 (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
