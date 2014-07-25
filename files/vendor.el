@@ -543,7 +543,20 @@ called, percentage usage and the command."
   :commands letcheck-mode)
 
 (use-package magit
-  :defer t
+  :pre-init
+  (bind-keys :prefix "C-c m"
+             :prefix-map ctl-c-m-map
+             :prefix-docstring "Magit map")
+  :bind (("C-c m b" . magit-key-mode-popup-branching)
+         ("C-c m c" . magit-key-mode-popup-committing)
+         ("C-c m d" . magit-key-mode-popup-dispatch)
+         ("C-c m f" . magit-key-mode-popup-fetching)
+         ("C-c m i" . magit-key-mode-popup-diff-options)
+         ("C-c m l" . magit-key-mode-popup-logging)
+         ("C-c m m" . magit-key-mode-popup-merging)
+         ("C-c m p" . magit-key-mode-popup-pushing)
+         ("C-c m v" . magit-branch-manager)
+         ("C-c m s" . magit-status))
   :config
   (progn
     (require 'flyspell)))

@@ -277,20 +277,6 @@
 (bind-keys :prefix "C-c s"
            :prefix-map ctl-c-s-map)
 
-(bind-keys :prefix "C-c m"
-           :prefix-map ctl-c-m-map
-           :prefix-docstring "Magit map"
-  ("b" . magit-key-mode-popup-branching)
-  ("c" . magit-key-mode-popup-committing)
-  ("d" . magit-key-mode-popup-dispatch)
-  ("f" . magit-key-mode-popup-fetching)
-  ("i" . magit-key-mode-popup-diff-options)
-  ("l" . magit-key-mode-popup-logging)
-  ("m" . magit-key-mode-popup-merging)
-  ("p" . magit-key-mode-popup-pushing)
-  ("v" . magit-branch-manager)
-  ("s" . magit-status))
-
 ;; zapping
 (bind-key "M-z" 'zap-up-to-char)
 (bind-key "M-Z" 'zap-to-char)
