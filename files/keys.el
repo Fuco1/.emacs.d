@@ -199,14 +199,6 @@
 (bind-key "M-`" 'jump-to-mark)
 (global-set-key [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
 
-;; customize
-(bind-keys :prefix "C-c c"
-           :prefix-map ctl-c-c-map
-           :prefix-docstring "Customize map"
-  ("v" . customize-variable)
-  ("f" . customize-face)
-  ("g" . customize-group))
-
 (bind-keys :prefix "C-h e"
            :prefix-map ctl-h-e-map
            :prefix-docstring "List find/help map"

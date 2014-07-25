@@ -209,7 +209,13 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (add-hook 'css-mode-hook 'my-css-mode-setup)))
 
 (use-package custom
-  :defer t
+  :pre-init
+  (bind-keys :prefix "C-c c"
+             :prefix-map ctl-c-c-map
+             :prefix-docstring "Customize map")
+  :bind (("C-c c v" . customize-variable)
+         ("C-c c f" . customize-face)
+         ("C-c c g" . customize-group))
   :config
   (progn
     (defun my-custom-jump-to-state ()
