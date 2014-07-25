@@ -98,7 +98,11 @@ Also used for highlighting.")
                :prefix-docstring "Map for ranger operations."
       ("c" . dired-ranger-copy)
       ("p" . dired-ranger-paste)
-      ("m" . dired-ranger-move))))
+      ("m" . dired-ranger-move))
+
+    (bind-keys :map dired-mode-map
+      ("'" . dired-ranger-bookmark)
+      ("`" . dired-ranger-bookmark-visit))))
 
 (use-package dired-narrow
   :commands dired-narrow
@@ -214,7 +218,6 @@ Also used for highlighting.")
     ("M-<f6>" . dired-arc-unpack-file)
 
     ("* r" . diredp-mark-region-files)
-    ("`" . dired-sort-toggle-or-edit)
     ("E" . my-dired-encrypt-file))
 
   (dired-filter-mode t)
