@@ -66,7 +66,7 @@ Also used for highlighting.")
     ("u" . dired-subtree-unmark-subtree)
     ("C-o C-f" . dired-subtree-only-this-file)
     ("C-o C-d" . dired-subtree-only-this-directory)))
-;; (use-package dired-images)
+(use-package dired-images)
 
 (use-package dired-rainbow
   :init
