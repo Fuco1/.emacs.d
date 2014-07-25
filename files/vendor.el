@@ -257,6 +257,16 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     ;; overload to fix bullshit
     (defun dired-hack-local-variables () nil)))
 
+(use-package dired-tagsistant
+  :pre-init
+  (bind-keys :prefix-map ctl-x-t-map
+             :prefix "C-x T"
+             :prefix-docstring "C-x T prefix map")
+  :bind (("C-x T +" . dired-tagsistant-some-tags)
+         ("C-x T *" . dired-tagsistant-all-tags)
+         ("C-x T % +" . dired-tagsistant-some-tags-regexp)
+         ("C-x T % *" . dired-tagsistant-all-tags-regexp)))
+
 (use-package ediff
   :pre-init
   (progn

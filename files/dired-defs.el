@@ -105,6 +105,16 @@ Also used for highlighting.")
   :init
   (bind-key "s" 'dired-narrow dired-mode-map))
 
+(use-package dired-tagsistant
+  :init
+  (progn
+    (bind-keys :map dired-mode-map
+               :prefix "M-t"
+               :prefix-map dired-tagsistant-map
+               :prefix-docstring "Dired tagsistant map."
+      ("t" . dired-tagsistant-tag)
+      ("s" . dired-tagsistant-tag-symlink))))
+
 (use-package make-it-so
   :init
   (bind-keys :map dired-mode-map
