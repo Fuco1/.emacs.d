@@ -68,21 +68,43 @@ return to regular interpretation of self-insert characters."
   :defer t
   :init
   (progn
-    (require 'bookmark+-autoloads))
+    (require 'bookmark+-autoloads)
+    (autoload #'my-bmkp-tag-jump "bookmark+")
+    (autoload #'my-bmkp-tag-dired "bookmark+")
+    (bind-key "C-x j t t" 'my-bmkp-tag-jump)
+    (bind-key "C-x j t d" 'my-bmkp-tag-dired))
   :config
   (progn
-    (defun my-tag-jump (tag)
+    (defun my-bmkp-tag-jump (tag)
       "Jump to bookmark that has TAG.
 
 This is like `bmkp-some-tags-jump' but reads only one tag."
-      (require 'bookmark+) ;; is this the best solution?
-      (bookmark-maybe-load-default-file)
-      (interactive (list (completing-read "Tag: " bmkp-tags-alist nil t)))
+      (interactive (list (progn
+                           (bookmark-maybe-load-default-file)
+                           (completing-read "Tag: " (or bmkp-tags-alist (bmkp-tags-list)) nil t))))
       (let* ((alist (bmkp-some-tags-alist-only (list tag))))
         (unless alist (error "No bookmarks have any of the specified tags"))
         (bookmark-jump
          (bookmark-completing-read "Bookmark" (bmkp-default-bookmark-name alist) alist))))
-    (bind-key "C-x j t t" 'my-tag-jump)
+
+    (defun my-bmkp-tag-dired (tags)
+      "Dieplay a dired buffer containing all files tagged with TAGS."
+      (interactive (list (bmkp-read-tags-completing)))
+      (let* ((alist (bmkp-all-tags-alist-only tags))
+             (files (-map 'f-canonical (--map (cdr (assoc 'filename it)) alist)))
+             (common-parent (f-common-parent files))
+             (files (--map (s-chop-prefix common-parent it) files))
+             ;; the following two settings take care of dired bullshit
+             (dired-buffers nil)
+             (default-directory common-parent))
+        (dired (cons (concat common-parent) files))
+        (rename-buffer (with-temp-buffer
+                         (insert "Tags")
+                         (--each tags (insert ":") (insert it))
+                         (insert ":" common-parent)
+                         (buffer-string))
+                       :uniquify)))
+
     (bind-key "M-o" 'elwm-activate-window bookmark-bmenu-mode-map)))
 
 (use-package calc
