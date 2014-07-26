@@ -342,12 +342,14 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
 (use-package elfeed
-  :bind (("C-. f" . elfeed))
+  :bind (("C-. C-f" . elfeed))
   :config
   (progn
     (bind-keys :map elfeed-show-mode-map
       ("M-n" . shr-next-link)
-      ("M-p" . shr-previous-link))))
+      ("M-p" . shr-previous-link))
+    (bind-keys :map elfeed-search-mode-map
+      ("g" . elfeed-update))))
 
 (use-package elxiki
   :defer t
