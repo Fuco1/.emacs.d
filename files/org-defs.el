@@ -517,9 +517,6 @@ point and rebuild the agenda view."
           (tags-todo "Reading"
                      ((org-agenda-overriding-header "Reading"))))
          nil)
-        ("h" "Habits" tags-todo "STYLE=\"habit\""
-         ((org-agenda-overriding-header "Habits")
-          (org-agenda-sorting-strategy '(todo-state-down effort-up category-keep))))
         ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
         ("k" . "Knowledge-base operations")
         ("ks" "Knowledge-base search" search nil
