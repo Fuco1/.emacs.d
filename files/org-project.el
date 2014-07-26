@@ -74,22 +74,6 @@ Callers of this function already widen the buffer view."
               (setq has-subtask t)))))
       (not has-subtask))))
 
-(defun my-org-list-sublevels-for-projects-indented ()
-  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
-  This is normally used by skipping functions where this variable is already local to the agenda."
-  (if (marker-buffer org-agenda-restrict-begin)
-      (setq org-tags-match-list-sublevels 'indented)
-    (setq org-tags-match-list-sublevels nil))
-  nil)
-
-(defun my-org-list-sublevels-for-projects ()
-  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
-  This is normally used by skipping functions where this variable is already local to the agenda."
-  (if (marker-buffer org-agenda-restrict-begin)
-      (setq org-tags-match-list-sublevels t)
-    (setq org-tags-match-list-sublevels nil))
-  nil)
-
 (defun my-org-skip-stuck-projects ()
   "Skip trees that are stuck projects"
   (save-restriction
@@ -108,7 +92,6 @@ Callers of this function already widen the buffer view."
 
 (defun my-org-skip-non-stuck-projects ()
   "Skip trees that are not stuck projects"
-  (my-org-list-sublevels-for-projects-indented)
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -125,7 +108,6 @@ Callers of this function already widen the buffer view."
 
 (defun my-org-skip-non-projects ()
   "Skip trees that are not projects"
-  (my-org-list-sublevels-for-projects-indented)
   (if (save-excursion (my-org-skip-non-stuck-projects))
       (save-restriction
         (widen)
