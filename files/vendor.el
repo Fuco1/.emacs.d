@@ -206,7 +206,8 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
       (select-frame (make-frame-command))
       (set-frame-parameter (selected-frame) :frame-type :circe)
       (set-frame-parameter (selected-frame) 'name "Circe")
-      (set-frame-parameter (selected-frame) 'explicit-name "Circe"))
+      (set-frame-parameter (selected-frame) 'explicit-name "Circe")
+      (set-frame-parameter (selected-frame) 'background-color "#111111"))
 
     (defun my-circe-kill-all-irc-buffers ()
       "Kill all circe buffers."
