@@ -360,27 +360,27 @@ point and rebuild the agenda view."
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-        (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
+        (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
         (sequence "SOMEDAY(S)" "|")))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "IndianRed1" :weight bold)
               ("NEXT" :foreground "RoyalBlue" :weight bold)
               ("DONE" :foreground "LimeGreen" :weight bold)
-              ("WAITING" :foreground "orange" :weight bold)
+              ("WAIT" :foreground "orange" :weight bold)
               ("HOLD" :foreground "orange" :weight bold)
               ("CANCELLED" :foreground "LimeGreen" :weight bold)
               ("SOMEDAY" :foreground "pink" :weight bold))))
 
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
-              ("WAITING" ("WAITING" . t))
-              ("HOLD" ("WAITING" . t) ("HOLD" . t))
-              (done ("WAITING") ("HOLD"))
-              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("SOMEDAY" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+              ("WAIT" ("WAIT" . t))
+              ("HOLD" ("WAIT" . t) ("HOLD" . t))
+              (done ("WAIT") ("HOLD"))
+              ("TODO" ("WAIT") ("CANCELLED") ("HOLD"))
+              ("SOMEDAY" ("WAIT") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAIT") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAIT") ("CANCELLED") ("HOLD")))))
 
 ;; Tags shortcuts
 (setq org-tag-alist (quote ((:startgroup)
@@ -487,7 +487,7 @@ point and rebuild the agenda view."
           (tags-todo "-CANCELLED/!"
                      ((org-agenda-overriding-header "Stuck Projects")
                       (org-agenda-skip-function 'my-org-skip-non-stuck-projects)))
-          (tags-todo "-WAITING-CANCELLED-BOOKS-BUG/!NEXT"
+          (tags-todo "-WAIT-CANCELLED-BOOKS-BUG/!NEXT"
                      ((org-agenda-overriding-header "Next Tasks")
                       (org-agenda-skip-function 'my-org-skip-projects-and-habits-and-single-tasks)
                       (org-agenda-todo-ignore-scheduled t)
@@ -495,7 +495,7 @@ point and rebuild the agenda view."
                       (org-agenda-todo-ignore-with-date t)
                       (org-tags-match-list-sublevels t)
                       (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep))))
-          (tags-todo "-REFILE-CANCELLED-Reading/!-HOLD-WAITING-SOMEDAY"
+          (tags-todo "-REFILE-CANCELLED-Reading/!-HOLD-WAIT-SOMEDAY"
                      ((org-agenda-overriding-header "Tasks")
                       (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
                       (org-agenda-todo-ignore-scheduled t)
@@ -508,7 +508,7 @@ point and rebuild the agenda view."
                       (org-tags-match-list-sublevels
                        (if (marker-buffer org-agenda-restrict-begin) 'indented t))
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
-          (tags-todo "-CANCELLED+WAITING/!"
+          (tags-todo "-CANCELLED+WAIT/!"
                      ((org-agenda-overriding-header "Waiting and Postponed Tasks")
                       (org-agenda-skip-function 'my-org-skip-stuck-projects)
                       (org-tags-match-list-sublevels nil)
