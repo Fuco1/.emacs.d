@@ -176,7 +176,8 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (defun my-circe-channel-setup ()
       "Setup channel buffer."
       (my-init-text-based-modes)
-      (smartparens-mode t))
+      (smartparens-mode t)
+      (set (make-local-variable 'sp-autoescape-string-quote) nil))
 
     ;; TODO: napisat "go to mention" ktore skoci na miesto kde nastal highlight
     (add-hook 'lui-post-output-hook 'my-lui-save-highlights)
