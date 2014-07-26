@@ -69,8 +69,8 @@ return to regular interpretation of self-insert characters."
   :init
   (progn
     (require 'bookmark+-autoloads)
-    (autoload #'my-bmkp-tag-jump "bookmark+")
-    (autoload #'my-bmkp-tag-dired "bookmark+")
+    (autoload #'my-bmkp-tag-jump "bookmark+" nil t)
+    (autoload #'my-bmkp-tag-dired "bookmark+" nil t)
     (bind-key "C-x j t t" 'my-bmkp-tag-jump)
     (bind-key "C-x j t d" 'my-bmkp-tag-dired))
   :config
@@ -803,7 +803,7 @@ The current directory is assumed to be the project's root otherwise."
              yas-expand)
   :init
   (progn
-    (autoload 'yas/hippie-try-expand "yasnippet"))
+    (autoload #'yas/hippie-try-expand "yasnippet"))
   :config
   (progn
     (require 'dropdown-list)
