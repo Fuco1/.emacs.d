@@ -133,11 +133,15 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
   :commands circe
   :init
   (progn
+    (autoload #'my-circe-open-irc-frame "circe" nil t))
+  :config
+  (progn
     (defun my-circe-get-dasnet-irssi-passwd (_)
       (with-temp-buffer
         (insert-file "~/secrets/dasnet-irssi-proxy.gpg")
         (buffer-string)))
 
+    ;; TODO: write a macro to fontify nicks
     (setq lui-highlight-keywords
           '(("^--> .*" (face (:foreground "#4e9a06")))
             ;; specific nick highlights
@@ -163,30 +167,38 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
             ("<forcer[`_]*>" (face (:foreground "#4e9a06")))
             ("<tonitrus[`_]*>" (face (:foreground "#4e9a06")))
             ;; default nick
-            ("^<.*?>" circe-originator-face))))
-  :config
-  (progn
+            ("^<.*?>" circe-originator-face)))
+
     (sp-with-modes 'circe-channel-mode
       (sp-local-pair "`" "'"))
 
+    (add-hook 'circe-channel-mode-hook 'my-circe-channel-setup)
     (defun my-circe-channel-setup ()
       "Setup channel buffer."
       (my-init-text-based-modes)
       (smartparens-mode t))
 
-    (add-hook 'circe-channel-mode-hook 'my-circe-channel-setup)
-
-    (defun my-circe-kill-all-irc-buffers ()
-      "Kill all circe buffers."
-      (interactive)
-      (--each (buffer-list)
-        (with-current-buffer it
-          (when (eq major-mode 'circe-server-mode)
-            (kill-buffer it))))
-      (--each (buffer-list)
-        (with-current-buffer it
-          (when (eq major-mode 'circe-channel-mode)
-            (kill-buffer it)))))
+    ;; TODO: napisat "go to mention" ktore skoci na miesto kde nastal highlight
+    (add-hook 'lui-post-output-hook 'my-lui-save-highlights)
+    (defun my-lui-save-highlights ()
+      (when (memq 'circe-highlight-nick-face
+                  (lui-faces-in-region (point-min)
+                                       (point-max)))
+        (let ((buffer (buffer-name))
+              (target circe-chat-target)
+              (network (with-circe-server-buffer
+                         circe-server-network))
+              ;; We're narrowed
+              (text (buffer-substring (next-single-property-change (point-min) 'face) (point-max))))
+          (with-current-buffer (get-buffer-create "*Circe-Highlights*")
+            (goto-char (point-max))
+            (insert (propertize (format-time-string "[%Y-%m-%d %H:%M:%S]")
+                                'face 'lui-time-stamp-face)
+                    " "
+                    (propertize (or target buffer) 'face '(:foreground "#8ae234"))
+                    "@"
+                    (propertize network 'face '(:foreground "#729fcf"))
+                    " " text)))))
 
     (defun my-circe-open-irc-frame ()
       "Open an IRC frame."
@@ -194,7 +206,15 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
       (select-frame (make-frame-command))
       (set-frame-parameter (selected-frame) :frame-type :circe)
       (set-frame-parameter (selected-frame) 'name "Circe")
-      (set-frame-parameter (selected-frame) 'explicit-name "Circe"))))
+      (set-frame-parameter (selected-frame) 'explicit-name "Circe"))
+
+    (defun my-circe-kill-all-irc-buffers ()
+      "Kill all circe buffers."
+      (interactive)
+      (--each (buffer-list)
+        (with-current-buffer it
+          (when (eq major-mode 'circe-server-mode)
+            (kill-buffer it)))))))
 
 (use-package clippy
   :commands clippy-describe-function)
