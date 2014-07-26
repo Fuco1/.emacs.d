@@ -110,6 +110,7 @@ is extension of default `tango-dark' face.")
    `(circe-my-message-face ((,class (:foreground ,blue-0))))
    `(circe-originator-face ((,class (:foreground ,butter-2))))
    `(lui-button-face ((,class (:inherit link))))
+   `(lui-time-stamp-face ((,class (:foreground ,alum-5))))
    ;; Message faces
    `(message-header-name ((,class (:foreground ,blue-1))))
    `(message-header-cc ((,class (:foreground ,butter-3))))
