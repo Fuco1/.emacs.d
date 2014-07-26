@@ -627,7 +627,8 @@ called, percentage usage and the command."
           (notmuch-show-tag change))))
 
     (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
-    (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)))
+    (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
+    (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map)))
 
 (use-package org
   :mode ("\\.org\\'" . org-mode)
