@@ -87,6 +87,20 @@ Callers of this function already widen the buffer view."
               (setq has-subtask t)))))
       (not has-subtask))))
 
+(defun my-org-skip-projects ()
+  "Skip trees that are projects"
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (if (my-org-is-project-p) next-headline nil))))
+
+(defun my-org-skip-non-projects ()
+  "Skip trees that are not projects"
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (if (my-org-is-project-p) nil next-headline))))
+
 (defun my-org-skip-stuck-projects ()
   "Skip trees that are stuck projects"
   (save-restriction
@@ -118,17 +132,6 @@ Callers of this function already widen the buffer view."
                   (setq has-next t))))
             (if has-next next-headline nil)) ; a stuck project, has subtasks but no next task
         next-headline))))
-
-(defun my-org-skip-non-projects ()
-  "Skip trees that are not projects"
-  (if (save-excursion (my-org-skip-non-stuck-projects))
-      (save-restriction
-        (widen)
-        (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-          (cond
-           ((my-org-is-project-p) nil)
-           (t subtree-end))))
-    (save-excursion (org-end-of-subtree t))))
 
 (defun my-org-skip-projects-and-habits-and-single-tasks ()
   "Skip trees that are projects, tasks that are habits, single non-project tasks"
