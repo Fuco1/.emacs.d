@@ -172,8 +172,14 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
             ;; default nick
             ("^<.*?>" circe-originator-face)))
 
+    (defun my-circe-after-colon (_ _ _)
+      (save-excursion
+        (backward-char 1)
+        (looking-back ":")))
+
     (sp-with-modes 'circe-channel-mode
-      (sp-local-pair "`" "'"))
+      (sp-local-pair "`" "'")
+      (sp-local-pair "(" nil :unless '(:add my-circe-after-colon)))
 
     (add-hook 'circe-channel-mode-hook 'my-circe-channel-setup)
     (defun my-circe-channel-setup ()
