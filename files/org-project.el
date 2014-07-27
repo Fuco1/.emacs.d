@@ -13,6 +13,15 @@ task is a subtask in a project.")
   "Return non-nil if header at point has any keyword."
   (member (org-get-todo-state) org-todo-keywords-1))
 
+(defun my-org-is-standalone-task-p ()
+  "Any task which is not a project and is not a subtask in a project."
+  (and (not (my-org-is-project-p))
+       (= (save-excursion (my-org-find-project-task))
+          ;; TODO: make a version of this where we don't have to pass
+          ;; an argument.  We always want all headings when doing
+          ;; "logic".  Also, make it return point
+          (save-excursion (org-back-to-heading 'invisible-ok) (point)))))
+
 (defun my-org-is-project-p ()
   "Any task with a todo keyword subtask.
 
