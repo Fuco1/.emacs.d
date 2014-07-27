@@ -486,7 +486,7 @@ point and rebuild the agenda view."
           (tags-todo "BUG/!NEXT"
                      ((org-agenda-overriding-header "Bugs")
                       (org-tags-match-list-sublevels nil)))
-          (tags-todo "-STOP/!"
+          (tags-todo "-STOP/!-WAIT"
                      ((org-agenda-overriding-header "Stuck Projects")
                       (org-agenda-skip-function 'my-org-skip-non-stuck-projects)))
           (tags-todo "-WAIT-HOLD-STOP-BOOKS-BUG/!NEXT"
