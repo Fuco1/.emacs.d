@@ -554,17 +554,21 @@ point and rebuild the agenda view."
 ;; Resume clocking task when emacs is restarted
 (org-clock-persistence-insinuate)
 
-;; this is added to the clock-in hook
 (defun my-org-clock-in-to-next (kw)
   "Switch a task from TODO to NEXT when clocking in.
-Skips capture tasks, projects, and subprojects.
+
+Skips capture tasks, standalone tasks, projects, and subprojects.
+
 Switch projects and subprojects from NEXT back to TODO"
-  (when (not (and (boundp 'org-capture-mode) org-capture-mode))
+  (when (not (bound-and-true-p org-capture-mode))
     (cond
      ((and (member (org-get-todo-state) (list "TODO"))
            (my-org-is-task-p)
+           (not (my-org-is-standalone-task-p))
            (not (org-is-habit-p)))
       "NEXT")
+     ;; Handles the case when we clock in into a project.  We want
+     ;; projects to always have TODO keyword
      ((and (member (org-get-todo-state) (list "NEXT"))
            (my-org-is-project-p))
       "TODO"))))
