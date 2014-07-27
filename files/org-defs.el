@@ -360,7 +360,7 @@ point and rebuild the agenda view."
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-        (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
+        (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "STOP(c@/!)")
         (sequence "SOMEDAY(S)" "|")))
 
 (setq org-todo-keyword-faces
@@ -369,18 +369,18 @@ point and rebuild the agenda view."
               ("DONE" :foreground "LimeGreen" :weight bold)
               ("WAIT" :foreground "orange" :weight bold)
               ("HOLD" :foreground "orange" :weight bold)
-              ("CANCELLED" :foreground "LimeGreen" :weight bold)
+              ("STOP" :foreground "LimeGreen" :weight bold)
               ("SOMEDAY" :foreground "pink" :weight bold))))
 
 (setq org-todo-state-tags-triggers
-      (quote (("CANCELLED" ("CANCELLED" . t))
+      (quote (("STOP" ("STOP" . t))
               ("WAIT" ("WAIT" . t))
               ("HOLD" ("HOLD" . t))
               (done ("WAIT") ("HOLD"))
-              ("TODO" ("WAIT") ("CANCELLED") ("HOLD"))
-              ("SOMEDAY" ("WAIT") ("CANCELLED") ("HOLD"))
-              ("NEXT" ("WAIT") ("CANCELLED") ("HOLD"))
-              ("DONE" ("WAIT") ("CANCELLED") ("HOLD")))))
+              ("TODO" ("WAIT") ("STOP") ("HOLD"))
+              ("SOMEDAY" ("WAIT") ("STOP") ("HOLD"))
+              ("NEXT" ("WAIT") ("STOP") ("HOLD"))
+              ("DONE" ("WAIT") ("STOP") ("HOLD")))))
 
 ;; Tags shortcuts
 (setq org-tag-alist (quote ((:startgroup)
@@ -486,10 +486,10 @@ point and rebuild the agenda view."
           (tags-todo "BUG/!NEXT"
                      ((org-agenda-overriding-header "Bugs")
                       (org-tags-match-list-sublevels nil)))
-          (tags-todo "-CANCELLED/!"
+          (tags-todo "-STOP/!"
                      ((org-agenda-overriding-header "Stuck Projects")
                       (org-agenda-skip-function 'my-org-skip-non-stuck-projects)))
-          (tags-todo "-WAIT-HOLD-CANCELLED-BOOKS-BUG/!NEXT"
+          (tags-todo "-WAIT-HOLD-STOP-BOOKS-BUG/!NEXT"
                      ((org-agenda-overriding-header "Next Tasks")
                       (org-agenda-skip-function 'my-org-skip-projects-and-habits-and-single-tasks)
                       (org-agenda-todo-ignore-scheduled t)
@@ -497,14 +497,14 @@ point and rebuild the agenda view."
                       (org-agenda-todo-ignore-with-date t)
                       (org-tags-match-list-sublevels t)
                       (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep))))
-          (tags-todo "-REFILE-CANCELLED-Reading/!-HOLD-WAIT-SOMEDAY"
+          (tags-todo "-REFILE-STOP-Reading/!-HOLD-WAIT-SOMEDAY"
                      ((org-agenda-overriding-header "Tasks")
                       (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
                       (org-agenda-todo-ignore-scheduled t)
                       (org-agenda-todo-ignore-deadlines t)
                       (org-agenda-todo-ignore-with-date t)
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
-          (tags-todo "-CANCELLED/!+WAIT"
+          (tags-todo "-STOP/!+WAIT"
                      ((org-agenda-overriding-header "Waiting Tasks")
                       (org-agenda-skip-function 'my-org-skip-projects)
                       (org-tags-match-list-sublevels nil)
@@ -513,7 +513,7 @@ point and rebuild the agenda view."
           ;; Active projects and projects that wait on something
           ;; Things we are working on
           ;; TODO: should show immediate children tasks if narrowed
-          (tags-todo "-HOLD-CANCELLED-GENERAL/!"
+          (tags-todo "-HOLD-STOP-GENERAL/!"
                      ((org-agenda-overriding-header (if (my-org-restricted-p)
                                                         "Subprojects (and children tasks)"
                                                       "Projects"))
@@ -521,12 +521,13 @@ point and rebuild the agenda view."
                       (org-tags-match-list-sublevels 'indented)
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
           ;; Projects/tasks on HOLD: projects that are not cancelled, but we don't want to work on them now
-          (tags-todo "-CANCELLED/!+HOLD"
+          (tags-todo "-STOP/!+HOLD"
                      ((org-agenda-overriding-header "Postponed Projects and Tasks")
                       (org-agenda-skip-function 'my-org-skip-stuck-projects)
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-todo-ignore-scheduled 'future)
                       (org-agenda-todo-ignore-deadlines 'future)))
+          ;; move this away
           (tags-todo "Reading"
                      ((org-agenda-overriding-header "Reading"))))
          nil)
