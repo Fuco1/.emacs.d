@@ -311,6 +311,7 @@ The point is moved to the end of the match."
                   (backward-char)
                   (insert ", " plural))))))))))
 
+;; TODO: abstract the feature detection and the final assembly
 (defun my-emacs-status ()
   (let ((org-active-task (and (featurep 'org)
                               (cond
@@ -323,6 +324,17 @@ The point is moved to the end of the match."
                                   (concat "<fc=#8ae234>" (car split-status) "</fc>"))))))
         (unread-mail-count (and (featurep 'notmuch)
                                 (let ((count (notmuch-unread-count)))
-                                  (if (> count 0) (format "<fc=#ef2929>[✉ %d]</fc>" count) "")))))
-    (concat (or unread-mail-count "")
+                                  (if (> count 0) (format "<fc=#ef2929>[✉ %d]</fc>" count) ""))))
+        (tracking-urgent (and (featurep 'tracking)
+                              (let* ((shortened (tracking-shorten tracking-buffers))
+                                     (urgent-buffers (--filter (text-property-any 0 (length it)
+                                                                                  'face 'circe-highlight-nick-face
+                                                                                  it)
+                                                               shortened))
+                                     (status (concat "<fc=#ef2929>["
+                                                     (mapconcat 'identity urgent-buffers ",")
+                                                     "]</fc>")))
+                                (when urgent-buffers (substring-no-properties status 0 (length status)))))))
+    (concat (or tracking-urgent "")
+            (or unread-mail-count "")
             (or org-active-task ""))))
