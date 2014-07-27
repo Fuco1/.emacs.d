@@ -137,6 +137,8 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (setq circe-networks nil))
   :config
   (progn
+    (tracking-mode 1)
+
     (defun my-circe-get-dasnet-irssi-passwd (_)
       (with-temp-buffer
         (insert-file "~/secrets/dasnet-irssi-proxy.gpg")
