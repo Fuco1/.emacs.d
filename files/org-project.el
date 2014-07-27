@@ -117,15 +117,8 @@ Callers of this function already widen the buffer view."
         (widen)
         (let ((subtree-end (save-excursion (org-end-of-subtree t))))
           (cond
-           ((and (my-org-is-project-p)
-                 (my-org-restricted-p))
-            nil)
-           ((and (my-org-is-project-p)
-                 (not (my-org-restricted-p))
-                 (not (my-org-is-project-subtree-p)))
-            nil)
-           (t
-            subtree-end))))
+           ((my-org-is-project-p) nil)
+           (t subtree-end))))
     (save-excursion (org-end-of-subtree t))))
 
 (defun my-org-skip-projects-and-habits-and-single-tasks ()

@@ -502,11 +502,17 @@ point and rebuild the agenda view."
                       (org-agenda-todo-ignore-deadlines t)
                       (org-agenda-todo-ignore-with-date t)
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
+          ;; Waiting Tasks
+          ;; =============
+          ;; Active projects and projects that wait on something
+          ;; Things we are working on
+          ;; TODO: should show immediate children tasks if narrowed
           (tags-todo "-HOLD-CANCELLED-GENERAL/!"
-                     ((org-agenda-overriding-header "Projects")
+                     ((org-agenda-overriding-header (if (my-org-restricted-p)
+                                                        "Subprojects (and children tasks)"
+                                                      "Projects"))
                       (org-agenda-skip-function 'my-org-skip-non-projects)
-                      (org-tags-match-list-sublevels
-                       (if (my-org-restricted-p) 'indented t))
+                      (org-tags-match-list-sublevels 'indented)
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
           (tags-todo "-CANCELLED+WAIT/!"
                      ((org-agenda-overriding-header "Waiting and Postponed Tasks")
