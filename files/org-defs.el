@@ -361,7 +361,7 @@ point and rebuild the agenda view."
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
         (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "STOP(c@/!)")
-        (sequence "SOMEDAY(S)" "|")))
+        (sequence "IDEA(i)" "|")))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "IndianRed1" :weight bold)
@@ -370,7 +370,7 @@ point and rebuild the agenda view."
               ("WAIT" :foreground "orange" :weight bold)
               ("HOLD" :foreground "orange" :weight bold)
               ("STOP" :foreground "LimeGreen" :weight bold)
-              ("SOMEDAY" :foreground "pink" :weight bold))))
+              ("IDEA" :foreground "pink" :weight bold))))
 
 (setq org-todo-state-tags-triggers
       (quote (("STOP" ("STOP" . t))
@@ -378,7 +378,7 @@ point and rebuild the agenda view."
               ("HOLD" ("HOLD" . t))
               (done ("WAIT") ("HOLD"))
               ("TODO" ("WAIT") ("STOP") ("HOLD"))
-              ("SOMEDAY" ("WAIT") ("STOP") ("HOLD"))
+              ("IDEA" ("WAIT") ("STOP") ("HOLD"))
               ("NEXT" ("WAIT") ("STOP") ("HOLD"))
               ("DONE" ("WAIT") ("STOP") ("HOLD")))))
 
@@ -497,7 +497,7 @@ point and rebuild the agenda view."
                       (org-agenda-todo-ignore-with-date t)
                       (org-tags-match-list-sublevels t)
                       (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep))))
-          (tags-todo "-REFILE-STOP-Reading/!-HOLD-WAIT-SOMEDAY"
+          (tags-todo "-REFILE-STOP-Reading/!-HOLD-WAIT-IDEA"
                      ((org-agenda-overriding-header "Tasks")
                       (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
                       (org-agenda-todo-ignore-scheduled t)
