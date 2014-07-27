@@ -133,7 +133,8 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
   :commands circe
   :init
   (progn
-    (autoload #'my-circe-open-irc-frame "circe" nil t))
+    (autoload #'my-circe-open-irc-frame "circe" nil t)
+    (setq circe-networks nil))
   :config
   (progn
     (defun my-circe-get-dasnet-irssi-passwd (_)
