@@ -5,6 +5,10 @@
   "Tasks with these tags should be ignored when determining if a
 task is a subtask in a project.")
 
+(defun my-org-restricted-p ()
+  "Return non-nil if org is restricted to a subtree."
+  (marker-buffer org-agenda-restrict-begin))
+
 (defun my-org-entry-is-task-p ()
   "Return non-nil if header at point has any keyword."
   (member (org-get-todo-state) org-todo-keywords-1))
@@ -114,10 +118,10 @@ Callers of this function already widen the buffer view."
         (let ((subtree-end (save-excursion (org-end-of-subtree t))))
           (cond
            ((and (my-org-is-project-p)
-                 (marker-buffer org-agenda-restrict-begin))
+                 (my-org-restricted-p))
             nil)
            ((and (my-org-is-project-p)
-                 (not (marker-buffer org-agenda-restrict-begin))
+                 (not (my-org-restricted-p))
                  (not (my-org-is-project-subtree-p)))
             nil)
            (t
@@ -143,7 +147,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
     (widen)
     (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
            (next-headline (save-excursion (or (outline-next-heading) (point-max))))
-           (limit-to-project (marker-buffer org-agenda-restrict-begin)))
+           (limit-to-project (my-org-restricted-p)))
       (cond
        ((my-org-is-project-p)
         next-headline)

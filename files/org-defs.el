@@ -506,7 +506,7 @@ point and rebuild the agenda view."
                      ((org-agenda-overriding-header "Projects")
                       (org-agenda-skip-function 'my-org-skip-non-projects)
                       (org-tags-match-list-sublevels
-                       (if (marker-buffer org-agenda-restrict-begin) 'indented t))
+                       (if (my-org-restricted-p) 'indented t))
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
           (tags-todo "-CANCELLED+WAIT/!"
                      ((org-agenda-overriding-header "Waiting and Postponed Tasks")
