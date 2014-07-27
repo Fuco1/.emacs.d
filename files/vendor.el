@@ -378,9 +378,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
   (progn
     (bind-keys :map elfeed-show-mode-map
       ("M-n" . shr-next-link)
-      ("M-p" . shr-previous-link))
-    (bind-keys :map elfeed-search-mode-map
-      ("g" . elfeed-update))))
+      ("M-p" . shr-previous-link))))
 
 (use-package elxiki
   :defer t
