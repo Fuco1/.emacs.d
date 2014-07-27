@@ -359,7 +359,7 @@ point and rebuild the agenda view."
 
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+      '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)" "MOVE(m@)")
         (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "STOP(c@/!)")
         (sequence "IDEA(i)" "|")))
 
