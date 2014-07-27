@@ -416,8 +416,10 @@ point and rebuild the agenda view."
                    "Stuck Projects"
                    "Next Tasks"
                    "Tasks"
+                   "Waiting Tasks"
                    "Projects"
-                   "Waiting and Postponed Tasks"
+                   "Subprojects (and children tasks)"
+                   "Postponed Projects and Tasks"
                    "Reading")))
     (let ((case-fold-search nil))
       (--each headers
@@ -502,8 +504,12 @@ point and rebuild the agenda view."
                       (org-agenda-todo-ignore-deadlines t)
                       (org-agenda-todo-ignore-with-date t)
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
-          ;; Waiting Tasks
-          ;; =============
+          (tags-todo "-CANCELLED/!+WAIT"
+                     ((org-agenda-overriding-header "Waiting Tasks")
+                      (org-agenda-skip-function 'my-org-skip-projects)
+                      (org-tags-match-list-sublevels nil)
+                      (org-agenda-todo-ignore-scheduled 'future)
+                      (org-agenda-todo-ignore-deadlines 'future)))
           ;; Active projects and projects that wait on something
           ;; Things we are working on
           ;; TODO: should show immediate children tasks if narrowed
@@ -514,9 +520,9 @@ point and rebuild the agenda view."
                       (org-agenda-skip-function 'my-org-skip-non-projects)
                       (org-tags-match-list-sublevels 'indented)
                       (org-agenda-sorting-strategy '(priority-down category-keep))))
-          ;; Projects on HOLD: projects that are not cancelled, but we don't want to work on them now
-          (tags-todo "-CANCELLED/!+HOLD|+WAIT"
-                     ((org-agenda-overriding-header "Postponed Projects and Waiting Tasks")
+          ;; Projects/tasks on HOLD: projects that are not cancelled, but we don't want to work on them now
+          (tags-todo "-CANCELLED/!+HOLD"
+                     ((org-agenda-overriding-header "Postponed Projects and Tasks")
                       (org-agenda-skip-function 'my-org-skip-stuck-projects)
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-todo-ignore-scheduled 'future)
