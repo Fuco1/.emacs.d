@@ -10,7 +10,8 @@
     (cond
      ((eq frame-type :circe)
       (with-current-buffer buffer
-        (not (memq major-mode '(circe-channel-mode circe-server-mode)))))
+        (not (or (memq major-mode '(circe-channel-mode circe-server-mode circe-query-mode))
+                 (equal (buffer-name) (and (boundp 'my-lui-highlight-buffer) my-lui-highlight-buffer))))))
      (t nil))))
 
 ;; see: http://emacswiki.org/emacs/InteractivelyDoThings#toc25
