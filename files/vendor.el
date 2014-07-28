@@ -182,6 +182,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
       (sp-local-pair "(" nil :unless '(:add my-circe-after-colon)))
 
     (add-hook 'circe-channel-mode-hook 'my-circe-channel-setup)
+    (add-hook 'circe-query-mode-hook 'my-circe-channel-setup)
     (defun my-circe-channel-setup ()
       "Setup channel buffer."
       (my-init-text-based-modes)
