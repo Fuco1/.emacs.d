@@ -188,28 +188,59 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
       (smartparens-mode t)
       (set (make-local-variable 'sp-autoescape-string-quote) nil))
 
+    (defvar my-lui-highlight-buffer "*Circe-Highlights*"
+      "Name of the highlight buffer.")
+
+    (defvar my-lui-highlight-filter (lambda ()
+                                      (memq 'circe-highlight-nick-face
+                                            (lui-faces-in-region (point-min)
+                                                                 (point-max))))
+      "A function used to filter messages which should go into highlight buffer.
+
+Should return non-nil if we want to keep the message.
+
+Called with zero argument in a buffer narrowed to the current
+message.")
+
+    (defun my-lui-highlight-filter ()
+      "Return non-nil if we should keep the message."
+      (and (memq 'circe-highlight-nick-face
+                 (lui-faces-in-region (point-min)
+                                      (point-max)))
+           (not (text-property-any (point-min) (point-max)
+                                   'lui-format 'circe-format-server-numeric))))
+
+    (setq my-lui-highlight-filter 'my-lui-highlight-filter)
+
     ;; TODO: napisat "go to mention" ktore skoci na miesto kde nastal highlight
     (add-hook 'lui-post-output-hook 'my-lui-save-highlights)
     (defun my-lui-save-highlights ()
-      (when (memq 'circe-highlight-nick-face
-                  (lui-faces-in-region (point-min)
-                                       (point-max)))
+      (when (funcall my-lui-highlight-filter)
         (let ((buffer (buffer-name))
               (target circe-chat-target)
               (network (with-circe-server-buffer
                          circe-server-network))
-              ;; We're narrowed
               (text (buffer-substring (next-single-property-change (point-min) 'face) (point-max))))
-          (with-current-buffer (get-buffer-create "*Circe-Highlights*")
+          (with-current-buffer (get-buffer-create my-lui-highlight-buffer)
             (goto-char (point-max))
-            (insert (propertize (format-time-string "[%Y-%m-%d %H:%M:%S]")
-                                'face 'lui-time-stamp-face)
-                    " "
-                    (propertize (or target buffer) 'face '(:foreground "#8ae234"))
-                    "@"
-                    (propertize network 'face '(:foreground "#729fcf"))
-                    " " text)))))
-
+            (save-restriction
+              ;; TODO: abstract this into a formatter
+              (narrow-to-region (point) (point))
+              (insert (propertize (format-time-string "[%Y-%m-%d %H:%M:%S]")
+                                  'face 'lui-time-stamp-face)
+                      " "
+                      (propertize
+                       (concat (or target buffer)
+                               "@"
+                               network)
+                       'face '(:foreground "#8ae234"))
+                      " "
+                      (my-remove-text-properties-when
+                       'face '(circe-highlight-nick-face)
+                       0 (1- (length text))
+                       '(face)
+                       text))
+              (lui-buttonize))))))
     (defun my-circe-open-irc-frame ()
       "Open an IRC frame."
       (interactive)
