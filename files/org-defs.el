@@ -526,10 +526,7 @@ point and rebuild the agenda view."
                       (org-agenda-skip-function 'my-org-skip-stuck-projects)
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-todo-ignore-scheduled 'future)
-                      (org-agenda-todo-ignore-deadlines 'future)))
-          ;; move this away
-          (tags-todo "Reading"
-                     ((org-agenda-overriding-header "Reading"))))
+                      (org-agenda-todo-ignore-deadlines 'future))))
          nil)
         ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
         ("k" . "Knowledge-base operations")
@@ -541,7 +538,8 @@ point and rebuild the agenda view."
         ("bs" "Bookmarks search" search nil
          ((org-agenda-files '("~/org/bookmarks.org"))))
         ("bm" "Bookmakrs tag match" tags nil
-         ((org-agenda-files '("~/org/bookmarks.org"))))))
+         ((org-agenda-files '("~/org/bookmarks.org"))))
+        ("r" "Reading" tags-todo "Reading")))
 
 (defun my-org-compare-closed-entries (a b)
   "Compare two agenda entries A and B based on CLOSED time."
