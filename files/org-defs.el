@@ -89,7 +89,15 @@
 
 (font-lock-add-keywords 'org-mode
                         `(("[[:space:]]+\\(\\$[^[:space:]].*?\\$\\)[^[:word:]]+"
-                           1 'my-org-math)))
+                           1 'my-org-math)
+                          ("\\(?:^\\| \\)\\({.*?}\\)\\(?:$\\| \\)"
+                           1 (progn (put-text-property
+                                     (match-beginning 1)
+                                     (match-end 1)
+                                     'face
+                                     'shadow)
+                                    (backward-char 1)
+                                    nil))))
 
 (bind-keys :map org-mode-map
   ("TAB" . smart-tab)
