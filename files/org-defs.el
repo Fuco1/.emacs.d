@@ -35,15 +35,23 @@
 (use-package org-agenda
   :defer t
   :config
-  (bind-keys :map org-agenda-mode-map
-             ("C-n" . org-agenda-next-item)
-             ("C-p" . org-agenda-previous-item)
-             ("P" . my-org-narrow-to-project)
-             ("U" . my-org-narrow-to-parent)
-             ("N" . my-org-narrow-to-subtree)
-             ("W" . my-org-widen)
-             ("/" . my-org-agenda-filter-by-tag)
-             ("\\" . my-org-agenda-filter-by-tag-refine)))
+  (progn
+    (defun my-org-agenda-open-at-point (&optional arg)
+      "Open the first link after the headline under point."
+      (interactive "P")
+      (org-with-point-at (org-get-at-bol 'org-hd-marker)
+        (my-org-open-at-point arg)))
+
+    (bind-keys :map org-agenda-mode-map
+      ("C-n" . org-agenda-next-item)
+      ("C-p" . org-agenda-previous-item)
+      ("P" . my-org-narrow-to-project)
+      ("U" . my-org-narrow-to-parent)
+      ("N" . my-org-narrow-to-subtree)
+      ("W" . my-org-widen)
+      ("/" . my-org-agenda-filter-by-tag)
+      ("\\" . my-org-agenda-filter-by-tag-refine)
+      ("o" . my-org-agenda-open-at-point))))
 
 (use-package org-protocol
   :init
