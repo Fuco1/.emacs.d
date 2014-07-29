@@ -353,7 +353,8 @@ message.")
   (bind-keys :prefix-map ctl-x-t-map
              :prefix "C-x T"
              :prefix-docstring "C-x T prefix map")
-  :bind (("C-x T +" . dired-tagsistant-some-tags)
+  :bind (("C-x T r" . dired-tagsistant-add-relation)
+         ("C-x T +" . dired-tagsistant-some-tags)
          ("C-x T *" . dired-tagsistant-all-tags)
          ("C-x T % +" . dired-tagsistant-some-tags-regexp)
          ("C-x T % *" . dired-tagsistant-all-tags-regexp)))
