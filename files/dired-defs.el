@@ -190,6 +190,10 @@ Also used for highlighting.")
   ;; (define-prefix-command 'slash-dired-prefix-map)
 
   (bind-keys :map dired-mode-map
+    ;; clean bullshit bindings so C-h e b shows us real info
+    ("A") ("G") ("P") ("Q") ("X") ("Z") ("#") (".")
+    ("~") ("e") ("f") ("l") ("v") ("^") ("?")
+
     ("C-x C-f" . my-dired-ido-find-file)
     ("k" . my-dired-do-kill-lines)
 
