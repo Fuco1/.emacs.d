@@ -441,11 +441,11 @@ point and rebuild the agenda view."
       (--each headers
         (save-excursion
           (goto-char (point-min))
-          (re-search-forward (concat "^" (regexp-quote it)) nil t)
-          (unless (save-excursion
-                    (forward-line)
-                    (my-org-agenda-is-task-p))
-            (delete-region (line-beginning-position) (1+ (line-end-position))))))
+          (when (re-search-forward (concat "^" (regexp-quote it)) nil t)
+            (unless (save-excursion
+                      (forward-line)
+                      (my-org-agenda-is-task-p))
+              (delete-region (line-beginning-position) (1+ (line-end-position)))))))
       (save-excursion
         (goto-char (point-min))
         (when (re-search-forward (concat "^" (regexp-opt headers)) nil t)
