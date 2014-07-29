@@ -90,7 +90,7 @@
 (font-lock-add-keywords 'org-mode
                         `(("[[:space:]]+\\(\\$[^[:space:]].*?\\$\\)[^[:word:]]+"
                            1 'my-org-math)
-                          ("\\(?:^\\| \\)\\({.*?}\\)\\(?:$\\| \\)"
+                          ("\\(?:^\\| \\)\\({.*?}\\)\\(?:$\\| \\|\\s.\\)"
                            1 (progn (put-text-property
                                      (match-beginning 1)
                                      (match-end 1)
