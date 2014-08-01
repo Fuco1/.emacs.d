@@ -20,17 +20,24 @@ Also used for highlighting.")
 (use-package dired-aux)
 (use-package dired-x
   :config
-  (defun dired-virtual-revert (&optional _arg _noconfirm)
-    "Enable revert for virtual direds."
-    (let ((m (dired-file-name-at-point))
-          (buffer-modified (buffer-modified-p)))
-      (goto-char 1)
-      (dired-next-subdir 1)
-      (dired-do-redisplay nil t)
-      (while (dired-next-subdir 1 t)
-        (dired-do-redisplay nil t))
-      (when m (dired-goto-file m))
-      (set-buffer-modified-p buffer-modified))))
+  (progn
+    (defun dired-virtual-revert (&optional _arg _noconfirm)
+      "Enable revert for virtual direds."
+      (let ((m (dired-file-name-at-point))
+            (buffer-modified (buffer-modified-p)))
+        (goto-char 1)
+        (dired-next-subdir 1)
+        (dired-do-redisplay nil t)
+        (while (dired-next-subdir 1 t)
+          (dired-do-redisplay nil t))
+        (when m (dired-goto-file m))
+        (set-buffer-modified-p buffer-modified)))
+
+    (add-to-list 'dired-guess-shell-alist-user
+                 (list (concat "\\."
+                               (regexp-opt my-dired-media-files-extensions)
+                               "\\'")
+                       "vlc"))))
 (use-package dired+)
 (use-package cl-lib)
 (use-package dired-details
@@ -130,11 +137,6 @@ Also used for highlighting.")
     ("a" . mis-abort)
     ("r" . mis-replace))
   (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map))
-
-(add-to-list 'dired-guess-shell-alist-user (list (concat "\\."
-                                                         (regexp-opt my-dired-media-files-extensions)
-                                                         "\\'")
-                                                 "vlc"))
 
 ;;;_. Key bindings & hooks
 (defun my-image-dired-thumbnail-mode-init ()
