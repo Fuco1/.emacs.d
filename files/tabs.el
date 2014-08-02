@@ -43,18 +43,26 @@
   (labels ((smart-tab-must-expand (&optional prefix)
                                   (unless (or (consp prefix)
                                               mark-active)
-                                    (looking-at "\\_>"))))
+                                    (looking-at "\\_>")))
+           (default ()
+             (cond
+              ((smart-tab-must-expand prefix)
+               (hippie-expand prefix))
+              ((smart-indent)))))
     (cond
+     (elfeed-search-live
+      (completion-at-point))
+     ((minibufferp)
+      (unless (minibuffer-complete)
+        (unless (completion-at-point)
+          (default))))
      ((and (eq major-mode 'org-mode)
            (looking-back "^<\\sw")
            (org-cycle)))
      ((and (eq major-mode 'org-mode)
-           (not (smart-tab-must-expand prefix))
-           (org-cycle)))
-     ((cond
-       ((smart-tab-must-expand prefix)
-        (hippie-expand prefix))
-       ((smart-indent)))))))
+           (unless (default)
+             (org-cycle))))
+     (:else (default)))))
 
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
