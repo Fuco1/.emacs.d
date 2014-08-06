@@ -71,6 +71,8 @@
             :kill-client nil)
           org-protocol-protocol-alist)))
 
+(use-package org-contacts)
+
 ;; add support for automatic org-files commits
 (defvar my-org-commit-timer
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
@@ -353,7 +355,12 @@ point and rebuild the agenda view."
          "|%<%H:%M:%S>|%?|" :table-line-pos "III-1")
         ("b" "bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n%(if (not (equal %:initial \"\"))
-                                        (concat \"- \" %:initial) \"\")")))
+                                        (concat \"- \" %:initial) \"\")")
+        ("c" "contact" entry (file "~/org/contacts.org")
+         "* %(org-contacts-template-name)
+    :PROPERTIES:
+    :EMAIL: %(org-contacts-template-email)
+    :END:")))
 
 (defun my-org-handle-bookmark ()
   (let ((link (caar org-stored-links)))
