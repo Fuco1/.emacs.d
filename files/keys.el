@@ -231,7 +231,8 @@
   ("m f" . kmacro-set-format)
   ("z" . my-insert-no-move)
   ("-" . macrostep-expand)
-  ("0" . my-kill-pp-eval-expression-window))
+  ("0" . my-kill-pp-eval-expression-window)
+  ("s" . my-sprunge))
 
 (bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
 

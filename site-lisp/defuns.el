@@ -311,6 +311,25 @@ The point is moved to the end of the match."
                   (backward-char)
                   (insert ", " plural))))))))))
 
+(defun my-sprunge (text &optional language)
+  "Paste TEXT to sprunge.us.
+
+With non-nil prefix argument, ask for LANGUAGE."
+  (interactive (list (if (use-region-p)
+                         (buffer-substring-no-properties (region-beginning) (region-end))
+                       (read-from-minibuffer "Text: "))
+                     (when current-prefix-arg (read-from-minibuffer "Language: " nil
+                                                                    nil nil nil "cl"))))
+  (let* ((buf (get-buffer-create " *sprunge-result*"))
+         (url (with-current-buffer buf
+                (shell-command (concat "echo "
+                                       (shell-quote-argument text)
+                                       " | curl -s -F 'sprunge=<-' http://sprunge.us")
+                               buf)
+                (s-trim (buffer-string)))))
+    (kill-buffer buf)
+    (kill-new (if language (concat url "?" language) url))))
+
 ;; TODO: abstract the feature detection and the final assembly
 (defun my-emacs-status ()
   (let ((org-active-task (and (featurep 'org)
