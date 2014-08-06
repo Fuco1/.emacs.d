@@ -933,3 +933,48 @@ current agenda view added to `org-tag-alist'."
      (while (and (outline-next-heading)
                  (> (org-current-level) start-level))
        ,@body)))
+
+
+;; subtree manipulation
+(defun my-org-copy-trees (query target-buffer)
+  "Copy all headlines matching QUERY to TARGET-BUFFER."
+  (let* ((todo-only nil)
+         (matcher (org-make-tags-matcher query))
+         (kill-ring kill-ring))
+    (save-restriction
+      (widen)
+      (org-map-region
+       (lambda ()
+         (let ((tags-list (org-get-tags-at))
+               (todo (org-get-todo-state)))
+           (when (eval (cdr matcher))
+             (org-copy-subtree)
+             (with-current-buffer target-buffer
+               (goto-char (point-max))
+               (unless (looking-back "^")
+                 (newline))
+               (yank)))))
+       (point-min) (point-max)))))
+
+(defun my-org-delete-trees (query)
+  "Delete all headlines matching QUERY."
+  (let* ((todo-only nil)
+         (matcher (org-make-tags-matcher query))
+         (kill-ring kill-ring)
+         (size 0))
+    (save-restriction
+      (widen)
+      (while (/= size (buffer-size))
+        (setq size (buffer-size))
+        (org-map-region
+         (lambda ()
+           (let ((tags-list (org-get-tags-at))
+                 (todo (org-get-todo-state)))
+             (when (eval (cdr matcher))
+               (org-cut-subtree))))
+         (point-min) (point-max))))))
+
+(defun my-org-move-trees (query target-buffer)
+  "Move all headlines matching QUERY to TARGET-BUFFER."
+  (my-org-copy-trees query target-buffer)
+  (my-org-delete-trees query))
