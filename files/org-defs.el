@@ -71,6 +71,11 @@
             :kill-client nil)
           org-protocol-protocol-alist)))
 
+;; add support for automatic org-files commits
+(defvar my-org-commit-timer
+  (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
+  "Org commit timer.")
+
 (defface my-org-bold
   '((t (:weight bold :inherit font-lock-variable-name-face)))
   "The face used to highlight pair overlays.")
