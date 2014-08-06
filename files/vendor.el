@@ -141,7 +141,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
 
     (defun my-circe-get-dasnet-irssi-passwd (_)
       (with-temp-buffer
-        (insert-file "~/secrets/dasnet-irssi-proxy.gpg")
+        (insert-file-contents "~/secrets/dasnet-irssi-proxy")
         (buffer-string)))
 
     ;; TODO: write a macro to fontify nicks
