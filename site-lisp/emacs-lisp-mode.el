@@ -20,6 +20,9 @@
     (require 'thingatpt)
     (use-package eldoc :diminish eldoc-mode)
 
+    (font-lock-add-keywords 'emacs-lisp-mode '(("\\(?:^\\| \\)\\('\\sw\\(?:\\sw\\|\\s_\\)*\\)"
+                                                1 'font-lock-constant-face)))
+
     (defvar my-emacs-lisp-open-line-list '(
                                            if
                                               when
