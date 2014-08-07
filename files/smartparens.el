@@ -63,9 +63,6 @@
 (bind-key "H-s x s" 'sp-swap-enclosing-sexp sp-keymap)
 
 (bind-key "C-x C-t" 'sp-transpose-hybrid-sexp sp-keymap)
-(bind-key "<up>" 'sp-indent-adjust-sexp sp-keymap)
-(bind-key "<down>" 'sp-dedent-adjust-sexp sp-keymap)
-(bind-key "<right>" 'sp-slurp-hybrid-sexp sp-keymap)
 
 (bind-key ";" 'sp-comment emacs-lisp-mode-map)
 
