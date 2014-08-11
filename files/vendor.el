@@ -697,6 +697,7 @@ called, percentage usage and the command."
   ;; The following lines are always needed.  Choose your own keys.
   :bind  (("C-c l" . org-store-link)
           ("<f12>" . org-agenda)
+          ("C-<f12>" . org-agenda-time-limit)
           ("C-c C-x C-o" . org-clock-out)
           ("C-c C-x <C-i-key>" . org-clock-in))
   :config
