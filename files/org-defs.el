@@ -5,17 +5,7 @@
     (bind-keys :map org-mode-map
       ("H-d" . org-drill)
       ("H-r" . org-drill-resume)
-      ("H-a" . org-drill-again))
-
-    (defun my-org-drill-open-drills ()
-      (interactive)
-      (mapc
-       'find-file
-       '("/media/Data/languages/Russian/wordlist/1-500.org"
-         "/media/Data/languages/Russian/wordlist/501-1000.org"
-         "/media/Data/languages/Russian/wordlist/1001-1500.org"
-         "/media/Data/languages/Latin/drill/drill-lat.org"
-         "/media/Data/languages/Russian/drill/drill-rus.org"))))
+      ("H-a" . org-drill-again)))
   :config
   (progn
     (defun org-drill-present-two-sided-card-no-cloze ()
@@ -721,23 +711,6 @@ Switch projects and subprojects from NEXT back to TODO"
                    (forward-line)
                    (point))))
       (my-org-make-numbered-list start end))))
-
-(defun my-org-drill-fulltext (word)
-  (interactive "sWord: ")
-  (widen)
-  (occur word)
-  (other-window 1)
-  (when (re-search-forward (concat "[0-9]:" word) nil t)
-    (end-of-line)))
-
-(bind-key "a" 'my-occur-mode-goto-card-occurrence occur-mode-map)
-(defun my-occur-mode-goto-card-occurrence ()
-  (interactive)
-  (occur-mode-goto-occurrence)
-  (outline-up-heading 1)
-  (org-narrow-to-subtree)
-  (org-show-subtree)
-  (org-cycle-hide-drawers t))
 
 (defun my-org-export-read-books-do-export (buf)
   "Buf is the buffer into which the export is written."
