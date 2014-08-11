@@ -703,9 +703,7 @@ called, percentage usage and the command."
           ("C-c C-x <C-i-key>" . org-clock-in))
   :config
   (progn
-    (load "files/org-defs.el")
-    (load "projects/org-velocity/org-velocity.el")
-    (bind-key "C-c s" 'org-velocity org-mode-map)))
+    (load "files/org-defs.el")))
 
 (use-package popwin
   :commands popwin-mode

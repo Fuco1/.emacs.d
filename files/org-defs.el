@@ -359,6 +359,13 @@ current agenda view added to `org-tag-alist'."
 
 (use-package org-contacts)
 
+(use-package org-velocity
+  :commands org-velocity
+  :load-path "projects/org-velocity/"
+  :init
+  (progn
+    (bind-key "C-c s" 'org-velocity org-mode-map)))
+
 ;; add support for automatic org-files commits
 (defvar my-org-commit-timer
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
