@@ -621,9 +621,6 @@ point and rebuild the agenda view."
     (org-agenda-remove-restriction-lock)))
 
 ;;;_. Capture
-;; I use C-M-r to start capture mode
-(bind-key "C-M-r" 'org-capture)
-
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
 (setq org-capture-templates
       `(("t" "todo" entry (file "~/org/refile.org")
