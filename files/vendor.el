@@ -806,40 +806,48 @@ If in the test file, visit source."
                       (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
     (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))))
 
-;; TODO: loadnut to na idle-timery
 (use-package notmuch
   :bind (("C-. C-n" . notmuch))
   :init
   (progn
-    ;; TODO: create an autoload from this
-    (defun my-notmuch-unread ()
-      "Display buffer with unread mail."
-      (interactive)
-      (require 'notmuch)
-      (notmuch-search "tag:unread"))
-
+    (autoload #'my-notmuch-unread "notmuch" nil t)
     (bind-key "C-. C-u" 'my-notmuch-unread))
-  :config
+  :idle
   (progn
-    (use-package notmuch-unread)
-    ;; REDEFINED FROM notmuch-unread-mode
-    ;; Don't show anything if there's no unread mail
-    (defun notmuch-unread-update-handler ()
-      "Update the mode line."
-      (let ((count (notmuch-unread-count)))
-        (if (> count 0)
-            (setq notmuch-unread-mode-line-string
-                  (format " [✉ %d]" count))
-          (setq notmuch-unread-mode-line-string "")))
-      (force-mode-line-update))
-
     (defun my-notmuch-update-mail ()
       (interactive)
-      (start-process "mail-update" nil "/bin/bash" "/home/matus/bin/run-getmail"))
+      (set-process-sentinel
+       (start-process "mail-update" nil "/bin/bash" "/home/matus/bin/run-getmail")
+       'my-notmuch-update-sentinel))
+
+    (defun my-notmuch-update-sentinel (proc state)
+      (when (equal state "finished\n")
+        (message "Mail update: %s" (format-time-string "%B %e %Y %H:%M:%S %Z"))
+        (require 'notmuch)))
 
     (defvar my-notmuch-update-mail-timer
       (run-with-timer 10 400 'my-notmuch-update-mail)
-      "Mail update timer.")
+      "Mail update timer."))
+  :config
+  (progn
+    (use-package notmuch-unread
+      :config
+      (progn
+        ;; REDEFINED FROM notmuch-unread-mode
+        ;; Don't show anything if there's no unread mail
+        (defun notmuch-unread-update-handler ()
+          "Update the mode line."
+          (let ((count (notmuch-unread-count)))
+            (if (> count 0)
+                (setq notmuch-unread-mode-line-string
+                      (format " [✉ %d]" count))
+              (setq notmuch-unread-mode-line-string "")))
+          (force-mode-line-update))))
+
+    (defun my-notmuch-unread ()
+      "Display buffer with unread mail."
+      (interactive)
+      (notmuch-search "tag:unread"))
 
     (defun my-notmuch-delete-mail (&optional beg end)
       (interactive (if (use-region-p)
