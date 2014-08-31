@@ -772,6 +772,13 @@ With \\[universal-argument] present user with list of possible methods to unpack
     (epa-encrypt-file (dired-utils-get-filename) nil)
     (revert-buffer)))
 
+
+;;;_. other-marker-do
+(defun my-dired-with-marker-do (marker-char)
+  (interactive "cMarker char: ")
+  (let ((dired-marker-char marker-char))
+    (call-interactively (key-binding (read-key-sequence "Dired command: " t)))))
+
 ;;;_. File-size info
 (defun my-dired-size-of-file ()
   "Print size of file under point, or a list of results for marked files."
