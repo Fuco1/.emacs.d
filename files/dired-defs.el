@@ -193,7 +193,7 @@ Also used for highlighting.")
 
   (bind-keys :map dired-mode-map
     ;; clean bullshit bindings so C-h e b shows us real info
-    ("A") ("G") ("P") ("Q") ("X") ("Z") ("#") (".")
+    ("A") ("F") ("G") ("P") ("Q") ("X") ("Z") ("#") (".")
     ("~") ("e") ("f") ("l") ("v") ("^") ("?")
 
     ("C-x C-f" . my-dired-ido-find-file)
@@ -225,6 +225,17 @@ Also used for highlighting.")
 
     ("* r" . diredp-mark-region-files)
     ("E" . my-dired-encrypt-file))
+
+  (bind-keys :map dired-mode-map
+             :prefix "f"
+             :prefix-map dired-file-map
+             :prefix-docstring "Map containing less common dired operations related to files.")
+
+  (bind-keys :map dired-mode-map
+             :prefix "F"
+             :prefix-map dired-marked-file-map
+             :prefix-docstring "Map containing less common dired operations on marked files."
+    ("S" . my-dired-size-of-file))
 
   (dired-filter-mode t)
   (visual-line-mode -1)
