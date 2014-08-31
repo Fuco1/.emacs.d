@@ -597,8 +597,12 @@ to chose from."
 (add-to-list 'dired-compress-file-suffixes '("\\.tar\\.gz\\'" "" "untargz"))
 
 (defvar dired-arc-unpack-list
-  '(("\\.zip\\'" (:program "7z" :switches "x -y"))
-    ("\\.rar\\'" (:program "7z" :switches "x -y"))
+  '(("\\.zip\\'"
+     (:program "unzip" :switches "")
+     (:program "7z" :switches "x -y"))
+    ("\\.rar\\'"
+     (:program "unrar" :switches "x")
+     (:program "7z" :switches "x -y"))
     ("\\.tar\\'" (:program "7z" :switches "x -y"))
     ("\\.tar\\.gz\\'"
      (:program "bsdtar" :switches "zxvf")
