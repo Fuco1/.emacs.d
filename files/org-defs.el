@@ -755,6 +755,8 @@ Switch projects and subprojects from NEXT back to TODO"
 
 (defun my-org-export-read-books-do-export (buf)
   "Buf is the buffer into which the export is written."
+  (goto-char (point-min))
+  (forward-line)
   (let ((index 0))
     (with-current-buffer buf
       (insert "|-+-+-+-+-+-|\n")
@@ -813,10 +815,8 @@ Switch projects and subprojects from NEXT back to TODO"
         (erase-buffer)
         (org-mode))
       (org-agenda nil "fdb")
-      (goto-char (point-min))
       (my-org-export-read-books-do-export buf)
       (org-agenda nil "fb")
-      (goto-char (point-min))
       (with-current-buffer buf
         (insert "\n* Reading\n\n"))
       (my-org-export-read-books-do-export buf)
