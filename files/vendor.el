@@ -444,13 +444,42 @@ message.")
 (use-package expand-region
   :bind ("s-'" . er/expand-region))
 
+;; disable for now and write a better, cleaner solution WITHOUT using
+;; the idiotic hooks
 (use-package golden-ratio
   :diminish golden-ratio-mode
+  :disabled t
   :config
   (progn
     (defun my-golden-ratio-inhibit ()
       (or (--any? (string-match-p "\\*Ediff Control Panel" it)
-                  (mapcar 'buffer-name (mapcar 'window-buffer (window-list))))))))
+                  (mapcar 'buffer-name (mapcar 'window-buffer (window-list))))))
+    (defun my-golden-ratio ()
+      "Run `golden-ratio' if `golden-ratio-mode' is enabled."
+      (interactive)
+      (when golden-ratio-mode
+        (golden-ratio)))
+
+    (use-package guide-key
+      :config
+      (progn
+        (defadvice guide-key/popup-guide-buffer (around fix-golden-ratio activate)
+          (when (featurep 'golden-ratio) (golden-ratio-mode -1))
+          ad-do-it
+          (when (featurep 'golden-ratio) (golden-ratio-mode 1)))))
+
+    (use-package ispell
+      :config
+      (progn
+        (defadvice ispell-word (around fix-golden-ratio activate)
+          (when (featurep 'golden-ratio) (golden-ratio-mode -1))
+          ad-do-it
+          (when (featurep 'golden-ratio) (golden-ratio-mode 1)))))
+
+    (defadvice quit-window (around fix-golden-ratio activate)
+      ad-do-it
+      (my-golden-ratio))))
+
 
 (use-package google-maps
   :commands google-maps)
@@ -478,13 +507,7 @@ message.")
     (bind-key "C-x g" google-this-mode-submap)))
 
 (use-package guide-key
-  :diminish guide-key-mode
-  :config
-  (progn
-    (defadvice guide-key/popup-guide-buffer (around fix-golden-ration activate)
-      (golden-ratio-mode -1)
-      ad-do-it
-      (golden-ratio-mode 1))))
+  :diminish guide-key-mode)
 
 (use-package free-keys
   :commands free-keys)
@@ -566,13 +589,7 @@ message.")
 
 (use-package ispell
   :bind (("<f10>" . ispell-word)
-         ("C-<f10>" . flyspell-mode))
-  :config
-  (progn
-    (defadvice ispell-word (around fix-golden-ration activate)
-      (golden-ratio-mode -1)
-      ad-do-it
-      (golden-ratio-mode 1))))
+         ("C-<f10>" . flyspell-mode)))
 
 (use-package jump-char
   :bind (("M-m" . jump-char-forward)))

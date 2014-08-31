@@ -30,9 +30,3 @@
           (progn (forward-char 1)
                  (just-one-space 0)
                  (backward-char 1)))))
-
-
-;; from window.el
-(defadvice quit-window (around fix-golden-ration activate)
-  ad-do-it
-  (golden-ratio))

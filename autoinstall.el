@@ -17,7 +17,6 @@
     flx
     flx-ido
     fuzzy-match
-    golden-ratio
     haskell-mode
     helm-descbinds
     ibuffer-vc
