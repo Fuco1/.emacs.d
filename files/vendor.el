@@ -105,7 +105,10 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
                          (buffer-string))
                        :uniquify)))
 
-    (bind-key "M-o" 'elwm-activate-window bookmark-bmenu-mode-map)))
+    (bind-key "M-o" 'elwm-activate-window bookmark-bmenu-mode-map)
+    ;; re-init the map after loading the package
+    (bind-key "C-x j t t" 'my-bmkp-tag-jump)
+    (bind-key "C-x j t d" 'my-bmkp-tag-dired)))
 
 (use-package calc
   :bind ("<f5>" . calc-same-interface)
