@@ -927,6 +927,14 @@ The current directory is assumed to be the project's root otherwise."
         ("C-c C-b" . sp-html-previous-tag)))
     (add-hook 'html-mode-hook 'my-html-mode-setup)))
 
+(use-package shell-mode
+  :defer t
+  :config
+  (progn
+    (defun my-shell-mode-init ()
+      (setq tab-width 8))
+    (add-hook 'shell-mode-hook 'my-shell-mode-init)))
+
 (use-package skeleton-complete
   :commands skeleton-complete-mode
   :diminish skeleton-complete-mode)
