@@ -73,6 +73,8 @@ Also used for highlighting.")
     ("u" . dired-subtree-unmark-subtree)
     ("C-o C-f" . dired-subtree-only-this-file)
     ("C-o C-d" . dired-subtree-only-this-directory)))
+
+;; we should just hijack C-t map from image-dired which is crap anyway
 (use-package dired-images)
 
 (use-package dired-rainbow

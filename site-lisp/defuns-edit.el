@@ -357,6 +357,9 @@ properly."
   (interactive "p")
   (downcase-region (point) (+ arg (point))))
 
+;; TODO: add docstrings
+;; TODO: doesn't properly downcase words in row if called
+;; repeatedly. We should skip whitespace somewhere
 (defun my-smart-downcase-word (&optional arg)
   (interactive "P")
   (cond

@@ -390,6 +390,7 @@ current agenda view added to `org-tag-alist'."
 (font-lock-add-keywords 'org-mode
                         `(("[[:space:]]+\\(\\$[^[:space:]].*?\\$\\)[^[:word:]]+"
                            1 'my-org-math)
+                          ;; TODO: nefunguje ak je {... \n ...}
                           ("\\(?:^\\| \\)\\({.*?}\\)\\(?:$\\| \\|\\s.\\)"
                            1 (progn (put-text-property
                                      (match-beginning 1)
@@ -804,6 +805,7 @@ Switch projects and subprojects from NEXT back to TODO"
         (forward-line -1)
         (org-table-align)))))
 
+;; TODO: scope agenda-files to "me" and "books"
 (defun my-org-export-read-books ()
   (interactive)
   (save-window-excursion
@@ -835,6 +837,8 @@ Switch projects and subprojects from NEXT back to TODO"
     (error
      (goto-char (point-max)))))
 
+;; TODO: breaks if we're adding the headline as last headline in the
+;; file
 (defun my-org-add-sibling (&optional arg)
   "Add new sibling depending on context.
 
@@ -957,6 +961,7 @@ relation (\"jedi\" \"starwars\"), any headline tagged with
 
 
 ;; subtree manipulation
+;; See: org-scan-tags
 (defun my-org-copy-trees (query target-buffer)
   "Copy all headlines matching QUERY to TARGET-BUFFER."
   (let* ((todo-only nil)

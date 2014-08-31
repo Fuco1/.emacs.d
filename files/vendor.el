@@ -246,6 +246,7 @@ message.")
                        '(face)
                        text))
               (lui-buttonize))))))
+
     (defun my-circe-open-irc-frame ()
       "Open an IRC frame."
       (interactive)
@@ -805,10 +806,12 @@ If in the test file, visit source."
                       (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
     (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))))
 
+;; TODO: loadnut to na idle-timery
 (use-package notmuch
   :bind (("C-. C-n" . notmuch))
   :init
   (progn
+    ;; TODO: create an autoload from this
     (defun my-notmuch-unread ()
       "Display buffer with unread mail."
       (interactive)
