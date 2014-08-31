@@ -418,11 +418,11 @@ message.")
     ;; schedule timer, make it run idle timer, make that run this timer again... blerg
     (defvar my-elfeed-update-timer
       (run-with-timer 10 nil 'my-elfeed-update-schedule)
-      "Elfeed update timer.  This timer periodically starts an
+      "`Elfeed' update timer.  This timer periodically starts an
 idle timer to do the actual update.")
 
     (defvar my-elfeed-idle-timer nil
-      "Timer performing notmuch update.")
+      "Timer performing `elfeed' update.")
 
     (defun my-elfeed-update-schedule ()
       "Schedule an update."
