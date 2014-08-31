@@ -651,6 +651,122 @@ called, percentage usage and the command."
   (progn
     (require 'flyspell)))
 
+(use-package malabar-mode
+  :mode "\\.java\\'"
+  :config
+  (progn
+    (semantic-mode 1)
+
+    (defun my-maven-root ()
+      "Find maven root for this project."
+      (f--traverse-upwards (f-exists? (f-expand "pom.xml" it))))
+
+    (defun my-maven-test-root ()
+      "Find maven test root for this project."
+      (concat (my-maven-root) "/src/test/java/"))
+
+    (defun my-maven-src-root ()
+      "Find maven source root for this project."
+      (concat (my-maven-root) "/src/main/java/"))
+
+    ;; Helpers for templates
+    (defun my-maven-test-package ()
+      "Return the package of a test file."
+      (let ((root (my-maven-test-root)))
+        (s-replace "/" "." (s-chop-prefix root (f-parent (buffer-file-name))))))
+
+    (defun my-maven-src-package ()
+      "Return the package of a test file."
+      (let ((root (my-maven-src-root)))
+        (s-replace "/" "." (s-chop-prefix root (f-parent (buffer-file-name))))))
+
+    (defun my-maven-class ()
+      "Return the class name of a test file."
+      (f-no-ext (buffer-name)))
+
+    ;; Better test support
+    (defun my-malabar--visit-corresponding-test-or-source (&optional other-window)
+      (let ((test-file (malabar-find-corresponding-test)))
+        (if (equal (buffer-file-name) test-file)
+            (let ((root (my-maven-src-root))
+                  (pkg-path (s-replace "\\." "/" (my-maven-test-package)))
+                  (class (s-chop-suffix "Test" (my-maven-class))))
+              (when other-window
+                (other-window 1))
+              (find-file (concat root pkg-path "/" class ".java")))
+          (when other-window
+            (other-window 1))
+          (find-file test-file)
+          (when (= (buffer-size) 0)
+            (insert "testclass")
+            (yas-expand)))))
+
+    (defun my-malabar-visit-corresponding-test-or-source ()
+      "Visit the test file.
+
+If it is empty, expand the default template `testclass' there.
+
+If in the test file, visit source."
+      (interactive)
+      (my-malabar--visit-corresponding-test-or-source))
+
+    (defun my-malabar-visit-corresponding-test-or-source-other-window ()
+      "Visit the test file in other window.
+
+If it is empty, expand the default template `testclass' there.
+
+If in the test file, visit source."
+      (interactive)
+      (my-malabar--visit-corresponding-test-or-source :other-window))
+
+    (defun my-maven-init-project ()
+      "Initialize the maven project structure in current directory."
+      (interactive)
+      (mapc 'f-mkdir '("src"
+                       "src/main"
+                       "src/main/java"
+                       "src/main/resources"
+                       "src/main/config"
+                       "src/test"
+                       "src/test/java"
+                       "src/test/resources"
+                       "target"))
+      (unless (f-exists? "pom.xml")
+        (with-temp-file "pom.xml"
+          (insert "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>me</groupId>
+  <artifactId>" (f-filename default-directory) "</artifactId>
+  <version>1</version>
+  <packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+       <version>4.10</version>
+       <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+</project>
+")))
+      (find-file "pom.xml")
+      (goto-char (point-min))
+      (search-forward "groupId>"))
+
+    (defun my-malabar-setup ()
+      "Malabar setup."
+      (bind-keys :map (current-local-map)
+        ("C-c C-j C-t" . my-malabar-visit-corresponding-test-or-source)
+        ("C-c C-j 4 C-t" . my-malabar-visit-corresponding-test-or-source-other-window))
+      (abbrev-mode -1))
+    (add-hook 'malabar-mode-hook 'my-malabar-setup)))
+
 (use-package markdown-mode
   :mode ("\\.md$" . gfm-mode)
   :config

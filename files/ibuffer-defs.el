@@ -60,6 +60,7 @@
                  (mode . perl-mode)
                  (mode . python-mode)
                  (mode . haskell-mode)
+                 (mode . malabar-mode)
                  (mode . makefile-gmake-mode)
                  ;; etc
                  ))

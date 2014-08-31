@@ -149,7 +149,8 @@
         (insert " ")))))
 
 ;;; C++
-(sp-local-pair 'c++-mode "{" nil :post-handlers '(("||\n[i]" "RET")))
+(sp-with-modes '(malabar-mode c++-mode)
+  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
 (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
                                                     ("* ||\n[i]" "RET")))
 
