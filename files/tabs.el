@@ -50,7 +50,7 @@
                (hippie-expand prefix))
               ((smart-indent)))))
     (cond
-     (elfeed-search-live
+     ((bound-and-true-p elfeed-search-live)
       (completion-at-point))
      ((minibufferp)
       (unless (minibuffer-complete)
