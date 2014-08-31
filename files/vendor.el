@@ -410,6 +410,28 @@ message.")
 
 (use-package elfeed
   :bind (("C-. C-f" . elfeed))
+  :idle
+  (progn
+    ;; run an idle timer from this timer so it won't bother me while editing
+    ;; schedule timer, make it run idle timer, make that run this timer again... blerg
+    (defvar my-elfeed-update-timer
+      (run-with-timer 10 nil 'my-elfeed-update-schedule)
+      "Elfeed update timer.  This timer periodically starts an
+idle timer to do the actual update.")
+
+    (defvar my-elfeed-idle-timer nil
+      "Timer performing notmuch update.")
+
+    (defun my-elfeed-update-schedule ()
+      "Schedule an update."
+      (setq my-elfeed-idle-timer
+            (run-with-idle-timer 10 nil 'my-elfeed-update)))
+
+    (defun my-elfeed-update ()
+      "Run `elfeed' update and schedule a new one in the future."
+      (elfeed-update)
+      (setq my-elfeed-update-timer
+            (run-with-timer 1200 nil 'my-elfeed-update-schedule))))
   :config
   (progn
     (bind-keys :map elfeed-show-mode-map
