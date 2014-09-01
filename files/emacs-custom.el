@@ -393,7 +393,10 @@
  '(w3m-imagick-convert-program "c:\\cygwin\\bin\\convert.exe")
  '(whitaker-program "words")
  '(winner-mode t)
- '(x-select-enable-clipboard t))
+ '(x-select-enable-clipboard t)
+ '(yas-global-mode t nil (yasnippet))
+ '(yas-prompt-functions (quote (yas-ido-prompt)))
+ '(yas-snippet-dirs (quote ("~/.emacs.d/vendor/yasnippet/snippets")) nil (yasnippet)))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)

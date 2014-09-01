@@ -1049,13 +1049,6 @@ The current directory is assumed to be the project's root otherwise."
     (autoload #'yas/hippie-try-expand "yasnippet"))
   :config
   (progn
-    (require 'dropdown-list)
-
-    (yas-global-mode 1)
-
-    (setq yas-snippet-dirs '("~/.emacs.d/vendor/yasnippet/snippets"))
-
-    (setq yas-prompt-functions '(yas-ido-prompt))
 
     (defun my-yas-startup ()
       ;; stupid yasnippet :/ we define <tab> behaviour elsewhere
