@@ -1049,11 +1049,35 @@ The current directory is assumed to be the project's root otherwise."
     (autoload #'yas/hippie-try-expand "yasnippet"))
   :config
   (progn
+    (defvar my-yas-snippet-parent-mode '((malabar-mode . java-mode))
+      "An alist mapping major modes to their parents.
+
+When creating a snippet with `my-yas-add-or-edit-snippet', use
+the parent's directory.")
+
+    (defun my-yas-add-or-edit-snippet (name)
+      "Add snippet triggered by NAME to current major mode.
+
+If such snippet already exists, just open it for editing."
+      (interactive "sSnippet name: ")
+      ;; we only use one directory
+      (find-file (f-join (car yas-snippet-dirs)
+                         (symbol-name (or (cdr (assq major-mode my-yas-snippet-parent-mode))
+                                          major-mode))
+                         name))
+      (when (= (buffer-size) 0)
+        (insert (format "# -*- mode: snippet -*-
+# name: %s
+# key: %s
+# --
+" name name))
+        (snippet-mode)))
 
     (defun my-yas-startup ()
       ;; stupid yasnippet :/ we define <tab> behaviour elsewhere
       (define-key yas-minor-mode-map [(tab)] nil)
-      (define-key yas-minor-mode-map (kbd "TAB") nil))
+      (define-key yas-minor-mode-map (kbd "TAB") nil)
+      (define-key yas-minor-mode-map (kbd "C-c & C-a") 'my-yas-add-or-edit-snippet))
 
     ;; Replace yasnippets's TAB, was yas/expand
     (add-hook 'yas-minor-mode-hook 'my-yas-startup)))
