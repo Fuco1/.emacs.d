@@ -61,7 +61,8 @@ might be bad."
                                  text-mode
                                  fundamental-mode))
         (untabify-buffer))
-      (delete-trailing-whitespace)
+      (unless (memq major-mode '(snippet-mode))
+        (delete-trailing-whitespace))
       (set-buffer-file-coding-system 'utf-8))))
 
 (defun cleanup-buffer ()
