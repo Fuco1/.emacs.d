@@ -67,7 +67,7 @@
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
   (interactive)
-  (if mark-active
+  (if (use-region-p)
       (indent-region (region-beginning)
                      (region-end))
     (indent-for-tab-command)))
