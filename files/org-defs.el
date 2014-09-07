@@ -197,7 +197,7 @@
                           (org-agenda-todo-ignore-with-date t)
                           (org-tags-match-list-sublevels t)
                           (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep))))
-              (tags-todo "-REFILE-STOP-BOOKS/!-HOLD-WAIT-IDEA"
+              (tags-todo "-REFILE-STOP-BOOKS-download/!-HOLD-WAIT-IDEA"
                          ((org-agenda-overriding-header "Tasks")
                           (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
                           (org-agenda-todo-ignore-scheduled t)
@@ -239,6 +239,7 @@
              ((org-agenda-files '("~/org/bookmarks.org"))))
             ("bm" "Bookmakrs tag match" tags nil
              ((org-agenda-files '("~/org/bookmarks.org"))))
+            ("d" "Downloads" tags "+download/!TODO")
             ;; Reading items are not marked with TODO, we use this view instead.
             ;; Item that we are reading at the moment, however, is marked
             ;; NEXT as every other current task.
