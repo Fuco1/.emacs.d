@@ -507,7 +507,6 @@ idle timer to do the actual update.")
       ad-do-it
       (my-golden-ratio))))
 
-
 (use-package google-maps
   :commands google-maps)
 
@@ -673,7 +672,8 @@ called, percentage usage and the command."
          ("C-c m s" . magit-status))
   :config
   (progn
-    (require 'flyspell)))
+    (require 'flyspell)
+    (diminish 'magit-auto-revert-mode)))
 
 (use-package malabar-mode
   :mode "\\.java\\'"
