@@ -56,13 +56,16 @@
       (unless (minibuffer-complete)
         (unless (completion-at-point)
           (default))))
-     ((and (eq major-mode 'org-mode)
-           (looking-back "^<\\sw")
-           (org-cycle)))
-     ((and (eq major-mode 'org-mode)
-           (unless (default)
-             (org-cycle))))
-     (:else (default)))))
+     ((eq major-mode 'org-mode)
+      (cond
+       ((looking-back "^<\\sw")
+        (org-cycle))
+       ((smart-tab-must-expand prefix)
+        (hippie-expand prefix))
+       ((use-region-p)
+        (indent-region (region-beginning) (region-end)))
+       (:otherwise (org-cycle))))
+     (:otherwise (default)))))
 
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
