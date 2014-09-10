@@ -124,6 +124,9 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
 
 (use-package calendar
   :defer t
+  :init
+  (use-package slovak-holidays
+    :init (slovak-holidays-add))
   :config
   (progn
     (defadvice calendar-exit (around close-window activate)
