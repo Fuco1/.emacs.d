@@ -961,6 +961,10 @@ The current directory is assumed to be the project's root otherwise."
   (progn
     (load "~/.emacs.d/files/smartparens")))
 
+(use-package smartscan
+  :bind (("C->" . smartscan-symbol-go-forward)
+         ("C-<" . smartscan-symbol-go-backward)))
+
 (use-package smex
   :defer t
   :init
