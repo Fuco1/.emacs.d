@@ -366,50 +366,64 @@ properly."
   (interactive "p")
   (downcase-region (point) (+ arg (point))))
 
-;; TODO: add docstrings
-;; TODO: doesn't properly downcase words in row if called
-;; repeatedly. We should skip whitespace somewhere
 (defun my-smart-downcase-word (&optional arg)
+  "Downcase the following word in a context-aware way.
+
+If called with raw prefix argument C-u, just `downcase-word'.
+
+If a region is active, downcase the entire region.
+
+If the following word is in an upper-case CamelCase, downcase just the
+initial character.
+
+Otherwise downcase the following word."
   (interactive "P")
   (cond
    ((equal arg '(4))
     (downcase-word 1))
    (t
-    (setq arg (or (prefix-numeric-value arg) 1))
+    (setq arg (prefix-numeric-value arg))
     (cond
      ((region-active-p)
       (downcase-region (region-beginning) (region-end)))
      ;; handle camel-case
      ((save-excursion
-        (when (looking-at "[ \t\n]")
-          (forward-whitespace 1))
+        (my-forward-whitespace)
         (let* ((w (thing-at-point 'word))
-               (case-fold-search nil)
-               (st (string-match-p "\\([A-Z]+[a-z]+\\)+" w)))
-          (= (if st st -1) 0)))
+               (case-fold-search nil))
+          (string-match-p "^\\([A-Z]+[a-z]+\\)+" w)))
+      (my-forward-whitespace)
       (my-downcase-letter 1)
       (forward-word))
      (t
       (downcase-word arg))))))
 
 (defun my-smart-upcase-word (&optional arg)
+  "Upcase the following word in a context-aware way.
+
+If called with raw prefix argument C-u, just `upcase-word'.
+
+If a region is active, upcase the entire region.
+
+If the following word is camelCase, upcase just the initial character.
+
+Otherwise upcase the following word."
   (interactive "P")
   (cond
    ((equal arg '(4))
     (upcase-word 1))
    (t
-    (setq arg (or (prefix-numeric-value arg) 1))
+    (setq arg (prefix-numeric-value arg))
     (cond
      ((region-active-p)
       (upcase-region (region-beginning) (region-end)))
      ;; handle camel-case
      ((save-excursion
-        (when (looking-at "[ \t\n]")
-          (forward-whitespace 1))
+        (my-forward-whitespace)
         (let* ((w (thing-at-point 'word))
-               (case-fold-search nil)
-               (st (string-match-p "[a-z]+\\([A-Z]+[a-z]+\\)+" w)))
-          (= (if st st -1) 0)))
+               (case-fold-search nil))
+          (string-match-p "^[a-z]+\\([A-Z]+[a-z]+\\)+" w)))
+      (my-forward-whitespace)
       (my-upcase-letter 1)
       (forward-word))
      (t
