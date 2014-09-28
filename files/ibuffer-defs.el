@@ -1,6 +1,7 @@
 (bind-keys :map ibuffer-mode-map
            ("M-o" . elwm-activate-window)
-           ("U" . (lambda () (interactive) (ibuffer-unmark-all 0))))
+           ("U" . (lambda () (interactive) (ibuffer-unmark-all 0)))
+           ("/ y" . ibuffer-filter-by-default-directory))
 
 ;; filter groups
 (setq ibuffer-saved-filter-groups
@@ -78,11 +79,11 @@
                     (mode . di-thumb-mode)))
                ))))
 
-;; (define-ibuffer-filter in-directory
-;;   "Toggle current view to buffers whose default-directory is in QUALIFIER."
-;;   (:description "in-directory"
-;;    :reader (read-directory-name "Directory: "))
-;;   (with-current-buffer buf (file-in-directory-p default-directory qualifier)))
+(define-ibuffer-filter default-directory
+    "Toggle current view to buffers whose default-directory matches QUALIFIER."
+  (:description "default directory"
+   :reader (read-from-minibuffer "Directory: "))
+  (with-current-buffer buf (string-match-p qualifier default-directory)))
 
 (define-ibuffer-column size-h
   (:name "Size"
