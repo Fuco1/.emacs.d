@@ -7,6 +7,15 @@
 (declare-function cua--rectangle-bot "cua-base")
 (declare-function cua-resize-rectangle-right "cua-base")
 
+(defun my-forward-whitespace ()
+  "Like `forward-whitespace' but do not skip over a word if there
+is no preceding whitespace.
+
+ |  foo  bar =>   |foo  bar
+   |foo  bar =>   |foo  bar ;; not foo  |bar"
+  (interactive)
+  (when (looking-at "[ \t\n]") (forward-whitespace 1)))
+
 (defun my-kill-whitespace (&optional forward)
   "Kill all the whitespace characters backwards until hitting
 non-whitespace character.  With prefix argument, kill in the
