@@ -367,6 +367,80 @@ current agenda view added to `org-tag-alist'."
   (progn
     (bind-key "C-c s" 'org-velocity org-mode-map)))
 
+(use-package org-timer
+  :bind (("C-c C-x ;" . org-timer-set-timer)
+         ("C-c C-x :" . org-timer-cancel-timer))
+  :init (require 'org-timer)
+  :config
+  (defun org-timer-set-timer (&optional opt) ;; redefine from org-timer.el
+    "Prompt for a duration and set a timer.
+
+If `org-timer-default-timer' is not zero, suggest this value as
+the default duration for the timer.  If a timer is already set,
+prompt the user if she wants to replace it.
+
+Called with a numeric prefix argument, use this numeric value as
+the duration of the timer.
+
+Called with a `C-u' prefix arguments, use `org-timer-default-timer'
+without prompting the user for a duration.
+
+With two `C-u' prefix arguments, use `org-timer-default-timer'
+without prompting the user for a duration and automatically
+replace any running timer."
+    (interactive "P")
+    (let ((minutes (or (and (numberp opt) (number-to-string opt))
+                       (and (listp opt) (not (null opt))
+                            (number-to-string org-timer-default-timer))
+                       (read-from-minibuffer
+                        "How many minutes left? "
+                        (if (not (eq org-timer-default-timer 0))
+                            (number-to-string org-timer-default-timer))))))
+      (if (not (string-match "[0-9]+" minutes))
+          (org-timer-show-remaining-time)
+        (let* ((mins (string-to-number (match-string 0 minutes)))
+               (secs (* mins 60))
+               (hl (cond
+                    ((string-match "Org Agenda" (buffer-name))
+                     (let* ((marker (or (get-text-property (point) 'org-marker)
+                                        (org-agenda-error)))
+                            (hdmarker (or (get-text-property (point) 'org-hd-marker)
+                                          marker))
+                            (pos (marker-position marker)))
+                       (with-current-buffer (marker-buffer marker)
+                         (widen)
+                         (goto-char pos)
+                         (org-show-entry)
+                         (or (ignore-errors (org-get-heading))
+                             (concat "File:" (file-name-nondirectory (buffer-file-name)))))))
+                    ((derived-mode-p 'org-mode)
+                     (or (ignore-errors (org-get-heading))
+                         (concat "File:" (file-name-nondirectory (buffer-file-name)))))
+                    (t (read-from-minibuffer "Task: " nil nil nil nil "Countdown task"))))
+               timer-set)
+          (if (or (and org-timer-current-timer
+                       (or (equal opt '(16))
+                           (y-or-n-p "Replace current timer? ")))
+                  (not org-timer-current-timer))
+              (progn
+                (require 'org-clock)
+                (when org-timer-current-timer
+                  (cancel-timer org-timer-current-timer))
+                (setq org-timer-current-timer
+                      (run-with-timer
+                       secs nil `(lambda ()
+                                   (setq org-timer-current-timer nil)
+                                   (org-notify ,(format "%s: time out" hl) ,org-clock-sound)
+                                   (setq org-timer-timer-is-countdown nil)
+                                   (org-timer-set-mode-line 'off)
+                                   (run-hooks 'org-timer-done-hook))))
+                (run-hooks 'org-timer-set-hook)
+                (setq org-timer-timer-is-countdown t
+                      org-timer-start-time
+                      (time-add (current-time) (seconds-to-time (* mins 60))))
+                (org-timer-set-mode-line 'on))
+            (message "No timer set")))))))
+
 ;; add support for automatic org-files commits
 (defvar my-org-commit-timer
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
