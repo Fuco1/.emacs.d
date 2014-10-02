@@ -810,22 +810,24 @@ Switch projects and subprojects from NEXT back to TODO"
 (defun my-org-export-read-books ()
   (interactive)
   (save-window-excursion
-    (let ((buf (get-buffer-create "*org-books-export*"))
-          (my-org-show-media-closed-since
-           (apply 'encode-time (org-parse-time-string "2014-01-01")))
-          (org-agenda-sticky nil))
-      (with-current-buffer buf
-        (erase-buffer)
-        (org-mode))
-      (org-agenda nil "fdb")
-      (my-org-export-read-books-do-export buf)
-      (org-agenda nil "fb")
-      (with-current-buffer buf
-        (insert "\n* Reading\n\n"))
-      (my-org-export-read-books-do-export buf)
-      (with-current-buffer buf
-        (org-export-to-file 'html "~/books.html"))
-      (copy-file "~/books.html" "/fuco@dasnet.cz:/home/fuco/books.html" t))))
+    (unwind-protect
+        (let ((buf (get-buffer-create "*org-books-export*"))
+              (my-org-show-media-closed-since
+               (apply 'encode-time (org-parse-time-string "2014-01-01")))
+              (org-agenda-sticky nil))
+          (with-current-buffer buf
+            (erase-buffer)
+            (org-mode))
+          (org-agenda nil "fdb")
+          (my-org-export-read-books-do-export buf)
+          (org-agenda nil "fb")
+          (with-current-buffer buf
+            (insert "\n* Reading\n\n"))
+          (my-org-export-read-books-do-export buf)
+          (with-current-buffer buf
+            (org-export-to-file 'html "~/books.html"))
+          (copy-file "~/books.html" "/fuco@dasnet.cz:/home/fuco/books.html" t))
+      (kill-buffer "*org-books-export*"))))
 
 
 ;; navigation & header manipulation
