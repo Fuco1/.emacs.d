@@ -111,6 +111,24 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (bind-key "C-x j t t" 'my-bmkp-tag-jump)
     (bind-key "C-x j t d" 'my-bmkp-tag-dired)))
 
+(use-package c-mode
+  :defer t
+  :config
+  (progn
+    (defun my-c-mode-setup ()
+      (c-set-style "stroustrup"))
+    (add-hook 'c-mode-hook 'my-c-mode-setup)))
+
+(use-package cc-mode
+  :defer t
+  :config
+  (progn
+    (bind-keys :map c++-mode-map
+      ("C-M-x" . compile))
+    (defun my-c++-mode-setup ()
+      (c-set-style "stroustrup"))
+    (add-hook 'c++-mode-hook 'my-c++-mode-setup)))
+
 (use-package calc
   :bind ("<f5>" . calc-same-interface)
   :config
