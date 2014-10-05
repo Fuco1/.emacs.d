@@ -457,6 +457,23 @@ idle timer to do the actual update.")
             (run-with-timer 1200 nil 'my-elfeed-update-schedule))))
   :config
   (progn
+    (defvar my-elfeed-unread-count (let ((n 0))
+                               (with-elfeed-db-visit (entry _feed)
+                                 (when (memq 'unread (elfeed-entry-tags entry))
+                                   (cl-incf n)))
+                               n)
+      "Number of unread elfeed feeds.")
+
+    (defadvice elfeed-tag (before update-unread activate)
+      (when (and (not (member 'unread (elfeed-entry-tags (ad-get-arg 0))))
+                 (member 'unread (ad-get-args 1)))
+        (cl-incf my-elfeed-unread-count)))
+
+    (defadvice elfeed-untag (before update-unread activate)
+      (when (and (member 'unread (elfeed-entry-tags (ad-get-arg 0)))
+                 (member 'unread (ad-get-args 1)))
+        (cl-decf my-elfeed-unread-count)))
+
     (bind-keys :map elfeed-show-mode-map
       ("M-n" . shr-next-link)
       ("M-p" . shr-previous-link))))

@@ -387,6 +387,8 @@ With non-nil prefix argument, ask for LANGUAGE."
                                        (mapconcat 'identity urgent-buffers ",")
                                        "]</fc>")))
                   (when urgent-buffers (substring-no-properties status 0 (length status))))))
+    (:eval (and (featurep 'elfeed)
+                (format "<fc=#75507b>%d</fc>" my-elfeed-unread-count)))
     (:eval (and (featurep 'notmuch)
                 (let ((count (notmuch-unread-count)))
                   (if (> count 0) (format "<fc=#ef2929>[✉ %d]</fc>" count) ""))))
