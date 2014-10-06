@@ -33,12 +33,12 @@
 ;; TODO: Take a look at https://github.com/genehack/smart-tab
 
 (defun smart-tab (prefix)
-  "Needs `transient-mark-mode' to be on. This smart tab is
-  minibuffer compliant: it acts as usual in the minibuffer.
+  "Needs `transient-mark-mode' to be on. This smart tab is minibuffer
+compliant: it acts as usual in the minibuffer.
 
-  In all other buffers: if PREFIX is \\[universal-argument], calls
-  `smart-indent'. Else if point is at the end of a symbol,
-  expands it. Else calls `smart-indent'."
+In all other buffers: if PREFIX is \\[universal-argument], calls
+`smart-indent'. Else if point is at the end of a symbol, expands
+it. Else calls `smart-indent'."
   (interactive "P")
   (labels ((smart-tab-must-expand (&optional prefix)
                                   (unless (or (consp prefix)
