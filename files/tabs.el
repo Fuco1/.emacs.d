@@ -52,10 +52,6 @@ it. Else calls `smart-indent'."
     (cond
      ((bound-and-true-p elfeed-search-live)
       (completion-at-point))
-     ((minibufferp)
-      (unless (minibuffer-complete)
-        (unless (completion-at-point)
-          (default))))
      ((eq major-mode 'org-mode)
       (cond
        ((looking-back "^<\\sw")
