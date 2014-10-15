@@ -1,3 +1,5 @@
+(require 'ibuf-ext)
+
 (bind-keys :map ibuffer-mode-map
            ("M-o" . elwm-activate-window)
            ("U" . (lambda () (interactive) (ibuffer-unmark-all 0)))
