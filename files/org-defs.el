@@ -146,6 +146,17 @@
   :defer t
   :init
   (progn
+    (defadvice org-tags-view (around fix-stickyness activate)
+      (let ((org-agenda-sticky nil))
+        ad-do-it
+        (when (eq this-command 'org-tags-view)
+          (rename-buffer (format "*Org Agenda(%s:%s)*"
+                                 (or org-keys (or (and todo-only "M") "m"))
+                                 (save-excursion
+                                   (goto-char (point-min))
+                                   (let ((tp (text-properties-at (point))))
+                                     (nth 1 (plist-get tp 'org-last-args)))))))))
+
     ;; Custom agenda command definitions
     (defvar my-org-show-media-closed-since (apply 'encode-time (org-parse-time-string "1980-01-01"))
       "Time since which we show the closed media")
