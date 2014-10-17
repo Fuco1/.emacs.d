@@ -915,6 +915,7 @@ If in the test file, visit source."
           ("<f12>" . org-agenda)
           ("C-<f12>" . org-agenda-time-limit)
           ("C-M-r" . org-capture)
+          ("C-c C-x C-j" . org-clock-goto)
           ("C-c C-x C-o" . org-clock-out)
           ("C-c C-x <C-i-key>" . org-clock-in))
   :config
