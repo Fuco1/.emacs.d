@@ -351,6 +351,10 @@ current agenda view added to `org-tag-alist'."
       ("\\" . my-org-agenda-filter-by-tag-refine)
       ("o" . my-org-agenda-open-at-point))))
 
+;; TODO: figure out a way to add dependencies to `use-package', then
+;; load this after either notmuch or org
+(use-package org-notmuch)
+
 (use-package org-protocol
   :init
   (progn
