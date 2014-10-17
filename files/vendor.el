@@ -857,7 +857,8 @@ If in the test file, visit source."
   :init
   (progn
     (autoload #'my-notmuch-unread "notmuch" nil t)
-    (bind-key "C-. C-u" 'my-notmuch-unread))
+    (bind-key "C-. C-u" 'my-notmuch-unread)
+    (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
   :idle
   (progn
     (defun my-notmuch-update-mail ()
