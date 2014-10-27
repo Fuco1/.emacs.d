@@ -924,6 +924,14 @@ If in the test file, visit source."
   (progn
     (load "files/org-defs.el")))
 
+(use-package php-mode
+  :mode ("\\.php\\'" . php-mode)
+  :config
+  (progn
+    (defun my-php-mode-init ()
+      (c-set-style "php"))
+    (add-hook 'php-mode-hook 'my-php-mode-init)))
+
 (use-package popwin
   :commands popwin-mode
   :config
