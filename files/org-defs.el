@@ -324,9 +324,9 @@ current agenda view added to `org-tag-alist'."
       (interactive "P")
       (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
         (org-set-local 'org-global-tags-completion-table
-                       (-uniq (-map 'downcase
-                                    (-concat (my-org--get-agenda-tags)
-                                             (-filter 'stringp (-map 'car org-tag-alist)))))))
+                        (-uniq (-map 'downcase
+                                      (-concat (my-org--get-agenda-tags)
+                                               (-filter 'stringp (-map 'car org-tag-alist)))))))
       (org-agenda-filter-by-tag-refine strip char))
 
     (defun my-org-agenda-filter-by-tag (strip &optional char narrow)
@@ -335,9 +335,9 @@ current agenda view added to `org-tag-alist'."
       (interactive "P")
       (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
         (org-set-local 'org-global-tags-completion-table
-                       (-uniq (-map 'downcase
-                                    (-concat (my-org--get-agenda-tags)
-                                             (-filter 'stringp (-map 'car org-tag-alist)))))))
+                        (-uniq (-map 'downcase
+                                      (-concat (my-org--get-agenda-tags)
+                                               (-filter 'stringp (-map 'car org-tag-alist)))))))
       (org-agenda-filter-by-tag strip char narrow))
 
     (bind-keys :map org-agenda-mode-map
