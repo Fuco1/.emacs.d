@@ -1044,6 +1044,63 @@ The current directory is assumed to be the project's root otherwise."
     (defadvice smex-prepare-ido-bindings (after add-more-bindings activate)
       (define-key ido-completion-map (kbd "=") "-"))))
 
+(use-package sql
+  :commands sql-mysql
+  :config
+  (progn
+    (defun sql-send-paragraph ()
+      "Send the current paragraph to the SQL process."
+      (interactive)
+      (let ((start (save-excursion
+                     (backward-paragraph)
+                     (when (looking-at "$") (forward-char))
+                     (point)))
+            (end (save-excursion
+                   (forward-paragraph)
+                   (point))))
+        (sql-send-region start end)))
+
+    (defun sql-send-string (str)
+      "Send the string STR to the SQL process."
+      (interactive "sSQL Text: ")
+
+      (let ((comint-input-sender-no-newline nil)
+            (s (replace-regexp-in-string "[[:space:]\n\r]+\\'" "" str)))
+        (if (sql-buffer-live-p sql-buffer)
+            (progn
+              (save-excursion
+                (with-current-buffer sql-buffer
+                  ;; Send the string (trim the trailing whitespace)
+                  ;; (sql-input-sender (get-buffer-process sql-buffer) s)
+                  ;; FUCO: following two lines replace the above
+                  (insert s)
+                  (comint-send-input)
+                  ;; FUCO-end
+
+                  ;; Send a command terminator if we must
+                  (if sql-send-terminator
+                      (sql-send-magic-terminator sql-buffer s sql-send-terminator))
+
+                  (message "Sent string to buffer %s." sql-buffer)))
+
+              ;; Display the sql buffer
+              (if sql-pop-to-buffer-after-send-region
+                  (pop-to-buffer sql-buffer)
+                (display-buffer sql-buffer)))
+
+          ;; We don't have no stinkin' sql
+          (message "No SQL process started."))))
+
+    (defun my-sql-mode-init ()
+      (sql-set-product "mysql")
+      (unless sql-buffer
+        (sql-mysql)))
+    (add-hook 'sql-mode-hook 'my-sql-mode-init)
+
+    (defun my-sql-interactive-mode-init ()
+      (orgtbl-mode))
+    (add-hook 'sql-interactive-mode-hook 'my-sql-interactive-mode-init)))
+
 (use-package tex-site
   :load-path "site-lisp/auctex/"
   :mode ("\\.tex\\'" . TeX-latex-mode)
