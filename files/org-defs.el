@@ -545,6 +545,8 @@ This usually makes new item indented one level deeper."
     (define-prefix-command 'my-org-table-map)
     (bind-key "C-c t" 'my-org-table-map org-mode-map)
     (bind-key "C-c t" 'my-org-table-map orgtbl-mode-map)
+    (bind-key "C-c t s" 'org-table-sort-lines org-mode-map)
+    (bind-key "C-c t s" 'org-table-sort-lines orgtbl-mode-map)
     (defvar my-org-table-insert-map)
     (define-prefix-command 'my-org-table-insert-map)
     (bind-key "C-c t i" 'my-org-table-insert-map org-mode-map)
