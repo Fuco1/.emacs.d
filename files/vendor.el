@@ -585,7 +585,8 @@ idle timer to do the actual update.")
   :commands free-keys)
 
 (use-package haskell-mode
-  :mode ("\\.hs\\'" . haskell-mode)
+  :mode (("\\.hs\\'" . haskell-mode)
+         ("\\.chs\\'" . haskell-mode))
   :config
   (progn
     (use-package hs-lint
