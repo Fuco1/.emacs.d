@@ -859,6 +859,7 @@ If in the test file, visit source."
   (progn
     (autoload #'my-notmuch-unread "notmuch" nil t)
     (bind-key "C-. C-u" 'my-notmuch-unread)
+    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox)
     (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
   :idle
   (progn
@@ -896,6 +897,11 @@ If in the test file, visit source."
       "Display buffer with unread mail."
       (interactive)
       (notmuch-search "tag:unread"))
+
+    (defun my-notmuch-inbox ()
+      "Display buffer with inbox mail."
+      (interactive)
+      (notmuch-search "tag:inbox"))
 
     (defun my-notmuch-delete-mail (&optional beg end)
       (interactive (if (use-region-p)
