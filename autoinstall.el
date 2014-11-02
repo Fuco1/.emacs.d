@@ -10,6 +10,7 @@
     dired-details
     eldoc-eval
     eimp
+    eldoc-eval
     elfeed
     emmet-mode
     expand-region
@@ -17,6 +18,7 @@
     flx
     flx-ido
     fuzzy-match
+    google-this
     haskell-mode
     helm-descbinds
     ibuffer-vc
@@ -28,21 +30,30 @@
     macrostep
     magit
     make-it-so
+    malabar-mode
     markdown-mode
     markdown-mode+
     multi-web-mode
     multiple-cursors
     noflet
+    notmuch
+    notmuch-unread
+    org-plus-contrib
     ov
     parenface
+    php-eldoc
+    php-mode
+    php-refactor-mode
     pos-tip
     projectile
     rainbow-mode
     s
     shell-pop
+    smartscan
     smex
     undo-tree
     visual-regexp
+    w3m
     wgrep-ag
     world-time-mode
     )
