@@ -935,7 +935,8 @@ If in the test file, visit source."
   :config
   (progn
     (defun my-php-mode-init ()
-      (c-set-style "php"))
+      (c-set-style "php")
+      (php-eldoc-enable))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
 
 (use-package popwin
