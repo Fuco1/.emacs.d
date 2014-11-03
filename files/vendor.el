@@ -863,6 +863,11 @@ If in the test file, visit source."
     (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
   :idle
   (progn
+    (use-package gnus-alias
+      :init
+      (progn
+        (gnus-alias-init)
+        (bind-key "C-c i" 'gnus-alias-select-identity message-mode-map)))
     (defun my-notmuch-update-mail ()
       (interactive)
       (set-process-sentinel
