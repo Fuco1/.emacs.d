@@ -914,7 +914,9 @@ If in the test file, visit source."
                      (list nil nil)))
       (let ((change '("+deleted" "-unread" "-inbox")))
         (if (eq major-mode 'notmuch-search-mode)
-            (notmuch-search-tag change beg end)
+            (progn
+              (notmuch-search-tag change beg end)
+              (notmuch-search-next-thread))
           (notmuch-show-tag change))))
 
     (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
