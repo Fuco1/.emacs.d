@@ -845,6 +845,20 @@ If in the test file, visit source."
   (progn
     (load "files/markdown-defs")))
 
+(use-package message
+  :init
+  (progn
+    (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
+  :config
+  (progn
+    (use-package notmuch)
+    (use-package smtpmail)
+    (use-package gnus-alias
+      :init
+      (progn
+        (gnus-alias-init)
+        (bind-key "C-c i" 'gnus-alias-select-identity message-mode-map)))))
+
 (use-package multi-web-mode
   :defer t
   :config
@@ -859,16 +873,11 @@ If in the test file, visit source."
   :init
   (progn
     (autoload #'my-notmuch-unread "notmuch" nil t)
+    (autoload #'my-notmuch-inbox "notmuch" nil t)
     (bind-key "C-. C-u" 'my-notmuch-unread)
-    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox)
-    (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
+    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox))
   :idle
   (progn
-    (use-package gnus-alias
-      :init
-      (progn
-        (gnus-alias-init)
-        (bind-key "C-c i" 'gnus-alias-select-identity message-mode-map)))
     (defun my-notmuch-update-mail ()
       (interactive)
       (set-process-sentinel
