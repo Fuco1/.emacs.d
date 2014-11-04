@@ -6,7 +6,7 @@
 
 (defun my-where-am-i ()
   (with-temp-buffer
-    (insert-file-contents "~/.emacs.d/.whereami")
+    (insert-file-contents "~/.whereami")
     (buffer-string)))
 
 ;; some functions to ease the work with mark and mark-ring
