@@ -432,7 +432,7 @@ message.")
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
 (use-package elfeed
-  :if (equal (my-where-am-i) "home")
+  :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
   :idle
   (progn
