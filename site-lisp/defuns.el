@@ -109,7 +109,7 @@ This is the opposite of fill-paragraph."
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
-(defun* my-list-interactive (&optional (file-name (buffer-file-name)))
+(cl-defun my-list-interactive (&optional (file-name (buffer-file-name)))
   "Return a list of all interactive functions in file FILE-NAME."
   (loop for i in (cdr (assoc-string file-name load-history))
            if (and (consp i) (eq (car i) 'defun) (commandp (cdr i)))
