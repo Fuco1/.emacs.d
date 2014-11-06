@@ -381,6 +381,47 @@ With non-nil prefix argument, ask for LANGUAGE."
     (kill-buffer buf)
     (kill-new (if language (concat url "?" language) url))))
 
+(defun my-shuffle-things (thing beg end)
+  (goto-char beg)
+  (let ((cur (cons 0 beg))
+        (things nil)
+        (vthings))
+    (while (< (cdr cur) end)
+      (setq cur (bounds-of-thing-at-point thing))
+      (push cur things)
+      (forward-thing thing 2)
+      (forward-thing thing -1))
+    (setq things (nreverse things))
+    (setq vthings (apply 'vector things))
+    (let ((len (length vthings)))
+      (message "%s" len)
+      (--dotimes len
+        (let* ((r (random (- len it)))
+               (tmp (elt vthings r)))
+          (aset vthings r (elt vthings (- len it 1)))
+          (aset vthings (- len it 1) tmp))))
+    (let* ((orig (current-buffer))
+           (replacement
+            (with-temp-buffer
+              ;; todo: grab whitespace around it
+              (cl-loop for x across vthings do
+                       (insert (with-current-buffer orig
+                                 (buffer-substring (car x) (cdr x)))))
+              (buffer-string))))
+      (delete-region beg end)
+      (goto-char beg)
+      (insert replacement))))
+
+(defun my-shuffle-lines (beg end)
+  "Shuffle lines in the active region."
+  (interactive "r")
+  (my-shuffle-things 'line beg end))
+
+(defun my-shuffle-words (beg end)
+  "Shuffle words in the active region."
+  (interactive "r")
+  (my-shuffle-things 'word beg end))
+
 (defvar my-status-line-format
   '((:eval (and (featurep 'tracking)
                 (let* ((shortened (tracking-shorten tracking-buffers))
