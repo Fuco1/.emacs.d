@@ -1121,9 +1121,7 @@ The current directory is assumed to be the project's root otherwise."
           (message "No SQL process started."))))
 
     (defun my-sql-mode-init ()
-      (sql-set-product "mysql")
-      (unless sql-buffer
-        (sql-mysql)))
+      (sql-set-product "mysql"))
     (add-hook 'sql-mode-hook 'my-sql-mode-init)
 
     (defun my-sql-interactive-mode-init ()
