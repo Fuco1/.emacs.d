@@ -448,6 +448,29 @@ Additionally, when looking at [ \\t]*$, capitalize backwards."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Operations related to lines
+
+;; TODO: handle punctuation after words
+(defun my-pull-word (&optional arg)
+  "Pull the last word from the line above point to the beginning of this line.
+
+With raw prefix \\[universal-argument] insert the word at point."
+  (interactive "P")
+  (-let* (((b . e) (save-excursion
+                     (previous-line)
+                     (end-of-line)
+                     (bounds-of-thing-at-point 'word)))
+          (text (prog1 (delete-and-extract-region b e)
+                  (delete-trailing-whitespace
+                   (line-beginning-position)
+                   (line-end-position)))))
+    (if arg (insert text)
+      (save-excursion
+        (back-to-indentation)
+        (insert text " ")))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; insert the text normally but keep the point fixed
 ;; useful to prepend text in e.g. `haskell-mode'
 

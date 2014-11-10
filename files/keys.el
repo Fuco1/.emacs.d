@@ -272,6 +272,10 @@
 (bind-keys :prefix "C-c s"
            :prefix-map ctl-c-s-map)
 
+(bind-keys :prefix "C-c C-v"
+           :prefix-map ctl-c-ctl-v-map
+  ("p" . my-pull-word))
+
 ;; zapping
 (bind-key "M-z" 'zap-up-to-char)
 (bind-key "M-Z" 'zap-to-char)
