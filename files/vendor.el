@@ -955,6 +955,7 @@ If in the test file, visit source."
   :mode ("\\.php\\'" . php-mode)
   :config
   (progn
+    (unbind-key "C-." php-mode-map)
     (defun my-php-mode-init ()
       (c-set-style "php")
       (php-eldoc-enable))
