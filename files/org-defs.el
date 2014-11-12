@@ -190,11 +190,6 @@
               (tags "REFILE"
                     ((org-agenda-overriding-header "Tasks to Refile")
                      (org-tags-match-list-sublevels nil)))
-              (tags-todo "LOGIO"
-                    ((org-agenda-overriding-header "Logio")
-                     (org-tags-match-list-sublevels nil)
-                     (org-agenda-todo-ignore-scheduled 'all)
-                     (org-agenda-files '("~/logio/logio.org"))))
               (tags-todo "BUG/!NEXT"
                          ((org-agenda-overriding-header "Bugs")
                           (org-tags-match-list-sublevels nil)))
@@ -276,7 +271,6 @@
 
     (defun my-org-agenda-remove-empty-lists ()
       (let ((headers '("Tasks to Refile"
-                       "Logio"
                        "Bugs"
                        "Stuck Projects"
                        "Next Tasks"
