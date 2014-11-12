@@ -859,15 +859,14 @@ Switch projects and subprojects from NEXT back to TODO"
       (insert "|-+-+-+-+-+-|\n"))
     (while (and (= 0 (forward-line))
                 (not (eobp)))
-      (cl-incf index)
       (org-with-point-at (org-get-at-bol 'org-hd-marker)
         (let* ((element (cadr (org-element-at-point)))
                (title (plist-get element :title))
                (author (plist-get element :AUTHOR))
                (published (plist-get element :PUBLISHED))
                (original-title (plist-get element :ORIGINAL_TITLE))
-               (language (cdr (assoc (let* ((tags (org-get-tags-at))
-                                            (language-tag
+               (tags (org-get-tags-at))
+               (language (cdr (assoc (let* ((language-tag
                                              (car (-intersection tags '("DE" "IT" "LA" "RU" "FR" "ES" "IL" "SA" "PL" "JP"))))
                                             (language-prop (plist-get element :LANGUAGE)))
                                        (or language-prop language-tag "EN"))
@@ -884,15 +883,17 @@ Switch projects and subprojects from NEXT back to TODO"
                                        ("CS" . "Czech")
                                        ("SK" . "Slovak")
                                        ("EN" . "English"))))))
-          (with-current-buffer buf
-            ;; num, lan, title, published, author, orig. title
-            (insert (format "| %d. | %s | %s | %s | %s | %s |\n"
-                            index
-                            language
-                            title
-                            published
-                            author
-                            (or original-title "")))))))
+          (unless (member "noexport" tags)
+            (cl-incf index)
+            (with-current-buffer buf
+              ;; num, lan, title, published, author, orig. title
+              (insert (format "| %d. | %s | %s | %s | %s | %s |\n"
+                              index
+                              language
+                              title
+                              published
+                              author
+                              (or original-title ""))))))))
     (with-current-buffer buf
       (insert "|-+-+-+-+-+-|\n")
       (save-excursion
