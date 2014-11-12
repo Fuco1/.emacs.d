@@ -504,6 +504,7 @@ replace any running timer."
 
   ("C-c C-S-n" . my-org-add-sibling)
   ("C-c C-n" . outline-next-visible-heading))
+(unbind-key "C-'" org-mode-map)
 
 (defun my-org-open-at-point (&optional arg)
   "Just like `org-open-at-point', but open link in this window."
