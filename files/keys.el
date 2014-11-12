@@ -12,11 +12,6 @@
       w32-apps-modifier 'hyper) ; Menu key
 
 ;;; stupid terminal key sequence remapping
-(define-key key-translation-map [return] [?\r])
-(define-key key-translation-map [?\C-\m] [(control m-key)])
-(define-key function-key-map [return] nil)
-(define-key function-key-map [?\r] nil)
-
 (define-key key-translation-map [tab] [?\t])
 (define-key key-translation-map [?\C-\i] [(control i-key)])
 (define-key function-key-map [tab] nil)
@@ -70,7 +65,7 @@
 
 ;; ibuffer > list-buffers
 (bind-key "C-x C-b" 'ibuffer)
-(bind-key "C-<m-key>" 'ido-switch-buffer)
+(bind-key "C-'" 'ido-switch-buffer)
 
 ;; buffer cleanup
 (bind-key "C-c u" 'cleanup-buffer)
