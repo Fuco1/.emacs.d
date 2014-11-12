@@ -79,11 +79,12 @@
 
 (defvar my-abbrev-file-name-alist
   `((,abbreviated-home-dir . "~/")
-    ("^~/languages/" . ":L:")
-    ("^/usr/local/share/emacs/24.3/lisp/" . ":E:")
-    ("~/dev/tex/fic/" . ":FIC:")
-    ("~/.emacs.d/elpa/" . ":ELPA:")
-    ("~/.emacs.d/" . ":ED:"))
+    ("^~/languages/" . "L|")
+    ("^/usr/local/share/emacs/24.3/lisp/" . "E|")
+    ("~/dev/tex/fic/" . "FIC|")
+    ("~/.emacs.d/elpa/" . "ELPA|")
+    ("~/.emacs.d/" . "ED|")
+    ("/var/www/html/agrocs/" . "AGROCS|"))
   "An alist defining translations of paths to shortcuts.")
 
 (defun my-abbreviate-file-name-local (directory buffer-name)
