@@ -82,13 +82,14 @@
   '((t (:inherit font-lock-warning-face :weight normal)))
   "Face used for modified status in mode line.")
 
-(setq my-abbrev-file-name-alist
-      `((,abbreviated-home-dir . "~/")
-        ("^~/languages/" . ":L:")
-        ("^/usr/local/share/emacs/24.3/lisp/" . ":E:")
-        ("~/dev/tex/fic/" . ":FIC:")
-        ("~/.emacs.d/elpa/" . ":ELPA:")
-        ("~/.emacs.d/" . ":ED:")))
+(defvar my-abbrev-file-name-alist
+  `((,abbreviated-home-dir . "~/")
+    ("^~/languages/" . ":L:")
+    ("^/usr/local/share/emacs/24.3/lisp/" . ":E:")
+    ("~/dev/tex/fic/" . ":FIC:")
+    ("~/.emacs.d/elpa/" . ":ELPA:")
+    ("~/.emacs.d/" . ":ED:"))
+  "An alist defining translations of paths to shortcuts.")
 
 (defun my-abbreviate-file-name-no-tramp (filename &optional buffer-name)
   "Shorten the FILENAME or directory according to
