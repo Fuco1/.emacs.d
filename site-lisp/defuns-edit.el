@@ -459,7 +459,10 @@ With raw prefix \\[universal-argument] insert the word at point."
   (-let* (((b . e) (save-excursion
                      (previous-line)
                      (end-of-line)
-                     (bounds-of-thing-at-point 'word)))
+                     (cons (progn
+                             (backward-word)
+                             (point))
+                           (line-end-position))))
           (text (prog1 (delete-and-extract-region b e)
                   (delete-trailing-whitespace
                    (line-beginning-position)
