@@ -719,6 +719,14 @@ point and rebuild the agenda view."
 
 ;;;_. Capture
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
+(defun my-notmuch-show-get-name ()
+  (with-current-buffer (org-capture-get :original-buffer)
+    (car (mail-extract-address-components (notmuch-show-get-from)))))
+
+(defun my-notmuch-show-get-email ()
+  (with-current-buffer (org-capture-get :original-buffer)
+    (cadr (mail-extract-address-components (notmuch-show-get-from)))))
+
 (setq org-capture-templates
       `(("t" "todo" entry (file "~/org/refile.org")
          "* TODO %?\n%U\n" :clock-keep t)
@@ -736,9 +744,9 @@ point and rebuild the agenda view."
          "* %:description\n- %:link\n%(if (not (equal %:initial \"\"))
                                         (concat \"- \" %:initial) \"\")")
         ("c" "contact" entry (file "~/org/contacts.org")
-         "* %(org-contacts-template-name)
+         "* %(my-notmuch-show-get-name)
     :PROPERTIES:
-    :EMAIL: %(org-contacts-template-email)
+    :EMAIL: %(my-notmuch-show-get-email)
     :END:")))
 
 (defun my-org-handle-bookmark ()
