@@ -101,33 +101,6 @@ and indent next line according to mode."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; moving entire lines up and down
-
-;; from https://github.com/skeeto/.emacs.d/blob/master/my-funcs.el
-(defun move-line (n)
-  "Move the current line up or down by N lines."
-  (interactive "p")
-  (let ((col) (current-column) start end)
-    (beginning-of-line) (setq start (point))
-    (end-of-line) (forward-char) (setq end (point))
-    (let ((line-text (delete-and-extract-region start end)))
-      (forward-line n)
-      (insert line-text)
-      (forward-line -1)
-      (forward-char col))))
-
-(defun move-line-up (n)
-  "Move the current line up by N lines."
-  (interactive "p")
-  (move-line (if (null n) -1 (- n))))
-
-(defun move-line-down (n)
-  "Move the current line down by N lines."
-  (interactive "p")
-  (move-line (if (null n) 1 n)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evaluate sexps/macros
 
 (defun eval-and-replace ()
@@ -149,60 +122,6 @@ and indent next line according to mode."
              (current-buffer))
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; TODO: rework this
-
-(defun copy-line-with-offset (offset)
-  "Save the line specified by offset (+1 = next, -1 = prev) to the kill ring,
-move the current line down and yank"
-  (kill-ring-save (line-beginning-position (+ offset 1))
-                  (line-end-position (+ offset 1)))
-  (let ((pos (point))
-        (line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-    (beginning-of-line)
-    (when (or (and (string-match "[:space:]" line)
-                   (> offset 0))
-              (< offset 0))
-      (newline)
-      (forward-line -1))
-    (beginning-of-line)
-    (insert (car kill-ring))
-    (goto-char pos)))
-
-(defun copy-previous-line ()
-  (interactive)
-  (copy-line-with-offset -1))
-
-(defun copy-next-line ()
-  (interactive)
-  (copy-line-with-offset 1))
-
-(defun kill-line-yank-newline ()
-  (interactive)
-  (let ((beg (line-beginning-position))
-        (end (line-end-position))
-        (name (buffer-name))
-        (col (current-column)))
-    (end-of-line)
-    (newline)
-    (beginning-of-line)
-    (insert-buffer-substring name beg end)
-    (move-to-column col t)
-    (unless (eolp) (kill-sexp))))
-
-(defun my-kill-line-yank-newline ()
-  (interactive)
-  (let ((beg (line-beginning-position))
-        (end (line-end-position))
-        (name (buffer-name))
-        (col (current-column)))
-    (end-of-line)
-    (newline)
-    (beginning-of-line)
-    (insert-buffer-substring name beg end)
-    (move-to-column col t)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -450,7 +369,80 @@ Additionally, when looking at [ \\t]*$, capitalize backwards."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operations related to lines
 
-;; TODO: handle punctuation after words
+;; rework
+(defun copy-line-with-offset (offset)
+  "Save the line specified by offset (+1 = next, -1 = prev) to the kill ring,
+move the current line down and yank"
+  (kill-ring-save (line-beginning-position (+ offset 1))
+                  (line-end-position (+ offset 1)))
+  (let ((pos (point))
+        (line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+    (beginning-of-line)
+    (when (or (and (string-match "[:space:]" line)
+                   (> offset 0))
+              (< offset 0))
+      (newline)
+      (forward-line -1))
+    (beginning-of-line)
+    (insert (car kill-ring))
+    (goto-char pos)))
+
+(defun copy-previous-line ()
+  (interactive)
+  (copy-line-with-offset -1))
+
+(defun copy-next-line ()
+  (interactive)
+  (copy-line-with-offset 1))
+
+(defun kill-line-yank-newline ()
+  (interactive)
+  (let ((beg (line-beginning-position))
+        (end (line-end-position))
+        (name (buffer-name))
+        (col (current-column)))
+    (end-of-line)
+    (newline)
+    (beginning-of-line)
+    (insert-buffer-substring name beg end)
+    (move-to-column col t)
+    (unless (eolp) (kill-sexp))))
+
+(defun my-kill-line-yank-newline ()
+  (interactive)
+  (let ((beg (line-beginning-position))
+        (end (line-end-position))
+        (name (buffer-name))
+        (col (current-column)))
+    (end-of-line)
+    (newline)
+    (beginning-of-line)
+    (insert-buffer-substring name beg end)
+    (move-to-column col t)))
+
+;; from https://github.com/skeeto/.emacs.d/blob/master/my-funcs.el
+(defun move-line (n)
+  "Move the current line up or down by N lines."
+  (interactive "p")
+  (let ((col) (current-column) start end)
+    (beginning-of-line) (setq start (point))
+    (end-of-line) (forward-char) (setq end (point))
+    (let ((line-text (delete-and-extract-region start end)))
+      (forward-line n)
+      (insert line-text)
+      (forward-line -1)
+      (forward-char col))))
+
+(defun move-line-up (n)
+  "Move the current line up by N lines."
+  (interactive "p")
+  (move-line (if (null n) -1 (- n))))
+
+(defun move-line-down (n)
+  "Move the current line down by N lines."
+  (interactive "p")
+  (move-line (if (null n) 1 n)))
+
 (defun my-pull-word (&optional arg)
   "Pull the last word from the line above point to the beginning of this line.
 
