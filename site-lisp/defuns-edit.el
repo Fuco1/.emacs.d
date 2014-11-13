@@ -464,6 +464,33 @@ With raw prefix \\[universal-argument] insert the word at point."
         (back-to-indentation)
         (insert text " ")))))
 
+(defun my-join-word (&optional arg)
+  "Pull the first word on the following line and put it at the ond of current line.
+
+With raw prefix \\[universal-argument] insert the word at point."
+  (interactive "P")
+  (-let* (((b . e) (save-excursion
+                     (next-line)
+                     (back-to-indentation)
+                     (forward-word)
+                     (bounds-of-thing-at-point 'word)))
+          (e (save-excursion
+               (goto-char e)
+               (skip-syntax-forward ".")
+               (point)))
+          (text (save-excursion
+                  (prog1 (delete-and-extract-region b e)
+                    (goto-char b)
+                    (delete-region
+                     (point)
+                     (progn
+                       (skip-chars-forward " ")
+                       (point)))
+                    (indent-according-to-mode)))))
+    (if arg (insert text)
+      (end-of-line)
+      (insert " " text))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; insert the text normally but keep the point fixed
