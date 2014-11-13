@@ -929,6 +929,7 @@ If in the test file, visit source."
               (notmuch-search-next-thread))
           (notmuch-show-tag change))))
 
+    (bind-key "RET" 'goto-address-at-point goto-address-highlight-keymap)
     (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
     (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
     (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map)))
