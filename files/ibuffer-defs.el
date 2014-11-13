@@ -46,9 +46,7 @@
           ("Langs"
            (or (predicate
                 .
-                (let ((bfn (buffer-file-name (current-buffer))))
-                  (when bfn
-                    (string-match-p "d:/languages" bfn))))))
+                (--when-let (buffer-file-name) (string-match-p "/home/matus/languages/")))))
           ("Images"
            (or (mode . image-dired-display-image-mode)
                (mode . image-dired-thumbnail-mode)
