@@ -947,7 +947,7 @@ If in the test file, visit source."
   :init
   (progn
     (when (equal (my-where-am-i) "logio")
-      (setq-default org-agenda-files (list "~/logio/logio.org"))))
+      (defvar org-agenda-files (list "~/logio/logio.org"))))
   :config
   (progn
     (load "files/org-defs.el")))
