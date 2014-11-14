@@ -929,6 +929,7 @@ If in the test file, visit source."
               (notmuch-search-next-thread))
           (notmuch-show-tag change))))
 
+    (bind-key "RET" 'goto-address-at-point goto-address-highlight-keymap)
     (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
     (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
     (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map)))
@@ -946,7 +947,7 @@ If in the test file, visit source."
   :init
   (progn
     (when (equal (my-where-am-i) "logio")
-      (setq-default org-agenda-files (list "~/logio/logio.org"))))
+      (defvar org-agenda-files (list "~/logio/logio.org"))))
   :config
   (progn
     (load "files/org-defs.el")))
