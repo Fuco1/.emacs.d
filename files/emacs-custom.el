@@ -126,7 +126,7 @@
  '(global-flex-isearch-mode t)
  '(global-undo-tree-mode t)
  '(gnus-alias-default-identity "goljer")
- '(gnus-alias-identity-alist (quote (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" "" (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent")) "" "~/.signature") ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" "" (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent")) "" "~/.signature") ("logio" "" "Matúš Goljer <goljer@logio.cz>" "" (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent")) "" "~/.signature"))))
+ '(gnus-alias-identity-alist (quote (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" "" (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent")) "" "~/.signature") ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" "" (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent")) "" "~/.signature") ("logio" "" "Matúš Goljer <goljer@logio.cz>" "" (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent")) "" "~/.signature-logio"))))
  '(gnus-alias-identity-rules (quote (("logio-to-header" ("to" ".*logio.*" both) "logio"))))
  '(google-this-keybind "\"g\"")
  '(guide-key-mode t)
