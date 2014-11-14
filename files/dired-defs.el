@@ -83,7 +83,7 @@ Also used for highlighting.")
     (dired-rainbow-define html "#4e9a06" ("htm" "html" "xhtml"))
     (dired-rainbow-define xml "DarkGreen" ("xml" "xsd" "xsl" "xslt" "wsdl"))
 
-    (dired-rainbow-define document "#fce94f" ("doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu"))
+    (dired-rainbow-define document "#fce94f" ("doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub"))
     (dired-rainbow-define media "#ce5c00" my-dired-media-files-extensions)
     (dired-rainbow-define image "#ff4b4b" ("jpg" "png" "jpeg" "gif"))
 
