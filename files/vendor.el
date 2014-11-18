@@ -944,12 +944,12 @@ If in the test file, visit source."
           ("C-c C-x C-j" . org-clock-goto)
           ("C-c C-x C-o" . org-clock-out)
           ("C-c C-x <C-i-key>" . org-clock-in))
-  :init
-  (progn
-    (when (equal (my-where-am-i) "logio")
-      (defvar org-agenda-files (list "~/logio/logio.org"))))
   :config
   (progn
+    (when (equal (my-where-am-i) "logio")
+      ;; HACK: let's pretend we don't use customize
+      (put 'org-agenda-files 'custom-type nil)
+      (setq org-agenda-files (list "~/logio/logio.org")))
     (load "files/org-defs.el")))
 
 (use-package php-mode
