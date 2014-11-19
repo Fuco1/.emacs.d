@@ -579,8 +579,15 @@ idle timer to do the actual update.")
     (define-key google-this-mode-submap "c" 'google-translate-query-or-region)
     (bind-key "C-x g" google-this-mode-submap)))
 
+(use-package grep
+  :bind (("<f7> <f7>" . find-grep)))
+
 (use-package guide-key
   :diminish guide-key-mode)
+
+(use-package find-dired
+  :bind (("<f7> <f8>" . find-dired)
+         ("<f7> <f9>" . find-grep-dired)))
 
 (use-package free-keys
   :commands free-keys)
@@ -875,7 +882,8 @@ If in the test file, visit source."
     (autoload #'my-notmuch-unread "notmuch" nil t)
     (autoload #'my-notmuch-inbox "notmuch" nil t)
     (bind-key "C-. C-u" 'my-notmuch-unread)
-    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox))
+    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox)
+    (bind-key "C-. C-a" 'my-notmuch-archived))
   :idle
   (progn
     (defun my-notmuch-update-mail ()
@@ -918,6 +926,11 @@ If in the test file, visit source."
       (interactive)
       (notmuch-search "tag:inbox"))
 
+    (defun my-notmuch-archived ()
+      "Display buffer with archived mail."
+      (interactive)
+      (notmuch-search "tag:archived"))
+
     (defun my-notmuch-delete-mail (&optional beg end)
       (interactive (if (use-region-p)
                        (list (region-beginning) (region-end))
@@ -944,12 +957,12 @@ If in the test file, visit source."
           ("C-c C-x C-j" . org-clock-goto)
           ("C-c C-x C-o" . org-clock-out)
           ("C-c C-x <C-i-key>" . org-clock-in))
-  :init
-  (progn
-    (when (equal (my-where-am-i) "logio")
-      (defvar org-agenda-files (list "~/logio/logio.org"))))
   :config
   (progn
+    (when (equal (my-where-am-i) "logio")
+      ;; HACK: let's pretend we don't use customize
+      (put 'org-agenda-files 'custom-type nil)
+      (setq org-agenda-files (list "~/logio/logio.org")))
     (load "files/org-defs.el")))
 
 (use-package php-mode
