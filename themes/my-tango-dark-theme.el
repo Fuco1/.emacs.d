@@ -135,10 +135,12 @@ is extension of default `tango-dark' face.")
    ;; Highlighting faces
    (fringe (:background alum-7))
    (highlight (:foreground alum-6 :background butter-2))
+   (isearch (:foreground alum-1 :background orange-3))
+   (italic (:slant italic))
+   (lazy-highlight (:background choc-3))
    (region (:background alum-5))
    (secondary-selection (:background blue-3))
-   (isearch (:foreground alum-1 :background orange-3))
-   (lazy-highlight (:background choc-3))
+   (shadow (:foreground alum-4))
    (trailing-whitespace (:background red-3))
 
    ;; Mode line faces
@@ -174,6 +176,8 @@ is extension of default `tango-dark' face.")
    ;; Button and link faces
    (link (:underline t :foreground blue-1))
    (link-visited (:underline t :foreground blue-2))
+   (w3m-anchor (:inherit link))
+   (w3m-arrived-anchor (:inherit link-visited))
 
    ;; Circe
    (circe-highlight-nick-face (:foreground red-1))
@@ -246,7 +250,7 @@ is extension of default `tango-dark' face.")
 
    ;; org-mode
    (org-table (:inherit fixed-pitch :foreground blue-0))
-   (org-block (:inherit (shadow fixed-sys)))
+   (org-block (:inherit (shadow fixed-pitch)))
    (org-block-background (:inherit fixed-pitch :background alum-6.5))
    (org-formula (:inherit fixed-pitch :foreground orange-2))
    (org-mode-line-clock nil t)
@@ -254,15 +258,21 @@ is extension of default `tango-dark' face.")
    (org-verbatim (:inherit org-code))
 
    ;; Random faces
+   (bmkp-local-directory (:inherit dired-directory))
    (dropdown-list-face (:inherit default :background choc-1 :foreground "black"))
-   (eshell-prompt (:foreground plum-2 :weight bold))
+   (eldoc-highlight-function-argument (:inherit bold :foreground cham-3))
+   (eshell-prompt (:foreground cham-2 :weight bold))
    (fixed-pitch (:height ,fixed-sys-height :family ,fixed-sys))
+   (guide-key/key-face (:foreground cham-0))
+   (header-line (:inherit mode-line))
    (hl-line (:inherit nil :background alum-7))
-   (markdown-pre-face (:inherit font-lock-constant-face :family ,fixed-sys))
+   (indent-guide-face (:inherit paren-face))
    (markdown-inline-code-face (:inherit markdown-pre-face))
+   (markdown-pre-face (:inherit font-lock-constant-face :family ,fixed-sys))
    (paren-face (:foreground alum-4))
+   (sp-pair-overlay-face (:background blue-3 :foreground alum-1))
    (variable-pitch (:height 144 :family ,variable-font))
-   (sp-pair-overlay-face (:background blue-1 :foreground alum-7))
+   (wgrep-delete-face (:inherit font-lock-warning-face))
 
    ;; My special themes
    (my-reading-face (:background "#808000" :foreground "#000000")))
