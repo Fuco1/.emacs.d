@@ -466,7 +466,7 @@ replace any running timer."
   "The face used to highlight pair overlays.")
 
 (defface my-org-code
-  '((t (:family "Consolas" :inherit font-lock-constant-face)))
+  '((t (:inherit (fixed-pitch font-lock-constant-face))))
   "The face used to highlight pair overlays.")
 
 (defface my-org-math
