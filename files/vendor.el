@@ -579,8 +579,15 @@ idle timer to do the actual update.")
     (define-key google-this-mode-submap "c" 'google-translate-query-or-region)
     (bind-key "C-x g" google-this-mode-submap)))
 
+(use-package grep
+  :bind (("<f7> <f7>" . find-grep)))
+
 (use-package guide-key
   :diminish guide-key-mode)
+
+(use-package find-dired
+  :bind (("<f7> <f8>" . find-dired)
+         ("<f7> <f9>" . find-grep-dired)))
 
 (use-package free-keys
   :commands free-keys)
