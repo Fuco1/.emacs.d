@@ -882,7 +882,8 @@ If in the test file, visit source."
     (autoload #'my-notmuch-unread "notmuch" nil t)
     (autoload #'my-notmuch-inbox "notmuch" nil t)
     (bind-key "C-. C-u" 'my-notmuch-unread)
-    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox))
+    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox)
+    (bind-key "C-. C-a" 'my-notmuch-archived))
   :idle
   (progn
     (defun my-notmuch-update-mail ()
@@ -924,6 +925,11 @@ If in the test file, visit source."
       "Display buffer with inbox mail."
       (interactive)
       (notmuch-search "tag:inbox"))
+
+    (defun my-notmuch-archived ()
+      "Display buffer with archived mail."
+      (interactive)
+      (notmuch-search "tag:archived"))
 
     (defun my-notmuch-delete-mail (&optional beg end)
       (interactive (if (use-region-p)
