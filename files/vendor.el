@@ -580,7 +580,7 @@ idle timer to do the actual update.")
     (bind-key "C-x g" google-this-mode-submap)))
 
 (use-package grep
-  :bind (("<f7> <f7>" . find-grep)))
+  :bind (("<f7> <f7>" . rgrep)))
 
 (use-package guide-key
   :diminish guide-key-mode)
