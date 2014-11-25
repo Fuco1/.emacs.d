@@ -2,6 +2,9 @@
 ;; TODO: move keys to apropriate packages in vendor.el, only keep the
 ;; bare minimum here.
 
+;; We do not want to quit emacs, ever.
+(unbind-key "C-x C-c")
+
 ;; setting the PC keyboard's various keys to
 ;; Super or Hyper, or emacs running on Windows.
 (setq w32-pass-lwindow-to-system nil
