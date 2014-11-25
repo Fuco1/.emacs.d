@@ -331,6 +331,15 @@ message.")
       ("t" . my-custom-jump-to-toggle)
       ("i" . my-custom-jump-to-last-insert))))
 
+(use-package diff-mode
+  :config
+  (progn
+    (unbind-key "M-k" diff-mode-map)
+    (defun my-diff-mode-init ()
+      (setq buffer-display-table (make-display-table))
+      (aset buffer-display-table ?\^M []))
+    (add-hook 'diff-mode-hook 'my-diff-mode-init)))
+
 ;; see commentary in dired-defs.el
 (use-package dired
   :mode ("\\.wdired\\'" . my-virtual-dired-mode)
@@ -503,7 +512,8 @@ idle timer to do the actual update.")
          ("C-x C-2" . elwm-split-window))
   :init
   (progn
-    (add-hook 'dired-mode-hook (lambda () (bind-key "M-o" 'elwm-activate-window dired-mode-map)))))
+    (add-hook 'dired-mode-hook (lambda () (bind-key "M-o" 'elwm-activate-window dired-mode-map)))
+    (add-hook 'diff-mode-hook (lambda () (bind-key "M-o" 'elwm-activate-window diff-mode-map)))))
 
 (use-package emmet-mode
   :defer t
