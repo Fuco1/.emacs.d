@@ -979,6 +979,12 @@ If in the test file, visit source."
   :mode ("\\.php\\'" . php-mode)
   :config
   (progn
+    (use-package better-jump)
+    (defun my-php-jump-to-variable ()
+      "Jump to a variable in the selected window."
+      (interactive)
+      (bjump-jump ?$))
+    (bind-key "C-$" 'my-php-jump-to-variable php-mode-map)
     (unbind-key "C-." php-mode-map)
     (defun my-php-mode-init ()
       (c-set-style "php")
