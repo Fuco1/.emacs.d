@@ -288,6 +288,9 @@ message.")
 (use-package clippy
   :commands clippy-describe-function)
 
+(use-package conf-mode
+  :mode (("\\.pwm\\'" . conf-mode)))
+
 (use-package css-mode
   :defer t
   :config
