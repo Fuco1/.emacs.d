@@ -7,7 +7,7 @@
  '("%b ; %*"
    (:eval (when (buffer-file-name)
             (concat " ; "
-                    (my-abbreviate-file-name default-directory (buffer-name)))))
+                    (my-mode-line-construct-path (buffer-file-name) (buffer-name)))))
    " - Emacs"))
 
 ;; set line format
@@ -42,12 +42,12 @@
    ;; Path to the file in buffer. If it doesn't have associated file,
    ;; display nothing.
    (:propertize (:eval
-                 (when buffer-file-name
-                   (my-abbreviate-file-name default-directory (buffer-name))))
+                 (when (buffer-file-name)
+                   (my-mode-line-construct-path (buffer-file-name) (buffer-name))))
     face mode-line-secondary)
 
    ;; buffer name
-   (:propertize (:eval (buffer-name)) face mode-line-buffer-id)
+   (:propertize (:eval (my-mode-line-apply-substitutions (buffer-name))) face mode-line-buffer-id)
 
    ;; activated modes
    "    %[("
@@ -87,35 +87,18 @@
     ("/var/www/html/agrocs/" . "AGROCS|"))
   "An alist defining translations of paths to shortcuts.")
 
-(defun my-abbreviate-file-name-local (directory buffer-name)
-  "Shorten the local DIRECTORY according to `my-abbrev-file-name-alist'."
+(defun my-mode-line-apply-substitutions (string)
   (save-match-data
     (-each my-abbrev-file-name-alist
       (-lambda ((from . to))
-        (when (string-match from directory)
-          (setq directory (replace-match to nil nil directory))))))
-  (s-chop-suffixes
-   (reverse (--map (concat it "/") (s-split "/" buffer-name)))
-   directory))
+        (when (string-match from string)
+          (setq string (replace-match to nil nil string))))))
+  string)
 
-(defun my-abbreviate-file-name-tramp (directory buffer-name)
-  "Shorten the remote DIRECTORY according to `my-abbrev-file-name-alist'."
-  (let* ((tramp-data (tramp-dissect-file-name directory))
-         (method (elt tramp-data 0))
-         (user (elt tramp-data 1))
-         (server (elt tramp-data 2))
-         (directory (elt tramp-data 3))
-         (short-dir (my-abbreviate-file-name-local directory buffer-name))
-         (server-string (if user (format "%s@%s" user server) server)))
-    (let ((fn (format "%s://%s:%s" method server-string short-dir)))
-      (if (s-ends-with-p "/" fn) fn (concat fn "/")))))
-
-(defun my-abbreviate-file-name (directory buffer-name)
-  "Shorten the DIRECTORY according to `my-abbrev-file-name-alist'."
-  (if (or (not (featurep 'tramp))
-          (not (tramp-tramp-file-p directory)))
-      (my-abbreviate-file-name-local directory buffer-name)
-    (my-abbreviate-file-name-tramp directory buffer-name)))
+(defun my-mode-line-construct-path (buffer-file-name buffer-name)
+  (let* ((buffer-file-name (my-mode-line-apply-substitutions buffer-file-name))
+         (buffer-name (my-mode-line-apply-substitutions buffer-name)))
+    (s-chop-suffix buffer-name buffer-file-name)))
 
 (defvar minimal-mode-line-background "darkred"
   "Background colour for active mode line face when minimal minor
