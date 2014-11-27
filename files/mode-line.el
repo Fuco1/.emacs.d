@@ -84,7 +84,11 @@
     ("~/dev/tex/fic/" . "FIC|")
     ("~/.emacs.d/elpa/" . "ELPA|")
     ("~/.emacs.d/" . "ED|")
-    ("/var/www/html/agrocs/" . "AGROCS|"))
+    ("/var/www/html/agrocs/" . "AGROCS|")
+    ("/var/www/html/devel" . "WEBD|")
+    ("/var/www/html/" . "WEB|")
+    ("/modules/source/" . "|MOD-S|")
+    ("/specific/source/" . "|SP-S|"))
   "An alist defining translations of paths to shortcuts.")
 
 (defun my-mode-line-apply-substitutions (string)
