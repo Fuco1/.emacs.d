@@ -85,7 +85,7 @@
     ("~/.emacs.d/elpa/" . "ELPA|")
     ("~/.emacs.d/" . "ED|")
     ("/var/www/html/agrocs/" . "AGROCS|")
-    ("/var/www/html/devel" . "WEBD|")
+    ("/var/www/html/devel/" . "WEBD|")
     ("/var/www/html/" . "WEB|")
     ("/modules/source/" . "|MOD-S|")
     ("/specific/source/" . "|SP-S|"))
@@ -96,6 +96,8 @@
     (-each my-abbrev-file-name-alist
       (-lambda ((from . to))
         (when (string-match from string)
+          (setq string (replace-match to nil nil string)))
+        (when (string-match (concat "|" (substring from 1)) string)
           (setq string (replace-match to nil nil string))))))
   string)
 
