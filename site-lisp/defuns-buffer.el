@@ -61,7 +61,9 @@ might be bad."
                                  text-mode
                                  fundamental-mode))
         (untabify-buffer))
-      (unless (memq major-mode '(snippet-mode))
+      (when (or (called-interactively-p)
+                (and (not (memq major-mode '(snippet-mode)))
+                     (not (s-matches? "/var/www/html/" default-directory))))
         (delete-trailing-whitespace))
       (set-buffer-file-coding-system 'utf-8))))
 
