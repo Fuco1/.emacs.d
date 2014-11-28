@@ -1215,6 +1215,12 @@ The current directory is assumed to be the project's root otherwise."
 (use-package wiktionary-translate
   :bind ("<insert>" . wd-show-translation))
 
+(use-package windmove
+  :bind (("A-C-p" . windmove-up)
+         ("A-C-;" . windmove-down)
+         ("A-C-l" . windmove-left)
+         ("A-C-'" . windmove-right)))
+
 (use-package world-time-mode
   :bind ("C-. t" . world-time-list))
 
