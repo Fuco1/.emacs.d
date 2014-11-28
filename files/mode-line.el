@@ -79,8 +79,8 @@
 
 (defvar my-abbrev-file-name-alist
   `((,abbreviated-home-dir . "~/")
-    ("^~/languages/" . "L|")
-    ("^/usr/local/share/emacs/24.3/lisp/" . "E|")
+    ("~/languages/" . "L|")
+    ("/usr/local/share/emacs/24.3/lisp/" . "E|")
     ("~/dev/tex/fic/" . "FIC|")
     ("~/.emacs.d/elpa/" . "ELPA|")
     ("~/.emacs.d/" . "ED|")
