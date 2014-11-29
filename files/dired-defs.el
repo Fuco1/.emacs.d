@@ -253,6 +253,16 @@ Also used for highlighting.")
   (eval `(defadvice ,it (after revert-buffer activate)
            (revert-buffer))))
 
+(defadvice wdired-change-to-wdired-mode (around do-not-fuck-with-the-revert-function activate)
+  (let ((revert-function revert-buffer-function))
+    ad-do-it
+    (setq revert-buffer-function revert-function)))
+
+(defadvice wdired-change-to-dired-mode (around do-not-fuck-with-the-revert-function activate)
+  (let ((revert-function revert-buffer-function))
+    ad-do-it
+    (setq revert-buffer-function revert-function)))
+
 (defun my-format-available-space ()
   (save-excursion
     (goto-char (point-min))
