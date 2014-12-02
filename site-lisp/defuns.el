@@ -381,6 +381,13 @@ With non-nil prefix argument, ask for LANGUAGE."
     (kill-buffer buf)
     (kill-new (if language (concat url "?" language) url))))
 
+(defun my-update-mpd ()
+  "Update the mpd database using the common parent of current dired listing."
+  (interactive)
+  (start-process "mpc" nil
+                 "mpc" "update" (s-chop-prefix (f-canonical (concat dired-list-mpc-music-directory "/"))
+                                               (f-common-parent (dired-utils-get-all-files)))))
+
 (defun my-shuffle-things (thing beg end)
   (goto-char beg)
   (let ((cur (cons 0 beg))
