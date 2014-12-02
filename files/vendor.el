@@ -386,6 +386,9 @@ message.")
     ;; overload to fix bullshit
     (defun dired-hack-local-variables () nil)))
 
+(use-package dired-list
+  :bind (("<f7> <f8>" . dired-list-find-file)))
+
 (use-package dired-tagsistant
   :pre-init
   (bind-keys :prefix-map ctl-x-t-map
