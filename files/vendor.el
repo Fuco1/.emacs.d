@@ -1018,9 +1018,15 @@ If in the test file, visit source."
       (bjump-jump ?$))
     (bind-key "C-$" 'my-php-jump-to-variable php-mode-map)
     (unbind-key "C-." php-mode-map)
+    (defun my-php-eldoc-function ()
+      (unless (php-eldoc-function)
+        (unless (and (featurep 'tramp)
+                     (tramp-file-name-p (buffer-file-name)))
+          (ggtags-eldoc-function))))
     (defun my-php-mode-init ()
       (c-set-style "php")
-      (php-eldoc-enable))
+      (setq-local eldoc-documentation-function 'my-php-eldoc-function)
+      (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
 
 (use-package popwin
