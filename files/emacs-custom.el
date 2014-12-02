@@ -123,6 +123,8 @@
  '(free-keys-ignored-bindings (quote (("s" . "pnPNjkhl1234567890qwerb") ("A" . "1234567890qwer,.[]=c"))))
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
+ '(ggtags-auto-jump-to-match nil)
+ '(ggtags-enable-navigation-keys nil)
  '(global-flex-isearch-mode t)
  '(global-undo-tree-mode t)
  '(gnus-alias-default-identity "goljer")

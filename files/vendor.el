@@ -534,6 +534,30 @@ idle timer to do the actual update.")
 (use-package expand-region
   :bind ("s-'" . er/expand-region))
 
+(use-package ggtags-mode
+  :bind (("M-'" . ggtags-find-tag-dwim))
+  :config
+  (progn
+    (unbind-key "M-o" ggtags-navigation-map)
+    (unbind-key "M-." ggtags-mode-map)
+    (defun my-ggtags-navigation-next-file (n)
+      (interactive "p")
+      (ggtags-ensure-global-buffer
+        (compilation-next-file n)
+        (ggtags-global-next-error-function)))
+    (defun my-ggtags-navigation-previous-file (n)
+      (interactive "p")
+      (my-ggtags-navigation-next-file (- n)))
+    (bind-keys :map ggtags-navigation-map
+      ("n" . my-ggtags-navigation-next-file)
+      ("p" . my-ggtags-navigation-previous-file)
+      ("RET" . compile-goto-error)
+      ("<return>" . compile-goto-error)
+      ("q" . ggtags-navigation-mode-done))
+    (defun my-ggtags-global-mode-init ()
+      (visible-mode 1))
+    (add-hook 'ggtags-global-mode-hook 'my-ggtags-global-mode-init)))
+
 ;; disable for now and write a better, cleaner solution WITHOUT using
 ;; the idiotic hooks
 (use-package golden-ratio
