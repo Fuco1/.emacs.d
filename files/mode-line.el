@@ -77,32 +77,9 @@
   '((t (:inherit font-lock-warning-face :weight normal)))
   "Face used for modified status in mode line.")
 
-(defvar my-abbrev-file-name-alist
-  `((,abbreviated-home-dir . "~/")
-    ("~/languages/" . "L|")
-    ("/usr/local/share/emacs/24.3/lisp/" . "E|")
-    ("~/dev/tex/fic/" . "FIC|")
-    ("~/.emacs.d/elpa/" . "ELPA|")
-    ("~/.emacs.d/" . "ED|")
-    ("/var/www/html/devel/" . "WEBD|")
-    ("/var/www/html/" . "WEB|")
-    ("/modules/source/" . "|MOD-S|")
-    ("/specific/source/" . "|SP-S|"))
-  "An alist defining translations of paths to shortcuts.")
-
-(defun my-mode-line-apply-substitutions (string)
-  (save-match-data
-    (-each my-abbrev-file-name-alist
-      (-lambda ((from . to))
-        (when (string-match from string)
-          (setq string (replace-match to nil nil string)))
-        (when (string-match (concat "|" (substring from 1)) string)
-          (setq string (replace-match to nil nil string))))))
-  string)
-
 (defun my-mode-line-construct-path (buffer-file-name buffer-name)
-  (let* ((buffer-file-name (my-mode-line-apply-substitutions buffer-file-name))
-         (buffer-name (my-mode-line-apply-substitutions buffer-name)))
+  (let* ((buffer-file-name (my-abbrev-file-name buffer-file-name))
+         (buffer-name (my-abbrev-file-name buffer-name)))
     (s-chop-suffix buffer-name buffer-file-name)))
 
 (defvar minimal-mode-line-background "darkred"

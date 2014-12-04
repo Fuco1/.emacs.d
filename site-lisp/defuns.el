@@ -429,6 +429,29 @@ With non-nil prefix argument, ask for LANGUAGE."
   (interactive "r")
   (my-shuffle-things 'word beg end))
 
+(defvar my-abbrev-file-name-alist
+  `((,abbreviated-home-dir . "~/")
+    ("~/languages/" . "L|")
+    ("/usr/local/share/emacs/24.3/lisp/" . "E|")
+    ("~/dev/tex/fic/" . "FIC|")
+    ("~/.emacs.d/elpa/" . "ELPA|")
+    ("~/.emacs.d/" . "ED|")
+    ("/var/www/html/devel/" . "WEBD|")
+    ("/var/www/html/" . "WEB|")
+    ("/modules/source/" . "|MOD-S|")
+    ("/specific/source/" . "|SP-S|"))
+  "An alist defining translations of paths to shortcuts.")
+
+(defun my-abbrev-file-name (string)
+  (save-match-data
+    (-each my-abbrev-file-name-alist
+      (-lambda ((from . to))
+        (when (string-match from string)
+          (setq string (replace-match to nil nil string)))
+        (when (string-match (concat "|" (substring from 1)) string)
+          (setq string (replace-match to nil nil string))))))
+  string)
+
 (defvar my-status-line-format
   '((:eval (and (featurep 'tracking)
                 (let* ((shortened (tracking-shorten tracking-buffers))
