@@ -1012,6 +1012,7 @@ If in the test file, visit source."
   :config
   (progn
     (use-package better-jump)
+    (use-package php-eldoc)
     (defun my-php-jump-to-variable ()
       "Jump to a variable in the selected window."
       (interactive)
@@ -1019,10 +1020,10 @@ If in the test file, visit source."
     (bind-key "C-$" 'my-php-jump-to-variable php-mode-map)
     (unbind-key "C-." php-mode-map)
     (defun my-php-eldoc-function ()
-      (unless (php-eldoc-function)
-        (unless (and (featurep 'tramp)
-                     (tramp-file-name-p (buffer-file-name)))
-          (ggtags-eldoc-function))))
+      (or (php-eldoc-function)
+          (unless (and (featurep 'tramp)
+                       (tramp-tramp-file-p (buffer-file-name)))
+            (ggtags-eldoc-function))))
     (defun my-php-mode-init ()
       (c-set-style "php")
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
