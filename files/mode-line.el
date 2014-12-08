@@ -47,7 +47,7 @@
     face mode-line-secondary)
 
    ;; buffer name
-   (:propertize (:eval (my-mode-line-apply-substitutions (buffer-name))) face mode-line-buffer-id)
+   (:propertize (:eval (my-abbrev-file-name (buffer-name))) face mode-line-buffer-id)
 
    ;; activated modes
    "    %[("
