@@ -122,7 +122,7 @@ is extension of default `tango-dark' face.")
 
 (let ((fixed-sys (if (eq system-type 'windows-nt) "Consolas" "Inconsolata"))
       (fixed-sys-height (if (eq system-type 'windows-nt) 100 120))
-      (variable-font (if (eq system-type 'windows-nt) "Verdana" "Droid Sans")))
+      (variable-font (if (eq system-type 'windows-nt) "Verdana" "Source Sans Pro")))
   (my-tango-theme-set-faces
    'my-tango-dark
    (default (:foreground alum-1
