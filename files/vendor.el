@@ -672,8 +672,9 @@ idle timer to do the actual update.")
     (bind-keys
      ("<f8>" . helm-occur)
      ("C-'" . helm-buffers-list)
-     ("M-x" . helm-M-x)
-     ("C-. k" . helm-show-kill-ring))
+     ("M-x" . helm-M-x))
+    (bind-keys :map ctl-dot-prefix-map
+      ("k" . helm-show-kill-ring))
     (use-package helm-gtags
       :bind (("M-'" . helm-gtags-dwim)))))
 
@@ -933,9 +934,10 @@ If in the test file, visit source."
   (progn
     (autoload #'my-notmuch-unread "notmuch" nil t)
     (autoload #'my-notmuch-inbox "notmuch" nil t)
-    (bind-key "C-. C-u" 'my-notmuch-unread)
-    (bind-key "C-. <C-i-key>" 'my-notmuch-inbox)
-    (bind-key "C-. C-a" 'my-notmuch-archived))
+    (bind-keys :map ctl-dot-prefix-map
+      ("C-u" . my-notmuch-unread)
+      ("<C-i-key>" . my-notmuch-inbox)
+      ("C-a" . my-notmuch-archived)))
   :idle
   (progn
     (defun my-notmuch-update-mail ()
