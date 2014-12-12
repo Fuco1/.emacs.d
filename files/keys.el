@@ -53,7 +53,6 @@
            ("A-s" . my-find-file-sudo))
 
 ;; Indenting and alignment
-(bind-key "<f8>" 'align-regexp)
 (bind-key "C-<f8>" 'indent-buffer)
 (bind-key "C-<tab>" 'indent-defun)
 
@@ -230,7 +229,8 @@
   ("z" . my-insert-no-move)
   ("-" . macrostep-expand)
   ("0" . my-kill-pp-eval-expression-window)
-  ("s" . my-sprunge))
+  ("s" . my-sprunge)
+  ("r" . align-regexp))
 
 (bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
 
