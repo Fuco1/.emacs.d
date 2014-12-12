@@ -66,7 +66,7 @@
  '(cua-enable-cua-keys nil)
  '(cursor-color "#839496")
  '(custom-enabled-themes (quote (my-tango-dark)))
- '(custom-safe-themes (quote ("9eca301589e8e2fba9dc9d7893054616b3919813ba57c3233dc3d778fa89b0d7" default)))
+ '(custom-safe-themes (quote ("72923b24d97069690fdaee32ac5eff73709e4f00d0989f6e9e3c4a040d9f40a2" "9eca301589e8e2fba9dc9d7893054616b3919813ba57c3233dc3d778fa89b0d7" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)

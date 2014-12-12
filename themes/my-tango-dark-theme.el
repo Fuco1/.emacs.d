@@ -257,6 +257,9 @@ is extension of default `tango-dark' face.")
    (org-table (:inherit fixed-pitch :foreground blue-0))
    (org-verbatim (:inherit org-code))
 
+   ;; Helm
+   (helm-buffer-directory (:inherit ido-subdir))
+
    ;; Random faces
    (bmkp-local-directory (:inherit dired-directory))
    (dropdown-list-face (:inherit default :background choc-1 :foreground "black"))

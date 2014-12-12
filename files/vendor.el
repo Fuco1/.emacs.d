@@ -665,6 +665,9 @@ idle timer to do the actual update.")
 
     (add-hook 'haskell-mode-hook 'my-haskell-init)))
 
+(use-package helm
+  :bind (("<C-M-f2>" . helm-occur)))
+
 (use-package help-mode
   :defer t
   :config
