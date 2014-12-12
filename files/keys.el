@@ -36,9 +36,6 @@
   ("p" . occur-prev)
   ("o" . occur-mode-display-occurrence))
 
-;; is this safe binding?
-(bind-key "C-'" 'repeat)
-
 ;; refresh-like
 (bind-key "M-<f5>" '(lambda () (interactive) (load-file (buffer-file-name))))
 ;; TODO: gather all `universal-argument' bindings somewhere on one place
@@ -67,7 +64,7 @@
 
 ;; ibuffer > list-buffers
 (bind-key "C-x C-b" 'ibuffer)
-(bind-key "C-'" 'ido-switch-buffer)
+;; (bind-key "C-'" 'ido-switch-buffer) ;replaced by helm-buffer-list temporarily
 
 ;; buffer cleanup
 (bind-key "C-c u" 'cleanup-buffer)
@@ -222,7 +219,7 @@
   ("p r" . elp-results)
   ("p R" . elp-restore-all)
   ("c" . create-scratch-buffer)
-  ("k" . browse-kill-ring)
+  ;; ("k" . browse-kill-ring) ;use helm
   ("m s" . kmacro-set-counter)
   ("m a" . kmacro-add-counter)
   ("m f" . kmacro-set-format)

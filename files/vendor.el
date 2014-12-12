@@ -535,6 +535,7 @@ idle timer to do the actual update.")
   :bind ("s-'" . er/expand-region))
 
 (use-package ggtags-mode
+  :disabled t ;disabled in favour of helm-gtags
   :bind (("M-'" . ggtags-find-tag-dwim))
   :config
   (progn
@@ -666,7 +667,15 @@ idle timer to do the actual update.")
     (add-hook 'haskell-mode-hook 'my-haskell-init)))
 
 (use-package helm
-  :bind (("<C-M-f2>" . helm-occur)))
+  :init
+  (progn
+    (bind-keys
+     ("<f8>" . helm-occur)
+     ("C-'" . helm-buffers-list)
+     ("M-x" . helm-M-x)
+     ("C-. k" . helm-show-kill-ring))
+    (use-package helm-gtags
+      :bind (("M-'" . helm-gtags-dwim)))))
 
 (use-package help-mode
   :defer t
@@ -1122,6 +1131,7 @@ The current directory is assumed to be the project's root otherwise."
 
 (use-package smex
   :defer t
+  :disabled t ; disabled in favour of helm
   :init
   (progn
     (bind-key "M-x" 'beautify-smex)
