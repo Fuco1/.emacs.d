@@ -137,6 +137,8 @@
  '(guide-key/popup-window-position (quote bottom))
  '(guide-key/recursive-key-sequence-flag t)
  '(haskell-mode-hook (quote (turn-on-haskell-indentation turn-on-haskell-doc-mode)))
+ '(helm-buffer-max-length nil)
+ '(helm-candidate-number-limit 1000)
  '(helm-descbinds-mode t)
  '(history-length 3000)
  '(ibuffer-fontification-alist (quote ((10 buffer-read-only font-lock-constant-face) (15 (and buffer-file-name (string-match ibuffer-compressed-file-name-regexp buffer-file-name)) font-lock-doc-face) (20 (string-match "^*" (buffer-name)) font-lock-keyword-face) (25 (and (string-match "^ " (buffer-name)) (null buffer-file-name)) italic) (30 (memq major-mode ibuffer-help-buffer-modes) font-lock-comment-face) (35 (memq major-mode (quote (dired-mode sr-mode))) font-lock-function-name-face))))
