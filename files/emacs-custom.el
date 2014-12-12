@@ -344,7 +344,6 @@
  '(org-use-speed-commands t)
  '(pj-line-width 1100)
  '(preview-scale-function 1.5)
- '(projectile-global-mode t)
  '(projectile-globally-ignored-directories (quote (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "elpa")))
  '(projectile-project-root-files (quote (".dir-locals.el" ".projectile" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "rebar.config" "project.clj" "pom.xml" "build.sbt" "Gemfile" "Makefile")))
  '(rainbow-r-colors t)
