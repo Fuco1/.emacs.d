@@ -143,10 +143,7 @@ and indent next line according to mode."
 (defun my--point-in-comment ()
   "Determine if the point is inside a comment"
   (interactive)
-  (let ((face (plist-get (text-properties-at (point)) 'face)))
-    (when (not (listp face)) (setq face (list face)))
-    (or (memq 'font-lock-comment-face face)
-        (memq 'font-lock-comment-delimiter-face face))))
+  (nth 4 (syntax-ppss)))
 
 (defun my--back-to-indentation ()
   "Move to indentation respecting `visual-line-mode'."
