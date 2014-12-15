@@ -42,7 +42,19 @@ forward direction."
   "Call `newline' and autoindent according to the active mode."
   (interactive "p")
   (newline arg)
-  (indent-according-to-mode))
+  (indent-according-to-mode)
+  ;; mode-specific processing
+  (cond
+   ;; ((eq major-mode 'emacs-lisp-mode)) move my-emacs-lisp-open-line here
+   ((eq major-mode 'php-mode)
+    (cond
+     ((and (nth 4 (syntax-ppss))
+           (save-excursion
+             (forward-line -1)
+             (back-to-indentation)
+             (looking-at "\\*")))
+      (insert "* "))))))
+
 
 (defun my-open-line (&optional arg)
   "If point is before the beginning of \"code\", open new line,
