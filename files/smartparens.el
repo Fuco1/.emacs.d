@@ -164,3 +164,7 @@
     (save-excursion
       (backward-char 1)
       (looking-back "\\sw\\|\\s_\\|\\s'"))))
+
+(sp-with-modes '(php-mode)
+  (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
+                                             ("* ||\n[i]" "RET"))))
