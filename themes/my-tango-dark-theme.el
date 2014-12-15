@@ -259,6 +259,12 @@ is extension of default `tango-dark' face.")
 
    ;; Helm
    (helm-buffer-directory (:inherit ido-subdir))
+   (helm-source-header (:height 1.3 :family ,variable-font :weight bold :background ,blue-3))
+   (helm-selection (:underline t :background ,alum-7))
+   (helm-visible-mark (:background ,alum-5))
+   (helm-candidate-number (:background ,plum-3))
+   (helm-ff-directory (:inherit helm-buffer-directory))
+   (helm-ff-file (:inherit default))
 
    ;; Random faces
    (bmkp-local-directory (:inherit dired-directory))
