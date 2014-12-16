@@ -102,15 +102,17 @@
 
 ;; sort ido filelist by mtime instead of alphabetically
 (defun ido-sort-mtime ()
-  (setq ido-temp-list
-        (sort ido-temp-list
-              (lambda (a b)
-                (cond
-                 ((not (file-exists-p a)) nil)
-                 ((not (file-exists-p b)) nil)
-                 (t (time-less-p
-                     (sixth (file-attributes (concat ido-current-directory b)))
-                     (sixth (file-attributes (concat ido-current-directory a)))))))))
+  (unless (and (featurep 'tramp)
+               (tramp-tramp-file-p ido-current-directory))
+    (setq ido-temp-list
+          (sort ido-temp-list
+                (lambda (a b)
+                  (cond
+                   ((not (file-exists-p a)) nil)
+                   ((not (file-exists-p b)) nil)
+                   (t (time-less-p
+                       (sixth (file-attributes (concat ido-current-directory b)))
+                       (sixth (file-attributes (concat ido-current-directory a))))))))))
   (ido-to-end  ;; move . files to end (again)
    (--select (char-equal (string-to-char it) ?.) ido-temp-list))
   (when ido-show-dot-for-dired
