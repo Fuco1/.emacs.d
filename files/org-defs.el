@@ -372,6 +372,7 @@ current agenda view added to `org-tag-alist'."
 (use-package org-contacts)
 
 (use-package org-velocity
+  :disabled t ; in favour of helm
   :commands org-velocity
   :load-path "projects/org-velocity/"
   :init
@@ -503,7 +504,8 @@ replace any running timer."
   ("C-c M-`" . org-mark-ring-goto)
 
   ("C-c C-S-n" . my-org-add-sibling)
-  ("C-c C-n" . outline-next-visible-heading))
+  ("C-c C-n" . outline-next-visible-heading)
+  ("C-c s" . helm-org-in-buffer-search))
 (unbind-key "C-'" org-mode-map)
 
 (defun my-org-open-at-point (&optional arg)
