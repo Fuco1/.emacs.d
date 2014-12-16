@@ -669,12 +669,18 @@ idle timer to do the actual update.")
 (use-package helm
   :init
   (progn
+    (require 'helm-config)
+    (autoload 'helm-org-in-buffer-search "helm-org" nil t)
     (bind-keys
      ("<f8>" . helm-occur)
      ("C-'" . helm-buffers-list)
-     ("M-x" . helm-M-x))
+     ("M-x" . helm-M-x)
+     ("C-x C-f" . helm-find-files))
     (bind-keys :map ctl-dot-prefix-map
       ("k" . helm-show-kill-ring))
+    (bind-keys :map helm-command-map
+      ("o a" . helm-org-agenda-files-headings)
+      ("o h" . helm-org-in-buffer-headings))
     (use-package helm-gtags
       :bind (("M-'" . helm-gtags-dwim)))))
 
