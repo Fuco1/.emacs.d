@@ -674,7 +674,6 @@ idle timer to do the actual update.")
     (bind-keys
      ("<f8>" . helm-occur)
      ("C-'" . helm-buffers-list)
-     ("M-x" . helm-M-x)
      ("C-x C-f" . helm-find-files))
     (bind-keys :map ctl-dot-prefix-map
       ("k" . helm-show-kill-ring))
@@ -1139,7 +1138,6 @@ The current directory is assumed to be the project's root otherwise."
 
 (use-package smex
   :defer t
-  :disabled t ; disabled in favour of helm
   :init
   (progn
     (bind-key "M-x" 'beautify-smex)
