@@ -81,7 +81,7 @@ Also used for highlighting.")
   :init
   (progn
     (dired-rainbow-define html "#4e9a06" ("htm" "html" "xhtml"))
-    (dired-rainbow-define xml "DarkGreen" ("xml" "xsd" "xsl" "xslt" "wsdl"))
+    (dired-rainbow-define xml "#b4fa70" ("xml" "xsd" "xsl" "xslt" "wsdl"))
 
     (dired-rainbow-define document "#fce94f" ("doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub"))
     (dired-rainbow-define media "#ce5c00" my-dired-media-files-extensions)
