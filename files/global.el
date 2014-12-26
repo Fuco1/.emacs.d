@@ -57,3 +57,10 @@
 
 (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
+
+(defun my-try-smerge ()
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
+(add-hook 'find-file-hook 'my-try-smerge t)
