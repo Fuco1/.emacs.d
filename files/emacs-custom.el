@@ -126,6 +126,7 @@
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
  '(global-flex-isearch-mode t)
+ '(global-paren-face-mode t)
  '(global-undo-tree-mode t)
  '(gnus-alias-default-identity "goljer")
  '(gnus-alias-identity-alist (quote (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" "" (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent")) "" "~/.signature") ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" "" (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent")) "" "~/.signature") ("logio" "" "Matúš Goljer <goljer@logio.cz>" "" (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent")) "" "~/.signature-logio"))))

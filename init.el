@@ -23,7 +23,6 @@
   (load "~/.emacs.d/dev/dash.el/dash-functional")
   (load "~/.emacs.d/autoinstall")
 
-  (require 'parenface)
   (require 'uniquify)
   (require 'f)
   (require 's)

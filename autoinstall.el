@@ -40,7 +40,7 @@
     notmuch-unread
     org-plus-contrib
     ov
-    parenface
+    paren-face
     php-eldoc
     php-mode
     php-refactor-mode
