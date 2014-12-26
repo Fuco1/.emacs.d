@@ -335,6 +335,7 @@ message.")
       ("i" . my-custom-jump-to-last-insert))))
 
 (use-package diff-mode
+  :defer t
   :config
   (progn
     (unbind-key "M-k" diff-mode-map)
@@ -624,6 +625,7 @@ idle timer to do the actual update.")
   :bind (("<f7> <f7>" . rgrep)))
 
 (use-package guide-key
+  :defer t
   :diminish guide-key-mode)
 
 (use-package find-dired
@@ -667,6 +669,7 @@ idle timer to do the actual update.")
     (add-hook 'haskell-mode-hook 'my-haskell-init)))
 
 (use-package helm
+  :defer t
   :init
   (progn
     (require 'helm-config)
@@ -821,6 +824,7 @@ called, percentage usage and the command."
 
 (use-package malabar-mode
   :mode "\\.java\\'"
+  :disabled t
   :config
   (progn
     (semantic-mode 1)
@@ -942,6 +946,7 @@ If in the test file, visit source."
     (load "files/markdown-defs")))
 
 (use-package message
+  :defer t
   :init
   (progn
     (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
