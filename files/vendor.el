@@ -764,6 +764,15 @@ idle timer to do the actual update.")
              ""
              t ("-d" "cs_CZ" "-p" "/home/matus/.hunspell/personal.cs") nil utf-8)))))
 
+(use-package js-mode
+  :defer t
+  :config
+  (progn
+    (defun my-js-mode-init ()
+      (when (string-match "conkeror" (buffer-file-name))
+        (conkeror-minor-mode 1)))
+    (add-hook 'js-mode-hook 'my-js-mode-init)))
+
 (use-package jump-char
   :bind (("M-m" . jump-char-forward)))
 
