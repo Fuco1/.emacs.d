@@ -19,6 +19,7 @@
 
 (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
+        try-expand-all-abbrevs
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill
