@@ -30,3 +30,12 @@
           (progn (forward-char 1)
                  (just-one-space 0)
                  (backward-char 1)))))
+
+(defadvice transpose-words (before fix-eob activate)
+  (when (let ((str (buffer-substring-no-properties
+                    (point)
+                    (save-excursion
+                      (forward-word)
+                      (point)))))
+          (not (string-match-p "\\sw" str)))
+    (backward-word)))
