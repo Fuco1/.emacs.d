@@ -939,6 +939,22 @@ Switch projects and subprojects from NEXT back to TODO"
     (error
      (goto-char (point-max)))))
 
+(defun my-org-top-parent ()
+  "Go to the top parent of current heading."
+  (interactive)
+  (while (org-up-heading-safe)))
+
+(defun my-org-show-parent-context ()
+  "Show the entire tree of the top-most parent."
+  (interactive)
+  (save-excursion
+    (my-org-top-parent)
+    (org-show-subtree)
+    (save-restriction
+      (widen)
+      (org-narrow-to-subtree)
+      (org-cycle-hide-drawers t))))
+
 ;; TODO: breaks if we're adding the headline as last headline in the
 ;; file
 (defun my-org-add-sibling (&optional arg)
