@@ -33,6 +33,15 @@ Also used for highlighting.")
         (when m (dired-goto-file m))
         (set-buffer-modified-p buffer-modified)))
 
+    (defun my-dired-jump ()
+      (interactive)
+      (if (eq major-mode 'dired-mode)
+          (let ((file (dired-utils-get-filename)))
+            (dired (f-parent file))
+            (dired-utils-goto-line file))
+        (dired-jump)))
+    (bind-key "C-j" 'my-dired-jump ctl-x-map)
+
     (add-to-list 'dired-guess-shell-alist-user
                  (list (concat "\\."
                                (regexp-opt my-dired-media-files-extensions)
