@@ -64,3 +64,12 @@
     (when (re-search-forward "^<<<<<<< " nil t)
       (smerge-mode 1))))
 (add-hook 'find-file-hook 'my-try-smerge t)
+
+(defadvice display-message-or-buffer (before ansi-color activate)
+  "Process ANSI color codes in shell output."
+  (let ((buf (ad-get-arg 0)))
+    (when (and (bufferp buf)
+               (string= (buffer-name buf) "*Shell Command Output*"))
+      (require 'ansi-color)
+      (with-current-buffer buf
+        (ansi-color-apply-on-region (point-min) (point-max))))))
