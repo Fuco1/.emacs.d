@@ -281,3 +281,53 @@ Lisp function does not specify a special indentation."
            (funcall save-function)))
         (t
          (error "Mechanism %s not implemented" mech))))))
+
+;; Fix incorrectly returned default value when user simply hits RET
+;; without doing any selection
+(eval-after-load "ediff-util"
+  '(defun ediff-read-file-name (prompt default-dir default-file &optional no-dirs)
+     ;; hack default-dir if it is not set
+     (setq default-dir
+           (file-name-as-directory
+            (ediff-abbreviate-file-name
+             (expand-file-name (or default-dir
+                                   (and default-file
+                                        (file-name-directory default-file))
+                                   default-directory)))))
+
+     ;; strip the directory from default-file
+     (if default-file
+         (setq default-file (file-name-nondirectory default-file)))
+     (if (string= default-file "")
+         (setq default-file nil))
+
+     (let ((defaults (and (fboundp 'dired-dwim-target-defaults)
+                          (dired-dwim-target-defaults
+                           (and default-file (list default-file))
+                           default-dir)))
+           f)
+       (setq f (ediff-minibuffer-with-setup-hook
+                (lambda () (when defaults
+                             (setq minibuffer-default defaults)))
+                (read-file-name
+                 (format "%s%s "
+                         prompt
+                         (cond (default-file
+                                 (concat " (default " default-file "):"))
+                               (t (concat " (default " default-dir "):"))))
+                 default-dir
+                 nil ;; FUCO: WAS: (or default-file default-dir)
+                 t          ; must match, no-confirm
+                 (if default-file (file-name-directory default-file))
+                 )))
+       (setq f (expand-file-name f default-dir))
+       ;; If user entered a directory name, expand the default file in that
+       ;; directory.  This allows the user to enter a directory name for the
+       ;; B-file and diff against the default-file in that directory instead
+       ;; of a DIRED listing!
+       (if (and (file-directory-p f) default-file)
+           (setq f (expand-file-name
+                    (file-name-nondirectory default-file) f)))
+       (if (and no-dirs (file-directory-p f))
+           (error "File %s is a directory" f))
+       f)))
