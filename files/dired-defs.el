@@ -264,6 +264,42 @@ Also used for highlighting.")
   (eval `(defadvice ,it (after revert-buffer activate)
            (revert-buffer))))
 
+;; redefine from dired.el
+;; Do not only join filenames with space because there can be spaces in the paths.
+;; So we quote the files with space with ''
+(defun dired-copy-filename-as-kill (&optional arg)
+  "Copy names of marked (or next ARG) files into the kill ring.
+The names are separated by a space.
+With a zero prefix arg, use the absolute file name of each marked file.
+With \\[universal-argument], use the file name relative to the dired buffer's
+`default-directory'.  (This still may contain slashes if in a subdirectory.)
+
+If on a subdir headerline, use absolute subdirname instead;
+prefix arg and marked files are ignored in this case.
+
+You can then feed the file name(s) to other commands with \\[yank]."
+  (interactive "P")
+  (let ((string
+         (or (dired-get-subdir)
+             (mapconcat (lambda (filename)
+                          (if (string-match-p " " filename)
+                              (s-wrap filename "'" "'")
+                            filename))
+                        (if arg
+                            (cond ((zerop (prefix-numeric-value arg))
+                                   (dired-get-marked-files))
+                                  ((consp arg)
+                                   (dired-get-marked-files t))
+                                  (t
+                                   (dired-get-marked-files
+                    'no-dir (prefix-numeric-value arg))))
+                          (dired-get-marked-files 'no-dir))
+                        " "))))
+    (if (eq last-command 'kill-region)
+    (kill-append string nil)
+      (kill-new string))
+    (message "%s" string)))
+
 (defadvice wdired-change-to-wdired-mode (around do-not-fuck-with-the-revert-function activate)
   (let ((revert-function revert-buffer-function))
     ad-do-it
