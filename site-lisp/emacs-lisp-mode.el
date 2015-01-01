@@ -4,7 +4,7 @@
   (progn
     (defun my-emacs-lisp-init ()
       (bind-keys :map emacs-lisp-mode-map
-        ("RET" . my-emacs-lisp-open-line)
+        ("<return>" . my-emacs-lisp-open-line)
         ("C-M-;" . clippy-describe-function)
         ("C-. ." . my-describe-thing-in-buffer)
         ("C-x C-d l" . my-extract-to-let)
@@ -86,6 +86,7 @@ function on `my-emacs-lisp-open-line-list'."
           (indent-according-to-mode)
           (forward-line -1)
           (indent-according-to-mode))))
+    (put 'my-emacs-lisp-open-line 'delete-selection t)
 
     (defun my-describe-thing-in-buffer ()
       "Display the full documentation of FUNCTION (a symbol) in the help buffer."

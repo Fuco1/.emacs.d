@@ -300,6 +300,12 @@ message.")
       (emmet-mode 1))
     (add-hook 'css-mode-hook 'my-css-mode-setup)))
 
+(use-package "cua-base"
+  :defer t
+  :config
+  (progn
+    (define-key cua--region-keymap [remap my-emacs-lisp-open-line] 'cua-replace-region)))
+
 (use-package custom
   :pre-init
   (bind-keys :prefix "C-c c"
