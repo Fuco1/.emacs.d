@@ -1,9 +1,9 @@
 (server-start)
+(defconst emacs-start-time (current-time))
+
 (add-to-list 'load-path "~/.emacs.d/vendor/use-package/")
 (require 'use-package)
 (setq use-package-verbose t)
-
-(defconst emacs-start-time (current-time))
 
 ;; Emacs gurus don't need no stinking scroll bars & widgets
 (scroll-bar-mode -1)
