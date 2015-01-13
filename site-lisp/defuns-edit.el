@@ -52,8 +52,15 @@ forward direction."
            (save-excursion
              (forward-line -1)
              (back-to-indentation)
-             (looking-at "\\*")))
-      (insert "* "))))))
+             ;; TODO: simplify
+             (or (looking-at "\\*")
+                 (and (looking-at "/\\*\\*")
+                      (progn
+                        (forward-line)
+                        (back-to-indentation)
+                        (not (looking-at "*/")))))))
+      (insert "* ")
+      (indent-according-to-mode))))))
 
 
 (defun my-open-line (&optional arg)
