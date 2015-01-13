@@ -231,6 +231,27 @@ This is the opposite of fill-paragraph."
        ((equal (match-string 0) "-")
         (cl-decf depth))))))
 
+(defun my-opera-to-org-contact (target-buffer)
+  (let (name email)
+    (save-excursion
+      (re-search-forward "NAME=\\(.*?\\)$")
+      (setq name (match-string 1))
+      (re-search-forward "MAIL=\\(.*?\\)$")
+      (setq email (match-string 1)))
+    (with-current-buffer target-buffer
+      (insert (format "* %s
+  :PROPERTIES:
+  :EMAIL: %s
+  :END:
+" name email)))))
+
+(defun my-opera-to-org-contacts (target-buffer)
+  (interactive "BTarget buffer: ")
+  (setq target-buffer (get-buffer-create target-buffer))
+  (goto-char (point-min))
+  (while (search-forward "#CONTACT" nil t)
+    (my-opera-to-org-contact target-buffer)))
+
 (defun my-dired-insert-git-ls-files (path)
   (let* ((full-path (file-truename (concat path "/")))
          (default-directory full-path)
