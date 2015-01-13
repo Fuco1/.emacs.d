@@ -775,7 +775,7 @@ idle timer to do the actual update.")
   :config
   (progn
     (defun my-js-mode-init ()
-      (when (string-match "conkeror" (buffer-file-name))
+      (when (string-match-p "conkeror" (buffer-file-name))
         (conkeror-minor-mode 1)))
     (add-hook 'js-mode-hook 'my-js-mode-init)))
 
