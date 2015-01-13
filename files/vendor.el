@@ -1105,6 +1105,58 @@ If in the test file, visit source."
   :diminish projectile-mode
   :bind (("S-RET" . projectile-switch-to-buffer)))
 
+(use-package quail
+  :defer t
+  :config
+  (progn
+    (define-key quail-simple-translation-keymap (kbd "C-SPC") 'quail-select-current)
+    (define-key quail-simple-translation-keymap "\C-f" 'quail-next-translation)
+    (define-key quail-simple-translation-keymap "\C-b" 'quail-prev-translation)
+
+    (set-input-method "TeX")
+    (quail-define-rules
+     ((append . t))
+     ("\\Bbb{Q}" ?ℚ)
+     ("\\,a" ?ạ)
+     ("\\,b" ?ḅ)
+     ("\\,d" ?ḍ)
+     ("\\,e" ?ẹ)
+     ("\\,h" ?ḥ)
+     ("\\,i" ?ị)
+     ("\\,k" ?ḳ)
+     ("\\,l" ?ḷ)
+     ("\\,m" ?ṃ)
+     ("\\,n" ?ṇ)
+     ("\\,o" ?ọ)
+     ("\\,r" ?ṛ)
+     ("\\,s" ?ṣ)
+     ("\\,t" ?ṭ)
+     ("\\,u" ?ụ)
+     ("\\,v" ?ṿ)
+     ("\\,w" ?ẉ)
+     ("\\,y" ?ỵ)
+     ("\\,z" ?ẓ)
+     ("\\,A" ?Ạ)
+     ("\\,B" ?Ḅ)
+     ("\\,D" ?Ḍ)
+     ("\\,E" ?Ẹ)
+     ("\\,H" ?Ḥ)
+     ("\\,I" ?Ị)
+     ("\\,K" ?Ḳ)
+     ("\\,L" ?Ḷ)
+     ("\\,M" ?Ṃ)
+     ("\\,N" ?Ṇ)
+     ("\\,O" ?Ọ)
+     ("\\,R" ?Ṛ)
+     ("\\,S" ?Ṣ)
+     ("\\,T" ?Ṭ)
+     ("\\,U" ?Ụ)
+     ("\\,V" ?Ṿ)
+     ("\\,W" ?Ẉ)
+     ("\\,Y" ?Ỵ)
+     ("\\,Z" ?Ẓ))
+    (toggle-input-method)))
+
 (use-package revbufs
   :bind ("C-<f5>" . revbufs))
 
