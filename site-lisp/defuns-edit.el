@@ -149,8 +149,13 @@ and indent next line according to mode."
 
 (defun my--point-in-comment ()
   "Determine if the point is inside a comment"
-  (interactive)
-  (nth 4 (syntax-ppss)))
+  (or (sp-point-in-comment)
+      ;; TODO: add this into SP?
+      (let ((s (car (syntax-after (point)))))
+        (or (/= 0 (logand (lsh 1 16) s))
+            (/= 0 (logand (lsh 1 17) s))
+            (/= 0 (logand (lsh 1 18) s))
+            (/= 0 (logand (lsh 1 19) s))))))
 
 (defun my--back-to-indentation ()
   "Move to indentation respecting `visual-line-mode'."
