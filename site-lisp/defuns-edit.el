@@ -151,7 +151,7 @@ and indent next line according to mode."
   "Determine if the point is inside a comment"
   (or (sp-point-in-comment)
       ;; TODO: add this into SP?
-      (let ((s (car (syntax-after (point)))))
+      (-when-let (s (car (syntax-after (point))))
         (or (/= 0 (logand (lsh 1 16) s))
             (/= 0 (logand (lsh 1 17) s))
             (/= 0 (logand (lsh 1 18) s))
