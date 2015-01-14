@@ -167,5 +167,31 @@
 
 (sp-with-modes '(php-mode)
   (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
-                                             ("* ||\n[i]" "RET")))
+                                             (my-php-handle-docstring "RET")))
   (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
+
+(defun my-php-handle-docstring (&rest _ignored)
+  (-when-let (line (save-excursion
+                     (forward-line)
+                     (sp-get (sp-get-hybrid-sexp)
+                       (buffer-substring-no-properties :beg :end))))
+    (cond
+     ((string-match-p "function" line)
+      (save-excursion
+        (insert "\n")
+        (let (args)
+          (save-match-data
+            (with-temp-buffer
+              (insert line)
+              (goto-char (point-min))
+              (while (re-search-forward "\\(\\$.*?\\)[ \n\t,)]" nil t)
+                (push (match-string 1) args))))
+          (setq args (nreverse args))
+          (--each args
+            (insert (format "* @param %s\n" it)))))
+      (insert "* "))
+     ((string-match-p "class" line)
+      (save-excursion (insert "\n*\n* @author\n"))
+      (insert "* ")))
+    (let ((o (sp--get-active-overlay)))
+       (indent-region (overlay-start o) (overlay-end o)))))
