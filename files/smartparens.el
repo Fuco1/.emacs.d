@@ -173,16 +173,20 @@
 (defun my-php-handle-docstring (&rest _ignored)
   (-when-let (line (save-excursion
                      (forward-line)
-                     (sp-get (sp-get-hybrid-sexp)
-                       (buffer-substring-no-properties :beg :end))))
+                     (thing-at-point 'line)))
     (cond
      ((string-match-p "function" line)
       (save-excursion
         (insert "\n")
-        (let (args)
+        (let ((function-args (save-excursion
+                               (forward-line)
+                               (sp-down-sexp)
+                               (sp-get (sp-get-paired-expression)
+                                 (buffer-substring-no-properties :beg :end))))
+              (args nil))
           (save-match-data
             (with-temp-buffer
-              (insert line)
+              (insert function-args)
               (goto-char (point-min))
               (while (re-search-forward "\\(\\$.*?\\)[ \n\t,)]" nil t)
                 (push (match-string 1) args))))
@@ -194,4 +198,4 @@
       (save-excursion (insert "\n*\n* @author\n"))
       (insert "* ")))
     (let ((o (sp--get-active-overlay)))
-       (indent-region (overlay-start o) (overlay-end o)))))
+      (indent-region (overlay-start o) (overlay-end o)))))
