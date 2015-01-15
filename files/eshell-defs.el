@@ -1,3 +1,29 @@
+(defun my-eshell-send-input ()
+  "Same as `eshell-send-input' but with some extra handling.
+
+If the point is at a PHP trace line:
+
+    in <file name>:(<line>)
+
+pop to that buffer if it exists."
+  (interactive)
+  (cond
+   ((save-excursion
+      (back-to-indentation)
+      (looking-at "in \\(.+\\)(\\([0-9]+\\))"))
+    (let* ((file (match-string 1))
+           (line (match-string 2))
+           (possible-buffers
+            (--filter (string-match-p
+                       file
+                       (or (buffer-file-name it) ""))
+                      (buffer-list))))
+      (when (= 1 (length possible-buffers))
+        (pop-to-buffer (car possible-buffers))
+        (goto-line (string-to-int line)))))
+   (t (call-interactively 'eshell-send-input))))
+(bind-key [remap eshell-send-input] 'my-eshell-send-input eshell-mode-map)
+
 ;;;; git config
 (defun my--get-git-branches (&optional all)
   (let ((branches (-map 'car (magit-list-interesting-refs))))
