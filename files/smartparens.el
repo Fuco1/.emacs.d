@@ -189,7 +189,7 @@
             (with-temp-buffer
               (insert function-args)
               (goto-char (point-min))
-              (while (re-search-forward "\\(\\$.*?\\)[ \n\t,)]" nil t)
+              (while (re-search-forward "\\(&?\\$.*?\\)[ \n\t,)]" nil t)
                 (push (match-string 1) args))))
           (setq args (nreverse args))
           (--each args
