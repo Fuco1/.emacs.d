@@ -638,6 +638,9 @@ idle timer to do the actual update.")
   :bind (("<f7> <f8>" . find-dired)
          ("<f7> <f9>" . find-grep-dired)))
 
+(use-package fold-this
+  :bind (("C-c C-v f" . fold-this)))
+
 (use-package free-keys
   :commands free-keys)
 

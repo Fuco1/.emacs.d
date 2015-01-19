@@ -17,6 +17,7 @@
     f
     flx
     flx-ido
+    fold-this
     fuzzy-match
     google-this
     haskell-mode
