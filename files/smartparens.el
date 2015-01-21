@@ -195,7 +195,7 @@
           (--each args
             (insert (format "* @param %s\n" it)))))
       (insert "* "))
-     ((string-match-p "class" line)
+     ((string-match-p "class\\|interface" line)
       (save-excursion (insert "\n*\n* @author\n"))
       (insert "* ")))
     (let ((o (sp--get-active-overlay)))
