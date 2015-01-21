@@ -976,7 +976,11 @@ If in the test file, visit source."
       :init
       (progn
         (gnus-alias-init)
-        (bind-key "C-c i" 'gnus-alias-select-identity message-mode-map)))))
+        (bind-key "C-c i" 'gnus-alias-select-identity message-mode-map)
+        (defun my-message-gnus-alias-init ()
+          (when (equal (my-where-am-i) "logio")
+            (run-with-timer 0.2 nil (lambda () (gnus-alias-use-identity "logio")))))
+        (add-hook 'message-setup-hook 'my-message-gnus-alias-init)))))
 
 (use-package multi-web-mode
   :defer t
