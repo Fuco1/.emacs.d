@@ -9,23 +9,25 @@ BODY was executed"
   `(let ((kill-ring kill-ring))
      ,@body))
 
-(defmacro save-buffer-list (&rest forms)
+(defmacro my-save-buffer-list (&rest forms)
   "Execute FORMS while preserving the list of opened buffers.
 After the FORMS are executed, close all buffers that were not
-opened before.  This does not re-open closed buffers as that
-might often be impossible."
+opened before.
+
+Note that this macro does not reopen buffers closed during the
+execution of forms."
   (declare (indent 0))
   `(let ((old-buffer-list (buffer-list)))
      ,@forms
      (mapc (lambda (buffer)
-             (when (member buffer old-buffer-list)
+             (unless (member buffer old-buffer-list)
                (kill-buffer buffer)))
            (buffer-list))))
 
 ;; this is still broken :/
 (defmacro with-files-in-dir (directory &rest forms)
   (declare (indent 1))
-  `(save-buffer-list
+  `(my-save-buffer-list
      (save-excursion
        (mapc (lambda (file)
                (find-file (concat ,directory "/" file))
@@ -59,7 +61,7 @@ might often be impossible."
 
 (defvar my-macro-names
   '(
-    "save-buffer-list"
+    "my-save-buffer-list"
     "save-kill-ring"
     "with-files-in-dir"
     "with-lines-narrow"
