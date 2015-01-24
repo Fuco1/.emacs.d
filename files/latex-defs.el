@@ -133,7 +133,6 @@ starting with \\ and followed by a block of text enclosed in {}."
       (setq reftex-plug-into-AUCTeX t)
       (reftex-mode t)
       (TeX-fold-mode t)
-      (keyadvice-mode t)
 
       (set (make-local-variable 'beginning-of-defun-function) 'my-latex-beginning-of-defun)
       (set (make-local-variable 'end-of-defun-function) 'my-latex-end-of-defun)
@@ -146,12 +145,4 @@ starting with \\ and followed by a block of text enclosed in {}."
 
       (message "LaTeX mode init complete."))
     ;; ACUTeX replaces latex-mode-hook with LaTeX-mode-hook
-    (add-hook 'LaTeX-mode-hook 'my-latex-mode-init)
-
-    (keyadvice-add-advice (kbd "`")
-      (if (and (eq major-mode 'latex-mode) (texmathp))
-          (let* ((events (let ((overriding-local-map LaTeX-math-keymap))
-                           (read-key-sequence "math: ")))
-                 (binding (lookup-key LaTeX-math-keymap events)))
-            (call-interactively binding))
-        keyadvice-do-it))))
+    (add-hook 'LaTeX-mode-hook 'my-latex-mode-init)))
