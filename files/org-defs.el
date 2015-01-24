@@ -910,6 +910,15 @@ Switch projects and subprojects from NEXT back to TODO"
         (forward-line -1)
         (org-table-align)))))
 
+(defun my-org-get-option (name)
+  (let ((re (org-make-options-regexp (list name))))
+    (save-excursion
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
+        (when (re-search-forward re nil t)
+          (org-match-string-no-properties 2))))))
+
 ;; TODO: scope agenda-files to "me" and "books"
 (defun my-org-export-read-books ()
   (interactive)
