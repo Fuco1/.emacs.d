@@ -552,3 +552,28 @@ With raw prefix \\[universal-argument] insert the word at point."
   (interactive "p")
   (delete-overlay my-insert-no-move-overlay)
   (setq my-insert-no-move-overlay nil))
+
+;; convert dashed->camelcase->upper camelcase->underscore
+(defvar my-change-identifier-style-last 's-dashed-words
+  "Last transformer used to change identifier style.")
+
+(defun my-change-identifier-style (beg end)
+  "Change identifier in region or under point.
+
+Cycle styles: dashed, lower camel case, upper camel case, snakecase."
+  (interactive (if (use-region-p)
+                   (list (region-beginning) (region-end))
+                 (-let (((b . e) (bounds-of-thing-at-point 'symbol))) (list b e))))
+  (unless (eq last-command 'my-change-identifier-style)
+    (setq my-change-identifier-style-last 's-dashed-words))
+  (cond
+   ((eq my-change-identifier-style-last 's-dashed-words)
+    (setq my-change-identifier-style-last 's-lower-camel-case))
+   ((eq my-change-identifier-style-last 's-lower-camel-case)
+    (setq my-change-identifier-style-last 's-upper-camel-case))
+   ((eq my-change-identifier-style-last 's-upper-camel-case)
+    (setq my-change-identifier-style-last 's-snake-case))
+   ((eq my-change-identifier-style-last 's-snake-case)
+    (setq my-change-identifier-style-last 's-dashed-words)))
+  (let ((identifier (delete-and-extract-region beg end)))
+    (insert (funcall my-change-identifier-style-last identifier))))

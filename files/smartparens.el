@@ -181,8 +181,7 @@
         (insert "\n")
         (let ((function-args (save-excursion
                                (forward-line)
-                               (sp-down-sexp)
-                               (sp-get (sp-get-paired-expression)
+                               (sp-get (sp-down-sexp)
                                  (buffer-substring-no-properties :beg :end))))
               (args nil))
           (save-match-data
