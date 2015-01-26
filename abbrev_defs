@@ -5,9 +5,7 @@
 
 (define-abbrev-table 'ag-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'awk-mode-abbrev-table '())
 
 (define-abbrev-table 'bibtex-mode-abbrev-table '())
 
@@ -21,13 +19,9 @@
 
 (define-abbrev-table 'bookmark-edit-annotation-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c++-mode-abbrev-table '())
 
-(define-abbrev-table 'c-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c-mode-abbrev-table '())
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -51,6 +45,8 @@
 
 (define-abbrev-table 'conf-xdefaults-mode-abbrev-table '())
 
+(define-abbrev-table 'define-abbrev-table '())
+
 (define-abbrev-table 'di-thumb-mode-abbrev-table '())
 
 (define-abbrev-table 'di-view-mode-abbrev-table '())
@@ -62,6 +58,8 @@
 (define-abbrev-table 'diff-mode-abbrev-table '())
 
 (define-abbrev-table 'dig-mode-abbrev-table '())
+
+(define-abbrev-table 'display-time-world-mode-abbrev-table '())
 
 (define-abbrev-table 'edebug-eval-mode-abbrev-table '())
 
@@ -167,9 +165,7 @@
 
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'java-mode-abbrev-table '())
 
 (define-abbrev-table 'js-mode-abbrev-table '())
 
@@ -217,9 +213,7 @@
 
 (define-abbrev-table 'nxml-mode-abbrev-table '())
 
-(define-abbrev-table 'objc-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'objc-mode-abbrev-table '())
 
 (define-abbrev-table 'occur-edit-mode-abbrev-table '())
 
@@ -244,17 +238,13 @@
     ("puf" "public function" nil 0)
    ))
 
-(define-abbrev-table 'pike-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'pike-mode-abbrev-table '())
 
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 
 (define-abbrev-table 'prog-mode-abbrev-table '())
 
-(define-abbrev-table 'python-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'python-mode-abbrev-table '())
 
 (define-abbrev-table 'select-tags-table-mode-abbrev-table '())
 
@@ -272,9 +262,7 @@
 
 (define-abbrev-table 'speedbar-mode-abbrev-table '())
 
-(define-abbrev-table 'sql-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'sql-mode-abbrev-table '())
 
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
 
@@ -294,4 +282,7 @@
 
 (define-abbrev-table 'wd-mode-abbrev-table '())
 
+(define-abbrev-table 'world-time-table-mode-abbrev-table '())
+
 (define-abbrev-table 'yaml-mode-abbrev-table '())
+
