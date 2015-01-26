@@ -227,7 +227,8 @@
   ("-" . macrostep-expand)
   ("0" . my-kill-pp-eval-expression-window)
   ("s" . my-sprunge)
-  ("r" . align-regexp))
+  ("r" . align-regexp)
+  ("C-d" . my-change-identifier-style))
 
 (bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
 
