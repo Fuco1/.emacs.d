@@ -1439,6 +1439,10 @@ If such snippet already exists, just open it for editing."
 " name name))
         (snippet-mode)))
 
+    (defun my-yas-ucc ()
+      "Get `car' of `kill-ring' and call `s-upper-camel-case' on it."
+      (s-upper-camel-case (car kill-ring)))
+
     (defun my-yas-startup ()
       ;; stupid yasnippet :/ we define <tab> behaviour elsewhere
       (define-key yas-minor-mode-map [(tab)] nil)
