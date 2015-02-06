@@ -1421,22 +1421,23 @@ Point should be at the line containing `function'."
 When creating a snippet with `my-yas-add-or-edit-snippet', use
 the parent's directory.")
 
-    (defun my-yas-add-or-edit-snippet (name)
-      "Add snippet triggered by NAME to current major mode.
+    (defun my-yas-add-or-edit-snippet (filename trigger)
+      "Add snippet FILENAME triggered by TRIGGER to current major mode.
 
 If such snippet already exists, just open it for editing."
-      (interactive "sSnippet name: ")
+      (interactive "sFilename: \nsSnippet trigger: ")
       ;; we only use one directory
       (find-file (f-join (car yas-snippet-dirs)
                          (symbol-name (or (cdr (assq major-mode my-yas-snippet-parent-mode))
                                           major-mode))
-                         name))
+                         filename ".yasnippet"))
       (when (= (buffer-size) 0)
-        (insert (format "# -*- mode: snippet -*-
+        (insert (format "# -*- coding: utf-8; mode: snippet -*-
 # name: %s
 # key: %s
+# contributor: Matus Goljer <matus.goljer@gmail.com>
 # --
-" name name))
+" trigger trigger))
         (snippet-mode)))
 
     (defun my-yas-ucc ()
