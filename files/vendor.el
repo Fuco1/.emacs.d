@@ -773,13 +773,14 @@ idle timer to do the actual update.")
              ""
              t ("-d" "cs_CZ" "-p" "/home/matus/.hunspell/personal.cs") nil utf-8)))))
 
-(use-package js-mode
+(use-package js
   :defer t
   :config
   (progn
     (defun my-js-mode-init ()
       (when (string-match-p "conkeror" (buffer-file-name))
-        (conkeror-minor-mode 1)))
+        (conkeror-minor-mode 1))
+      (multi-web-mode 1))
     (add-hook 'js-mode-hook 'my-js-mode-init)))
 
 (use-package jump-char
@@ -986,10 +987,20 @@ If in the test file, visit source."
   :defer t
   :config
   (progn
-    (setq mweb-tags '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-                      (javascript-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
-                      (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
-    (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))))
+    (setq mweb-tags '((php-mode "<\\?php" "\\?>")
+                      (js-mode "<script[^>]*>" "</script>")
+                      (css-mode "<style[^>]*>" "</style>")))
+    (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+
+    ;; redefined to properly re-set indentation functions
+    (defun mweb-disable ()
+      "Disable the minor mode."
+      (assq-delete-all 'multi-web-mode minor-mode-map-alist)
+      (remove-hook 'post-command-hook 'mweb-post-command-hook)
+      (cond
+       ((eq major-mode 'php-mode)
+        (setq indent-line-function 'php-cautious-indent-line)
+        (setq indent-region-function 'php-cautious-indent-region))))))
 
 (use-package notmuch
   :bind (("C-. C-n" . notmuch))
@@ -1084,21 +1095,25 @@ If in the test file, visit source."
   (progn
     (use-package better-jump)
     (use-package php-eldoc)
+
     (defun my-php-jump-to-variable ()
       "Jump to a variable in the selected window."
       (interactive)
       (bjump-jump ?$))
     (bind-key "C-$" 'my-php-jump-to-variable php-mode-map)
     (unbind-key "C-." php-mode-map)
+
     (defun my-php-eldoc-function ()
       (or (php-eldoc-function)
           (unless (and (featurep 'tramp)
                        (tramp-tramp-file-p (buffer-file-name)))
             (ggtags-eldoc-function))))
+
     (defun my-php-find-project-root ()
       (with-temp-buffer
         (shell-command "global -p" (current-buffer))
         (s-trim (buffer-string))))
+
     (defun my-php-run-tests ()
       "Run all Nette tests found in current directory."
       (interactive)
@@ -1110,6 +1125,7 @@ If in the test file, visit source."
         (when (buffer-modified-p) (save-buffer))
         (async-shell-command (format "cd '%s'; php tester -c php.ini '%s'" tester-dir dir))))
     (bind-key "C-c C-c" 'my-php-run-tests php-mode-map)
+
     (defun my-php-run ()
       "Run all Nette tests found in current directory."
       (interactive)
@@ -1138,6 +1154,7 @@ Point should be at the line containing `function'."
     (defun my-php-mode-init ()
       (c-set-style "php")
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
+      (multi-web-mode 1)
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
 
@@ -1217,6 +1234,7 @@ Point should be at the line containing `function'."
     (defun my-html-mode-setup ()
       (multi-web-mode 1)
       (emmet-mode 1)
+      (smartparens-mode 1)
       (bind-keys :map html-mode-map
         ("C-c C-f" . sp-html-next-tag)
         ("C-c C-b" . sp-html-previous-tag)))
