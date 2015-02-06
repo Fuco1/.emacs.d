@@ -1151,6 +1151,24 @@ Point should be at the line containing `function'."
               (push (match-string 1) args))))
         (nreverse args)))
 
+    (defun my-php-implement-constructor ()
+      "Implement constructor.
+
+This assings all variables in the argument list to instance
+variables of the same name."
+      (interactive)
+      (let ((args (my-php-get-function-args)))
+        (sp-restrict-to-pairs (list "{" "}") 'sp-down-sexp)
+        (forward-line)
+        (--each args
+          (insert (format "$this->%s = %s;"
+                          (replace-regexp-in-string "[&$]" "" it)
+                          (replace-regexp-in-string "[&]" "" it)))
+          (indent-according-to-mode)
+          (insert "\n"))
+        (delete-char -1)))
+    (bind-key "C-x C-d c" 'my-php-implement-constructor php-mode-map)
+
     (defun my-php-mode-init ()
       (c-set-style "php")
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
