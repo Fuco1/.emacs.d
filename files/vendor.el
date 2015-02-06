@@ -1119,6 +1119,22 @@ If in the test file, visit source."
         (when (buffer-modified-p) (save-buffer))
         (async-shell-command (format "php '%s'" file))))
     (bind-key "C-c C-r" 'my-php-run php-mode-map)
+
+    (defun my-php-get-function-args ()
+      "Return all arguments of php function.
+
+Point should be at the line containing `function'."
+      (let ((function-args (sp-get (sp-down-sexp)
+                             (buffer-substring-no-properties :beg :end)))
+            (args nil))
+        (save-match-data
+          (with-temp-buffer
+            (insert function-args)
+            (goto-char (point-min))
+            (while (re-search-forward "\\(&?\\$.*?\\)[ \n\t,)]" nil t)
+              (push (match-string 1) args))))
+        (nreverse args)))
+
     (defun my-php-mode-init ()
       (c-set-style "php")
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)

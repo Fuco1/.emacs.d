@@ -179,22 +179,13 @@
      ((string-match-p "function" line)
       (save-excursion
         (insert "\n")
-        (let ((function-args (save-excursion
-                               (forward-line)
-                               (sp-get (sp-down-sexp)
-                                 (buffer-substring-no-properties :beg :end))))
-              (args nil))
-          (save-match-data
-            (with-temp-buffer
-              (insert function-args)
-              (goto-char (point-min))
-              (while (re-search-forward "\\(&?\\$.*?\\)[ \n\t,)]" nil t)
-                (push (match-string 1) args))))
-          (setq args (nreverse args))
+        (let ((args (save-excursion
+                      (forward-line)
+                      (my-php-get-function-args))))
           (--each args
             (insert (format "* @param %s\n" it)))))
       (insert "* "))
-     ((string-match-p "class\\|interface" line)
+     ((string-match-p ".*class\\|interface" line)
       (save-excursion (insert "\n*\n* @author\n"))
       (insert "* ")))
     (let ((o (sp--get-active-overlay)))
