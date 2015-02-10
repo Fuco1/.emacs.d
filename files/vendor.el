@@ -1136,20 +1136,25 @@ If in the test file, visit source."
         (async-shell-command (format "php '%s'" file))))
     (bind-key "C-c C-r" 'my-php-run php-mode-map)
 
-    (defun my-php-get-function-args ()
+    (defun my-php-get-function-args (&optional name)
       "Return all arguments of php function.
 
 Point should be at the line containing `function'."
-      (let ((function-args (sp-get (sp-down-sexp)
-                             (buffer-substring-no-properties :beg :end)))
-            (args nil))
-        (save-match-data
-          (with-temp-buffer
-            (insert function-args)
-            (goto-char (point-min))
-            (while (re-search-forward "\\(&?\\$.*?\\)[ \n\t,)]" nil t)
-              (push (match-string 1) args))))
-        (nreverse args)))
+      (save-excursion
+        (when name
+          (goto-char (point-min))
+          (unless (search-forward (concat "function " name) nil t)
+            (error "Function %s does not exist" name)))
+        (let ((function-args (sp-get (sp-down-sexp)
+                               (buffer-substring-no-properties :beg :end)))
+              (args nil))
+          (save-match-data
+            (with-temp-buffer
+              (insert function-args)
+              (goto-char (point-min))
+              (while (re-search-forward "\\(&?\\$.*?\\)[ \n\t,)]" nil t)
+                (push (match-string 1) args))))
+          (nreverse args))))
 
     (defun my-php-implement-constructor ()
       "Implement constructor.
