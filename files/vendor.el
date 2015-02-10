@@ -1169,6 +1169,12 @@ variables of the same name."
         (delete-char -1)))
     (bind-key "C-x C-d c" 'my-php-implement-constructor php-mode-map)
 
+    (defun my-php-disable-multi-web-mode ()
+      "Set current buffer to `php-mode' and disable `multi-web-mode'."
+      (interactive)
+      (php-mode)
+      (multi-web-mode -1))
+
     (defun my-php-mode-init ()
       (c-set-style "php")
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
