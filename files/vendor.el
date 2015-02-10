@@ -1361,6 +1361,9 @@ variables of the same name."
       (orgtbl-mode))
     (add-hook 'sql-interactive-mode-hook 'my-sql-interactive-mode-init)))
 
+(use-package textile-mode
+  :mode "\\.textile\\'")
+
 (use-package tex-site
   :load-path "site-lisp/auctex/"
   :mode ("\\.tex\\'" . TeX-latex-mode)
