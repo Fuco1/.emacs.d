@@ -1239,6 +1239,12 @@ variables of the same name."
      ("\\,Z" ?Ẓ))
     (toggle-input-method)))
 
+(use-package recentf
+  :defer t
+  :config
+  (progn
+    (defvar my-recentf-autosave-timer (run-with-timer 1200 nil 'recentf-save-list))))
+
 (use-package revbufs
   :bind ("C-<f5>" . revbufs))
 
