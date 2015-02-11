@@ -693,7 +693,8 @@ idle timer to do the actual update.")
       ("o a" . helm-org-agenda-files-headings)
       ("o h" . helm-org-in-buffer-headings))
     (use-package helm-gtags
-      :bind (("M-'" . helm-gtags-dwim)))))
+      :bind (("M-'" . helm-gtags-dwim)
+             ("C-M-'" . helm-gtags-pop-stack)))))
 
 (use-package help-mode
   :defer t
