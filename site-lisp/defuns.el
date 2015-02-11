@@ -83,9 +83,19 @@ With \\[universal-argument], visit current file via sudo."
 (defun my-find-url (url)
   "Download URL and insert into current buffer at point."
   (interactive "sULR: ")
-  (insert (progn
-            (with-current-buffer (url-retrieve-synchronously url)
-              (buffer-string)))))
+  (insert (my-url-retrieve url)))
+
+(defun my-url-retrieve (url &optional no-headers)
+  "Retrieve and return as string the content of URL.
+
+If NO-HEADERS is non-nil, remove the HTTP headers first."
+  (with-current-buffer (url-retrieve-synchronously url)
+    (when no-headers
+      (goto-char (point-min))
+      (search-forward "\n\n")
+      (delete-region (point-min) (point)))
+    (prog1 (buffer-string)
+      (kill-buffer))))
 
 ;;; function overloads
 (eval-after-load "hi-lock"
