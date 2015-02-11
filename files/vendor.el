@@ -1471,9 +1471,9 @@ the parent's directory.")
 If such snippet already exists, just open it for editing."
       (interactive "sFilename: \nsSnippet trigger: ")
       ;; we only use one directory
-      (find-file (f-join (car yas-snippet-dirs)
+      (find-file (concat (car yas-snippet-dirs) "/"
                          (symbol-name (or (cdr (assq major-mode my-yas-snippet-parent-mode))
-                                          major-mode))
+                                          major-mode)) "/"
                          filename ".yasnippet"))
       (when (= (buffer-size) 0)
         (insert (format "# -*- coding: utf-8; mode: snippet -*-
