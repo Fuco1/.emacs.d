@@ -782,7 +782,12 @@ idle timer to do the actual update.")
       (when (string-match-p "conkeror" (buffer-file-name))
         (conkeror-minor-mode 1))
       (multi-web-mode 1))
-    (add-hook 'js-mode-hook 'my-js-mode-init)))
+    (add-hook 'js-mode-hook 'my-js-mode-init)
+    (defun my-js-disable-multi-web-mode ()
+      "Set current buffer to `js-mode' and disable `multi-web-mode'."
+      (interactive)
+      (js-mode)
+      (multi-web-mode -1))))
 
 (use-package jump-char
   :bind (("M-m" . jump-char-forward)))
