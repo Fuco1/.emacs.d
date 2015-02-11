@@ -33,38 +33,42 @@
 ;; http://www.emacswiki.org/emacs/TabCompletion
 ;; TODO: Take a look at https://github.com/genehack/smart-tab
 
+(defun my-smart-tab-must-expand (prefix)
+  "Return non-nil if we must expand."
+  (unless (or (consp prefix)
+              mark-active)
+    (looking-at "\\_>")))
+
+(defun my-smart-tab-default-action (prefix)
+  "Execute the default smart tab action."
+  (cond
+   ((my-smart-tab-must-expand prefix)
+    (ignore-errors (hippie-expand prefix)))
+   ((my-smart-indent))))
+
 (defun smart-tab (prefix)
   "Needs `transient-mark-mode' to be on. This smart tab is minibuffer
 compliant: it acts as usual in the minibuffer.
 
 In all other buffers: if PREFIX is \\[universal-argument], calls
-`smart-indent'. Else if point is at the end of a symbol, expands
-it. Else calls `smart-indent'."
+`my-smart-indent'. Else if point is at the end of a symbol, expands
+it. Else calls `my-smart-indent'."
   (interactive "P")
-  (labels ((smart-tab-must-expand (&optional prefix)
-                                  (unless (or (consp prefix)
-                                              mark-active)
-                                    (looking-at "\\_>")))
-           (default ()
-             (cond
-              ((smart-tab-must-expand prefix)
-               (hippie-expand prefix))
-              ((smart-indent)))))
+  (cond
+   ((bound-and-true-p elfeed-search-live)
+    (completion-at-point))
+   ((eq major-mode 'org-mode)
     (cond
-     ((bound-and-true-p elfeed-search-live)
-      (completion-at-point))
-     ((eq major-mode 'org-mode)
-      (cond
-       ((looking-back "^<\\sw")
-        (org-cycle))
-       ((smart-tab-must-expand prefix)
-        (hippie-expand prefix))
-       ((use-region-p)
-        (indent-region (region-beginning) (region-end)))
-       (:otherwise (org-cycle))))
-     (:otherwise (default)))))
+     ((looking-back "^<\\sw")
+      (org-cycle))
+     ((my-smart-tab-must-expand prefix)
+      (hippie-expand prefix))
+     ((use-region-p)
+      (indent-region (region-beginning) (region-end)))
+     (:otherwise (org-cycle))))
+   (:otherwise (my-smart-tab-default-action prefix))))
 
-(defun smart-indent ()
+(defun my-smart-indent ()
   "Indents region if mark is active, or current line otherwise."
   (interactive)
   (if (use-region-p)
