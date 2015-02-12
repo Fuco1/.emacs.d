@@ -510,7 +510,8 @@ replace any running timer."
 
   ("C-c C-S-n" . my-org-add-sibling)
   ("C-c C-n" . outline-next-visible-heading)
-  ("C-c s" . helm-org-in-buffer-search))
+  ("C-c s" . helm-org-in-buffer-search)
+  ("A-d" . helm-org-in-buffer-search))
 (unbind-key "C-'" org-mode-map)
 
 (defun my-org-open-at-point (&optional arg)
