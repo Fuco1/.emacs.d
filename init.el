@@ -56,7 +56,6 @@
 ;; load settings
 (use-package-with-elapsed-timer "Loading settings"
   (load "files/global")
-  (load "files/layouts")
   (load "files/mode-line")
   (load "files/tabs")
   (load "files/windows"))
