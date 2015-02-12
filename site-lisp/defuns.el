@@ -521,3 +521,11 @@ With non-nil prefix argument, ask for LANGUAGE."
 
 (defun my-emacs-status ()
   (format-mode-line my-status-line-format))
+
+(defun my-toggle-buffer-input-methods ()
+  "Toggle the input methods listed in `my-buffer-input-methods'."
+  (interactive)
+  (when (bound-and-true-p my-buffer-input-methods)
+    (let ((next (car my-buffer-input-methods)))
+      (setq my-buffer-input-methods (-rotate 1 my-buffer-input-methods))
+      (set-input-method next))))

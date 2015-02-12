@@ -1439,7 +1439,7 @@ variables of the same name."
          ("A-s" . whitaker-jump)))
 
 (use-package wiktionary-translate
-  :bind ("<insert>" . wd-show-translation))
+  :bind ("<insert> <delete>" . wd-show-translation))
 
 (use-package windmove
   :bind (("A-C-p" . windmove-up)
