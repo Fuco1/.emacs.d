@@ -384,6 +384,47 @@ current agenda view added to `org-tag-alist'."
   (progn
     (bind-key "C-c s" 'org-velocity org-mode-map)))
 
+(use-package ox-publish
+  :defer t
+  :config
+  (progn
+    (setq org-publish-project-alist
+          '(("blog"
+             :base-directory "~/documents/blog/_src"
+             :publishing-directory "~/documents/blog/"
+             :preparation-function my-org-prepare-blog-export
+             :completion-function my-org-complete-blog-export
+             :publishing-function my-org-publish-html
+             :auto-sitemap t)))
+
+    (defvar my-org-publish-tags-to-files nil
+      "An alist mapping tags to files.")
+
+    (defun my-org-prepare-blog-export ()
+      (setq my-org-publish-tags-to-files nil))
+
+(defun my-org-publish-html (plist filename pub-dir)
+  (let ((output-file (org-html-publish-to-html plist filename pub-dir)))
+    (with-temp-file output-file
+      (insert-file-contents output-file)
+      (goto-char (point-min))
+      (-when-let* ((tags (with-temp-buffer
+                           (insert-file-contents filename)
+                           (my-org-export-get-tags)))
+                   (tag-links (mapconcat (lambda (it) (format "<a href=\"%s/index.html\">%s</a>" it it)) tags ", ")))
+        (when (re-search-forward "{{taglist}}" nil t)
+          (replace-match (concat "Tags: " tag-links)))
+        ;; update tag indices
+        (--each tags
+          (let ((dir (concat pub-dir "/" it)))
+            (make-directory dir t)
+            (f-touch (concat dir "/" (f-filename filename)))))))
+    output-file))
+
+    (defun my-org-export-get-tags ()
+      (-when-let (tags (my-org-get-option "TAGS"))
+        (split-string tags ",")))))
+
 (use-package org-timer
   :bind (("C-c C-x ;" . org-timer-set-timer)
          ("C-c C-x :" . org-timer-cancel-timer))
