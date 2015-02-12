@@ -1135,4 +1135,64 @@ relation (\"jedi\" \"starwars\"), any headline tagged with
 (defun my-org-move-trees (query target-buffer)
   "Move all headlines matching QUERY to TARGET-BUFFER."
   (my-org-copy-trees query target-buffer)
-  (my-org-delete-trees query))
+  (my-org-delete-trees query)))
+
+;;; Sanskrit formatting
+(defun my-format-sanskrit-lines (&optional no-latin)
+  (let ((w1 (s-trim (thing-at-point 'line)))
+        (w2 (progn
+              (forward-line)
+              (s-trim (thing-at-point 'line))))
+        (w3 (progn
+              (forward-line)
+              (s-trim (thing-at-point 'line))))
+        (w4 (progn
+              (forward-line)
+              (s-trim (thing-at-point 'line))))
+        (w5 (progn
+              (forward-line)
+              (s-trim (thing-at-point 'line))))
+        (w6 (progn
+              (forward-line)
+              (s-trim (thing-at-point 'line)))))
+    (forward-line -5)
+    (kill-line 6)
+    (if (not no-latin)
+        (insert (format "| %s | %s | %s |\n| %s | %s | %s |\n|-+-+-|\n" w1 w3 w5 w2 w4 w6))
+      (insert (format "| %s | %s | %s |\n|-+-+-|\n" w1 w3 w5 )))))
+
+(defun my-format-sanskrit-lines-no-latin ()
+  (let ((w1 (s-trim (thing-at-point 'line)))
+        (w2 (progn
+              (forward-line)
+              (s-trim (thing-at-point 'line))))
+        (w3 (progn
+              (forward-line)
+              (s-trim (thing-at-point 'line)))))
+    (forward-line -2)
+    (kill-line 3)
+    (insert (format "| %s | %s | %s |\n|-+-+-|\n" w1 w2 w3))))
+
+(defun my-format-sanskrit-noun ()
+  (interactive)
+  (insert "|-+-+-|\n")
+  (let ((kill-ring kill-ring))
+    (--dotimes 8 (my-format-sanskrit-lines))))
+
+(defun my-format-sanskrit-noun-delete-latin ()
+  (interactive)
+  (insert "|-+-+-|\n")
+  (let ((kill-ring kill-ring))
+    (--dotimes 8 (my-format-sanskrit-lines :no-latin))))
+
+(defun my-format-sanskrit-verb ()
+  (interactive)
+  (insert "|-+-+-|\n")
+  (let ((kill-ring kill-ring))
+    (--dotimes 3 (my-format-sanskrit-lines))))
+
+(defun my-format-sanskrit-verb-no-latin ()
+  (interactive)
+  (insert "|-+-+-|\n")
+  (let ((kill-ring kill-ring))
+    (--dotimes 3 (my-format-sanskrit-lines-no-latin))))
