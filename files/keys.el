@@ -215,9 +215,6 @@
 (bind-keys :prefix "C-."
            :prefix-map ctl-dot-prefix-map
            :prefix-docstring "Second auxiliary map on C-."
-  ("p f" . elp-instrument-function)
-  ("p r" . elp-results)
-  ("p R" . elp-restore-all)
   ("c" . create-scratch-buffer)
   ;; ("k" . browse-kill-ring) ;use helm
   ("m s" . kmacro-set-counter)
@@ -229,6 +226,15 @@
   ("s" . my-sprunge)
   ("r" . align-regexp)
   ("C-d" . my-change-identifier-style))
+
+(bind-keys :map ctl-dot-prefix-map
+           :prefix "p"
+           :prefix-map my-profiler-prefix-map
+           :prefix-docstring "Prefix map for profiler functions"
+  ("f" . elp-instrument-function)
+  ("p" . elp-instrument-package)
+  ("r" . elp-results)
+  ("R" . elp-restore-all))
 
 (bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
 
