@@ -239,6 +239,7 @@
 (bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
 
 (bind-key "<XF86HomePage>" 'toggle-input-method)
+(unbind-key "<insert>")
 (bind-key "<insert> <insert>" 'my-toggle-buffer-input-methods)
 (bind-keys :prefix "C-. i"
            :prefix-map ctl-dot-i-prefix-map
