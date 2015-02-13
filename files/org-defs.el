@@ -1249,7 +1249,7 @@ relation (\"jedi\" \"starwars\"), any headline tagged with
 (defun my-org-move-trees (query target-buffer)
   "Move all headlines matching QUERY to TARGET-BUFFER."
   (my-org-copy-trees query target-buffer)
-  (my-org-delete-trees query)))
+  (my-org-delete-trees query))
 
 ;;; Sanskrit formatting
 (defun my-format-sanskrit-lines (&optional no-latin)
