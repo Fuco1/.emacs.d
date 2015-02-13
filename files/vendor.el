@@ -62,8 +62,8 @@ return to regular interpretation of self-insert characters."
          ("A-k" . bjump-window-delete))
   :config
   (progn
-    (define-key Info-mode-map "o" 'bjump-info-link-jump)
-    (define-key help-mode-map "o" 'bjump-help-link-jump)))
+    (bind-key "o" 'bjump-info-link-jump Info-mode-map)
+    (bind-key "o" 'bjump-help-link-jump help-mode-map)))
 
 (use-package bookmark+
   :defer t
@@ -696,12 +696,13 @@ idle timer to do the actual update.")
       :bind (("M-'" . helm-gtags-dwim)
              ("C-M-'" . helm-gtags-pop-stack)))))
 
-;; TODO: make this not load better-jump by default
 (use-package help-mode
   :defer t
   :config
   (progn
-    (use-package better-jump)
+    (defun my-help-mode-init ()
+      (use-package better-jump))
+    (add-hook 'help-mode-hook 'my-help-mode-init)
     (bind-key "l" 'help-go-back help-mode-map)))
 
 (use-package ibuffer
@@ -731,7 +732,9 @@ idle timer to do the actual update.")
 (use-package info
   :defer t
   :config
-  (use-package better-jump))
+  (defun my-info-mode-init ()
+    (use-package better-jump))
+  (add-hook 'info-mode-hook 'my-info-mode-init))
 
 (use-package "isearch"
   :bind (("C-s" . isearch-forward-regexp)
