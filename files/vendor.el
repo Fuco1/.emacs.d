@@ -848,6 +848,7 @@ called, percentage usage and the command."
          ("C-c m s" . magit-status))
   :config
   (progn
+    (bind-key "<tab>" 'magit-toggle-section magit-mode-map)
     (require 'flyspell)
     (diminish 'magit-auto-revert-mode)))
 
