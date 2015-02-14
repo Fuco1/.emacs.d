@@ -39,3 +39,12 @@
                       (point)))))
           (not (string-match-p "\\sw" str)))
     (backward-word)))
+
+(defadvice subword-transpose (before fix-eob activate)
+  (when (let ((str (buffer-substring-no-properties
+                    (point)
+                    (save-excursion
+                      (subword-forward)
+                      (point)))))
+          (not (string-match-p "\\sw" str)))
+    (subword-backward)))
