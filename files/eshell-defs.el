@@ -22,7 +22,6 @@ pop to that buffer if it exists."
         (pop-to-buffer (car possible-buffers))
         (goto-line (string-to-int line)))))
    (t (call-interactively 'eshell-send-input))))
-(bind-key [remap eshell-send-input] 'my-eshell-send-input eshell-mode-map)
 
 ;;;; git config
 (defun my--get-git-branches (&optional all)

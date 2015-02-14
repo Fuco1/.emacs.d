@@ -536,6 +536,9 @@ idle timer to do the actual update.")
   :commands eshell
   :config
   (progn
+    (defun my-eshell-init ()
+      (bind-key [remap eshell-send-input] 'my-eshell-send-input eshell-mode-map))
+    (add-hook 'eshell-mode-hook 'my-eshell-init)
     (load "files/eshell-defs")))
 
 (use-package expand-region
