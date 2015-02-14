@@ -81,23 +81,6 @@ Including indent-buffer, which should not be called automatically on save."
                  (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
         (make-directory dir t)))))
 
-(defun my-switch-to-scratch (buffer)
-  "Switch to a scratch buffer."
-  (interactive (list (car
-                      (split-string
-                       (ido-completing-read
-                        "Scratch buffer: "
-                        (->> (buffer-list)
-                          (-map 'buffer-name)
-                          (--filter (string-match-p "\\*scratch.*" it))
-                          (--map (concat it
-                                         " ["
-                                         (with-current-buffer (get-buffer-create it)
-                                           (symbol-name major-mode))
-                                         "]")))
-                        nil t) " "))))
-  (switch-to-buffer buffer))
-
 (defun my-fix-multibyte-encoding ()
   "Fix the display of octal chars instead of decoded text."
   (set-buffer-multibyte nil)

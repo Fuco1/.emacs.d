@@ -51,8 +51,7 @@
   ("<f2>" . (lambda () (interactive) (find-file "~/.emacs.d/init.el")))
   ("<f3>" . view-echo-area-messages)
   ("<f4>" . ffap)
-  ("<f5>" . (lambda () (interactive) (let ((default-directory "~")) (ido-find-file))))
-  ("<f12>" . my-switch-to-scratch))
+  ("<f5>" . (lambda () (interactive) (let ((default-directory "~")) (ido-find-file)))))
 
 (bind-key "C-x C-a" 'my-switch-buffer-LRU)
 (bind-key "C-x C-b" 'ibuffer)
