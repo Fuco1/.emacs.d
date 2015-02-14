@@ -143,8 +143,6 @@
 ;; # move into
 (bind-key "C-M-d" 'down-list)
 
-(bind-key "C-c <up>" 'copy-previous-line)
-(bind-key "C-c <down>" 'copy-next-line)
 (bind-key "M-<up>" 'move-line-up)
 (bind-key "M-<down>" 'move-line-down)
 

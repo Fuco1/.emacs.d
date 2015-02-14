@@ -390,57 +390,6 @@ Additionally, when looking at [ \\t]*$, capitalize backwards."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operations related to lines
 
-;; rework
-(defun copy-line-with-offset (offset)
-  "Save the line specified by offset (+1 = next, -1 = prev) to the kill ring,
-move the current line down and yank"
-  (kill-ring-save (line-beginning-position (+ offset 1))
-                  (line-end-position (+ offset 1)))
-  (let ((pos (point))
-        (line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-    (beginning-of-line)
-    (when (or (and (string-match "[:space:]" line)
-                   (> offset 0))
-              (< offset 0))
-      (newline)
-      (forward-line -1))
-    (beginning-of-line)
-    (insert (car kill-ring))
-    (goto-char pos)))
-
-(defun copy-previous-line ()
-  (interactive)
-  (copy-line-with-offset -1))
-
-(defun copy-next-line ()
-  (interactive)
-  (copy-line-with-offset 1))
-
-(defun kill-line-yank-newline ()
-  (interactive)
-  (let ((beg (line-beginning-position))
-        (end (line-end-position))
-        (name (buffer-name))
-        (col (current-column)))
-    (end-of-line)
-    (newline)
-    (beginning-of-line)
-    (insert-buffer-substring name beg end)
-    (move-to-column col t)
-    (unless (eolp) (kill-sexp))))
-
-(defun my-kill-line-yank-newline ()
-  (interactive)
-  (let ((beg (line-beginning-position))
-        (end (line-end-position))
-        (name (buffer-name))
-        (col (current-column)))
-    (end-of-line)
-    (newline)
-    (beginning-of-line)
-    (insert-buffer-substring name beg end)
-    (move-to-column col t)))
-
 ;; from https://github.com/skeeto/.emacs.d/blob/master/my-funcs.el
 (defun move-line (n)
   "Move the current line up or down by N lines."
@@ -512,7 +461,10 @@ With raw prefix \\[universal-argument] insert the word at point."
       (end-of-line)
       (insert " " text))))
 
-;; convert dashed->camelcase->upper camelcase->underscore
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Identifier editing
+
 (defvar my-change-identifier-style-last 's-dashed-words
   "Last transformer used to change identifier style.")
 
