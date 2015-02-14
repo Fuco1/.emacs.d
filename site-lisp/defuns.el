@@ -68,12 +68,6 @@ This is the opposite of fill-paragraph."
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
-(cl-defun my-list-interactive (&optional (file-name (buffer-file-name)))
-  "Return a list of all interactive functions in file FILE-NAME."
-  (loop for i in (cdr (assoc-string file-name load-history))
-           if (and (consp i) (eq (car i) 'defun) (commandp (cdr i)))
-           collect (cdr i)))
-
 (defun my-remove-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."
   (interactive)
