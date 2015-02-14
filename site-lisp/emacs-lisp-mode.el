@@ -73,7 +73,7 @@ function on `my-emacs-lisp-open-line-list'."
          ((not (numberp variable)) (describe-variable variable))
          (function (describe-function function)))))
 
-    (defun backward-down-list (&optional n)
+    (defun my-backward-down-list (&optional n)
       (down-list (- (prefix-numeric-value n))))
 
     (defun my-wrap-region (beg end)
@@ -112,7 +112,7 @@ inner let form point is inside of."
             (progn
               (down-list)
               (forward-sexp 2)
-              (backward-down-list)
+              (my-backward-down-list)
               (insert "\n(" name " " new-vform ")")
               (indent-according-to-mode)))
            (t
@@ -127,7 +127,7 @@ inner let form point is inside of."
         (if (> arg 0)
             (insert name)
           (forward-sexp)
-          (backward-down-list)
+          (my-backward-down-list)
           (save-excursion
             (insert "\n")
             (backward-up-list)
@@ -145,9 +145,9 @@ inner let form point is inside of."
           (my-goto-dominating-form '(let let*))
           (down-list)
           (forward-sexp 2)
-          (backward-down-list)
+          (my-backward-down-list)
           (insert "\n" var-list)
-          (backward-down-list)
+          (my-backward-down-list)
           (sp-unwrap-sexp)
           (backward-up-list 2)
           (indent-sexp))))
