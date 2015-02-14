@@ -27,7 +27,7 @@
             (evil-generate-mode-line-tag evil-state)))
    " "
    ;; cursor position & narrow info
-   (:eval (when (buffer-narrowed-p)
+   (:eval (when (my-buffer-narrowed-p)
             "Narrow "))
    (-3 "%p")
    " "

@@ -180,9 +180,9 @@
 (add-hook 'html-mode-hook (lambda () (bind-key "C-c <deletechar>" 'sgml-delete-tag html-mode-map)))
 
 ;; mark commands
-(bind-key "C-`" 'push-mark-no-activate)
-(bind-key "M-`" 'jump-to-mark)
-(global-set-key [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
+(bind-key "C-`" 'my-push-mark-no-activate)
+(bind-key "M-`" 'my-jump-to-mark)
+(global-set-key [remap exchange-point-and-mark] 'my-exchange-point-and-mark-no-activate)
 
 (bind-keys :prefix "C-h e"
            :prefix-map ctl-h-e-map
