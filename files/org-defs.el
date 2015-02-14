@@ -1038,15 +1038,26 @@ Switch projects and subprojects from NEXT back to TODO"
   (interactive)
   (save-window-excursion
     (unwind-protect
-        (let ((buf (get-buffer-create "*org-books-export*"))
+        (let ((years-to-export (nreverse (number-sequence 2014 2015)))
+              (buf (get-buffer-create "*org-books-export*"))
               (my-org-show-media-closed-since
                (apply 'encode-time (org-parse-time-string "2014-01-01")))
               (org-agenda-sticky nil))
           (with-current-buffer buf
             (erase-buffer)
-            (org-mode))
-          (org-agenda nil "fdb")
-          (my-org-export-read-books-do-export buf)
+            (org-mode)
+            (insert "* Done\n"))
+          (--each years-to-export
+            (with-current-buffer buf
+              (insert (format "** %d\n" it)))
+            (let ((my-org-show-media-closed-since
+                   (apply 'encode-time (org-parse-time-string (format "%d-01-01" it))))
+                  (my-org-show-media-closed-until
+                   (apply 'encode-time (org-parse-time-string (format "%d-01-01" (1+ it))))))
+              (org-agenda nil "fdb")
+              (my-org-export-read-books-do-export buf)
+              (with-current-buffer buf
+                (insert "\n\n"))))
           (org-agenda nil "fb")
           (with-current-buffer buf
             (insert "\n* Reading\n\n"))
