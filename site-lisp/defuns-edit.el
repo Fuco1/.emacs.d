@@ -512,47 +512,6 @@ With raw prefix \\[universal-argument] insert the word at point."
       (end-of-line)
       (insert " " text))))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; insert the text normally but keep the point fixed
-;; useful to prepend text in e.g. `haskell-mode'
-
-(defvar my-insert-no-move-overlay nil)
-(make-variable-buffer-local 'my-insert-no-move-overlay)
-
-(defvar my-insert-no-move-keymap (make-sparse-keymap))
-(define-key my-insert-no-move-keymap (kbd "<backspace>") 'my-insert-no-move-delete-backward)
-(define-key my-insert-no-move-keymap [remap self-insert-command] 'my-insert-no-move-self-insert-command)
-(define-key my-insert-no-move-keymap (kbd "C-g") 'my-insert-no-move-cancel)
-
-(defun my-insert-no-move ()
-  (interactive)
-  (when my-insert-no-move-overlay
-    (my-insert-no-move-cancel))
-  (setq my-insert-no-move-overlay (make-overlay (point) (point) nil nil t))
-  (overlay-put my-insert-no-move-overlay 'keymap my-insert-no-move-keymap))
-
-(defun my-insert-no-move-delete-backward (&optional arg)
-  (interactive "p")
-  (let ((s (overlay-start my-insert-no-move-overlay))
-        (e (overlay-end my-insert-no-move-overlay)))
-    (if (/= (point) s)
-        (backward-delete-char arg)
-      (goto-char e)
-      (backward-delete-char arg)
-      (goto-char s))))
-
-(defun my-insert-no-move-self-insert-command (&optional arg)
-  (interactive "p")
-  (goto-char (overlay-end my-insert-no-move-overlay))
-  (self-insert-command arg)
-  (goto-char (overlay-start my-insert-no-move-overlay)))
-
-(defun my-insert-no-move-cancel (&optional arg)
-  (interactive "p")
-  (delete-overlay my-insert-no-move-overlay)
-  (setq my-insert-no-move-overlay nil))
-
 ;; convert dashed->camelcase->upper camelcase->underscore
 (defvar my-change-identifier-style-last 's-dashed-words
   "Last transformer used to change identifier style.")
