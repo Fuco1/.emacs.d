@@ -1,6 +1,6 @@
 (defun my-dictionary-format ()
   (interactive)
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (replace-regexp "" "")
     (replace-regexp "" "")
     (replace-string "E'" "\\`E")
@@ -93,7 +93,7 @@
 (defun my-dictionary-fix-quotes ()
   (let ((single 0)
         (double 0))
-    (fix-reset-after-each
+    (my-fix-reset-after-each
       (replace-regexp "\\(\\W\\)'\\(\\w\\)" "\\1`\\2")
       ;; (while (re-search-forward "[^a-z]'[^a-z]" nil t)
       ;;   (backward-char 1)

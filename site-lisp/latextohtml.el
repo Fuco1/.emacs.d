@@ -223,7 +223,7 @@
 
 (defun fix-basic ()
   (interactive)
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (replace-regexp "…" "\\\\dots ")
     (replace-regexp "\\.\\.\\." "\\\\dots ")
     (replace-regexp "\\\\dots[[:space:]]+)" "\\\\dots)")
@@ -272,7 +272,7 @@
   (interactive)
   ;; replace 'em with $$EM$$, it's too common to skip all the time,
   ;; then we replace it back
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (replace-string "'em" "$$EM$$")
     (query-replace-regexp "[[:space:]]'\\([[:word:]]\\)" " `\\1")
     (query-replace-regexp "``'\\([[:word:]]\\)" "```\\1")
@@ -292,7 +292,7 @@
 
 (defun fix-quotes-italian (arg)
   (interactive "P")
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (unless arg
       (replace-regexp "``" "\"<")
       (replace-regexp "''" "\">"))
@@ -304,7 +304,7 @@
 
 (defun fix-italian ()
   (interactive)
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (replace-string "E'" "È")
     (replace-string "un pò" "un po'")
     (replace-string "perchè" "perché"))
@@ -327,7 +327,7 @@
   (interactive (list (read-from-minibuffer "Italics class name: ")
                      (when current-prefix-arg
                        (read-from-minibuffer "Bold class name: "))))
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (replace-regexp "<p.*?>" "")
     (replace-regexp "</p>" "
 
@@ -367,7 +367,7 @@
 
 (defun fix-html-fimfic ()
   (interactive)
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (replace-regexp "</i><i>" "")
     (replace-regexp "<i>\\(.*?\\)</i>" "\\\\emph{\\1}")
     (replace-regexp "<br />" "
@@ -381,7 +381,7 @@
 
 (defun fix-prepare-diff ()
   (interactive)
-  (fix-reset-after-each
+  (my-fix-reset-after-each
     (replace-regexp "“" "\"")
     (replace-regexp "„" "\"")
     (replace-regexp "”" "\"")

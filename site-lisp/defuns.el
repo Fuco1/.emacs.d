@@ -325,7 +325,7 @@ The point is moved to the end of the match."
 (defun my-fix-german-anki-deck ()
   (let ((case-fold-search nil)
         (curbuf (current-buffer)))
-    (with-every-line
+    (my-with-every-line
       (when (and (looking-at "[A-Z]")
                  (progn
                    (forward-word)
