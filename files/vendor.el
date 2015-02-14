@@ -703,6 +703,7 @@ idle timer to do the actual update.")
     (defun my-help-mode-init ()
       (use-package better-jump))
     (add-hook 'help-mode-hook 'my-help-mode-init)
+    (bind-key "<tab>" 'forward-button help-mode-map)
     (bind-key "l" 'help-go-back help-mode-map)))
 
 (use-package ibuffer
