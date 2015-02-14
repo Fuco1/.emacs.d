@@ -529,3 +529,8 @@ With non-nil prefix argument, ask for LANGUAGE."
     (let ((next (car my-buffer-input-methods)))
       (setq my-buffer-input-methods (-rotate 1 my-buffer-input-methods))
       (set-input-method next))))
+
+(defun my-switch-buffer-LRU ()
+  "Switch to LRU buffer."
+  (interactive)
+  (switch-to-buffer (car (helm-buffer-list))))

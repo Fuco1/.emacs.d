@@ -15,6 +15,7 @@
                   ("c" my-lisp-if-to-cond "if => cond")
                   ("i" my-lisp-cond-to-if "cond => if"))
                 emacs-lisp-mode-map)
+      (unbind-key "C-x C-a" emacs-lisp-mode-map)
       (set-input-method "english-prog")
       (eldoc-mode 1)
       (letcheck-mode t))

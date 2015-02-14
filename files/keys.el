@@ -62,9 +62,8 @@
   ("<f5>" . (lambda () (interactive) (let ((default-directory "~")) (ido-find-file))))
   ("<f12>" . my-switch-to-scratch))
 
-;; ibuffer > list-buffers
+(bind-key "C-x C-a" 'my-switch-buffer-LRU)
 (bind-key "C-x C-b" 'ibuffer)
-;; (bind-key "C-'" 'ido-switch-buffer) ;replaced by helm-buffer-list temporarily
 
 ;; buffer cleanup
 (bind-key "C-c u" 'cleanup-buffer)
