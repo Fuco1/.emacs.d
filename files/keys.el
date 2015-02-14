@@ -102,8 +102,6 @@
 ;; paragraph
 (bind-key "M-[" 'backward-paragraph)
 (bind-key "M-]" 'forward-paragraph)
-(bind-key "M-{" 'backward-paragraph-select)
-(bind-key "M-}" 'forward-paragraph-select)
 ;; screen
 (bind-key "C-v" 'scroll-up-command)
 (bind-key "M-v" 'scroll-down-command)
@@ -136,9 +134,6 @@
 ;; defun
 (bind-key "M-p" 'beginning-of-defun)
 (bind-key "M-n" 'end-of-defun)
-;; active region
-(bind-key "M-g a" 'beginning-of-region)
-(bind-key "M-g e" 'end-of-region)
 
 ;; # move into
 (bind-key "C-M-d" 'down-list)

@@ -94,32 +94,6 @@ and indent next line according to mode."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; navigation functions by "units"
-
-(defun forward-paragraph-select ()
-  "Set the active region from point to end of current paragraph"
-  (interactive)
-  (set-mark (point))
-  (forward-paragraph))
-
-(defun backward-paragraph-select ()
-  "Set the active region from point to beginning of current paragraph"
-  (interactive)
-  (set-mark (point))
-  (backward-paragraph))
-
-(defun beginning-of-region ()
-  "Move cursor to the beginning of active region"
-  (interactive)
-  (goto-char (region-beginning)))
-
-(defun end-of-region ()
-  "Move cursor to the end of active region"
-  (interactive)
-  (goto-char (region-end)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evaluate sexps/macros
 
 (defun eval-and-replace ()
