@@ -40,14 +40,6 @@
 (bind-key "M-<f5>" '(lambda () (interactive) (load-file (buffer-file-name))))
 ;; TODO: gather all `universal-argument' bindings somewhere on one place
 (bind-key "A-u" 'universal-argument)
-;; TODO: find better prefix for this, too close to A-c which kills the
-;; frame
-(bind-keys :prefix "A-v"
-           :prefix-map alt-v-prefix-map
-           :prefix-docstring "A-v prefix map"
-           ("A-m" . my-find-file-same-mode)
-           ("A-x" . my-find-file-same-ext)
-           ("A-s" . my-find-file-sudo))
 
 ;; Indenting and alignment
 (bind-key "C-<f8>" 'indent-buffer)

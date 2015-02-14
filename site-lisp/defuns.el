@@ -43,42 +43,6 @@ This is the same as using \\[set-mark-command] with the prefix argument."
   "Return non-nil if the current buffer is narrowed."
   (/= (- (point-max) (point-min)) (buffer-size)))
 
-;;; opening files
-(defun my-find-file-same-ext (filename)
-  "Find files with same extension as the file in current buffer."
-  (interactive (list (let ((ext (file-name-extension (buffer-file-name))))
-                       (completing-read
-                        (format "Find file [.%s]: " ext)
-                        (directory-files default-directory)
-                        `(lambda (f) (equal (file-name-extension f)
-                                            ,ext))
-                        t))))
-  (find-file filename))
-
-(defun my-find-file-same-mode (filename)
-  "Find files that would open in the same `major-mode' as current buffer."
-  (interactive (list (progn
-                       (require 'dired-hacks-utils)
-                       (completing-read
-                        (format "Find file [major-mode %s]: " major-mode)
-                        (directory-files default-directory)
-                        `(lambda (f)
-                           (-when-let (mm (cdr (dired-utils-match-filename-regexp
-                                                f auto-mode-alist)))
-                             (eq mm ',major-mode)))
-                        t))))
-  (find-file filename))
-
-(defun my-find-file-sudo (filename)
-  "Open the file through sudo(1).
-
-With \\[universal-argument], visit current file via sudo."
-  (interactive
-   (list (if current-prefix-arg (buffer-file-name)
-           (read-file-name "Find file: " nil default-directory
-                           (confirm-nonexistent-file-or-buffer)))))
-  (find-file (concat "/sudo::" filename)))
-
 ;; TODO: add support for w3m linky/image
 (defun my-find-url (url)
   "Download URL and insert into current buffer at point."
