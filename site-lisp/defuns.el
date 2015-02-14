@@ -130,39 +130,6 @@ This is the opposite of fill-paragraph."
   (let ((auto-mode-alist nil))
     (find-file filename)))
 
-(defun my-dired-insert-git-ls-files (path)
-  (let* ((full-path (file-truename (concat path "/")))
-         (default-directory full-path)
-         (buf (with-current-buffer (get-buffer-create " git-ls-files")
-                (erase-buffer)
-                (current-buffer))))
-    (call-process "git"
-                  nil
-                  buf
-                  nil
-                  "ls-files")
-    (let* ((data (with-current-buffer buf
-                   (goto-char (point-min))
-                   (when (> (point-max) 0)
-                     (insert "\"")
-                     (end-of-line)
-                     (insert "\"")
-                     (while (and (= 0 (forward-line))
-                                 (not (eobp)))
-                       (insert "\"")
-                       (end-of-line)
-                       (insert "\"")))
-                   (goto-char (point-min))
-                   (replace-regexp "\n" " ")
-                   (goto-char (point-min))
-                   (insert "(")
-                   (goto-char (point-max))
-                   (insert ")")
-                   (buffer-substring-no-properties (point-min) (point-max))))
-           (list (read data)))
-      (message "%S" list)
-      (--map (insert-directory it "-la") list))))
-
 (defun my-extract-buffer-substring (end-pattern)
   "Extract buffer substring between current point and END-PATTERN.
 
