@@ -11,14 +11,3 @@
   (declare (indent 0))
   `(progn
      ,@(apply 'append (mapcar (lambda (form) (list '(goto-char (point-min)) form)) forms))))
-
-(defvar my-macro-names
-  '(
-    "fix-reset-after-each"
-    "bind-keys"
-    ))
-
-(font-lock-add-keywords 'emacs-lisp-mode `((,(concat "(\\<"
-                                                     (regexp-opt my-macro-names 'paren)
-                                                     "\\>")
-                                            1 font-lock-keyword-face)) 'append)

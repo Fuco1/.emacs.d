@@ -1,11 +1,22 @@
 (require 'thingatpt)
 (use-package eldoc :diminish eldoc-mode)
 
+(defvar my-macro-names
+  '(
+    "my-with-every-line"
+    "my-fix-reset-after-each"
+    "bind-keys"
+    ))
+
 (font-lock-add-keywords 'emacs-lisp-mode '(("\\(?:^\\| \\)\\('\\sw\\(?:\\sw\\|\\s_\\)*\\)"
                                             1 'font-lock-constant-face)
                                            ("(\\(defhydra\\)\\>[[:blank:]]+\\(.*?\\)\\([[:blank:]]\\|$\\)"
                                             (1 font-lock-keyword-face)
-                                            (2 font-lock-type-face))))
+                                            (2 font-lock-type-face))
+                                           (,(concat "(\\<"
+                                                     (regexp-opt my-macro-names 'paren)
+                                                     "\\>")
+                                            1 font-lock-keyword-face)))
 
 (defvar my-emacs-lisp-open-line-list '(
                                        if
