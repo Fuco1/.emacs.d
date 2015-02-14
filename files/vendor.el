@@ -832,8 +832,33 @@ called, percentage usage and the command."
           (t (lambda (e) (funcall func (cdr e) (/ (* 1e2 (cdr e)) sum) (car e)))))
          (cdr list) "")))))
 
-(use-package letcheck
-  :commands letcheck-mode)
+(use-package lisp-mode
+  :defer t
+  :init
+  (progn
+    (use-package letcheck
+      :commands letcheck-mode)
+    (defun my-emacs-lisp-init ()
+      (bind-keys :map emacs-lisp-mode-map
+        ("<return>" . my-emacs-lisp-open-line)
+        ("C-M-;" . clippy-describe-function)
+        ("C-. ." . my-describe-thing-in-buffer))
+      (bind-key "C-x C-d"
+                (defhydra hydra-elisp-refactor (:color blue)
+                  "Refactor"
+                  ("l" my-extract-to-let "extract to let")
+                  ("m" my-merge-let-forms "merge let forms")
+                  ("c" my-lisp-if-to-cond "if => cond")
+                  ("i" my-lisp-cond-to-if "cond => if"))
+                emacs-lisp-mode-map)
+      (unbind-key "C-x C-a" emacs-lisp-mode-map)
+      (set-input-method "english-prog")
+      (eldoc-mode 1)
+      (letcheck-mode t))
+    (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init))
+  :config
+  (progn
+    (load "files/lisp-mode-defs")))
 
 (use-package magit
   :pre-init
