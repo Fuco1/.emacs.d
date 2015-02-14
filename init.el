@@ -43,12 +43,10 @@
   (load "site-lisp/advices")
   (load "site-lisp/defuns-buffer")
   (load "site-lisp/defuns-edit")
-  (load "site-lisp/defuns-macros")
   (load "site-lisp/defuns")
-  (load "site-lisp/emacs-lisp-mode")
   (load "site-lisp/macros")
-  (load "site-lisp/vendor")
   (load "site-lisp/redef")
+  (load "site-lisp/vendor")
 
   ;; load keys
   (load "files/keys"))
