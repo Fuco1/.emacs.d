@@ -61,20 +61,6 @@ If NO-HEADERS is non-nil, remove the HTTP headers first."
     (prog1 (buffer-string)
       (kill-buffer))))
 
-;;; function overloads
-(eval-after-load "hi-lock"
-  '(progn
-     (defun hi-lock-read-face-name ()
-       "Read face name from minibuffer with completion and history."
-       (intern (completing-read
-                "Highlight using face: "
-                (mapcar 'symbol-name (face-list))
-                nil
-                nil
-                "hi-"
-                'face-name-history
-                (car hi-lock-face-defaults))))))
-
 ;; By Stefan Monnier <foo at acm.org>.
 (defun unfill-paragraph ()
   "Take a multi-line paragrap and make it into a single line of text.

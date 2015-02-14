@@ -331,3 +331,16 @@ Lisp function does not specify a special indentation."
        (if (and no-dirs (file-directory-p f))
            (error "File %s is a directory" f))
        f)))
+
+(eval-after-load "hi-lock"
+  '(progn
+     (defun hi-lock-read-face-name ()
+       "Read face name from minibuffer with completion and history."
+       (intern (completing-read
+                "Highlight using face: "
+                (mapcar 'symbol-name (face-list))
+                nil
+                nil
+                "hi-"
+                'face-name-history
+                (car hi-lock-face-defaults))))))
