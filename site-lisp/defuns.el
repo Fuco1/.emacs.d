@@ -74,33 +74,6 @@ This is the opposite of fill-paragraph."
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
 
-(defun my-assimil--format-line (fill)
-  (let ((fill-column 38)
-        (fill-prefix fill))
-    (fill-region (line-beginning-position) (line-end-position))))
-
-(defun my-assimil-format (arg)
-  (interactive "p")
-  (dotimes (i arg)
-    (my-assimil--format-line "     ")
-    (forward-line -1)))
-
-(defun my-assimil-format-ubung (arg)
-  (interactive "p")
-  (dotimes (i arg)
-    (my-assimil--format-line "   ")
-    (forward-line -1)))
-
-(defun my-assimil-insert-dialog-template (arg)
-  (interactive "p")
-  (dotimes (i arg)
-    (insert (format "%2d - \n" (1+ i)))))
-
-(defun my-assimil-insert-ubung-template (arg)
-  (interactive "p")
-  (dotimes (i arg)
-    (insert (format "%d. \n" (1+ i)))))
-
 (defun my-format-synonyms-from-wiki ()
   (interactive)
   (goto-char (point-min))
