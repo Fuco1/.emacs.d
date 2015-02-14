@@ -39,7 +39,7 @@ This is the same as using \\[set-mark-command] with the prefix argument."
     (html-mode)
     (view-mode)))
 
-(defsubst buffer-narrowed-p ()
+(defun buffer-narrowed-p ()
   "Return non-nil if the current buffer is narrowed."
   (/= (- (point-max) (point-min)) (buffer-size)))
 
