@@ -78,12 +78,15 @@ function on `my-emacs-lisp-open-line-list'."
     (defun my-goto-dominating-form (what)
       "Find dominating form starting with WHAT."
       (unless (listp what) (setq what (list what)))
-      (while (and (> (car (syntax-ppss)) 0)
-                  (not (ignore-errors
-                         (backward-up-list)
-                         (save-excursion
-                           (down-list)
-                           (memq (symbol-at-point) what)))))))
+      (unless (save-excursion
+                (when (ignore-errors (down-list))
+                  (memq (symbol-at-point) what)))
+        (while (and (> (car (syntax-ppss)) 0)
+                    (not (ignore-errors
+                           (backward-up-list)
+                           (save-excursion
+                             (down-list)
+                             (memq (symbol-at-point) what))))))))
 
     (defun my-extract-to-let (name &optional arg)
       "Extract the form at point into a variable called NAME placed
@@ -129,8 +132,7 @@ inner let form point is inside of."
       (save-excursion
         (my-goto-dominating-form '(let let*))
         (down-list)
-        (forward-sexp 2)
-        (backward-sexp)
+        (my-next-sexp)
         (let ((var-list (sp-get (sp--next-thing-selection) (delete-and-extract-region :beg-prf :end))))
           (sp-splice-sexp-killing-backward 1)
           (my-goto-dominating-form '(let let*))
@@ -144,27 +146,31 @@ inner let form point is inside of."
           (indent-sexp))))
 
     (defun my-next-sexp ()
-      (ignore-errors
-        (forward-sexp 2)
-        (backward-sexp)))
+      "Move to the beginning of sexp after the current one."
+      (condition-case nil
+          (progn
+            (forward-sexp 2)
+            (backward-sexp)
+            t)
+        (error nil)))
 
-    (defun my-lisp-condify-if ()
+    (defun my-sexp-at-point ()
+      "Extract sexp at point as text."
+      (sp-get (sp--next-thing-selection) (buffer-substring-no-properties :beg-prf :end)))
+
+    (defun my-lisp-if-to-cond ()
+      "Transform an `if' form to a `cond' form."
       (interactive)
       (save-excursion
         (my-goto-dominating-form 'if)
         (let ((p (point)))
           (down-list)
           (my-next-sexp)
-          (let ((condition (sexp-at-point))
-                (body1 (progn
-                         (my-next-sexp)
-                         (sexp-at-point)))
-                (body2 (progn
-                         (my-next-sexp)
-                         (sexp-at-point))))
+          (let ((condition (my-sexp-at-point))
+                (body1 (progn (my-next-sexp) (my-sexp-at-point)))
+                (body2 (progn (my-next-sexp) (my-sexp-at-point))))
             (goto-char p)
-            (cl-destructuring-bind (beg . end) (bounds-of-thing-at-point 'sexp)
-              (delete-region beg end))
+            (-let [(beg . end) (bounds-of-thing-at-point 'sexp)] (delete-region beg end))
             (insert
              (format "(cond
                    (%s
@@ -172,4 +178,39 @@ inner let form point is inside of."
                    (t
                      %s))" condition body1 body2))
             (goto-char p)
-            (indent-sexp)))))))
+            (indent-sexp)))))
+
+    (defun my-lisp-cond-to-if ()
+      "Transform a `cond' form into an `if' form."
+      (interactive)
+      (save-excursion
+        (my-goto-dominating-form 'cond)
+        (let ((p (point))
+              (forms nil))
+          (down-list)
+          (my-next-sexp)
+          (while (progn
+                   (push (cons
+                          (sexp-at-point)
+                          (my-sexp-at-point))
+                         forms)
+                   (my-next-sexp)))
+          (setq forms (nreverse forms))
+          (goto-char p)
+          (-let (((beg . end) (bounds-of-thing-at-point 'sexp))) (delete-region beg end))
+          (let ((last-is-t (eq (caar (-last-item forms)) t)))
+            (--each (if last-is-t (-butlast forms) forms)
+              (insert (format "(if %s\n" (substring (cdr it) 1 -1))))
+            (if last-is-t
+                (progn
+                  (insert (format "%s" (cdr (-last-item forms))))
+                  (backward-sexp)
+                  (down-list)
+                  (forward-sexp)
+                  (sp-splice-sexp-killing-backward 1)
+                  (forward-sexp)
+                  (insert (make-string (1- (length forms)) 41)))
+              (delete-char -1)
+              (insert (format "%s" (make-string (length forms) 41)))))
+          (backward-sexp)
+          (indent-sexp))))))
