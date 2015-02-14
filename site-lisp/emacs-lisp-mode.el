@@ -6,11 +6,15 @@
       (bind-keys :map emacs-lisp-mode-map
         ("<return>" . my-emacs-lisp-open-line)
         ("C-M-;" . clippy-describe-function)
-        ("C-. ." . my-describe-thing-in-buffer)
-        ("C-x C-d l" . my-extract-to-let)
-        ("C-x C-d m" . my-merge-let-forms)
-        ("C-x C-d c" . my-lisp-condify-if))
-
+        ("C-. ." . my-describe-thing-in-buffer))
+      (bind-key "C-x C-d"
+                (defhydra hydra-elisp-refactor (:color blue)
+                  "Refactor"
+                  ("l" my-extract-to-let "extract to let")
+                  ("m" my-merge-let-forms "merge let forms")
+                  ("c" my-lisp-if-to-cond "if => cond")
+                  ("i" my-lisp-cond-to-if "cond => if"))
+                emacs-lisp-mode-map)
       (set-input-method "english-prog")
       (eldoc-mode 1)
       (letcheck-mode t))
@@ -21,7 +25,10 @@
     (use-package eldoc :diminish eldoc-mode)
 
     (font-lock-add-keywords 'emacs-lisp-mode '(("\\(?:^\\| \\)\\('\\sw\\(?:\\sw\\|\\s_\\)*\\)"
-                                                1 'font-lock-constant-face)))
+                                                1 'font-lock-constant-face)
+                                               ("(\\(defhydra\\)\\>[[:blank:]]+\\(.*?\\)\\([[:blank:]]\\|$\\)"
+                                                (1 font-lock-keyword-face)
+                                                (2 font-lock-type-face))))
 
     (defvar my-emacs-lisp-open-line-list '(
                                            if
