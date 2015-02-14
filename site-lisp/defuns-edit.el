@@ -86,7 +86,7 @@ and indent next line according to mode."
     (forward-line 1)
     (indent-according-to-mode)))
 
-(defun forward-line-and-indent (arg)
+(defun my-forward-line-and-indent (arg)
   "Move point ARG lines forward and autoindent."
   (interactive "p")
   (forward-line arg)
@@ -96,7 +96,7 @@ and indent next line according to mode."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evaluate sexps/macros
 
-(defun eval-and-replace ()
+(defun my-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
   (backward-kill-sexp)
@@ -355,7 +355,7 @@ Additionally, when looking at [ \\t]*$, capitalize backwards."
 ;; Operations related to lines
 
 ;; from https://github.com/skeeto/.emacs.d/blob/master/my-funcs.el
-(defun move-line (n)
+(defun my-move-line (n)
   "Move the current line up or down by N lines."
   (interactive "p")
   (let ((col) (current-column) start end)
@@ -367,15 +367,15 @@ Additionally, when looking at [ \\t]*$, capitalize backwards."
       (forward-line -1)
       (forward-char col))))
 
-(defun move-line-up (n)
+(defun my-move-line-up (n)
   "Move the current line up by N lines."
   (interactive "p")
-  (move-line (if (null n) -1 (- n))))
+  (my-move-line (if (null n) -1 (- n))))
 
-(defun move-line-down (n)
+(defun my-move-line-down (n)
   "Move the current line down by N lines."
   (interactive "p")
-  (move-line (if (null n) 1 n)))
+  (my-move-line (if (null n) 1 n)))
 
 (defun my-pull-word (&optional arg)
   "Pull the last word from the line above point to the beginning of this line.

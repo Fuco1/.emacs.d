@@ -70,7 +70,7 @@
 (bind-key "M-," 'find-function)
 
 ;; sexp settings
-(bind-key "C-x e" 'eval-and-replace)
+(bind-key "C-x e" 'my-eval-and-replace)
 (bind-key "C-;" 'eval-expression)
 
 ;; minibuffer history
@@ -138,14 +138,14 @@
 ;; # move into
 (bind-key "C-M-d" 'down-list)
 
-(bind-key "M-<up>" 'move-line-up)
-(bind-key "M-<down>" 'move-line-down)
+(bind-key "M-<up>" 'my-move-line-up)
+(bind-key "M-<down>" 'my-move-line-down)
 
 ;; opening new lines. C-o can be called from any point on the line,
 ;; ret from the end only
 (bind-key "RET" 'my-newline)
 (bind-key "C-o" 'my-open-line)
-(bind-key "C-S-o" 'forward-line-and-indent)
+(bind-key "C-S-o" 'my-forward-line-and-indent)
 (bind-key "M-j"
           (lambda ()
             (interactive)
