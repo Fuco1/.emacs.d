@@ -200,13 +200,17 @@ is extension of default `tango-dark' face.")
 
    ;; Ediff faces
    (ediff-current-diff-A (:background alum-5))
-   (ediff-fine-diff-A (:background blue-3))
-   (ediff-even-diff-A (:background alum-5.5))
-   (ediff-odd-diff-A (:background alum-5.5))
    (ediff-current-diff-B (:background alum-5))
-   (ediff-fine-diff-B (:background choc-3))
-   (ediff-even-diff-B (:background alum-5.5))
-   (ediff-odd-diff-B (:background alum-5.5))
+   (ediff-current-diff-C (:background alum-5))
+   (ediff-fine-diff-A (:background blue-3))
+   (ediff-fine-diff-B (:background plum-3))
+   (ediff-fine-diff-C (:background choc-3))
+   (ediff-even-diff-A (:background alum-6.5))
+   (ediff-even-diff-B (:background alum-6.5))
+   (ediff-even-diff-C (:background alum-6.5))
+   (ediff-odd-diff-A (:background alum-6.5))
+   (ediff-odd-diff-B (:background alum-6.5))
+   (ediff-odd-diff-C (:background alum-6.5))
 
    ;; Diff faces
    (diff-added (:foreground cham-1))
