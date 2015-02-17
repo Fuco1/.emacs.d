@@ -1135,6 +1135,7 @@ If in the test file, visit source."
   (progn
     (use-package better-jump)
     (use-package php-eldoc)
+    (use-package which-func)
 
     (defun my-php-jump-to-variable ()
       "Jump to a variable in the selected window."
