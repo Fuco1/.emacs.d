@@ -1167,6 +1167,21 @@ If in the test file, visit source."
         (async-shell-command (format "cd '%s'; php tester -c php.ini '%s'" tester-dir dir))))
     (bind-key "C-c C-c" 'my-php-run-tests php-mode-map)
 
+    (defun my-php-switch-to-test ()
+      "Switch to corresponding unit test.
+
+Unit tests are specified by .unit.phpt extension.
+
+If already in a unit test, go to source."
+      (interactive)
+      (let ((other-file
+             (if (string-match-p "\\.php\\'" (buffer-file-name))
+                 (replace-regexp-in-string "\\.php\\'" ".unit.phpt" (buffer-file-name))
+               (replace-regexp-in-string "\\.unit\\.phpt\\'" ".php" (buffer-file-name))))
+            (func (which-function)))
+        (find-file other-file)))
+    (bind-key "C-c C-t" 'my-php-switch-to-test php-mode-map)
+
     (defun my-php-run ()
       "Run all Nette tests found in current directory."
       (interactive)
