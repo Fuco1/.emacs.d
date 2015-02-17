@@ -115,9 +115,11 @@
  '(emms-player-list nil)
  '(enable-recursive-minibuffers t)
  '(eshell-output-filter-functions (quote (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
- '(eshell-prompt-function (lambda nil (concat (format-time-string "[%H:%M:%S]:") (abbreviate-file-name (eshell/pwd)) (if (= (user-uid) 0) "># " ">$ "))))
+ '(eshell-prompt-function (lambda nil (concat (format-time-string "[%H:%M:%S]:") (my-abbrev-file-name (eshell/pwd)) "
+" (if (= (user-uid) 0) "># " ">$ "))))
  '(eshell-prompt-regexp "^[^#$
-]*>[#$] ")
+]*
+>[#$] ")
  '(exec-path (quote ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/local/games" "/usr/local/libexec/emacs/24.3/x86_64-unknown-linux-gnu" "/home/matus/bin")))
  '(find-grep-options "-qE")
  '(flx-ido-mode t)
@@ -233,6 +235,7 @@
  '(mis-recipes-directory "~/.emacs.d/dev/make-it-so/recipes/")
  '(mm-inline-large-images (quote resize))
  '(mouse-highlight nil)
+ '(mouse-wheel-progressive-speed nil)
  '(multi-web-global-mode nil nil (multi-web-mode))
  '(mweb-default-major-mode (quote html-mode))
  '(notmuch-archive-tags (quote ("-inbox" "-unread" "+archived")))
@@ -369,6 +372,7 @@
  '(rcirc-server-alist (quote (("chat.freenode.org"))))
  '(recentf-auto-cleanup (quote never))
  '(recentf-max-saved-items 200)
+ '(recentf-mode t)
  '(recentf-save-file "~/.emacs.d/.recentf")
  '(reftex-label-alist (quote (("lemma" 32 "lem:" "~\\cref{%s}" nil nil) ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
  '(safe-local-variable-values (quote ((my-buffer-input-methods "devanagari-translit" "devanagari-aiba") (my-buffer-input-methods "TeX" "devanagari-aiba") (my-org-drill-language . "Sanskrit") (haskell-program-name . "ghci -lpulse") (eval when (and (buffer-file-name) (file-regular-p (buffer-file-name)) (string-match-p "^[^.]" (buffer-file-name))) (emacs-lisp-mode) (when (fboundp (quote flycheck-mode)) (flycheck-mode -1)) (unless (featurep (quote package-build)) (let ((load-path (cons ".." load-path))) (require (quote package-build)))) (package-build-minor-mode)) (my-org-drill-language . "French") (eval font-lock-add-keywords nil (quote (("(\\(dired-filter-define\\)[[:blank:]]+\\(.+\\)" (1 (quote font-lock-keyword-face)) (2 (quote font-lock-function-name-face)))))) (eval font-lock-add-keywords nil (quote (("defexamples\\|def-example-group\\| => " (0 (quote font-lock-keyword-face))) ("(defexamples[[:blank:]]+\\(.*\\)" (1 (quote font-lock-function-name-face)))))) (eval font-lock-add-keywords nil (quote (("defexamples\\|def-example-group\\| => " (0 (quote font-lock-keyword-face))) ("(defexamples[[:blank:]]+\\(.*?\\)" (1 (quote font-lock-function-name-face)))))) (eval font-lock-add-keywords nil (quote (("defexamples\\|def-example-group\\| => " (0 (quote font-lock-keyword-face))) ("(defexamples[:blank:]+\\(.*?\\)" (1 (quote font-lock-function-name-face)))))) (eval font-lock-add-keywords nil (quote (("defexamples\\|def-example-group\\| => " (0 (quote font-lock-keyword-face))) ("(defexamples[ ]+\\(.*?\\)" (1 (quote font-lock-function-name-face)))))) (eval font-lock-add-keywords nil (quote (("defexamples\\|def-example-group\\| => " (0 (quote font-lock-keyword-face))) ("(defexamples +\\(.*?\\)" (1 (quote font-lock-function-name-face)))))) (eval font-lock-add-keywords nil (quote (("defexamples\\|def-example-group\\| => " (0 (quote font-lock-keyword-face)))))) (org-refile-targets ("~/org/bookmarks.org" :tag . "folder")) (org-tags-exclude-from-inheritance "folder") (org-tags-exclude-from-inheritance . folder) (org-tags-exclude-from-inheritance . "folder") (eval progn (variable-pitch-mode 1) (text-scale-adjust 2) (overlay-put (make-overlay (point-min) (point-max)) (quote face) (quote my-reading-face))) (dired-filter-stack (dot-files) (omit)) (my-inhibit-buffer-cleanup . t) (eval progn (local-set-key (kbd "C-=") (quote my-org-add-drill-entry)) (local-set-key (kbd "C-<") (quote my-format-russian-verb)) (local-set-key (kbd "C->") (quote my-format-meaning))) (eval progn (local-set-key (kbd "C-=") (quote my-org-add-drill-entry)) (local-set-key (kbd "C->") (quote my-format-meaning))) (eval progn (local-set-key (kbd "C-=") (quote my-org-add-drill-entry)) (local-set-key (kbd "C->") (quote my-format-latin-meaning))) (eval progn (local-set-key (kbd "C-=") (quote my-org-add-drill-entry)) (local-set-key (kbd "C-<") (quote my-format-russian-verb)) (local-set-key (kbd "C->") (quote my-format-russian-meaning))) (eval progn (variable-pitch-mode 1) (text-scale-adjust 2)) (cursor-type . bar) (eval progn (variable-pitch-mode 1) (text-scale-adjust 3)) (my-org-drill-language . "Latin") (eval local-set-key (kbd "C-=") (quote my-org-add-drill-entry)) (eval set-input-method "cyrillic-translit") (my-org-drill-language . "Russian") (my-org-drill-file . t) (my-org-drill-local-language . "Polish") (eval virtual-dired "d:/") (eval font-lock-add-keywords nil (\` (((\, (concat "(" (regexp-opt (quote ("wd-cond")) t) "\\_>")) 1 (quote font-lock-keyword-face))))) (eval push (file-name-directory (buffer-file-name)) load-path) (eval font-lock-add-keywords nil (\` (((\, (concat "(" (regexp-opt (quote ("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl")) t) "\\_>")) 1 (quote font-lock-variable-name-face))))) (TeX-master . main) (eval font-lock-add-keywords nil (quote (("(\\(dm-defun\\)\\(?:\\s-\\)+\\(\\_<.*?\\_>\\)" (1 font-lock-keyword-face) (2 font-lock-function-name-face))))) (eval font-lock-add-keywords nil (quote (("defexamples\\| => " (0 (quote font-lock-keyword-face)))))) (reftex-default-bibliography "./bibliography") (eval allout-mode t))))
