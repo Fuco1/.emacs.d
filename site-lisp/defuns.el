@@ -43,7 +43,6 @@ This is the same as using \\[set-mark-command] with the prefix argument."
   "Return non-nil if the current buffer is narrowed."
   (/= (- (point-max) (point-min)) (buffer-size)))
 
-;; TODO: add support for w3m linky/image
 (defun my-find-url (url)
   "Download URL and insert into current buffer at point."
   (interactive "sULR: ")

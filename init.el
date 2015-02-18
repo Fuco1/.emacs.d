@@ -37,7 +37,6 @@
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 
-;; TODO: go through this and sort out useless crap, package the useful bits
 (use-package-with-elapsed-timer "Loading site lisp"
   ;; load site lisp
   (load "site-lisp/advices")

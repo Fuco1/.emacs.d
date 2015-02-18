@@ -333,8 +333,6 @@ You can then feed the file name(s) to other commands with \\[yank]."
         (kill-word 1)
         (insert avail-hr)))))
 
-;; TODO: pridat C-b z totalcmd ... staci pouzit ag-dired-regexp s patternom .*
-
 (defun my-dired-list-all-subdirs (arg)
   (interactive "P")
   (let ((dir (if arg

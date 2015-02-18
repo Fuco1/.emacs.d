@@ -8,7 +8,6 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Mode specific indent sizes
-;; TODO: Consider putting these in their own mode specific inits
 ;; (setq c-basic-offset 4)
 ;; (setq css-indent-offset 2)
 ;; (setq sh-basic-offset 2)
@@ -31,7 +30,6 @@
 ;; Smart Tab
 ;; Borrowed from snippets at
 ;; http://www.emacswiki.org/emacs/TabCompletion
-;; TODO: Take a look at https://github.com/genehack/smart-tab
 
 (defun my-smart-tab-must-expand (prefix)
   "Return non-nil if we must expand."

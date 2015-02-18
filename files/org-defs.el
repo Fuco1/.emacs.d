@@ -1091,8 +1091,6 @@ Switch projects and subprojects from NEXT back to TODO"
       (org-narrow-to-subtree)
       (org-cycle-hide-drawers t))))
 
-;; TODO: breaks if we're adding the headline as last headline in the
-;; file
 (defun my-org-add-sibling (&optional arg)
   "Add new sibling depending on context.
 
@@ -1172,7 +1170,6 @@ The relation is transitive.  If we have another implication
 relation (\"jedi\" \"starwars\"), any headline tagged with
 \"jedi\" will imply tags \"starwars\", \"scifi\" and \"space\".")
 
-;; TODO: use the better linear time algorithm (like the "depth of tree from array")
 (defun my-org-resolve-ontology (tags)
   "Return TAGS with all the parent tags according to current ontology."
   (--fix

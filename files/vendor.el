@@ -169,7 +169,6 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
         (insert-file-contents "~/secrets/dasnet-irssi-proxy")
         (buffer-string)))
 
-    ;; TODO: write a macro to fontify nicks
     (setq lui-highlight-keywords
           '(("^--> .*" (face (:foreground "#4e9a06")))
             ;; specific nick highlights
@@ -238,7 +237,6 @@ message.")
 
     (setq my-lui-highlight-filter 'my-lui-highlight-filter)
 
-    ;; TODO: napisat "go to mention" ktore skoci na miesto kde nastal highlight
     (add-hook 'lui-post-output-hook 'my-lui-save-highlights)
     (defun my-lui-save-highlights ()
       (when (funcall my-lui-highlight-filter)
@@ -250,7 +248,6 @@ message.")
           (with-current-buffer (get-buffer-create my-lui-highlight-buffer)
             (goto-char (point-max))
             (save-restriction
-              ;; TODO: abstract this into a formatter
               (narrow-to-region (point) (point))
               (insert (propertize (format-time-string "[%Y-%m-%d %H:%M:%S]")
                                   'face 'lui-time-stamp-face)

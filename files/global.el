@@ -27,7 +27,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some text-mode settings
 
-;; TODO: move this to the settings of these respective modes
 (setq-default cursor-type 'box)
 (dolist (hook '(LaTeX-mode-hook
                 org-mode-hook

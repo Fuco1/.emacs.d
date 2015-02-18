@@ -1,6 +1,4 @@
 ;;; Global key bindigns
-;; TODO: move keys to apropriate packages in vendor.el, only keep the
-;; bare minimum here.
 
 ;; We do not want to quit emacs, ever.
 (unbind-key "C-x C-c")
@@ -38,8 +36,6 @@
 
 ;; refresh-like
 (bind-key "M-<f5>" '(lambda () (interactive) (load-file (buffer-file-name))))
-;; TODO: gather all `universal-argument' bindings somewhere on one place
-(bind-key "A-u" 'universal-argument)
 
 ;; Indenting and alignment
 (bind-key "C-<f8>" 'indent-buffer)
@@ -287,7 +283,6 @@ inserted character."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Jump to "logical" top/bottom of buffer in listing buffers
-;; TODO: turn this into a package
 
 (defmacro my-special-buffer-back-to-top (mode &rest forms)
   (declare (indent 1))
