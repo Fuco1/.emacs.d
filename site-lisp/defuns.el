@@ -281,3 +281,53 @@ With non-nil prefix argument, ask for LANGUAGE."
   "Switch to LRU buffer."
   (interactive)
   (switch-to-buffer (car (helm-buffer-list))))
+
+(defun my-svn-get-current-url ()
+  "Return svn url representing current buffer."
+  (vc-svn-repository-hostname (buffer-file-name)))
+
+(defun my-svn-get-trunk-url (&optional branch-url)
+  "Return trunk url for file represented by BRANCH-URL."
+  (setq branch-url (or branch-url (my-svn-get-current-url)))
+  (replace-regexp-in-string my-svn-branch my-svn-trunk branch-url))
+
+(defun my-svn-diff-branch-and-trunk ()
+  "Diff current buffer's file with its trunk version, run `diff-mode' on result."
+  (interactive)
+  (let* ((branch (vc-svn-repository-hostname (buffer-file-name)))
+         (trunk (my-svn-get-trunk-url branch)))
+    (with-current-buffer (get-buffer-create "*svndiff*")
+      (erase-buffer)
+      (vc-svn-command t t nil "diff" "-x -w" trunk branch)
+      (diff-mode)
+      (goto-char (point-min))
+      (pop-to-buffer (current-buffer)))))
+
+(defun my-svn-checkout-trunk-file-tmp ()
+  "Checkout the trunk version of current file into a temporary file.
+
+Return path to temporary file."
+  (let ((cb (current-buffer))
+        (ext (concat "." (file-name-extension (buffer-file-name)))))
+    (with-temp-buffer
+      (let ((tmp-file (concat (make-temp-file "my-svn-") ext)))
+        (vc-svn-command t t nil "export"
+                        (with-current-buffer cb
+                          (my-svn-get-trunk-url))
+                        tmp-file)
+        tmp-file))))
+
+(defun my-svn-ediff-branch-and-trunk ()
+  "Diff current buffer's file with its trunk version, run `ediff' on result."
+  (interactive)
+  (let ((trunk-file (concat (or (file-remote-p (buffer-file-name)) "") (my-svn-checkout-trunk-file-tmp)))
+        (buffer (concat "*trunk " (f-filename (buffer-file-name)) "*")))
+    (ediff-buffers
+     (with-current-buffer (get-buffer-create buffer)
+       (erase-buffer)
+       (insert-file-contents trunk-file)
+       (setq buffer-file-name trunk-file)
+       (set-auto-mode)
+       (setq buffer-file-name nil)
+       (current-buffer))
+     (current-buffer))))

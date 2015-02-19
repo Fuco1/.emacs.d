@@ -419,6 +419,7 @@ message.")
          ("C-. = f" . ediff-files)
          ("C-. = F" . ediff-files3)
          ("C-. = r" . ediff-revision)
+         ("C-. = t" . my-svn-ediff-branch-and-trunk)
          ("C-. = p" . ediff-patch-file)
          ("C-. = P" . ediff-patch-buffer)
          ("C-. = l" . ediff-regions-linewise)
@@ -1432,6 +1433,12 @@ variables of the same name."
 (use-package undo-tree
   :bind (("C-x u" . undo-tree-visualize))
   :diminish undo-tree-mode)
+
+(use-package vc
+  :defer t
+  :config
+  (progn
+    (bind-key "t" 'my-svn-diff-branch-and-trunk vc-prefix-map)))
 
 (use-package visual-regexp
   :pre-init
