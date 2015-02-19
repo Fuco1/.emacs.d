@@ -174,6 +174,7 @@
  '(ido-ubiquitous-command-exceptions (quote (smex-major-mode-commands beautify-smex ido-goto-symbol grep-read-files diredp-dired-files)))
  '(ido-ubiquitous-enable-compatibility t)
  '(ido-ubiquitous-function-exceptions (quote (diredp-dired-files-interactive-spec)))
+ '(ido-ubiquitous-max-items nil)
  '(ido-ubiquitous-mode t)
  '(ido-use-faces t)
  '(ido-use-virtual-buffers t)
