@@ -330,3 +330,14 @@ Return path to temporary file."
        (setq buffer-file-name nil)
        (current-buffer))
      (current-buffer))))
+
+(defun my-occur-dwim ()
+  "Call `occur' with a sane default."
+  (interactive)
+  (push (if (region-active-p)
+            (buffer-substring-no-properties
+             (region-beginning)
+             (region-end))
+          (thing-at-point 'symbol))
+        regexp-history)
+  (call-interactively 'occur))
