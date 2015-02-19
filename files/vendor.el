@@ -432,13 +432,11 @@ message.")
     (defun my-ediff-before-setup ()
       "Function to be called before any buffers or window setup for
     ediff."
-      (setq my-ediff-before-config (current-window-configuration))
-      (set-register ?b (list my-ediff-before-config (point-marker))))
+      (setq my-ediff-before-config (current-window-configuration)))
 
     (defun my-ediff-after-setup ()
       "Function to be called after buffers and window setup for ediff."
-      (setq my-ediff-after-config (current-window-configuration))
-      (set-register ?e (list my-ediff-after-config (point-marker))))
+      (setq my-ediff-after-config (current-window-configuration)))
 
     (defun my-ediff-quit ()
       "Function to be called when ediff quits."
