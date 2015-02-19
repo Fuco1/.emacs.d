@@ -50,7 +50,6 @@
   ("<f5>" . (lambda () (interactive) (let ((default-directory "~")) (ido-find-file)))))
 
 (bind-key "C-x C-a" 'my-switch-buffer-LRU)
-(bind-key "C-x C-b" 'ibuffer)
 
 ;; buffer cleanup
 (bind-key "C-c u" 'cleanup-buffer)

@@ -683,8 +683,8 @@ idle timer to do the actual update.")
     (require 'helm-config)
     (autoload 'helm-org-in-buffer-search "helm-org" nil t)
     (bind-keys
-     ("<f8>" . helm-occur)
-     ("C-'" . helm-buffers-list)
+     ("C-. C-." . helm-occur)
+     ("C-x C-b" . helm-buffers-list)
      ("C-x C-f" . helm-find-files))
     (bind-keys :map ctl-dot-prefix-map
       ("k" . helm-show-kill-ring))
@@ -1271,6 +1271,10 @@ variables of the same name."
 
 (use-package revbufs
   :bind ("C-<f5>" . revbufs))
+
+(use-package sallet
+  :bind (("<f8>" . sallet-occur)
+         ("C-'" . sallet-buffer)))
 
 (use-package sgml-mode
   :defer t
