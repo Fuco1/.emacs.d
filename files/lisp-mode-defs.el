@@ -4,6 +4,7 @@
 (defvar my-macro-names
   '(
     "my-with-every-line"
+    "my-with-each-line"
     "my-fix-reset-after-each"
     "bind-keys"
     ))

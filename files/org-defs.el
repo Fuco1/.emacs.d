@@ -1128,18 +1128,6 @@ sibling before the next header."
     (insert (make-string cdepth ?*) " ")))
 
 
-;; better org-agenda s/m UI
-;; TODO: move to defun-macros
-(defmacro my-with-each-line (&rest body)
-  (declare (indent 0)
-           (debug (body)))
-  `(save-excursion
-     (goto-char (point-min))
-     ,@body
-     (while (= (forward-line) 0)
-       ,@body)))
-
-
 ;; tags
 (defun my-org-add-tags-at (tags)
   "Add TAGS to current entry."
