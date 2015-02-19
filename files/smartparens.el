@@ -42,6 +42,19 @@
 (define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
 (define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
 
+(bind-key "C-M-s"
+          (defhydra smartparens-hydra (:color red)
+            "Smartparens"
+            ("d" sp-down-sexp "Down")
+            ("e" sp-up-sexp "Up")
+            ("u" sp-backward-up-sexp "Up")
+            ("a" sp-backward-down-sexp "Down")
+            ("f" sp-forward-sexp "Forward")
+            ("b" sp-backward-sexp "Backward")
+            ("k" sp-kill-sexp "Kill" :color blue)
+            ("q" nil "Quit" :color blue))
+          sp-keymap)
+
 (bind-key "H-t" 'sp-prefix-tag-object sp-keymap)
 (bind-key "H-p" 'sp-prefix-pair-object sp-keymap)
 (bind-key "H-y" 'sp-prefix-symbol-object sp-keymap)
