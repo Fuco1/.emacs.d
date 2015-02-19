@@ -1,9 +1,10 @@
 (require 'ibuf-ext)
 
 (bind-keys :map ibuffer-mode-map
-           ("M-o" . elwm-activate-window)
-           ("U" . (lambda () (interactive) (ibuffer-unmark-all 0)))
-           ("/ y" . ibuffer-filter-by-default-directory))
+  ("M-o" . elwm-activate-window)
+  ("U" . (lambda () (interactive) (ibuffer-unmark-all 0)))
+  ("/ y" . ibuffer-filter-by-default-directory)
+  ("<tab>" . ibuffer-forward-filter-group))
 
 ;; filter groups
 (setq-default
