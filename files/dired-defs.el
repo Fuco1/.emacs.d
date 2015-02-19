@@ -94,6 +94,7 @@ Also used for highlighting.")
     (dired-rainbow-define xml "#b4fa70" ("xml" "xsd" "xsl" "xslt" "wsdl"))
 
     (dired-rainbow-define document "#fce94f" ("doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub"))
+    (dired-rainbow-define excel "#3465a4" ("xlsx"))
     (dired-rainbow-define media "#ce5c00" my-dired-media-files-extensions)
     (dired-rainbow-define image "#ff4b4b" ("jpg" "png" "jpeg" "gif"))
 
