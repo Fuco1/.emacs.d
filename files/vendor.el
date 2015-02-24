@@ -147,6 +147,23 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     :init (slovak-holidays-add))
   :config
   (progn
+    (defvar my-calendar-current-window nil
+      "Window from where the calendar was invoked.")
+
+    (defadvice calendar (before set-my-calendar-current-window activate)
+      (setq my-calendar-current-window (selected-window)))
+
+    (defun my-calendar-insert-date ()
+      "Insert the date under cursor from calendar to current buffer."
+      (interactive)
+      (let ((now (calendar-cursor-to-date)))
+        (save-selected-window
+          (select-window my-calendar-current-window)
+          (let ((date (format "%4d-%02d-%02d" (nth 2 now) (nth 0 now) (nth 1 now))))
+            (insert date)))
+        (calendar-exit)))
+    (bind-key "RET" 'my-calendar-insert-date calendar-mode-map)
+
     (defadvice calendar-exit (around close-window activate)
       (let* ((wl (window-list))
              (cb (calendar-buffer-list))
