@@ -162,14 +162,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
           (let ((date (format "%4d-%02d-%02d" (nth 2 now) (nth 0 now) (nth 1 now))))
             (insert date)))
         (calendar-exit)))
-    (bind-key "RET" 'my-calendar-insert-date calendar-mode-map)
-
-    (defadvice calendar-exit (around close-window activate)
-      (let* ((wl (window-list))
-             (cb (calendar-buffer-list))
-             (wins-to-kill (mapcar (lambda (w) (cons (member (window-buffer w) cb) w)) wl)))
-        ad-do-it
-        (mapc (lambda (w) (when (car w) (delete-window (cdr w)))) wins-to-kill)))))
+    (bind-key "RET" 'my-calendar-insert-date calendar-mode-map)))
 
 (use-package circe
   :commands circe
