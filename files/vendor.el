@@ -1193,9 +1193,12 @@ If already in a unit test, go to source."
       (interactive)
       (let* ((file (if (file-remote-p (buffer-file-name))
                        (tramp-file-name-localname (tramp-dissect-file-name (buffer-file-name)))
-                     (buffer-file-name))))
+                     (buffer-file-name)))
+             ;; support for running PW stub tests
+             (pw-root (if my-pw-root (format "PW_ROOT='%s'" my-pw-root) ""))
+             (pw-test-uuid (if my-pw-test-uuid (format "PW_TEST_UUID='%s'" my-pw-test-uuid) "")))
         (when (buffer-modified-p) (save-buffer))
-        (async-shell-command (format "php '%s'" file))))
+        (async-shell-command (format "%s %s php '%s'" pw-root pw-test-uuid file))))
     (bind-key "C-c C-r" 'my-php-run php-mode-map)
 
     (defun my-php-get-function-args (&optional name)
