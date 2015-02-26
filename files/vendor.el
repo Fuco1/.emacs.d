@@ -1143,6 +1143,19 @@ If in the test file, visit source."
     (use-package php-eldoc)
     (use-package which-func)
 
+    ;; imenu for instance variables
+    (defun php-create-regexp-for-instance-variable (visibility)
+      (concat
+       "^\\s-*" visibility
+       ;; Static?
+       "\\s-+\\(?:static\\s-+\\)?"
+       ;; Capture name
+       "\\$\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*\\(?:;\\|=\\)"))
+
+    (add-to-list 'php-imenu-generic-expression `("Public Instance Variable" ,(php-create-regexp-for-instance-variable "public") 1))
+    (add-to-list 'php-imenu-generic-expression `("Protected Instance Variable" ,(php-create-regexp-for-instance-variable "protected") 1))
+    (add-to-list 'php-imenu-generic-expression `("Private Instance Variable" ,(php-create-regexp-for-instance-variable "private") 1))
+
     (defun my-php-jump-to-variable ()
       "Jump to a variable in the selected window."
       (interactive)
