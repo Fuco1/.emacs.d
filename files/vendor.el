@@ -1195,8 +1195,8 @@ If already in a unit test, go to source."
                        (tramp-file-name-localname (tramp-dissect-file-name (buffer-file-name)))
                      (buffer-file-name)))
              ;; support for running PW stub tests
-             (pw-root (if my-pw-root (format "PW_ROOT='%s'" my-pw-root) ""))
-             (pw-test-uuid (if my-pw-test-uuid (format "PW_TEST_UUID='%s'" my-pw-test-uuid) "")))
+             (pw-root (if (bound-and-true-p my-pw-root) (format "PW_ROOT='%s'" my-pw-root) ""))
+             (pw-test-uuid (if (bound-and-true-p my-pw-test-uuid) (format "PW_TEST_UUID='%s'" my-pw-test-uuid) "")))
         (when (buffer-modified-p) (save-buffer))
         (async-shell-command (format "%s %s php '%s'" pw-root pw-test-uuid file))))
     (bind-key "C-c C-r" 'my-php-run php-mode-map)
