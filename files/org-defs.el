@@ -604,6 +604,7 @@ replace any running timer."
 
 (bind-keys :map org-mode-map
   ("TAB" . smart-tab)
+  ("<tab>" . smart-tab)
   ("C-e" . my-end-of-code-or-line)
   ("C-a" . my-back-to-indentation-or-beginning)
   ("C-c C-x r" . org-clock-remove-overlays)

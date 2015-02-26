@@ -76,6 +76,5 @@ it. Else calls `my-smart-indent'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (bind-key "<tab>" 'smart-tab)
-(bind-key "<tab>" 'smart-tab org-mode-map)
 (bind-key "<tab>" 'smart-tab minibuffer-local-map)
 (bind-key "<tab>" 'smart-tab read-expression-map)
