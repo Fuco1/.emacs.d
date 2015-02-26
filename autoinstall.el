@@ -22,6 +22,7 @@
     google-this
     haskell-mode
     helm-descbinds
+    hydra
     ibuffer-vc
     icicles
     ido-ubiquitous
