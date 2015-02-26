@@ -1448,6 +1448,17 @@ variables of the same name."
     ;; to "plinkx" method.
     ))
 
+(use-package transpose-frame
+  :init
+  (progn
+    (defun transpose-frame-reverse (&optional frame)
+      "Transpose windows arrangement at FRAME, flopping first..
+Omitting FRAME means currently selected frame."
+      (interactive)
+      (transpose-frame-set-arrangement (transpose-frame-get-arrangement frame) frame
+                                       'transpose 'flop 'flip)
+      (if (interactive-p) (recenter)))))
+
 (use-package two-column
   :defer t
   :config
