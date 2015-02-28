@@ -860,7 +860,8 @@ called, percentage usage and the command."
       (unbind-key "C-x C-a" emacs-lisp-mode-map)
       (set-input-method "english-prog")
       (eldoc-mode 1)
-      (letcheck-mode t))
+      (letcheck-mode t)
+      (setq completion-at-point-functions nil))
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init))
   :config
   (progn
