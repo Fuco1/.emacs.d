@@ -1184,7 +1184,8 @@ If in the test file, visit source."
                       (tramp-file-name-localname (tramp-dissect-file-name default-directory))
                     default-directory)))
         (when (buffer-modified-p) (save-buffer))
-        (async-shell-command (format "cd '%s'; php tester -c php.ini '%s'" tester-dir dir))))
+        (let ((cmd (format "php %stester -c %s/tools/tester/php.ini '%s'" tester-dir root dir)))
+          (async-shell-command cmd))))
     (bind-key "C-c C-c" 'my-php-run-tests php-mode-map)
 
     (defun my-php-switch-to-test ()
