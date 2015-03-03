@@ -1137,7 +1137,7 @@ If in the test file, visit source."
     (load "files/org-defs.el")))
 
 (use-package php-mode
-  :mode ("\\.php\\'" . my-php-disable-multi-web-mode)
+  :mode ("\\.php[st]?\\'" . my-php-disable-multi-web-mode)
   :config
   (progn
     (use-package better-jump)
