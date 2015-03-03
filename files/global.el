@@ -24,6 +24,18 @@
 
 (setq edebug-inhibit-emacs-lisp-mode-bindings t)
 
+;; dir-local variables
+(dir-locals-set-class-variables
+ 'pw-orders-refactor
+ '((nil
+    (my-svn-branch . "/fw/branches-devel/mg-orders-refactor/")
+    (my-svn-trunk . "/fw/trunk/")
+    (my-pw-root . "/var/www/html/devel/mg/orders-refactor")
+    (my-pw-test-uuid . "test"))))
+
+(dir-locals-set-directory-class
+ "/scp:speedy:/var/www/html/devel/mg/orders-refactor/" 'pw-orders-refactor)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some text-mode settings
 
