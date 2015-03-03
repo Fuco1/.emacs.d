@@ -1276,7 +1276,29 @@ variables of the same name."
 (use-package projectile
   :defer t
   :diminish projectile-mode
-  :bind (("S-RET" . projectile-switch-to-buffer)))
+  :bind (("S-RET" . projectile-switch-to-buffer)
+         ("<f7> <f6>" . my-projectile-rgrep))
+  :config
+  (progn
+    (defun my-projectile-rgrep (regexp &optional files dir confirm)
+      "Just like `rgrep' but takes the project directory as default."
+      (interactive
+       (progn
+         (grep-compute-defaults)
+         (cond
+          ((and grep-find-command (equal current-prefix-arg '(16)))
+           (list (read-from-minibuffer "Run: " grep-find-command
+                                       nil nil 'grep-find-history)))
+          ((not grep-find-template)
+           (error "grep.el: No `grep-find-template' available"))
+          (t (let* ((regexp (grep-read-regexp))
+                    (files (grep-read-files regexp))
+                    (dir (read-directory-name "Base directory: "
+                                              (car (projectile-get-project-directories))
+                                              (car (projectile-get-project-directories)) t))
+                    (confirm (equal current-prefix-arg '(4))))
+               (list regexp files dir confirm))))))
+      (rgrep regexp files dir confirm))))
 
 (use-package quail
   :config
