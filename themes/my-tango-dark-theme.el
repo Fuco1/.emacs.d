@@ -220,6 +220,10 @@ is extension of default `tango-dark' face.")
    (diff-header (:foreground blue-1))
    (diff-refine-change (:background blue-3))
 
+   ;; Textile
+   (textile-code-face (:inherit my-org-code))
+   (textile-pre-face (:inherit (org-block-background font-lock-comment-face)))
+
    ;; Flyspell faces
    (flyspell-duplicate (:underline orange-1))
    (flyspell-incorrect (:underline red-1))
@@ -291,6 +295,7 @@ is extension of default `tango-dark' face.")
    (sp-pair-overlay-face (:background blue-3 :foreground alum-1))
    (variable-pitch (:height 144 :family ,variable-font))
    (wgrep-delete-face (:inherit font-lock-warning-face))
+   (fold-this-overlay (:inherit sp-pair-overlay-face))
 
    ;; My special themes
    (my-reading-face (:background "#808000" :foreground "#000000")))
