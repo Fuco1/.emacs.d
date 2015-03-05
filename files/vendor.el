@@ -1269,6 +1269,19 @@ These are retrieved from `imenu--index-alist'."
         (cdr (assoc my-php-protected-variables imenu--index-alist))
         (cdr (assoc my-php-private-variables imenu--index-alist)))))
 
+    (defun my-php-implement-proxy-function-call (proxy-through)
+      "Proxy this method through instance property."
+      (interactive (list (progn
+                           (imenu--make-index-alist)
+                           (completing-read "Proxy through: " (my-php-get-instance-variables)))))
+      (let ((args (my-php-get-function-args)))
+        (sp-restrict-to-pairs (list "{" "}") 'sp-down-sexp)
+        (forward-line)
+        (insert (format "return $this->%s->%s(%s);" proxy-through (which-function)
+                        (mapconcat (lambda (it) (replace-regexp-in-string "[&]" "" it)) args ", ")))
+        (indent-according-to-mode)))
+    (bind-key "C-x C-d p" 'my-php-implement-proxy-function-call php-mode-map)
+
     (defun my-php-disable-multi-web-mode ()
       "Set current buffer to `php-mode' and disable `multi-web-mode'."
       (interactive)
