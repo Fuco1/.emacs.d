@@ -542,7 +542,15 @@ idle timer to do the actual update.")
   :commands eshell
   :config
   (progn
+    (defun my-eshell-skip-prompt ()
+      (save-match-data
+        (let ((eol (line-end-position)))
+          (when (and (thing-at-point-looking-at eshell-prompt-regexp)
+                     (<= (match-end 0) eol))
+            (goto-char (match-end 0))))))
+
     (defun my-eshell-init ()
+      (setq eshell-skip-prompt-function 'my-eshell-skip-prompt)
       (bind-key [remap eshell-send-input] 'my-eshell-send-input eshell-mode-map))
     (add-hook 'eshell-mode-hook 'my-eshell-init)
     (load "files/eshell-defs")))
