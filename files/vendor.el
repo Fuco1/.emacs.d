@@ -1526,6 +1526,11 @@ Omitting FRAME means currently selected frame."
   :defer t
   :config
   (progn
+    (defadvice vc-diff (before call-register-automatically activate)
+      (when (buffer-file-name)
+        (unless (vc-registered (buffer-file-name))
+          (vc-register))))
+
     (bind-key "t" 'my-svn-diff-branch-and-trunk vc-prefix-map)))
 
 (use-package visual-regexp
