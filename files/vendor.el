@@ -1258,6 +1258,17 @@ variables of the same name."
         (delete-char -1)))
     (bind-key "C-x C-d c" 'my-php-implement-constructor php-mode-map)
 
+    (defun my-php-get-instance-variables ()
+      "Return all instance variables.
+
+These are retrieved from `imenu--index-alist'."
+      (-map
+       'car
+       (-concat
+        (cdr (assoc my-php-public-variables imenu--index-alist))
+        (cdr (assoc my-php-protected-variables imenu--index-alist))
+        (cdr (assoc my-php-private-variables imenu--index-alist)))))
+
     (defun my-php-disable-multi-web-mode ()
       "Set current buffer to `php-mode' and disable `multi-web-mode'."
       (interactive)
