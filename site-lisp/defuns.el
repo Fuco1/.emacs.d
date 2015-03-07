@@ -279,7 +279,7 @@ With non-nil prefix argument, ask for LANGUAGE."
 (defun my-switch-buffer-LRU ()
   "Switch to LRU buffer."
   (interactive)
-  (switch-to-buffer (car (helm-buffer-list))))
+  (switch-to-buffer (cadr (buffer-list))))
 
 (defun my-svn-get-current-url ()
   "Return svn url representing current buffer."
