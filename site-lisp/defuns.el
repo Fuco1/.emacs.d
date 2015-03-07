@@ -279,7 +279,9 @@ With non-nil prefix argument, ask for LANGUAGE."
 (defun my-switch-buffer-LRU ()
   "Switch to LRU buffer."
   (interactive)
-  (switch-to-buffer (cadr (buffer-list))))
+  (let* ((interesting-buffers (cdr (--drop-while (s-starts-with-p " " (buffer-name it)) (buffer-list))))
+         (next (--first (not (s-starts-with-p " " (buffer-name it))) interesting-buffers)))
+    (switch-to-buffer next)))
 
 (defun my-svn-get-current-url ()
   "Return svn url representing current buffer."
