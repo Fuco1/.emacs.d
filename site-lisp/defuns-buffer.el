@@ -58,6 +58,7 @@ might be bad."
   (unless my-inhibit-buffer-cleanup
     (let ((inhibit-read-only t))
       (unless (memq major-mode '(makefile-gmake-mode
+                                 makefile-mode
                                  text-mode
                                  fundamental-mode))
         (untabify-buffer))
