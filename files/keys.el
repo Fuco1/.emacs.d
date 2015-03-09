@@ -60,6 +60,7 @@
 ;; Easier buffer killing
 (bind-key "M-k" 'my-kill-this-buffer)
 (bind-key "C-x C-k" 'kill-buffer-and-window)
+(bind-key "C-x C-f" 'ido-find-file)
 
 ;; imenu
 (bind-key "M-," 'find-function)

@@ -702,8 +702,7 @@ idle timer to do the actual update.")
     (autoload 'helm-org-in-buffer-search "helm-org" nil t)
     (bind-keys
      ("<f8>" . helm-occur)
-     ("C-x C-b" . helm-buffers-list)
-     ("C-x C-f" . helm-find-files))
+     ("C-x C-b" . helm-buffers-list))
     (bind-keys :map ctl-dot-prefix-map
       ("k" . helm-show-kill-ring))
     (bind-keys :map helm-command-map
