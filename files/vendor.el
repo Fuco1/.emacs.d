@@ -1143,6 +1143,7 @@ If in the test file, visit source."
   (progn
     (load "files/org-defs.el")))
 
+;; TODO: move into a separate file
 (use-package php-mode
   :mode ("\\.php[st]?\\'" . my-php-disable-multi-web-mode)
   :config
@@ -1227,6 +1228,8 @@ If already in a unit test, go to source."
         (async-shell-command (format "%s %s php '%s'" pw-root pw-test-uuid file))))
     (bind-key "C-c C-r" 'my-php-run php-mode-map)
 
+    ;; TODO: get the types as well as the names... maybe use an actual
+    ;; parser for this?
     (defun my-php-get-function-args (&optional name)
       "Return all arguments of php function.
 
@@ -1264,6 +1267,22 @@ variables of the same name."
           (insert "\n"))
         (delete-char -1)))
     (bind-key "C-x C-d c" 'my-php-implement-constructor php-mode-map)
+
+    (defun my-php-add-private-variables-for-constructor-arguments ()
+      "Generate private variable definitions for constructor arguments."
+      (interactive)
+      (-when-let (args (save-excursion
+                         (goto-char (point-min))
+                         (when (search-forward "__construct" nil t)
+                           (my-php-get-function-args))))
+        (let ((beg (point)))
+          (--each args
+            (insert (format "/** @var */\n private $%s;\n\n"
+                            ;; TODO: abstract this cleanup
+                            (replace-regexp-in-string "[&$]" "" it)
+                            (replace-regexp-in-string "[&]" "" it))))
+          (delete-char -2)
+          (indent-region beg (point)))))
 
     (defun my-php-get-instance-variables ()
       "Return all instance variables.
