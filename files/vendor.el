@@ -555,6 +555,14 @@ idle timer to do the actual update.")
     (add-hook 'eshell-mode-hook 'my-eshell-init)
     (load "files/eshell-defs")))
 
+(use-package ess
+  :defer t
+  :config
+  (progn
+    (defun my-ess-post-run-hook ()
+      (ess-execute-screen-options))
+    (add-hook 'ess-post-run-hook 'my-ess-post-run-hook)))
+
 (use-package expand-region
   :bind ("s-'" . er/expand-region))
 
