@@ -39,15 +39,7 @@
                                   (line-number-at-pos (mark)))))
                 (format "(%%l,%%c,%d)" (point)))))
 
-   ;; Path to the file in buffer. If it doesn't have associated file,
-   ;; display nothing.
-   (:propertize (:eval
-                 (when (buffer-file-name)
-                   (my-mode-line-construct-path (buffer-file-name) (buffer-name))))
-    face mode-line-secondary)
-
-   ;; buffer name
-   (:propertize (:eval (my-abbrev-file-name (buffer-name))) face mode-line-buffer-id)
+   (:eval (my-mode-line-construct-path-1 (buffer-file-name) (buffer-name)))
 
    ;; activated modes
    "    %[("
@@ -81,6 +73,22 @@
   (let* ((buffer-file-name (my-abbrev-file-name buffer-file-name))
          (buffer-name (my-abbrev-file-name buffer-name)))
     (s-chop-suffix buffer-name buffer-file-name)))
+
+(defun my-mode-line-construct-path-1 (buffer-file-name buffer-name)
+  (if (not buffer-file-name)
+      (propertize buffer-name 'face 'mode-line-buffer-id)
+    (let ((bfns (s-split "/" buffer-file-name))
+          (bns (s-split "/" buffer-name))
+          (r nil))
+      (--each bfns
+        (if (equal it (car bns))
+            (progn
+              (push (propertize (copy-sequence it) 'face 'mode-line-buffer-id) r)
+              (!cdr bns))
+          (push (propertize (copy-sequence it) 'face 'mode-line-secondary) r)))
+      (setq r (nreverse r))
+      (let ((ml (mapconcat 'identity r (propertize "/" 'face 'mode-line-secondary))))
+        (my-abbrev-file-name ml)))))
 
 (defvar minimal-mode-line-background "darkred"
   "Background colour for active mode line face when minimal minor

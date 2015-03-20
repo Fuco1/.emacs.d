@@ -225,8 +225,8 @@ OLD is the string to act on."
     ("~/.emacs.d/" . "ED|")
     ("/var/www/html/devel/" . "WEBD|")
     ("/var/www/html/" . "WEB|")
-    ("/modules/source/" . "|MOD-S|")
-    ("/specific/source/" . "|SP-S|"))
+    ("/modules/source/" . "|MOD|")
+    ("/specific/source/" . "|SP|"))
   "An alist defining translations of paths to shortcuts.")
 
 (defun my-abbrev-file-name (string)
@@ -234,9 +234,9 @@ OLD is the string to act on."
     (-each my-abbrev-file-name-alist
       (-lambda ((from . to))
         (when (string-match from string)
-          (setq string (replace-match to nil nil string)))
+          (setq string (my-replace-match to string)))
         (when (string-match (concat "|" (substring from 1)) string)
-          (setq string (replace-match to nil nil string))))))
+          (setq string (my-replace-match to string))))))
   string)
 
 (defvar my-status-line-format
