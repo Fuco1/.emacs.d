@@ -50,6 +50,7 @@ Warn me if I want to kill a scratch buffer."
 
 (defvar my-inhibit-buffer-cleanup nil)
 
+;; TODO: add some abstraction for the exceptions
 (defun cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer.
 Does not indent buffer, because it is used for a before-save-hook, and that
@@ -64,7 +65,8 @@ might be bad."
         (untabify-buffer))
       (when (or (called-interactively-p)
                 (and (not (memq major-mode '(snippet-mode)))
-                     (not (s-matches? "/var/www/html/" default-directory))))
+                     (or (not (s-matches? "/var/www/html/" default-directory))
+                         (s-matches? "orders-refactor" default-directory))))
         (delete-trailing-whitespace))
       (set-buffer-file-coding-system 'utf-8))))
 
