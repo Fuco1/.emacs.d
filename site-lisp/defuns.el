@@ -206,6 +206,16 @@ With non-nil prefix argument, ask for LANGUAGE."
   (interactive "r")
   (my-shuffle-things 'word beg end))
 
+(defun my-replace-match (newtext old)
+  "Replace text matched by last search with NEWTEXT.
+
+OLD is the string to act on."
+  (let* ((b (match-beginning 0))
+         (tp (text-properties-at b old))
+         (re (replace-match newtext nil nil old)))
+    (add-text-properties b (+ b (length newtext)) tp re)
+    re))
+
 (defvar my-abbrev-file-name-alist
   `((,abbreviated-home-dir . "~/")
     ("~/languages/" . "L|")
