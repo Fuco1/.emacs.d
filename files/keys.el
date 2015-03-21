@@ -237,6 +237,7 @@
   ("g" . (lambda () "Toggle on greek-mizuochi input method." (interactive) (set-input-method "greek-mizuochi")))
   ("j" . (lambda () "Toggle on japanese input method." (interactive) (set-input-method "japanese")))
   ("h" . (lambda () "Toggle on devanagari-aiba input method." (interactive) (set-input-method "devanagari-aiba")))
+  ("v" . (lambda () "Toggle on devanagari-translit input method." (interactive) (set-input-method "devanagari-translit")))
   ("x" . (lambda () "Toggle on ipa-x-sampa input method." (interactive) (set-input-method "ipa-x-sampa"))))
 
 (bind-key "H-u" 'universal-argument)
