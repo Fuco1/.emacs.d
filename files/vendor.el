@@ -53,6 +53,13 @@ return to regular interpretation of self-insert characters."
                  (eq (point)(allout-current-bullet-pos)))
             (allout-hotspot-key-handler))))))
 
+(use-package autobookmarks
+  :defer t
+  :idle
+  (progn
+    (use-package autobookmarks)
+    (autobookmarks-mode 1)))
+
 (use-package better-jump
   :bind (("C-\\" . bjump-word-jump)
          ("A-l" . bjump-char-jump-line)
@@ -1376,6 +1383,7 @@ These are retrieved from `imenu--index-alist'."
     (load "files/layouts")))
 
 (use-package recentf
+  :disabled t
   :defer t
   :config
   (progn
