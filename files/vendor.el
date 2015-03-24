@@ -1330,6 +1330,7 @@ These are retrieved from `imenu--index-alist'."
       (multi-web-mode -1))
 
     (defun my-php-mode-init ()
+      (bind-key "<tab>" 'smart-tab php-mode-map)
       (c-set-style "php")
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
       (multi-web-mode 1)
