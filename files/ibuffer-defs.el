@@ -59,6 +59,7 @@
             (mode . c-mode)
             (mode . cc-mode)
             (mode . c++-mode)
+            (mode . ess-mode)
             (mode . js3-mode)
             (mode . perl-mode)
             (mode . python-mode)
