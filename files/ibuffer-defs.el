@@ -68,6 +68,10 @@
             (mode . makefile-gmake-mode)
             ;; etc
             ))
+          ("Configuration"
+           (or
+            (mode . conf-windows-mode)
+            (mode . conf-colon-mode)))
           ("IRC"
            (or (mode . erc-mode)
                (mode . rcirc-mode)
