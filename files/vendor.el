@@ -1395,7 +1395,10 @@ These are retrieved from `imenu--index-alist'."
 
 (use-package sallet
   :bind (("C-. C-." . helm-occur)
-         ("C-'" . sallet-buffer)))
+         ("C-'" . sallet-buffer))
+  :config
+  (progn
+    (use-package autobookmarks)))
 
 (use-package sgml-mode
   :defer t
