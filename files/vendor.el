@@ -1577,6 +1577,20 @@ Omitting FRAME means currently selected frame."
         (unless (vc-registered (buffer-file-name))
           (vc-register))))
 
+    (defadvice vc-annotate-show-diff-revision-at-line (around fix-hidden-details activate)
+      "When the details are hidden, vc can't read the commit
+info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
+      (if (memq 'vc-annotate-annotation buffer-invisibility-spec)
+          (let ((old-buffer-invisibility-spec buffer-invisibility-spec)
+                (cb (current-buffer)))
+            (remove-from-invisibility-spec 'vc-annotate-annotation)
+            (force-window-update (current-buffer))
+            ad-do-it
+            (with-current-buffer cb
+              (setq buffer-invisibility-spec old-buffer-invisibility-spec)
+              (force-window-update (current-buffer))))
+        ad-do-it))
+
     (bind-key "t" 'my-svn-diff-branch-and-trunk vc-prefix-map)))
 
 (use-package visual-regexp
