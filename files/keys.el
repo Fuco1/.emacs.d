@@ -61,6 +61,7 @@
 (bind-key "M-k" 'my-kill-this-buffer)
 (bind-key "C-x C-k" 'kill-buffer-and-window)
 (bind-key "C-x C-f" 'ido-find-file)
+(bind-key "C-w" 'my-kill-region-or-word)
 
 ;; imenu
 (bind-key "M-," 'find-function)
