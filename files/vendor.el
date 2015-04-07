@@ -1071,6 +1071,9 @@ If in the test file, visit source."
         (setq indent-line-function 'php-cautious-indent-line)
         (setq indent-region-function 'php-cautious-indent-region))))))
 
+(use-package neon-mode
+  :mode ("\\.neon\\'" . neon-mode))
+
 (use-package notmuch
   :bind (("C-. C-n" . notmuch))
   :init
