@@ -53,4 +53,11 @@
  (".V" ?Ṿ) (".W" ?Ẉ) (".Y" ?Ỵ) (".Z" ?Ẓ)
  ;; ("qq" 'my-noninteractive-toggle-input-method)
  )
+
+(set-input-method "slovak-prog-2")
+(quail-define-rules
+ ((append . t))
+ ("1" ?ú)
+ ("=1" ?1))
+
 (toggle-input-method)
