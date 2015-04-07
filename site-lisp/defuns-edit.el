@@ -221,7 +221,7 @@ properly."
                                     (beginning-of-visual-line arg)
                                   (move-beginning-of-line arg))))
     (cond
-     ((and (functionp'org-table-p)
+     ((and (functionp 'org-table-p)
            (org-table-p))
       (let ((eoc (save-excursion
                    (re-search-forward "|")
