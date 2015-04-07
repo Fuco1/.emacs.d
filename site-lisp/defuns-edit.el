@@ -224,10 +224,12 @@ properly."
      ((and (functionp 'org-table-p)
            (org-table-p))
       (let ((eoc (save-excursion
-                   (re-search-forward "|")
-                   (backward-char 1)
-                   (skip-chars-backward " ")
-                   (point))))
+                   (if (re-search-forward "|" nil t)
+                       (progn
+                         (backward-char 1)
+                         (skip-chars-backward " ")
+                         (point))
+                     (line-end-position)))))
         (if (= (point) eoc)
             (end-of-line-lov)
           (goto-char eoc))))
