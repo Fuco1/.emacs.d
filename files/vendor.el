@@ -567,6 +567,7 @@ idle timer to do the actual update.")
   :config
   (progn
     (defun my-ess-post-run-hook ()
+      (modify-syntax-entry ?$ ".")
       (ess-execute-screen-options))
     (add-hook 'ess-post-run-hook 'my-ess-post-run-hook)))
 
