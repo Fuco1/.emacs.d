@@ -40,10 +40,13 @@
 ;; Some text-mode settings
 
 (setq-default cursor-type 'box)
-(dolist (hook '(LaTeX-mode-hook
+(dolist (hook '(
+                LaTeX-mode-hook
                 org-mode-hook
                 markdown-mode-hook
-                gnus-article-mode-hook))
+                gnus-article-mode-hook
+                textile-mode-hook
+                ))
   (add-hook hook 'my-init-text-based-modes))
 
 ;; Use variable width font faces in current buffer
