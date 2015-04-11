@@ -60,4 +60,9 @@
  ("1" ?ú)
  ("=1" ?1))
 
+(set-input-method "devanagari-aiba")
+(quail-define-rules
+ ((append . t))
+ ("\\\\" ?√))
+
 (toggle-input-method)
