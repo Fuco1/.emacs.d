@@ -146,6 +146,14 @@ and indent next line according to mode."
     (beginning-of-visual-line arg))
    (t (move-beginning-of-line arg))))
 
+(defun my--line-beginning-position (&optional arg)
+  "Return the point at the beginning of line.
+
+Uses `my--move-beginning-of-line'."
+  (save-excursion
+    (my--move-beginning-of-line arg)
+    (point)))
+
 (defun my--move-end-of-line (&optional arg)
   "Move to end of line respecting `visual-line-mode'."
   (cond
@@ -154,6 +162,14 @@ and indent next line according to mode."
    (visual-line-mode
     (end-of-visual-line arg))
    (t (move-end-of-line arg))))
+
+(defun my--line-end-position (&optional arg)
+  "Return the point at the end of line.
+
+Uses `my--move-end-of-line'."
+  (save-excursion
+    (my--move-end-of-line arg)
+    (point)))
 
 (defun my-back-to-indentation-or-beginning (&optional arg)
   "Jump back to indentation of the current line.  If already
@@ -247,11 +263,8 @@ properly."
                  ;; if we skipped all the way to the beginning, that
                  ;; means there's only comment on this line, so this
                  ;; should just jump to the end.
-                 (if (= (point) (save-excursion
-                                  (my--move-beginning-of-line)
-                                  (point)))
-                     (progn (my--move-end-of-line)
-                            (point))
+                 (if (= (point) (my--line-beginning-position))
+                     (my--line-end-position)
                    (point))))
           ;; end of rectangle in cua-rect mode
           (eor (when cua--rectangle (my--cua-get-longest-line))))
