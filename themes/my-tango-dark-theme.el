@@ -236,6 +236,15 @@ is extension of default `tango-dark' face.")
    (font-lock-type-face (:foreground blue-0))
    (font-lock-variable-name-face (:foreground orange-1))
 
+   ;; Outline
+   (outline-1 (:foreground gradient-1))
+   (outline-2 (:foreground gradient-2))
+   (outline-3 (:foreground gradient-3))
+   (outline-4 (:foreground gradient-4))
+   (outline-5 (:foreground gradient-5))
+   (outline-6 (:foreground gradient-6))
+   (outline-7 (:foreground gradient-7))
+
    ;; Button and link faces
    (link (:foreground blue-1))
    (link-visited (:underline t :foreground blue-2))
@@ -384,11 +393,11 @@ is extension of default `tango-dark' face.")
    (font-latex-verbatim-face (:inherit markup-pre))
 
    ;; org-mode
-   (org-level-1 (:foreground gradient-1 :inherit  markup-header-1))
-   (org-level-2 (:foreground gradient-2 :inherit  markup-header-2))
-   (org-level-3 (:foreground gradient-3 :inherit  markup-header-3))
-   (org-level-4 (:foreground gradient-4 :inherit  markup-header-4))
-   (org-level-5 (:foreground gradient-5 :inherit  markup-header-5))
+   (org-level-1 (:inherit outline-1))
+   (org-level-2 (:inherit outline-2))
+   (org-level-3 (:inherit outline-3))
+   (org-level-4 (:inherit outline-4))
+   (org-level-5 (:inherit outline-5))
 
    ;; italic, bold, underline, strike, inline-code are handled in
    ;; `org-emphasis-alist'
