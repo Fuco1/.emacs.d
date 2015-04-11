@@ -574,25 +574,9 @@ replace any running timer."
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
   "Org commit timer.")
 
-(defface my-org-bold
-  '((t (:weight bold :inherit font-lock-variable-name-face)))
-  "The face used to highlight pair overlays.")
-
-(defface my-org-italic
-  '((t (:slant italic :inherit font-lock-variable-name-face)))
-  "The face used to highlight pair overlays.")
-
-(defface my-org-code
-  '((t (:inherit (fixed-pitch font-lock-constant-face))))
-  "The face used to highlight pair overlays.")
-
-(defface my-org-math
-  '((t (:foreground "burlywood")))
-  "Face used to highlight math.")
-
 (font-lock-add-keywords 'org-mode
                         `(("[[:space:]]+\\(\\$[^[:space:]].*?\\$\\)[^[:word:]]+"
-                           1 'my-org-math)
+                           1 'markup-math)
                           ("\\(?:^\\| \\)\\({.*?}\\)\\(?:$\\| \\|\\s.\\)"
                            1 (progn (put-text-property
                                      (match-beginning 1)
