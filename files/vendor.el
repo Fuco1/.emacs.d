@@ -113,6 +113,9 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
                          (buffer-string))
                        :uniquify)))
 
+    (defadvice bookmark-jump (after fix-no-hack-local activate)
+      (hack-local-variables))
+
     (bind-key "M-o" 'elwm-activate-window bookmark-bmenu-mode-map)
     ;; re-init the map after loading the package
     (bind-key "C-x j t t" 'my-bmkp-tag-jump)
