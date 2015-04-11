@@ -47,6 +47,8 @@ is extension of default `tango-dark' face.")
 
 (defface markup-footnote nil
   "Face for footnote markup.")
+(defface markup-alias nil
+  "Face for alias markup.")
 (defface markup-reference nil
   "Face for reference markup.")
 
@@ -333,8 +335,9 @@ is extension of default `tango-dark' face.")
    (markup-link (:inherit link))
    (markup-missing-link (:inherit font-lock-warning-face))
 
-   (markup-footnote (:foreground blue-0))
-   (markup-reference (:foreground blue-0))
+   (markup-footnote (:inherit font-lock-constant-face))
+   (markup-alias (:inherit font-lock-type-face))
+   (markup-reference (:inherit font-lock-keyword-face))
 
    (markup-list-ordered (:inherit font-lock-builtin-face))
    (markup-list-unordered (:inherit font-lock-builtin-face))
@@ -355,6 +358,9 @@ is extension of default `tango-dark' face.")
    (markdown-italic-face (:inherit markup-italic))
    (markdown-bold-face (:inherit markup-bold))
    (markdown-inline-code-face (:inherit markup-inline-code))
+
+   (markdown-footnote-face (:inherit markup-reference))
+   (markdown-reference-face (:inherit markup-reference))
 
    (markdown-pre-face (:inherit markup-pre))
 
@@ -389,7 +395,7 @@ is extension of default `tango-dark' face.")
 
    (org-link (:inherit markup-link))
 
-   (org-footnote (:inherit markup-footnote))
+   (org-footnote (:inherit markup-reference))
 
    (org-block-background (:inherit fixed-pitch :background alum-6.5))
    (org-block (:inherit markup-blockquote))
@@ -426,6 +432,8 @@ is extension of default `tango-dark' face.")
    (textile-link-face (:inherit markup-link))
    (textile-url-face (:inherit markup-url))
    (textile-footnotemark-face (:inherit markup-reference))
+   (textile-footnote-face (:inherit markup-blockquote))
+   (textile-lang-face (:inherit markup-alias))
 
    ;; Ido faces
    (ido-first-match (:foreground choc-1 :weight bold))
