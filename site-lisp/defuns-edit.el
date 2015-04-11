@@ -139,15 +139,21 @@ and indent next line according to mode."
 
 (defun my--move-beginning-of-line (&optional arg)
   "Move to beginning of line respecting `visual-line-mode'."
-  (if visual-line-mode
-      (beginning-of-visual-line arg)
-    (move-beginning-of-line arg)))
+  (cond
+   ((eq major-mode 'org-mode)
+    (org-beginning-of-line arg))
+   (visual-line-mode
+    (beginning-of-visual-line arg))
+   (t (move-beginning-of-line arg))))
 
 (defun my--move-end-of-line (&optional arg)
   "Move to end of line respecting `visual-line-mode'."
-  (if visual-line-mode
-      (end-of-visual-line arg)
-    (move-end-of-line arg)))
+  (cond
+   ((eq major-mode 'org-mode)
+    (org-end-of-line arg))
+   (visual-line-mode
+    (end-of-visual-line arg))
+   (t (move-end-of-line arg))))
 
 (defun my-back-to-indentation-or-beginning (&optional arg)
   "Jump back to indentation of the current line.  If already
@@ -165,9 +171,7 @@ enabled, move according to the visual lines."
                        (point))
                    (line-beginning-position)))))
       (if (= (point) eob)
-          (if (eq major-mode 'org-mode)
-              (org-beginning-of-line)
-            (my--move-beginning-of-line))
+          (my--move-beginning-of-line)
         (goto-char eob))))
    ((eq major-mode 'dired-mode)
     (if (= (point) (save-excursion
@@ -218,59 +222,53 @@ repeated invocation. On subsequent calls the point jumps between
 Comments are recognized in any mode that sets syntax-ppss
 properly."
   (interactive "p")
-  (cl-flet ((end-of-line-lov () (if visual-line-mode
-                                    (end-of-visual-line arg)
-                                  (move-end-of-line arg)))
-            (beg-of-line-lov () (if visual-line-mode
-                                    (beginning-of-visual-line arg)
-                                  (move-beginning-of-line arg))))
-    (cond
-     ((and (functionp 'org-table-p)
-           (org-table-p))
-      (let ((eoc (save-excursion
-                   (if (re-search-forward "|" nil t)
-                       (progn
-                         (backward-char 1)
-                         (skip-chars-backward " ")
-                         (point))
-                     (line-end-position)))))
-        (if (= (point) eoc)
-            (end-of-line-lov)
-          (goto-char eoc))))
-     ((eq major-mode 'org-mode)
-      (org-end-of-line))
-     (t
-      (let ((eoc (save-excursion
-                   (end-of-line-lov)
-                   (while (and (my--point-in-comment)
-                               (not (bolp)))
-                     (backward-char))
-                   (skip-syntax-backward " ")
-                   ;; if we skipped all the way to the beginning, that
-                   ;; means there's only comment on this line, so this
-                   ;; should just jump to the end.
-                   (if (= (point) (save-excursion
-                                    (beg-of-line-lov)
-                                    (point)))
-                       (progn (end-of-line-lov)
-                              (point))
-                     (point))))
-            ;; end of rectangle in cua-rect mode
-            (eor (when cua--rectangle (my--cua-get-longest-line))))
-        ;; refactor this: make some "move actions" and call them in
-        ;; order until point changes.
-        (cond
-         ((= (point) eoc)
-          (if (and cua--rectangle
-                   (/= (1+ (aref cua--rectangle 3)) eor))
-              (cua-resize-rectangle-right (- eor (current-column) 1))
-            (end-of-line-lov)))
-         ((= (point) (progn (end-of-line-lov) (point)))
-          (if (and cua--rectangle
-                   (/= (1+ (aref cua--rectangle 3)) eor))
-              (cua-resize-rectangle-right (- eor (current-column) 1))
-            (goto-char eoc))) ;; asd
-         (t (goto-char eoc))))))))
+  (cond
+   ((and (functionp 'org-table-p)
+         (org-table-p))
+    (let ((eoc (save-excursion
+                 (if (re-search-forward "|" nil t)
+                     (progn
+                       (backward-char 1)
+                       (skip-chars-backward " ")
+                       (point))
+                   (line-end-position)))))
+      (if (= (point) eoc)
+          (my--move-end-of-line)
+        (goto-char eoc))))
+   ((eq major-mode 'org-mode)
+    (org-end-of-line))
+   (t
+    (let ((eoc (save-excursion
+                 (my--move-end-of-line)
+                 (while (and (my--point-in-comment)
+                             (not (bolp)))
+                   (backward-char))
+                 (skip-syntax-backward " ")
+                 ;; if we skipped all the way to the beginning, that
+                 ;; means there's only comment on this line, so this
+                 ;; should just jump to the end.
+                 (if (= (point) (save-excursion
+                                  (my--move-beginning-of-line)
+                                  (point)))
+                     (progn (my--move-end-of-line)
+                            (point))
+                   (point))))
+          ;; end of rectangle in cua-rect mode
+          (eor (when cua--rectangle (my--cua-get-longest-line))))
+      ;; refactor this: make some "move actions" and call them in
+      ;; order until point changes.
+      (cond
+       ((= (point) eoc)
+        (if (and cua--rectangle
+                 (/= (1+ (aref cua--rectangle 3)) eor))
+            (cua-resize-rectangle-right (- eor (current-column) 1))
+          (my--move-end-of-line)))
+       ((= (point) (progn (my--move-end-of-line) (point)))
+        (if (and cua--rectangle
+                 (/= (1+ (aref cua--rectangle 3)) eor))
+            (cua-resize-rectangle-right (- eor (current-column) 1))
+          (goto-char eoc))) ;; asd
+       (t (goto-char eoc)))))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
