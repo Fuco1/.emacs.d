@@ -149,7 +149,6 @@
             (join-line -1)))
 
 ;; deleting stuff
-(bind-key "C-<i-key>" 'backward-kill-word)
 (bind-key "C-<backspace>" 'my-kill-whitespace)
 (bind-key "C-c d" 'my-kill-entire-line)
 
