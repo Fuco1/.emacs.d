@@ -4,6 +4,69 @@
   "Face colors using the Tango palette (dark background).  This
 is extension of default `tango-dark' face.")
 
+(defface markup-header nil
+  "Face for header markup.")
+(defface markup-header-1 nil
+  "Face for header markup level 1")
+(defface markup-header-2 nil
+  "Face for header markup level 2")
+(defface markup-header-3 nil
+  "Face for header markup level 3")
+(defface markup-header-4 nil
+  "Face for header markup level 4")
+(defface markup-header-5 nil
+  "Face for header markup level 5")
+(defface markup-header-6 nil
+  "Face for header markup level 6")
+(defface markup-header-7 nil
+  "Face for header markup level 7")
+(defface markup-header-8 nil
+  "Face for header markup level 8")
+
+(defface markup-italic nil
+  "Face for italic markup.")
+(defface markup-bold nil
+  "Face for bold markup.")
+(defface markup-underline nil
+  "Face for underline markup.")
+(defface markup-strike nil
+  "Face for strike markup.")
+(defface markup-inline-code nil
+  "Face for inline-code markup.")
+(defface markup-math nil
+  "Face for math markup.")
+(defface markup-string nil
+  "Face for string markup.")
+
+(defface markup-url nil
+  "Face for url markup.")
+(defface markup-link nil
+  "Face for link markup.")
+(defface markup-missing-link nil
+  "Face for missing-link markup.")
+
+(defface markup-footnote nil
+  "Face for footnote markup.")
+(defface markup-reference nil
+  "Face for reference markup.")
+
+(defface markup-list-ordered nil
+  "Face for ordered list markup.")
+(defface markup-list-unordered nil
+  "Face for unordered list markup.")
+
+(defface markup-blockquote nil
+  "Face for blockquote markup.")
+(defface markup-pre nil
+  "Face for pre markup.")
+(defface markup-comment nil
+  "Face for comment markup.")
+(defface markup-metadata-key nil
+  "Face for metadata key markup.")
+(defface markup-metadata-value nil
+  "Face for metadata value markup.")
+
+
 ;; 00, 5f, 87, af, d7, ff
 (defvar my-tango-colors
   '((((class color) (min-colors 65535))
@@ -121,15 +184,13 @@ is extension of default `tango-dark' face.")
     ,@(-map 'my-tango-resolve-face faces)))
 
 (let ((fixed-sys (if (eq system-type 'windows-nt) "Consolas" "Inconsolata"))
-      (fixed-sys-height (if (eq system-type 'windows-nt) 100 120))
       (variable-font (if (eq system-type 'windows-nt) "Verdana" "Source Sans Pro")))
   (my-tango-theme-set-faces
    'my-tango-dark
    (default (:foreground alum-1
              :background alum-6
              :family ,fixed-sys
-             :foundry "outline"
-             :height ,fixed-sys-height))
+             :foundry "outline"))
    (cursor (:background butter-1))
 
    ;; Highlighting faces
@@ -174,7 +235,7 @@ is extension of default `tango-dark' face.")
    (font-lock-variable-name-face (:foreground orange-1))
 
    ;; Button and link faces
-   (link (:underline t :foreground blue-1))
+   (link (:foreground blue-1))
    (link-visited (:underline t :foreground blue-2))
    (w3m-anchor (:inherit link))
    (w3m-arrived-anchor (:inherit link-visited))
@@ -220,10 +281,6 @@ is extension of default `tango-dark' face.")
    (diff-header (:foreground blue-1))
    (diff-refine-change (:background blue-3))
 
-   ;; Textile
-   (textile-code-face (:inherit my-org-code))
-   (textile-pre-face (:inherit (org-block-background font-lock-comment-face)))
-
    ;; Flyspell faces
    (flyspell-duplicate (:underline orange-1))
    (flyspell-incorrect (:underline red-1))
@@ -251,19 +308,129 @@ is extension of default `tango-dark' face.")
    (diredp-read-priv nil)
    (diredp-write-priv nil)
 
+   ;; Faces for various markup modes.  This is ment to be an
+   ;; equivalent to font-lock faces.  We define faces for common
+   ;; markup elements which can then be reused by other packages
+   (markup-header (:inherit font-lock-function-name-face :weight bold))
+   (markup-header-1 (:height 1.1 :inherit markup-header-2))
+   (markup-header-2 (:height 1.1 :inherit markup-header-3))
+   (markup-header-3 (:height 1.1 :inherit markup-header-4))
+   (markup-header-4 (:height 1.1 :inherit markup-header-5))
+   (markup-header-5 (:inherit markup-header-6))
+   (markup-header-6 (:inherit markup-header-7))
+   (markup-header-7 (:inherit markup-header-8))
+   (markup-header-8 (:inherit markup-header))
+
+   (markup-italic (:inherit font-lock-variable-name-face :slant italic))
+   (markup-bold (:inherit font-lock-variable-name-face :weight bold))
+   (markup-underline (:underline t))
+   (markup-strike (:strike-through t))
+   (markup-inline-code (:inherit font-lock-constant-face))
+   (markup-math (:foreground orange-2))
+   (markup-string (:inherit font-lock-string-face))
+
+   (markup-url (:inherit font-lock-string-face))
+   (markup-link (:inherit link))
+   (markup-missing-link (:inherit font-lock-warning-face))
+
+   (markup-footnote (:foreground blue-0))
+   (markup-reference (:foreground blue-0))
+
+   (markup-list-ordered (:inherit font-lock-builtin-face))
+   (markup-list-unordered (:inherit font-lock-builtin-face))
+
+   (markup-blockquote (:inherit font-lock-doc-face))
+   (markup-pre (:inherit fixed-pitch :background alum-6.5 :foreground plum-0))
+   (markup-comment (:inherit font-lock-comment-face))
+   (markup-metadata-key (:inherit font-lock-keyword-face))
+   (markup-metadata-value (:foreground butter-2))
+
+   ;; Markdown
+   (markdown-header-face-1 (:inherit markup-header-1))
+   (markdown-header-face-2 (:inherit markup-header-2))
+   (markdown-header-face-3 (:inherit markup-header-3))
+   (markdown-header-face-4 (:inherit markup-header-4))
+   (markdown-header-face-5 (:inherit markup-header-5))
+
+   (markdown-italic-face (:inherit markup-italic))
+   (markdown-bold-face (:inherit markup-bold))
+   (markdown-inline-code-face (:inherit markup-inline-code))
+
+   (markdown-pre-face (:inherit markup-pre))
+
+   (markdown-link-face (:inherit markup-link))
+
+   (markdown-metadata-key-face (:inherit markup-metadata-key))
+   (markdown-metadata-value-face (:inherit markup-metadata-value))
+
+   ;; Latex
+   (font-latex-sectioning-1-face (:inherit markup-header-1))
+   (font-latex-sectioning-2-face (:inherit markup-header-2))
+   (font-latex-sectioning-3-face (:inherit markup-header-3))
+   (font-latex-sectioning-4-face (:inherit markup-header-4))
+   (font-latex-sectioning-5-face (:inherit markup-header-5))
+
+   (font-latex-italic-face (:inherit markup-italic))
+   (font-latex-bold-face (:inherit markup-bold))
+   (font-latex-string-face (:inherit markup-string))
+   (font-latex-math-face (:inherit markup-math))
+
+   (font-latex-verbatim-face (:inherit markup-pre))
+
+   ;; org-mode
+   (org-level-1 (:foreground gradient-1 :inherit  markup-header-1))
+   (org-level-2 (:foreground gradient-2 :inherit  markup-header-2))
+   (org-level-3 (:foreground gradient-3 :inherit  markup-header-3))
+   (org-level-4 (:foreground gradient-4 :inherit  markup-header-4))
+   (org-level-5 (:foreground gradient-5 :inherit  markup-header-5))
+
+   ;; italic, bold, underline, strike, inline-code are handled in
+   ;; `org-emphasis-alist'
+
+   (org-link (:inherit markup-link))
+
+   (org-footnote (:inherit markup-footnote))
+
+   (org-block-background (:inherit fixed-pitch :background alum-6.5))
+   (org-block (:inherit markup-blockquote))
+   (org-verbatim (:inherit org-code))
+
+   (org-table (:inherit fixed-pitch :foreground blue-0))
+   (org-formula (:inherit fixed-pitch :foreground orange-2))
+
+   (org-special-keyword (:inherit markup-metadata-key))
+   (org-property-value (:inherit markup-metadata-value))
+
+   (org-mode-line-clock nil t)
+
+   ;; Textile
+   (textile-h1-face (:inherit markup-header-1))
+   (textile-h2-face (:inherit markup-header-2))
+   (textile-h3-face (:inherit markup-header-3))
+   (textile-h4-face (:inherit markup-header-4))
+   (textile-h5-face (:inherit markup-header-5))
+
+   (textile-emph-face (:inherit markup-italic))
+   (textile-strong-face (:inherit markup-bold))
+   (textile-inserted-face (:inherit markup-underline))
+   (textile-deleted-face (:inherit markup-strike))
+   (textile-inline-code-face (:inherit markup-inline-code))
+
+   (textile-ul-bullet-face (:inherit markup-list-unordered))
+   (textile-ol-bullet-face (:inherit markup-list-ordered))
+
+   (textile-blockquote-face (:inherit markup-blockquote))
+   (textile-pre-face (:inherit markup-pre))
+   (textile-code-face (:inherit markup-pre))
+
+   (textile-link-face (:inherit markup-link))
+   (textile-url-face (:inherit markup-url))
+   (textile-footnotemark-face (:inherit markup-reference))
+
    ;; Ido faces
    (ido-first-match (:foreground choc-1 :weight bold))
    (ido-only-match (:foreground cham-2))
    (ido-subdir (:foreground cham-2 :weight bold))
-
-   ;; org-mode
-   (org-table (:inherit fixed-pitch :foreground blue-0))
-   (org-block (:inherit (shadow fixed-pitch)))
-   (org-block-background (:inherit fixed-pitch :background alum-6.5))
-   (org-formula (:inherit fixed-pitch :foreground orange-2))
-   (org-mode-line-clock nil t)
-   (org-table (:inherit fixed-pitch :foreground blue-0))
-   (org-verbatim (:inherit org-code))
 
    ;; Helm
    (helm-buffer-directory (:inherit ido-subdir))
@@ -284,13 +451,11 @@ is extension of default `tango-dark' face.")
    (dropdown-list-face (:inherit default :background choc-1 :foreground "black"))
    (eldoc-highlight-function-argument (:inherit bold :foreground cham-3))
    (eshell-prompt (:foreground cham-2 :weight bold))
-   (fixed-pitch (:height ,fixed-sys-height :family ,fixed-sys))
+   (fixed-pitch (:family ,fixed-sys))
    (guide-key/key-face (:foreground cham-0))
    (header-line (:inherit mode-line))
    (hl-line (:inherit nil :background alum-7))
    (indent-guide-face (:inherit paren-face))
-   (markdown-inline-code-face (:inherit markdown-pre-face))
-   (markdown-pre-face (:inherit font-lock-constant-face :family ,fixed-sys))
    (paren-face (:foreground alum-4))
    (sp-pair-overlay-face (:background blue-3 :foreground alum-1))
    (variable-pitch (:height 144 :family ,variable-font))
