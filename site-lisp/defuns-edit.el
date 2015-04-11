@@ -158,12 +158,16 @@ enabled, move according to the visual lines."
    ((and (functionp 'org-table-p)
          (org-table-p))
     (let ((eob (save-excursion
-                 (re-search-backward "|")
-                 (forward-char 1)
-                 (skip-chars-forward " ")
-                 (point))))
+                 (if (re-search-backward "|" nil t)
+                     (progn
+                       (forward-char 1)
+                       (skip-chars-forward " ")
+                       (point))
+                   (line-beginning-position)))))
       (if (= (point) eob)
-          (org-beginning-of-line)
+          (if (eq major-mode 'org-mode)
+              (org-beginning-of-line)
+            (my--move-beginning-of-line))
         (goto-char eob))))
    ((eq major-mode 'dired-mode)
     (if (= (point) (save-excursion
