@@ -65,7 +65,6 @@
 (defun my-init-text-based-modes ()
   (my-buffer-face-mode-variable)
   (setq cursor-type 'bar)
-  (setq indent-tabs-mode t)
   (turn-on-visual-line-mode)
   (smartparens-mode 1))
 
