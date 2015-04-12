@@ -574,17 +574,38 @@ replace any running timer."
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
   "Org commit timer.")
 
+(defun my-org-emphasis-regexp (open close)
+  "Generate a regexp matching text enclosed with OPEN and CLOSE.
+1 matches the entire body including the delimiters
+2 matches the opening delimiter
+3 matches the body sans delimiters
+4 matches the closing delimiter"
+  (concat
+   "[[:space:]]"
+   "\\("
+     "\\(" (regexp-quote open) "\\)" ;; match the opening delimiter
+     "\\([^" close "]*?\\)" ;; match the body
+     "\\(" (regexp-quote close) "\\)" ;; match the closing delimiter
+   "\\)"
+   "[^[:word:]]"))
+
+(defun my-org-emphasis-fontifier (face)
+  "Generate code to fontify custom emphasis."
+  `(progn
+     (font-lock-prepend-text-property
+      (match-beginning 1)
+      (match-end 1)
+      'face ',face)
+     (when org-hide-emphasis-markers
+       (add-text-properties (match-beginning 2) (match-end 2) '(invisible org-link))
+       (add-text-properties (match-beginning 4) (match-end 4) '(invisible org-link)))
+     (backward-char 1)
+     nil))
+
 (font-lock-add-keywords 'org-mode
-                        `(("[[:space:]]+\\(\\$[^[:space:]].*?\\$\\)[^[:word:]]+"
-                           1 'markup-math)
-                          ("\\(?:^\\| \\)\\({.*?}\\)\\(?:$\\| \\|\\s.\\)"
-                           1 (progn (put-text-property
-                                     (match-beginning 1)
-                                     (match-end 1)
-                                     'face
-                                     'shadow)
-                                    (backward-char 1)
-                                    nil))))
+                        `((,(my-org-emphasis-regexp "$" "$") 0 ,(my-org-emphasis-fontifier 'markup-math))
+                          (,(my-org-emphasis-regexp "{" "}") 0 ,(my-org-emphasis-fontifier 'shadow)))
+                        'append)
 
 (bind-keys :map org-mode-map
   ("TAB" . smart-tab)
