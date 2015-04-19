@@ -231,7 +231,7 @@
   ("f" . (lambda () "Toggle on french-keyboard input method." (interactive) (set-input-method "french-keyboard")))
   ("g" . (lambda () "Toggle on greek-mizuochi input method." (interactive) (set-input-method "greek-mizuochi")))
   ("j" . (lambda () "Toggle on japanese input method." (interactive) (set-input-method "japanese")))
-  ("h" . (lambda () "Toggle on devanagari-aiba input method." (interactive) (set-input-method "devanagari-aiba")))
+  ("h" . (lambda () "Toggle on devanagari-kyoto-harvard input method." (interactive) (set-input-method "devanagari-kyoto-harvard")))
   ("v" . (lambda () "Toggle on devanagari-translit input method." (interactive) (set-input-method "devanagari-translit")))
   ("x" . (lambda () "Toggle on ipa-x-sampa input method." (interactive) (set-input-method "ipa-x-sampa"))))
 
