@@ -101,35 +101,16 @@
 ;;; org-mode
 (sp-with-modes 'org-mode
   (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
-  (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_" :skip-match 'sp--org-skip-markup)
-  (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :skip-match 'sp--org-skip-markup)
-  (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :skip-match 'sp--org-skip-code)
+  (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
+  (sp-local-pair "/" "/" :unless '(sp-point-after-word-p))
+  (sp-local-pair "~" "~" :unless '(sp-point-after-word-p))
   (sp-local-pair "«" "»"))
 
-(defun sp--org-skip-markup (ms mb me)
-  (save-excursion
-    (and (progn
-           (goto-char mb)
-           (save-match-data (looking-back "\\sw\\|\\s_\\|\\s.")))
-         (progn
-           (goto-char me)
-           (save-match-data (looking-at "\\sw\\|\\s_\\|\\s."))))))
-
 (defun sp--org-skip-asterisk (ms mb me)
-  (or (save-excursion
-        (goto-char (line-beginning-position))
-        (save-match-data (looking-at "^[*]+")))
-      (sp--org-skip-markup ms mb me)))
-
-(defun sp--org-skip-code (ms mb me)
-  (or (sp--org-skip-markup ms mb me)
-      (save-excursion
-        (and (progn
-               (goto-char mb)
-               (save-match-data (looking-back "\\s-")))
-             (progn
-               (goto-char me)
-               (save-match-data (looking-at "\\s-")))))))
+  (or (and (= (line-beginning-position) mb)
+           (eq 32 (char-after (1+ mb))))
+      (and (= (1+ (line-beginning-position)) me)
+           (eq 32 (char-after me)))))
 
 ;;; tex-mode latex-mode
 (sp-with-modes '(tex-mode plain-tex-mode latex-mode)
