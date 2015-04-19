@@ -65,4 +65,9 @@
  ((append . t))
  ("\\\\" ?√))
 
+(set-input-method "devanagari-kyoto-harvard")
+(quail-define-rules
+ ((append . t))
+ ("\\\\" ?√))
+
 (toggle-input-method)
