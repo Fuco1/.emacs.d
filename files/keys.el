@@ -13,11 +13,6 @@
       w32-apps-modifier 'hyper) ; Menu key
 
 ;;; stupid terminal key sequence remapping
-;; (define-key key-translation-map [tab] [?\t])
-(define-key key-translation-map [?\C-\i] [(control i-key)])
-(define-key function-key-map [tab] nil)
-(define-key function-key-map [?\t] nil)
-
 (define-key key-translation-map [escape] [?\e])
 (define-key input-decode-map [?\C-\[] [(control left_bracket)])
 (define-key function-key-map [escape] nil)
