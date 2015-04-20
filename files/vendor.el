@@ -308,6 +308,11 @@ message.")
 (use-package conf-mode
   :mode (("\\.pwm\\'" . conf-mode)))
 
+(use-package csharp-mode
+  :config
+  (progn
+    (bind-key "M-'" 'helm-etags-select csharp-mode-map)))
+
 (use-package css-mode
   :defer t
   :config
