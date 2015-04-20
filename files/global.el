@@ -69,6 +69,7 @@
   (smartparens-mode 1))
 
 (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+(add-hook 'prog-mode-hook 'highlight-thing-mode)
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
 
 (defun my-try-smerge ()
