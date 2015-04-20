@@ -1335,6 +1335,13 @@ These are retrieved from `imenu--index-alist'."
         (indent-according-to-mode)))
     (bind-key "C-x C-d p" 'my-php-implement-proxy-function-call php-mode-map)
 
+    (defun my-php-run-codesniffer ()
+      "Run phpcs(1) on file associated with current buffer."
+      (interactive)
+      (let ((file (my-php-local-file-name (buffer-file-name))))
+        (async-shell-command (format "phpcs --standard=PW %s" file))))
+    (bind-key "C-x C-d s" 'my-php-run-codesniffer php-mode-map)
+
     (defun my-php-disable-multi-web-mode ()
       "Set current buffer to `php-mode' and disable `multi-web-mode'."
       (interactive)
