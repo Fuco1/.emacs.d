@@ -719,7 +719,11 @@ This usually makes new item indented one level deeper."
     (insert (format "[[%s][%s]]" link desc))))
 
 (defun my-org-make-numbered-list (beg end)
-  (interactive "r")
+  (interactive (if (use-region-p)
+                   (list (region-beginning) (region-end))
+                 (list
+                  (save-excursion (outline-previous-heading) (forward-line) (point))
+                  (save-excursion (outline-next-heading) (forward-line -1) (point)))))
   (string-rectangle beg end "- ")
   (beginning-of-line)
   (org-call-with-arg 'org-cycle-list-bullet 'previous)
