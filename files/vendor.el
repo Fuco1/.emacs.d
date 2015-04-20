@@ -1209,14 +1209,21 @@ If in the test file, visit source."
         (shell-command "global -p" (current-buffer))
         (s-trim (buffer-string))))
 
+    (defun my-php-local-file-name (filename)
+      "Get local part of file name.
+
+Works both on local files and tramp files (where it cuts off the
+network prefix)."
+      (if (file-remote-p filename)
+          (tramp-file-name-localname (tramp-dissect-file-name filename))
+        filename))
+
     (defun my-php-run-tests ()
       "Run all Nette tests found in current directory."
       (interactive)
       (let* ((root (my-php-find-project-root))
              (tester-dir (concat root "/composer/vendor/bin/"))
-             (dir (if (file-remote-p default-directory)
-                      (tramp-file-name-localname (tramp-dissect-file-name default-directory))
-                    default-directory)))
+             (dir (my-php-local-file-name default-directory)))
         (when (buffer-modified-p) (save-buffer))
         (let ((cmd (format "php %stester -c %s/tools/tester/php.ini '%s'" tester-dir root dir)))
           (async-shell-command cmd))))
@@ -1240,9 +1247,7 @@ If already in a unit test, go to source."
     (defun my-php-run ()
       "Run all Nette tests found in current directory."
       (interactive)
-      (let* ((file (if (file-remote-p (buffer-file-name))
-                       (tramp-file-name-localname (tramp-dissect-file-name (buffer-file-name)))
-                     (buffer-file-name)))
+      (let* ((file (my-php-local-file-name (buffer-file-name)))
              ;; support for running PW stub tests
              (pw-root (if (bound-and-true-p my-pw-root) (format "PW_ROOT='%s'" my-pw-root) ""))
              (pw-test-uuid (if (bound-and-true-p my-pw-test-uuid) (format "PW_TEST_UUID='%s'" my-pw-test-uuid) "")))
