@@ -336,7 +336,7 @@ is extension of default `tango-dark' face.")
    (markup-bold (:inherit font-lock-variable-name-face :weight bold))
    (markup-underline (:underline t))
    (markup-strike (:strike-through t))
-   (markup-inline-code (:inherit font-lock-constant-face))
+   (markup-inline-code (:family ,fixed-sys :inherit font-lock-constant-face))
    (markup-math (:foreground orange-2))
    (markup-string (:inherit font-lock-string-face))
 
