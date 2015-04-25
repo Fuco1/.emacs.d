@@ -191,8 +191,8 @@ is extension of default `tango-dark' face.")
    'my-tango-dark
    (default (:foreground alum-1
              :background alum-6
-             :family ,fixed-sys
-             :foundry "outline"))
+             :height 120
+             :family ,fixed-sys))
    (cursor (:background butter-1))
 
    ;; Highlighting faces
