@@ -1091,7 +1091,7 @@ If in the test file, visit source."
     (autoload #'my-notmuch-inbox "notmuch" nil t)
     (bind-keys :map ctl-dot-prefix-map
       ("C-u" . my-notmuch-unread)
-      ("<C-i-key>" . my-notmuch-inbox)
+      ("TAB" . my-notmuch-inbox)
       ("C-a" . my-notmuch-archived)))
   :idle
   (progn
