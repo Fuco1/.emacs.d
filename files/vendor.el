@@ -1356,9 +1356,21 @@ These are retrieved from `imenu--index-alist'."
       (php-mode)
       (multi-web-mode -1))
 
+    (defun my-php-ggtags-get-definition (defs)
+      (let* ((defs-sorted (-sort
+                           (-lambda ((_ _ a) (_ _ b))
+                             (equal (f-ext a) "php"))
+                           defs))
+             (candidate-text (caar defs-sorted)))
+        (--> (s-trim candidate-text)
+          (replace-regexp-in-string "[ \t]*{$" "" it)
+          (ggtags-fontify-code it)
+          (concat it (and (cdr defs) " [guess]")))))
+
     (defun my-php-mode-init ()
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (c-set-style "php")
+      (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
       (multi-web-mode 1)
       (eldoc-mode 1))
