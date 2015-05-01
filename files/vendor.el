@@ -715,8 +715,11 @@ idle timer to do the actual update.")
     (defun my-haskell-init ()
       (set (make-local-variable 'end-of-defun-function) 'my-hs-end-of-defun)
       (set (make-local-variable 'beginning-of-defun-function) 'my-hs-beg-of-defun))
+    (add-hook 'haskell-mode-hook 'my-haskell-init)
 
-    (add-hook 'haskell-mode-hook 'my-haskell-init)))
+    (defun my-inferior-haskell-init ()
+      (smartparens-mode 1))
+    (add-hook 'inferior-haskell-mode-hook 'my-inferior-haskell-init)))
 
 (use-package helm
   :defer t
