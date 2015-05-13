@@ -574,6 +574,38 @@ replace any running timer."
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
   "Org commit timer.")
 
+(org-add-link-type "my-orgdict" 'my-org-dictionary-follow)
+(defun my-org-dictionary-follow (search)
+  "Follow the org-dict link.
+
+The link is composed of two parts separated by |.
+
+The first part is a headline construct which contains optional
+number of stars denoting depth followed by a space followed by a
+regexp to compare against the header.
+
+The second part is a regexp to search in the buffer."
+  (-let (((header regexp) (split-string search "|" t))
+         (hit nil))
+    (save-excursion
+      (goto-char (point-min))
+      (while (not hit)
+        (if (re-search-forward regexp nil t)
+            (-let (((&plist :title title :level level) (my-org-header-at))
+                   (depth (save-match-data
+                            (when (string-match "\\`\\(\\*+\\) " header)
+                              (length (match-string 1 header)))))
+                   (clean-header (save-match-data
+                                   (string-match "\\`\\(\\*+ +\\)?\\(.*\\)" header)
+                                   (match-string 2 header))))
+              (when (and (or (not depth) (= depth level))
+                         (string-match-p clean-header title))
+                (setq hit (point))))
+          (setq hit t))))
+    (when (numberp hit)
+      (push-mark)
+      (goto-char hit))))
+
 (defun my-org-emphasis-regexp (open close)
   "Generate a regexp matching text enclosed with OPEN and CLOSE.
 1 matches the entire body including the delimiters
@@ -1136,6 +1168,14 @@ sibling before the next header."
       (outline-next-heading)))
     (if (= (point) (point-max)) (newline) (open-line 1))
     (insert (make-string cdepth ?*) " ")))
+
+(defun my-org-header-at (&optional point)
+  "Return the header element at POINT."
+  (setq point (or point (point)))
+  (save-excursion
+    (org-back-to-heading)
+    (-let [(_ header) (org-element-at-point)]
+      header)))
 
 
 ;; tags
