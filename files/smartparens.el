@@ -151,7 +151,7 @@
 ;;; haskell mode
 (sp-with-modes '(haskell-mode)
   (sp-local-pair "'" nil :unless '(my-after-symbol-p))
-  (sp-local-pair "\\\(" nil :actions :rem))
+  (sp-local-pair "\\(" nil :actions nil))
 
 (defun my-after-symbol-p (_id action _context)
   (when (eq action 'insert)
