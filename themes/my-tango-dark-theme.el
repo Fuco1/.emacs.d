@@ -198,6 +198,7 @@ is extension of default `tango-dark' face.")
    ;; Highlighting faces
    (fringe (:background alum-7))
    (highlight (:foreground alum-6 :background butter-2))
+   (highlight-thing (:background alum-5))
    (isearch (:foreground alum-1 :background orange-3))
    (italic (:slant italic))
    (lazy-highlight (:background choc-3))
@@ -402,10 +403,13 @@ is extension of default `tango-dark' face.")
    ;; italic, bold, underline, strike, inline-code are handled in
    ;; `org-emphasis-alist'
 
+   (my-org-math (:foreground choc-1))
+
    (org-link (:inherit markup-link))
 
    (org-footnote (:inherit markup-reference))
 
+   (org-code (:inherit (shadow fixed-pitch)))
    (org-block-background (:inherit fixed-pitch :background alum-6.5))
    (org-block (:inherit markup-blockquote))
    (org-verbatim (:inherit org-code))
