@@ -195,7 +195,7 @@
               (tags "REFILE"
                     ((org-agenda-overriding-header "Tasks to Refile")
                      (org-tags-match-list-sublevels nil)))
-              (tags-todo "BUG/!NEXT"
+              (tags-todo "bug/!-NEXT"
                          ((org-agenda-overriding-header "Bugs")
                           (org-tags-match-list-sublevels nil)))
               (tags-todo "-STOP/!-WAIT"
