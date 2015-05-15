@@ -484,6 +484,7 @@ is extension of default `tango-dark' face.")
    (variable-pitch (:height 144 :family ,variable-font))
    (wgrep-delete-face (:inherit font-lock-warning-face))
    (fold-this-overlay (:inherit sp-pair-overlay-face))
+   (highlight-thing (:background alum-5))
 
    ;; My special themes
    (my-reading-face (:background "#808000" :foreground "#000000")))
