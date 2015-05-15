@@ -1323,6 +1323,8 @@ variables of the same name."
       "Return all instance variables.
 
 These are retrieved from `imenu--index-alist'."
+      (unless imenu--index-alist
+        (imenu--make-index-alist))
       (-map
        'car
        (-concat
