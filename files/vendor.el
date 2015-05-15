@@ -1356,6 +1356,50 @@ These are retrieved from `imenu--index-alist'."
       (php-mode)
       (multi-web-mode -1))
 
+    (defvar my-php-wrap-with-profiler-call-history nil
+      "History for profiler name.")
+
+    (defun my-php-wrap-with-profiler-call (profiler name scope)
+      "Wrap active region with call to utils-profiler.
+
+PROFILER is the name of the php instance variable containing the
+profiler.
+
+NAME is the name of the profiled block.
+
+SCOPE is the scope, one of: batch, thread, plid."
+      (interactive (list (let ((possible (--filter (string-match-p "profiler" it) (my-php-get-instance-variables))))
+                           (if (= 1 (length possible))
+                               (car possible)
+                             (completing-read "Profiler to use: "
+                                              possible nil nil
+                                              (car my-php-wrap-with-profiler-call-history)
+                                              'my-php-wrap-with-profiler-call-history)))
+                         (read-from-minibuffer "Name of the profiled block: "
+                                               (let ((str (buffer-substring-no-properties (region-beginning) (region-end))))
+                                                 (with-temp-buffer
+                                                   (insert str)
+                                                   (goto-char (point-min))
+                                                   (if (re-search-forward "->\\(.*?\\)(" nil t)
+                                                       (s-dashed-words (match-string 1))
+                                                     ""))))
+                         (read-from-minibuffer "Scope of the profiled block: " "plid" nil nil nil "plid")))
+      (when (use-region-p)
+        (let ((b (region-beginning))
+              (e (region-end))
+              (format (format "$this->%s->%%s('%s', __METHOD__, '%s');" profiler name scope)))
+          (goto-char e)
+          (unless (= 0 (length (s-trim (thing-at-point 'line))))
+            (newline))
+          (insert (format format "stop"))
+          (goto-char b)
+          (unless (= 0 (length (s-trim (thing-at-point 'line))))
+            (newline)
+            (forward-line -1))
+          (insert (format format "start"))
+          (indent-region b (+ e (* 2 (length format)))))))
+    (bind-key "C-x C-d C-p" 'my-php-wrap-with-profiler-call php-mode-map)
+
     (defun my-php-ggtags-get-definition (defs)
       (ignore-errors
         (let* ((defs-sorted (-sort
