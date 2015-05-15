@@ -79,3 +79,4 @@ it. Else calls `my-smart-indent'."
 (bind-key "<tab>" 'smart-tab)
 (bind-key "<tab>" 'smart-tab minibuffer-local-map)
 (bind-key "<tab>" 'smart-tab read-expression-map)
+(bind-key "<tab>" 'calc-roll-down calc-mode-map)
