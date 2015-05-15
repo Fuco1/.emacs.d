@@ -1417,6 +1417,7 @@ SCOPE is the scope, one of: batch, thread, plid."
       (c-set-style "php")
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
+      (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name)))
       (multi-web-mode 1)
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
