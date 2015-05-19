@@ -749,6 +749,9 @@ idle timer to do the actual update.")
     (bind-key "<tab>" 'forward-button help-mode-map)
     (bind-key "l" 'help-go-back help-mode-map)))
 
+(use-package highlight-thing
+  :commands highlight-thing-mode)
+
 (use-package ibuffer
   :bind ("<f1> <f1>" . ibuffer)
   :init
