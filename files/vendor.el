@@ -1757,3 +1757,8 @@ If such snippet already exists, just open it for editing."
 
     ;; Replace yasnippets's TAB, was yas/expand
     (add-hook 'yas-minor-mode-hook 'my-yas-startup)))
+
+
+;; Local Variables:
+;; eval: (add-to-list 'imenu-generic-expression '("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2))
+;; End:
