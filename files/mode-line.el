@@ -39,20 +39,17 @@
                                   (line-number-at-pos (mark)))))
                 (format "(%%l,%%c,%d)" (point)))))
 
+   "%["
    (:eval (my-mode-line-construct-path-1 (buffer-file-name) (buffer-name)))
-
-   ;; activated modes
-   "    %[("
-   mode-name
-   mode-line-process
-   (:eval (propertize (format-mode-line minor-mode-alist)
-                      'face 'mode-line-secondary))
-   ")%]"
+   "%]"
 
    ;; version control
-   (vc-mode vc-mode)
+   (vc-mode (" (" (:eval (substring vc-mode 1)) ")"))
 
-   " (" mode-line-mule-info ")"
+   ;; we don't need all the `mode-line-mule-info', just display the
+   ;; input method (we can see the encoding in C-u C-x =), and the
+   ;; end-of-line info is boring
+   " " (current-input-method (:propertize ("(" current-input-method-title ")")))
    " " mode-line-misc-info
 
    ;; hack to make the modeline refresh after each change in buffer
