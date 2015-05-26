@@ -145,9 +145,11 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
   (progn
     (fset 'calc-one-minus [?1 return ?- ?n])
     (fset 'calc-vector-normalize [return ?A ?/])
-    (bind-key "C-. m" 'calc-one-minus calc-mode-map)
-    (bind-key "C-. n" 'calc-vector-normalize calc-mode-map)
-    (bind-key "C-<tab>" 'calc-roll-up calc-mode-map)
+    (bind-keys :map calc-mode-map
+      ("C-. m" . calc-one-minus)
+      ("C-. n" . calc-vector-normalize)
+      ("C-<tab>" . calc-roll-up)
+      ("<tab>" . calc-roll-down))
     (setq calc-display-trail nil)))
 
 (use-package calendar
