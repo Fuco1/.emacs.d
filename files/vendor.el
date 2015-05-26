@@ -838,7 +838,8 @@ idle timer to do the actual update.")
       "Set current buffer to `js-mode' and disable `multi-web-mode'."
       (interactive)
       (js-mode)
-      (multi-web-mode -1))))
+      (multi-web-mode -1)
+      (setq indent-region-function nil))))
 
 (use-package jump-char
   :bind (("M-m" . jump-char-forward)))
