@@ -79,6 +79,8 @@
 
 (bind-key ";" 'sp-comment emacs-lisp-mode-map)
 
+(bind-key [remap c-electric-backspace] 'sp-backward-delete-char smartparens-strict-mode-map)
+
 ;;;;;;;;;;;;;;;;;;
 ;; pair management
 
