@@ -464,6 +464,9 @@ is extension of default `tango-dark' face.")
    (helm-ff-directory (:inherit helm-buffer-directory))
    (helm-ff-file (:inherit default))
 
+   ;; Sallet
+   (sallet-source-header (:height 1.3 :family ,variable-font :weight bold :background blue-3))
+
    ;; Hydra
    (hydra-face-amaranth (:weight bold :foreground plum-2))
    (hydra-face-red (:weight bold :foreground red-2))
