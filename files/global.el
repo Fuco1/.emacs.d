@@ -2,7 +2,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Small fringes
-(set-fringe-mode '(1 . 1))
+(set-fringe-mode (cons 8 1))
 
 ;; Trailing whitespace is unnecessary
 (add-hook 'before-save-hook 'cleanup-buffer-safe)
