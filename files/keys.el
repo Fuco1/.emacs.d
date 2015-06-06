@@ -29,6 +29,8 @@
   ("p" . occur-prev)
   ("o" . occur-mode-display-occurrence))
 
+(bind-key "M-=" 'count-words)
+
 ;; refresh-like
 (bind-key "M-<f5>" '(lambda () (interactive) (load-file (buffer-file-name))))
 
