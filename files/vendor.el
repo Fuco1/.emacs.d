@@ -125,6 +125,8 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
   :defer t
   :config
   (progn
+    (bind-keys :map c-mode-map
+      ("C-M-x" . compile))
     (defun my-c-mode-setup ()
       (c-set-style "stroustrup"))
     (add-hook 'c-mode-hook 'my-c-mode-setup)))
