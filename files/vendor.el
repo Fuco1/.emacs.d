@@ -128,7 +128,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (bind-keys :map c-mode-map
       ("C-M-x" . compile))
     (defun my-c-mode-setup ()
-      (c-set-style "stroustrup"))
+      (c-set-style "java"))
     (add-hook 'c-mode-hook 'my-c-mode-setup)))
 
 (use-package cc-mode
