@@ -353,27 +353,3 @@ Return path to temporary file."
           (thing-at-point 'symbol))
         regexp-history)
   (call-interactively 'occur))
-
-(defun my-logio-goto-specific ()
-  (interactive)
-  (let* ((tramp-prefix (progn
-                         (if (tramp-tramp-file-p (buffer-file-name))
-                             (-let (([method _ host] (tramp-dissect-file-name (buffer-file-name))))
-                               (concat "/" method ":" host ":"))
-                           "")))
-         (root (with-temp-buffer
-                 (shell-command "global -r -p" t)
-                 (s-trim (buffer-string))))
-         (specific-file (concat tramp-prefix root "/specific/settings/default/default.pwm"))
-         (project (with-temp-buffer
-                          ;; TODO: write .pwm parser?
-                          (insert-file-contents specific-file)
-                          (goto-char (point-min))
-                          (when (re-search-forward "project: +\\(.*\\)")
-                            (match-string 1))))
-         (module-name (f-base (buffer-file-name)))
-         (specific-module-name (concat module-name "-" project)))
-    (when project
-      (find-file (concat tramp-prefix root "/specific/source/"
-                         project "/extensions/" specific-module-name
-                         "/" specific-module-name ".php")))))

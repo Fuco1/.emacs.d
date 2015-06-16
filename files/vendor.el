@@ -1416,6 +1416,31 @@ SCOPE is the scope, one of: batch, thread, plid."
           (indent-region b (+ e (* 2 (length format)))))))
     (bind-key "C-x C-d C-p" 'my-php-wrap-with-profiler-call php-mode-map)
 
+    (defun my-php-goto-specific ()
+      (interactive)
+      (let* ((tramp-prefix (if (tramp-tramp-file-p (buffer-file-name))
+                               (-let (([method _ host] (tramp-dissect-file-name (buffer-file-name))))
+                                 (concat "/" method ":" host ":"))
+                             ""))
+             (root (with-temp-buffer
+                     (shell-command "global -r -p" t)
+                     (s-trim (buffer-string))))
+             (specific-file (concat tramp-prefix root "/specific/settings/default/default.pwm"))
+             (project (with-temp-buffer
+                        ;; TODO: write .pwm parser?
+                        (insert-file-contents specific-file)
+                        (goto-char (point-min))
+                        (when (re-search-forward "project: +\\(.*\\)")
+                          (match-string 1))))
+             (module-name (f-base (buffer-file-name)))
+             (specific-module-name (concat module-name "-" project)))
+        (when project
+          (find-file (concat tramp-prefix root "/specific/source/"
+                             project "/extensions/" specific-module-name
+                             "/" specific-module-name ".php")))))
+    (bind-key "C-x C-d C-s" 'my-php-goto-specific php-mode-map)
+
+
     (defun my-php-ggtags-get-definition (defs)
       (ignore-errors
         (let* ((defs-sorted (-sort
