@@ -64,7 +64,7 @@
 (defun my-init-prog-based-modes ()
   (turn-on-smartparens-strict-mode)
   (highlight-thing-mode)
-  (which-func-mode))
+  (which-function-mode))
 
 (add-hook 'prog-mode-hook 'my-init-prog-based-modes)
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
