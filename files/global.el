@@ -55,13 +55,6 @@
   (interactive)
   (variable-pitch-mode))
 
-;; Use monospaced font faces in current buffer
-(defun my-buffer-face-mode-fixed ()
-  "Sets a fixed width (monospace) font in current buffer"
-  (interactive)
-  (setq buffer-face-mode-face '(:family "Consolas" :height 100))
-  (buffer-face-mode))
-
 (defun my-init-text-based-modes ()
   (my-buffer-face-mode-variable)
   (setq cursor-type 'bar)
