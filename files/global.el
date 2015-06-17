@@ -61,8 +61,12 @@
   (turn-on-visual-line-mode)
   (smartparens-mode 1))
 
-(add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-(add-hook 'prog-mode-hook 'highlight-thing-mode)
+(defun my-init-prog-based-modes ()
+  (turn-on-smartparens-strict-mode)
+  (highlight-thing-mode)
+  (which-func-mode))
+
+(add-hook 'prog-mode-hook 'my-init-prog-based-modes)
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
 
 (defun my-try-smerge ()
