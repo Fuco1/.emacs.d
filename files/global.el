@@ -62,6 +62,7 @@
   (smartparens-mode 1))
 
 (defun my-init-prog-based-modes ()
+  (flycheck-mode)
   (turn-on-smartparens-strict-mode)
   (highlight-thing-mode)
   (which-function-mode))
