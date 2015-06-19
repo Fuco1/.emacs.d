@@ -574,6 +574,26 @@ replace any running timer."
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
   "Org commit timer.")
 
+;; Reminder setup
+; Erase all reminders and rebuilt reminders for today from the agenda
+(defun my-org-agenda-to-appt ()
+  (interactive)
+  (setq appt-time-msg-list nil)
+  (org-agenda-to-appt)
+  (appt-activate t))
+
+; Rebuild the reminders everytime the agenda is displayed
+(add-hook 'org-finalize-agenda-hook 'my-org-agenda-to-appt 'append)
+
+; This is at the end of my .emacs - so appointments are set up when Emacs starts
+(my-org-agenda-to-appt)
+
+; Activate appointments so we get notifications
+(appt-activate t)
+
+; If we leave Emacs running overnight - reset the appointments one minute after midnight
+(run-at-time "24:01" nil 'my-org-agenda-to-appt)
+
 (org-add-link-type "my-orgdict" 'my-org-dictionary-follow)
 (defun my-org-dictionary-follow (search)
   "Follow the org-dict link.
