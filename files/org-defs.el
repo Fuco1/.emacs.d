@@ -1,3 +1,15 @@
+;; What to do after update:
+;; - check if `org-agenda-format-item' properly renders timestamps with hour-ranges
+;;   This piece of code needs to be augumented
+;;   (setq s0 (match-string 0 ts)
+;;                     srp (and stamp (match-end 3))
+;;                     s1 (match-string (if plain 1 2) ts)
+;;                     s2 (or (match-string (if plain 8 (if srp 4 6)) ts)
+;;                            ;; FUCO: test if s1 is a range
+;;                            (save-match-data
+;;                              (when (string-match "[012][0-9]:[0-5][0-9]--\\([012][0-9]:[0-5][0-9]\\)" s1)
+;;                                (match-string 1 s1)))))
+
 (use-package org-drill
   :commands org-drill
   :init
