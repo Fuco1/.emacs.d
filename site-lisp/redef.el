@@ -414,3 +414,124 @@ display the generated calendar."
            ;; FIXME display buffer?
            (calendar-list-holidays)))
      (run-hooks 'calendar-initial-window-hook)))
+
+(eval-after-load "org"
+  '(progn
+     ;; What we want to achieve here is a detailed scheduling scheme
+     ;; for repeating tasks.  By default, org can only plan on a "+
+     ;; time interval basis", so you can't schedule things like "do
+     ;; task on monday and friday every week" or specify different
+     ;; hour to do the task at for each day (eg. during week when I
+     ;; work I want to tidy the appartment at 19:00 when I return
+     ;; home, but on weekends I want to do it when I wake up at 10:00).
+
+     ;; We achieve this objective by adding multiple SCHEDULED (plain)
+     ;; timestamps for different days/times we want to do the task.
+     ;; We then set the repeater for each timestamp separately (so we
+     ;; can even have a scheme like "every monday each week but on
+     ;; friday only every other week").  This all works in org by
+     ;; default, the problem is that when we mark the task DONE *all*
+     ;; the timestamps are shifted at once, so if we have a timestamp
+     ;; for each day and we mark it 7 times this week, all the
+     ;; timestamps will shift 7 weeks into the future.
+
+     ;; The fix is relatively simple: only update the *past*
+     ;; timestamps and leave the future timestamps alone.  The
+     ;; rationale is simple, we don't want to repeat a task which
+     ;; didn't even happen yet.
+
+     ;; One problem which can occur is that we might finish a task
+     ;; early.  To solve this, either the user reschedules the task
+     ;; prior to starting working on it (from the original time to
+     ;; "now"), or simply leaves it scheduled and, when we DONE the
+     ;; task next day (or the next interval *before* the shifted
+     ;; repeat time) it will already be in the past and shift
+     ;; accordingly.  In practice, this should be rare as this scheme
+     ;; is mostly useful for repeating *habitual* tasks which we
+     ;; rarely want to do ahead of schedule (eg. workout, language
+     ;; lessons, school material review etc.)
+     (defun org-auto-repeat-maybe (done-word)
+       "Check if the current headline contains a repeated deadline/schedule.
+If yes, set TODO state back to what it was and change the base date
+of repeating deadline/scheduled time stamps to new date.
+This function is run automatically after each state change to a DONE state."
+       ;; last-state is dynamically scoped into this function
+       (let* ((repeat (org-get-repeat))
+              (aa (assoc org-last-state org-todo-kwd-alist))
+              (interpret (nth 1 aa))
+              (head (nth 2 aa))
+              (whata '(("h" . hour) ("d" . day) ("m" . month) ("y" . year)))
+              (msg "Entry repeats: ")
+              (org-log-done nil)
+              (org-todo-log-states nil)
+              re type n what ts time to-state)
+         (when repeat
+           (if (eq org-log-repeat t) (setq org-log-repeat 'state))
+           (setq to-state (or (org-entry-get nil "REPEAT_TO_STATE")
+                              org-todo-repeat-to-state))
+           (unless (and to-state (member to-state org-todo-keywords-1))
+             (setq to-state (if (eq interpret 'type) org-last-state head)))
+           (org-todo to-state)
+           (when (or org-log-repeat (org-entry-get nil "CLOCK"))
+             (org-entry-put nil "LAST_REPEAT" (format-time-string
+                                               (org-time-stamp-format t t))))
+           (when org-log-repeat
+             (if (or (memq 'org-add-log-note (default-value 'post-command-hook))
+                     (memq 'org-add-log-note post-command-hook))
+                 ;; OK, we are already setup for some record
+                 (if (eq org-log-repeat 'note)
+                     ;; make sure we take a note, not only a time stamp
+                     (setq org-log-note-how 'note))
+               ;; Set up for taking a record
+               (org-add-log-setup 'state (or done-word (car org-done-keywords))
+                                  org-last-state
+                                  'findpos org-log-repeat)))
+           (org-back-to-heading t)
+           (org-add-planning-info nil nil 'closed)
+           (setq re (concat "\\(" org-scheduled-time-regexp "\\)\\|\\("
+                            org-deadline-time-regexp "\\)\\|\\("
+                            org-ts-regexp "\\)"))
+           (while (re-search-forward
+                   re (save-excursion (outline-next-heading) (point)) t)
+             (setq type (if (match-end 1) org-scheduled-string
+                          (if (match-end 3) org-deadline-string "Plain:"))
+                   ts (match-string (if (match-end 2) 2 (if (match-end 4) 4 0)))
+                   ;; FUCO: move this up so we can use it in the future-test
+                   time (save-match-data (org-time-string-to-time ts)))
+             (when (and (string-match "\\([.+]\\)?\\(\\+[0-9]+\\)\\([hdwmy]\\)" ts)
+                        ;; FUCO: test if the timestamp is in the past and only shift it then.
+                        (time-less-p time (current-time)))
+               (setq n (string-to-number (match-string 2 ts))
+                     what (match-string 3 ts))
+               (if (equal what "w") (setq n (* n 7) what "d"))
+               (if (and (equal what "h") (not (string-match "[0-9]\\{1,2\\}:[0-9]\\{2\\}" ts)))
+                   (user-error "Cannot repeat in Repeat in %d hour(s) because no hour has been set" n))
+               ;; Preparation, see if we need to modify the start date for the change
+               (when (match-end 1)
+                 (cond
+                  ((equal (match-string 1 ts) ".")
+                   ;; Shift starting date to today
+                   (org-timestamp-change
+                    (- (org-today) (time-to-days time))
+                    'day))
+                  ((equal (match-string 1 ts) "+")
+                   (let ((nshiftmax 10) (nshift 0))
+                     (while (or (= nshift 0)
+                                (<= (time-to-days time)
+                                    (time-to-days (current-time))))
+                       (when (= (incf nshift) nshiftmax)
+                         (or (y-or-n-p (message "%d repeater intervals were not enough to shift date past today.  Continue? " nshift))
+                             (error "Abort")))
+                       (org-timestamp-change n (cdr (assoc what whata)))
+                       (org-at-timestamp-p t)
+                       (setq ts (match-string 1))
+                       (setq time (save-match-data (org-time-string-to-time ts)))))
+                   (org-timestamp-change (- n) (cdr (assoc what whata)))
+                   ;; rematch, so that we have everything in place for the real shift
+                   (org-at-timestamp-p t)
+                   (setq ts (match-string 1))
+                   (string-match "\\([.+]\\)?\\(\\+[0-9]+\\)\\([hdwmy]\\)" ts))))
+               (save-excursion (org-timestamp-change n (cdr (assoc what whata)) nil t))
+               (setq msg (concat msg type " " org-last-changed-timestamp " "))))
+           (setq org-log-post-message msg)
+           (message "%s" msg))))))
