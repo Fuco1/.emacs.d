@@ -53,6 +53,20 @@ return to regular interpretation of self-insert characters."
                  (eq (point)(allout-current-bullet-pos)))
             (allout-hotspot-key-handler))))))
 
+(use-package appt
+  :defer t
+  :config
+  (progn
+    (defadvice appt-display-message (around add-notifyd-notification activate)
+      (let ((strings (if (listp (ad-get-arg 0)) (ad-get-arg 0) (list (ad-get-arg 0))))
+            (mins (if (listp (ad-get-arg 1)) (ad-get-arg 1) (list (ad-get-arg 1)))))
+        (-zip-with
+         (lambda (s m)
+           (start-process "notify-send-appt" nil "notify-send"
+                          "-u" "critical" "-c" "appt" "-t" "30000" (format "In %d minutes" m) s))
+         strings mins))
+      ad-do-it)))
+
 (use-package autobookmarks
   :defer t
   :idle
