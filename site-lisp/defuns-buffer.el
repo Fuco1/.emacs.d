@@ -22,6 +22,11 @@
     (switch-to-buffer (get-buffer-create bufname))
     (call-interactively mode)))
 
+(defun create-scratch-buffer-current-mode ()
+  "Create a new scratch buffer to work in and set its mode to current `major-mode'."
+  (interactive)
+  (create-scratch-buffer major-mode))
+
 (defun untabify-buffer ()
   (interactive)
   (untabify (point-min) (point-max)))

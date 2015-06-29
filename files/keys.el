@@ -192,6 +192,7 @@
            :prefix-map ctl-dot-prefix-map
            :prefix-docstring "Second auxiliary map on C-."
   ("c" . create-scratch-buffer)
+  ("C-c" . create-scratch-buffer-current-mode)
   ;; ("k" . browse-kill-ring) ;use helm
   ("m s" . kmacro-set-counter)
   ("m a" . kmacro-add-counter)
