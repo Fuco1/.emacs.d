@@ -488,6 +488,7 @@ is extension of default `tango-dark' face.")
    (wgrep-delete-face (:inherit font-lock-warning-face))
    (fold-this-overlay (:inherit sp-pair-overlay-face))
    (highlight-thing (:background "black"))
+   (which-func (:inherit font-lock-function-name-face))
 
    ;; My special themes
    (my-reading-face (:background "#808000" :foreground "#000000")))
