@@ -46,6 +46,8 @@
   (load "site-lisp/macros")
   (load "site-lisp/redef")
   (load "site-lisp/vendor")
+  ;; We still run emacs 24.3
+  (load "site-lisp/subr-x")
 
   ;; load keys
   (load "files/keys"))
