@@ -583,6 +583,22 @@ replace any running timer."
                       ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
                     org-latex-classes)))))
 
+
+(use-package org-habit
+  :defer t
+  :config
+  (progn
+    (defadvice org-get-repeat (around check-property-for-repeat activate)
+      "Fix the problem with org-get-repeat where it only checks
+the first scheduled timestamp for the repeater.  If we have
+multiple scheduled timestamps, this might not be the repeat
+interval we want (eg. we are setting weekly repeat schedule for
+each day of the week).  Here we allow the value to be overriden
+by a REPEAT property."
+      (-if-let (repeat (org-entry-get (point) "REPEAT"))
+          (setq ad-return-value repeat)
+        ad-do-it))))
+
 ;; add support for automatic org-files commits
 (defvar my-org-commit-timer
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
