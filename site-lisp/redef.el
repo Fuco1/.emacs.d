@@ -534,7 +534,65 @@ This function is run automatically after each state change to a DONE state."
                (save-excursion (org-timestamp-change n (cdr (assoc what whata)) nil t))
                (setq msg (concat msg type " " org-last-changed-timestamp " "))))
            (setq org-log-post-message msg)
-           (message "%s" msg))))))
+           (message "%s" msg))))
+
+     ;; Add a quick binding to remove org occur highlights/overlays
+     (defun org-sparse-tree (&optional arg type)
+       "Create a sparse tree, prompt for the details.
+This command can create sparse trees.  You first need to select the type
+of match used to create the tree:
+
+t      Show all TODO entries.
+T      Show entries with a specific TODO keyword.
+m      Show entries selected by a tags/property match.
+p      Enter a property name and its value (both with completion on existing
+       names/values) and show entries with that property.
+r      Show entries matching a regular expression (`/' can be used as well).
+b      Show deadlines and scheduled items before a date.
+a      Show deadlines and scheduled items after a date.
+d      Show deadlines due within `org-deadline-warning-days'.
+D      Show deadlines and scheduled items between a date range."
+       (interactive "P")
+       (setq type (or type org-sparse-tree-default-date-type))
+       (setq org-ts-type type)
+       (message "Sparse tree: [/]regexp [t]odo [T]odo-kwd [m]atch [p]roperty
+             [d]eadlines [b]efore-date [a]fter-date [D]ates range [\\]remove overlays
+             [c]ycle through date types: %s"
+                (case type
+                  (all "all timestamps")
+                  (scheduled "only scheduled")
+                  (deadline "only deadline")
+                  (active "only active timestamps")
+                  (inactive "only inactive timestamps")
+                  (scheduled-or-deadline "scheduled/deadline")
+                  (closed "with a closed time-stamp")
+                  (otherwise "scheduled/deadline")))
+       (let ((answer (read-char-exclusive)))
+         (case answer
+           (?c
+            (org-sparse-tree
+             arg
+             (cadr (memq type '(scheduled-or-deadline all scheduled deadline active
+                                                      inactive closed)))))
+           (?d (call-interactively #'org-check-deadlines))
+           (?b (call-interactively #'org-check-before-date))
+           (?a (call-interactively #'org-check-after-date))
+           (?D (call-interactively #'org-check-dates-range))
+           (?t (call-interactively #'org-show-todo-tree))
+           (?T (org-show-todo-tree '(4)))
+           (?m (call-interactively #'org-match-sparse-tree))
+           ((?p ?P)
+            (let* ((kwd (org-icompleting-read
+                         "Property: " (mapcar #'list (org-buffer-property-keys))))
+                   (value (org-icompleting-read
+                           "Value: " (mapcar #'list (org-property-values kwd)))))
+              (unless (string-match "\\`{.*}\\'" value)
+                (setq value (concat "\"" value "\"")))
+              (org-match-sparse-tree arg (concat kwd "=" value))))
+           ((?r ?R ?/) (call-interactively #'org-occur))
+           (?\\ (call-interactively #'org-remove-occur-highlights))
+           (otherwise (user-error "No such sparse tree command \"%c\"" answer)))))
+     ))
 
 (eval-after-load "org-agenda"
   '(progn
