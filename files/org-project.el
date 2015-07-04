@@ -1,8 +1,23 @@
+;;; org-package.el --- Additional code for managing packages
+
+;;; Commentary:
+
 ;; some code here is adopted from http://doc.norang.ca/org-mode.html
+
+;;; Code:
+
+(require 'org)
+(require 'org-agenda)
+(require 'org-habit)
+(require 'cl-lib)
+
+(require 'dash)
 
 (defvar my-org-ignore-task-in-project-by-tag
   '("BOOKS")
-  "Tasks with these tags should be ignored when determining if a
+  "Tags to ignore under projects.
+
+Tasks with these tags should be ignored when determining if a
 task is a subtask in a project.")
 
 (defun my-org-restricted-p ()
@@ -43,7 +58,7 @@ Done subtasks and subtask tagged with a tag in
           has-subtask)))))
 
 (defun my-org-is-subproject-p ()
-  "Any task which is a subtask of another project"
+  "Any task which is a subtask of another project."
   (let (is-subproject)
     (when (org-entry-is-todo-p)
       (save-excursion
@@ -53,7 +68,7 @@ Done subtasks and subtask tagged with a tag in
     is-subproject))
 
 (defun my-org-find-project-task ()
-  "Move point to the parent (project) task if any"
+  "Move point to the parent (project) task if any."
   (save-restriction
     (widen)
     (let ((parent-task (save-excursion (org-back-to-heading 'invisible-ok) (point))))
@@ -72,7 +87,7 @@ Callers of this function already widen the buffer view."
       (/= (point) task))))
 
 (defun my-org-is-task-p ()
-  "Any task with a todo keyword and no subtask"
+  "Any task with a todo keyword and no subtask."
   (save-restriction
     (widen)
     (let ((subtree-end (save-excursion (org-end-of-subtree t)))
@@ -88,21 +103,21 @@ Callers of this function already widen the buffer view."
       (not has-subtask))))
 
 (defun my-org-skip-projects ()
-  "Skip trees that are projects"
+  "Skip trees that are projects."
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
       (if (my-org-is-project-p) next-headline nil))))
 
 (defun my-org-skip-non-projects ()
-  "Skip trees that are not projects"
+  "Skip trees that are not projects."
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
       (if (my-org-is-project-p) nil next-headline))))
 
 (defun my-org-skip-stuck-projects ()
-  "Skip trees that are stuck projects"
+  "Skip trees that are stuck projects."
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -118,7 +133,7 @@ Callers of this function already widen the buffer view."
         nil))))
 
 (defun my-org-skip-non-stuck-projects ()
-  "Skip trees that are not stuck projects"
+  "Skip trees that are not stuck projects."
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -134,7 +149,7 @@ Callers of this function already widen the buffer view."
         next-headline))))
 
 (defun my-org-skip-projects-and-habits-and-single-tasks ()
-  "Skip trees that are projects, tasks that are habits, single non-project tasks"
+  "Skip trees that are projects, tasks that are habits, single non-project tasks."
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -146,8 +161,11 @@ Callers of this function already widen the buffer view."
 
 (defun my-org-skip-project-tasks-maybe ()
   "Show tasks related to the current restriction.
-When restricted to a project, skip project and sub project tasks, habits, NEXT tasks, and loose tasks.
-When not restricted, skip project and sub-project tasks, habits, and project related tasks."
+
+When restricted to a project, skip project and sub project tasks,
+habits, NEXT tasks, and loose tasks.  When not restricted, skip
+project and sub-project tasks, habits, and project related
+tasks."
   (save-restriction
     (widen)
     (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
@@ -169,7 +187,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
         nil)))))
 
 (defun my-org-update-parent-tasks-todo ()
-  "Visit each parent task and change NEXT states to TODO"
+  "Visit each parent task and change NEXT states to TODO."
   (save-excursion
     (let ((mystate (nth 2 (org-heading-components)))
           moved-up)
@@ -201,6 +219,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
                 (org-todo "DONE"))))))))))
 
 (defun my-org-update-siblings-tasks-todo ()
+  "Update sibling tasks on todo state change."
   (save-excursion
     (let ((mystate (nth 2 (org-heading-components))))
       (cond
@@ -208,7 +227,8 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
         (let ((pos (save-excursion (org-back-to-heading 'invisible-ok) (point))))
           (when (org-up-heading-safe)
             (org-goto-first-child)
-            (do ((has-sibling t (org-goto-sibling)))
+            (cl-do
+                ((has-sibling t (org-goto-sibling)))
                 ((not has-sibling))
               (when (and (member (org-get-todo-state) (list "NEXT"))
                          (/= (point) pos))
@@ -218,3 +238,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 
 (add-hook 'org-after-todo-state-change-hook 'my-org-update-parent-tasks-todo 'append)
 (add-hook 'org-after-todo-state-change-hook 'my-org-update-siblings-tasks-todo 'append)
+
+(provide 'org-project)
+;;; org-project.el ends here
