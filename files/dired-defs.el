@@ -47,8 +47,23 @@ Also used for highlighting.")
                                (regexp-opt my-dired-media-files-extensions)
                                "\\'")
                        "vlc"))))
-(use-package dired+)
-(use-package cl-lib)
+(use-package dired+
+  :config
+  (progn
+    ;; Remove stupid font-locking
+    (setf (nth 3 diredp-font-lock-keywords-1)
+          ;; Properly handle the extensions
+          '("[^ .\\/]\\(\\.[^. /]+\\)$" 1 diredp-file-suffix))
+    (setf (nth 6 diredp-font-lock-keywords-1)
+          (list (concat "^  \\(.*\\(" (concat (mapconcat 'regexp-quote
+                                                          (or (and (boundp 'dired-omit-extensions)
+                                                                   dired-omit-extensions)
+                                                              completion-ignored-extensions)
+                                                          "[*]?\\|")
+                                              "[*]?")        ; Allow for executable flag (*).
+                        "\\)\\)$") ; Do not treat compressed files as garbage... why the hell!
+                1 diredp-ignored-file-name t))
+    ))
 (use-package dired-details
   :init
   (progn
@@ -58,8 +73,6 @@ Also used for highlighting.")
 
     (defadvice dired-revert (before remember-the-details activate)
       (dired-details-delete-overlays))))
-(use-package w32-browser
-  :commands dired-w32-browser)
 (use-package dired-avfs)
 (use-package dired-filter)
 (use-package dired-open)
@@ -83,9 +96,6 @@ Also used for highlighting.")
     ("u" . dired-subtree-unmark-subtree)
     ("C-o C-f" . dired-subtree-only-this-file)
     ("C-o C-d" . dired-subtree-only-this-directory)))
-
-;; we should just hijack C-t map from image-dired which is crap anyway
-(use-package dired-images)
 
 (use-package dired-rainbow
   :init
