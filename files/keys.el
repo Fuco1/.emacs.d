@@ -1,4 +1,12 @@
-;;; Global key bindigns
+;;; keys.el --- Global key bindigns
+
+;;; Commentary:
+
+;; Global keybindings.
+
+;;; Code:
+
+(require 'use-package)
 
 ;; We do not want to quit emacs, ever.
 (unbind-key "C-x C-c")
@@ -346,3 +354,6 @@ inserted character."
   (my-recentf-next-file 3))
 (my-special-buffer-jump-to-bottom recentf-dialog
   (my-recentf-previous-file 2))
+
+(provide 'keys)
+;;; keys.el ends here
