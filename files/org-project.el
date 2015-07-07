@@ -4,6 +4,24 @@
 
 ;; some code here is adopted from http://doc.norang.ca/org-mode.html
 
+;;; TODO:
+
+;; - napisat testy
+;; - optimalizovat
+;; my-org-is-project-p                               827         0.6357351890  0.0007687245
+;; my-org-skip-project-tasks-maybe                   239         0.4149120869  0.0017360338
+;; my-org-skip-non-stuck-projects                    300         0.3088462969  0.0010294876
+;; my-org-skip-non-projects                          249         0.2266012680  0.0009100452
+;; my-org-is-project-subtree-p                       225         0.1833827     0.0008150342
+;; my-org-find-project-task                          225         0.1768276280  0.0007859005
+;; my-org-next-heading-pos                           551         0.0546931169  9.926...e-05
+;; my-org-skip-projects-and-habits-and-single-tasks  27          0.049606745   0.0018372868
+;; my-org-entry-is-task-p                            434         0.0284485230  6.554...e-05
+;; my-org-skip-stuck-projects                        11          0.0235584430  0.0021416766
+;; my-org-is-task-p                                  27          0.0051818140  0.0001919190
+;; my-org-skip-projects                              1           0.000391605   0.000391605
+;; my-org-restricted-p                               240         0.0001750009  7.291...e-07
+
 ;;; Code:
 
 (require 'org)
