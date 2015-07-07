@@ -18,6 +18,8 @@
 (define-key function-key-map [escape] nil)
 (define-key function-key-map [?\e] nil)
 
+(bind-key "<delete>" 'god-local-mode)
+
 ;; Url & Browsing
 (bind-key "C-c C-w" 'browse-url-at-point)
 (bind-key "C-c w" 'browse-url)
@@ -271,7 +273,7 @@ inserted character."
   (save-excursion
     (call-interactively 'quoted-insert)))
 
-(bind-key "C-z" 'my-quoted-insert-and-backward)
+(bind-key "C-z" 'repeat)
 
 ;; M-s map
 (bind-key "M-s RET" 'skeleton-easy-regexp-display-abbrev)

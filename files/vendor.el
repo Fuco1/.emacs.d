@@ -600,6 +600,28 @@ idle timer to do the actual update.")
 (use-package expand-region
   :bind ("s-'" . er/expand-region))
 
+(use-package god-mode
+  :defer t
+  :config
+  (progn
+    (defvar my-god-mode-buffer-input-method nil
+      "Input method of the buffer when god-mode is disabled.")
+    (make-variable-buffer-local 'my-god-mode-buffer-input-method)
+    (defun my-update-cursor ()
+      (set-cursor-color (if (or god-local-mode buffer-read-only)
+                            "#ef2929"
+                          "#fce94f")))
+    (defun my-god-mode-init ()
+      (setq my-god-mode-buffer-input-method current-input-method)
+      (deactivate-input-method)
+      (my-update-cursor))
+    (defun my-god-mode-deinit ()
+      (when my-god-mode-buffer-input-method
+        (set-input-method my-god-mode-buffer-input-method))
+      (my-update-cursor))
+    (add-hook 'god-mode-enabled-hook 'my-god-mode-init)
+    (add-hook 'god-mode-disabled-hook 'my-god-mode-deinit)))
+
 (use-package ggtags-mode
   :disabled t ;disabled in favour of helm-gtags
   :bind (("M-'" . ggtags-find-tag-dwim))
