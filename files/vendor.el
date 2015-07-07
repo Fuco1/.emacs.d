@@ -860,6 +860,16 @@ idle timer to do the actual update.")
              "[^[:alpha:]ÀÂÇÈÉÊËÎÏÔÙÛÜàâçèéêëîïôùûü]"
              "[']"
              t ("-d" "it_IT" "-p" "/home/matus/.hunspell/personal.it") nil utf-8)
+            ("latin"
+             "[[:alpha:]]"
+             "[^[:alpha:]]"
+             ""
+             t ("-d" "la_LA" "-p" "/home/matus/.hunspell/personal.la") nil utf-8)
+            ("russian"
+             "[[:alpha:]]"
+             "[^[:alpha:]]"
+             ""
+             nil ("-d" "ru_RU" "-p" "/home/matus/.hunspell/personal.ru") nil utf-8)
             ("slovak"
              "[[:alpha:]áäčďéíĺľňóôŕšťúýžÁÄČĎÉÍĹĽŇÓÔŔŠŤÚÝŽ]"
              "[^[:alpha:]áäčďéíĺľňóôŕšťúýžÁÄČĎÉÍĹĽŇÓÔŔŠŤÚÝŽ]"
