@@ -142,6 +142,7 @@ starting with \\ and followed by a block of text enclosed in {}."
       (TeX-add-symbols '("emph" 1))
 
       (setq fill-column 100000)
+      (smartparens-mode 1)
 
       (message "LaTeX mode init complete."))
     ;; ACUTeX replaces latex-mode-hook with LaTeX-mode-hook
