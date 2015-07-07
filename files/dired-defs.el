@@ -1,15 +1,4 @@
 ;;;_. Commentary & basic stuff
-;; diredp modified stuff:
-;; comment out:
-;; in `diredp-font-lock-keywords-1'
-;;   line about compressed files
-;;   line about ignored files "\\|\\.\\(g?z\\|Z\\)[*]?\\)\\)$") ; Compressed.
-;;                            "\\)\\)$")
-;;      '("[^ .]\\.\\([^. /]+\\)$" 1 diredp-file-suffix) ; Suffix
-;; to:  '("[^ .\\/]\\.\\([^. /]+\\)$" 1 diredp-file-suffix) ; Suffix
-
-;; external dependencies: bash in git d:/progs/git/bin/bash
-;; we call find from bash to fix stupid windows * expansion
 
 (defconst my-dired-media-files-extensions '("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma")
   "Media file extensions that should launch in VLC.
