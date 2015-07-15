@@ -354,6 +354,7 @@ Return path to temporary file."
         regexp-history)
   (call-interactively 'occur))
 
+
 (defun my-insert-date-iso (date)
   "Insert timestamp."
   (interactive (list (org-read-date)))
@@ -369,3 +370,14 @@ half the height of parent window."
    (min
     (1+ (count-screen-lines nil nil nil w))
     (/ (window-height (window-parent w)) 2))))
+
+(defun my-visit-init-file ()
+  "Visit init file."
+  (interactive)
+  (find-file user-init-file))
+
+(defun my-find-file-in-home ()
+  "Find file in the home directory"
+  (interactive)
+  (let ((default-directory "~"))
+    (ido-find-file)))

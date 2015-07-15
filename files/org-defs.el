@@ -728,7 +728,6 @@ The second part is a regexp to search in the buffer."
 (defun my-goto-current-clocked-task ()
   (interactive)
   (org-goto-marker-or-bmk org-clock-marker))
-(bind-key "<f1> <f10>" 'my-goto-current-clocked-task)
 
 (defun my-org-metacontrolreturn ()
   "Execute `org-meta-return' followed by `org-meta-right'.

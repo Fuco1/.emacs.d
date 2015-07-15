@@ -54,14 +54,6 @@
 (bind-key "C-<f8>" 'indent-buffer)
 (bind-key "C-<tab>" 'indent-defun)
 
-(bind-keys :prefix "<f1>"
-           :prefix-map f1-prefix-map
-           :prefix-docstring "F1 prefix map (navigation)"
-  ("<f2>" . (lambda () (interactive) (find-file "~/.emacs.d/init.el")))
-  ("<f3>" . view-echo-area-messages)
-  ("<f4>" . ffap)
-  ("<f5>" . (lambda () (interactive) (let ((default-directory "~")) (ido-find-file)))))
-
 (bind-key "C-x C-a" 'my-switch-buffer-LRU)
 
 ;; buffer cleanup
@@ -292,6 +284,25 @@ inserted character."
 
 ;; M-g map
 (bind-key "M-g RET" 'skeleton-display-abbrev)
+
+;; Hydras for the F-keys
+(bind-key "<f1>"
+          (defhydra f1-hydra (:color blue)
+            "F1 hydra: navigation"
+            ("<f1>" ibuffer "ibuffer")
+            ("<f2>" my-visit-init-file "Visit the user init file" )
+            ("<f3>" view-echo-area-messages "Visit messages")
+            ("<f4>" ffap "Find file at point")
+            ("<f5>" my-find-file-in-home "Find file in the home directory")
+            ("<f10>" my-goto-current-clocked-task "Go to current clocked task")))
+
+(bind-key "<f7>"
+          (defhydra f7-hydra (:color blue)
+            "F7 hydra: grep/find"
+            ("<f6>" my-projectile-rgrep "projectile-rgrep")
+            ("<f7>" rgrep "rgrep")
+            ("<f8>" dired-list-find-file "dired-list-find-file")
+            ("<f9>" dired-list-grep "dired-list-grep")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Jump to "logical" top/bottom of buffer in listing buffers

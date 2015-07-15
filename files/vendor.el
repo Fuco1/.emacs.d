@@ -1,15 +1,16 @@
 (use-package ag
-  :pre-init
+  :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
+  :init
   (progn
-    (defvar f9-ag-prefix-map)
-    (define-prefix-command 'f9-ag-prefix-map)
-    (bind-key "<f9>" 'f9-ag-prefix-map))
-  :bind (("<f9> <f9>" . ag)
-         ("<f9> <f10>" . ag-regexp)
-         ("<f9> <f8>" . ag-files)
-         ("M-<f2>" . ag-project-dired)
-         ("C-<f2>" . ag-dired)
-         ("A-<f2>" . ag-dired-regexp))
+    (bind-key "<f9>"
+              (defhydra f9-hydra (:color blue)
+                "F9 hydra: ag"
+                ("<f8>" ag-files "ag-files")
+                ("<f9>" ag "ag")
+                ("<f10>" ag-regexp "ag-regexp")
+                ("7" ag-project-dired "ag-project-dired")
+                ("8" ag-dired "ag-dired")
+                ("9" ag-dired-regexp "ag-dired-regexp"))))
   :config
   (progn
     (require 'wgrep)
@@ -434,7 +435,7 @@ message.")
     (defun dired-hack-local-variables () nil)))
 
 (use-package dired-list
-  :bind (("<f7> <f8>" . dired-list-find-file)))
+  :commands (dired-list-find-file dired-list-grep))
 
 (use-package dired-tagsistant
   :pre-init
@@ -738,10 +739,6 @@ idle timer to do the actual update.")
   :defer t
   :diminish guide-key-mode)
 
-(use-package find-dired
-  :bind (("<f7> <f8>" . find-dired)
-         ("<f7> <f9>" . find-grep-dired)))
-
 (use-package flycheck
   :commands flycheck-mode
   :config
@@ -822,7 +819,7 @@ idle timer to do the actual update.")
   :commands highlight-thing-mode)
 
 (use-package ibuffer
-  :bind ("<f1> <f1>" . ibuffer)
+  :commands ibuffer
   :init
   (progn
     ;; startup function
@@ -1542,8 +1539,7 @@ SCOPE is the scope, one of: batch, thread, plid."
 (use-package projectile
   :defer t
   :diminish projectile-mode
-  :bind (("S-RET" . projectile-switch-to-buffer)
-         ("<f7> <f6>" . my-projectile-rgrep))
+  :commands (my-projectile-rgrep)
   :config
   (progn
     (defun my-projectile-rgrep (regexp &optional files dir confirm)
