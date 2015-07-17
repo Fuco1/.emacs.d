@@ -215,8 +215,7 @@ tasks."
        ((equal mystate "NEXT")
         (save-excursion
           (while (and (setq moved-up (org-up-heading-safe)) (not (my-org-entry-is-task-p))))
-          (when (and moved-up
-                     (member (org-get-todo-state) (list "NEXT" "DONE")))
+          (when moved-up
             (org-todo "TODO"))))
        ((equal mystate "TODO")
         (save-excursion
