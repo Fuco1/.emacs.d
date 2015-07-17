@@ -235,7 +235,7 @@ tasks."
                   (when (my-org-entry-is-task-p)
                     (setq all-done (org-entry-is-done-p)))))
               (when all-done
-                (org-todo "DONE"))))))))))
+                (let ((org-inhibit-logging t)) (org-todo "DONE")))))))))))
 
 (defun my-org-update-siblings-tasks-todo ()
   "Update sibling tasks on todo state change."
