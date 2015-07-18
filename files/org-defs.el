@@ -10,6 +10,14 @@
 ;;                              (when (string-match "[012][0-9]:[0-5][0-9]--\\([012][0-9]:[0-5][0-9]\\)" s1)
 ;;                                (match-string 1 s1)))))
 
+;; Reading
+;; - http://doc.norang.ca/org-mode.html
+
+;; Remember to put :LOGGING: DONE(!) property on habit tasks. That way
+;; we can "cancel" them for today by setting todo state to STOP, but
+;; they wont log the state change into logbook so as not to mess up
+;; the graph
+
 (use-package org-drill
   :commands org-drill
   :init
@@ -192,6 +200,7 @@
                (org-agenda-skip-function '(let ((next-headline (save-excursion
                                                                  (or (outline-next-heading)
                                                                      (point-max)))))
+                                            ;; TODO: for some reason here we get a bug "Bad timestamp"
                                             (let ((closed-at (org-time-string-to-time
                                                               (org-entry-get (point) "CLOSED"))))
                                               (when (or (time-less-p closed-at
