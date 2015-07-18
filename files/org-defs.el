@@ -415,23 +415,23 @@ current agenda view added to `org-tag-alist'."
     (defun my-org-prepare-blog-export ()
       (setq my-org-publish-tags-to-files nil))
 
-(defun my-org-publish-html (plist filename pub-dir)
-  (let ((output-file (org-html-publish-to-html plist filename pub-dir)))
-    (with-temp-file output-file
-      (insert-file-contents output-file)
-      (goto-char (point-min))
-      (-when-let* ((tags (with-temp-buffer
-                           (insert-file-contents filename)
-                           (my-org-export-get-tags)))
-                   (tag-links (mapconcat (lambda (it) (format "<a href=\"%s/index.html\">%s</a>" it it)) tags ", ")))
-        (when (re-search-forward "{{taglist}}" nil t)
-          (replace-match (concat "Tags: " tag-links)))
-        ;; update tag indices
-        (--each tags
-          (let ((dir (concat pub-dir "/" it)))
-            (make-directory dir t)
-            (f-touch (concat dir "/" (f-filename filename)))))))
-    output-file))
+    (defun my-org-publish-html (plist filename pub-dir)
+      (let ((output-file (org-html-publish-to-html plist filename pub-dir)))
+        (with-temp-file output-file
+          (insert-file-contents output-file)
+          (goto-char (point-min))
+          (-when-let* ((tags (with-temp-buffer
+                               (insert-file-contents filename)
+                               (my-org-export-get-tags)))
+                       (tag-links (mapconcat (lambda (it) (format "<a href=\"%s/index.html\">%s</a>" it it)) tags ", ")))
+            (when (re-search-forward "{{taglist}}" nil t)
+              (replace-match (concat "Tags: " tag-links)))
+            ;; update tag indices
+            (--each tags
+              (let ((dir (concat pub-dir "/" it)))
+                (make-directory dir t)
+                (f-touch (concat dir "/" (f-filename filename)))))))
+        output-file))
 
     (defun my-org-export-get-tags ()
       (-when-let (tags (my-org-get-option "TAGS"))
