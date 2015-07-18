@@ -58,8 +58,6 @@ Also used for highlighting.")
   (progn
     (add-hook 'dired-after-readin-hook 'dired-details-activate)
 
-    (bind-key "(" 'dired-details-toggle dired-mode-map)
-
     (defadvice dired-revert (before remember-the-details activate)
       (dired-details-delete-overlays))))
 (use-package dired-avfs)
@@ -207,6 +205,8 @@ Also used for highlighting.")
     ;; clean bullshit bindings so C-h e b shows us real info
     ("A") ("F") ("G") ("P") ("Q") ("X") ("Z") ("#") (".")
     ("~") ("e") ("f") ("l") ("v") ("^") ("?")
+
+    ("(" . dired-details-toggle )
 
     ("C-x C-f" . my-dired-ido-find-file)
     ("k" . my-dired-do-kill-lines)
