@@ -769,6 +769,13 @@ This usually makes new item indented one level deeper."
         (org-defkey orgtbl-mode-map (kbd (car b)) (orgtbl-make-binding (cadr b) n (kbd (car b))))
         (setq n (1+ n))))))
 
+(defun my-org-global-skip-function ()
+  "Global skip function for all agenda views"
+  (when (member "folder" (ignore-errors (org-get-tags)))
+    (save-excursion
+      (or (outline-next-heading)
+          (point-max)))))
+
 (defun my-org-select-cell ()
   "Select the cell in org table the point is in."
   (interactive)
