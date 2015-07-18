@@ -586,6 +586,11 @@ replace any running timer."
                       ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
                     org-latex-classes)))))
 
+(use-package ox-html
+  :defer t
+  :config
+  (progn
+    (push '(code . "<kbd>%s</kbd>") org-html-text-markup-alist)))
 
 (use-package org-habit
   :defer t
