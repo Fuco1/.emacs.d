@@ -253,7 +253,10 @@
                           (org-agenda-todo-ignore-deadlines 'future))))
              nil)
             ("t" "Todo" tags "-HOLD-STOP-BOOKS-download/!+NEXT|+TODO"
-             ((org-agenda-skip-function 'my-org-skip-projects)))
+             ((org-agenda-skip-function 'my-org-skip-projects)
+              (org-agenda-todo-ignore-scheduled t)
+              (org-agenda-todo-ignore-deadlines t)
+              (org-agenda-todo-ignore-with-date t)))
             ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
             ("k" . "Knowledge-base operations")
             ("ks" "Knowledge-base search" search nil
