@@ -698,6 +698,7 @@ The second part is a regexp to search in the buffer."
   ;; TODO lepsia mapa pre "toggle prikazy?"
   ("C-c C-x L" . org-toggle-link-display)
   ("C-c R" . org-remove-occur-highlights)
+  ("C-c k" . my-insert-key-in-org)
 
   ("C-x n t" . my-org-narrow-to-top-heading)
   ("C-x n P" . my-org-narrow-to-project)
@@ -711,6 +712,19 @@ The second part is a regexp to search in the buffer."
   ("C-c s" . helm-org-in-buffer-search)
   ("A-d" . helm-org-in-buffer-search))
 (unbind-key "C-'" org-mode-map)
+
+(defun my-insert-key-in-org (key)
+  "Ask for a key then insert its description.
+Will work on both org-mode and any mode that accepts plain html."
+  (interactive "kType key sequence: ")
+  (let* ((orgp (derived-mode-p 'org-mode))
+         (tag (if orgp "~%s~" "<kbd>%s</kbd>")))
+    (if (null (equal key "\C-m"))
+        (insert
+         (format tag (help-key-description key nil)))
+      ;; If you just hit RET.
+      (insert (format tag ""))
+      (forward-char (if orgp -1 -6)))))
 
 (defun my-org-open-at-point (&optional arg)
   "Just like `org-open-at-point', but open link in this window."
