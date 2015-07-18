@@ -1,5 +1,6 @@
 %backup%~
 *.elc
+*.html
 .achievements
 .cask/*
 .emacs-places
@@ -27,6 +28,7 @@ elpa/*
 eshell/history
 eshell/lastdir
 files/personal.el
+history
 image-dired/
 org-clock-save.el
 projectile-bookmarks.eld
