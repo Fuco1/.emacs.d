@@ -260,10 +260,25 @@ Also used for highlighting.")
 ;; revert the dired buffers automatically after these operations.
 (--each '(dired-do-rename
           dired-do-copy
-          dired-create-directory
           wdired-abort-changes)
   (eval `(defadvice ,it (after revert-buffer activate)
            (revert-buffer))))
+
+(defadvice dired-create-directory (around disable-ido-ubiq-then-revert-then-jump-to-file activate)
+  "Disable ido completion of filepaths.
+
+When we are creating new directory, there is nothing to complete."
+  (interactive
+   (let ((ido-mode-old ido-mode))
+     (unwind-protect
+         (progn
+           (ido-mode -1)
+           (list (read-file-name "Create directory: " (dired-current-directory))))
+       (when ido-mode-old
+         (ido-mode 1)))))
+  ad-do-it
+  (goto-char (point-min))
+  (dired-utils-goto-line (file-truename (ad-get-arg 0))))
 
 ;; redefine from dired.el
 ;; Do not only join filenames with space because there can be spaces in the paths.
