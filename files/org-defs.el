@@ -210,57 +210,75 @@
                                                 next-headline)))))))
            args)))
 
+    (defvar my-custom-agenda-sections
+      '((refile . (tags "REFILE"
+                        ((org-agenda-overriding-header "Tasks to Refile")
+                         (org-tags-match-list-sublevels nil))))
+        (bugs-emacs . (tags-todo "bug/!-NEXT"
+                                 ((org-agenda-overriding-header "Bugs (in emacs projects)")
+                                  (org-agenda-files '("~/org/emacs.org"))
+                                  (org-tags-match-list-sublevels nil))))
+        (stuck-projects . (tags-todo "-STOP/!-WAIT"
+                                     ((org-agenda-overriding-header "Stuck Projects")
+                                      (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
+                                      (org-agenda-skip-function 'my-org-skip-non-stuck-projects))))
+        (next-tasks . (tags-todo "-WAIT-HOLD-STOP-BOOKS-BUG/!NEXT"
+                                 ((org-agenda-overriding-header "Next Tasks")
+                                  (org-agenda-skip-function 'my-org-skip-projects-and-habits-and-single-tasks)
+                                  (org-agenda-todo-ignore-scheduled t)
+                                  (org-agenda-todo-ignore-deadlines t)
+                                  (org-agenda-todo-ignore-with-date t)
+                                  (org-tags-match-list-sublevels t)
+                                  (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep)))))
+        (tasks . (tags-todo "-REFILE-STOP-BOOKS-download/!-HOLD-WAIT-IDEA"
+                            ((org-agenda-overriding-header "Tasks")
+                             (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
+                             (org-agenda-todo-ignore-scheduled t)
+                             (org-agenda-todo-ignore-deadlines t)
+                             (org-agenda-todo-ignore-with-date t)
+                             (org-agenda-sorting-strategy '(priority-down category-keep)))))
+        (waiting-tasks . (tags-todo "-STOP/!+WAIT"
+                                    ((org-agenda-overriding-header "Waiting Tasks")
+                                     (org-agenda-skip-function 'my-org-skip-projects)
+                                     (org-tags-match-list-sublevels nil)
+                                     (org-agenda-todo-ignore-scheduled 'future)
+                                     (org-agenda-todo-ignore-deadlines 'future))))
+        ;; Active projects and projects that wait on something
+        ;; Things we are working on
+        ;; TODO: should show immediate children tasks if narrowed
+        (projects . (tags-todo "-HOLD-STOP-GENERAL/!"
+                               ((org-agenda-overriding-header (if (my-org-restricted-p)
+                                                                  "Subprojects (and children tasks)"
+                                                                "Projects"))
+                                (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
+                                (org-agenda-skip-function 'my-org-skip-non-projects)
+                                (org-tags-match-list-sublevels 'indented)
+                                (org-agenda-sorting-strategy '(priority-down category-keep)))))
+        ;; Projects/tasks on HOLD: projects that are not cancelled, but we don't want to work on them now
+        (hold . (tags-todo "-STOP/!+HOLD"
+                           ((org-agenda-overriding-header "Postponed Projects and Tasks")
+                            (org-agenda-skip-function 'my-org-skip-stuck-projects)
+                            (org-tags-match-list-sublevels nil)
+                            (org-agenda-todo-ignore-scheduled 'future)
+                            (org-agenda-todo-ignore-deadlines 'future)))))
+       "An alist mapping keywords to custom agenda sections")
+
     (setq org-agenda-custom-commands
-          `((" " "Agenda"
+          `((" " "Quick Agenda"
              ((agenda "" nil)
-              (tags "REFILE"
-                    ((org-agenda-overriding-header "Tasks to Refile")
-                     (org-tags-match-list-sublevels nil)))
-              (tags-todo "bug/!-NEXT"
-                         ((org-agenda-overriding-header "Bugs")
-                          (org-tags-match-list-sublevels nil)))
-              (tags-todo "-STOP/!-WAIT"
-                         ((org-agenda-overriding-header "Stuck Projects")
-                          (org-agenda-skip-function 'my-org-skip-non-stuck-projects)))
-              (tags-todo "-WAIT-HOLD-STOP-BOOKS-BUG/!NEXT"
-                         ((org-agenda-overriding-header "Next Tasks")
-                          (org-agenda-skip-function 'my-org-skip-projects-and-habits-and-single-tasks)
-                          (org-agenda-todo-ignore-scheduled t)
-                          (org-agenda-todo-ignore-deadlines t)
-                          (org-agenda-todo-ignore-with-date t)
-                          (org-tags-match-list-sublevels t)
-                          (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep))))
-              (tags-todo "-REFILE-STOP-BOOKS-download/!-HOLD-WAIT-IDEA"
-                         ((org-agenda-overriding-header "Tasks")
-                          (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
-                          (org-agenda-todo-ignore-scheduled t)
-                          (org-agenda-todo-ignore-deadlines t)
-                          (org-agenda-todo-ignore-with-date t)
-                          (org-agenda-sorting-strategy '(priority-down category-keep))))
-              (tags-todo "-STOP/!+WAIT"
-                         ((org-agenda-overriding-header "Waiting Tasks")
-                          (org-agenda-skip-function 'my-org-skip-projects)
-                          (org-tags-match-list-sublevels nil)
-                          (org-agenda-todo-ignore-scheduled 'future)
-                          (org-agenda-todo-ignore-deadlines 'future)))
-              ;; Active projects and projects that wait on something
-              ;; Things we are working on
-              ;; TODO: should show immediate children tasks if narrowed
-              (tags-todo "-HOLD-STOP-GENERAL/!"
-                         ((org-agenda-overriding-header (if (my-org-restricted-p)
-                                                            "Subprojects (and children tasks)"
-                                                          "Projects"))
-                          (org-agenda-skip-function 'my-org-skip-non-projects)
-                          (org-tags-match-list-sublevels 'indented)
-                          (org-agenda-sorting-strategy '(priority-down category-keep))))
-              ;; Projects/tasks on HOLD: projects that are not cancelled, but we don't want to work on them now
-              (tags-todo "-STOP/!+HOLD"
-                         ((org-agenda-overriding-header "Postponed Projects and Tasks")
-                          (org-agenda-skip-function 'my-org-skip-stuck-projects)
-                          (org-tags-match-list-sublevels nil)
-                          (org-agenda-todo-ignore-scheduled 'future)
-                          (org-agenda-todo-ignore-deadlines 'future))))
-             nil)
+              ,(cdr (assoc 'refile my-custom-agenda-sections))
+              ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
+              ,(cdr (assoc 'tasks my-custom-agenda-sections))))
+            ("A" "Full Agenda"
+             ((agenda "" nil)
+              ,(cdr (assoc 'refile my-custom-agenda-sections))
+              ,(cdr (assoc 'bugs-emacs my-custom-agenda-sections))
+              ,(cdr (assoc 'stuck-projects my-custom-agenda-sections))
+              ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
+              ,(cdr (assoc 'tasks my-custom-agenda-sections))
+              ,(cdr (assoc 'waiting-tasks my-custom-agenda-sections))
+              ,(cdr (assoc 'projects my-custom-agenda-sections))
+              ,(cdr (assoc 'hold my-custom-agenda-sections))))
             ("t" "Todo" tags "-HOLD-STOP-BOOKS-download/!+NEXT|+TODO"
              ((org-agenda-skip-function 'my-org-skip-projects)
               (org-agenda-todo-ignore-scheduled t)
@@ -302,7 +320,7 @@
 
     (defun my-org-agenda-remove-empty-lists ()
       (let ((headers '("Tasks to Refile"
-                       "Bugs"
+                       "Bugs (in emacs projects)"
                        "Stuck Projects"
                        "Next Tasks"
                        "Tasks"
