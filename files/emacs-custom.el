@@ -110,7 +110,7 @@
      (output-html "start"))))
  '(abm-ignore-buffers
    (quote
-    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask")))
+    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs")))
  '(ag-highlight-search t)
  '(allout-prefixed-keybindings
    (quote
@@ -383,6 +383,8 @@
  '(find-grep-options "-qE")
  '(flx-ido-mode t)
  '(flycheck-emacs-lisp-load-path (quote inherit))
+ '(flycheck-ghc-args nil)
+ '(flycheck-ghc-search-path (quote ("/home/matus/dotfiles/xmonad/.xmonad/lib")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
  '(font-latex-math-environments
    (quote
@@ -702,7 +704,8 @@
  '(org-clock-persist t)
  '(org-clock-persist-query-resume nil)
  '(org-clock-report-include-clocking-task t)
- '(org-columns-default-format "%50ITEM %TODO %3PRIORITY %TAGS %CLOCKSUM")
+'(org-columns-default-format
+"%50ITEM(Task) %TODO(Todo) %SCHEDULED(Scheduled) %DEADLINE(Deadline) %TAGS(Tags) %CLOCKSUM(Clock) %Effort(Effort)")
  '(org-complete-tags-always-offer-all-agenda-tags t)
  '(org-completion-use-ido t)
  '(org-contacts-files (quote ("~/org/contacts.org")))
@@ -1782,9 +1785,7 @@
             (quote font-lock-keyword-face))))))
   (reftex-default-bibliography "./bibliography")
   (eval allout-mode t))))
-'(sallet-buffer-sources
-(quote
- (sallet-source-buffer sallet-source-autobookmarks sallet-source-bookmarks-file-only-closed-only)))
+ '(sallet-buffer-sources (quote (sallet-source-buffer sallet-source-autobookmarks)))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.emacs-places")
  '(save-place-limit nil)
