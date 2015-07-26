@@ -201,8 +201,8 @@
                                                                  (or (outline-next-heading)
                                                                      (point-max)))))
                                             ;; TODO: for some reason here we get a bug "Bad timestamp"
-                                            (let ((closed-at (org-time-string-to-time
-                                                              (org-entry-get (point) "CLOSED"))))
+                                            (-when-let* ((ts (org-entry-get (point) "CLOSED"))
+                                                         (closed-at (org-time-string-to-time ts)))
                                               (when (or (time-less-p closed-at
                                                                      my-org-show-media-closed-since)
                                                         (time-less-p my-org-show-media-closed-until
