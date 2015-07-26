@@ -986,21 +986,17 @@ called, percentage usage and the command."
   (bind-keys :prefix "C-c m"
              :prefix-map ctl-c-m-map
              :prefix-docstring "Magit map")
-  :bind (("C-c m b" . magit-key-mode-popup-branching)
-         ("C-c m c" . magit-key-mode-popup-committing)
-         ("C-c m d" . magit-key-mode-popup-dispatch)
-         ("C-c m f" . magit-key-mode-popup-fetching)
-         ("C-c m i" . magit-key-mode-popup-diff-options)
-         ("C-c m l" . magit-key-mode-popup-logging)
-         ("C-c m m" . magit-key-mode-popup-merging)
-         ("C-c m p" . magit-key-mode-popup-pushing)
-         ("C-c m v" . magit-branch-manager)
+  :bind (("C-c m b" . magit-branch-popup)
+         ("C-c m d" . magit-dispatch-popup)
+         ("C-c m f" . magit-fetch-popup)
+         ("C-c m i" . magit-diff-popup)
+         ("C-c m l" . magit-log-popup)
+         ("C-c m v" . magit-show-refs-popup)
          ("C-c m s" . magit-status))
   :config
   (progn
-    (bind-key "<tab>" 'magit-toggle-section magit-mode-map)
-    (require 'flyspell)
-    (diminish 'magit-auto-revert-mode)))
+    (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
+    (require 'flyspell)))
 
 (use-package malabar-mode
   :mode "\\.java\\'"
