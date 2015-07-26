@@ -24,6 +24,7 @@ dev/*
 di/*
 elfeed/*
 elnode/*
+elpa-archive/*
 elpa/*
 eshell/history
 eshell/lastdir
