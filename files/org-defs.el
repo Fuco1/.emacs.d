@@ -301,9 +301,11 @@
             ;; NEXT as every other current task.
             ("r" "Reading"
              ((tags "+Reading/-DONE"
-                    ((org-agenda-overriding-header "To read")))
+                    ((org-agenda-overriding-header "To read")
+                     (org-agenda-files '("~/org/reading.org"))))
               (tags "+Reading/DONE"
-                    ((org-agenda-overriding-header "Finished"))))))))
+                    ((org-agenda-overriding-header "Finished")
+                     (org-agenda-files '("~/org/reading.org")))))))))
   :config
   (progn
     (defun org-agenda-time-limit (time)
