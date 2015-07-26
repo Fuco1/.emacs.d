@@ -1181,7 +1181,7 @@ Switch projects and subprojects from NEXT back to TODO"
 
 (defun my-org-export-read-books ()
   (interactive)
-  (let ((org-agenda-files (list "~/org/me.org")))
+  (let ((org-agenda-files (list "~/org/me.org" "~/org/reading.org")))
     (save-window-excursion
       (unwind-protect
           (let ((years-to-export (nreverse (number-sequence 2014 2015)))
