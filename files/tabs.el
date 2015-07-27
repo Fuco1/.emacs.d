@@ -1,17 +1,15 @@
-;;; Tab management
+;;; tabs.el --- Tab management.
+
+;;; Commentary:
+;;; Code:
+
+(require 'bind-key)
 
 ;; If there is a tab, make it the size of 8 spaces
-(setq default-tab-width 4)
 (setq-default tab-width 4)
 (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
 ;; Spaces instead of tabs
 (setq-default indent-tabs-mode nil)
-
-;; Mode specific indent sizes
-;; (setq c-basic-offset 4)
-;; (setq css-indent-offset 2)
-;; (setq sh-basic-offset 2)
-;; (setq-default javascript-indent-level 2)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Hippie expand.  Groovy vans with tie-dyes.
@@ -39,19 +37,23 @@
 
 (defun my-smart-tab-default-action (prefix)
   "Execute the default smart tab action."
-  (unless (completion-at-point)
-    (cond
+  ;; (unless (completion-at-point)
+  (cond
      ((my-smart-tab-must-expand prefix)
       (ignore-errors (hippie-expand prefix)))
-     ((my-smart-indent)))))
+     ((my-smart-indent)))
+  ;; )
+  )
 
 (defun smart-tab (prefix)
-  "Needs `transient-mark-mode' to be on. This smart tab is minibuffer
-compliant: it acts as usual in the minibuffer.
+  "Do what I mean when I hit tab.
+
+Needs `transient-mark-mode' to be on.  This smart tab is
+minibuffer compliant: it acts as usual in the minibuffer.
 
 In all other buffers: if PREFIX is \\[universal-argument], calls
-`my-smart-indent'. Else if point is at the end of a symbol, expands
-it. Else calls `my-smart-indent'."
+`my-smart-indent'.  Else if point is at the end of a symbol,
+expands it.  Else calls `my-smart-indent'."
   (interactive "P")
   (cond
    ((bound-and-true-p elfeed-search-live)
@@ -68,7 +70,7 @@ it. Else calls `my-smart-indent'."
    (:otherwise (my-smart-tab-default-action prefix))))
 
 (defun my-smart-indent ()
-  "Indents region if mark is active, or current line otherwise."
+  "Indent region if mark is active, or current line otherwise."
   (interactive)
   (if (use-region-p)
       (indent-region (region-beginning)
@@ -79,3 +81,5 @@ it. Else calls `my-smart-indent'."
 (bind-key "<tab>" 'smart-tab)
 (bind-key "<tab>" 'smart-tab minibuffer-local-map)
 (bind-key "<tab>" 'smart-tab read-expression-map)
+
+;;; tabs.el ends here
