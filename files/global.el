@@ -1,3 +1,15 @@
+;;; global.el --- Global settings which don't fit anywhere else.
+
+;;; Commentary:
+
+;; Catch-it-all bag of global configuration.
+
+;;; Code:
+
+(require 'edebug)
+
+(require 'smartparens)
+
 ;; "y or n" instead of "yes or no"
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -71,6 +83,7 @@
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
 
 (defun my-try-smerge ()
+  "Try to turn on `smerge-mode'."
   (save-excursion
     (goto-char (point-min))
     (when (re-search-forward "^<<<<<<< " nil t)
@@ -85,3 +98,5 @@
       (require 'ansi-color)
       (with-current-buffer buf
         (ansi-color-apply-on-region (point-min) (point-max))))))
+
+;;; global.el ends here
