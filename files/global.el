@@ -51,35 +51,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some text-mode settings
 
-(setq-default cursor-type 'box)
-(dolist (hook '(
-                LaTeX-mode-hook
-                org-mode-hook
-                markdown-mode-hook
-                gnus-article-mode-hook
-                textile-mode-hook
-                ))
-  (add-hook hook 'my-init-text-based-modes))
-
-;; Use variable width font faces in current buffer
-(defun my-buffer-face-mode-variable ()
-  "Set font to a variable width (proportional) fonts in current buffer"
-  (interactive)
-  (variable-pitch-mode))
-
-(defun my-init-text-based-modes ()
-  (my-buffer-face-mode-variable)
-  (setq cursor-type 'bar)
-  (turn-on-visual-line-mode)
-  (smartparens-mode 1))
-
-(defun my-init-prog-based-modes ()
-  (flycheck-mode)
-  (turn-on-smartparens-strict-mode)
-  (highlight-thing-mode)
-  (which-function-mode))
-
-(add-hook 'prog-mode-hook 'my-init-prog-based-modes)
 (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
 
 (defun my-try-smerge ()

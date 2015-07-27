@@ -1532,6 +1532,17 @@ SCOPE is the scope, one of: batch, thread, plid."
   (progn
     (push '("*Pp Eval Output*" :height 15) popwin:special-display-config)))
 
+(use-package prog-mode
+  :init
+  (progn
+    (defun my-init-prog-mode ()
+      "Init `prog-mode' based modes."
+      (flycheck-mode)
+      (turn-on-smartparens-strict-mode)
+      (highlight-thing-mode)
+      (which-function-mode))
+    (add-hook 'prog-mode-hook 'my-init-prog-mode)))
+
 (use-package projectile
   :defer t
   :diminish projectile-mode
@@ -1721,6 +1732,24 @@ SCOPE is the scope, one of: batch, thread, plid."
   :config
   (progn
     (load "files/latex-defs")))
+
+(use-package text-mode
+  :init
+  (progn
+    (defun my-init-text-mode ()
+      "Init `text-mode' based modes."
+      (variable-pitch-mode)
+      (setq cursor-type 'bar)
+      (turn-on-visual-line-mode)
+      (smartparens-mode 1))
+    (--each '(
+              LaTeX-mode-hook
+              org-mode-hook
+              markdown-mode-hook
+              gnus-article-mode-hook
+              textile-mode-hook
+              )
+      (add-hook it 'my-init-text-mode))))
 
 (use-package tramp
   :defer t
