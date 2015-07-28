@@ -28,6 +28,10 @@
 
 (bind-key "<delete>" 'god-local-mode)
 
+;; unfortunately C-. can't be represented by anything customize allows
+;; for this variable.
+(setq smerge-command-prefix (kbd "C-. m"))
+
 ;; Url & Browsing
 (bind-key "C-c C-w" 'browse-url-at-point)
 (bind-key "C-c w" 'browse-url)
@@ -204,9 +208,6 @@
   ("c" . create-scratch-buffer)
   ("C-c" . create-scratch-buffer-current-mode)
   ;; ("k" . browse-kill-ring) ;use helm
-  ("m s" . kmacro-set-counter)
-  ("m a" . kmacro-add-counter)
-  ("m f" . kmacro-set-format)
   ("z" . my-insert-no-move)
   ("-" . macrostep-expand)
   ("0" . my-kill-pp-eval-expression-window)
