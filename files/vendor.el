@@ -1282,9 +1282,10 @@ If in the test file, visit source."
 
 Works both on local files and tramp files (where it cuts off the
 network prefix)."
-      (if (file-remote-p filename)
-          (tramp-file-name-localname (tramp-dissect-file-name filename))
-        filename))
+      (when filename
+        (if (file-remote-p filename)
+            (tramp-file-name-localname (tramp-dissect-file-name filename))
+          filename)))
 
     (defun my-php-run-tests ()
       "Run all Nette tests found in current directory."
