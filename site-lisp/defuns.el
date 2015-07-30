@@ -381,3 +381,29 @@ half the height of parent window."
   (interactive)
   (let ((default-directory "~"))
     (ido-find-file)))
+
+(defun my-md5-file (filename)
+  "Open FILENAME, load it into a buffer and generate the md5 of its contents"
+  (interactive "f")
+  (with-temp-buffer
+    (insert-file-contents filename)
+    (md5 (current-buffer))))
+
+(defun my-dired-show-duplicates (list-a list-b)
+  (interactive (list (dired-get-marked-files)
+                     (with-current-buffer (cdr (assoc (dired-dwim-target-directory) dired-buffers))
+                       (dired-get-marked-files))))
+  (let* ((list-a (--map (cons (my-md5-file it) it) list-a))
+         (list-b (--map (cons (my-md5-file it) it) list-b))
+         (same-files 0))
+    (with-current-buffer (get-buffer-create "*duplicates*")
+      (erase-buffer)
+      (--each list-a
+        (-when-let (name-other (cdr (assoc (car it) list-b)))
+          (insert (format "- File =%s= is the same as =%s=\n" (cdr it) name-other))
+          (incf same-files)))
+      (insert (format "Total: %d\n" same-files))
+      (org-mode)
+      (pop-to-buffer (current-buffer)))))
+
+;;; defuns.el ends here
