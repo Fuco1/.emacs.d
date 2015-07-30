@@ -3,7 +3,11 @@
 
 (define-abbrev-table 'Custom-mode-abbrev-table '())
 
+(define-abbrev-table 'add-to-list '())
+
 (define-abbrev-table 'ag-mode-abbrev-table '())
+
+(define-abbrev-table 'apropos-mode-abbrev-table '())
 
 (define-abbrev-table 'awk-mode-abbrev-table '())
 
@@ -18,6 +22,8 @@
 (define-abbrev-table 'bookmark-bmenu-mode-abbrev-table '())
 
 (define-abbrev-table 'bookmark-edit-annotation-mode-abbrev-table '())
+
+(define-abbrev-table 'bookmark-show-annotation-mode-abbrev-table '())
 
 (define-abbrev-table 'c++-mode-abbrev-table '())
 
@@ -45,6 +51,8 @@
 
 (define-abbrev-table 'conf-xdefaults-mode-abbrev-table '())
 
+(define-abbrev-table 'csharp-mode-abbrev-table '())
+
 (define-abbrev-table 'define-abbrev-table '())
 
 (define-abbrev-table 'di-thumb-mode-abbrev-table '())
@@ -62,6 +70,16 @@
 (define-abbrev-table 'display-time-world-mode-abbrev-table '())
 
 (define-abbrev-table 'edebug-eval-mode-abbrev-table '())
+
+(define-abbrev-table 'ein:notebook-plain-mode-abbrev-table '())
+
+(define-abbrev-table 'ein:notebook-python-mode-abbrev-table '())
+
+(define-abbrev-table 'ein:notebooklist-mode-abbrev-table '())
+
+(define-abbrev-table 'ein:pager-mode-abbrev-table '())
+
+(define-abbrev-table 'ein:traceback-mode-abbrev-table '())
 
 (define-abbrev-table 'emacs-lisp-byte-code-mode-abbrev-table '())
 
@@ -127,6 +145,10 @@
 
 (define-abbrev-table 'eshell-mode-abbrev-table '())
 
+(define-abbrev-table 'finder-mode-abbrev-table '())
+
+(define-abbrev-table 'flycheck-error-list-mode-abbrev-table '())
+
 (define-abbrev-table 'fundamental-mode-abbrev-table '())
 
 (define-abbrev-table 'gfm-mode-abbrev-table '())
@@ -145,13 +167,25 @@
 
 (define-abbrev-table 'haskell-cabal-mode-abbrev-table '())
 
+(define-abbrev-table 'haskell-compilation-mode-abbrev-table '())
+
+(define-abbrev-table 'haskell-debug-mode-abbrev-table '())
+
+(define-abbrev-table 'haskell-error-mode-abbrev-table '())
+
+(define-abbrev-table 'haskell-interactive-mode-abbrev-table '())
+
 (define-abbrev-table 'haskell-mode-abbrev-table '())
+
+(define-abbrev-table 'haskell-presentation-mode-abbrev-table '())
 
 (define-abbrev-table 'helm-grep-mode-abbrev-table '())
 
 (define-abbrev-table 'helm-moccur-mode-abbrev-table '())
 
 (define-abbrev-table 'help-mode-abbrev-table '())
+
+(define-abbrev-table 'hs-lint-mode-abbrev-table '())
 
 (define-abbrev-table 'html-mode-abbrev-table '())
 
@@ -165,6 +199,8 @@
 
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
 
+(define-abbrev-table 'internal-ange-ftp-mode-abbrev-table '())
+
 (define-abbrev-table 'java-mode-abbrev-table '())
 
 (define-abbrev-table 'js-mode-abbrev-table '())
@@ -174,6 +210,8 @@
 (define-abbrev-table 'literate-haskell-mode-abbrev-table '())
 
 (define-abbrev-table 'log-edit-mode-abbrev-table '())
+
+(define-abbrev-table 'log-view-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-branch-manager-mode-abbrev-table '())
 
@@ -211,6 +249,18 @@
 
 (define-abbrev-table 'message-mode-abbrev-table '())
 
+(define-abbrev-table 'mpc-mode-abbrev-table '())
+
+(define-abbrev-table 'mpc-songs-mode-abbrev-table '())
+
+(define-abbrev-table 'mpc-status-mode-abbrev-table '())
+
+(define-abbrev-table 'mpc-tagbrowser-dir-mode-abbrev-table '())
+
+(define-abbrev-table 'mpc-tagbrowser-mode-abbrev-table '())
+
+(define-abbrev-table 'neon-mode-abbrev-table '())
+
 (define-abbrev-table 'nxml-mode-abbrev-table '())
 
 (define-abbrev-table 'objc-mode-abbrev-table '())
@@ -240,6 +290,8 @@
 
 (define-abbrev-table 'pike-mode-abbrev-table '())
 
+(define-abbrev-table 'plstore-mode-abbrev-table '())
+
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 
 (define-abbrev-table 'prog-mode-abbrev-table '())
@@ -247,6 +299,8 @@
 (define-abbrev-table 'python-mode-abbrev-table '())
 
 (define-abbrev-table 'select-tags-table-mode-abbrev-table '())
+
+(define-abbrev-table 'server-start '())
 
 (define-abbrev-table 'sgml-mode-abbrev-table '())
 
@@ -264,11 +318,31 @@
 
 (define-abbrev-table 'sql-mode-abbrev-table '())
 
+(define-abbrev-table 'swb-mode-abbrev-table
+  '(
+    ("cc" "count(*)" nil 0)
+    ("ll" "limit 100" nil 2)
+    ("sc" "select count(*) from" nil 7)
+    ("sf" "select * from" nil 4)
+   ))
+
+(define-abbrev-table 'swb-result-mode-abbrev-table '())
+
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
+
+(define-abbrev-table 'tar-mode-abbrev-table '())
 
 (define-abbrev-table 'term-mode-abbrev-table '())
 
 (define-abbrev-table 'text-mode-abbrev-table '())
+
+(define-abbrev-table 'textile-mode-abbrev-table '())
+
+(define-abbrev-table 'thumbs-mode-abbrev-table '())
+
+(define-abbrev-table 'thumbs-view-image-mode-abbrev-table '())
+
+(define-abbrev-table 'vc-annotate-mode-abbrev-table '())
 
 (define-abbrev-table 'vc-bzr-log-view-mode-abbrev-table '())
 
@@ -285,3 +359,4 @@
 (define-abbrev-table 'world-time-table-mode-abbrev-table '())
 
 (define-abbrev-table 'yaml-mode-abbrev-table '())
+
