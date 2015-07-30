@@ -16,6 +16,7 @@
 .smex-items
 /srecode-map.el
 auto-save-list/*
+autobookmarks
 backups/*
 bookmarks/*
 dev/*
@@ -36,6 +37,6 @@ server/*
 tmp/*
 todo.org
 tramp
+tramp-autosave/
 url/*
 vendor/*
-/autobookmarks
