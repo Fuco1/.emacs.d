@@ -32,6 +32,8 @@
 ;; for this variable.
 (setq smerge-command-prefix (kbd "C-. m"))
 
+(bind-key "C-. /" 'my-insert-date-iso)
+
 ;; Url & Browsing
 (bind-key "C-c C-w" 'browse-url-at-point)
 (bind-key "C-c w" 'browse-url)

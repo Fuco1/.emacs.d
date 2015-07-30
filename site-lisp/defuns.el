@@ -353,3 +353,8 @@ Return path to temporary file."
           (thing-at-point 'symbol))
         regexp-history)
   (call-interactively 'occur))
+
+(defun my-insert-date-iso (date)
+  "Insert timestamp."
+  (interactive (list (org-read-date)))
+  (insert date))
