@@ -8,3 +8,7 @@ alias lla ls -la
 alias du1 du --max-depth=1 -h
 alias ga git add $*
 alias hc hg commit -m "Update"
+alias ...... cd ../../../../..
+alias ..... cd ../../../..
+alias .... cd ../../..
+alias ... cd ../..
