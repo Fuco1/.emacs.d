@@ -43,7 +43,7 @@
 (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
 
 (bind-key "C-M-s"
-          (defhydra smartparens-hydra (:color red)
+          (defhydra smartparens-hydra ()
             "Smartparens"
             ("d" sp-down-sexp "Down")
             ("e" sp-up-sexp "Up")
