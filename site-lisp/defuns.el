@@ -358,3 +358,14 @@ Return path to temporary file."
   "Insert timestamp."
   (interactive (list (org-read-date)))
   (insert date))
+
+(defun my-fit-window-to-buffer (w)
+  "Just like `fit-window-to-buffer' but with max pre-set.
+
+The max height is set to the minimum of `count-screen-lines' and
+half the height of parent window."
+  (fit-window-to-buffer
+   w
+   (min
+    (1+ (count-screen-lines nil nil nil w))
+    (/ (window-height (window-parent w)) 2))))
