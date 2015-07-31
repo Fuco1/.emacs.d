@@ -725,7 +725,14 @@ idle timer to do the actual update.")
     (bind-key "C-x g" google-this-mode-submap)))
 
 (use-package grep
-  :bind (("<f7> <f7>" . rgrep)))
+  :bind (("<f7> <f7>" . rgrep))
+  :config
+  (progn
+    (use-package scf-mode)
+    (bind-key "s" 'scf-mode grep-mode-map)
+    (defun my-grep-mode-init ()
+      (scf-mode 1))
+    (add-hook 'grep-mode-hook 'my-grep-mode-init)))
 
 (use-package guide-key
   :defer t
