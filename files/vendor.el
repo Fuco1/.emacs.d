@@ -1733,7 +1733,7 @@ SCOPE is the scope, one of: batch, thread, plid."
   (progn
     (load "files/latex-defs")))
 
-(use-package text-mode
+(use-package "text-mode"
   :init
   (progn
     (defun my-init-text-mode ()
