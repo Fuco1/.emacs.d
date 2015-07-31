@@ -466,6 +466,22 @@ message.")
          ("C-. = w" . ediff-regions-wordwise))
   :config
   (progn
+    (defhydra hydra-ediff (:color blue :hint nil)
+      "
+^Buffers           Files           VC                     Ediff regions
+----------------------------------------------------------------------
+_b_uffers           _f_iles (_=_)       _r_evisions              _l_inewise
+_B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
+"
+      ("b" ediff-buffers)
+      ("B" ediff-buffers3)
+      ("=" ediff-files)
+      ("f" ediff-files)
+      ("F" ediff-files3)
+      ("r" ediff-revision)
+      ("t" my-svn-ediff-branch-and-trunk)
+      ("l" ediff-regions-linewise)
+      ("w" ediff-regions-wordwise))
     (defvar my-ediff-before-config nil "Window configuration before ediff.")
     (defvar my-ediff-after-config nil "Window configuration after ediff.")
 
