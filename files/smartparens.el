@@ -165,6 +165,7 @@
 (sp-with-modes '(php-mode)
   (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
                                              (my-php-handle-docstring "RET")))
+  (sp-local-pair "/*." ".*/" :post-handlers '(("| " "SPC")))
   (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
   (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
 
