@@ -219,3 +219,49 @@ inner let form point is inside of."
           (insert (format "%s" (make-string (length forms) 41)))))
       (backward-sexp)
       (indent-sexp))))
+
+(defun my-lisp-demorganify (to)
+  "Apply De Morgan's law.
+
+TO is either 'and or 'or."
+  (let* ((sexp (sexp-at-point))
+         (body (-map (lambda (x)
+                       (if (and (listp x)
+                                (eq (car x) 'not))
+                           (cadr x)
+                         `(not ,x))) (cdr sexp))))
+    `(not (,to ,@body))))
+
+(defun my-lisp-remove-excess-not ()
+  "Replace (not (not form)) with form."
+  (interactive)
+  (save-excursion
+    (catch 'done
+      (while (my-goto-dominating-form 'not)
+        (let* ((sexp (sexp-at-point))
+               (kill-ring kill-ring))
+          (when (and (listp sexp)
+                     (eq (car sexp) 'not)
+                     (listp (cadr sexp))
+                     (eq (caadr sexp) 'not))
+            (kill-sexp)
+            (pp (cadr (cadr sexp)) (current-buffer))
+            (throw 'done t)))))))
+
+(defun my-lisp-flip-or-and ()
+  "Transform `or' into an equivalent `and' and vice versa."
+  (interactive)
+  (save-excursion
+    (my-goto-dominating-form '(or and))
+    (let* ((type (save-excursion
+                   (down-list)
+                   (symbol-at-point)))
+           (replacement (if (eq type 'or)
+                            (my-lisp-demorganify 'and)
+                          (my-lisp-demorganify 'or)))
+           (kill-ring kill-ring ))
+      (kill-sexp)
+      (pp replacement (current-buffer))
+      (my-lisp-remove-excess-not))))
+
+;;; lisp-mode-defs.el ends here
