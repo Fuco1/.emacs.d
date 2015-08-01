@@ -74,17 +74,24 @@ function on `my-emacs-lisp-open-line-list'."
   (insert "("))
 
 (defun my-goto-dominating-form (what)
-  "Find dominating form starting with WHAT."
+  "Find dominating form starting with WHAT.
+
+If WHAT is a list, test for any symbol in WHAT.
+
+Return element of WHAT which matched or nil if no dominating form
+starting with any of the specified symbols exists."
   (unless (listp what) (setq what (list what)))
   (unless (save-excursion
             (when (ignore-errors (down-list))
               (memq (symbol-at-point) what)))
-    (while (and (> (car (syntax-ppss)) 0)
-                (not (ignore-errors
-                       (backward-up-list)
-                       (save-excursion
-                         (down-list)
-                         (memq (symbol-at-point) what))))))))
+    (catch 'done
+      (while (> (car (syntax-ppss)) 0)
+        (ignore-errors
+          (backward-up-list)
+          (save-excursion
+            (down-list)
+            (-when-let (match (memq (symbol-at-point) what))
+              (throw 'done (car match)))))))))
 
 (defun my-extract-to-let (name &optional arg)
   "Extract the form at point into a variable called NAME placed
