@@ -27,9 +27,6 @@
 (bind-key "C-c C-w" 'browse-url-at-point)
 (bind-key "C-c w" 'browse-url)
 
-
-(bind-key "M-=" 'count-words)
-
 ;; refresh-like
 (bind-key "M-<f5>" '(lambda () (interactive) (load-file (buffer-file-name))))
 
@@ -62,7 +59,6 @@
 (bind-key "C-p" 'previous-history-element minibuffer-local-map)
 (bind-key "C-n" 'next-history-element minibuffer-local-map)
 
-(bind-key "C-c V" 'view-clipboard)
 (bind-key "C-c =" 'count-matches)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -71,31 +67,9 @@
 ;; remove arrows, evil!
 (mapc 'global-unset-key [[up] [down] [left] [right]])
 
-;; # move by (forw/back)
-;; character
-(bind-key "C-f" 'forward-char)
-(bind-key "C-b" 'backward-char)
-;; word
-(bind-key "M-f" 'forward-word)
-(bind-key "M-b" 'backward-word)
-;; line
-(bind-key "C-n" 'next-line)
-(bind-key "C-p" 'previous-line)
-;; sentence
-(bind-key "M-e" 'forward-sentence)
-(bind-key "M-a" 'backward-sentence)
 ;; paragraph
 (bind-key "M-[" 'backward-paragraph)
 (bind-key "M-]" 'forward-paragraph)
-;; screen
-(bind-key "C-v" 'scroll-up-command)
-(bind-key "M-v" 'scroll-down-command)
-;; sexp
-(bind-key "C-M-f" 'forward-sexp)
-(bind-key "C-M-b" 'backward-sexp)
-;; list
-(bind-key "C-M-n" 'forward-list)
-(bind-key "C-M-p" 'backward-list)
 
 (bind-key "C-c q s" 'query-replace)
 (bind-key "C-c q r" 'query-replace-regexp)
@@ -172,7 +146,6 @@
            :prefix-docstring "Second auxiliary map on C-."
   ("c" . create-scratch-buffer)
   ("C-c" . create-scratch-buffer-current-mode)
-  ;; ("k" . browse-kill-ring) ;use helm
   ("z" . my-insert-no-move)
   ("-" . macrostep-expand)
   ("0" . my-kill-pp-eval-expression-window)
@@ -263,6 +236,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Jump to "logical" top/bottom of buffer in listing buffers
+;; TODO: this needs to become a package
 
 (defmacro my-special-buffer-back-to-top (mode &rest forms)
   (declare (indent 1))
