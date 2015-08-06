@@ -162,6 +162,7 @@
  '(bmkp-bmenu-image-bookmark-icon-file nil)
  '(bmkp-bmenu-state-file "~/.emacs.d/bookmarks/emacs-bmk-bmenu-state.el")
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks/bookmarks")
+ '(bookmark-default-file "~/.emacs.d/bookmarks/bookmarks")
  '(bookmark-version-control t)
  '(browse-kill-ring-quit-action (quote save-and-restore))
  '(bs-configurations
@@ -222,6 +223,7 @@
  '(cua-enable-cua-keys nil)
  '(cua-mode t nil (cua-base))
  '(cursor-color "#839496")
+ '(cursor-type (quote box))
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
@@ -235,6 +237,7 @@
  '(delete-by-moving-to-trash t)
  '(desktop-buffer-filter (quote my-desktop-filter))
  '(desktop-save t)
+ '(diary-display-function (quote ignore))
  '(diary-file "~/org/diary")
  '(dired-avfs-archives (quote ("zip" "rar" "tar" "bz2")))
  '(dired-details-hidden-string "")
@@ -269,6 +272,7 @@
    (quote
     (("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura --fork")
      ("\\.fb2" "fbreader"))))
+ '(dired-hide-details-hide-information-lines nil)
  '(dired-isearch-filenames t)
  '(dired-list-mpc-music-directory "~/media/music")
  '(dired-listing-switches "-alh")
@@ -350,6 +354,8 @@
  '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5)
  '(elfeed-search-title-max-width 90)
+ '(elpy-rpc-backend "jedi")
+ '(elpy-rpc-python-command "python3")
  '(emmet-indentation 2)
  '(emmet-preview-default nil)
  '(emms-player-list nil)
@@ -1836,12 +1842,14 @@
 '(sp-sexp-prefix
 (quote
  ((emacs-lisp-mode syntax ".'")
-  (latex-mode syntax "\\"))))
+  (latex-mode syntax "\\")
+  (racket-mode regexp "#?['`,]@?"))))
 '(sp-sexp-suffix
 (quote
  ((ruby-mode syntax "")
   (json-mode regexp "")
-  (python-mode regexp ""))))
+  (python-mode regexp "")
+  (emacs-lisp-mode regexp "'-?"))))
 '(sp-show-enclosing-pair-commands
 (quote
  (sp-show-enclosing-pair sp-forward-slurp-sexp sp-backward-slurp-sexp sp-forward-barf-sexp sp-backward-barf-sexp)))
