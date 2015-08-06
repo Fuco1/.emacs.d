@@ -1645,6 +1645,11 @@ SCOPE is the scope, one of: batch, thread, plid."
 (use-package skeleton-complete
   :commands skeleton-complete-mode
   :diminish skeleton-complete-mode)
+;; M-s map
+(bind-key "M-s RET" 'skeleton-easy-regexp-display-abbrev)
+;; M-g map
+(bind-key "M-g RET" 'skeleton-display-abbrev)
+
 
 (use-package smartparens
   :defer t

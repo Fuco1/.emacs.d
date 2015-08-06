@@ -242,13 +242,6 @@
 
 (bind-key "C-z" 'repeat)
 
-;; M-s map
-(bind-key "M-s RET" 'skeleton-easy-regexp-display-abbrev)
-(bind-key "M-s c" 'calendar)
-
-;; M-g map
-(bind-key "M-g RET" 'skeleton-display-abbrev)
-
 ;; Hydras for the F-keys
 (bind-key "<f1>"
           (defhydra f1-hydra (:color blue)
