@@ -149,6 +149,7 @@
  '(appt-display-format nil)
  '(appt-display-interval 5)
  '(appt-message-warning-time 15)
+ '(auto-save-file-name-transforms nil)
  '(background-color "#002b36")
  '(background-mode dark)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backups"))))
@@ -227,7 +228,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" "24df523fcbc913591cf1f59240659d527b9592db14b4c869ae836a44a995ea37" "bb6d13306e664074c566a37c369266e2a20d64904d9bb21944671182ecefc37b" "8ab98f174b863506c801169be00a9b561c105ee0e3bdfc875f59c39d9ec98ed7" "71032e5e55cf6d19de3e45ba24a1a5de1fd96a4e8199887bd9d34e2beae6395d" "71a7f7e1a052a151b153ed8f94fef91760626fca0f69846de4bddb7f93b3bfde" "55c487ea48ff4f84f7e0e8defb8090882254c9dba09d6ea1c4fddc7ee3dd09a4" "c32d902d804de1bab8eed8b03d0ad966655ff45c20425919e948869ff6b17508" "1ea6fe7ccbb95cac28dc8bd0928d99d44955f5b808f632486bae0b5ef10852a7" "72a67086e2af1d5400079fd22e0dd82d5b5c4dce5208f84a8587b4b4f88d8883" "fe5ced274272efe93aef98d36451ab484026320b16135f99650575e467d181fe" "72923b24d97069690fdaee32ac5eff73709e4f00d0989f6e9e3c4a040d9f40a2" "9eca301589e8e2fba9dc9d7893054616b3919813ba57c3233dc3d778fa89b0d7" default)))
+    ("7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -291,7 +292,19 @@
     (dired-open-guess-shell-alist dired-open-by-extension dired-open-subdir)))
  '(dired-open-query-before-exit nil)
  '(dired-open-use-nohup t)
- '(display-buffer-alist (quote ((".*" (ignore) (reusable-frames . t)))))
+ '(display-buffer-alist
+   (quote
+    (((lambda
+        (b _)
+        (with-current-buffer b
+          (eq major-mode
+              (quote swb-result-mode))))
+      (display-buffer-reuse-window display-buffer-pop-up-window)
+      (reusable-frames)
+      (window-height . my-fit-window-to-buffer))
+     (".*"
+      (ignore)
+      (reusable-frames . t)))))
  '(display-time-24hr-format t)
  '(display-time-format "%H:%M ")
  '(display-time-string-forms
@@ -388,10 +401,13 @@
     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/local/games" "/usr/local/libexec/emacs/24.3/x86_64-unknown-linux-gnu" "/home/matus/bin")))
  '(find-grep-options "-qE")
  '(flx-ido-mode t)
+ '(flycheck-disabled-checkers (quote (php-phplint)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
  '(flycheck-ghc-args nil)
  '(flycheck-ghc-search-path (quote ("/home/matus/dotfiles/xmonad/.xmonad/lib")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
+ '(flycheck-phpcs-standard "PW")
+ '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
  '(font-latex-math-environments
    (quote
     ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "derivation")))
@@ -628,6 +644,9 @@
 " ";;; " legalese-file-name " ends here
 ")))))
  '(line-number-mode t)
+'(log-edit-hook
+(quote
+ (log-edit-insert-cvs-template log-edit-insert-changelog log-edit-show-files)))
  '(look-show-subdirs t)
  '(ls-lisp-dirs-first t)
  '(ls-lisp-use-insert-directory-program nil)
@@ -646,6 +665,7 @@
  '(markdown-link-space-sub-char "-")
  '(max-lisp-eval-depth 1000)
  '(max-specpdl-size 10000)
+ '(message-forward-as-mime nil)
  '(message-kill-buffer-on-exit t)
  '(message-log-max 10000)
  '(message-send-mail-function (quote smtpmail-send-it))
@@ -1801,12 +1821,15 @@
  (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode global-semantic-mru-bookmark-mode)))
  '(semantic-new-buffer-setup-functions (quote ((java-mode . wisent-malabar-java-setup))))
  '(send-mail-function (quote smtpmail-send-it))
+ '(shackle-mode t)
+ '(shackle-rules (quote (("*Help*" :select t))))
  '(shell-pop-autocd-to-working-dir t)
  '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
  '(shell-pop-universal-key "<f11>")
  '(shell-pop-window-height 50)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
+ '(smerge-command-prefix "\\C-.m")
  '(smex-save-file "~/.emacs.d/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
@@ -1862,11 +1885,20 @@
  '(sp-wrap-from-point nil)
  '(split-height-threshold 10)
  '(split-width-threshold 100)
+'(sql-connection-alist
+(quote
+ (("nestle-test"
+   (sql-product
+    (quote mysql))
+   (sql-user "root")
+   (sql-server "tunel.logio.cz")
+   (sql-port 30239)))))
  '(sql-pop-to-buffer-after-send-region nil)
  '(system-time-locale "C" t)
  '(texmathp-tex-commands (quote (("derivation" env-on))))
  '(text-mode-hook (quote (text-mode-hook-identify)))
  '(tracking-ignored-buffers (quote ("#openttd")))
+ '(tramp-auto-save-directory "~/.emacs.d/tramp-autosave/")
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
@@ -1879,6 +1911,8 @@
  '(visible-bell nil)
  '(w3m-command nil)
  '(w3m-imagick-convert-program "c:\\cygwin\\bin\\convert.exe")
+ '(which-func-maxout 100000)
+ '(which-function-mode t)
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(winner-mode t)
  '(x-select-enable-clipboard t)
@@ -1897,5 +1931,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(markup-header ((t (:inherit font-lock-function-name-face :background "#4e4e4e" :weight bold))) t)
- '(org-level-1 ((((class color) (min-colors 65535)) :inherit outline-1) (((class color) (min-colors 256)) :inherit outline-1))))
+ )
