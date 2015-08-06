@@ -36,16 +36,6 @@ This is the same as using \\[set-mark-command] with the prefix argument."
   (exchange-point-and-mark)
   (deactivate-mark nil))
 
-(defun view-clipboard ()
-  (interactive)
-  (switch-to-buffer "*Clipboard*")
-  (let ((inhibit-read-only t))
-    (erase-buffer)
-    (clipboard-yank)
-    (goto-char (point-min))
-    (html-mode)
-    (view-mode)))
-
 (defun my-buffer-narrowed-p ()
   "Return non-nil if the current buffer is narrowed."
   (/= (- (point-max) (point-min)) (buffer-size)))
