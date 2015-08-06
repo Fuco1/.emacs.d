@@ -1304,7 +1304,8 @@ If in the test file, visit source."
       (or (php-eldoc-function)
           (unless (and (featurep 'tramp)
                        (tramp-tramp-file-p (buffer-file-name)))
-            (ggtags-eldoc-function))))
+            (when (fboundp 'ggtags-eldoc-function)
+              (ggtags-eldoc-function)))))
 
     (defun my-php-find-project-root ()
       (with-temp-buffer
