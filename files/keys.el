@@ -96,8 +96,6 @@
 ;; list
 (bind-key "C-M-n" 'forward-list)
 (bind-key "C-M-p" 'backward-list)
-(bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)))
-(bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)))
 
 (bind-key "C-c q s" 'query-replace)
 (bind-key "C-c q r" 'query-replace-regexp)
