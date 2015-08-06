@@ -48,11 +48,6 @@
 (dir-locals-set-directory-class
  "/scp:speedy:/var/www/html/devel/mg/orders-refactor/" 'pw-orders-refactor)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Some text-mode settings
-
-(add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
-
 (defun my-try-smerge ()
   "Try to turn on `smerge-mode'."
   (save-excursion

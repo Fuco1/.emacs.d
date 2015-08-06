@@ -2,6 +2,8 @@
 ;; global
 (require 'smartparens-config)
 
+(add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; keybinding management
 (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
