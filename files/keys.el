@@ -29,12 +29,6 @@
 (bind-key "C-c C-w" 'browse-url-at-point)
 (bind-key "C-c w" 'browse-url)
 
-;; Find stuff
-(bind-key "<f2>" 'my-occur-dwim)
-(bind-keys :map occur-mode-map
-  ("n" . occur-next)
-  ("p" . occur-prev)
-  ("o" . occur-mode-display-occurrence))
 
 (bind-key "M-=" 'count-words)
 

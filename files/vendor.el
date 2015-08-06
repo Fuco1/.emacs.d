@@ -1237,6 +1237,16 @@ If in the test file, visit source."
     (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
     (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map)))
 
+(use-package occur
+  :commands occur
+  :init
+  (bind-key "<f2>" 'my-occur-dwim)
+  :config
+  (bind-keys :map occur-mode-map
+    ("n" . occur-next)
+    ("p" . occur-prev)
+    ("o" . occur-mode-display-occurrence)))
+
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   ;; The following lines are always needed.  Choose your own keys.
