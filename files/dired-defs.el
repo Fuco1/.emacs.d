@@ -348,6 +348,15 @@ You can then feed the file name(s) to other commands with \\[yank]."
                default-directory)))
     (dired dir "-lR")))
 
+(defun my-dired-create-file-backup (file)
+  "Create a backup from file under point.
+
+The backup file is in the same directory with the same name but
+with <date><time>.bak appended."
+  (interactive (list (read-file-name "File to backup: " nil (car (dired-get-marked-files)))))
+  (let ((new-name (concat file "." (format-time-string "%Y%m%d%H%M%S") ".bak")))
+    (copy-file file new-name)))
+
 (defun my-image-dired--with-image-in-dired (operation)
   "OPERATION is a function of two arguments, the file we operate
 on and associated dired buffer."
