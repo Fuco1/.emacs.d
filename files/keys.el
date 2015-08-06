@@ -154,9 +154,6 @@
 (bind-key "s-\\" 'mc/mark-more-like-this-extended)
 (bind-key "s-/" 'mc/mark-all-like-this-dwim)
 (bind-key "H-SPC" 'set-rectangular-region-anchor)
-
-(add-hook 'html-mode-hook (lambda () (bind-key "C-c <deletechar>" 'sgml-delete-tag html-mode-map)))
-
 ;; mark commands
 (bind-key "C-`" 'my-push-mark-no-activate)
 (bind-key "M-`" 'my-jump-to-mark)

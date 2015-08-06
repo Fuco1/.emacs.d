@@ -1623,6 +1623,7 @@ SCOPE is the scope, one of: batch, thread, plid."
       (emmet-mode 1)
       (smartparens-mode 1)
       (bind-keys :map html-mode-map
+        ("C-c <deletechar>" . sgml-delete-tag)
         ("C-c C-f" . sp-html-next-tag)
         ("C-c C-b" . sp-html-previous-tag)))
     (add-hook 'html-mode-hook 'my-html-mode-setup)))
