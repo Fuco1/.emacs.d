@@ -1,6 +1,15 @@
 ;; fixing various windows-related bullshit
 
 (when (eq system-type 'windows-nt)
+  ;; setting the PC keyboard's various keys to
+  ;; Super or Hyper, or emacs running on Windows.
+  (setq w32-pass-lwindow-to-system nil
+        w32-pass-rwindow-to-system nil
+        w32-pass-apps-to-system nil
+        w32-lwindow-modifier 'super ; Left Windows key
+        w32-rwindow-modifier 'super ; Right Windows key
+        w32-apps-modifier 'hyper) ; Menu key
+
   (setq-default exec-path '("d:/progs/perl/perl/site/bin/"
                             "d:/progs/perl/perl/bin/"
                             "d:/progs/gnuutils/bin/"

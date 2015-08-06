@@ -11,15 +11,6 @@
 ;; We do not want to quit emacs, ever.
 (unbind-key "C-x C-c")
 
-;; setting the PC keyboard's various keys to
-;; Super or Hyper, or emacs running on Windows.
-(setq w32-pass-lwindow-to-system nil
-      w32-pass-rwindow-to-system nil
-      w32-pass-apps-to-system nil
-      w32-lwindow-modifier 'super ; Left Windows key
-      w32-rwindow-modifier 'super ; Right Windows key
-      w32-apps-modifier 'hyper) ; Menu key
-
 ;;; stupid terminal key sequence remapping
 (define-key key-translation-map [escape] [?\e])
 (define-key input-decode-map [?\C-\[] [(control left_bracket)])
