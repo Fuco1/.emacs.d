@@ -1142,6 +1142,12 @@ If in the test file, visit source."
             (run-with-timer 0.2 nil (lambda () (gnus-alias-use-identity "logio")))))
         (add-hook 'message-setup-hook 'my-message-gnus-alias-init)))))
 
+(use-package multiple-cursors
+  :bind (("C-c C-S-c" . mc/edit-lines)
+         ("s-\\" . mc/mark-more-like-this-extended)
+         ("s-=" . mc/mark-all-like-this-dwim)
+         ("H-SPC" . set-rectangular-region-anchor)))
+
 (use-package multi-web-mode
   :defer t
   :config

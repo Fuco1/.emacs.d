@@ -147,13 +147,6 @@
 (bind-key "M-u" 'my-smart-upcase-word)
 (bind-key "M-c" 'my-capitalize-word)
 
-;;;;; multiple cursors
-(bind-key "C-c C-S-c" 'mc/edit-lines)
-(bind-key "s-." 'mc/mark-next-like-this)
-(bind-key "s-," 'mc/mark-previous-like-this)
-(bind-key "s-\\" 'mc/mark-more-like-this-extended)
-(bind-key "s-/" 'mc/mark-all-like-this-dwim)
-(bind-key "H-SPC" 'set-rectangular-region-anchor)
 ;; mark commands
 (bind-key "C-`" 'my-push-mark-no-activate)
 (bind-key "M-`" 'my-jump-to-mark)
