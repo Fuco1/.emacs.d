@@ -240,13 +240,6 @@
 (bind-key "M-z" 'zap-up-to-char)
 (bind-key "M-Z" 'zap-to-char)
 
-(defun my-quoted-insert-and-backward (arg)
-  "Just like `quoted-insert' but moves the point before the
-inserted character."
-  (interactive "*p")
-  (save-excursion
-    (call-interactively 'quoted-insert)))
-
 (bind-key "C-z" 'repeat)
 
 ;; M-s map
