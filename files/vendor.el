@@ -618,7 +618,7 @@ idle timer to do the actual update.")
   :bind ("s-'" . er/expand-region))
 
 (use-package god-mode
-  :defer t
+  :bind ("<delete>" . god-local-mode)
   :config
   (progn
     (defvar my-god-mode-buffer-input-method nil

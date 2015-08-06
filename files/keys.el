@@ -17,8 +17,6 @@
 (define-key function-key-map [escape] nil)
 (define-key function-key-map [?\e] nil)
 
-(bind-key "<delete>" 'god-local-mode)
-
 ;; unfortunately C-. can't be represented by anything customize allows
 ;; for this variable.
 (setq smerge-command-prefix (kbd "C-. m"))
