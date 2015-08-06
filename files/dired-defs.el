@@ -53,13 +53,7 @@ Also used for highlighting.")
                         "\\)\\)$") ; Do not treat compressed files as garbage... why the hell!
                 1 diredp-ignored-file-name t))
     ))
-(use-package dired-details
-  :init
-  (progn
-    (add-hook 'dired-after-readin-hook 'dired-details-activate)
 
-    (defadvice dired-revert (before remember-the-details activate)
-      (dired-details-delete-overlays))))
 (use-package dired-avfs)
 (use-package dired-filter)
 (use-package dired-open)
@@ -206,7 +200,7 @@ Also used for highlighting.")
     ("A") ("F") ("G") ("P") ("Q") ("X") ("Z") ("#") (".")
     ("~") ("e") ("f") ("l") ("v") ("^") ("?")
 
-    ("(" . dired-details-toggle )
+    ("(" . dired-hide-details-mode)
 
     ("C-x C-f" . my-dired-ido-find-file)
     ("k" . my-dired-do-kill-lines)

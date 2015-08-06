@@ -7,7 +7,6 @@
     dash-functional
     diminish
     dired+
-    dired-details
     eldoc-eval
     eimp
     eldoc-eval
