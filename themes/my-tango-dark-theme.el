@@ -293,6 +293,26 @@ is extension of default `tango-dark' face.")
    (diff-header (:foreground blue-1))
    (diff-refine-change (:background blue-3))
 
+   ;; Magit faces
+   (magit-section-heading (:inherit header-line))
+   (magit-section-highlight (:background alum-5.5))
+
+   (magit-hash (:foreground red-0))
+
+   (magit-branch-local (:foreground blue-0))
+   (magit-branch-current (:box (:line-width -1 :style nil) :inherit magit-branch-local))
+   (magit-branch-remote (:foreground cham-0 :box (:line-width -1)))
+   (magit-tag (:foreground butter-1 :box (:line-width -1)))
+   (magit-head (:foreground "white" :box (:line-width -1)))
+
+   (magit-diff-removed (:inherit diff-removed))
+   (magit-diff-added (:inherit diff-added))
+   (magit-diff-context-highlight (:background blue-3))
+   (magit-diff-removed-highlight (:inherit (diff-removed magit-diff-context-highlight)))
+   (magit-diff-added-highlight (:inherit (diff-added magit-diff-context-highlight)))
+
+   (magit-diff-lines-boundary (:background "black"))
+
    ;; Flyspell faces
    (flyspell-duplicate (:underline orange-1))
    (flyspell-incorrect (:underline red-1))
