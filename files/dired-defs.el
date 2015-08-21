@@ -57,6 +57,10 @@ Also used for highlighting.")
 (use-package dired-avfs)
 (use-package dired-filter)
 (use-package dired-open)
+
+;; we should just hijack C-t map from image-dired which is crap anyway
+(use-package dired-images)
+
 (use-package dired-subtree
   :init
   (bind-keys :map dired-mode-map
@@ -130,6 +134,7 @@ Also used for highlighting.")
       ("t" . dired-tagsistant-tag)
       ("s" . dired-tagsistant-tag-symlink))))
 
+;; TODO: continue with the transformation to org here
 (use-package make-it-so
   :init
   (bind-keys :map dired-mode-map
