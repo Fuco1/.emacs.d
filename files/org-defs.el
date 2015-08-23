@@ -387,7 +387,26 @@ current agenda view added to `org-tag-alist'."
                                              (-filter 'stringp (-map 'car org-tag-alist)))))))
       (org-agenda-filter-by-tag strip char narrow))
 
+    (defun my-org-agenda-clockreport (from to)
+      "Standalone clockreport"
+      (interactive (list (org-read-date nil nil nil "From: ")
+                         (org-read-date nil nil nil "To: ")))
+      (let ((org-agenda-files (org-agenda-files nil 'ifmode))
+            ;; the above line is to ensure the restricted range!
+            (p (copy-sequence org-agenda-clockreport-parameter-plist))
+            tbl)
+        (setq p (org-plist-delete p :block))
+        (setq p (plist-put p :tstart from))
+        (setq p (plist-put p :tend to))
+        (setq p (plist-put p :scope 'agenda))
+        (setq tbl (apply 'org-clock-get-clocktable p))
+        (with-current-buffer (get-buffer-create "*clockreport*")
+          (erase-buffer)
+          (insert tbl)
+          (pop-to-buffer (current-buffer)))))
+
     (bind-keys :map org-agenda-mode-map
+      ("C-c R" . my-org-agenda-clockreport)
       ("C-n" . org-agenda-next-item)
       ("C-p" . org-agenda-previous-item)
       ("P" . my-org-narrow-to-project)
