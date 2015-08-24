@@ -789,3 +789,19 @@ Any match of REMOVE-RE will be removed from TXT."
                'extra extra
                'format org-prefix-format-compiled
                'dotime dotime)))))))
+
+(eval-after-load "windmove"
+  '(progn
+     ;; Call user-error instead of error
+     (defun windmove-do-window-select (dir &optional arg window)
+       "Move to the window at direction DIR.
+DIR, ARG, and WINDOW are handled as by `windmove-other-window-loc'.
+If no window is at direction DIR, an error is signaled."
+       (let ((other-window (windmove-find-other-window dir arg window)))
+         (cond ((null other-window)
+                (user-error "No window %s from selected window" dir))
+               ((and (window-minibuffer-p other-window)
+                     (not (minibuffer-window-active-p other-window)))
+                (user-error "Minibuffer is inactive"))
+               (t
+                (select-window other-window)))))))
