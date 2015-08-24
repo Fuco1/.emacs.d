@@ -403,6 +403,7 @@ current agenda view added to `org-tag-alist'."
         (with-current-buffer (get-buffer-create "*clockreport*")
           (erase-buffer)
           (insert tbl)
+          (goto-char (point-min))
           (pop-to-buffer (current-buffer)))))
 
     (bind-keys :map org-agenda-mode-map
