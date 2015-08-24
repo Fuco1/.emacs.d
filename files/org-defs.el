@@ -389,7 +389,7 @@ current agenda view added to `org-tag-alist'."
 
     (defun my-org-agenda-clockreport (from to)
       "Standalone clockreport"
-      (interactive (list (org-read-date nil nil nil "From: ")
+      (interactive (list (org-read-date nil nil nil "From: " nil (format-time-string "%Y-01-01"))
                          (org-read-date nil nil nil "To: ")))
       (let ((org-agenda-files (org-agenda-files nil 'ifmode))
             ;; the above line is to ensure the restricted range!
