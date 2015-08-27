@@ -1285,21 +1285,29 @@ If in the test file, visit source."
     (use-package which-func)
 
     ;; imenu for instance variables
-    (defun php-create-regexp-for-instance-variable (visibility)
+    (defun php-create-regexp-for-instance-variable ()
       (concat
-       "^\\s-*" visibility
+       "^\\s-*" (regexp-opt '("public" "protected" "private" "var"))
        ;; Static?
        "\\s-+\\(?:static\\s-+\\)?"
        ;; Capture name
        "\\$\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*\\(?:;\\|=\\)"))
 
-    (defconst my-php-public-variables "Public Instance Variables")
-    (defconst my-php-protected-variables "Protected Instance Variables")
-    (defconst my-php-private-variables "Private Instance Variables")
-
-    (add-to-list 'php-imenu-generic-expression `(,my-php-public-variables ,(php-create-regexp-for-instance-variable "public") 1))
-    (add-to-list 'php-imenu-generic-expression `(,my-php-protected-variables  ,(php-create-regexp-for-instance-variable "protected") 1))
-    (add-to-list 'php-imenu-generic-expression `(,my-php-private-variables ,(php-create-regexp-for-instance-variable "private") 1))
+    (setq php-imenu-generic-expression
+          `(("Namespaces"
+             ,(php-create-regexp-for-classlike "namespace") 1)
+            ("Classes"
+             ,(php-create-regexp-for-classlike "class") 1)
+            ("Interfaces"
+             ,(php-create-regexp-for-classlike "interface") 1)
+            ("Traits"
+             ,(php-create-regexp-for-classlike "trait") 1)
+            ("All Methods"
+             ,(php-create-regexp-for-method "\\(?:\\sw\\|\\s_\\)+") 1)
+            ("Instance Variables"
+             ,(php-create-regexp-for-instance-variable) 1)
+            ("Named Functions"
+             "^\\s-*function\\s-+\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(" 1)))
 
     (defun my-php-jump-to-variable ()
       "Jump to a variable in the selected window."
@@ -1431,10 +1439,7 @@ These are retrieved from `imenu--index-alist'."
         (imenu--make-index-alist))
       (-map
        'car
-       (-concat
-        (cdr (assoc my-php-public-variables imenu--index-alist))
-        (cdr (assoc my-php-protected-variables imenu--index-alist))
-        (cdr (assoc my-php-private-variables imenu--index-alist)))))
+       (cdr (assoc "Instance Variables" imenu--index-alist))))
 
     (defun my-php-implement-proxy-function-call (proxy-through)
       "Proxy this method through instance property."
