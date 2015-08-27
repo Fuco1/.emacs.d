@@ -1751,6 +1751,16 @@ SCOPE is the scope, one of: batch, thread, plid."
       (orgtbl-mode))
     (add-hook 'sql-interactive-mode-hook 'my-sql-interactive-mode-init)))
 
+(use-package sql-workbench
+  :defer t
+  :config
+  (progn
+    (defun my-swb-mode-init ()
+      "Init swb mode."
+      (abbrev-mode 1))
+
+    (add-hook 'swb-mode-hook 'my-swb-mode-init)))
+
 (use-package textile-mode
   :mode "\\.textile\\'")
 
