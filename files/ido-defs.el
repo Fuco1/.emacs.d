@@ -46,8 +46,31 @@
 
 (add-hook 'ido-setup-hook 'my-ido-keys)
 
+(defun my-imenu-build-table ()
+  "Build flat \"imenu\" table."
+  (save-excursion
+    (let (re)
+      (-each imenu-generic-expression
+        (-lambda ((_ regexp group))
+          (goto-char (point-min))
+          (while (re-search-forward regexp nil t)
+            (push (cons (match-string group) (match-beginning group)) re))))
+      re)))
+
+(defun ido-goto-symbol ()
+  (interactive)
+  (if imenu-generic-expression
+      (let* ((list (my-imenu-build-table))
+             (default (symbol-name (symbol-at-point)))
+             (choice (completing-read "Go to symbol: " list nil t nil nil (when (assoc default list) default))))
+        (when choice
+          (unless (and (boundp 'mark-active) mark-active)
+            (push-mark nil t nil))
+          (goto-char (cdr (assoc choice list)))))
+    (ido-goto-symbol-old)))
+
 ;; ido and imenu integration
-(defun ido-goto-symbol (&optional symbol-list)
+(defun ido-goto-symbol-old (&optional symbol-list)
   "Refresh imenu and jump to a place in the buffer using Ido."
   (interactive)
   (unless (featurep 'imenu)
