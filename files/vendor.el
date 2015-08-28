@@ -978,7 +978,7 @@ called, percentage usage and the command."
                   ("m" my-merge-let-forms "merge let forms")
                   ("c" my-lisp-if-to-cond "if => cond")
                   ("i" my-lisp-cond-to-if "cond => if")
-                  ("d" my-lisp-demorganify "and <=> or")
+                  ("d" my-lisp-flip-or-and "and <=> or")
                   ("n" my-lisp-remove-excess-not "not . not => id"))
                 emacs-lisp-mode-map)
       (unbind-key "C-x C-a" emacs-lisp-mode-map)
