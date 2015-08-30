@@ -228,7 +228,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -367,6 +367,9 @@
  '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5)
  '(elfeed-search-title-max-width 90)
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
  '(elpy-rpc-backend "jedi")
  '(elpy-rpc-python-command "python3")
  '(emmet-indentation 2)
@@ -614,6 +617,8 @@
  '(keyfreq-autosave-mode t)
  '(keyfreq-file "~/.emacs.d/.emacs.keyfreq")
  '(keyfreq-mode t)
+ '(legalese-date-format (quote ordinal))
+ '(legalese-default-copyright "Matúš Goljer")
  '(legalese-templates
    (quote
     ((emacs-lisp-mode
@@ -624,8 +629,8 @@
 " ";; Author: " legalese-author "
 " ";; Maintainer: " legalese-author "
 " ";; Version: 0.0.1
-" ";; Created: 14th February 2014
-" ";; Package-requires: ((dash \"2.9.0\"))
+" ";; Created: " legalese-date "
+" ";; Package-requires: ((dash \"2.10.0\"))
 " ";; Keywords: "
 ((legalese-elisp-keyword)
  str ", ")
@@ -659,6 +664,7 @@
  '(lui-time-stamp-only-when-changed-p nil)
  '(lui-time-stamp-position (quote left))
  '(magit-diff-refine-hunk (quote all))
+ '(magit-log-arguments (quote ("--graph" "--color" "--decorate")))
  '(mail-envelope-from (quote header))
  '(mail-specify-envelope-from t)
  '(make-pointer-invisible t)
@@ -766,7 +772,7 @@
  '(org-drill-learn-fraction 0.55)
  '(org-drill-leech-method (quote warn))
  '(org-drill-maximum-duration nil)
- '(org-drill-maximum-items-per-session 20)
+ '(org-drill-maximum-items-per-session 55)
 '(org-drill-optimal-factor-matrix
 (quote
  ((29
@@ -1591,7 +1597,7 @@
  '(rcirc-fill-column (quote frame-width))
  '(rcirc-server-alist (quote (("chat.freenode.org"))))
  '(recentf-auto-cleanup (quote never))
- '(recentf-exclude (quote ("\"elpa/archives\"")) t)
+ '(recentf-exclude (quote ("\"elpa/archives\"")))
  '(recentf-max-saved-items 200)
  '(recentf-save-file "~/.emacs.d/.recentf")
 '(reftex-label-alist
@@ -1600,7 +1606,40 @@
   ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
 '(safe-local-variable-values
 (quote
- ((eval add-to-list
+ ((eval when
+        (and
+         (buffer-file-name)
+         (file-regular-p
+          (buffer-file-name))
+         (string-match-p "^[^.]"
+                         (buffer-file-name)))
+        (emacs-lisp-mode)
+        (when
+            (fboundp
+             (quote flycheck-mode))
+          (flycheck-mode -1))
+        (unless
+            (featurep
+             (quote package-build))
+          (let
+              ((load-path
+                (cons ".." load-path)))
+            (require
+             (quote package-build))))
+        (package-build-minor-mode)
+        (set
+         (make-local-variable
+          (quote package-build-working-dir))
+         (expand-file-name "../working/"))
+        (set
+         (make-local-variable
+          (quote package-build-archive-dir))
+         (expand-file-name "../packages/"))
+        (set
+         (make-local-variable
+          (quote package-build-recipes-dir))
+         default-directory))
+  (eval add-to-list
         (quote imenu-generic-expression)
         (quote
          ("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
@@ -1864,7 +1903,7 @@
  '(sp-override-key-bindings nil)
 '(sp-sexp-prefix
 (quote
- ((emacs-lisp-mode syntax ".'")
+ ((emacs-lisp-mode regexp "\\(?:,@\\|[',`]\\)")
   (latex-mode syntax "\\")
   (racket-mode regexp "#?['`,]@?"))))
 '(sp-sexp-suffix
@@ -1899,6 +1938,7 @@
  '(text-mode-hook (quote (text-mode-hook-identify)))
  '(tracking-ignored-buffers (quote ("#openttd")))
  '(tramp-auto-save-directory "~/.emacs.d/tramp-autosave/")
+ '(tramp-persistency-file-name nil)
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
@@ -1914,6 +1954,7 @@
  '(which-func-maxout 100000)
  '(which-function-mode t)
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
+ '(windmove-wrap-around t)
  '(winner-mode t)
  '(x-select-enable-clipboard t)
  '(yas-global-mode t nil (yasnippet))
@@ -1931,4 +1972,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(markup-header ((t (:inherit font-lock-function-name-face :background "#4e4e4e" :weight bold))) t)
+ '(org-level-1 ((((class color) (min-colors 65535)) :inherit outline-1) (((class color) (min-colors 256)) :inherit outline-1))))
