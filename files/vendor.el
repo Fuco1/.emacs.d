@@ -170,7 +170,7 @@ This is like `bmkp-some-tags-jump' but reads only one tag."
     (setq calc-display-trail nil)))
 
 (use-package calendar
-  :defer t
+  :bind ("M-s c" . calendar)
   :init
   (use-package slovak-holidays
     :init (slovak-holidays-add))
