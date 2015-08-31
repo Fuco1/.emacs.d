@@ -870,11 +870,3 @@ With \\[universal-argument] present user with list of possible methods to unpack
     (if (cdr marked-files)
         (dired-do-shell-command "du --apparent-size -s -h -c * &" nil marked-files)
       (dired-do-shell-command "du --apparent-size -s -h" nil marked-files))))
-
-;;;_. Local var settings
-
-;; Local Variables:
-;;   mode: emacs-lisp
-;;   mode: allout
-;;   outline-regexp: "^;;;_\\([,. ]+\\)"
-;; End:
