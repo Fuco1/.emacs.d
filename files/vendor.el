@@ -1757,7 +1757,7 @@ SCOPE is the scope, one of: batch, thread, plid."
     (add-hook 'sql-interactive-mode-hook 'my-sql-interactive-mode-init)))
 
 (use-package sql-workbench
-  :defer t
+  :mode ("\\.swb$" . swb-mode)
   :config
   (progn
     (defun my-swb-mode-init ()
