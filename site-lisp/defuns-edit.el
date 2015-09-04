@@ -200,6 +200,10 @@ enabled, move according to the visual lines."
    ((eq major-mode 'org-mode)
     (org-beginning-of-line))
    (t
+    ;; TODO: if there is nothing but comment on the line, cycle also
+    ;; to the beginning of the comment *after* the comment opener (or
+    ;; * in javadoc style comments)... this should be the default
+    ;; position.
     (if (or (/= arg 1)
             (= (point) (save-excursion
                          (my--back-to-indentation)
