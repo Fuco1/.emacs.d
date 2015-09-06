@@ -295,11 +295,15 @@ properly."
                  (/= (1+ (aref cua--rectangle 3)) eor))
             (cua-resize-rectangle-right (- eor (current-column) 1))
           (my--move-end-of-line)))
+       ((and (my--point-in-comment)
+             (/= (point) (my--line-end-position))
+             (> (point) eoc))
+        (my--move-end-of-line))
        ((= (point) (progn (my--move-end-of-line) (point)))
         (if (and cua--rectangle
                  (/= (1+ (aref cua--rectangle 3)) eor))
             (cua-resize-rectangle-right (- eor (current-column) 1))
-          (goto-char eoc))) ;; asd
+          (goto-char eoc)))
        (t (goto-char eoc)))))))
 
 
