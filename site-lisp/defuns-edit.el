@@ -218,7 +218,7 @@ instead."
                    (while (and (my--point-in-comment)
                                (not (bolp)))
                      (backward-char))
-                   (skip-syntax-forward "^w")
+                   (skip-syntax-forward "^w" (my--line-end-position))
                    (point)))))
       (cond
        ((and boc (> (point) boc))
