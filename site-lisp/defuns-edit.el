@@ -137,6 +137,12 @@ and indent next line according to mode."
         (back-to-indentation))
     (back-to-indentation)))
 
+(defun my--indentation-position ()
+  "Return point of indentation start."
+  (save-excursion
+    (my--back-to-indentation)
+    (point)))
+
 (defun my--move-beginning-of-line (&optional arg)
   "Move to beginning of line respecting `visual-line-mode'."
   (cond
@@ -205,9 +211,7 @@ enabled, move according to the visual lines."
     ;; * in javadoc style comments)... this should be the default
     ;; position.
     (if (or (/= arg 1)
-            (= (point) (save-excursion
-                         (my--back-to-indentation)
-                         (point))))
+            (= (point) (my--indentation-position)))
         (progn
           (my--move-beginning-of-line arg)
           (when (/= arg 1)
