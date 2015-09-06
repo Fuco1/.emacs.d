@@ -1064,7 +1064,7 @@ point and rebuild the agenda view."
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)" "MOVE(m@)")
         (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "STOP(s@/!)")
-        (sequence "IDEA(i)" "|")))
+        (sequence "|" "IDEA(i)")))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "IndianRed1" :weight bold)
