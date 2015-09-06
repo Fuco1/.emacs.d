@@ -178,9 +178,14 @@ Uses `my--move-end-of-line'."
     (point)))
 
 (defun my-back-to-indentation-or-beginning (&optional arg)
-  "Jump back to indentation of the current line.  If already
-there, jump to the beginning of current line.  If visual mode is
-enabled, move according to the visual lines."
+  "Jump back to indentation of the current line.
+
+If already there, jump to the beginning of current line.  If
+visual mode is enabled, move according to the visual lines.
+
+If the point is inside a comment and a jump to before its opening
+delimiter would occur, jump to beginning of comment text
+instead."
   (interactive "p")
   (cond
    ((and (functionp 'org-table-p)
@@ -206,17 +211,23 @@ enabled, move according to the visual lines."
    ((eq major-mode 'org-mode)
     (org-beginning-of-line))
    (t
-    ;; TODO: if there is nothing but comment on the line, cycle also
-    ;; to the beginning of the comment *after* the comment opener (or
-    ;; * in javadoc style comments)... this should be the default
-    ;; position.
-    (if (or (/= arg 1)
-            (= (point) (my--indentation-position)))
-        (progn
-          (my--move-beginning-of-line arg)
-          (when (/= arg 1)
-            (my--back-to-indentation)))
-      (my--back-to-indentation)))))
+    (let ((bol (my--line-beginning-position))
+          (ind (my--indentation-position))
+          (boc (when (my--point-in-comment)
+                 (save-excursion
+                   (while (and (my--point-in-comment)
+                               (not (bolp)))
+                     (backward-char))
+                   (skip-syntax-forward "^w")
+                   (point)))))
+      (cond
+       ((and boc (> (point) boc))
+        (goto-char boc))
+       ((and boc (= (point) boc))
+        (goto-char ind))
+       ((= (point) ind)
+        (goto-char bol))
+       (t (if boc (goto-char boc) (goto-char ind))))))))
 
 (defun my--cua-get-longest-line ()
   (-max (mapcar 'length
