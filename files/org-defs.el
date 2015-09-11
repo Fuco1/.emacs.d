@@ -664,7 +664,8 @@ by a REPEAT property."
 
 (defun my-org-auto-time-range-update ()
   "Automatically update time ranges and clock in org mode."
-  (when (eq major-mode 'org-mode)
+  (when (and (eq major-mode 'org-mode)
+             (not (use-region-p)))
     (shut-up
      (ignore-errors
        (org-evaluate-time-range)))))
