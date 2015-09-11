@@ -662,6 +662,14 @@ by a REPEAT property."
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
   "Org commit timer.")
 
+(defun my-org-auto-time-range-update ()
+  "Automatically update time ranges and clock in org mode."
+  (when (eq major-mode 'org-mode)
+    (shut-up
+     (ignore-errors
+       (org-evaluate-time-range)))))
+(add-hook 'post-command-hook 'my-org-auto-time-range-update)
+
 ;; Reminder setup
 ; Erase all reminders and rebuilt reminders for today from the agenda
 (defun my-org-agenda-to-appt ()
