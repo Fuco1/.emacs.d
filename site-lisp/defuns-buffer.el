@@ -63,16 +63,17 @@ might be bad."
   (interactive)
   (unless my-inhibit-buffer-cleanup
     (let ((inhibit-read-only t))
-      (unless (memq major-mode '(makefile-gmake-mode
-                                 makefile-mode
-                                 text-mode
-                                 fundamental-mode))
-        (untabify-buffer))
       (when (or (called-interactively-p)
                 (and (not (memq major-mode '(snippet-mode)))
                      (or (not (s-matches? "/var/www/html/" default-directory))
-                         (s-matches? "orders-refactor" default-directory))))
-        (delete-trailing-whitespace))
+                         (s-matches? "orders-refactor" default-directory))
+                     (not (s-matches? "dev/org-mode" default-directory))))
+        (delete-trailing-whitespace)
+        (unless (memq major-mode '(makefile-gmake-mode
+                                   makefile-mode
+                                   text-mode
+                                   fundamental-mode))
+          (untabify-buffer)))
       (set-buffer-file-coding-system 'utf-8))))
 
 (defun cleanup-buffer ()
