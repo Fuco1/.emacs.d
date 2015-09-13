@@ -429,4 +429,29 @@ class C%s extends CAbstractModule {
 " (s-upper-camel-case module-name))))
     (find-file (concat full-path "/" module-name ".pwm"))))
 
+(defun my-sync-rsync-sentinel (process state)
+  "Sentinel for rsync."
+  (when (equal state "finished\n")
+    (with-current-buffer (process-buffer process)
+      ;; the variables relative and remote are set buffer-locally in
+      ;; `my-sync-rsync-remote'
+      (message "Synchronized %s to %s" relative remote))))
+
+(defun my-sync-rsync-remote ()
+  "Sync the current file/directory with `my-rsync-remote'."
+  (interactive)
+  (when (bound-and-true-p my-rsync-remote)
+    (-when-let ((root) (dir-locals-find-file (buffer-file-name)))
+      (let ((relative (s-chop-prefix root (buffer-file-name)))
+            (remote my-rsync-remote))
+        (with-current-buffer (get-buffer-create " *rsync-sync*")
+          (kill-all-local-variables)
+          (cd root)
+          (setq-local relative relative)
+          (setq-local remote remote)
+          (set-process-sentinel
+           (start-process "rsync" (current-buffer)
+                          "rsync" "-adR" relative remote)
+           'my-sync-rsync-sentinel))))))
+
 ;;; defuns.el ends here
