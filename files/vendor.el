@@ -625,6 +625,12 @@ idle timer to do the actual update.")
 (use-package expand-region
   :bind ("s-'" . er/expand-region))
 
+(use-package firestarter
+  :defer t
+  :init
+  (progn
+    (put 'firestarter 'safe-local-variable 'identity)))
+
 (use-package god-mode
   :bind ("<delete>" . god-local-mode)
   :config
