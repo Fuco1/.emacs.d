@@ -429,6 +429,10 @@ class C%s extends CAbstractModule {
 " (s-upper-camel-case module-name))))
     (find-file (concat full-path "/" module-name ".pwm"))))
 
+(defvar my-rsync-remote nil
+  "Remote rsync target for a project.")
+(put 'my-rsync-remote 'safe-local-variable 'identity)
+
 (defun my-sync-rsync-local-to-remote-sentinel (process state)
   "Sentinel for rsync."
   (when (equal state "finished\n")
