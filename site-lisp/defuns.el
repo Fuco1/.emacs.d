@@ -435,7 +435,9 @@ class C%s extends CAbstractModule {
     (with-current-buffer (process-buffer process)
       ;; the variables relative and remote are set buffer-locally in
       ;; `my-sync-rsync-remote'
-      (message "Synchronized %s to %s" relative remote))))
+      (message "Synchronized %s to %s"
+               (propertize relative 'face 'font-lock-comment-face)
+               (propertize remote 'face 'font-lock-builtin-face)))))
 
 (defun my-sync-rsync-remote ()
   "Sync the current file/directory with `my-rsync-remote'."
