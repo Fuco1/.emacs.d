@@ -429,7 +429,7 @@ class C%s extends CAbstractModule {
 " (s-upper-camel-case module-name))))
     (find-file (concat full-path "/" module-name ".pwm"))))
 
-(defun my-sync-rsync-sentinel (process state)
+(defun my-sync-rsync-local-to-remote-sentinel (process state)
   "Sentinel for rsync."
   (when (equal state "finished\n")
     (with-current-buffer (process-buffer process)
@@ -439,7 +439,8 @@ class C%s extends CAbstractModule {
                (propertize relative 'face 'font-lock-comment-face)
                (propertize remote 'face 'font-lock-builtin-face)))))
 
-(defun my-sync-rsync-remote ()
+;; TODO: dorobit support na sync zloziek
+(defun my-sync-rsync-local-to-remote ()
   "Sync the current file/directory with `my-rsync-remote'."
   (interactive)
   (when (bound-and-true-p my-rsync-remote)
@@ -454,6 +455,38 @@ class C%s extends CAbstractModule {
           (set-process-sentinel
            (start-process "rsync" (current-buffer)
                           "rsync" "-ptdR" relative remote)
-           'my-sync-rsync-sentinel))))))
+           'my-sync-rsync-local-to-remote-sentinel))))))
+
+;; TODO: remove duplicity with ltr
+(defun my-sync-rsync-remote-to-local-sentinel (process state)
+  "Sentinel for rsync."
+  (when (equal state "finished\n")
+    (with-current-buffer (process-buffer process)
+      ;; the variables relative and remote are set buffer-locally in
+      ;; `my-sync-rsync-remote'
+      (message "Synchronized %s to %s"
+               (propertize remote 'face 'font-lock-builtin-face)
+               (propertize relative 'face 'font-lock-comment-face)))))
+
+;; TODO: dorobit support na sync zloziek
+;; TODO: odstranit duplicitu s l2r
+(defun my-sync-rsync-remote-to-local ()
+  "Sync remote version of this file to the local copy.
+
+The remote is determined by `my-rsync-remote'."
+  (interactive)
+  (when (bound-and-true-p my-rsync-remote)
+    (-when-let ((root) (dir-locals-find-file (buffer-file-name)))
+      (let ((relative (s-chop-prefix root (buffer-file-name)))
+            (remote my-rsync-remote))
+        (with-current-buffer (get-buffer-create " *rsync-sync*")
+          (kill-all-local-variables)
+          (cd root)
+          (setq-local relative relative)
+          (setq-local remote remote)
+          (set-process-sentinel
+           (start-process "rsync" (current-buffer)
+                          "rsync" "-ptd" (concat remote "/" relative) relative)
+           'my-sync-rsync-remote-to-local-sentinel))))))
 
 ;;; defuns.el ends here
