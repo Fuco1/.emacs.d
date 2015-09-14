@@ -451,7 +451,7 @@ class C%s extends CAbstractModule {
           (setq-local remote remote)
           (set-process-sentinel
            (start-process "rsync" (current-buffer)
-                          "rsync" "-adR" relative remote)
+                          "rsync" "-ptdR" relative remote)
            'my-sync-rsync-sentinel))))))
 
 ;;; defuns.el ends here
