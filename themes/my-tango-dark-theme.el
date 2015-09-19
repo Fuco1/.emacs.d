@@ -496,6 +496,9 @@ is extension of default `tango-dark' face.")
    (visible-mark-face1 (:background alum-3))
    (visible-mark-face2 (:background alum-4))
 
+   ;; Ledger
+   (ledger-occur-xact-face (:background "black"))
+
    ;; Random faces
    (bmkp-local-directory (:inherit dired-directory))
    (dropdown-list-face (:inherit default :background choc-1 :foreground "black"))

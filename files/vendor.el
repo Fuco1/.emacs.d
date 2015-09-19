@@ -966,6 +966,18 @@ called, percentage usage and the command."
           (t (lambda (e) (funcall func (cdr e) (/ (* 1e2 (cdr e)) sum) (car e)))))
          (cdr list) "")))))
 
+(use-package ledger-mode
+  :mode ("\\.ledger\\'" . ledger-mode)
+  :config
+  (progn
+    (defun my-ledger-post-align-dwim ()
+      "Align xact at point or the active region."
+      (interactive)
+      (if (use-region-p)
+          (call-interactively 'ledger-post-align-postings)
+        (call-interactively 'ledger-post-align-xact)))
+    (bind-key "M-q" 'my-ledger-post-align-dwim ledger-mode-map)))
+
 (use-package lisp-mode
   :defer t
   :init
