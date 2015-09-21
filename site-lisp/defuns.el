@@ -311,6 +311,16 @@ OLD is the string to act on."
       (goto-char (point-min))
       (pop-to-buffer (current-buffer)))))
 
+(defun my-svn-diff-wc-and-trunk ()
+  "Diff current buffer's file with its trunk version, run `diff-mode' on result."
+  (interactive)
+  (with-current-buffer (get-buffer-create "*svndiff*")
+    (erase-buffer)
+    (vc-svn-command t t nil "diff" "-x" "-w" "-r" "BASE:HEAD" (buffer-file-name))
+    (diff-mode)
+    (goto-char (point-min))
+    (pop-to-buffer (current-buffer))))
+
 (defun my-svn-checkout-trunk-file-tmp ()
   "Checkout the trunk version of current file into a temporary file.
 
