@@ -1647,6 +1647,11 @@ SCOPE is the scope, one of: batch, thread, plid."
          ("C-'" . sallet-buffer))
   :config
   (progn
+    (bind-key "C-c p"
+              (defhydra sallet-hydra (:color blue)
+                "Sallet hydra"
+                ("f" sallet-gtags-files "Find files")
+                ("t" sallet-gtags-tags "Find tags")))
     (use-package autobookmarks)))
 
 (use-package sgml-mode
