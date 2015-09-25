@@ -1880,7 +1880,8 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
               (force-window-update (current-buffer))))
         ad-do-it))
 
-    (bind-key "t" 'my-svn-diff-branch-and-trunk vc-prefix-map)))
+    (bind-key "t" 'my-svn-diff-branch-and-trunk vc-prefix-map)
+    (bind-key "h" 'my-svn-diff-wc-and-trunk vc-prefix-map)))
 
 (use-package visual-regexp
   :pre-init
