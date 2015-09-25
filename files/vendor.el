@@ -387,6 +387,7 @@ message.")
   (progn
     (unbind-key "M-k" diff-mode-map)
     (defun my-diff-mode-init ()
+      (highlight-thing-mode)
       (setq buffer-display-table (make-display-table))
       (aset buffer-display-table ?\^M []))
     (add-hook 'diff-mode-hook 'my-diff-mode-init)))
