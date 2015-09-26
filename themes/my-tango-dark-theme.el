@@ -499,6 +499,16 @@ is extension of default `tango-dark' face.")
    ;; Ledger
    (ledger-occur-xact-face (:background "black"))
 
+   (ledger-font-posting-account-face (:foreground choc-1))
+   (ledger-font-posting-date-face (:foreground blue-0))
+   (ledger-font-posting-amount-face (:foreground cham-1))
+
+   (ledger-font-auto-xact-face (:foreground butter-3))
+   (ledger-font-periodic-xact-face (:foreground cham-3))
+
+   (ledger-font-payee-cleared-face (:foreground gradient-1))
+   (ledger-font-payee-uncleared-face (:foreground red-1))
+
    ;; Random faces
    (bmkp-local-directory (:inherit dired-directory))
    (dropdown-list-face (:inherit default :background choc-1 :foreground "black"))
