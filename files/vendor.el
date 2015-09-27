@@ -87,55 +87,6 @@ return to regular interpretation of self-insert characters."
     (bind-key "o" 'bjump-info-link-jump Info-mode-map)
     (bind-key "o" 'bjump-help-link-jump help-mode-map)))
 
-(use-package bookmark+
-  :defer t
-  :init
-  (progn
-    (require 'bookmark+-autoloads)
-    (autoload #'my-bmkp-tag-jump "bookmark+" nil t)
-    (autoload #'my-bmkp-tag-dired "bookmark+" nil t)
-    (bind-key "C-x j t t" 'my-bmkp-tag-jump)
-    (bind-key "C-x j t d" 'my-bmkp-tag-dired))
-  :config
-  (progn
-    (defun my-bmkp-tag-jump (tag)
-      "Jump to bookmark that has TAG.
-
-This is like `bmkp-some-tags-jump' but reads only one tag."
-      (interactive (list (progn
-                           (bookmark-maybe-load-default-file)
-                           (completing-read "Tag: " (or bmkp-tags-alist (bmkp-tags-list)) nil t))))
-      (let* ((alist (bmkp-some-tags-alist-only (list tag))))
-        (unless alist (error "No bookmarks have any of the specified tags"))
-        (bookmark-jump
-         (bookmark-completing-read "Bookmark" (bmkp-default-bookmark-name alist) alist))))
-
-    (defun my-bmkp-tag-dired (tags)
-      "Dieplay a dired buffer containing all files tagged with TAGS."
-      (interactive (list (bmkp-read-tags-completing)))
-      (let* ((alist (bmkp-all-tags-alist-only tags))
-             (files (-map 'f-canonical (--map (cdr (assoc 'filename it)) alist)))
-             (common-parent (f-common-parent files))
-             (files (--map (s-chop-prefix common-parent it) files))
-             ;; the following two settings take care of dired bullshit
-             (dired-buffers nil)
-             (default-directory common-parent))
-        (dired (cons (concat common-parent) files))
-        (rename-buffer (with-temp-buffer
-                         (insert "Tags")
-                         (--each tags (insert ":") (insert it))
-                         (insert ":" common-parent)
-                         (buffer-string))
-                       :uniquify)))
-
-    (defadvice bookmark-jump (after fix-no-hack-local activate)
-      (hack-local-variables))
-
-    (bind-key "M-o" 'elwm-activate-window bookmark-bmenu-mode-map)
-    ;; re-init the map after loading the package
-    (bind-key "C-x j t t" 'my-bmkp-tag-jump)
-    (bind-key "C-x j t d" 'my-bmkp-tag-dired)))
-
 (use-package c-mode
   :defer t
   :config
