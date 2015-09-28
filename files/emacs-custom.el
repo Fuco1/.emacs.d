@@ -228,7 +228,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -403,6 +403,8 @@
    (quote
     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/local/games" "/usr/local/libexec/emacs/24.3/x86_64-unknown-linux-gnu" "/home/matus/bin")))
  '(find-grep-options "-qE")
+ '(firestarter-default-type (quote finished))
+ '(firestarter-mode t)
  '(flx-ido-mode t)
  '(flycheck-disabled-checkers (quote (php-phplint)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
@@ -617,6 +619,17 @@
  '(keyfreq-autosave-mode t)
  '(keyfreq-file "~/.emacs.d/.emacs.keyfreq")
  '(keyfreq-mode t)
+ '(ledger-reports
+   (quote
+    (("equity" "ledger -f %(ledger-file) bal ^assets ^liabilities")
+     ("cash-flow" "ledger -f %(ledger-file) bal ^income ^expenses")
+     ("account-budgeted" "ledger -f %(ledger-file) -p \"this year\" --budget --monthly reg %(account)")
+     ("expenses" "ledger -f %(ledger-file) -p \"this year\" --monthly reg ^expenses")
+     ("budget" "ledger -f %(ledger-file) -p \"this year\" --budget --monthly reg expenses")
+     ("bal" "ledger -f %(ledger-file) bal")
+     ("reg" "ledger -f %(ledger-file) reg")
+     ("payee" "ledger -f %(ledger-file) reg @%(payee)")
+     ("account" "ledger -f %(ledger-file) reg %(account)"))))
  '(legalese-date-format (quote ordinal))
  '(legalese-default-copyright "Matúš Goljer")
  '(legalese-templates
@@ -1597,7 +1610,7 @@
  '(rcirc-fill-column (quote frame-width))
  '(rcirc-server-alist (quote (("chat.freenode.org"))))
  '(recentf-auto-cleanup (quote never))
- '(recentf-exclude (quote ("\"elpa/archives\"")))
+ '(recentf-exclude (quote ("\"elpa/archives\"")) t)
  '(recentf-max-saved-items 200)
  '(recentf-save-file "~/.emacs.d/.recentf")
 '(reftex-label-alist
@@ -1606,7 +1619,38 @@
   ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
 '(safe-local-variable-values
 (quote
- ((eval when
+ ((c-style-alist
+   ("ledger"
+    (indent-tabs-mode)
+    (c-basic-offset . 2)
+    (c-comment-only-line-offset 0 . 0)
+    (c-hanging-braces-alist
+     (substatement-open before after)
+     (arglist-cont-nonempty))
+    (c-offsets-alist
+     (statement-block-intro . +)
+     (knr-argdecl-intro . 5)
+     (substatement-open . 0)
+     (substatement-label . 0)
+     (label . 0)
+     (case-label . 0)
+     (statement-case-open . 0)
+     (statement-cont . +)
+     (arglist-intro . +)
+     (arglist-close . +)
+     (inline-open . 0)
+     (brace-list-open . 0)
+     (topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))
+    (c-special-indent-hook . c-gnu-impose-minimum)
+    (c-block-comment-prefix . "")))
+  (swb-database . "test")
+  (swb-user . "root")
+  (swb-port . "3306")
+  (swb-host . "localhost")
+  (firestarter . my-sync-rsync-remote)
+  (firestarter quote my-sync-rsync-remote)
+  (my-rsync-remote . "dasnet:/home/fuco/project/foo/")
+  (eval when
         (and
          (buffer-file-name)
          (file-regular-p
