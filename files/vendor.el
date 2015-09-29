@@ -1838,6 +1838,9 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 (use-package wc-mode
   :commands wc-mode)
 
+(use-package web-mode
+  :mode (("\\.tpl\\'" . web-mode)))
+
 (use-package whitaker
   :commands whitaker
   :bind (("A-a" . whitaker-send-input)
