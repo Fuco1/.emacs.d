@@ -1490,3 +1490,46 @@ relation (\"jedi\" \"starwars\"), any headline tagged with
   (insert "|-+-+-|\n")
   (let ((kill-ring kill-ring))
     (--dotimes 3 (my-format-sanskrit-lines-no-latin))))
+
+;; Org goals/budget
+(defun my-org-time-goal ()
+  (interactive)
+  (org-clock-sum)
+  (let ((output (get-buffer-create "*output*")))
+    (with-current-buffer output
+      (erase-buffer))
+    (org-map-entries
+     (lambda ()
+       ;; TODO: Remember clock-total of parent and display % of
+       ;; subtask wrt parent
+       (let ((clock (get-text-property (point) :org-clock-minutes))
+             (goal (--when-let (org-entry-get (point) "GOAL" t)
+                     (org-hh:mm-string-to-minutes it)))
+             (headline (org-get-heading t t))
+             (level (org-current-level)))
+         (when clock
+           (with-current-buffer output
+             (insert (format
+                      "| %s | %s | %s | %s |\n"
+                      (truncate-string-to-width
+                       (concat
+                        (replace-regexp-in-string
+                         "|" "{pipe}"
+                         (concat
+                          (if (> (1- level) 0) "." "")
+                          (make-string (* 2 (1- level)) 32)
+                          headline)))
+                       40)
+                      ;; TODO: don't display inherited goal
+                      (if goal
+                          (org-minutes-to-clocksum-string goal)
+                        "")
+                      (org-minutes-to-clocksum-string clock)
+                      (if goal
+                          (format "%2.1f%%" (* 100 (/ clock (float goal))))
+                        ""))))))))
+    (with-current-buffer output
+      (org-mode)
+      (variable-pitch-mode -1)
+      (org-table-align))
+    (pop-to-buffer output)))
