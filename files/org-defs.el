@@ -1492,42 +1492,97 @@ relation (\"jedi\" \"starwars\"), any headline tagged with
     (--dotimes 3 (my-format-sanskrit-lines-no-latin))))
 
 ;; Org goals/budget
+(defun my-org-time-goal-level (level)
+  "Return prefix for LEVEL."
+  (concat
+   (if (> (1- level) 0) "." "")
+   (make-string (* 2 (1- level)) 32)))
+
 (defun my-org-time-goal ()
   (interactive)
   (org-clock-sum)
-  (let ((output (get-buffer-create "*output*")))
+  (let ((output (get-buffer-create "*output*"))
+        (goal-stack nil)
+        (clock-stack nil)
+        (last-level 0)
+        (org-agenda-skip-function-global nil))
     (with-current-buffer output
       (erase-buffer))
     (org-map-entries
      (lambda ()
        ;; TODO: Remember clock-total of parent and display % of
        ;; subtask wrt parent
-       (let ((clock (get-text-property (point) :org-clock-minutes))
-             (goal (--when-let (org-entry-get (point) "GOAL" t)
-                     (org-hh:mm-string-to-minutes it)))
-             (headline (org-get-heading t t))
-             (level (org-current-level)))
+       (let* ((clock (get-text-property (point) :org-clock-minutes))
+              ;; TODO: add parsing of goals per year/month/week.  We
+              ;; should allow enough flexibility to allow each year
+              ;; have different goal, as well as each month and each
+              ;; week of the year/month.  The format can be a sexp or
+              ;; list of such sexps:
+              ;; (year budget)
+              ;; (year 2015 budget)
+              ;; (month budget)
+              ;; (month 10 budget)
+              ;; (month 10 2015 budget)
+              ;; (week budget)
+              ;; (week 33 budget)
+              ;; (week 3 10 budget)
+              ;; (week 3 10 2015 budget)
+              ;; IDEA: put it in a drawer instead?
+              (goal (--when-let (org-entry-get (point) "GOAL")
+                      (org-hh:mm-string-to-minutes it)))
+              (headline (org-get-heading t t))
+              (level (org-current-level))
+              (level-dbg (format "%d / %d" level last-level)))
          (when clock
+           (cond
+            ((= level last-level)
+             (setf (car clock-stack) clock)
+             (setf (car goal-stack) goal))
+            ((< level last-level)
+             (--dotimes (- last-level level)
+               (pop clock-stack)
+               (pop goal-stack))
+             (setf (car clock-stack) clock)
+             (setf (car goal-stack) goal))
+            ((> level last-level)
+             (--dotimes (- level last-level 1)
+               (push nil clock-stack)
+               (push nil goal-stack))
+             (push clock clock-stack)
+             (push goal goal-stack)))
+           (setq last-level level)
            (with-current-buffer output
              (insert (format
-                      "| %s | %s | %s | %s |\n"
+                      "| %s | %s | %s | %s | %s | %s |\n"
                       (truncate-string-to-width
                        (concat
                         (replace-regexp-in-string
                          "|" "{pipe}"
-                         (concat
-                          (if (> (1- level) 0) "." "")
-                          (make-string (* 2 (1- level)) 32)
-                          headline)))
+                         (concat (my-org-time-goal-level level) headline)))
                        40)
+                      ;; Total
+                      (org-minutes-to-clocksum-string clock)
+                      ;; Percent of parent clock
+                      (-if-let (parent-clock (cadr clock-stack))
+                          (format "%2.1f%%" (* 100 (/ clock (float parent-clock))))
+                        "")
                       ;; TODO: don't display inherited goal
+                      ;; Budget/goal
                       (if goal
                           (org-minutes-to-clocksum-string goal)
                         "")
-                      (org-minutes-to-clocksum-string clock)
+                      ;; Difference
+                      (if goal
+                          (org-minutes-to-clocksum-string (- clock goal))
+                        "")
+                      ;; Percent of parent budget
                       (if goal
                           (format "%2.1f%%" (* 100 (/ clock (float goal))))
-                        ""))))))))
+                        "")
+                      ;; level-dbg
+                      ;; goal-stack
+                      ;; clock-stack
+                      )))))))
     (with-current-buffer output
       (org-mode)
       (variable-pitch-mode -1)
