@@ -1494,9 +1494,7 @@ relation (\"jedi\" \"starwars\"), any headline tagged with
 ;; Org goals/budget
 (defun my-org-time-goal-level (level)
   "Return prefix for LEVEL."
-  (concat
-   (if (> (1- level) 0) "." "")
-   (make-string (* 2 (1- level)) 32)))
+  (apply 'concat (-repeat (* 2 level) "\\nbsp")))
 
 (defun my-org-time-goal ()
   (interactive)
@@ -1554,12 +1552,12 @@ relation (\"jedi\" \"starwars\"), any headline tagged with
            (with-current-buffer output
              (insert (format
                       "| %s | %s | %s | %s | %s | %s |\n"
-                      (truncate-string-to-width
-                       (concat
-                        (replace-regexp-in-string
-                         "|" "{pipe}"
-                         (concat (my-org-time-goal-level level) headline)))
-                       40)
+                      (concat
+                       (replace-regexp-in-string
+                        "|" "{pipe}"
+                        (concat
+                         (my-org-time-goal-level level) " "
+                         (truncate-string-to-width headline 40))))
                       ;; Total
                       (org-minutes-to-clocksum-string clock)
                       ;; Percent of parent clock
