@@ -1315,56 +1315,6 @@ sibling before the next header."
       header)))
 
 
-;; tags
-(defun my-org-add-tags-at (tags)
-  "Add TAGS to current entry."
-  (let* ((ctags (org-get-local-tags-at))
-         (tags (-union tags ctags)))
-    (org-set-tags-to tags)))
-
-(defun my-org-remove-tags-at (tags)
-  "Remove TAGS from current entry."
-  (let* ((ctags (org-get-local-tags-at))
-         (tags (-difference ctags tags)))
-    (org-set-tags-to tags)))
-
-(defvar my-org-tag-ontology '(("jedi" "starwars")
-                              ("startrek" "scifi")
-                              ("starwars" "war" "scifi"))
-  "An alist specifying an \"implication\" relation between tags.
-
-The `car' is a tag and the `cdr' is a list of its hypernym tags.
-
-For example, (\"starwars\" \"scifi\" \"space\") means that each
-headline tagged with either \"starwars\" tag automatically
-implies tags \"scifi\" and \"space\".  You can read this as:
-
-\"starwars\" implies \"scifi\" and \"space\".
-
-The relation is transitive.  If we have another implication
-relation (\"jedi\" \"starwars\"), any headline tagged with
-\"jedi\" will imply tags \"starwars\", \"scifi\" and \"space\".")
-
-(defun my-org-resolve-ontology (tags)
-  "Return TAGS with all the parent tags according to current ontology."
-  (--fix
-   (-uniq
-    (--mapcat
-     (cons it (--map (org-add-prop-inherited (copy-sequence it))
-                     (cdr (assoc it my-org-tag-ontology))))
-     it))
-   tags))
-
-;; we also had to patch org-scan-tags: tags-alist has to be modified
-;; at the correct level to add "included" tags
-;; -(setq tags (org-split-string tags ":")
-;; +(setq tags (my-org-resolve-ontology (org-split-string tags ":"))
-(defadvice org-get-tags-at (around add-tags-ontology activate)
-  ad-do-it
-  (unless (ad-get-arg 1)
-    (setq ad-return-value (my-org-resolve-ontology ad-return-value))))
-
-
 ;; more org macros
 (defmacro my-org-with-children (&rest body)
   "Execute BODY with point at the beginning of each child of current node."
