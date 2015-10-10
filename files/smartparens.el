@@ -156,17 +156,7 @@
 (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
                                                     ("* ||\n[i]" "RET")))
 
-;;; haskell mode
-(sp-with-modes '(haskell-mode)
-  (sp-local-pair "'" nil :unless '(my-after-symbol-p))
-  (sp-local-pair "\\(" nil :actions nil))
-
-(defun my-after-symbol-p (_id action _context)
-  (when (eq action 'insert)
-    (save-excursion
-      (backward-char 1)
-      (looking-back "\\sw\\|\\s_\\|\\s'"))))
-
+;;; PHP
 (sp-with-modes '(php-mode)
   (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
                                              (my-php-handle-docstring "RET")))
