@@ -1054,12 +1054,20 @@ point and rebuild the agenda view."
       (goto-char (point-max))
       (newline)))))
 
-;; Remove empty LOGBOOK drawers on clock out
 (defun my-org-remove-empty-drawer-on-clock-out ()
+  "Remove empty LOGBOOK drawers on clock out."
   (interactive)
   (save-excursion
-    (beginning-of-line 0)
-    (org-remove-empty-drawer-at "LOGBOOK" (point))))
+    (save-restriction
+      (widen)
+      (org-back-to-heading t)
+      (org-narrow-to-subtree)
+      (catch 'done
+        (while (re-search-forward org-drawer-regexp nil t)
+          (when (equal (match-string 1) "LOGBOOK")
+            (beginning-of-line)
+            (org-remove-empty-drawer-at (point))
+            (throw 'done t)))))))
 
 (add-hook 'org-clock-out-hook 'my-org-remove-empty-drawer-on-clock-out 'append)
 
