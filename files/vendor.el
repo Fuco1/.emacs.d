@@ -1599,6 +1599,11 @@ SCOPE is the scope, one of: batch, thread, plid."
                 ("t" sallet-gtags-tags "Find tags")))
     (use-package autobookmarks)))
 
+(use-package savehist
+  :config
+  (progn
+    (savehist-mode 1)))
+
 (use-package sgml-mode
   :defer t
   :config
