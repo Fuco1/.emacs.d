@@ -1454,9 +1454,10 @@ sibling before the next header."
   "Return prefix for LEVEL."
   (apply 'concat (-repeat (* 2 level) "\\nbsp")))
 
-(defun my-org-time-goal ()
-  (interactive)
-  (org-clock-sum)
+(defun my-org-time-goal (from to)
+  (interactive (list (org-read-date nil nil nil "From: " nil (format-time-string "%Y-01-01"))
+                     (org-read-date nil nil nil "To: ")))
+  (org-clock-sum from to)
   (let ((output (get-buffer-create "*output*"))
         (goal-stack nil)
         (clock-stack nil)
