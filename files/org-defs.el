@@ -1454,7 +1454,96 @@ sibling before the next header."
   "Return prefix for LEVEL."
   (apply 'concat (-repeat (* 2 level) "\\nbsp")))
 
-(defun my-org-time-goal (from to)
+(defun my-org-time-goal-parse-property (prop)
+  "Parse time goal property.
+
+This property is stored under GOAL and can have several formats:
+
+- a number, GOAL: means total budget for a year, either hh:mm or
+  number of minutes
+- a list (INTERVAL GOAL), where INTERVAL is one of year, month, week
+")
+
+(defun my-org-time-goal--get-entries-with-goals (from to goal goal-prefix)
+  (org-clock-sum from to)
+  (let ((result nil)
+        (clock-symbol (intern (concat ":" goal-prefix "-clock")))
+        (goal-symbol (intern (concat ":" goal-prefix "-goal"))))
+    (org-map-entries
+     (lambda ()
+       (let* ((clock (get-text-property (point) :org-clock-minutes))
+              (current-goal (--when-let (org-entry-get (point) goal)
+                              (org-hh:mm-string-to-minutes it))))
+         (when current-goal
+           (push (list (org-get-heading t t) clock-symbol (or clock 0) goal-symbol current-goal) result)))))
+    (nreverse result)))
+
+(defun my-org-time-goal ()
+  (let ((week (my-org-time-goal--get-entries-with-goals
+               (org-read-date nil nil "++Mon" nil (org-time-string-to-time (org-read-date nil nil "-7d")))
+               (org-read-date nil nil "--Sun" nil (org-time-string-to-time (org-read-date nil nil "+7d")))
+               "GOAL_WEEK"
+               "week"))
+        (year (my-org-time-goal--get-entries-with-goals
+               (format-time-string "%Y-01-01")
+               (format-time-string "%Y-12-31")
+               "GOAL_YEAR"
+               "year")))
+    (-map (lambda (x)
+            (let ((header (car x)))
+              (cons header (apply '-concat (-map 'cdr (cdr x))))))
+           (-group-by 'car (-concat week year)))))
+
+(defun my-org-time-goal-report ()
+  (interactive)
+  (let ((output (get-buffer-create "*output*"))
+        (stats (--mapcat (with-current-buffer (org-get-agenda-file-buffer it)
+                           (my-org-time-goal))
+                         (org-agenda-files)))
+        (sum-year-clock 0)
+        (sum-year-goal 0)
+        (sum-week-clock 0)
+        (sum-week-goal 0))
+    (with-current-buffer output
+      (erase-buffer)
+      (insert "| Task | Year goal | Year clocked | Y C/G | Week goal | Week clocked | W C/G |\n")
+      (insert "|-\n")
+      (--each stats
+        (-let (((header &keys
+                        :year-clock year-clock
+                        :year-goal year-goal
+                        :week-clock week-clock
+                        :week-goal week-goal) it))
+          (insert (format
+                   "| %s | %s | %s | %s | %s | %s | %s |\n"
+                   (concat
+                    (replace-regexp-in-string
+                     "|" "{pipe}"
+                     (truncate-string-to-width header 40)))
+                   (if year-goal (org-minutes-to-clocksum-string year-goal) "")
+                   (if year-clock (org-minutes-to-clocksum-string year-clock) "")
+                   (if year-goal (format "%2.1f%%" (* 100 (/ year-clock (float year-goal)))) "")
+                   (if week-goal (org-minutes-to-clocksum-string week-goal) "")
+                   (if week-clock(org-minutes-to-clocksum-string week-clock) "")
+                   (if week-goal (format "%2.1f%%" (* 100 (/ week-clock (float week-goal)))) "")
+                   (incf sum-year-clock (or year-clock 0))
+                   (incf sum-year-goal (or year-goal 0))
+                   (incf sum-week-clock (or week-clock 0))
+                   (incf sum-week-goal (or week-goal 0))))))
+      (insert "|-\n")
+      (insert (format "| | %s | %s | %s | %s | %s | %s |\n"
+                      (org-minutes-to-clocksum-string sum-year-goal)
+                      (org-minutes-to-clocksum-string sum-year-clock)
+                      (format "%2.1f%%" (* 100 (/ sum-year-clock (float sum-year-goal))))
+                      (org-minutes-to-clocksum-string sum-week-goal)
+                      (org-minutes-to-clocksum-string sum-week-clock)
+                      (format "%2.1f%%" (* 100 (/ sum-week-clock (float sum-week-goal))))))
+      (org-mode)
+      (variable-pitch-mode -1)
+      (org-table-align))
+    (pop-to-buffer output)))
+
+(defun my--org-time-goal (from to)
   (interactive (list (org-read-date nil nil nil "From: " nil (format-time-string "%Y-01-01"))
                      (org-read-date nil nil nil "To: ")))
   (org-clock-sum from to)
