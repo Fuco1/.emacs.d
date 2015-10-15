@@ -401,7 +401,7 @@ current agenda view added to `org-tag-alist'."
         (setq p (plist-put p :tend to))
         (setq p (plist-put p :scope 'agenda))
         (setq tbl (apply 'org-clock-get-clocktable p))
-        (with-current-buffer (get-buffer-create "*clockreport*")
+        (with-current-buffer (get-buffer-create (format "*clockreport %s--%s*" from to))
           (erase-buffer)
           (insert tbl)
           (goto-char (point-min))
