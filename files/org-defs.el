@@ -408,7 +408,8 @@ current agenda view added to `org-tag-alist'."
           (pop-to-buffer (current-buffer)))))
 
     (bind-keys :map org-agenda-mode-map
-      ("C-c R" . my-org-agenda-clockreport)
+      ("C-c r" . my-org-agenda-clockreport)
+      ("C-c g" . my-org-time-goal-report)
       ("C-n" . org-agenda-next-item)
       ("C-p" . org-agenda-previous-item)
       ("P" . my-org-narrow-to-project)
