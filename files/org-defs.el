@@ -1552,7 +1552,8 @@ This property is stored under GOAL and can have several formats:
                       (format "%2.1f%%" (* 100 (/ sum-week-clock (float sum-week-goal))))))
       (org-mode)
       (variable-pitch-mode -1)
-      (org-table-align))
+      (org-table-align)
+      (goto-char (point-min)))
     (pop-to-buffer output)))
 
 (defun my--org-time-goal (from to)
