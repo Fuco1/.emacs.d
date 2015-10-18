@@ -1476,7 +1476,7 @@ This property is stored under GOAL and can have several formats:
               (current-goal (--when-let (org-entry-get (point) goal)
                               (org-hh:mm-string-to-minutes it))))
          (when current-goal
-           (push (list (org-get-heading t t) clock-symbol (or clock 0) goal-symbol current-goal) result)))))
+           (push (list (org-get-heading t t) clock-symbol (or clock 0) goal-symbol current-goal :marker (point-marker)) result)))))
     (nreverse result)))
 
 (defun my-org-time-goal ()
@@ -1494,6 +1494,13 @@ This property is stored under GOAL and can have several formats:
             (let ((header (car x)))
               (cons header (apply '-concat (-map 'cdr (cdr x))))))
            (-group-by 'car (-concat week year)))))
+
+(require 'button)
+(define-button-type 'my-org-goal-report-button
+  'action 'my-org-goal-report-button-action)
+
+(defun my-org-goal-report-button-action (button)
+  (org-goto-marker-or-bmk (button-get button 'marker)))
 
 (defun my-org-time-goal-report ()
   (interactive)
@@ -1514,7 +1521,8 @@ This property is stored under GOAL and can have several formats:
                         :year-clock year-clock
                         :year-goal year-goal
                         :week-clock week-clock
-                        :week-goal week-goal) it))
+                        :week-goal week-goal
+                        :marker marker) it))
           (insert (format
                    "| %s | %s | %s | %s | %s | %s | %s |\n"
                    (concat
@@ -1530,7 +1538,10 @@ This property is stored under GOAL and can have several formats:
                    (incf sum-year-clock (or year-clock 0))
                    (incf sum-year-goal (or year-goal 0))
                    (incf sum-week-clock (or week-clock 0))
-                   (incf sum-week-goal (or week-goal 0))))))
+                   (incf sum-week-goal (or week-goal 0))))
+          (make-text-button (save-excursion (forward-line -1) (point)) (1- (point))
+                            'marker marker
+                            'type 'my-org-goal-report-button)))
       (insert "|-\n")
       (insert (format "| | %s | %s | %s | %s | %s | %s |\n"
                       (org-minutes-to-clocksum-string sum-year-goal)
