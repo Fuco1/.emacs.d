@@ -1466,6 +1466,17 @@ This property is stored under GOAL and can have several formats:
 ")
 
 (defun my-org-time-goal--get-entries-with-goals (from to goal goal-prefix)
+  "Get all tasks with a goal.
+
+FROM and TO specify the time range and should be YYYY-MM-DD
+strings.
+
+GOAL is type of the goal property, GOAL-PREFIX is arbitrary
+string which is used to produce return keys, :PREFIX-clock
+and :PREFIX-goal.
+
+Return a list (headline :PREFIX-clock clocked-time :PREFIX-goal
+goal :marker marker-to-headline) "
   (org-clock-sum from to)
   (let ((result nil)
         (clock-symbol (intern (concat ":" goal-prefix "-clock")))
@@ -1480,6 +1491,13 @@ This property is stored under GOAL and can have several formats:
     (nreverse result)))
 
 (defun my-org-time-goal ()
+  "Retrieve headlines which have some specified goal.
+
+Each headline with at least one goal specified is retrieved with
+clocked time for the specific time range.  It is enough for a
+headline to have one goal specified.
+
+Currently supported goals are GOAL_WEEK and GOAL_YEAR."
   (let ((week (my-org-time-goal--get-entries-with-goals
                (org-read-date nil nil "++Mon" nil (org-time-string-to-time (org-read-date nil nil "-7d")))
                (org-read-date nil nil "--Sun" nil (org-time-string-to-time (org-read-date nil nil "+7d")))
@@ -1500,9 +1518,16 @@ This property is stored under GOAL and can have several formats:
   'action 'my-org-goal-report-button-action)
 
 (defun my-org-goal-report-button-action (button)
+  "Follow goal-report button to the corresponding headline."
   (org-goto-marker-or-bmk (button-get button 'marker)))
 
 (defun my-org-time-goal-report ()
+  "Produce a goal report.
+
+A goal report lists for each time range three columns, the goal
+for this range, the already clocked time and a % of used-up time.
+A headline can have one or multiple goals set.  Only headlines
+with at least one goal are shown."
   (interactive)
   (let ((output (get-buffer-create "*output*"))
         (stats (--mapcat (with-current-buffer (org-get-agenda-file-buffer it)
