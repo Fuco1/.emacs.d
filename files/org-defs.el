@@ -1538,6 +1538,7 @@ with at least one goal are shown."
         (sum-week-clock 0)
         (sum-week-goal 0))
     (with-current-buffer output
+      (read-only-mode -1)
       (erase-buffer)
       (insert "| Task | Year goal | Year clocked | Y C/G | Week goal | Week clocked | W C/G |\n")
       (insert "|-\n")
@@ -1575,11 +1576,23 @@ with at least one goal are shown."
                       (org-minutes-to-clocksum-string sum-week-goal)
                       (org-minutes-to-clocksum-string sum-week-clock)
                       (format "%2.1f%%" (* 100 (/ sum-week-clock (float sum-week-goal))))))
-      (org-mode)
+      (org-goal-report-mode)
       (variable-pitch-mode -1)
       (org-table-align)
-      (goto-char (point-min)))
+      (goto-char (point-min))
+      (read-only-mode 1))
     (pop-to-buffer output)))
+
+(defvar org-goal-report-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map org-mode-map)
+    (define-key map "g" 'my-org-time-goal-report)
+    map)
+  "Keymap for `org-goal-report-mode'.")
+
+(define-derived-mode org-goal-report-mode org-mode "Goal report"
+  "Mode for reporting time goals."
+  (use-local-map org-goal-report-mode-map))
 
 (defun my--org-time-goal (from to)
   (interactive (list (org-read-date nil nil nil "From: " nil (format-time-string "%Y-01-01"))
