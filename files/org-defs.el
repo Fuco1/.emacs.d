@@ -1529,7 +1529,7 @@ for this range, the already clocked time and a % of used-up time.
 A headline can have one or multiple goals set.  Only headlines
 with at least one goal are shown."
   (interactive)
-  (let ((output (get-buffer-create "*output*"))
+  (let ((output (get-buffer-create "*Org time goal report*"))
         (stats (--mapcat (with-current-buffer (org-get-agenda-file-buffer it)
                            (my-org-time-goal))
                          (org-agenda-files)))
