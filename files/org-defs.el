@@ -1521,6 +1521,42 @@ Currently supported goals are GOAL_WEEK and GOAL_YEAR."
   "Follow goal-report button to the corresponding headline."
   (org-goto-marker-or-bmk (button-get button 'marker)))
 
+(defun my-org-goal-report--with-header (function)
+  "Run FUNCTION with point at header of current column."
+  (save-excursion
+    (let ((cc (org-table-current-column)))
+      (goto-char (point-min))
+      (org-table-goto-column cc)
+      (skip-chars-forward " ")
+      (funcall function))))
+
+(defun my-org-goal-report--get-sort-type ()
+  "Get sort type.
+
+This is one of the allowed sorting-type of `org-table-sort-lines'
+and it is stored as a text property on the first row of the goal
+report table, for each column."
+  (my-org-goal-report--with-header
+   (lambda () (get-text-property (point) :org-goal-report-sort))))
+
+(defun my-org-goal-report--set-sort-type (value)
+  "Set sort type.
+
+See `my-org-goal-report--get-sort-type'."
+  (my-org-goal-report--with-header
+   (lambda () (put-text-property (point) (1+ (point)) :org-goal-report-sort value))))
+
+(defun my-org-goal-report-sort ()
+  "Sort the column under point."
+  (interactive)
+  (let ((sort-type (my-org-goal-report--get-sort-type))
+        (inhibit-read-only t))
+    (org-table-sort-lines nil sort-type)
+    (my-org-goal-report--set-sort-type
+     (if (= (downcase sort-type) sort-type)
+         (upcase sort-type)
+       (downcase sort-type)))))
+
 (defun my-org-time-goal-report ()
   "Produce a goal report.
 
@@ -1540,7 +1576,15 @@ with at least one goal are shown."
     (with-current-buffer output
       (read-only-mode -1)
       (erase-buffer)
-      (insert "| Task | Year goal | Year clocked | Y C/G | Week goal | Week clocked | W C/G |\n")
+      (insert (format
+               "| %s | %s | %s | %s | %s | %s | %s |\n"
+               (propertize "Task" :org-goal-report-sort ?a)
+               (propertize "Year goal" :org-goal-report-sort ?T)
+               (propertize "Year clocked" :org-goal-report-sort ?T)
+               (propertize "Y C/G" :org-goal-report-sort ?N)
+               (propertize "Week goal" :org-goal-report-sort ?T)
+               (propertize "Week clocked" :org-goal-report-sort ?T)
+               (propertize "W C/G" :org-goal-report-sort ?N)))
       (insert "|-\n")
       (--each stats
         (-let (((header &keys
@@ -1586,6 +1630,7 @@ with at least one goal are shown."
 (defvar org-goal-report-mode-map
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map org-mode-map)
+    (define-key map "s" 'my-org-goal-report-sort)
     (define-key map "g" 'my-org-time-goal-report)
     map)
   "Keymap for `org-goal-report-mode'.")
