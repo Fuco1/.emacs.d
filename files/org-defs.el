@@ -409,7 +409,7 @@ current agenda view added to `org-tag-alist'."
 
     (bind-keys :map org-agenda-mode-map
       ("C-c r" . my-org-agenda-clockreport)
-      ("C-c g" . my-org-time-goal-report)
+      ("C-c g" . org-clock-budget-report)
       ("C-n" . org-agenda-next-item)
       ("C-p" . org-agenda-previous-item)
       ("P" . my-org-narrow-to-project)
