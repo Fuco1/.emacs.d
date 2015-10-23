@@ -1451,10 +1451,6 @@ sibling before the next header."
     (--dotimes 3 (my-format-sanskrit-lines-no-latin))))
 
 ;; Org goals/budget
-(defun my-org-time-goal-level (level)
-  "Return prefix for LEVEL."
-  (apply 'concat (-repeat (* 2 level) "\\nbsp")))
-
 (defun my-org-time-goal-parse-property (prop)
   "Parse time goal property.
 
@@ -1512,10 +1508,6 @@ Currently supported goals are GOAL_WEEK and GOAL_YEAR."
             (let ((header (car x)))
               (cons header (apply '-concat (-map 'cdr (cdr x))))))
            (-group-by 'car (-concat week year)))))
-
-(require 'button)
-(define-button-type 'my-org-goal-report-button
-  'action 'my-org-goal-report-button-action)
 
 (defun my-org-goal-report-button-action (button)
   "Follow goal-report button to the corresponding headline."
@@ -1638,95 +1630,3 @@ with at least one goal are shown."
 (define-derived-mode org-goal-report-mode org-mode "Goal report"
   "Mode for reporting time goals."
   (use-local-map org-goal-report-mode-map))
-
-(defun my--org-time-goal (from to)
-  (interactive (list (org-read-date nil nil nil "From: " nil (format-time-string "%Y-01-01"))
-                     (org-read-date nil nil nil "To: ")))
-  (org-clock-sum from to)
-  (let ((output (get-buffer-create "*output*"))
-        (goal-stack nil)
-        (clock-stack nil)
-        (last-level 0)
-        (org-agenda-skip-function-global nil))
-    (with-current-buffer output
-      (erase-buffer))
-    (org-map-entries
-     (lambda ()
-       ;; TODO: Remember clock-total of parent and display % of
-       ;; subtask wrt parent
-       (let* ((clock (get-text-property (point) :org-clock-minutes))
-              ;; TODO: add parsing of goals per year/month/week.  We
-              ;; should allow enough flexibility to allow each year
-              ;; have different goal, as well as each month and each
-              ;; week of the year/month.  The format can be a sexp or
-              ;; list of such sexps:
-              ;; (year budget)
-              ;; (year 2015 budget)
-              ;; (month budget)
-              ;; (month 10 budget)
-              ;; (month 10 2015 budget)
-              ;; (week budget)
-              ;; (week 33 budget)
-              ;; (week 3 10 budget)
-              ;; (week 3 10 2015 budget)
-              ;; IDEA: put it in a drawer instead?
-              (goal (--when-let (org-entry-get (point) "GOAL")
-                      (org-hh:mm-string-to-minutes it)))
-              (headline (org-get-heading t t))
-              (level (org-current-level))
-              (level-dbg (format "%d / %d" level last-level)))
-         (when clock
-           (cond
-            ((= level last-level)
-             (setf (car clock-stack) clock)
-             (setf (car goal-stack) goal))
-            ((< level last-level)
-             (--dotimes (- last-level level)
-               (pop clock-stack)
-               (pop goal-stack))
-             (setf (car clock-stack) clock)
-             (setf (car goal-stack) goal))
-            ((> level last-level)
-             (--dotimes (- level last-level 1)
-               (push nil clock-stack)
-               (push nil goal-stack))
-             (push clock clock-stack)
-             (push goal goal-stack)))
-           (setq last-level level)
-           (with-current-buffer output
-             (insert (format
-                      "| %s | %s | %s | %s | %s | %s |\n"
-                      (concat
-                       (replace-regexp-in-string
-                        "|" "{pipe}"
-                        (concat
-                         (my-org-time-goal-level level) " "
-                         (truncate-string-to-width headline 40))))
-                      ;; Total
-                      (org-minutes-to-clocksum-string clock)
-                      ;; Percent of parent clock
-                      (-if-let (parent-clock (cadr clock-stack))
-                          (format "%2.1f%%" (* 100 (/ clock (float parent-clock))))
-                        "")
-                      ;; TODO: don't display inherited goal
-                      ;; Budget/goal
-                      (if goal
-                          (org-minutes-to-clocksum-string goal)
-                        "")
-                      ;; Difference
-                      (if goal
-                          (org-minutes-to-clocksum-string (- clock goal))
-                        "")
-                      ;; Percent of parent budget
-                      (if goal
-                          (format "%2.1f%%" (* 100 (/ clock (float goal))))
-                        "")
-                      ;; level-dbg
-                      ;; goal-stack
-                      ;; clock-stack
-                      )))))))
-    (with-current-buffer output
-      (org-mode)
-      (variable-pitch-mode -1)
-      (org-table-align))
-    (pop-to-buffer output)))
