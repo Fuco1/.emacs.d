@@ -30,121 +30,121 @@
      ("<up>" "Leftrightarrow" "" nil)
      ("<f1>" "ldots" "" nil))))
  '(TeX-PDF-mode t)
-  '(TeX-command-list
-    (quote
-     (("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
-       (plain-tex-mode texinfo-mode ams-tex-mode)
-       :help "Run plain TeX")
-      ("LaTeX" "%`%l%(mode)%' %t" TeX-run-TeX nil
-       (latex-mode doctex-mode)
-       :help "Run LaTeX")
-      ("Makeinfo" "makeinfo %t" TeX-run-compile nil
-       (texinfo-mode)
-       :help "Run Makeinfo with Info output")
-      ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil
-       (texinfo-mode)
-       :help "Run Makeinfo with HTML output")
-      ("AmSTeX" "%(PDF)amstex %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
-       (ams-tex-mode)
-       :help "Run AMSTeX")
-      ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
-       (context-mode)
-       :help "Run ConTeXt once")
-      ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
-       (context-mode)
-       :help "Run ConTeXt until completion")
-      ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
-      ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-      ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
-      ("Print" "%p" TeX-run-command t t :help "Print the file")
-      ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
-      ("File" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
-      ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
-      ("Check" "lacheck %s" TeX-run-compile nil
-       (latex-mode)
-       :help "Check LaTeX file for correctness")
-      ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
-      ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
-      ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
-      ("Other" "" TeX-run-command t t :help "Run an arbitrary command")
-      ("Run Zathura" "zathura --fork -s -x \"emacsclient --no-wait +%%{line} %%{input}\" %s.pdf" TeX-run-command nil t :help "Run Zathura PDF viewer"))))
-   '(TeX-output-view-style
-     (quote
-      (("^dvi$"
-        ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
-        "%(o?)dvips -t landscape %d -o && gv %f")
-       ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
-       ("^dvi$"
-        ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$")
-        "%(o?)yap %dS -paper a4r -s 0 %d")
-       ("^dvi$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)yap %dS -paper a4 %d")
-       ("^dvi$"
-        ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$")
-        "%(o?)yap %dS -paper a5r -s 0 %d")
-       ("^dvi$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)yap %dS -paper a5 %d")
-       ("^dvi$" "^b5paper$" "%(o?)yap %dS -paper b5 %d")
-       ("^dvi$" "^letterpaper$" "%(o?)yap %dS -paper us %d")
-       ("^dvi$" "^legalpaper$" "%(o?)yap %dS -paper legal %d")
-       ("^dvi$" "^executivepaper$" "%(o?)yap %dS -paper 7.25x10.5in %d")
-       ("^dvi$" "." "%(o?)yap %dS %d")
-       ("^pdf$" "." "gsview32 -remote %s -raise %o %(outpage)")
-       ("^html?$" "." "netscape %o"))))
+ '(TeX-command-list
+   (quote
+    (("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (plain-tex-mode texinfo-mode ams-tex-mode)
+      :help "Run plain TeX")
+     ("LaTeX" "%`%l%(mode)%' %t" TeX-run-TeX nil
+      (latex-mode doctex-mode)
+      :help "Run LaTeX")
+     ("Makeinfo" "makeinfo %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with Info output")
+     ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with HTML output")
+     ("AmSTeX" "%(PDF)amstex %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (ams-tex-mode)
+      :help "Run AMSTeX")
+     ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt once")
+     ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt until completion")
+     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
+     ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
+     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+     ("Print" "%p" TeX-run-command t t :help "Print the file")
+     ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
+     ("File" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
+     ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
+     ("Check" "lacheck %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for correctness")
+     ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
+     ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
+     ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command")
+     ("Run Zathura" "zathura --fork -s -x \"emacsclient --no-wait +%%{line} %%{input}\" %s.pdf" TeX-run-command nil t :help "Run Zathura PDF viewer"))))
+ '(TeX-output-view-style
+   (quote
+    (("^dvi$"
+      ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
+      "%(o?)dvips -t landscape %d -o && gv %f")
+     ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
+     ("^dvi$"
+      ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$")
+      "%(o?)yap %dS -paper a4r -s 0 %d")
+     ("^dvi$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)yap %dS -paper a4 %d")
+     ("^dvi$"
+      ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$")
+      "%(o?)yap %dS -paper a5r -s 0 %d")
+     ("^dvi$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)yap %dS -paper a5 %d")
+     ("^dvi$" "^b5paper$" "%(o?)yap %dS -paper b5 %d")
+     ("^dvi$" "^letterpaper$" "%(o?)yap %dS -paper us %d")
+     ("^dvi$" "^legalpaper$" "%(o?)yap %dS -paper legal %d")
+     ("^dvi$" "^executivepaper$" "%(o?)yap %dS -paper 7.25x10.5in %d")
+     ("^dvi$" "." "%(o?)yap %dS %d")
+     ("^pdf$" "." "gsview32 -remote %s -raise %o %(outpage)")
+     ("^html?$" "." "netscape %o"))))
  '(TeX-source-correlate-method (quote synctex))
  '(TeX-source-correlate-mode t)
-  '(TeX-view-program-list
-    (quote
-     (("View with Zathura"
-       ("zathura"
-        (mode-io-correlate " --synctex-forward %n:0:%b")
-        " %s.pdf"))
-      ("View with Sumatra"
-       ("sumatra -reuse-instance"
-        (mode-io-correlate " -forward-search %b %n ")
-        " %o")))))
-   '(TeX-view-program-selection
-     (quote
-      (((output-dvi style-pstricks)
-        "dvips and start")
-       (output-dvi "Yap")
-       (output-pdf "View with Zathura")
-       (output-html "start"))))
-    '(abm-ignore-buffers
-      (quote
-       ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs")))
+ '(TeX-view-program-list
+   (quote
+    (("View with Zathura"
+      ("zathura"
+       (mode-io-correlate " --synctex-forward %n:0:%b")
+       " %s.pdf"))
+     ("View with Sumatra"
+      ("sumatra -reuse-instance"
+       (mode-io-correlate " -forward-search %b %n ")
+       " %o")))))
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi style-pstricks)
+      "dvips and start")
+     (output-dvi "Yap")
+     (output-pdf "View with Zathura")
+     (output-html "start"))))
+ '(abm-ignore-buffers
+   (quote
+    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs")))
  '(ag-highlight-search t)
-  '(allout-prefixed-keybindings
-    (quote
-     (("[(control ?n)]" allout-next-visible-heading)
-      ("[(control ?p)]" allout-previous-visible-heading)
-      ("[(control ?u)]" allout-up-current-level)
-      ("[(control ?f)]" allout-forward-current-level)
-      ("[(control ?b)]" allout-backward-current-level)
-      ("[(control ?a)]" allout-beginning-of-current-entry)
-      ("[(control ?e)]" allout-end-of-entry)
-      ("[(control ?i)]" allout-show-children)
-      ("[(control ?s)]" allout-show-current-subtree)
-      ("[(control ?t)]" allout-toggle-current-subtree-exposure)
-      ("[?h]" allout-hide-current-subtree)
-      ("[(control ?o)]" allout-show-current-entry)
-      ("[?!]" allout-show-all)
-      ("[?x]" allout-toggle-current-subtree-encryption)
-      ("[? ]" allout-open-sibtopic)
-      ("[?.]" allout-open-subtopic)
-      ("[?,]" allout-open-supertopic)
-      ("[?']" allout-shift-in)
-      ("[?>]" allout-shift-in)
-      ("[?<]" allout-shift-out)
-      ("[(control ?m)]" allout-rebullet-topic)
-      ("[?*]" allout-rebullet-current-heading)
-      ("[?#]" allout-number-siblings)
-      ("[(control ?k)]" allout-kill-topic)
-      ("[(meta ?k)]" allout-copy-topic-as-kill)
-      ("[?@]" allout-resolve-xref)
-      ("[?=?c]" allout-copy-exposed-to-buffer)
-      ("[?=?i]" allout-indented-exposed-to-buffer)
-      ("[?=?t]" allout-latexify-exposed)
-      ("[?=?p]" allout-flatten-exposed-to-buffer)
-      ("[(control ?c)]" allout-hide-bodies))))
+ '(allout-prefixed-keybindings
+   (quote
+    (("[(control ?n)]" allout-next-visible-heading)
+     ("[(control ?p)]" allout-previous-visible-heading)
+     ("[(control ?u)]" allout-up-current-level)
+     ("[(control ?f)]" allout-forward-current-level)
+     ("[(control ?b)]" allout-backward-current-level)
+     ("[(control ?a)]" allout-beginning-of-current-entry)
+     ("[(control ?e)]" allout-end-of-entry)
+     ("[(control ?i)]" allout-show-children)
+     ("[(control ?s)]" allout-show-current-subtree)
+     ("[(control ?t)]" allout-toggle-current-subtree-exposure)
+     ("[?h]" allout-hide-current-subtree)
+     ("[(control ?o)]" allout-show-current-entry)
+     ("[?!]" allout-show-all)
+     ("[?x]" allout-toggle-current-subtree-encryption)
+     ("[? ]" allout-open-sibtopic)
+     ("[?.]" allout-open-subtopic)
+     ("[?,]" allout-open-supertopic)
+     ("[?']" allout-shift-in)
+     ("[?>]" allout-shift-in)
+     ("[?<]" allout-shift-out)
+     ("[(control ?m)]" allout-rebullet-topic)
+     ("[?*]" allout-rebullet-current-heading)
+     ("[?#]" allout-number-siblings)
+     ("[(control ?k)]" allout-kill-topic)
+     ("[(meta ?k)]" allout-copy-topic-as-kill)
+     ("[?@]" allout-resolve-xref)
+     ("[?=?c]" allout-copy-exposed-to-buffer)
+     ("[?=?i]" allout-indented-exposed-to-buffer)
+     ("[?=?t]" allout-latexify-exposed)
+     ("[?=?p]" allout-flatten-exposed-to-buffer)
+     ("[(control ?c)]" allout-hide-bodies))))
  '(appt-audible nil)
  '(appt-display-format nil)
  '(appt-display-interval 5)
@@ -166,23 +166,23 @@
  '(bookmark-default-file "~/.emacs.d/bookmarks/bookmarks")
  '(bookmark-version-control t)
  '(browse-kill-ring-quit-action (quote save-and-restore))
-  '(bs-configurations
-    (quote
-     (("all" nil nil nil nil nil)
-      ("files" nil nil nil bs-visits-non-file bs-sort-buffer-interns-are-last)
-      ("files-and-scratch" "^\\*scratch" nil nil bs-visits-non-file bs-sort-buffer-interns-are-last)
-      ("all-intern-last" nil nil nil nil bs-sort-buffer-interns-are-last)
-      ("dired" nil
-       (lambda
-         (b)
-         (with-current-buffer b
-           (eq major-mode
-               (quote dired-mode))))
-       nil
-       (lambda
-         (b)
-         t)
-       nil))))
+ '(bs-configurations
+   (quote
+    (("all" nil nil nil nil nil)
+     ("files" nil nil nil bs-visits-non-file bs-sort-buffer-interns-are-last)
+     ("files-and-scratch" "^\\*scratch" nil nil bs-visits-non-file bs-sort-buffer-interns-are-last)
+     ("all-intern-last" nil nil nil nil bs-sort-buffer-interns-are-last)
+     ("dired" nil
+      (lambda
+        (b)
+        (with-current-buffer b
+          (eq major-mode
+              (quote dired-mode))))
+      nil
+      (lambda
+        (b)
+        t)
+      nil))))
  '(calc-settings-file "~/.emacs.d/calc-settings.el")
  '(calc-undo-length 1000)
  '(calendar-latitude 49.2)
@@ -198,19 +198,19 @@
  '(circe-default-user "fuco")
  '(circe-fool-list (quote ("Farsus")))
  '(circe-format-action "--> {nick} {body}")
-  '(circe-format-not-tracked
-    (quote
-     (circe-format-server-message circe-format-server-notice circe-format-server-numeric circe-format-server-topic circe-format-server-rejoin circe-format-server-lurker-activity)))
+ '(circe-format-not-tracked
+   (quote
+    (circe-format-server-message circe-format-server-notice circe-format-server-numeric circe-format-server-topic circe-format-server-rejoin circe-format-server-lurker-activity)))
  '(circe-format-say "<{nick}> {body}")
  '(circe-format-self-action "--> {nick} {body}")
  '(circe-format-self-say "<{nick}> {body}")
  '(circe-format-server-message "--> {body}")
  '(circe-highlight-nick-type (quote all))
-  '(circe-network-options
-    (quote
-     (("FreeNodep" :host "dasnet.cz" :port 7001 :pass my-circe-get-dasnet-irssi-passwd)
-      ("BitlBeep" :host "dasnet.cz" :port 7002 :pass my-circe-get-dasnet-irssi-passwd)
-      ("OFTCp" :host "dasnet.cz" :port 7003 :pass my-circe-get-dasnet-irssi-passwd))))
+ '(circe-network-options
+   (quote
+    (("FreeNodep" :host "dasnet.cz" :port 7001 :pass my-circe-get-dasnet-irssi-passwd)
+     ("BitlBeep" :host "dasnet.cz" :port 7002 :pass my-circe-get-dasnet-irssi-passwd)
+     ("OFTCp" :host "dasnet.cz" :port 7003 :pass my-circe-get-dasnet-irssi-passwd))))
  '(circe-new-buffer-behavior (quote switch))
  '(circe-new-buffer-behavior-ignore-auto-joins t)
  '(circe-prompt-string ">")
@@ -218,17 +218,17 @@
  '(circe-server-killed-confirmation (quote ask-and-kill-all))
  '(column-number-mode t)
  '(compilation-read-command nil)
-  '(completion-ignored-extensions
-    (quote
-     (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
+ '(completion-ignored-extensions
+   (quote
+    (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
  '(cua-enable-cua-keys nil)
  '(cua-mode t nil (cua-base))
  '(cursor-color "#839496")
  '(cursor-type (quote box))
  '(custom-enabled-themes (quote (my-tango-dark)))
-  '(custom-safe-themes
-    (quote
-     ("d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+ '(custom-safe-themes
+   (quote
+    ("d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -246,117 +246,117 @@
  '(dired-details-hide-link-targets t)
  '(dired-details-initially-hide t)
  '(dired-dwim-target t)
-  '(dired-filter-group-saved-groups
-    (quote
-     (("default"
-       ("Directories"
-        (directory))
-       ("PDF"
-        (extension . "pdf"))
-       ("LaTeX"
-        (extension "tex" "bib"))
-       ("Org"
-        (extension . "org"))
-       ("Archives" "archives")
-       ("Media" "media")))))
+ '(dired-filter-group-saved-groups
+   (quote
+    (("default"
+      ("Directories"
+       (directory))
+      ("PDF"
+       (extension . "pdf"))
+      ("LaTeX"
+       (extension "tex" "bib"))
+      ("Org"
+       (extension . "org"))
+      ("Archives" "archives")
+      ("Media" "media")))))
  '(dired-filter-mark-prefix "\\")
  '(dired-filter-prefix "/")
-  '(dired-filter-saved-filters
-    (quote
-     (("media"
-       (extension "mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma"))
-      ("elisp"
-       (extension "el" "elc"))
-      ("archives"
-       (extension "zip" "rar" "gz" "bz2" "tar")))))
-   '(dired-guess-shell-alist-user
-     (quote
-      (("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura --fork")
-       ("\\.fb2" "fbreader"))))
+ '(dired-filter-saved-filters
+   (quote
+    (("media"
+      (extension "mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma"))
+     ("elisp"
+      (extension "el" "elc"))
+     ("archives"
+      (extension "zip" "rar" "gz" "bz2" "tar")))))
+ '(dired-guess-shell-alist-user
+   (quote
+    (("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura --fork")
+     ("\\.fb2" "fbreader"))))
  '(dired-hide-details-hide-information-lines nil)
  '(dired-isearch-filenames t)
  '(dired-list-mpc-music-directory "~/media/music")
  '(dired-listing-switches "-alh")
-  '(dired-omit-extensions
-    (quote
-     (".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cp" ".cps" ".fn" ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs" ".log" ".ilg" ".out" ".ind" ".dsc" ".hi" ".synctex.gz")))
-   '(dired-open-extensions
-     (quote
-      (("exe" . "wine")
-       ("docx" . "libreoffice")
-       ("doc" . "libreoffice")
-       ("xlsx" . "libreoffice")
-       ("xls" . "libreoffice"))))
-    '(dired-open-functions
-      (quote
-       (dired-open-guess-shell-alist dired-open-by-extension dired-open-subdir)))
+ '(dired-omit-extensions
+   (quote
+    (".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cp" ".cps" ".fn" ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs" ".log" ".ilg" ".out" ".ind" ".dsc" ".hi" ".synctex.gz")))
+ '(dired-open-extensions
+   (quote
+    (("exe" . "wine")
+     ("docx" . "libreoffice")
+     ("doc" . "libreoffice")
+     ("xlsx" . "libreoffice")
+     ("xls" . "libreoffice"))))
+ '(dired-open-functions
+   (quote
+    (dired-open-guess-shell-alist dired-open-by-extension dired-open-subdir)))
  '(dired-open-query-before-exit nil)
  '(dired-open-use-nohup t)
-  '(display-buffer-alist
-    (quote
-     (((lambda
-         (b _)
-         (with-current-buffer b
-           (eq major-mode
-               (quote swb-result-mode))))
-       (display-buffer-reuse-window display-buffer-pop-up-window)
-       (reusable-frames)
-       (window-height . my-fit-window-to-buffer))
-      (".*"
-       (ignore)
-       (reusable-frames . t)))))
+ '(display-buffer-alist
+   (quote
+    (((lambda
+        (b _)
+        (with-current-buffer b
+          (eq major-mode
+              (quote swb-result-mode))))
+      (display-buffer-reuse-window display-buffer-pop-up-window)
+      (reusable-frames)
+      (window-height . my-fit-window-to-buffer))
+     (".*"
+      (ignore)
+      (reusable-frames . t)))))
  '(display-time-24hr-format t)
  '(display-time-format "%H:%M ")
-  '(display-time-string-forms
-    (quote
-     ((if
-          (and
-           (not display-time-format)
-           display-time-day-and-date)
-          (format-time-string "%a %b %e " now)
-        "")
-      (propertize
-       (format-time-string
-        (or display-time-format
-            (if display-time-24hr-format "%H:%M" "%-I:%M%p"))
-        now)
-       (quote help-echo)
-       (format-time-string "%a %b %e, %Y" now))
-      (if mail
-          (concat " "
-                  (propertize display-time-mail-string
-                              (quote display)
-                              (\`
-                               (when
-                                   (and display-time-use-mail-icon
-                                        (display-graphic-p))
-                                 (\,@ display-time-mail-icon)
-                                 (\,@
-                                  (if
-                                      (and display-time-mail-face
-                                           (memq
-                                            (plist-get
-                                             (cdr display-time-mail-icon)
-                                             :type)
-                                            (quote
-                                             (pbm xbm))))
-                                      (let
-                                          ((bg
-                                            (face-attribute display-time-mail-face :background)))
-                                        (if
-                                            (stringp bg)
-                                            (list :background bg)))))))
-                              (quote face)
-                              display-time-mail-face
-                              (quote help-echo)
-                              "You have new mail; mouse-2: Read mail"
-                              (quote mouse-face)
-                              (quote mode-line-highlight)
-                              (quote local-map)
-                              (make-mode-line-mouse-map
-                               (quote mouse-2)
-                               read-mail-command)))
-        ""))))
+ '(display-time-string-forms
+   (quote
+    ((if
+         (and
+          (not display-time-format)
+          display-time-day-and-date)
+         (format-time-string "%a %b %e " now)
+       "")
+     (propertize
+      (format-time-string
+       (or display-time-format
+           (if display-time-24hr-format "%H:%M" "%-I:%M%p"))
+       now)
+      (quote help-echo)
+      (format-time-string "%a %b %e, %Y" now))
+     (if mail
+         (concat " "
+                 (propertize display-time-mail-string
+                             (quote display)
+                             (\`
+                              (when
+                                  (and display-time-use-mail-icon
+                                       (display-graphic-p))
+                                (\,@ display-time-mail-icon)
+                                (\,@
+                                 (if
+                                     (and display-time-mail-face
+                                          (memq
+                                           (plist-get
+                                            (cdr display-time-mail-icon)
+                                            :type)
+                                           (quote
+                                            (pbm xbm))))
+                                     (let
+                                         ((bg
+                                           (face-attribute display-time-mail-face :background)))
+                                       (if
+                                           (stringp bg)
+                                           (list :background bg)))))))
+                             (quote face)
+                             display-time-mail-face
+                             (quote help-echo)
+                             "You have new mail; mouse-2: Read mail"
+                             (quote mouse-face)
+                             (quote mode-line-highlight)
+                             (quote local-map)
+                             (make-mode-line-mouse-map
+                              (quote mouse-2)
+                              read-mail-command)))
+       ""))))
  '(echo-keystrokes 0.1)
  '(ediff-diff-options "-w")
  '(ediff-merge-split-window-function (quote split-window-horizontally))
@@ -367,9 +367,9 @@
  '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5)
  '(elfeed-search-title-max-width 90)
-  '(elpy-modules
-    (quote
-     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
  '(elpy-rpc-backend "jedi")
  '(elpy-rpc-python-command "python3")
  '(emmet-indentation 2)
@@ -379,29 +379,29 @@
  '(enable-remote-dir-locals t)
  '(endless/blog-base-url "http://Fuco1.github.io/")
  '(endless/blog-dir "/home/matus/blog/")
-  '(eshell-output-filter-functions
-    (quote
-     (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
-   '(eshell-prompt-function
-     (lambda nil
-       (concat
-        (format-time-string "[%H:%M:%S]:")
-        (my-abbrev-file-name
-         (eshell/pwd))
-        "
+ '(eshell-output-filter-functions
+   (quote
+    (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
+ '(eshell-prompt-function
+   (lambda nil
+     (concat
+      (format-time-string "[%H:%M:%S]:")
+      (my-abbrev-file-name
+       (eshell/pwd))
+      "
 "
-        (if
-            (=
-             (user-uid)
-             0)
-            "># " ">$ "))))
+      (if
+          (=
+           (user-uid)
+           0)
+          "># " ">$ "))))
  '(eshell-prompt-regexp "^[^#$
 ]*
 >[#$] ")
  '(eshell-skip-prompt-function (quote my-eshell-skip-prompt))
-  '(exec-path
-    (quote
-     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/local/games" "/usr/local/libexec/emacs/24.3/x86_64-unknown-linux-gnu" "/home/matus/bin")))
+ '(exec-path
+   (quote
+    ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/local/games" "/usr/local/libexec/emacs/24.3/x86_64-unknown-linux-gnu" "/home/matus/bin")))
  '(find-grep-options "-qE")
  '(firestarter-default-type (quote finished))
  '(firestarter-mode t)
@@ -413,25 +413,25 @@
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
  '(flycheck-phpcs-standard "PW")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
-  '(font-latex-math-environments
-    (quote
-     ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "derivation")))
+ '(font-latex-math-environments
+   (quote
+    ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "derivation")))
  '(font-latex-quotes (quote auto))
-  '(font-latex-user-keyword-classes
-    (quote
-     (("refs"
-       (("tindex" "{")
-        ("sindex" "{")
-        ("index" "[{")
-        ("cref" "{"))
-       (:inherit
-        (font-lock-constant-face))
-       command))))
+ '(font-latex-user-keyword-classes
+   (quote
+    (("refs"
+      (("tindex" "{")
+       ("sindex" "{")
+       ("index" "[{")
+       ("cref" "{"))
+      (:inherit
+       (font-lock-constant-face))
+      command))))
  '(foreground-color "#839496")
-  '(free-keys-ignored-bindings
-    (quote
-     (("s" . "pnPNjkhl1234567890qwerb")
-      ("A" . "1234567890qwer,.[]=c"))))
+ '(free-keys-ignored-bindings
+   (quote
+    (("s" . "pnPNjkhl1234567890qwerb")
+     ("A" . "1234567890qwer,.[]=c"))))
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
  '(global-flex-isearch-mode t)
@@ -439,150 +439,150 @@
  '(global-subword-mode t)
  '(global-undo-tree-mode t)
  '(gnus-alias-default-identity "goljer")
-  '(gnus-alias-identity-alist
-    (quote
-     (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" ""
-       (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent"))
-       "" "~/.signature")
-      ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" ""
-       (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent"))
-       "" "~/.signature")
-      ("logio" "" "Matúš Goljer <goljer@logio.cz>" ""
-       (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent"))
-       "" "~/.signature-logio"))))
-   '(gnus-alias-identity-rules
-     (quote
-      (("logio-to-header"
-        ("to" ".*logio.*" both)
-        "logio"))))
+ '(gnus-alias-identity-alist
+   (quote
+    (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" ""
+      (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent"))
+      "" "~/.signature")
+     ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" ""
+      (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent"))
+      "" "~/.signature")
+     ("logio" "" "Matúš Goljer <goljer@logio.cz>" ""
+      (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent"))
+      "" "~/.signature-logio"))))
+ '(gnus-alias-identity-rules
+   (quote
+    (("logio-to-header"
+      ("to" ".*logio.*" both)
+      "logio"))))
  '(god-mod-alist (quote ((nil . "C-") ("g" . "M-") ("i" . "C-M-"))))
  '(google-this-keybind "\"g\"")
  '(guide-key-mode t)
-  '(guide-key/guide-key-sequence
-    (quote
-     ("C-x r" "C-x 4" "C-x j" "C-x p" "C-x n" "A-x" "M-g" "M-s"
-      (calc-mode "V" "v" "k" "a" "u" "j")
-      (dired-mode "/" "*" "C-t" "%" "c" "\\")
-      (ibuffer-mode "/" "*" "%"))))
+ '(guide-key/guide-key-sequence
+   (quote
+    ("C-x r" "C-x 4" "C-x j" "C-x p" "C-x n" "A-x" "M-g" "M-s"
+     (calc-mode "V" "v" "k" "a" "u" "j")
+     (dired-mode "/" "*" "C-t" "%" "c" "\\")
+     (ibuffer-mode "/" "*" "%"))))
  '(guide-key/idle-delay 0.6)
  '(guide-key/popup-window-position (quote bottom))
  '(guide-key/recursive-key-sequence-flag t)
-  '(haskell-mode-hook
-    (quote
-     (turn-on-haskell-indentation turn-on-haskell-doc-mode)))
+ '(haskell-mode-hook
+   (quote
+    (turn-on-haskell-indentation turn-on-haskell-doc-mode)))
  '(haskell-program-name "ghci +RTS -M300m")
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
  '(helm-candidate-number-limit 1000)
  '(helm-descbinds-mode t)
-  '(helm-for-files-preferred-list
-    (quote
-     (helm-source-buffers-list helm-source-recentf helm-source-bookmarks helm-source-file-cache helm-source-files-in-current-dir)))
+ '(helm-for-files-preferred-list
+   (quote
+    (helm-source-buffers-list helm-source-recentf helm-source-bookmarks helm-source-file-cache helm-source-files-in-current-dir)))
  '(highlight-thing-limit-to-defun t)
  '(history-length 3000)
-  '(ibuffer-fontification-alist
-    (quote
-     ((10 buffer-read-only font-lock-constant-face)
-      (15
-       (and buffer-file-name
-            (string-match ibuffer-compressed-file-name-regexp buffer-file-name))
-       font-lock-doc-face)
-      (20
-       (string-match "^*"
+ '(ibuffer-fontification-alist
+   (quote
+    ((10 buffer-read-only font-lock-constant-face)
+     (15
+      (and buffer-file-name
+           (string-match ibuffer-compressed-file-name-regexp buffer-file-name))
+      font-lock-doc-face)
+     (20
+      (string-match "^*"
+                    (buffer-name))
+      font-lock-keyword-face)
+     (25
+      (and
+       (string-match "^ "
                      (buffer-name))
-       font-lock-keyword-face)
-      (25
-       (and
-        (string-match "^ "
-                      (buffer-name))
-        (null buffer-file-name))
-       italic)
-      (30
-       (memq major-mode ibuffer-help-buffer-modes)
-       font-lock-comment-face)
-      (35
-       (memq major-mode
-             (quote
-              (dired-mode sr-mode)))
-       font-lock-function-name-face))))
-   '(ibuffer-saved-filter-groups
-     (quote
-      (("default"
-        ("Org"
-         (mode . org-mode))
-        ("emacs-config"
-         (or
-          (predicate let
-                     ((bfn
-                       (buffer-file-name
-                        (current-buffer))))
-                     (when bfn
-                       (and
-                        (string-match-p "\\.emacs\\.d" bfn)
-                        (eq major-mode
-                            (quote emacs-lisp-mode)))))))
-        ("emacs"
-         (or
-          (mode . emacs-lisp-mode)
-          (mode . lisp-interaction-mode)
-          (mode . inferior-emacs-lisp-mode)))
-        ("TeX"
-         (or
-          (mode . tex-mode)
-          (mode . plain-tex-mode)
-          (mode . latex-mode)))
-        ("Markdown"
-         (or
-          (mode . markdown-mode)
-          (mode . gfm-mode)))
-        ("Web"
-         (or
-          (mode . html-mode)
-          (mode . css-mode)
-          (mode . php-mode)
-          (mode . js-mode)))
-        ("Dired"
-         (mode . dired-mode))
-        ("Images"
-         (or
-          (mode . image-dired-display-image-mode)
-          (mode . image-dired-thumbnail-mode)
-          (mode . image-mode)))
-        ("Tramp"
-         (or
-          (name . "tramp")))
-        ("Programming"
-         (or
-          (mode . c-mode)
-          (mode . perl-mode)
-          (mode . python-mode)
-          (mode . cc-mode)))))))
-    '(ibuffer-saved-filters
-      (quote
-       (("irc"
-         ((mode . erc-mode)))
-        ("dipl"
-         ((filename . "_dipl")))
-        ("gnus"
-         ((or
-           (mode . message-mode)
-           (mode . mail-mode)
-           (mode . gnus-group-mode)
-           (mode . gnus-summary-mode)
-           (mode . gnus-article-mode))))
-        ("programming"
-         ((or
-           (mode . emacs-lisp-mode)
-           (mode . cperl-mode)
-           (mode . c-mode)
-           (mode . java-mode)
-           (mode . idl-mode)
-           (mode . lisp-mode)))))))
+       (null buffer-file-name))
+      italic)
+     (30
+      (memq major-mode ibuffer-help-buffer-modes)
+      font-lock-comment-face)
+     (35
+      (memq major-mode
+            (quote
+             (dired-mode sr-mode)))
+      font-lock-function-name-face))))
+ '(ibuffer-saved-filter-groups
+   (quote
+    (("default"
+      ("Org"
+       (mode . org-mode))
+      ("emacs-config"
+       (or
+        (predicate let
+                   ((bfn
+                     (buffer-file-name
+                      (current-buffer))))
+                   (when bfn
+                     (and
+                      (string-match-p "\\.emacs\\.d" bfn)
+                      (eq major-mode
+                          (quote emacs-lisp-mode)))))))
+      ("emacs"
+       (or
+        (mode . emacs-lisp-mode)
+        (mode . lisp-interaction-mode)
+        (mode . inferior-emacs-lisp-mode)))
+      ("TeX"
+       (or
+        (mode . tex-mode)
+        (mode . plain-tex-mode)
+        (mode . latex-mode)))
+      ("Markdown"
+       (or
+        (mode . markdown-mode)
+        (mode . gfm-mode)))
+      ("Web"
+       (or
+        (mode . html-mode)
+        (mode . css-mode)
+        (mode . php-mode)
+        (mode . js-mode)))
+      ("Dired"
+       (mode . dired-mode))
+      ("Images"
+       (or
+        (mode . image-dired-display-image-mode)
+        (mode . image-dired-thumbnail-mode)
+        (mode . image-mode)))
+      ("Tramp"
+       (or
+        (name . "tramp")))
+      ("Programming"
+       (or
+        (mode . c-mode)
+        (mode . perl-mode)
+        (mode . python-mode)
+        (mode . cc-mode)))))))
+ '(ibuffer-saved-filters
+   (quote
+    (("irc"
+      ((mode . erc-mode)))
+     ("dipl"
+      ((filename . "_dipl")))
+     ("gnus"
+      ((or
+        (mode . message-mode)
+        (mode . mail-mode)
+        (mode . gnus-group-mode)
+        (mode . gnus-summary-mode)
+        (mode . gnus-article-mode))))
+     ("programming"
+      ((or
+        (mode . emacs-lisp-mode)
+        (mode . cperl-mode)
+        (mode . c-mode)
+        (mode . java-mode)
+        (mode . idl-mode)
+        (mode . lisp-mode)))))))
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
-  '(ido-decorations
-    (quote
-     ("
+ '(ido-decorations
+   (quote
+    ("
 -> " "" "
    " "
    ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
@@ -596,19 +596,19 @@
  '(ido-save-directory-list-file "~/.emacs.d/.ido.last")
  '(ido-show-dot-for-dired t)
  '(ido-ubiquitous-command-compatibility-exceptions (quote (ibuffer-switch-to-saved-filter-groups)))
-  '(ido-ubiquitous-command-exceptions
-    (quote
-     (smex-major-mode-commands beautify-smex ido-goto-symbol grep-read-files diredp-dired-files)))
+ '(ido-ubiquitous-command-exceptions
+   (quote
+    (smex-major-mode-commands beautify-smex ido-goto-symbol grep-read-files diredp-dired-files)))
  '(ido-ubiquitous-enable-compatibility t)
  '(ido-ubiquitous-function-exceptions (quote (diredp-dired-files-interactive-spec)))
  '(ido-ubiquitous-max-items nil)
  '(ido-ubiquitous-mode t)
  '(ido-use-faces t)
  '(ido-use-virtual-buffers t)
-  '(image-dired-cmd-create-temp-image-options
-    "%p -size %wx%h \"%f\" -sample \"%wx%h>\" -strip jpeg:\"%t\"")
-   '(image-dired-cmd-create-thumbnail-options
-     "%p -size %wx%h \"%f\" -resize \"%wx%h>\" -strip jpeg:\"%t\"")
+ '(image-dired-cmd-create-temp-image-options
+   "%p -size %wx%h \"%f\" -sample \"%wx%h>\" -strip jpeg:\"%t\"")
+ '(image-dired-cmd-create-thumbnail-options
+   "%p -size %wx%h \"%f\" -resize \"%wx%h>\" -strip jpeg:\"%t\"")
  '(imenu-auto-rescan t)
  '(indent-tabs-mode nil)
  '(indicate-empty-lines nil)
@@ -620,24 +620,25 @@
  '(keyfreq-file "~/.emacs.d/.emacs.keyfreq")
  '(keyfreq-mode t)
  '(ledger-reconcile-default-commodity "Kc")
-  '(ledger-reports
-    (quote
-     (("expenses" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
-      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
-      ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
-      ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets")
-      ("expenses-budget" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses")
-      ("equity" "ledger -f %(ledger-file) bal ^assets ^liabilities")
-      ("bal" "ledger -f %(ledger-file) -X Kc bal")
-      ("reg" "ledger -f %(ledger-file) reg")
-      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
-      ("account" "ledger -f %(ledger-file) reg %(account)"))))
+ '(ledger-reports
+   (quote
+    (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
+     ("expenses" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
+     ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
+     ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
+     ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets")
+     ("expenses-budget" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses")
+     ("equity" "ledger -f %(ledger-file) bal ^assets ^liabilities")
+     ("bal" "ledger -f %(ledger-file) -X Kc bal")
+     ("reg" "ledger -f %(ledger-file) reg")
+     ("payee" "ledger -f %(ledger-file) reg @%(payee)")
+     ("account" "ledger -f %(ledger-file) reg %(account)"))))
  '(legalese-date-format (quote ordinal))
  '(legalese-default-copyright "Matúš Goljer")
-  '(legalese-templates
-    (quote
-     ((emacs-lisp-mode
-       (nil ";;; " legalese-file-name " --- " _ "
+ '(legalese-templates
+   (quote
+    ((emacs-lisp-mode
+      (nil ";;; " legalese-file-name " --- " _ "
 " "
 " ";; Copyright (C) " legalese-year " " legalese-copyright "
 " "
@@ -663,51 +664,52 @@
 " "(provide '" legalese-file ")
 " ";;; " legalese-file-name " ends here
 ")))))
- '(line-number-mode t)
+'(line-number-mode t)
 '(log-edit-hook
 (quote
  (log-edit-insert-cvs-template log-edit-insert-changelog log-edit-show-files)))
- '(look-show-subdirs t)
- '(ls-lisp-dirs-first t)
- '(ls-lisp-use-insert-directory-program nil)
- '(ls-lisp-use-localized-time-format t)
- '(ls-lisp-verbosity (quote (uid gid)))
- '(lui-fill-column 3000)
- '(lui-highlight-keywords (quote (("^<.*?>" 0 circe-originator-face))))
- '(lui-max-buffer-size 100000)
- '(lui-time-stamp-format "[%H:%M:%S] ")
- '(lui-time-stamp-only-when-changed-p nil)
- '(lui-time-stamp-position (quote left))
- '(magit-diff-refine-hunk (quote all))
- '(magit-log-arguments (quote ("--graph" "--color" "--decorate")))
- '(mail-envelope-from (quote header))
- '(mail-specify-envelope-from t)
- '(make-pointer-invisible t)
- '(markdown-link-space-sub-char "-")
- '(max-lisp-eval-depth 1000)
- '(max-specpdl-size 10000)
- '(message-forward-as-mime nil)
- '(message-kill-buffer-on-exit t)
- '(message-log-max 10000)
- '(message-send-mail-function (quote smtpmail-send-it))
- '(message-sendmail-envelope-from (quote header))
- '(mis-bindings-alist nil)
- '(mis-make-command "make -j2")
- '(mis-recipes-directory "~/.emacs.d/elpa/make-it-so-20141203.811/recipes/")
- '(mm-inline-large-images (quote resize))
- '(mouse-highlight nil)
- '(mouse-wheel-progressive-speed nil)
- '(multi-web-global-mode nil nil (multi-web-mode))
- '(mweb-default-major-mode (quote html-mode))
- '(notmuch-archive-tags (quote ("-inbox" "-unread" "+archived")))
- '(notmuch-fcc-dirs nil)
+'(look-show-subdirs t)
+'(ls-lisp-dirs-first t)
+'(ls-lisp-use-insert-directory-program nil)
+'(ls-lisp-use-localized-time-format t)
+'(ls-lisp-verbosity (quote (uid gid)))
+'(lui-fill-column 3000)
+'(lui-highlight-keywords (quote (("^<.*?>" 0 circe-originator-face))))
+'(lui-max-buffer-size 100000)
+'(lui-time-stamp-format "[%H:%M:%S] ")
+'(lui-time-stamp-only-when-changed-p nil)
+'(lui-time-stamp-position (quote left))
+'(magit-diff-refine-hunk (quote all))
+'(magit-log-arguments (quote ("--graph" "--color" "--decorate")))
+'(magit-push-always-verify nil)
+'(mail-envelope-from (quote header))
+'(mail-specify-envelope-from t)
+'(make-pointer-invisible t)
+'(markdown-link-space-sub-char "-")
+'(max-lisp-eval-depth 1000)
+'(max-specpdl-size 10000)
+'(message-forward-as-mime nil)
+'(message-kill-buffer-on-exit t)
+'(message-log-max 10000)
+'(message-send-mail-function (quote smtpmail-send-it))
+'(message-sendmail-envelope-from (quote header))
+'(mis-bindings-alist nil)
+'(mis-make-command "make -j2")
+'(mis-recipes-directory "~/.emacs.d/elpa/make-it-so-20141203.811/recipes/")
+'(mm-inline-large-images (quote resize))
+'(mouse-highlight nil)
+'(mouse-wheel-progressive-speed nil)
+'(multi-web-global-mode nil nil (multi-web-mode))
+'(mweb-default-major-mode (quote html-mode))
+'(notmuch-archive-tags (quote ("-inbox" "-unread" "+archived")))
+'(notmuch-fcc-dirs nil)
 '(notmuch-hello-sections
 (quote
  (notmuch-hello-insert-header notmuch-hello-insert-search notmuch-hello-insert-recent-searches notmuch-hello-insert-alltags notmuch-hello-insert-footer)))
- '(notmuch-search-oldest-first nil)
- '(notmuch-show-logo nil)
- '(org-M-RET-may-split-line nil)
- '(org-adapt-indentation t)
+'(notmuch-search-oldest-first nil)
+'(notmuch-show-logo nil)
+'(org-M-RET-may-split-line nil)
+'(org-adapt-indentation t)
 '(org-agenda-clock-consistency-checks
 (quote
  (:max-duration "10:00" :min-duration 0 :max-gap "0:20" :gap-ok-around
@@ -715,53 +717,67 @@
   :default-face
   ((:foreground "Red"))
   :overlap-face nil :gap-face nil :no-end-time-face nil :long-face nil :short-face nil)))
- '(org-agenda-compact-blocks t)
- '(org-agenda-files "~/org/.files")
- '(org-agenda-include-diary t)
- '(org-agenda-skip-deadline-if-done t)
- '(org-agenda-skip-function-global (quote my-org-global-skip-function))
- '(org-agenda-skip-scheduled-if-done t)
- '(org-agenda-skip-timestamp-if-done t)
+'(org-agenda-compact-blocks t)
+'(org-agenda-files "~/org/.files")
+'(org-agenda-finalize-hook
+(quote
+ (my-org-agenda-remove-empty-lists my-org-agenda-to-appt org-clock-budget-insert-into-agenda)))
+'(org-agenda-include-diary t)
+'(org-agenda-skip-deadline-if-done t)
+'(org-agenda-skip-function-global (quote my-org-global-skip-function))
+'(org-agenda-skip-scheduled-if-done t)
+'(org-agenda-skip-timestamp-if-done t)
 '(org-agenda-sorting-strategy
 (quote
  ((agenda time-up priority-down category-keep)
   (todo priority-down category-keep)
   (tags priority-down category-keep)
   (search category-keep))))
- '(org-agenda-span (quote day))
- '(org-agenda-start-with-clockreport-mode nil)
- '(org-agenda-sticky t)
- '(org-agenda-tags-column -140)
- '(org-agenda-tags-todo-honor-ignore-options t)
+'(org-agenda-span (quote day))
+'(org-agenda-start-with-clockreport-mode nil)
+'(org-agenda-sticky t)
+'(org-agenda-tags-column -140)
+'(org-agenda-tags-todo-honor-ignore-options t)
 '(org-agenda-time-grid
 (quote
  ((daily weekly today require-timed)
   #("----------------" 0 16
     (org-heading t))
   (800 1000 1200 1400 1600 1800 2000))))
- '(org-agenda-window-setup (quote current-window))
- '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t) (sh . t))))
- '(org-clock-history-length 35)
- '(org-clock-in-resume t)
- '(org-clock-in-switch-to-state (quote my-org-clock-in-to-next))
- '(org-clock-into-drawer "CLOCK")
- '(org-clock-mode-line-total (quote today))
- '(org-clock-out-remove-zero-time-clocks t)
- '(org-clock-out-when-done nil)
- '(org-clock-persist t)
- '(org-clock-persist-query-resume nil)
- '(org-clock-report-include-clocking-task t)
+'(org-agenda-window-setup (quote current-window))
+'(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t) (sh . t))))
+'(org-clock-budget-default-sort-column (quote ("BUDGET_WEEK" ratio desc)))
+'(org-clock-budget-intervals
+(quote
+ (("BUDGET_YEAR" org-clock-budget-interval-this-year)
+  ("BUDGET_WEEK" org-clock-budget-interval-this-week))))
+'(org-clock-budget-ratio-faces
+(quote
+ ((1.0 font-lock-warning-face)
+  (0.9 font-lock-variable-name-face)
+  (0.0 font-lock-keyword-face))))
+'(org-clock-display-default-range (quote untilnow))
+'(org-clock-history-length 35)
+'(org-clock-in-resume t)
+'(org-clock-in-switch-to-state (quote my-org-clock-in-to-next))
+'(org-clock-into-drawer "CLOCK")
+'(org-clock-mode-line-total (quote today))
+'(org-clock-out-remove-zero-time-clocks t)
+'(org-clock-out-when-done nil)
+'(org-clock-persist t)
+'(org-clock-persist-query-resume nil)
+'(org-clock-report-include-clocking-task t)
 '(org-columns-default-format
 "%50ITEM(Task) %TODO(Todo) %SCHEDULED(Scheduled) %DEADLINE(Deadline) %TAGS(Tags) %CLOCKSUM(Clock) %Effort(Effort)")
- '(org-complete-tags-always-offer-all-agenda-tags t)
- '(org-completion-use-ido t)
- '(org-contacts-files (quote ("~/org/contacts.org")))
- '(org-cycle-emulate-tab nil)
- '(org-deadline-warning-days 30)
- '(org-default-notes-file "~/org/refile.org")
- '(org-default-priority 67)
- '(org-drill-add-random-noise-to-intervals-p t)
- '(org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
+'(org-complete-tags-always-offer-all-agenda-tags t)
+'(org-completion-use-ido t)
+'(org-contacts-files (quote ("~/org/contacts.org")))
+'(org-cycle-emulate-tab nil)
+'(org-deadline-warning-days 30)
+'(org-default-notes-file "~/org/refile.org")
+'(org-default-priority 67)
+'(org-drill-add-random-noise-to-intervals-p t)
+'(org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
 '(org-drill-card-type-alist
 (quote
  ((nil org-drill-present-simple-card)
@@ -783,11 +799,12 @@
   ("spanish_verb" org-drill-present-spanish-verb)
   ("translate_number" org-drill-present-translate-number)
   ("twosidednocloze" org-drill-present-two-sided-card-no-cloze nil t))))
- '(org-drill-forgetting-index 50)
- '(org-drill-learn-fraction 0.55)
- '(org-drill-leech-method (quote warn))
- '(org-drill-maximum-duration nil)
- '(org-drill-maximum-items-per-session 55)
+'(org-drill-forgetting-index 50)
+'(org-drill-item-count-includes-failed-items-p t)
+'(org-drill-learn-fraction 0.55)
+'(org-drill-leech-method (quote warn))
+'(org-drill-maximum-duration nil)
+'(org-drill-maximum-items-per-session 55)
 '(org-drill-optimal-factor-matrix
 (quote
  ((29
@@ -1467,8 +1484,8 @@
    (2.36 . 3.846)
    (1.7000000000000002 . 3.44)
    (1.96 . 3.538)))))
- '(org-drill-save-buffers-after-drill-sessions-p nil)
- '(org-drill-scope (quote directory))
+'(org-drill-save-buffers-after-drill-sessions-p nil)
+'(org-drill-scope (quote directory))
 '(org-emphasis-alist
 (quote
  (("*" markup-bold)
@@ -1477,49 +1494,49 @@
   ("=" markup-inline-code verbatim)
   ("~" markup-inline-code verbatim)
   ("+" markup-strike))))
- '(org-export-allow-bind-keywords t)
- '(org-fast-tag-selection-single-key (quote expert))
+'(org-export-allow-bind-keywords t)
+'(org-fast-tag-selection-single-key (quote expert))
 '(org-file-apps
 (quote
  ((auto-mode . emacs)
   ("\\.mm\\'" . default)
   ("\\.x?html?\\'" . default)
   ("\\.pdf\\'" . "zathura --fork %s"))))
- '(org-footnote-auto-label (quote random))
- '(org-footnote-define-inline t)
+'(org-footnote-auto-label (quote random))
+'(org-footnote-define-inline t)
 '(org-format-latex-options
 (quote
  (:foreground default :background default :scale 3.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
   ("begin" "$1" "$" "$$" "\\(" "\\["))))
- '(org-habit-following-days 1)
- '(org-habit-graph-column 80)
- '(org-habit-preceding-days 30)
- '(org-habit-show-habits-only-for-today nil)
- '(org-hide-emphasis-markers t)
- '(org-hide-leading-stars t)
- '(org-inline-image-resolve-url (quote (org-inline-image--regexp-resolver identity)))
- '(org-latex-tables-centered nil)
- '(org-log-done (quote note))
- '(org-log-into-drawer t)
- '(org-lowest-priority 69)
+'(org-habit-following-days 1)
+'(org-habit-graph-column 80)
+'(org-habit-preceding-days 30)
+'(org-habit-show-habits-only-for-today nil)
+'(org-hide-emphasis-markers t)
+'(org-hide-leading-stars t)
+'(org-inline-image-resolve-url (quote (org-inline-image--regexp-resolver identity)))
+'(org-latex-tables-centered nil)
+'(org-log-done (quote note))
+'(org-log-into-drawer t)
+'(org-lowest-priority 69)
 '(org-modules
 (quote
  (org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-checklist org-drill)))
- '(org-outline-path-complete-in-steps nil)
- '(org-plantuml-jar-path "~/bin/plantuml.jar")
- '(org-priority-start-cycle-with-default nil)
- '(org-refile-allow-creating-parent-nodes (quote confirm))
- '(org-refile-target-verify-function (quote my-org-verify-refile-target))
+'(org-outline-path-complete-in-steps nil)
+'(org-plantuml-jar-path "~/bin/plantuml.jar")
+'(org-priority-start-cycle-with-default nil)
+'(org-refile-allow-creating-parent-nodes (quote confirm))
+'(org-refile-target-verify-function (quote my-org-verify-refile-target))
 '(org-refile-targets
 (quote
  ((nil :maxlevel . 9)
   (org-agenda-files :maxlevel . 9))))
- '(org-refile-use-outline-path t)
- '(org-scheduled-delay-days 0)
- '(org-show-entry-below (quote ((default . t))))
- '(org-show-following-heading (quote ((default . t))))
- '(org-special-ctrl-a/e t)
- '(org-src-fontify-natively t)
+'(org-refile-use-outline-path t)
+'(org-scheduled-delay-days 0)
+'(org-show-entry-below (quote ((default . t))))
+'(org-show-following-heading (quote ((default . t))))
+'(org-special-ctrl-a/e t)
+'(org-src-fontify-natively t)
 '(org-src-lang-modes
 (quote
  (("ocaml" . tuareg)
@@ -1534,7 +1551,7 @@
   ("C++" . c++)
   ("screen" . shell-script)
   ("plantuml" . fundamental))))
- '(org-src-preserve-indentation t)
+'(org-src-preserve-indentation t)
 '(org-structure-template-alist
 (quote
  (("s" "#+BEGIN_SRC ?
@@ -1588,33 +1605,33 @@
   ("b" "#+BEGIN: ?
 
 #+END" "<pre>?</pre>"))))
- '(org-stuck-projects (quote ("" nil nil "")))
- '(org-support-shift-select t)
- '(org-tags-exclude-from-inheritance (quote ("folder")))
- '(org-tags-sort-function (quote string<))
+'(org-stuck-projects (quote ("" nil nil "")))
+'(org-support-shift-select t)
+'(org-tags-exclude-from-inheritance (quote ("folder")))
+'(org-tags-sort-function (quote string<))
 '(org-time-clocksum-format
 (quote
  (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
- '(org-use-speed-commands t)
- '(package-enable-at-startup nil)
- '(paren-face-regexp "[(){}]")
- '(pj-line-width 1100)
- '(preview-scale-function 1.5)
- '(proced-auto-update-flag t)
- '(proced-auto-update-interval 1)
+'(org-use-speed-commands t)
+'(package-enable-at-startup nil)
+'(paren-face-regexp "[(){}]")
+'(pj-line-width 1100)
+'(preview-scale-function 1.5)
+'(proced-auto-update-flag t)
+'(proced-auto-update-interval 1)
 '(projectile-globally-ignored-directories
 (quote
  (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "elpa")))
 '(projectile-project-root-files
 (quote
  (".dir-locals.el" ".projectile" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "rebar.config" "project.clj" "pom.xml" "build.sbt" "Gemfile" "Makefile")))
- '(rainbow-r-colors t)
- '(rcirc-fill-column (quote frame-width))
- '(rcirc-server-alist (quote (("chat.freenode.org"))))
- '(recentf-auto-cleanup (quote never))
- '(recentf-exclude (quote ("\"elpa/archives\"")) t)
- '(recentf-max-saved-items 200)
- '(recentf-save-file "~/.emacs.d/.recentf")
+'(rainbow-r-colors t)
+'(rcirc-fill-column (quote frame-width))
+'(rcirc-server-alist (quote (("chat.freenode.org"))))
+'(recentf-auto-cleanup (quote never))
+'(recentf-exclude (quote ("\"elpa/archives\"")) t)
+'(recentf-max-saved-items 200)
+'(recentf-save-file "~/.emacs.d/.recentf")
 '(reftex-label-alist
 (quote
  (("lemma" 32 "lem:" "~\\cref{%s}" nil nil)
@@ -1896,57 +1913,57 @@
             (quote font-lock-keyword-face))))))
   (reftex-default-bibliography "./bibliography")
   (eval allout-mode t))))
- '(sallet-buffer-sources (quote (sallet-source-buffer sallet-source-autobookmarks)))
- '(save-place t nil (saveplace))
- '(save-place-file "~/.emacs.d/.emacs-places")
- '(save-place-limit nil)
- '(scroll-preserve-screen-position 1)
+'(sallet-buffer-sources (quote (sallet-source-buffer sallet-source-autobookmarks)))
+'(save-place t nil (saveplace))
+'(save-place-file "~/.emacs.d/.emacs-places")
+'(save-place-limit nil)
+'(scroll-preserve-screen-position 1)
 '(semantic-default-submodes
 (quote
  (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode global-semantic-mru-bookmark-mode)))
- '(semantic-new-buffer-setup-functions (quote ((java-mode . wisent-malabar-java-setup))))
- '(send-mail-function (quote smtpmail-send-it))
- '(shackle-mode t)
- '(shackle-rules (quote (("*Help*" :select t))))
- '(shell-pop-autocd-to-working-dir t)
- '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
- '(shell-pop-universal-key "<f11>")
- '(shell-pop-window-height 50)
- '(show-smartparens-global-mode t)
- '(shr-max-image-proportion 0.9)
- '(smerge-command-prefix "\\C-.m")
- '(smex-save-file "~/.emacs.d/.smex-items")
- '(smtpmail-default-smtp-server "smtp.gmail.com")
- '(smtpmail-local-domain "herakleitos")
- '(smtpmail-smtp-server "smtp.gmail.com")
- '(smtpmail-smtp-service 465)
- '(smtpmail-stream-type (quote ssl))
- '(sp-autoescape-string-quote-if-empty (quote (python-mode)))
- '(sp-autoinsert-if-followed-by-same 3)
- '(sp-autoinsert-quote-if-followed-by-closing-pair nil)
- '(sp-autoskip-closing-pair (quote always))
- '(sp-autoskip-opening-pair nil)
- '(sp-autowrap-region t)
- '(sp-comment-string (quote (((emacs-lisp-mode) . ";; "))))
- '(sp-hybrid-kill-excessive-whitespace nil)
+'(semantic-new-buffer-setup-functions (quote ((java-mode . wisent-malabar-java-setup))))
+'(send-mail-function (quote smtpmail-send-it))
+'(shackle-mode t)
+'(shackle-rules (quote (("*Help*" :select t))))
+'(shell-pop-autocd-to-working-dir t)
+'(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
+'(shell-pop-universal-key "<f11>")
+'(shell-pop-window-height 50)
+'(show-smartparens-global-mode t)
+'(shr-max-image-proportion 0.9)
+'(smerge-command-prefix "\\C-.m")
+'(smex-save-file "~/.emacs.d/.smex-items")
+'(smtpmail-default-smtp-server "smtp.gmail.com")
+'(smtpmail-local-domain "herakleitos")
+'(smtpmail-smtp-server "smtp.gmail.com")
+'(smtpmail-smtp-service 465)
+'(smtpmail-stream-type (quote ssl))
+'(sp-autoescape-string-quote-if-empty (quote (python-mode)))
+'(sp-autoinsert-if-followed-by-same 3)
+'(sp-autoinsert-quote-if-followed-by-closing-pair nil)
+'(sp-autoskip-closing-pair (quote always))
+'(sp-autoskip-opening-pair nil)
+'(sp-autowrap-region t)
+'(sp-comment-string (quote (((emacs-lisp-mode) . ";; "))))
+'(sp-hybrid-kill-excessive-whitespace nil)
 '(sp-ignore-modes-list
 (quote
  (image-dired-display-image-mode image-dired-thumbnail-mode ediff-mode recentf-dialog-mode google-maps-static-mode ibuffer-mode org-agenda-mode dired-mode elfeed-search-mode elfeed-show-mode notmuch-search-mode notmuch-show-mode notmuch-hello-mode circe-channel-mode)))
- '(sp-navigate-close-if-unbalanced t)
- '(sp-navigate-comments-as-sexps t)
- '(sp-navigate-consider-sgml-tags (quote (html-mode markdown-mode gfm-mode rst-mode)))
+'(sp-navigate-close-if-unbalanced t)
+'(sp-navigate-comments-as-sexps t)
+'(sp-navigate-consider-sgml-tags (quote (html-mode markdown-mode gfm-mode rst-mode)))
 '(sp-navigate-consider-stringlike-sexp
 (quote
  (ruby-mode gfm-mode emacs-lisp-mode html-mode org-mode python-mode text-mode latex-mode)))
- '(sp-navigate-consider-symbols t)
- '(sp-navigate-reindent-after-up (quote ((interactive emacs-lisp-mode))))
+'(sp-navigate-consider-symbols t)
+'(sp-navigate-reindent-after-up (quote ((interactive emacs-lisp-mode))))
 '(sp-navigate-skip-match
 (quote
  (((ruby-mode enh-ruby-mode)
    . sp--ruby-skip-match)
   ((emacs-lisp-mode inferior-emacs-lisp-mode lisp-interaction-mode scheme-mode inferior-scheme-mode geiser-repl-mode lisp-mode eshell-mode slime-repl-mode cider-repl-mode nrepl-repl-mode clojure-mode common-lisp-mode)
    . sp--elisp-skip-match))))
- '(sp-override-key-bindings nil)
+'(sp-override-key-bindings nil)
 '(sp-sexp-prefix
 (quote
  ((emacs-lisp-mode regexp "\\(?:,@\\|[',`]\\)")
@@ -1961,15 +1978,15 @@
 '(sp-show-enclosing-pair-commands
 (quote
  (sp-show-enclosing-pair sp-forward-slurp-sexp sp-backward-slurp-sexp sp-forward-barf-sexp sp-backward-barf-sexp)))
- '(sp-show-pair-from-inside nil)
- '(sp-successive-kill-preserve-whitespace 2)
- '(sp-test-customize (quote ((interactive emacs-lisp-mode))))
- '(sp-undo-pairs-separately t)
- '(sp-use-subword t)
- '(sp-wrap-deactivate-smart-symbol-wrapping nil)
- '(sp-wrap-from-point nil)
- '(split-height-threshold 10)
- '(split-width-threshold 100)
+'(sp-show-pair-from-inside nil)
+'(sp-successive-kill-preserve-whitespace 2)
+'(sp-test-customize (quote ((interactive emacs-lisp-mode))))
+'(sp-undo-pairs-separately t)
+'(sp-use-subword t)
+'(sp-wrap-deactivate-smart-symbol-wrapping nil)
+'(sp-wrap-from-point nil)
+'(split-height-threshold 10)
+'(split-width-threshold 100)
 '(sql-connection-alist
 (quote
  (("nestle-test"
@@ -1978,34 +1995,35 @@
    (sql-user "root")
    (sql-server "tunel.logio.cz")
    (sql-port 30239)))))
- '(sql-pop-to-buffer-after-send-region nil)
- '(system-time-locale "C" t)
- '(texmathp-tex-commands (quote (("derivation" env-on))))
- '(text-mode-hook (quote (text-mode-hook-identify)))
- '(tracking-ignored-buffers (quote ("#openttd")))
- '(tramp-auto-save-directory "~/.emacs.d/tramp-autosave/")
- '(tramp-persistency-file-name nil)
- '(transient-mark-mode t)
- '(truncate-partial-width-windows nil)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify))
- '(uniquify-strip-common-suffix t)
- '(use-package-verbose t)
- '(user-full-name "Matúš Goljer")
- '(user-mail-address "matus.goljer@gmail.com")
- '(vc-make-backup-files t)
- '(vc-svn-diff-switches "-x -w")
- '(visible-bell nil)
- '(w3m-command nil)
- '(w3m-imagick-convert-program "c:\\cygwin\\bin\\convert.exe")
- '(which-func-maxout 100000)
- '(which-function-mode t)
- '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
- '(windmove-wrap-around t)
- '(winner-mode t)
- '(x-select-enable-clipboard t)
- '(yas-global-mode t nil (yasnippet))
- '(yas-prompt-functions (quote (yas-ido-prompt)))
- '(yas-snippet-dirs (quote ("~/.emacs.d/vendor/yasnippet/snippets")) nil (yasnippet)))
+'(sql-pop-to-buffer-after-send-region nil)
+'(system-time-locale "C" t)
+'(texmathp-tex-commands (quote (("derivation" env-on))))
+'(text-mode-hook (quote (text-mode-hook-identify)))
+'(tracking-ignored-buffers (quote ("#openttd")))
+'(tramp-auto-save-directory "~/.emacs.d/tramp-autosave/")
+'(tramp-persistency-file-name nil)
+'(transient-mark-mode t)
+'(truncate-partial-width-windows nil)
+'(uniquify-buffer-name-style (quote forward) nil (uniquify))
+'(uniquify-strip-common-suffix t)
+'(url-queue-timeout 30)
+'(use-package-verbose t)
+'(user-full-name "Matúš Goljer")
+'(user-mail-address "matus.goljer@gmail.com")
+'(vc-make-backup-files t)
+'(vc-svn-diff-switches "-x -w")
+'(visible-bell nil)
+'(w3m-command nil)
+'(w3m-imagick-convert-program "c:\\cygwin\\bin\\convert.exe")
+'(which-func-maxout 100000)
+'(which-function-mode t)
+'(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
+'(windmove-wrap-around t)
+'(winner-mode t)
+'(x-select-enable-clipboard t)
+'(yas-global-mode t nil (yasnippet))
+'(yas-prompt-functions (quote (yas-ido-prompt)))
+'(yas-snippet-dirs (quote ("~/.emacs.d/vendor/yasnippet/snippets")) nil (yasnippet)))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
