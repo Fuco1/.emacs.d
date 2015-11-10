@@ -658,6 +658,8 @@ by a REPEAT property."
           (setq ad-return-value repeat)
         ad-do-it))))
 
+(use-package org-clock-budget)
+
 ;; add support for automatic org-files commits
 (defvar my-org-commit-timer
   (run-at-time (format-time-string "%H:59" (current-time)) 3600 'org-save-all-org-buffers)
