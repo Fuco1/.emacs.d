@@ -185,6 +185,7 @@
   ("j" . (lambda () "Toggle on japanese input method." (interactive) (set-input-method "japanese")))
   ("h" . (lambda () "Toggle on devanagari-kyoto-harvard input method." (interactive) (set-input-method "devanagari-kyoto-harvard")))
   ("v" . (lambda () "Toggle on devanagari-translit input method." (interactive) (set-input-method "devanagari-translit")))
+  ("w" . (lambda () "Toggle on workman input method." (interactive) (set-input-method "english-workman")))
   ("x" . (lambda () "Toggle on ipa-x-sampa input method." (interactive) (set-input-method "ipa-x-sampa"))))
 
 (bind-key "H-u" 'universal-argument)

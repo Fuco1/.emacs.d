@@ -32,7 +32,9 @@
   (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
   (add-to-list 'load-path "~/.emacs.d/")
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects")))
+  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
+
+  (require 'workman-layout))
 
 ;; autoloads
 (autoload 'calc-same-interface "calc" nil t)
