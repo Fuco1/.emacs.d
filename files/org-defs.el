@@ -1040,6 +1040,7 @@ point and rebuild the agenda view."
              targets))
         ("w" "todo-logio" entry (file "~/logio/logio.org")
          "* TODO %?\n%U\n" :clock-keep t)
+        ("j" "journal" entry (file+datetree "~/org/journal.org") "* %?" :clock-keep t)
         ("b" "bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n%(if (not (equal %:initial \"\"))
                                         (concat \"- \" %:initial) \"\")")
