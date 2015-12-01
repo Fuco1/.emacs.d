@@ -261,7 +261,7 @@
                             (org-tags-match-list-sublevels nil)
                             (org-agenda-todo-ignore-scheduled 'future)
                             (org-agenda-todo-ignore-deadlines 'future)))))
-       "An alist mapping keywords to custom agenda sections")
+      "An alist mapping keywords to custom agenda sections")
 
     (setq org-agenda-custom-commands
           `((" " "Quick Agenda"
