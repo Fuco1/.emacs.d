@@ -357,8 +357,8 @@ overdue and a habit it is inserted multiple times."
       (save-excursion
         (let ((limit (save-excursion
                        (goto-char (point-min))
-                       (while (eq (org-get-at-bol 'org-agenda-type) 'agenda)
-                         (forward-line 1))
+                       (while (and (eq (org-get-at-bol 'org-agenda-type) 'agenda)
+                                   (= (forward-line 1) 0)))
                        (point)))
               (visited nil))
           (goto-char (point-min))
