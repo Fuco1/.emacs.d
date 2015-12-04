@@ -93,6 +93,7 @@ and indent next line according to mode."
     (end-of-line)
     (open-line (prefix-numeric-value arg))
     (forward-line 1)
+    (insert (fill-context-prefix (point-at-bol) (point-at-eol)))
     (indent-according-to-mode)))
 
 (defun my-forward-line-and-indent (arg)
