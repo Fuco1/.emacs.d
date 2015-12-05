@@ -160,7 +160,16 @@
            (org-display-inline-images t))
          (org-cycle-hide-drawers 'all)
          (prog1 (org-drill-presentation-prompt)
-           (org-drill-hide-subheadings-if 'org-drill-entry-p)))))))
+           (org-drill-hide-subheadings-if 'org-drill-entry-p)))))
+
+    (defun my-org-drill-remove-empty-notes-examples ()
+      "Remove empty subtrees."
+      (let ((kill-ring kill-ring))
+        (org-map-entries
+         (lambda ()
+           (when (and (org-entry-empty-p)
+                      (> (org-outline-level) 1))
+             (org-cut-subtree))))))))
 
 ;; To fix the stickyness issue with incorrectly named buffers (just
 ;; (m) instead of (m/keys:query)):
