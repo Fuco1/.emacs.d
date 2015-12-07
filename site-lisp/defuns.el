@@ -147,6 +147,7 @@ With non-nil prefix argument, ask for LANGUAGE."
                                                                     nil nil nil "cl"))))
   (let* ((buf (get-buffer-create " *sprunge-result*"))
          (url (with-current-buffer buf
+                (cd "/")
                 (shell-command (concat "echo "
                                        (shell-quote-argument text)
                                        " | curl -s -F 'sprunge=<-' http://sprunge.us")
