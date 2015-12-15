@@ -504,4 +504,10 @@ The remote is determined by `my-rsync-remote'."
                           "rsync" "-ptd" (concat remote "/" relative) relative)
            'my-sync-rsync-remote-to-local-sentinel))))))
 
+(defun my-run-haddock ()
+  "Run haddock on current project."
+  (interactive)
+  (projectile-with-default-dir (projectile-project-root)
+    (call-process-shell-command "cabal haddock --hyperlink-source &" nil 0)))
+
 ;;; defuns.el ends here
