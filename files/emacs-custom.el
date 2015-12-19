@@ -367,6 +367,10 @@
  '(eldoc-in-minibuffer-mode t)
  '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5)
+ '(elfeed-search-face-alist
+   (quote
+    ((unread elfeed-search-unread-title-face)
+     (tumblr font-lock-constant-face))))
  '(elfeed-search-title-max-width 90)
  '(elpy-modules
    (quote
@@ -410,7 +414,9 @@
  '(flycheck-disabled-checkers (quote (php-phplint)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
  '(flycheck-ghc-args nil)
- '(flycheck-ghc-search-path (quote ("/home/matus/dotfiles/xmonad/.xmonad/lib")))
+ '(flycheck-ghc-search-path
+   (quote
+    ("/home/matus/dotfiles/xmonad/.xmonad/lib" "/home/matus/dev/haskell/mpris/src/")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
  '(flycheck-phpcs-standard "PW")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
@@ -471,6 +477,7 @@
  '(haskell-mode-hook
    (quote
     (turn-on-haskell-indentation turn-on-haskell-doc-mode)))
+ '(haskell-process-args-ghci (quote ("-ferror-spans" "-i.")))
  '(haskell-program-name "ghci +RTS -M300m")
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
@@ -629,7 +636,7 @@
      ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
      ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets")
      ("expenses-budget" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses")
-     ("equity" "ledger -f %(ledger-file) bal ^assets ^liabilities")
+     ("equity" "ledger -f %(ledger-file) bal -X Kc ^assets ^liabilities")
      ("bal" "ledger -f %(ledger-file) -X Kc bal")
      ("reg" "ledger -f %(ledger-file) reg")
      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
@@ -1640,7 +1647,9 @@
   ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
 '(safe-local-variable-values
 (quote
- ((c-style-alist
+ ((firestarter-default-type . failure)
+  (flycheck-ghc-search-path . "/home/matus/dev/haskell/mpris/src/")
+  (c-style-alist
    ("ledger"
     (indent-tabs-mode)
     (c-basic-offset . 2)
@@ -2008,6 +2017,7 @@
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(uniquify-strip-common-suffix t)
+ '(url-queue-parallel-processes 5)
  '(url-queue-timeout 30)
  '(use-package-verbose t)
  '(user-full-name "Matúš Goljer")
