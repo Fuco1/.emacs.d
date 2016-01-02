@@ -507,6 +507,7 @@ The remote is determined by `my-rsync-remote'."
 (defun my-run-haddock ()
   "Run haddock on current project."
   (interactive)
+  (require 'projectile)
   (projectile-with-default-dir (projectile-project-root)
     (call-process-shell-command "cabal haddock --hyperlink-source &" nil 0)))
 
