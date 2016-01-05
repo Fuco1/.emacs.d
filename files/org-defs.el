@@ -314,7 +314,35 @@
                      (org-agenda-files '("~/org/reading.org"))))
               (tags "+Reading/DONE"
                     ((org-agenda-overriding-header "Finished")
-                     (org-agenda-files '("~/org/reading.org")))))))))
+                     (org-agenda-files '("~/org/reading.org"))))))))
+
+    (defun my-org-agenda-remove-duplicate-habits ()
+      "Remove duplicated habits from agenda.
+
+If a task is scheduled multiple times for different days and is
+overdue and a habit it is inserted multiple times."
+      (save-excursion
+        (let ((limit (save-excursion
+                       (goto-char (point-min))
+                       (while (and (eq (org-get-at-bol 'org-agenda-type) 'agenda)
+                                   (= (forward-line 1) 0)))
+                       (point)))
+              (visited nil))
+          (goto-char (point-min))
+          (while (< (point) limit)
+            (let ((p (--when-let (org-get-at-bol 'org-marker)
+                       (org-with-point-at it
+                         (save-excursion
+                           (org-back-to-heading t)
+                           (point-marker))))))
+              (if (and p
+                       (member p visited))
+                  (delete-region (point-at-bol) (1+ (point-at-eol)))
+                (when p (push p visited))
+                (forward-line 1))))
+          (--each visited (set-marker it nil)))))
+
+    (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits))
   :config
   (progn
     (defun org-agenda-time-limit (time)
@@ -357,34 +385,6 @@
               (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid)))))))
 
     (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-empty-lists)
-
-    (defun my-org-agenda-remove-duplicate-habits ()
-      "Remove duplicated habits from agenda.
-
-If a task is scheduled multiple times for different days and is
-overdue and a habit it is inserted multiple times."
-      (save-excursion
-        (let ((limit (save-excursion
-                       (goto-char (point-min))
-                       (while (and (eq (org-get-at-bol 'org-agenda-type) 'agenda)
-                                   (= (forward-line 1) 0)))
-                       (point)))
-              (visited nil))
-          (goto-char (point-min))
-          (while (< (point) limit)
-            (let ((p (--when-let (org-get-at-bol 'org-marker)
-                       (org-with-point-at it
-                         (save-excursion
-                           (org-back-to-heading t)
-                           (point-marker))))))
-              (if (and p
-                       (member p visited))
-                  (delete-region (point-at-bol) (1+ (point-at-eol)))
-                (when p (push p visited))
-                (forward-line 1))))
-          (--each visited (set-marker it nil)))))
-
-    (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
 
     ;; Better links
     (defun my-org-agenda-open-at-point (&optional arg)
