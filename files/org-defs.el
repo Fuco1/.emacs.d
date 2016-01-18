@@ -178,6 +178,7 @@
 ;;   (setq match (org-completing-read-no-i
 ;;                "Match: " 'org-tags-completion-function nil nil nil
 ;;                'org-tags-history)))
+(add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
 (use-package org-agenda
   :defer t
   :init
@@ -345,6 +346,8 @@ overdue and a habit it is inserted multiple times."
     (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits))
   :config
   (progn
+    (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
+
     (defun org-agenda-time-limit (time)
       "Call `org-agenda' with media timestamp limited."
       (interactive "sTimestamp: ")
