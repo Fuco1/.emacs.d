@@ -251,14 +251,18 @@
     (("default"
       ("Directories"
        (directory))
-      ("PDF"
-       (extension . "pdf"))
+      ("Documents" "documents")
       ("LaTeX"
        (extension "tex" "bib"))
       ("Org"
        (extension . "org"))
       ("Archives" "archives")
-      ("Media" "media")))))
+      ("Media" "media"))
+     ("pytest"
+      ("Python"
+       (extension . "py"))
+      ("Symlinks"
+       (symlink))))))
  '(dired-filter-mark-prefix "\\")
  '(dired-filter-prefix "/")
  '(dired-filter-saved-filters
@@ -268,7 +272,9 @@
      ("elisp"
       (extension "el" "elc"))
      ("archives"
-      (extension "zip" "rar" "gz" "bz2" "tar")))))
+      (extension "zip" "rar" "gz" "bz2" "tar"))
+     ("documents"
+      (extension "doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub")))))
  '(dired-guess-shell-alist-user
    (quote
     (("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura --fork")
@@ -277,9 +283,10 @@
  '(dired-isearch-filenames t)
  '(dired-list-mpc-music-directory "~/media/music")
  '(dired-listing-switches "-alh")
+ '(dired-narrow-exit-action (quote dired-narrow-find-file))
  '(dired-omit-extensions
    (quote
-    (".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cp" ".cps" ".fn" ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs" ".log" ".ilg" ".out" ".ind" ".dsc" ".hi" ".synctex.gz")))
+    (".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cp" ".cps" ".fn" ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs" ".log" ".ilg" ".out" ".ind" ".dsc" ".hi" ".synctex.gz" ".vo" ".glob")))
  '(dired-open-extensions
    (quote
     (("exe" . "wine")
@@ -631,11 +638,13 @@
  '(ledger-reports
    (quote
     (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
-     ("expenses" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
+     ("expenses" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly --real reg ^expenses")
+     ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
      ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
-     ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets")
-     ("expenses-budget" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses")
+     ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets:Checking")
+     ("expenses-budget" "ledger -f %(ledger-file) -p \"this month\" -X Kc --budget --monthly reg expenses")
+     ("expenses-budget-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses")
      ("equity" "ledger -f %(ledger-file) bal -X Kc ^assets ^liabilities")
      ("bal" "ledger -f %(ledger-file) -X Kc bal")
      ("reg" "ledger -f %(ledger-file) reg")
@@ -1633,12 +1642,13 @@
 '(projectile-project-root-files
 (quote
  (".dir-locals.el" ".projectile" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "rebar.config" "project.clj" "pom.xml" "build.sbt" "Gemfile" "Makefile")))
+ '(proof-three-window-mode-policy (quote hybrid))
  '(pyvenv-mode t)
  '(rainbow-r-colors t)
  '(rcirc-fill-column (quote frame-width))
  '(rcirc-server-alist (quote (("chat.freenode.org"))))
  '(recentf-auto-cleanup (quote never))
- '(recentf-exclude (quote ("\"elpa/archives\"")) t)
+ '(recentf-exclude (quote ("\"elpa/archives\"")))
  '(recentf-max-saved-items 200)
  '(recentf-save-file "~/.emacs.d/.recentf")
 '(reftex-label-alist
