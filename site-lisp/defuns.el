@@ -25,10 +25,10 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (message "Pushed mark to ring"))
 
 (defun my-jump-to-mark ()
-  "Jumps to the local mark, respecting the `mark-ring' order.
+  "Jump to the local mark, respecting the `mark-ring' order.
 This is the same as using \\[set-mark-command] with the prefix argument."
   (interactive)
-  (set-mark-command 1))
+  (set-mark-command '(4)))
 
 (defun my-exchange-point-and-mark-no-activate ()
   "Identical to \\[exchange-point-and-mark] but will not activate the region."
