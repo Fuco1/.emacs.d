@@ -739,6 +739,7 @@ The second part is a regexp to search in the buffer."
   ("C-c C-x L" . org-toggle-link-display)
   ("C-c R" . org-remove-occur-highlights)
   ("C-c k" . my-insert-key-in-org)
+  ("C-c S" . org-table-sort-lines)
 
   ("C-x n t" . my-org-narrow-to-top-heading)
   ("C-x n P" . my-org-narrow-to-project)
