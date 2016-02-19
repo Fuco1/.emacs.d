@@ -220,7 +220,7 @@
  '(compilation-read-command nil)
  '(completion-ignored-extensions
    (quote
-    (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
+    (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
  '(cua-enable-cua-keys nil)
  '(cua-mode nil nil (cua-base))
  '(cursor-color "#839496")
@@ -236,6 +236,7 @@
  '(debug-on-error t)
  '(default-input-method "chinese-tonepy")
  '(delete-by-moving-to-trash t)
+ '(delete-selection-mode t)
  '(desktop-buffer-filter (quote my-desktop-filter))
  '(desktop-save t)
  '(diary-display-function (quote ignore))
@@ -2017,6 +2018,9 @@
    (sql-server "tunel.logio.cz")
    (sql-port 30239)))))
  '(sql-pop-to-buffer-after-send-region nil)
+'(stocklist-instruments
+(quote
+ ("AAPL" "KO" "IBM" "T" "CLX" "QCOM" "CVX" "PG" "WFC" "WMT" "EMR" "F" "O" "GM" "LTC" "JNJ" "MCD" "TGT" "VZ" "DE" "UTX")))
  '(system-time-locale "C" t)
  '(tab-always-indent (quote complete))
  '(texmathp-tex-commands (quote (("derivation" env-on))))
