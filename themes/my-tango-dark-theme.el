@@ -434,6 +434,7 @@ is extension of default `tango-dark' face.")
    (org-block (:inherit markup-blockquote))
    (org-verbatim (:inherit org-code))
 
+   (org-date (:inherit fixed-pitch :foreground blue-0))
    (org-table (:inherit fixed-pitch :foreground blue-0))
    (org-formula (:inherit fixed-pitch :foreground orange-2))
 
