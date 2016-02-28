@@ -228,7 +228,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -1953,7 +1953,7 @@
  '(shell-pop-window-height 50)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
- '(smerge-command-prefix "\\C-.m")
+ '(smerge-command-prefix "\\C-.m" t)
  '(smex-save-file "~/.emacs.d/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
@@ -2020,7 +2020,7 @@
  '(sql-pop-to-buffer-after-send-region nil)
 '(stocklist-instruments
 (quote
- ("AAPL" "KO" "IBM" "T" "CLX" "QCOM" "CVX" "PG" "WFC" "WMT" "EMR" "F" "O" "GM" "LTC" "JNJ" "MCD" "TGT" "VZ" "DE" "UTX")))
+ ("AAPL" "KO" "IBM" "T" "CLX" "QCOM" "CVX" "PG" "WFC" "WMT" "EMR" "F" "O" "GM" "LTC" "JNJ" "MCD" "TGT" "VZ" "DE" "UTX" "AWR" "CL" "DOV" "GPC" "LANC" "LOW" "MMM" "NDSN" "PH" "GD" "ROP")))
  '(system-time-locale "C" t)
  '(tab-always-indent (quote complete))
  '(texmathp-tex-commands (quote (("derivation" env-on))))
@@ -2064,4 +2064,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(markup-header ((t (:inherit font-lock-function-name-face :background "#4e4e4e" :weight bold))) t)
+ '(org-date ((t (:inherit fixed-pitch :foreground "#8cc4ff"))))
  '(org-level-1 ((((class color) (min-colors 65535)) :inherit outline-1) (((class color) (min-colors 256)) :inherit outline-1))))
