@@ -99,3 +99,11 @@ Including indent-buffer, which should not be called automatically on save."
   (interactive)
   (--when-let (--first (equal (buffer-name (window-buffer it)) "*Pp Eval Output*") (window-list))
     (delete-window it)))
+
+(defun my-add-font-lock-face (beg end face)
+  "Add face to region."
+  (interactive (list
+                (region-beginning)
+                (region-end)
+                (read-face-name "Face")))
+  (put-text-property beg end 'font-lock-face face))
