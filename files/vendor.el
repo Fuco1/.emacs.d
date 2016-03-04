@@ -1119,7 +1119,9 @@ If in the test file, visit source."
   :bind (("C-c C-S-c" . mc/edit-lines)
          ("s-\\" . mc/mark-more-like-this-extended)
          ("s-=" . mc/mark-all-like-this-dwim)
-         ("H-SPC" . set-rectangular-region-anchor)))
+         ("H-SPC" . set-rectangular-region-anchor)
+         ("M-A" . mc/edit-beginnings-of-lines)
+         ("M-E" . mc/edit-ends-of-lines)))
 
 (use-package multi-web-mode
   :defer t
