@@ -425,12 +425,14 @@ message.")
 ----------------------------------------------------------------------
 _b_uffers           _f_iles (_=_)       _r_evisions              _l_inewise
 _B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
+                  _c_urrent file
 "
       ("b" ediff-buffers)
       ("B" ediff-buffers3)
       ("=" ediff-files)
       ("f" ediff-files)
       ("F" ediff-files3)
+      ("c" ediff-current-file)
       ("r" ediff-revision)
       ("t" my-svn-ediff-branch-and-trunk)
       ("l" ediff-regions-linewise)
