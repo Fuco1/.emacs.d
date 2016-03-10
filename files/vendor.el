@@ -550,6 +550,9 @@ idle timer to do the actual update.")
   :defer t
   :diminish emmet-mode)
 
+(use-package emr
+  :bind (("M-r" . emr-show-refactor-menu)))
+
 (use-package eshell
   :commands eshell
   :config
