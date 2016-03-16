@@ -1254,6 +1254,17 @@ If in the test file, visit source."
     (use-package php-eldoc)
     (use-package which-func)
 
+    (bind-key "C-x C-d"
+              (defhydra hydra-php-refactor (:color blue)
+                ("v" php-refactor-rename-variable "Rename variable")
+                ("i" php-refactor-inline-variable "Inline variable")
+                ("c" my-php-implement-constructor "Implement constructor")
+                ("p" my-php-implement-proxy-function-call "Implement proxy")
+                ("s" my-php-run-codesniffer "Codesniffer")
+                ("C-p" my-php-wrap-with-profiler-call "Wrap with profiler call")
+                ("C-s" my-php-goto-specific "Goto specific"))
+              php-mode-map)
+
     ;; imenu for instance variables
     (defun php-create-regexp-for-instance-variable ()
       (concat
@@ -1383,7 +1394,6 @@ variables of the same name."
           (indent-according-to-mode)
           (insert "\n"))
         (delete-char -1)))
-    (bind-key "C-x C-d c" 'my-php-implement-constructor php-mode-map)
 
     (defun my-php-add-private-variables-for-constructor-arguments ()
       "Generate private variable definitions for constructor arguments."
@@ -1422,14 +1432,12 @@ These are retrieved from `imenu--index-alist'."
         (insert (format "return $this->%s->%s(%s);" proxy-through (which-function)
                         (mapconcat (lambda (it) (replace-regexp-in-string "[&]" "" it)) args ", ")))
         (indent-according-to-mode)))
-    (bind-key "C-x C-d p" 'my-php-implement-proxy-function-call php-mode-map)
 
     (defun my-php-run-codesniffer ()
       "Run phpcs(1) on file associated with current buffer."
       (interactive)
       (let ((file (my-php-local-file-name (buffer-file-name))))
         (async-shell-command (format "phpcs --standard=PW %s" file))))
-    (bind-key "C-x C-d s" 'my-php-run-codesniffer php-mode-map)
 
     (defun my-php-disable-multi-web-mode ()
       "Set current buffer to `php-mode' and disable `multi-web-mode'."
@@ -1479,7 +1487,6 @@ SCOPE is the scope, one of: batch, thread, plid."
             (forward-line -1))
           (insert (format format "start"))
           (indent-region b (+ e (* 2 (length format)))))))
-    (bind-key "C-x C-d C-p" 'my-php-wrap-with-profiler-call php-mode-map)
 
     (defun my-php-goto-specific ()
       (interactive)
@@ -1503,8 +1510,6 @@ SCOPE is the scope, one of: batch, thread, plid."
           (find-file (concat tramp-prefix root "/specific/source/"
                              project "/extensions/" specific-module-name
                              "/" specific-module-name ".php")))))
-    (bind-key "C-x C-d C-s" 'my-php-goto-specific php-mode-map)
-
 
     (defun my-php-ggtags-get-definition (defs)
       (ignore-errors
