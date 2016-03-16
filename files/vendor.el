@@ -1519,9 +1519,9 @@ SCOPE is the scope, one of: batch, thread, plid."
                              defs))
                (candidate-text (caar defs-sorted)))
           (--> (s-trim candidate-text)
-            (replace-regexp-in-string "[ \t]*[{!]?$" "" it)
-            (ggtags-fontify-code it)
-            (concat it (and (cdr defs) " [guess]"))))))
+               (replace-regexp-in-string "[ \t]*[{!]?$" "" it)
+               (ggtags-fontify-code it)
+               (concat it (and (cdr defs) " [guess]"))))))
 
     (defun my-php-mode-init ()
       (bind-key "<tab>" 'smart-tab php-mode-map)
