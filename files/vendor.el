@@ -932,6 +932,7 @@ called, percentage usage and the command."
   :defer t
   :init
   (progn
+    (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
     (use-package letcheck
       :commands letcheck-mode)
     (defun my-emacs-lisp-init ()
