@@ -521,4 +521,60 @@ The remote is determined by `my-rsync-remote'."
   (projectile-with-default-dir (projectile-project-root)
     (call-process-shell-command "cabal haddock --hyperlink-source &" nil 0)))
 
+(defun my-org-with-column (n fun)
+  "Go to Nth column of `org-mode' table and call FUN on each row."
+  (declare (indent 1))
+  (save-excursion
+    (let ((i 0))
+      (goto-char (org-table-begin))
+      (forward-line 2)
+      (org-table-goto-column n)
+      (while (< (point) (org-table-end))
+        (funcall fun i)
+        (setq i (1+ i))
+        (forward-line 1)
+        (org-table-goto-column n))
+      (org-table-align))))
+
+(defun my-update-column (n data)
+  "Update Nth column with DATA.
+
+Ith row is replaced with Ith item of DATA."
+  (my-org-with-column n
+    (lambda (i)
+      (-let* (((_ (&plist :contents-begin cb :contents-end ce)) (org-element-table-cell-parser))
+              (value (nth i data)))
+        (delete-region cb ce)
+        (when (> value 0)
+          (insert (format "%.3f" value)))))))
+
+(defun my-update-instrument ()
+  "Recalculate instrument history record."
+  (save-excursion
+    (let* ((table (cddr (org-babel-read-table)))
+           (costs (-map (-lambda ((n v)) (* n v)) (-select-columns '(1 2) table)))
+           (total-position (cdr (nreverse (-reduce-from
+                                           (-lambda ((acc &as a) it)
+                                             (cons (+ a it) acc))
+                                           (list 0) (-select-column 1 table)))))
+           (total-cost (cdr (nreverse (-reduce-from
+                                       (-lambda ((acc &as a) it)
+                                         (cons (+ a it) acc))
+                                       (list 0) costs))))
+           (average-cost (-map (-lambda ((shares . cost)) (/ cost shares))
+                               (-zip total-position total-cost)))
+           (pe (-map (-lambda ((v e)) (/ v e))
+                     (-select-columns '(2 7) table)))
+           (yield (-map (-lambda ((v d)) (* 100 (/ d v)))
+                        (-select-columns '(2 9) table)))
+           (yoc (-map (-lambda ((v . d)) (* 100 (/ d v)))
+                      (-zip average-cost (-select-column 9 table)))))
+      (my-update-column 4 costs)
+      (my-update-column 5 total-position)
+      (my-update-column 6 total-cost)
+      (my-update-column 7 average-cost)
+      (my-update-column 9 pe)
+      (my-update-column 11 yield)
+      (my-update-column 12 yoc))))
+
 ;;; defuns.el ends here
