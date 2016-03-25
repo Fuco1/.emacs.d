@@ -3,7 +3,17 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'f)
+(require 's)
+(require 'dash)
+(require 'smartparens)
+(require 'org-table)
+(require 'org-element)
+(require 'projectile)
+
+(require 'vc-svn)
 (require 'dired)
+(require 'dired+)
 (require 'dired-list)
 
 (defun my-lorem ()
