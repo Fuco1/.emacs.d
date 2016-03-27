@@ -2020,7 +2020,86 @@
  '(sql-pop-to-buffer-after-send-region nil)
 '(stocklist-instruments
 (quote
- ("AAPL" "KO" "IBM" "T" "CLX" "QCOM" "CVX" "PG" "WFC" "WMT" "EMR" "F" "O" "GM" "LTC" "JNJ" "MCD" "TGT" "VZ" "DE" "UTX" "AWR" "CL" "DOV" "GPC" "LANC" "LOW" "MMM" "NDSN" "PH" "GD" "ROP")))
+ (("AAPL" :tags
+   ("tech" "growth" "owned"))
+  ("KO" :tags
+   ("food" "buffett" "king"))
+  ("IBM" :tags
+   ("tech" "buffett"))
+  ("T" :tags
+   ("telecom" "buffett" "tech"))
+  ("CLX")
+  ("QCOM" :tags
+   ("tech"))
+  ("CVX" :tags
+   ("oil"))
+  ("PG" :tags
+   ("retail" "buffett" "king"))
+  ("WFC" :tags
+   ("finance"))
+  ("WMT" :tags
+   ("retail" "buffett"))
+  ("EMR" :tags
+   ("tech" "industrial" "king"))
+  ("F" :tags
+   ("car"))
+  ("O" :tags
+   ("reit"))
+  ("GM" :tags
+   ("car"))
+  ("LTC")
+  ("JNJ" :tags
+   ("healthcare" "buffett" "king"))
+  ("MCD")
+  ("TGT" :tags
+   ("retail"))
+  ("VZ" :tags
+   ("telecom" "tech"))
+  ("DE")
+  ("UTX")
+  ("AWR" :tags
+   ("king" "industry"))
+  ("CL" :tags
+   ("healthcare" "king"))
+  ("DOV" :tags
+   ("king" "industry"))
+  ("GPC" :tags
+   ("king" "industry"))
+  ("LANC" :tags
+   ("king" "food"))
+  ("LOW" :tags
+   ("king"))
+  ("MMM" :tags
+   ("industrial" "king"))
+  ("NDSN" :tags
+   ("industry" "king"))
+  ("PH" :tags
+   ("king" "industry"))
+  ("GD" :tags
+   ("aerospace" "div"))
+  ("ROP")
+  ("DIS" :tags
+   ("growth" "owned"))
+  ("CINF" :tags
+   ("king" "insurance" "finance"))
+  ("AFL")
+  ("INTC" :tags
+   ("tech"))
+  ("JWN" :tags
+   ("owned" "growth" "retail"))
+  ("HON" :tags
+   ("industrial"))
+  ("RIO" :tags
+   ("mining"))
+  ("TRP" :tags
+   ("energy"))
+  ("NWN" :tags
+   ("gas" "energy" "king"))
+  ("vvc" :tags
+   ("energy" "king" "utility"))
+  ("AXP" :tags
+   ("finance" "buffett")))))
+ '(stocklist-tag-to-face (quote (("owned" . stocklist-owned))))
  '(system-time-locale "C" t)
  '(tab-always-indent (quote complete))
  '(texmathp-tex-commands (quote (("derivation" env-on))))
