@@ -1953,7 +1953,7 @@
  '(shell-pop-window-height 50)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
- '(smerge-command-prefix "\\C-.m" t)
+ '(smerge-command-prefix "\\C-.m")
  '(smex-save-file "~/.emacs.d/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
