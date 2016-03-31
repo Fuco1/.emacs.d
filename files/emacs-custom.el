@@ -2095,10 +2095,12 @@
    ("energy"))
   ("NWN" :tags
    ("gas" "energy" "king"))
-  ("vvc" :tags
+  ("VVC" :tags
    ("energy" "king" "utility"))
   ("AXP" :tags
-   ("finance" "buffett")))))
+   ("finance" "buffett"))
+  ("UPS" :tags
+   ("buffet" "div" "transport")))))
  '(stocklist-tag-to-face (quote (("owned" . stocklist-owned))))
  '(system-time-locale "C" t)
  '(tab-always-indent (quote complete))
