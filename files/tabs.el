@@ -37,11 +37,13 @@
 
 (defun my-smart-tab-default-action (prefix)
   "Execute the default smart tab action."
-  (unless (completion-at-point)
-    (cond
-     ((my-smart-tab-must-expand prefix)
-      (ignore-errors (hippie-expand prefix)))
-     ((my-smart-indent)))))
+  (unless (and company-mode
+               (company-complete))
+    (unless (completion-at-point)
+      (cond
+       ((my-smart-tab-must-expand prefix)
+        (ignore-errors (hippie-expand prefix)))
+       ((my-smart-indent))))))
 
 (defun smart-tab (prefix)
   "Do what I mean when I hit tab.
