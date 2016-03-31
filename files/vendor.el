@@ -278,6 +278,15 @@ message.")
 (use-package conf-mode
   :mode (("\\.pwm\\'" . conf-mode)))
 
+(use-package company
+  :config
+  (progn
+    (add-to-list 'company-backends 'company-omnisharp)
+    (bind-key "C-n" 'company-select-next company-filter-map)
+    (bind-key "C-p" 'company-select-previous company-filter-map)
+    (bind-key "C-n" 'company-select-next company-active-map)
+    (bind-key "C-p" 'company-select-previous company-active-map)))
+
 (use-package csharp-mode
   :config
   (progn
