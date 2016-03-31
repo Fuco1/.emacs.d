@@ -290,6 +290,8 @@ message.")
 (use-package csharp-mode
   :config
   (progn
+    (add-hook 'csharp-mode-hook 'omnisharp-mode)
+    (add-hook 'csharp-mode-hook 'company-mode)
     (bind-key "M-'" 'helm-etags-select csharp-mode-map)))
 
 (use-package css-mode
