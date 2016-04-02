@@ -292,7 +292,14 @@ message.")
   (progn
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-hook 'csharp-mode-hook 'company-mode)
-    (bind-key "M-'" 'helm-etags-select csharp-mode-map)))
+    (bind-key "M-'" 'omnisharp-helm-find-usages csharp-mode-map)
+    (bind-key "C-x C-d"
+              (defhydra hydra-csharp-refactor (:color blue)
+                "Refactor"
+                ("v" omnisharp-rename "Rename variable")
+                ("u" omnisharp-fix-usings "Fix usings")
+                ("d" omnisharp-go-to-definition "Goto definition"))
+              csharp-mode-map)))
 
 (use-package css-mode
   :defer t
