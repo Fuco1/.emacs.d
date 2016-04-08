@@ -34,6 +34,9 @@ If called from forward search, immediately jump to the previous
 occurance instead of jumping to the beginning of current one."
   (interactive)
   (when (and isearch-forward
+             ;; this is here to fix the case when we use
+             ;; `my-isearch-forward-to-beginning', without the fix we
+             ;; would jump two results back
              (/= (point) isearch-other-end))
     (isearch-repeat 'backward))
   (isearch-repeat 'backward))
