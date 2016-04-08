@@ -1344,7 +1344,7 @@ network prefix)."
       "Run all Nette tests found in current directory."
       (interactive)
       (let* ((root (my-php-find-project-root))
-             (tester-dir (concat root "/composer/vendor/bin/"))
+             (tester-dir (concat root "/vendor/bin/"))
              (dir (my-php-local-file-name default-directory)))
         (when (buffer-modified-p) (save-buffer))
         (let ((cmd (format "php %stester -c %s/tools/tester/php.ini '%s'" tester-dir root dir)))
