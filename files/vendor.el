@@ -1280,6 +1280,7 @@ If in the test file, visit source."
                 ("v" php-refactor-rename-variable "Rename variable")
                 ("i" php-refactor-inline-variable "Inline variable")
                 ("c" my-php-implement-constructor "Implement constructor")
+                ("g" my-php-implement-getters-and-setters "Implement getters")
                 ("p" my-php-implement-proxy-function-call "Implement proxy")
                 ("s" my-php-run-codesniffer "Codesniffer")
                 ("C-p" my-php-wrap-with-profiler-call "Wrap with profiler call")
@@ -1449,6 +1450,27 @@ With prefix argument, use all the instance variables as inputs."
                             (replace-regexp-in-string "[&]" "" it))))
           (delete-char -2)
           (indent-region beg (point)))))
+
+    (defun my-php-implement-getters-and-setters (&optional getters-only)
+      "Implement getters and setters for all instance variables.
+
+With prefix argument, only implemnent getters."
+      (interactive "P")
+      (let ((variables (my-php-get-instance-variables))
+            (p (point)))
+        (--each variables
+          (unless (save-excursion
+                    (goto-char (point-min))
+                    (search-forward (format "public function get%s(" (s-upper-camel-case it)) nil t))
+            (insert (format "public function get%s() {\n return $this->%s;\n }\n\n"
+                            (s-upper-camel-case it) it)))
+          (unless getters-only
+            (unless (save-excursion
+                      (goto-char (point-min))
+                      (search-forward (format "public function set%s(" (s-upper-camel-case it)) nil t))
+              (insert (format "public function set%s($%s) {\n $this->%s = $%s; \n }\n\n"
+                              (s-upper-camel-case it) it it it)))))
+        (indent-region p (point))))
 
     (defun my-php-get-instance-variables ()
       "Return all instance variables.
