@@ -1272,6 +1272,7 @@ If in the test file, visit source."
     (use-package better-jump)
     (use-package php-eldoc)
     (use-package which-func)
+    (use-package php-refactor)
 
     (font-lock-add-keywords 'php-mode '(("[^:]\\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
