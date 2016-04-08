@@ -1399,12 +1399,24 @@ Point should be at the line containing `function'."
                 (push (match-string 1) args))))
           (nreverse args))))
 
-    (defun my-php-implement-constructor ()
+    (defun my-php-implement-constructor (&optional use-instance-variables)
       "Implement constructor.
 
 This assings all variables in the argument list to instance
-variables of the same name."
-      (interactive)
+variables of the same name.
+
+With prefix argument, use all the instance variables as inputs."
+      (interactive "P")
+      (when use-instance-variables
+        (let* ((vars (my-php-get-instance-variables))
+               (long-format (>= (length vars) 4)))
+          (save-excursion
+            (goto-char (point-min))
+            (when (search-forward "__construct(" nil t)
+              (when long-format (insert "\n"))
+              (insert (mapconcat (lambda (x) (concat "$" x)) vars
+                                 (if long-format ", \n" ", ")))
+              (when long-format (insert "\n"))))))
       (let ((args (my-php-get-function-args)))
         (sp-restrict-to-pairs (list "{" "}") 'sp-down-sexp)
         (forward-line)
@@ -1412,9 +1424,15 @@ variables of the same name."
           (insert (format "$this->%s = %s;"
                           (replace-regexp-in-string "[&$]" "" it)
                           (replace-regexp-in-string "[&]" "" it)))
-          (indent-according-to-mode)
           (insert "\n"))
-        (delete-char -1)))
+        (delete-char -1)
+        (when (looking-at " *}")
+          (newline))
+        (let ((p (point)))
+          (save-excursion
+            (goto-char (point-min))
+            (search-forward "__construct(")
+            (indent-region (point) p)))))
 
     (defun my-php-add-private-variables-for-constructor-arguments ()
       "Generate private variable definitions for constructor arguments."
