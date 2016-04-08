@@ -241,6 +241,7 @@
  '(desktop-save t)
  '(diary-display-function (quote ignore))
  '(diary-file "~/org/diary")
+ '(diff-switches "-u")
  '(dired-avfs-archives (quote ("zip" "rar" "tar" "bz2")))
  '(dired-details-hidden-string "")
  '(dired-details-hide-extra-lines nil)
