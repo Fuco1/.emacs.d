@@ -1818,6 +1818,7 @@ SCOPE is the scope, one of: batch, thread, plid."
     ))
 
 (use-package transpose-frame
+  :bind (("C-^" . transpose-frame-reverse))
   :init
   (progn
     (defun transpose-frame-reverse (&optional frame)
