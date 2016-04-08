@@ -1454,7 +1454,8 @@ With prefix argument, use all the instance variables as inputs."
       "Return all instance variables.
 
 These are retrieved from `imenu--index-alist'."
-      (unless imenu--index-alist
+      (unless (or imenu--index-alist
+                  (car-safe imenu--index-alist))
         (imenu--make-index-alist))
       (-map
        'car
