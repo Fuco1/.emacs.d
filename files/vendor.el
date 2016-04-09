@@ -1814,6 +1814,9 @@ SCOPE is the scope, one of: batch, thread, plid."
 
     (add-hook 'swb-mode-hook 'my-swb-mode-init)))
 
+(use-package stocklist
+  :bind (("C-. q" . stocklist-show)))
+
 (use-package textile-mode
   :mode "\\.textile\\'")
 
