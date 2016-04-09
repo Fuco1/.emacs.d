@@ -11,6 +11,11 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 
+(defun my-where-am-i ()
+  (with-temp-buffer
+    (insert-file-contents "~/.whereami")
+    (buffer-string)))
+
 ;; add repos
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
