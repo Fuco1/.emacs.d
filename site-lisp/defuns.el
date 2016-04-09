@@ -577,4 +577,5 @@ Ith row is replaced with Ith item of DATA."
       (my-update-column 11 yield)
       (my-update-column 12 yoc))))
 
+(provide 'my-defuns)
 ;;; defuns.el ends here
