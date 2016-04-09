@@ -1,3 +1,11 @@
+;;; defuns-buffer.el --- Buffer related functions
+
+;;; Commentary:
+
+;; Buffer related functions
+
+;;; Code:
+
 (defun create-scratch-buffer (mode)
   "Create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
   (interactive (list (if current-prefix-arg
@@ -107,3 +115,6 @@ Including indent-buffer, which should not be called automatically on save."
                 (region-end)
                 (read-face-name "Face")))
   (put-text-property beg end 'font-lock-face face))
+
+(provide 'my-defuns-buffer)
+;;; defuns-buffer.el ends here
