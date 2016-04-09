@@ -45,9 +45,9 @@
 (use-package-with-elapsed-timer "Loading site lisp"
   ;; load site lisp
   (require 'my-site-lisp-autoloads)
-  (load "~/.emacs.d/site-lisp/advices")
-  (load "~/.emacs.d/site-lisp/macros")
-  (load "~/.emacs.d/site-lisp/redef")
+  (require 'my-advices)
+  (require 'my-macros)
+  (require 'my-redef)
   (load "~/.emacs.d/site-lisp/vendor")
 
   (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site" t)
