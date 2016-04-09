@@ -16,6 +16,11 @@
     (insert-file-contents "~/.whereami")
     (buffer-string)))
 
+(defun my-startup-screen ()
+  (with-current-buffer (get-buffer-create "Startup screen")
+    (fundamental-mode)
+    (current-buffer)))
+
 ;; add repos
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
