@@ -6,6 +6,9 @@
 
 ;;; Code:
 
+(require 'dash)
+(require 's)
+
 (defun create-scratch-buffer (mode)
   "Create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
   (interactive (list (if current-prefix-arg
