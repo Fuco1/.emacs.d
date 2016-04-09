@@ -103,3 +103,76 @@
 (set-face-attribute 'minimal-mode-line nil
                     :background "darkred"
                     :height 0.1)
+
+;;;;;;; emacs-status for xmobar
+(defun my-replace-match (newtext old)
+  "Replace text matched by last search with NEWTEXT.
+
+OLD is the string to act on."
+  (let* ((b (match-beginning 0))
+         (tp (text-properties-at b old))
+         (re (replace-match newtext nil nil old)))
+    (add-text-properties b (+ b (length newtext)) tp re)
+    re))
+
+(defvar my-abbrev-file-name-alist
+  `((,abbreviated-home-dir . "~/")
+    ("~/languages/" . "L|")
+    ("/usr/local/share/emacs/24.3/lisp/" . "E|")
+    ("~/dev/tex/fic/" . "FIC|")
+    ("~/.emacs.d/elpa/" . "ELPA|")
+    ("~/.emacs.d/" . "ED|")
+    ("/var/www/html/devel/" . "WEBD|")
+    ("/var/www/html/" . "WEB|")
+    ("/modules/source/" . "|MOD|")
+    ("/specific/source/" . "|SP|"))
+  "An alist defining translations of paths to shortcuts.")
+
+(defun my-abbrev-file-name (string)
+  (save-match-data
+    (-each my-abbrev-file-name-alist
+      (-lambda ((from . to))
+        (when (string-match from string)
+          (setq string (my-replace-match to string)))
+        (when (string-match (concat "|" (substring from 1)) string)
+          (setq string (my-replace-match to string))))))
+  string)
+
+(defvar my-status-line-format
+  '((:eval (and (featurep 'tracking)
+                (let* ((shortened (tracking-shorten tracking-buffers))
+                       (urgent-buffers (--filter (text-property-any 0 (length it)
+                                                                    'face 'circe-highlight-nick-face
+                                                                    it)
+                                                 shortened))
+                       (status (concat "<fc=#ef2929>["
+                                       (mapconcat 'identity urgent-buffers ",")
+                                       "]</fc>")))
+                  (when urgent-buffers (substring-no-properties status 0 (length status))))))
+    (:eval (and (featurep 'elfeed)
+                (format "<fc=#75507b>%d</fc>" my-elfeed-unread-count)))
+    (:eval (and (featurep 'notmuch)
+                (let ((count (notmuch-unread-count)))
+                  (if (> count 0) (format "<fc=#ef2929>[✉ %d]</fc>" count) ""))))
+    (org-timer-mode-line-timer
+     (:eval (format "<fc=%s><%s></fc>"
+                    (let ((time (abs (floor (org-timer-seconds)))))
+                      (cond
+                       ((< time 30) "#ef2929")
+                       ((< time 60) "#f57900")
+                       (t "#8cc4ff")))
+                    (substring (org-timer-value-string) 0 -1))))
+    (:eval (and (featurep 'org)
+                (cond
+                 ((not (marker-buffer org-clock-marker))
+                  "<fc=#d3d7cf>-:--</fc>")
+                 (t
+                  (let* ((status (substring-no-properties org-mode-line-string 1
+                                                          (1- (length org-mode-line-string))))
+                         (split-status (split-string status " (")))
+                    (concat "<fc=#8ae234>" (car split-status) "</fc>")))))))
+  "A format construct following the conventions of
+`mode-line-format' used to produce a status for xmobar.")
+
+(defun my-emacs-status ()
+  (format-mode-line my-status-line-format))
