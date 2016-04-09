@@ -1,3 +1,8 @@
+;;; vendor.el --- Package configuration
+
+;;; Commentary:
+;;; Code:
+
 (use-package ag
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
   :init
@@ -2013,3 +2018,5 @@ If such snippet already exists, just open it for editing."
 ;; Local Variables:
 ;; eval: (add-to-list 'imenu-generic-expression '("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2))
 ;; End:
+
+;;; vendor.el ends here
