@@ -30,7 +30,6 @@
   ;; add load paths
   (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
   (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
-  (add-to-list 'load-path "~/.emacs.d/")
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
 
@@ -43,33 +42,32 @@
 
 (use-package-with-elapsed-timer "Loading site lisp"
   ;; load site lisp
-  (load "site-lisp/advices")
-  (load "site-lisp/defuns-buffer")
-  (load "site-lisp/defuns-edit")
-  (load "site-lisp/defuns")
-  (load "site-lisp/macros")
-  (load "site-lisp/redef")
-  (load "site-lisp/vendor")
-  ;; We still run emacs 24.3
-  (load "site-lisp/subr-x")
+  (load "~/.emacs.d/site-lisp/advices")
+  (load "~/.emacs.d/site-lisp/defuns-buffer")
+  (load "~/.emacs.d/site-lisp/defuns-edit")
+  (load "~/.emacs.d/site-lisp/defuns")
+  (load "~/.emacs.d/site-lisp/macros")
+  (load "~/.emacs.d/site-lisp/redef")
+  (load "~/.emacs.d/site-lisp/vendor")
+
   (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site" t)
 
   ;; load keys
-  (load "files/keys"))
+  (load "~/.emacs.d/files/keys"))
 
 ;; load settings
 (use-package-with-elapsed-timer "Loading settings"
-  (load "files/global")
-  (load "files/mode-line")
-  (load "files/tabs")
-  (load "files/windows"))
+  (load "~/.emacs.d/files/global")
+  (load "~/.emacs.d/files/mode-line")
+  (load "~/.emacs.d/files/tabs")
+  (load "~/.emacs.d/files/windows"))
 
 ;; load config files
 (use-package-with-elapsed-timer "Loading vendor"
-  (load "files/vendor"))
+  (load "~/.emacs.d/files/vendor"))
 
 (use-package-with-elapsed-timer "Loading personal"
-  (load "files/personal"))
+  (load "~/.emacs.d/files/personal"))
 
 ;; diminish useless modeline clutter
 (require 'diminish)

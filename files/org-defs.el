@@ -902,7 +902,7 @@ This usually makes new item indented one level deeper."
 (my-org-custom-filter books "b")
 (my-org-custom-filter mov "m")
 
-(load "files/org-project")
+(load "~/.emacs.d/files/org-project")
 
 ;;;_. Narrowing
 

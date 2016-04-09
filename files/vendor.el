@@ -399,7 +399,7 @@ message.")
         (ido-dired))))
   :config
   (progn
-    (load "files/dired-defs")
+    (load "~/.emacs.d/files/dired-defs")
 
     ;; overload to fix bullshit
     (defun dired-hack-local-variables () nil)))
@@ -586,7 +586,7 @@ idle timer to do the actual update.")
       (setq eshell-skip-prompt-function 'my-eshell-skip-prompt)
       (bind-key [remap eshell-send-input] 'my-eshell-send-input eshell-mode-map))
     (add-hook 'eshell-mode-hook 'my-eshell-init)
-    (load "files/eshell-defs")))
+    (load "~/.emacs.d/files/eshell-defs")))
 
 (use-package ess
   :defer t
@@ -822,14 +822,14 @@ idle timer to do the actual update.")
     (add-hook 'ibuffer-mode-hook 'customize-ibuffer-mode))
   :config
   (progn
-    (load "files/ibuffer-defs")))
+    (load "~/.emacs.d/files/ibuffer-defs")))
 
 (use-package ido
   :defer t
   :bind (("M-." . ido-goto-symbol)) ;; was Find tag
   :config
   (progn
-    (load "files/ido-defs")))
+    (load "~/.emacs.d/files/ido-defs")))
 
 (use-package info
   :defer t
@@ -843,7 +843,7 @@ idle timer to do the actual update.")
          ("C-r" . isearch-backward-regexp))
   :config
   (progn
-    (load "files/isearch-defs")))
+    (load "~/.emacs.d/files/isearch-defs")))
 
 (use-package ispell
   :bind (("<f10>" . ispell-word)
@@ -911,7 +911,7 @@ idle timer to do the actual update.")
 
 (use-package keyadvice
   :defer t
-  :init (progn (load "projects/keyadvice.el/autoloads.el")))
+  :init (progn (load "~/.emacs.d/projects/keyadvice.el/autoloads.el")))
 
 (use-package keyfreq
   :bind ("C-. C-k" . keyfreq-show)
@@ -976,7 +976,7 @@ called, percentage usage and the command."
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init))
   :config
   (progn
-    (load "files/lisp-mode-defs")))
+    (load "~/.emacs.d/files/lisp-mode-defs")))
 
 (use-package magit
   :pre-init
@@ -1116,7 +1116,7 @@ If in the test file, visit source."
   :mode ("\\.md$" . gfm-mode)
   :config
   (progn
-    (load "files/markdown-defs")))
+    (load "~/.emacs.d/files/markdown-defs")))
 
 (use-package message
   :defer t
@@ -1262,7 +1262,7 @@ If in the test file, visit source."
           ("C-c C-x <C-i-key>" . org-clock-in))
   :config
   (progn
-    (load "files/org-defs.el")))
+    (load "~/.emacs.d/files/org-defs.el")))
 
 ;; TODO: move into a separate file
 (use-package php-mode
@@ -1650,7 +1650,7 @@ SCOPE is the scope, one of: batch, thread, plid."
       (toggle-input-method)
       (throw 'quail-tag nil))
 
-    (load "files/layouts")))
+    (load "~/.emacs.d/files/layouts")))
 
 (use-package recentf
   :disabled t
@@ -1827,7 +1827,7 @@ SCOPE is the scope, one of: batch, thread, plid."
              latex-mode)
   :config
   (progn
-    (load "files/latex-defs")))
+    (load "~/.emacs.d/files/latex-defs")))
 
 (use-package "text-mode"
   :init
