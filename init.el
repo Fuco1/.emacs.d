@@ -55,8 +55,6 @@
   (require 'my-redef)
   (load "~/.emacs.d/site-lisp/vendor")
 
-  (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site" t)
-
   ;; load keys
   (load "~/.emacs.d/files/keys"))
 

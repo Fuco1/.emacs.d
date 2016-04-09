@@ -1613,6 +1613,9 @@ SCOPE is the scope, one of: batch, thread, plid."
       (which-function-mode))
     (add-hook 'prog-mode-hook 'my-init-prog-mode)))
 
+(use-package proof-site
+  :load-path "/usr/share/emacs/site-lisp/ProofGeneral/generic/")
+
 (use-package projectile
   :defer t
   :diminish projectile-mode
