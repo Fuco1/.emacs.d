@@ -52,6 +52,7 @@
   (load "site-lisp/vendor")
   ;; We still run emacs 24.3
   (load "site-lisp/subr-x")
+  (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site" t)
 
   ;; load keys
   (load "files/keys"))
