@@ -1,3 +1,8 @@
+;;; my-macros.el --- Personal macros
+
+;;; Commentary:
+;;; Code:
+
 (defmacro my-with-every-line (&rest forms)
   "Execute FORMS on each line following point to the end of buffer."
   (declare (indent 0))
@@ -21,3 +26,6 @@
   (declare (indent 0))
   `(progn
      ,@(apply 'append (mapcar (lambda (form) (list '(goto-char (point-min)) form)) forms))))
+
+(provide 'my-macros)
+;;; my-macros.el ends here
