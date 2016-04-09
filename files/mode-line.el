@@ -1,4 +1,9 @@
 ;; set frame format
+
+(defun my-buffer-narrowed-p ()
+  "Return non-nil if the current buffer is narrowed."
+  (/= (- (point-max) (point-min)) (buffer-size)))
+
 (setq global-mode-string '(""))
 (add-to-list 'mode-line-misc-info '(tracking-mode ("" tracking-mode-line-buffers " ")) t)
 

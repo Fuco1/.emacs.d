@@ -45,10 +45,6 @@ This is the same as using \\[set-mark-command] with the prefix argument."
   (exchange-point-and-mark)
   (deactivate-mark nil))
 
-(defun my-buffer-narrowed-p ()
-  "Return non-nil if the current buffer is narrowed."
-  (/= (- (point-max) (point-min)) (buffer-size)))
-
 ;;;###autoload
 (defun my-find-url (url)
   "Download URL and insert into current buffer at point."
