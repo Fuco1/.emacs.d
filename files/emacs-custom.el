@@ -2027,6 +2027,7 @@
  (("payout" . stocklist--fontify-payout)
   ("yield" . stocklist--fontify-yield)
   ("eps" . stocklist--fontify-eps))))
+ '(stocklist-default-sort (quote (yield . desc)))
 '(stocklist-instruments
 (quote
  (("AAPL" :tags
@@ -2036,7 +2037,9 @@
   ("IBM" :tags
    ("tech" "buffett"))
   ("T" :tags
-   ("telecom" "buffett" "tech"))
+   ("telecom" "buffett" "tech")
+   :signals
+   ((ask < 34.5)))
   ("CLX")
   ("QCOM" :tags
    ("tech"))
@@ -2045,17 +2048,21 @@
   ("PG" :tags
    ("retail" "buffett" "king"))
   ("WFC" :tags
-   ("finance"))
+   ("finance" "owned"))
   ("WMT" :tags
-   ("retail" "buffett"))
+   ("retail" "buffett")
+   :signals
+   ((pe < 14)))
   ("EMR" :tags
-   ("tech" "industrial" "king"))
+   ("tech" "industry" "king")
+   :signals
+   ((pe < 15)))
   ("F" :tags
    ("car"))
   ("O" :tags
    ("reit"))
   ("GM" :tags
-   ("car"))
+   ("car" "owned"))
   ("LTC")
   ("JNJ" :tags
    ("healthcare" "buffett" "king"))
@@ -2064,7 +2071,10 @@
    ("retail"))
   ("VZ" :tags
    ("telecom" "tech"))
-  ("DE")
+  ("DE" :tags
+   ("industry" "agro")
+   :signals
+   ((ask < 65.0)))
   ("UTX")
   ("AWR" :tags
    ("king" "industry"))
@@ -2079,7 +2089,7 @@
   ("LOW" :tags
    ("king"))
   ("MMM" :tags
-   ("industrial" "king"))
+   ("industry" "king"))
   ("NDSN" :tags
    ("industry" "king"))
   ("PH" :tags
@@ -2097,9 +2107,11 @@
   ("JWN" :tags
    ("owned" "growth" "retail"))
   ("HON" :tags
-   ("industrial"))
+   ("industry" "aerospace"))
   ("RIO" :tags
-   ("mining"))
+   ("mining")
+   :signals
+   ((ask < 22)))
   ("TRP" :tags
    ("energy"))
   ("NWN" :tags
@@ -2107,9 +2119,49 @@
   ("VVC" :tags
    ("energy" "king" "utility"))
   ("AXP" :tags
-   ("finance" "buffett"))
+   ("finance" "buffett")
+   :signals
+   ((yield > 2.0)))
   ("UPS" :tags
-   ("buffet" "div" "transport")))))
+   ("buffet" "div" "transport"))
+  ("VLO" :tags
+   ("oil")
+   :signals
+   ((ask < 58)
+    (yield > 4)
+    (pe < 7.5)))
+  ("XOM" :tags
+   ("oil")
+   :signals
+   ((ask < 77)))
+  ("CVX" :tags
+   ("oil")
+   :signals
+   ((yield > 5)))
+  ("EOG" :tags
+   ("oil")
+   :signals
+   ((ask < 64)))
+  ("TDW" :tags
+   ("oil")
+   :signals
+   ((ask < 5)))
+  ("CLR" :tags
+   ("oil")
+   :signals
+   ((ask < 24)))
+  ("PSX" :tags
+   ("oil")
+   :signals
+   ((ask < 80)))
+  ("PXD" :tags
+   ("oil")
+   :signals
+   ((ask < 130)))
+  ("QEP" :tags
+   ("oil")
+   :signals
+   ((ask < 10))))))
  '(stocklist-tag-to-face (quote (("owned" . stocklist-owned))))
  '(system-time-locale "C" t)
  '(tab-always-indent (quote complete))
