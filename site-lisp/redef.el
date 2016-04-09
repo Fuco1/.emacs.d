@@ -1,6 +1,11 @@
-;; this file contains redefinitions of the internals that are broken
+;;; my-redef.el --- Global redefinitions of Emacs's own code
+
+;;; Commentary:
+
+;; This file contains redefinitions of the internals that are broken
 ;; on my system
 
+;;; Code:
 ;; /usr/local/share/emacs/24.3/lisp/net/browse-url.el.gz
 (eval-after-load "browse-url"
   '(defun browse-url-can-use-xdg-open ()
@@ -805,3 +810,6 @@ If no window is at direction DIR, an error is signaled."
                 (user-error "Minibuffer is inactive"))
                (t
                 (select-window other-window)))))))
+
+(provide 'my-redef)
+;;; my-redef.el ends here
