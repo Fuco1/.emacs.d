@@ -9,6 +9,7 @@
 (require 'dash)
 (require 's)
 
+;;;###autoload
 (defun create-scratch-buffer (mode)
   "Create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
   (interactive (list (if current-prefix-arg
@@ -33,19 +34,23 @@
     (switch-to-buffer (get-buffer-create bufname))
     (call-interactively mode)))
 
+;;;###autoload
 (defun create-scratch-buffer-current-mode ()
   "Create a new scratch buffer to work in and set its mode to current `major-mode'."
   (interactive)
   (create-scratch-buffer major-mode))
 
+;;;###autoload
 (defun untabify-buffer ()
   (interactive)
   (untabify (point-min) (point-max)))
 
+;;;###autoload
 (defun indent-buffer ()
   (interactive)
   (indent-region (point-min) (point-max)))
 
+;;;###autoload
 (defun indent-defun ()
   "Indent the current defun."
   (interactive)
@@ -54,6 +59,7 @@
     (narrow-to-defun)
     (indent-buffer)))
 
+;;;###autoload
 (defun my-kill-this-buffer ()
   "Kill the current buffer.
 Warn me if I want to kill a scratch buffer."
@@ -67,6 +73,7 @@ Warn me if I want to kill a scratch buffer."
 (defvar my-inhibit-buffer-cleanup nil)
 
 ;; TODO: add some abstraction for the exceptions
+;;;###autoload
 (defun cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer.
 Does not indent buffer, because it is used for a before-save-hook, and that
@@ -87,6 +94,7 @@ might be bad."
           (untabify-buffer)))
       (set-buffer-file-coding-system 'utf-8))))
 
+;;;###autoload
 (defun cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
@@ -94,6 +102,7 @@ Including indent-buffer, which should not be called automatically on save."
   (cleanup-buffer-safe)
   (indent-buffer))
 
+;;;###autoload
 (defun my-create-directory-on-save (&optional _)
   (when buffer-file-name
     (let ((dir (file-name-directory buffer-file-name)))
@@ -106,11 +115,13 @@ Including indent-buffer, which should not be called automatically on save."
   (set-buffer-multibyte nil)
   (set-buffer-multibyte t))
 
+;;;###autoload
 (defun my-kill-pp-eval-expression-window ()
   (interactive)
   (--when-let (--first (equal (buffer-name (window-buffer it)) "*Pp Eval Output*") (window-list))
     (delete-window it)))
 
+;;;###autoload
 (defun my-add-font-lock-face (beg end face)
   "Add face to region."
   (interactive (list

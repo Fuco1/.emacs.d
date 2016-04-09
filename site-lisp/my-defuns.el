@@ -16,6 +16,7 @@
 (require 'dired+)
 (require 'dired-list)
 
+;;;###autoload
 (defun my-lorem ()
   "Insert lorem ipsum text."
   (interactive)
@@ -27,6 +28,7 @@
     (buffer-string)))
 
 ;; some functions to ease the work with mark and mark-ring
+;;;###autoload
 (defun my-push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
 Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
@@ -34,12 +36,14 @@ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (push-mark (point) t nil)
   (message "Pushed mark to ring"))
 
+;;;###autoload
 (defun my-jump-to-mark ()
   "Jump to the local mark, respecting the `mark-ring' order.
 This is the same as using \\[set-mark-command] with the prefix argument."
   (interactive)
   (set-mark-command '(4)))
 
+;;;###autoload
 (defun my-exchange-point-and-mark-no-activate ()
   "Identical to \\[exchange-point-and-mark] but will not activate the region."
   (interactive)
@@ -50,6 +54,7 @@ This is the same as using \\[set-mark-command] with the prefix argument."
   "Return non-nil if the current buffer is narrowed."
   (/= (- (point-max) (point-min)) (buffer-size)))
 
+;;;###autoload
 (defun my-find-url (url)
   "Download URL and insert into current buffer at point."
   (interactive "sULR: ")
@@ -67,6 +72,7 @@ If NO-HEADERS is non-nil, remove the HTTP headers first."
     (prog1 (buffer-string)
       (kill-buffer))))
 
+;;;###autoload
 (defun my-unfill-paragraph ()
   "Take a multi-line paragrap and make it into a single line of text.
 This is the opposite of fill-paragraph."
@@ -74,12 +80,14 @@ This is the opposite of fill-paragraph."
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
+;;;###autoload
 (defun my-remove-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."
   (interactive)
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
 
+;;;###autoload
 (defun my-format-synonyms-from-wiki ()
   (interactive)
   (goto-char (point-min))
@@ -146,6 +154,7 @@ This is the opposite of fill-paragraph."
       (setq start (my-next-property-value point property value object end)))
     object))
 
+;;;###autoload
 (defun my-sprunge (text &optional language)
   "Paste TEXT to sprunge.us.
 
@@ -166,6 +175,7 @@ With non-nil prefix argument, ask for LANGUAGE."
     (kill-buffer buf)
     (kill-new (if language (concat url "?" language) url))))
 
+;;;###autoload
 (defun my-update-mpd ()
   "Update the mpd database using the common parent of current dired listing."
   (interactive)
@@ -204,11 +214,13 @@ With non-nil prefix argument, ask for LANGUAGE."
       (goto-char beg)
       (insert replacement))))
 
+;;;###autoload
 (defun my-shuffle-lines (beg end)
   "Shuffle lines in the active region."
   (interactive "r")
   (my-shuffle-things 'line beg end))
 
+;;;###autoload
 (defun my-shuffle-words (beg end)
   "Shuffle words in the active region."
   (interactive "r")
@@ -283,9 +295,12 @@ OLD is the string to act on."
   "A format construct following the conventions of
 `mode-line-format' used to produce a status for xmobar.")
 
+;; TODO: move to a separate file
+;;;###autoload
 (defun my-emacs-status ()
   (format-mode-line my-status-line-format))
 
+;;;###autoload
 (defun my-toggle-buffer-input-methods ()
   "Toggle the input methods listed in `my-buffer-input-methods'."
   (interactive)
@@ -294,6 +309,7 @@ OLD is the string to act on."
       (setq my-buffer-input-methods (-rotate 1 my-buffer-input-methods))
       (set-input-method next))))
 
+;;;###autoload
 (defun my-switch-buffer-LRU ()
   "Switch to LRU buffer."
   (interactive)
@@ -310,6 +326,7 @@ OLD is the string to act on."
   (setq branch-url (or branch-url (my-svn-get-current-url)))
   (replace-regexp-in-string my-svn-branch my-svn-trunk branch-url))
 
+;;;###autoload
 (defun my-svn-diff-branch-and-trunk ()
   "Diff current buffer's file with its trunk version, run `diff-mode' on result."
   (interactive)
@@ -322,6 +339,7 @@ OLD is the string to act on."
       (goto-char (point-min))
       (pop-to-buffer (current-buffer)))))
 
+;;;###autoload
 (defun my-svn-diff-wc-and-trunk ()
   "Diff current buffer's file with its trunk version, run `diff-mode' on result."
   (interactive)
@@ -346,6 +364,7 @@ Return path to temporary file."
                         tmp-file)
         tmp-file))))
 
+;;;###autoload
 (defun my-svn-ediff-branch-and-trunk ()
   "Diff current buffer's file with its trunk version, run `ediff' on result."
   (interactive)
@@ -361,6 +380,7 @@ Return path to temporary file."
        (current-buffer))
      (current-buffer))))
 
+;;;###autoload
 (defun my-occur-dwim ()
   "Call `occur' with a sane default."
   (interactive)
@@ -373,6 +393,7 @@ Return path to temporary file."
   (call-interactively 'occur))
 
 
+;;;###autoload
 (defun my-insert-date-iso (date)
   "Insert timestamp."
   (interactive (list (org-read-date)))
@@ -389,17 +410,20 @@ half the height of parent window."
     (1+ (count-screen-lines nil nil nil w))
     (/ (window-height (window-parent w)) 2))))
 
+;;;###autoload
 (defun my-visit-init-file ()
   "Visit init file."
   (interactive)
   (find-file user-init-file))
 
+;;;###autoload
 (defun my-find-file-in-home ()
   "Find file in the home directory"
   (interactive)
   (let ((default-directory "~"))
     (ido-find-file)))
 
+;;;###autoload
 (defun my-md5-file (filename)
   "Open FILENAME, load it into a buffer and generate the md5 of its contents"
   (interactive "f")
@@ -407,6 +431,7 @@ half the height of parent window."
     (insert-file-contents filename)
     (md5 (current-buffer))))
 
+;;;###autoload
 (defun my-dired-show-duplicates (list-a list-b)
   (interactive (list (dired-get-marked-files)
                      (with-current-buffer (cdr (assoc (dired-dwim-target-directory) dired-buffers))
@@ -424,6 +449,7 @@ half the height of parent window."
       (org-mode)
       (pop-to-buffer (current-buffer)))))
 
+;;;###autoload
 (defun my-create-new-pw-module (dir)
   "Create the directory structure for PW module. "
   (interactive "FModule name: ")
@@ -465,6 +491,7 @@ class C%s extends CAbstractModule {
                (propertize remote 'face 'font-lock-builtin-face)))))
 
 ;; TODO: dorobit support na sync zloziek
+;;;###autoload
 (defun my-sync-rsync-local-to-remote ()
   "Sync the current file/directory with `my-rsync-remote'."
   (interactive)
@@ -495,6 +522,7 @@ class C%s extends CAbstractModule {
 
 ;; TODO: dorobit support na sync zloziek
 ;; TODO: odstranit duplicitu s l2r
+;;;###autoload
 (defun my-sync-rsync-remote-to-local ()
   "Sync remote version of this file to the local copy.
 
@@ -514,6 +542,7 @@ The remote is determined by `my-rsync-remote'."
                           "rsync" "-ptd" (concat remote "/" relative) relative)
            'my-sync-rsync-remote-to-local-sentinel))))))
 
+;;;###autoload
 (defun my-run-haddock ()
   "Run haddock on current project."
   (interactive)

@@ -20,6 +20,7 @@
 (declare-function cua--rectangle-bot "cua-base")
 (declare-function cua-resize-rectangle-right "cua-base")
 
+;;;###autoload
 (defun my-forward-whitespace ()
   "Like `forward-whitespace' but do not skip over a word if there
 is no preceding whitespace.
@@ -29,6 +30,7 @@ is no preceding whitespace.
   (interactive)
   (when (looking-at "[ \t\n]") (forward-whitespace 1)))
 
+;;;###autoload
 (defun my-kill-whitespace (&optional forward)
   "Kill all the whitespace characters backwards until hitting
 non-whitespace character.  With prefix argument, kill in the
@@ -40,6 +42,7 @@ forward direction."
       (skip-syntax-backward " "))
     (delete-region old-point (point))))
 
+;;;###autoload
 (defun my-kill-entire-line (&optional arg)
   (interactive "p")
   (let ((here (point)))
@@ -47,6 +50,7 @@ forward direction."
     (kill-line arg)
     (goto-char here)))
 
+;;;###autoload
 (defun my-kill-region-or-word (&optional arg)
   "Kill active region or one word backward."
   (interactive "p")
@@ -60,6 +64,7 @@ forward direction."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; opening new lines in various ways
 
+;;;###autoload
 (defun my-newline (&optional arg)
   "Call `newline' and autoindent according to the active mode."
   (interactive "p")
@@ -85,6 +90,7 @@ forward direction."
       (indent-according-to-mode))))))
 
 
+;;;###autoload
 (defun my-open-line (&optional arg)
   "If point is before the beginning of \"code\", open new line,
 keep the cursor at the current line and autoindent.
@@ -109,6 +115,7 @@ and indent next line according to mode."
     (insert (fill-context-prefix (point-at-bol) (point-at-eol)))
     (indent-according-to-mode)))
 
+;;;###autoload
 (defun my-forward-line-and-indent (arg)
   "Move point ARG lines forward and autoindent."
   (interactive "p")
@@ -119,6 +126,7 @@ and indent next line according to mode."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evaluate sexps/macros
 
+;;;###autoload
 (defun my-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
@@ -191,6 +199,7 @@ Uses `my--move-end-of-line'."
     (my--move-end-of-line arg)
     (point)))
 
+;;;###autoload
 (defun my-back-to-indentation-or-beginning (&optional arg)
   "Jump back to indentation of the current line.
 
@@ -249,6 +258,7 @@ instead."
                  (buffer-substring-no-properties (cua--rectangle-top) (cua--rectangle-bot))
                  "\n"))))
 
+;;;###autoload
 (defun my-end-of-code-or-line (&optional arg)
   "Move to the end of code.  If already there, move to the end of line,
 that is after the possible comment.  If at the end of line, move
@@ -325,14 +335,17 @@ properly."
 ;; stuff to do with upcasing and downcasing
 ;; used sparingly but when you need it it rocks!
 
+;;;###autoload
 (defun my-upcase-letter (&optional arg)
   (interactive "p")
   (upcase-region (point) (+ arg (point))))
 
+;;;###autoload
 (defun my-downcase-letter (&optional arg)
   (interactive "p")
   (downcase-region (point) (+ arg (point))))
 
+;;;###autoload
 (defun my-smart-downcase-word (&optional arg)
   "Downcase the following word in a context-aware way.
 
@@ -365,6 +378,7 @@ Otherwise downcase the following word."
      (t
       (downcase-word arg))))))
 
+;;;###autoload
 (defun my-smart-upcase-word (&optional arg)
   "Upcase the following word in a context-aware way.
 
@@ -396,6 +410,7 @@ Otherwise upcase the following word."
      (t
       (upcase-word arg))))))
 
+;;;###autoload
 (defun my-capitalize-word (&optional arg)
   "Capitalize the next ARG words and move over.
 With negative ARG capitalize previous ARG words but not move the point.
@@ -418,6 +433,7 @@ Additionally, when looking at [ \\t]*$, capitalize backwards."
 ;; Operations related to lines
 
 ;; from https://github.com/skeeto/.emacs.d/blob/master/my-funcs.el
+;;;###autoload
 (defun my-move-line (n)
   "Move the current line up or down by N lines."
   (interactive "p")
@@ -430,16 +446,19 @@ Additionally, when looking at [ \\t]*$, capitalize backwards."
       (forward-line -1)
       (forward-char col))))
 
+;;;###autoload
 (defun my-move-line-up (n)
   "Move the current line up by N lines."
   (interactive "p")
   (my-move-line (if (null n) -1 (- n))))
 
+;;;###autoload
 (defun my-move-line-down (n)
   "Move the current line down by N lines."
   (interactive "p")
   (my-move-line (if (null n) 1 n)))
 
+;;;###autoload
 (defun my-pull-word (&optional arg)
   "Pull the last word from the line above point to the beginning of this line.
 
@@ -461,6 +480,7 @@ With raw prefix \\[universal-argument] insert the word at point."
         (back-to-indentation)
         (insert text " ")))))
 
+;;;###autoload
 (defun my-join-word (&optional arg)
   "Pull the first word on the following line and put it at the ond of current line.
 
@@ -495,6 +515,7 @@ With raw prefix \\[universal-argument] insert the word at point."
 (defvar my-change-identifier-style-last 's-dashed-words
   "Last transformer used to change identifier style.")
 
+;;;###autoload
 (defun my-change-identifier-style (beg end)
   "Change identifier in region or under point.
 

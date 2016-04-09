@@ -30,6 +30,8 @@
   ;; add load paths
   (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
   (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/")
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/special/")
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
 
@@ -42,10 +44,8 @@
 
 (use-package-with-elapsed-timer "Loading site lisp"
   ;; load site lisp
+  (require 'my-site-lisp-autoloads)
   (load "~/.emacs.d/site-lisp/advices")
-  (load "~/.emacs.d/site-lisp/defuns-buffer")
-  (load "~/.emacs.d/site-lisp/defuns-edit")
-  (load "~/.emacs.d/site-lisp/defuns")
   (load "~/.emacs.d/site-lisp/macros")
   (load "~/.emacs.d/site-lisp/redef")
   (load "~/.emacs.d/site-lisp/vendor")
