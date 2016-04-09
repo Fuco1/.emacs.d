@@ -7,6 +7,11 @@
 ;;; Code:
 
 (require 'thingatpt)
+(require 'dired)
+
+(require 'dash)
+(require 's)
+(require 'smartparens)
 
 (declare-function org-table-p "org")
 (declare-function org-beginning-of-line "org")
