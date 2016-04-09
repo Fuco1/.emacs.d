@@ -1,3 +1,11 @@
+;;; advices.el --- Global advices
+
+;;; Commentary:
+
+;; Global advices
+
+;;; Code:
+
 ;; from simple.el
 (defadvice kill-line (before kill-line-autoreindent activate)
   "Kill excess whitespace when joining lines.
@@ -36,3 +44,6 @@ If the next line is joined to the current line, kill the extra indent whitespace
                       (point)))))
           (not (string-match-p "\\sw" str)))
     (subword-backward)))
+
+(provide 'my-advices)
+;;; advices.el ends here
