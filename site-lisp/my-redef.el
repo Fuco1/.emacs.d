@@ -7,14 +7,6 @@
 
 ;;; Code:
 
-(require 'org)
-(require 'org-capture)
-(require 'org-table)
-(require 'org-agenda)
-(require 'ediff)
-(require 'smtpmail)
-(require 'windmove)
-
 ;; /usr/local/share/emacs/24.3/lisp/net/browse-url.el.gz
 (eval-after-load "browse-url"
   '(defun browse-url-can-use-xdg-open ()
