@@ -1,4 +1,4 @@
-;;; defuns-edit.el --- Buffer-editing functions
+;;; my-defuns-edit.el --- Buffer-editing functions
 
 ;;; Commentary:
 
@@ -517,4 +517,4 @@ Cycle styles: dashed, lower camel case, upper camel case, snakecase."
     (insert (funcall my-change-identifier-style-last identifier))))
 
 (provide 'my-defuns-edit)
-;;; defuns-edit.el ends here
+;;; my-defuns-edit.el ends here

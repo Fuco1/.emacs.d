@@ -1,9 +1,6 @@
-;;; advices.el --- Global advices
+;;; my-advices.el --- Global advices
 
 ;;; Commentary:
-
-;; Global advices
-
 ;;; Code:
 
 ;; from simple.el
@@ -46,4 +43,4 @@ If the next line is joined to the current line, kill the extra indent whitespace
     (subword-backward)))
 
 (provide 'my-advices)
-;;; advices.el ends here
+;;; my-advices.el ends here

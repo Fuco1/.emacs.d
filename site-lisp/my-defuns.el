@@ -1,4 +1,4 @@
-;;; defuns.el --- Personal functions
+;;; my-defuns.el --- Personal functions
 
 ;;; Commentary:
 ;;; Code:
@@ -578,4 +578,4 @@ Ith row is replaced with Ith item of DATA."
       (my-update-column 12 yoc))))
 
 (provide 'my-defuns)
-;;; defuns.el ends here
+;;; my-defuns.el ends here

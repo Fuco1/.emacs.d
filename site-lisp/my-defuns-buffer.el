@@ -1,4 +1,4 @@
-;;; defuns-buffer.el --- Buffer related functions
+;;; my-defuns-buffer.el --- Buffer related functions
 
 ;;; Commentary:
 
@@ -120,4 +120,4 @@ Including indent-buffer, which should not be called automatically on save."
   (put-text-property beg end 'font-lock-face face))
 
 (provide 'my-defuns-buffer)
-;;; defuns-buffer.el ends here
+;;; my-defuns-buffer.el ends here
