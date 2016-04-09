@@ -65,7 +65,6 @@ function on `my-emacs-lisp-open-line-list'."
                  (backward-sexp)
                  (when (listp (sexp-at-point))
                    (memq (car (sexp-at-point)) my-emacs-lisp-open-line-list)))
-               (thing-at-point 'sexp)
                (eq (following-char) ?\)))
       (newline)
       (indent-according-to-mode)
