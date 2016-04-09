@@ -1,3 +1,11 @@
+;;; defuns-edit.el --- Buffer-editing functions
+
+;;; Commentary:
+
+;; Buffer-editing functions
+
+;;; Code:
+
 (require 'thingatpt)
 
 (declare-function org-table-p "org")
@@ -502,3 +510,6 @@ Cycle styles: dashed, lower camel case, upper camel case, snakecase."
     (setq my-change-identifier-style-last 's-dashed-words)))
   (let ((identifier (delete-and-extract-region beg end)))
     (insert (funcall my-change-identifier-style-last identifier))))
+
+(provide 'my-defuns-edit)
+;;; defuns-edit.el ends here
