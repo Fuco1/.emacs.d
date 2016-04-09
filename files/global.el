@@ -6,10 +6,6 @@
 
 ;;; Code:
 
-(require 'edebug)
-
-(require 'smartparens)
-
 ;; "y or n" instead of "yes or no"
 (fset 'yes-or-no-p 'y-or-n-p)
 
