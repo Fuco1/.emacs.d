@@ -63,7 +63,8 @@
   (load "~/.emacs.d/files/global")
   (load "~/.emacs.d/files/mode-line")
   (load "~/.emacs.d/files/tabs")
-  (load "~/.emacs.d/files/windows"))
+  (when (eq system-type 'windows-nt)
+    (load "~/.emacs.d/files/windows")))
 
 ;; load config files
 (use-package-with-elapsed-timer "Loading vendor"
