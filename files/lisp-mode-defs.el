@@ -1,5 +1,23 @@
 (require 'thingatpt)
-(use-package eldoc :diminish eldoc-mode)
+
+(use-package letcheck
+  :commands letcheck-mode)
+
+(bind-keys :map emacs-lisp-mode-map
+  ("<return>" . my-emacs-lisp-open-line)
+  ("C-M-;" . clippy-describe-function)
+  ("C-. ." . my-describe-thing-in-buffer))
+(bind-key "C-x C-d"
+          (defhydra hydra-elisp-refactor (:color blue)
+            "Refactor"
+            ("l" my-extract-to-let "extract to let")
+            ("m" my-merge-let-forms "merge let forms")
+            ("c" my-lisp-if-to-cond "if => cond")
+            ("i" my-lisp-cond-to-if "cond => if")
+            ("d" my-lisp-flip-or-and "and <=> or")
+            ("n" my-lisp-remove-excess-not "not . not => id"))
+          emacs-lisp-mode-map)
+(unbind-key "C-x C-a" emacs-lisp-mode-map)
 
 (defvar my-macro-names
   '(
@@ -264,4 +282,5 @@ TO is either 'and or 'or."
       (pp replacement (current-buffer))
       (my-lisp-remove-excess-not))))
 
+(provide 'my-lisp-mode-defs)
 ;;; lisp-mode-defs.el ends here

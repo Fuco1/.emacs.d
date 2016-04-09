@@ -241,7 +241,6 @@
  '(desktop-save t)
  '(diary-display-function (quote ignore))
  '(diary-file "~/org/diary")
- '(diff-switches "-u")
  '(dired-avfs-archives (quote ("zip" "rar" "tar" "bz2")))
  '(dired-details-hidden-string "")
  '(dired-details-hide-extra-lines nil)
@@ -372,8 +371,6 @@
  '(ediff-merge-split-window-function (quote split-window-horizontally))
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
- '(eldoc-eval-preferred-function (quote pp-eval-expression))
- '(eldoc-in-minibuffer-mode t)
  '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5)
  '(elfeed-search-face-alist
@@ -417,9 +414,6 @@
    (quote
     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/local/games" "/usr/local/libexec/emacs/24.3/x86_64-unknown-linux-gnu" "/home/matus/bin")))
  '(find-grep-options "-qE")
- '(firestarter-default-type (quote finished))
- '(firestarter-mode t)
- '(flx-ido-mode t)
  '(flycheck-disabled-checkers (quote (php-phplint)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
  '(flycheck-ghc-args nil)
@@ -491,7 +485,6 @@
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
  '(helm-candidate-number-limit 1000)
- '(helm-descbinds-mode t)
  '(helm-for-files-preferred-list
    (quote
     (helm-source-buffers-list helm-source-recentf helm-source-bookmarks helm-source-file-cache helm-source-files-in-current-dir)))
@@ -597,31 +590,6 @@
         (mode . lisp-mode)))))))
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
- '(ido-decorations
-   (quote
-    ("
--> " "" "
-   " "
-   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
- '(ido-default-buffer-method (quote selected-window))
- '(ido-enable-flex-matching t)
- '(ido-enable-last-directory-history nil)
- '(ido-everywhere t)
- '(ido-ignore-buffers (quote ("\\` " my-ido-buffer-filter)))
- '(ido-max-directory-size 100000)
- '(ido-mode (quote both) nil (ido))
- '(ido-save-directory-list-file "~/.emacs.d/.ido.last")
- '(ido-show-dot-for-dired t)
- '(ido-ubiquitous-command-compatibility-exceptions (quote (ibuffer-switch-to-saved-filter-groups)))
- '(ido-ubiquitous-command-exceptions
-   (quote
-    (smex-major-mode-commands beautify-smex ido-goto-symbol grep-read-files diredp-dired-files)))
- '(ido-ubiquitous-enable-compatibility t)
- '(ido-ubiquitous-function-exceptions (quote (diredp-dired-files-interactive-spec)))
- '(ido-ubiquitous-max-items nil)
- '(ido-ubiquitous-mode t)
- '(ido-use-faces t)
- '(ido-use-virtual-buffers t)
  '(image-dired-cmd-create-temp-image-options
    "%p -size %wx%h \"%f\" -sample \"%wx%h>\" -strip jpeg:\"%t\"")
  '(image-dired-cmd-create-thumbnail-options
@@ -719,8 +687,6 @@
  '(mm-inline-large-images (quote resize))
  '(mouse-highlight nil)
  '(mouse-wheel-progressive-speed nil)
- '(multi-web-global-mode nil nil (multi-web-mode))
- '(mweb-default-major-mode (quote html-mode))
  '(notmuch-archive-tags (quote ("-inbox" "-unread" "+archived")))
  '(notmuch-fcc-dirs nil)
 '(notmuch-hello-sections
@@ -1648,7 +1614,6 @@
 (quote
  (".dir-locals.el" ".projectile" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "rebar.config" "project.clj" "pom.xml" "build.sbt" "Gemfile" "Makefile")))
  '(proof-three-window-mode-policy (quote hybrid))
- '(pyvenv-mode t)
  '(rainbow-r-colors t)
  '(rcirc-fill-column (quote frame-width))
  '(rcirc-server-alist (quote (("chat.freenode.org"))))
@@ -1951,10 +1916,6 @@
  '(send-mail-function (quote smtpmail-send-it))
  '(shackle-mode t)
  '(shackle-rules (quote (("*Help*" :select t))))
- '(shell-pop-autocd-to-working-dir t)
- '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
- '(shell-pop-universal-key "<f11>")
- '(shell-pop-window-height 50)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
  '(smerge-command-prefix "\\C-.m")
@@ -2185,14 +2146,10 @@
  '(w3m-command nil)
  '(w3m-imagick-convert-program "c:\\cygwin\\bin\\convert.exe")
  '(which-func-maxout 100000)
- '(which-function-mode t)
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
  '(winner-mode t)
- '(x-select-enable-clipboard t)
- '(yas-global-mode t nil (yasnippet))
- '(yas-prompt-functions (quote (yas-ido-prompt)))
- '(yas-snippet-dirs (quote ("~/.emacs.d/vendor/yasnippet/snippets")) nil (yasnippet)))
+ '(x-select-enable-clipboard t))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)

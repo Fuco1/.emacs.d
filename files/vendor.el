@@ -288,6 +288,7 @@ message.")
     (bind-key "C-p" 'company-select-previous company-active-map)))
 
 (use-package csharp-mode
+  :defer t
   :config
   (progn
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
@@ -481,6 +482,16 @@ _B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
     (add-hook 'ediff-after-setup-windows-hook 'my-ediff-after-setup 'append)
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
+(use-package eldoc
+  :commands eldoc-mode
+  :diminish eldoc-mode
+  :init
+  (progn
+    (setq eldoc-eval-preferred-function 'pp-eval-expression))
+  :config
+  (progn
+    (eldoc-in-minibuffer-mode 1)))
+
 (use-package elfeed
   :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
@@ -604,7 +615,8 @@ idle timer to do the actual update.")
   :defer t
   :init
   (progn
-    (put 'firestarter 'safe-local-variable 'identity)))
+    (put 'firestarter 'safe-local-variable 'identity)
+    (setq firestarter-default-type 'finished)))
 
 (use-package god-mode
   :bind ("<delete>" . god-local-mode)
@@ -799,7 +811,9 @@ idle timer to do the actual update.")
   :config
   (progn
     (defun my-help-mode-init ()
-      (use-package better-jump))
+      (use-package better-jump)
+      (use-package helm-descbinds)
+      (helm-descbinds-mode 1))
     (add-hook 'help-mode-hook 'my-help-mode-init)
     (bind-key "<tab>" 'forward-button help-mode-map)
     (bind-key "l" 'help-go-back help-mode-map)))
@@ -825,8 +839,19 @@ idle timer to do the actual update.")
     (load "~/.emacs.d/files/ibuffer-defs")))
 
 (use-package ido
-  :defer t
-  :bind (("M-." . ido-goto-symbol)) ;; was Find tag
+  :commands (
+             read-directory-name
+             read-file-name
+             completing-read
+             )
+  ;; :bind (("M-." . ido-goto-symbol)) ;; was Find tag
+  :init
+  (progn
+    (setq ido-everywhere t)
+    (put 'ido-everywhere 'file (cons read-file-name-function nil))
+    (setq read-file-name-function 'ido-read-file-name)
+    (put 'ido-everywhere 'buffer (cons read-buffer-function nil))
+    (setq read-buffer-function 'ido-read-buffer))
   :config
   (progn
     (load "~/.emacs.d/files/ido-defs")))
@@ -951,32 +976,13 @@ called, percentage usage and the command."
   :init
   (progn
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
-    (use-package letcheck
-      :commands letcheck-mode)
     (defun my-emacs-lisp-init ()
-      (bind-keys :map emacs-lisp-mode-map
-        ("<return>" . my-emacs-lisp-open-line)
-        ("C-M-;" . clippy-describe-function)
-        ("C-. ." . my-describe-thing-in-buffer))
-      (bind-key "C-x C-d"
-                (defhydra hydra-elisp-refactor (:color blue)
-                  "Refactor"
-                  ("l" my-extract-to-let "extract to let")
-                  ("m" my-merge-let-forms "merge let forms")
-                  ("c" my-lisp-if-to-cond "if => cond")
-                  ("i" my-lisp-cond-to-if "cond => if")
-                  ("d" my-lisp-flip-or-and "and <=> or")
-                  ("n" my-lisp-remove-excess-not "not . not => id"))
-                emacs-lisp-mode-map)
-      (unbind-key "C-x C-a" emacs-lisp-mode-map)
+      (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
       (set-input-method "english-prog")
       (eldoc-mode 1)
       (letcheck-mode t)
       (setq completion-at-point-functions nil))
-    (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init))
-  :config
-  (progn
-    (load "~/.emacs.d/files/lisp-mode-defs")))
+    (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init)))
 
 (use-package magit
   :pre-init
@@ -1153,6 +1159,7 @@ If in the test file, visit source."
                       (js-mode "<script[^>]*>" "</script>")
                       (css-mode "<style[^>]*>" "</style>")))
     (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+    (setq mweb-default-major-mode 'html-mode)
 
     ;; redefined to properly re-set indentation functions
     (defun mweb-disable ()
@@ -1271,7 +1278,6 @@ If in the test file, visit source."
   (progn
     (use-package better-jump)
     (use-package php-eldoc)
-    (use-package which-func)
     (use-package php-refactor)
 
     (font-lock-add-keywords 'php-mode '(("[^:]\\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
@@ -1610,7 +1616,8 @@ SCOPE is the scope, one of: batch, thread, plid."
       (flycheck-mode)
       (turn-on-smartparens-strict-mode)
       (highlight-thing-mode)
-      (which-function-mode))
+      (which-function-mode 1)
+      (yas-minor-mode 1))
     (add-hook 'prog-mode-hook 'my-init-prog-mode)))
 
 (use-package proof-site
@@ -1706,6 +1713,14 @@ SCOPE is the scope, one of: batch, thread, plid."
     (defun my-shell-mode-init ()
       (setq tab-width 8))
     (add-hook 'shell-mode-hook 'my-shell-mode-init)))
+
+(use-package shell-pop
+  :bind ("<f11>" . shell-pop)
+  :init
+  (progn
+    (setq shell-pop-autocd-to-working-dir t)
+    (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
+    (setq shell-pop-window-height 50)))
 
 (use-package skeleton-complete
   :commands skeleton-complete-mode
@@ -1951,7 +1966,9 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
              yas-expand)
   :init
   (progn
-    (autoload #'yas/hippie-try-expand "yasnippet"))
+    (autoload #'yas/hippie-try-expand "yasnippet")
+    (setq yas-prompt-functions 'yas-ido-prompt)
+    (setq yas-snippet-dirs '("~/.emacs.d/vendor/yasnippet/snippets")))
   :config
   (progn
     (defvar my-yas-snippet-parent-mode '((malabar-mode . java-mode))
