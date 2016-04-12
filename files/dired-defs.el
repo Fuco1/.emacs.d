@@ -147,7 +147,10 @@ Also used for highlighting.")
     ("f" . mis-finalize)
     ("a" . mis-abort)
     ("r" . mis-replace))
-  (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map))
+  (use-package make-mode
+    :config
+    (progn
+      (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map))))
 
 ;;;_. Key bindings & hooks
 (defun my-image-dired-thumbnail-mode-init ()
