@@ -136,6 +136,8 @@ Also used for highlighting.")
 
 ;; TODO: continue with the transformation to org here
 (use-package make-it-so
+  :defer t
+  :commands (make-it-so)
   :init
   (bind-keys :map dired-mode-map
              :prefix ","
