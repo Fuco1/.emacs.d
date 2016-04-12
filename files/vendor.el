@@ -74,10 +74,8 @@ return to regular interpretation of self-insert characters."
       ad-do-it)))
 
 (use-package autobookmarks
-  :defer t
-  :idle
+  :init
   (progn
-    (use-package autobookmarks)
     (autobookmarks-mode 1)))
 
 (use-package better-jump
