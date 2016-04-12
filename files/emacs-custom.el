@@ -1987,7 +1987,8 @@
 (quote
  (("payout" . stocklist--fontify-payout)
   ("yield" . stocklist--fontify-yield)
-  ("eps" . stocklist--fontify-eps))))
+  ("eps" . stocklist--fontify-eps)
+  ("pe" . stocklist--fontify-pe))))
  '(stocklist-default-sort (quote (yield . desc)))
 '(stocklist-instruments
 (quote
@@ -2017,7 +2018,8 @@
   ("EMR" :tags
    ("tech" "industry" "king")
    :signals
-   ((pe < 15)))
+   ((pe < 15)
+    (yield > 4)))
   ("F" :tags
    ("car"))
   ("O" :tags
@@ -2044,7 +2046,9 @@
   ("DOV" :tags
    ("king" "industry"))
   ("GPC" :tags
-   ("king" "industry"))
+   ("king" "industry")
+   :signals
+   ((yield > 3)))
   ("LANC" :tags
    ("king" "food"))
   ("LOW" :tags
@@ -2084,7 +2088,7 @@
    :signals
    ((yield > 2.0)))
   ("UPS" :tags
-   ("buffet" "div" "transport"))
+   ("buffett" "div" "transport"))
   ("VLO" :tags
    ("oil")
    :signals
@@ -2122,8 +2126,17 @@
   ("QEP" :tags
    ("oil")
    :signals
-   ((ask < 10))))))
- '(stocklist-tag-to-face (quote (("owned" . stocklist-owned))))
+   ((ask < 10)))
+  ("NMM" :face highlight :signals
+   ((ask < 1.2)))
+  ("TSLA" :tags
+   ("tech"))
+  ("FB" :tags
+   ("tech" "growth")))))
+'(stocklist-tag-to-face
+(quote
+ (("owned" . stocklist-owned)
+  ("buffett" . my-stocklist-buffett))))
  '(system-time-locale "C" t)
  '(tab-always-indent (quote complete))
  '(texmathp-tex-commands (quote (("derivation" env-on))))
