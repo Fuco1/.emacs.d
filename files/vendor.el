@@ -1872,7 +1872,12 @@ SCOPE is the scope, one of: batch, thread, plid."
     (add-hook 'swb-mode-hook 'my-swb-mode-init)))
 
 (use-package stocklist
-  :bind (("C-. q" . stocklist-show)))
+  :bind (("C-. q" . stocklist-show))
+  :init
+  (progn
+    (defface my-stocklist-buffett
+      '((t (:background "#212526")))
+      "Face to highlight Warren Buffett's holdings.")))
 
 (use-package textile-mode
   :mode "\\.textile\\'")
