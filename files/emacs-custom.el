@@ -111,6 +111,7 @@
  '(abm-ignore-buffers
    (quote
     ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs")))
+ '(abm-old-bookmark-threshold 30)
  '(ag-highlight-search t)
  '(allout-prefixed-keybindings
    (quote
