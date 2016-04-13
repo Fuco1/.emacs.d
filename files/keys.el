@@ -225,6 +225,7 @@
             ("<f3>" view-echo-area-messages "Visit messages")
             ("<f4>" ffap "Find file at point")
             ("<f5>" my-find-file-in-home "Find file in the home directory")
+            ("<f8>" projectile-dired "Goto project root")
             ("<f10>" my-goto-current-clocked-task "Go to current clocked task")))
 
 (bind-key "<f7>"
