@@ -208,7 +208,7 @@ Also used for highlighting.")
   (bind-keys :map dired-mode-map
     ;; clean bullshit bindings so C-h e b shows us real info
     ("A") ("F") ("G") ("P") ("Q") ("X") ("Z") ("#") (".")
-    ("~") ("e") ("f") ("l") ("v") ("^") ("?")
+    ("~") ("e") ("f") ("l") ("v") ("^") ("?") ("<f1>")
 
     ("(" . dired-hide-details-mode)
 
