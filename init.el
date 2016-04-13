@@ -96,6 +96,7 @@
             `(lambda ()
                (let ((elapsed (float-time (time-subtract (current-time)
                                                          emacs-start-time))))
+                 (defconst emacs-load-time elapsed)
                  (message "Loading %s...done (%.3fs) [after-init]"
                           ,load-file-name elapsed)))
             t))
