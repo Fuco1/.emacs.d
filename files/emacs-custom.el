@@ -1905,7 +1905,9 @@
             (quote font-lock-keyword-face))))))
   (reftex-default-bibliography "./bibliography")
   (eval allout-mode t))))
- '(sallet-buffer-sources (quote (sallet-source-buffer sallet-source-autobookmarks)))
+'(sallet-buffer-sources
+(quote
+ (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks)))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.emacs-places")
  '(save-place-limit nil)
