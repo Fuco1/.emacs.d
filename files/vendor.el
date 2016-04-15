@@ -1387,6 +1387,16 @@ network prefix)."
             (tramp-file-name-localname (tramp-dissect-file-name filename))
           filename)))
 
+    (defun my-php-update-gtags ()
+      "Update gtags for current file upon saving."
+      (start-file-process
+       "global--single-udpate"
+       (get-buffer-create "*async update tags*")
+       "global"
+       "--single-update"
+       (my-php-local-file-name
+        (expand-file-name (buffer-file-name)))))
+
     (defun my-php-run-tests ()
       "Run all Nette tests found in current directory."
       (interactive)
@@ -1632,6 +1642,7 @@ SCOPE is the scope, one of: batch, thread, plid."
                (concat it (and (cdr defs) " [guess]"))))))
 
     (defun my-php-mode-init ()
+      (add-hook 'after-save-hook 'my-php-update-gtags t t)
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (c-set-style "php")
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
