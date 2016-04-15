@@ -1925,7 +1925,6 @@ SCOPE is the scope, one of: batch, thread, plid."
     ))
 
 (use-package transpose-frame
-  :bind (("C-^" . transpose-frame-reverse))
   :init
   (progn
     (defun transpose-frame-reverse (&optional frame)
@@ -1934,7 +1933,8 @@ Omitting FRAME means currently selected frame."
       (interactive)
       (transpose-frame-set-arrangement (transpose-frame-get-arrangement frame) frame
                                        'transpose 'flop 'flip)
-      (if (interactive-p) (recenter)))))
+      (if (interactive-p) (recenter)))
+    (bind-key "C-^" 'transpose-frame-reverse)))
 
 (use-package two-column
   :defer t
