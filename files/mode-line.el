@@ -130,7 +130,9 @@ OLD is the string to act on."
     ("/var/www/html/devel/" . "WEBD|")
     ("/var/www/html/" . "WEB|")
     ("/modules/source/" . "|MOD|")
-    ("/specific/source/" . "|SP|"))
+    ("/specific/source/" . "|SP|")
+    ("/extensions/" . "|E|")
+    )
   "An alist defining translations of paths to shortcuts.")
 
 (defun my-abbrev-file-name (string)
