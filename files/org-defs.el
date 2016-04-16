@@ -607,6 +607,12 @@ current agenda view added to `org-tag-alist'."
                       ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
                     org-latex-classes)))))
 
+(defun my-org-fix-inline-images ()
+  (when org-inline-image-overlays
+    (org-redisplay-inline-images)))
+
+(add-hook 'org-babel-after-execute-hook 'my-org-fix-inline-images)
+
 (use-package ox-html
   :defer t
   :config
