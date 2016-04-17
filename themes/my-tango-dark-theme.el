@@ -539,6 +539,7 @@ is extension of default `tango-dark' face.")
 
 ;; Local Variables:
 ;; no-byte-compile: t
+;; eval: (rainbow-mode 1)
 ;; End:
 
 ;;; my-tango-dark-theme.el ends here
