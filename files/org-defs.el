@@ -18,6 +18,63 @@
 ;; they wont log the state change into logbook so as not to mess up
 ;; the graph
 
+(use-package org-depend
+  :init
+  (progn
+    (defun my-org-block-next-change-on-dependency (_change-plist)
+      "If the blocker is not `done', do not allow switch to `todo'."
+      (-if-let* ((blocker-id (org-entry-get (point) "BLOCKER"))
+                 (blocker (org-find-entry-with-id blocker-id)))
+          (org-with-point-at blocker
+            (if (member (org-get-todo-state) (cons 'done org-done-keywords)) t
+              (setq org-block-entry-blocking (org-get-heading))
+              nil))
+        t))
+    (add-hook 'org-blocker-hook 'my-org-block-next-change-on-dependency)
+
+    (defun my-org-add-blocker ()
+      "Add a BLOCKER property to current task."
+      (interactive)
+      (let* ((org-refile-targets '((nil :maxlevel . 9)))
+             id)
+        (-when-let (target (org-refile-get-location "Blocker"))
+          (org-with-point-at (-last-item target)
+            (setq id (org-id-get-create)))
+          (org-set-property "BLOCKER" id))))
+
+    (defun my-org-goto-blocker ()
+      "Goto blocker of this task."
+      (interactive)
+      (-when-let (blocker (org-entry-get (point) "BLOCKER"))
+        (goto-char (org-find-entry-with-id blocker))))
+
+    (defun my-org-add-trigger (target state)
+      "Add a TRIGGER property to current task."
+      (interactive
+       (list (let ((org-refile-targets '((nil :maxlevel . 9))))
+               (org-refile-get-location "Trigger task"))
+             (completing-read "to state: " (-concat org-done-keywords org-not-done-keywords))))
+      (let* ((org-refile-targets '((nil :maxlevel . 9)))
+             id)
+        (org-with-point-at (-last-item target)
+          (setq id (org-id-get-create)))
+        (org-set-property "TRIGGER" (format "%s(%s)" id state))))
+
+    (defun my-org-goto-trigger ()
+      "Goto blocker of this task."
+      (interactive)
+      (-when-let (trigger (org-entry-get (point) "TRIGGER"))
+        (goto-char (org-find-entry-with-id (car (split-string trigger "(" t))))))
+
+    (bind-key "C-x C-d"
+              (defhydra org-depend-hydra (:color blue)
+                "Org dependencies management."
+                ("b" my-org-add-blocker "Add blocker")
+                ("g" my-org-goto-blocker "Goto blocker")
+                ("t" my-org-add-trigger "Add trigger")
+                ("v" my-org-goto-trigger "Goto trigger"))
+              org-mode-map)))
+
 (use-package org-drill
   :commands org-drill
   :init
