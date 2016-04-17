@@ -1888,7 +1888,11 @@ SCOPE is the scope, one of: batch, thread, plid."
   (progn
     (defface my-stocklist-buffett
       '((t (:background "#212526")))
-      "Face to highlight Warren Buffett's holdings.")))
+       "Face to highlight Warren Buffett's holdings.")
+
+    (defface my-stocklist-buy-order
+      '((t (:background "#4e9a06")))
+       "Face to highlight stocks with a buy order.")))
 
 (use-package textile-mode
   :mode "\\.textile\\'")
