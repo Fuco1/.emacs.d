@@ -44,11 +44,11 @@ forward direction."
 
 ;;;###autoload
 (defun my-kill-entire-line (&optional arg)
+  "Kill the entire line or ARG lines the point is on."
   (interactive "p")
-  (let ((here (point)))
+  (sp--keep-indentation
     (beginning-of-line)
-    (kill-line arg)
-    (goto-char here)))
+    (kill-line arg)))
 
 ;;;###autoload
 (defun my-kill-region-or-word (&optional arg)
