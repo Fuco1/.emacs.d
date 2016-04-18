@@ -824,6 +824,30 @@ idle timer to do the actual update.")
 (use-package highlight-thing
   :commands highlight-thing-mode)
 
+(use-package hydra
+  :init
+  (progn
+    (defmacro my-generate-hydra (name body &rest heads)
+      (declare (indent 2))
+      (let ((hydra (make-symbol "hydra")))
+        `(progn
+           (let ((,hydra (defhydra ,name ,body ,@heads)))
+             ,@(-map
+                (lambda (head)
+                  (let ((fname (intern (concat (symbol-name name) "/init/" (symbol-name (cadr head))))))
+                    `(progn
+                       (defun ,fname ()
+                         (interactive)
+                         (call-interactively ',(cadr head))
+                         (call-interactively ,hydra))
+                       (bind-key [remap ,(cadr head)] ',fname))))
+                heads)))))
+
+    (defmacro my-make-repeatable-command (key command)
+      (declare (indent 2))
+      `(my-generate-hydra ,(intern (concat (symbol-name command) "/repeatable-hydra")) (:color red)
+         (,key ,command)))))
+
 (use-package ibuffer
   :commands ibuffer
   :init

@@ -111,6 +111,7 @@
 ;; deleting stuff
 (bind-key "C-<backspace>" 'my-kill-whitespace)
 (bind-key "C-c d" 'my-kill-entire-line)
+(my-make-repeatable "d" my-kill-entire-line)
 
 ;; up/downcase
 (bind-key "M-l" 'my-smart-downcase-word)
