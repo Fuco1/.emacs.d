@@ -111,7 +111,6 @@
  '(abm-ignore-buffers
    (quote
     ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs")))
- '(abm-old-bookmark-threshold 30)
  '(ag-highlight-search t)
  '(allout-prefixed-keybindings
    (quote
@@ -223,13 +222,13 @@
    (quote
     (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
  '(cua-enable-cua-keys nil)
- '(cua-mode nil nil (cua-base))
+ '(cua-mode t nil (cua-base))
  '(cursor-color "#839496")
  '(cursor-type (quote box))
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -609,7 +608,8 @@
  '(ledger-reconcile-default-commodity "Kc")
  '(ledger-reports
    (quote
-    (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
+    (("asd" "ledger ")
+     ("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
      ("expenses" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly --real reg ^expenses")
      ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
@@ -734,7 +734,14 @@
     (org-heading t))
   (800 1000 1200 1400 1600 1800 2000))))
  '(org-agenda-window-setup (quote current-window))
- '(org-babel-load-languages (quote ((emacs-lisp . t) (plantuml . t) (sh . t))))
+'(org-babel-load-languages
+(quote
+ ((emacs-lisp . t)
+  (plantuml . t)
+  (shell . t)
+  (ledger . t)
+  (gnuplot . t)
+  (R . t))))
  '(org-clock-budget-default-sort-column (quote ("BUDGET_WEEK" ratio desc)))
 '(org-clock-budget-intervals
 (quote
@@ -760,6 +767,7 @@
 "%50ITEM(Task) %TODO(Todo) %SCHEDULED(Scheduled) %DEADLINE(Deadline) %TAGS(Tags) %CLOCKSUM(Clock) %Effort(Effort) %BUDGET_YEAR(B/Y) %BUDGET_WEEK(B/W)")
  '(org-complete-tags-always-offer-all-agenda-tags t)
  '(org-completion-use-ido t)
+ '(org-confirm-babel-evaluate nil)
  '(org-contacts-files (quote ("~/org/contacts.org")))
  '(org-cycle-emulate-tab nil)
  '(org-deadline-warning-days 30)
@@ -1510,7 +1518,7 @@
  '(org-lowest-priority 69)
 '(org-modules
 (quote
- (org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-checklist org-drill)))
+ (org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-checklist org-depend org-drill)))
  '(org-outline-path-complete-in-steps nil)
  '(org-plantuml-jar-path "~/bin/plantuml.jar")
  '(org-priority-start-cycle-with-default nil)
@@ -1905,9 +1913,7 @@
             (quote font-lock-keyword-face))))))
   (reftex-default-bibliography "./bibliography")
   (eval allout-mode t))))
-'(sallet-buffer-sources
-(quote
- (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks)))
+ '(sallet-buffer-sources (quote (sallet-source-buffer sallet-source-autobookmarks)))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.emacs-places")
  '(save-place-limit nil)
@@ -1991,7 +1997,8 @@
  (("payout" . stocklist--fontify-payout)
   ("yield" . stocklist--fontify-yield)
   ("eps" . stocklist--fontify-eps)
-  ("pe" . stocklist--fontify-pe))))
+  ("pe" . stocklist--fontify-pe)
+  ("ask" . stocklist--fontify-ask))))
  '(stocklist-default-sort (quote (yield . desc)))
 '(stocklist-instruments
 (quote
@@ -2000,7 +2007,9 @@
   ("KO" :tags
    ("food" "buffett" "king"))
   ("IBM" :tags
-   ("tech" "buffett"))
+   ("tech" "buffett")
+   :signals
+   ((yield > 4)))
   ("T" :tags
    ("telecom" "buffett" "tech")
    :signals
@@ -2008,8 +2017,6 @@
   ("CLX")
   ("QCOM" :tags
    ("tech"))
-  ("CVX" :tags
-   ("oil"))
   ("PG" :tags
    ("retail" "buffett" "king"))
   ("WFC" :tags
@@ -2022,14 +2029,16 @@
    ("tech" "industry" "king")
    :signals
    ((pe < 15)
-    (yield > 4)))
+    (yield > 4)
+    (ask < 47)))
   ("F" :tags
    ("car"))
   ("O" :tags
    ("reit"))
   ("GM" :tags
    ("car" "owned"))
-  ("LTC")
+  ("LTC" :signals
+   ((pe < 22)))
   ("JNJ" :tags
    ("healthcare" "buffett" "king"))
   ("MCD")
@@ -2037,6 +2046,10 @@
    ("retail"))
   ("VZ" :tags
    ("telecom" "tech"))
+  ("CAT" :tags
+   ("industry" "agro")
+   :signals
+   ((ask < 60)))
   ("DE" :tags
    ("industry" "agro")
    :signals
@@ -2092,7 +2105,7 @@
    ((yield > 2.0)))
   ("UPS" :tags
    ("buffett" "div" "transport"))
-  ("VLO" :tags
+  ("VLO" :face my-stocklist-buy-order :tags
    ("oil")
    :signals
    ((ask < 58)
@@ -2135,7 +2148,39 @@
   ("TSLA" :tags
    ("tech"))
   ("FB" :tags
-   ("tech" "growth")))))
+   ("tech" "growth"))
+  ("PSEC" :tags
+   ("sec")
+   :signals
+   ((yield > 13.999)))
+  ("GPL" :tags
+   ("microcap" "silver" "mining")
+   :signals
+   ((ask < 0.9)))
+  ("LODE" :tags
+   ("microcap" "silver" "mining")
+   :signals
+   ((ask < 0.38)))
+  ("EXK" :tags
+   ("microcap" "silver" "mining")
+   :signals
+   ((ask < 2)))
+  ("CINR" :tags
+   ("mining" "gold")
+   :signals
+   ((ask < 23.5)))
+  ("RIC" :tags
+   ("mining" "gold")
+   :signals
+   ((ask < 3.65)))
+  ("FCX" :tags
+   ("mining" "oil")
+   :signals
+   ((ask < 8)))
+  ("ASM" :tags
+   ("microcap" "mining" "silver" "gold")
+   :signals
+   ((ask < 0.9))))))
 '(stocklist-tag-to-face
 (quote
  (("owned" . stocklist-owned)
