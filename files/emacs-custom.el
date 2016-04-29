@@ -2004,6 +2004,10 @@
 (quote
  (("AAPL" :tags
    ("tech" "growth" "owned"))
+  ("MSFT" :tags
+   ("tech" "growth")
+   :signals
+   ((yield > 3)))
   ("KO" :tags
    ("food" "buffett" "king"))
   ("IBM" :tags
@@ -2180,7 +2184,15 @@
   ("ASM" :tags
    ("microcap" "mining" "silver" "gold")
    :signals
-   ((ask < 0.9))))))
+   ((ask < 0.9)))
+  ("VRX" :tags
+   ("growth" "pharma")
+   :signals
+   ((ask < 30)))
+  ("HRB" :tags
+   ("finance")
+   :signals
+   ((yield > 4))))))
 '(stocklist-tag-to-face
 (quote
  (("owned" . stocklist-owned)
