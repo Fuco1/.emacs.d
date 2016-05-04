@@ -1915,6 +1915,10 @@ SCOPE is the scope, one of: batch, thread, plid."
       '((t (:background "#212526")))
        "Face to highlight Warren Buffett's holdings.")
 
+    (defface my-stocklist-div-growth
+      '((t (:background "#4e9a06")))
+       "Face to highlight stocks with a buy order.")
+
     (defface my-stocklist-buy-order
       '((t (:background "#4e9a06")))
        "Face to highlight stocks with a buy order.")))
