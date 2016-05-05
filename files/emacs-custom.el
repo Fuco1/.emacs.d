@@ -2020,7 +2020,9 @@
    ((ask < 34.5)))
   ("CLX")
   ("QCOM" :tags
-   ("tech"))
+   ("tech" "div-growth")
+   :signals
+   ((ask < 46.5)))
   ("PG" :tags
    ("retail" "buffett" "king"))
   ("WFC" :tags
@@ -2030,7 +2032,7 @@
    :signals
    ((pe < 14)))
   ("EMR" :tags
-   ("tech" "industry" "king")
+   ("tech" "industry" "king" "5star")
    :signals
    ((pe < 15)
     (yield > 4)
@@ -2051,11 +2053,11 @@
   ("VZ" :tags
    ("telecom" "tech"))
   ("CAT" :tags
-   ("industry" "agro")
+   ("industry" "agro" "5star")
    :signals
    ((ask < 60)))
   ("DE" :tags
-   ("industry" "agro")
+   ("industry" "agro" "5star" "div-growth")
    :signals
    ((ask < 65.0)))
   ("UTX")
@@ -2109,12 +2111,8 @@
    ((yield > 2.0)))
   ("UPS" :tags
    ("buffett" "div" "transport"))
-  ("VLO" :face my-stocklist-buy-order :tags
-   ("oil")
-   :signals
-   ((ask < 58)
-    (yield > 4)
-    (pe < 7.5)))
+  ("VLO" :tags
+   ("owned" "oil" "div-growth"))
   ("XOM" :tags
    ("oil")
    :signals
@@ -2154,7 +2152,7 @@
   ("FB" :tags
    ("tech" "growth"))
   ("PSEC" :tags
-   ("sec")
+   ("sec" "income")
    :signals
    ((yield > 13.999)))
   ("GPL" :tags
@@ -2192,11 +2190,18 @@
   ("HRB" :tags
    ("finance")
    :signals
-   ((yield > 4))))))
+   ((yield > 4)))
+  ("OKE" :tags
+   ("income" "gas" "energy"))
+  ("CMI" :tags
+   ("industry" "div" "5star" "div-growth")
+   :signals
+   ((ask < 105))))))
 '(stocklist-tag-to-face
 (quote
  (("owned" . stocklist-owned)
-  ("buffett" . my-stocklist-buffett))))
+  ("buffett" . my-stocklist-buffett)
+  ("div-growth" . my-stocklist-div-growth))))
  '(system-time-locale "C" t)
  '(tab-always-indent (quote complete))
  '(texmathp-tex-commands (quote (("derivation" env-on))))
@@ -2237,4 +2242,5 @@
  ;; If there is more than one, they won't work right.
  '(markup-header ((t (:inherit font-lock-function-name-face :background "#4e4e4e" :weight bold))) t)
  '(org-date ((t (:inherit fixed-pitch :foreground "#8cc4ff"))))
- '(org-level-1 ((((class color) (min-colors 65535)) :inherit outline-1) (((class color) (min-colors 256)) :inherit outline-1))))
+ '(org-level-1 ((((class color) (min-colors 65535)) :inherit outline-1) (((class color) (min-colors 256)) :inherit outline-1)))
+ '(stocklist-watched-cell ((t (:background "dim gray")))))
