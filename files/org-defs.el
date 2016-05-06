@@ -789,7 +789,7 @@ The second part is a regexp to search in the buffer."
 
 (defun my-org-emphasis-fontifier (face)
   "Generate code to fontify custom emphasis."
-  `(progn
+  `(unless (org-in-block-p '("SRC"))
      (font-lock-prepend-text-property
       (match-beginning 1)
       (match-end 1)
