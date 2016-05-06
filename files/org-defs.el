@@ -592,6 +592,19 @@ current agenda view added to `org-tag-alist'."
   :bind (("C-c C-x ;" . org-timer-set-timer)
          ("C-c C-x :" . org-timer-cancel-timer)))
 
+(use-package org-tree-slide
+  :commands org-tree-slide-mode
+  :init
+  (progn
+    (bind-key "C-c C-x s" 'org-tree-slide-mode org-mode-map))
+  :config
+  (progn
+    (bind-keys :map org-tree-slide-mode-map
+      ("<right>" . org-tree-slide-move-next-tree)
+      ("<left>" . org-tree-slide-move-previous-tree)
+      ("<up>" . org-tree-slide-content)
+      ("<down>" . org-tree-slide-mode))))
+
 (use-package ox-latex
   :defer t
   :config
