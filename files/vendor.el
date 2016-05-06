@@ -1890,6 +1890,12 @@ SCOPE is the scope, one of: batch, thread, plid."
           (message "No SQL process started."))))
 
     (defun my-sql-mode-init ()
+      (when (require 'php-mode nil t)
+        (font-lock-add-keywords
+         nil
+         `((,php-string-interpolated-variable-regexp
+            0
+            'font-lock-variable-name-face t))))
       (sql-set-product "mysql"))
     (add-hook 'sql-mode-hook 'my-sql-mode-init)
 
