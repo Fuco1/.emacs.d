@@ -2092,7 +2092,9 @@
   ("INTC" :tags
    ("tech"))
   ("JWN" :tags
-   ("owned" "growth" "retail"))
+   ("owned" "growth" "retail")
+   :signals
+   ((ask < 44.5)))
   ("HON" :tags
    ("industry" "aerospace"))
   ("RIO" :tags
