@@ -2091,6 +2091,10 @@
   ("AFL")
   ("INTC" :tags
    ("tech"))
+  ("M" :tags
+   ("retail")
+   :signals
+   ((ask < 30.4)))
   ("JWN" :tags
    ("owned" "growth" "retail")
    :signals
