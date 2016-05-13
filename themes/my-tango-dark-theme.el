@@ -510,6 +510,17 @@ is extension of default `tango-dark' face.")
    (ledger-font-payee-cleared-face (:foreground gradient-1))
    (ledger-font-payee-uncleared-face (:foreground red-1))
 
+   ;; (ansi-)term
+   (term-color-black (:foreground alum-7 :background alum-7))
+   (term-color-blue (:foreground blue-1 :background blue-1))
+   (term-color-cyan (:foreground blue-0 :background blue-0))
+   (term-color-green (:foreground cham-1 :background cham-1))
+   (term-color-magenta (:foreground plum-1 :background plum-1))
+   (term-color-red (:foreground red-0 :background red-0))
+   (term-color-white (:foreground alum-1 :background alum-1))
+   (term-color-yellow (:foreground butter-1 :background butter-1))
+   (term-bold nil)
+
    ;; Random faces
    (bmkp-local-directory (:inherit dired-directory))
    (dropdown-list-face (:inherit default :background choc-1 :foreground "black"))
