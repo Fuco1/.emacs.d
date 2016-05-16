@@ -1749,6 +1749,7 @@ SCOPE is the scope, one of: batch, thread, plid."
 (use-package sallet
   :bind (("C-. C-." . helm-occur)
          ("C-'" . sallet-buffer)
+         ("H-b". sallet-register-point)
          ("M-.". sallet-imenu))
   :config
   (progn
