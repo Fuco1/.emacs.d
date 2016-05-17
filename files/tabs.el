@@ -56,6 +56,8 @@ In all other buffers: if PREFIX is \\[universal-argument], calls
 expands it.  Else calls `my-smart-indent'."
   (interactive "P")
   (cond
+   ((eq major-mode 'term-mode)
+    (term-send-raw-string "\t"))
    ((bound-and-true-p elfeed-search-live)
     (completion-at-point))
    ((eq major-mode 'org-mode)
