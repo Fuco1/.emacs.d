@@ -511,7 +511,7 @@ is extension of default `tango-dark' face.")
    (ledger-font-payee-uncleared-face (:foreground red-1))
 
    ;; (ansi-)term
-   (term-color-black (:foreground alum-7 :background alum-7))
+   (term-color-black (:foreground alum-4 :background alum-7))
    (term-color-blue (:foreground blue-1 :background blue-1))
    (term-color-cyan (:foreground blue-0 :background blue-0))
    (term-color-green (:foreground cham-1 :background cham-1))
