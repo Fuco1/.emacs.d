@@ -599,6 +599,46 @@ current agenda view added to `org-tag-alist'."
     (bind-key "C-c C-x s" 'org-tree-slide-mode org-mode-map))
   :config
   (progn
+    (defun my-org-hide-block-metadata-lines ()
+      "Hide metadata lines for org blocks."
+      (ov-clear 'my-org-hide-block-metadata)
+      (save-excursion
+        (save-restriction
+          (widen)
+          (goto-char (point-min))
+          (while (re-search-forward org-block-regexp nil t)
+            (save-excursion
+              (let ((beg (match-beginning 1))
+                    (end (match-end 0)))
+                (goto-char beg)
+                (ov (line-beginning-position) (1+ (line-end-position)) 'invisible t 'my-org-hide-block-metadata t)
+                (goto-char end)
+                (ov (line-beginning-position) (line-end-position) 'invisible t 'my-org-hide-block-metadata t)))))))
+
+    (defun my-org-hide-name-metadata-lines ()
+      "Hide #+NAME: lines."
+      (ov-clear 'my-org-hide-name-metadata)
+      (save-excursion
+        (save-restriction
+          (widen)
+          (goto-char (point-min))
+          (while (re-search-forward "^#\\+NAME:" nil t)
+            (ov (line-beginning-position) (1+ (line-end-position)) 'invisible t 'my-org-hide-name-metadata t)))))
+
+    (defun my-org-tree-slide-init ()
+      "Init hook for org-tree-slide-mode."
+      (my-org-hide-block-metadata-lines)
+      (my-org-hide-name-metadata-lines))
+
+    (add-hook 'org-tree-slide-play-hook 'my-org-tree-slide-init)
+
+    (defun my-org-tree-slide-stop ()
+      "Hook run when presentation is stopped."
+      (ov-clear 'my-org-hide-name-metadata)
+      (ov-clear 'my-org-hide-block-metadata))
+
+    (add-hook 'org-tree-slide-stop-hook 'my-org-tree-slide-stop)
+
     (bind-keys :map org-tree-slide-mode-map
       ("<right>" . org-tree-slide-move-next-tree)
       ("<left>" . org-tree-slide-move-previous-tree)
