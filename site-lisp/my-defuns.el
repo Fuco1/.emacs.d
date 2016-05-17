@@ -523,5 +523,31 @@ Ith row is replaced with Ith item of DATA."
       (my-update-column 11 yield)
       (my-update-column 12 yoc))))
 
+(defun my-compute-totals ()
+  "Calculate the total return and yield on portfolio."
+  (save-excursion
+    (save-restriction
+      (widen)
+      (let ((total 0)
+            (return 0))
+        (org-up-heading-safe)
+        (org-narrow-to-subtree)
+        (while (and (outline-next-heading)
+                    (not (equal "Total" (org-get-heading t t))))
+          (when (re-search-forward "^|" nil t)
+            (let ((row (-last-item (org-table-to-lisp))))
+              (cl-incf total (string-to-number (nth 5 row)) )
+              (cl-incf return (* (string-to-number (nth 4 row))
+                                 (string-to-number (nth 9 row)))))))
+        (if (re-search-forward "^|" nil t)
+            (delete-region (1- (point)) (org-table-end))
+          (end-of-line)
+          (newline))
+        (insert (format "| Cena | Return | YOC |
+|------+-------+-----|
+| %s     | %s      | %.3f%%    |"
+                        total return (* 100 (/ return total))))
+        (org-table-align)))))
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
