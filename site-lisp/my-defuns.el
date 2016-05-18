@@ -545,7 +545,7 @@ Ith row is replaced with Ith item of DATA."
           (newline))
         (insert (format "| Cena | Return | YOC |
 |------+-------+-----|
-| %s     | %s      | %.3f%%    |"
+| $%.2f     | $%.2f      | %.2f%%    |"
                         total return (* 100 (/ return total))))
         (org-table-align)))))
 
