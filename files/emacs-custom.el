@@ -228,7 +228,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -1927,7 +1927,7 @@
  '(shackle-rules (quote (("*Help*" :select t))))
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
- '(smerge-command-prefix "\\C-.m")
+ '(smerge-command-prefix "\\C-.m" t)
  '(smex-save-file "~/.emacs.d/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
@@ -2040,7 +2040,13 @@
   ("F" :tags
    ("car"))
   ("O" :tags
-   ("reit"))
+   ("reit")
+   :signals
+   ((ask < 48)))
+  ("STAG" :tags
+   ("reit")
+   :signals
+   ((yield > 8)))
   ("GM" :tags
    ("car" "owned"))
   ("LTC" :signals
@@ -2096,9 +2102,7 @@
    :signals
    ((ask < 30.4)))
   ("JWN" :tags
-   ("owned" "growth" "retail")
-   :signals
-   ((ask < 44.5)))
+   ("owned" "growth" "retail"))
   ("HON" :tags
    ("industry" "aerospace"))
   ("RIO" :tags
@@ -2134,15 +2138,15 @@
   ("TDW" :tags
    ("oil")
    :signals
-   ((ask < 5)))
+   ((ask < 6.5)))
   ("CLR" :tags
    ("oil")
    :signals
    ((ask < 24)))
   ("PSX" :tags
-   ("oil")
+   ("oil" "buffett")
    :signals
-   ((ask < 80)))
+   ((ask < 75.01)))
   ("PXD" :tags
    ("oil")
    :signals
