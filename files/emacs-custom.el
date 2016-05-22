@@ -1962,7 +1962,7 @@
  '(sp-override-key-bindings nil)
 '(sp-sexp-prefix
 (quote
- ((emacs-lisp-mode regexp "\\(?:,@\\|[',`]\\)")
+ ((emacs-lisp-mode regexp "\\(?:['`]*,@?\\|[',`]\\)")
   (latex-mode syntax "\\")
   (racket-mode regexp "#?['`,]@?"))))
 '(sp-sexp-suffix
