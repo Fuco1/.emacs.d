@@ -1927,7 +1927,7 @@
  '(shackle-rules (quote (("*Help*" :select t))))
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
- '(smerge-command-prefix "\\C-.m" t)
+ '(smerge-command-prefix "\\C-.m")
  '(smex-save-file "~/.emacs.d/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
@@ -2098,7 +2098,7 @@
   ("INTC" :tags
    ("tech"))
   ("M" :tags
-   ("retail")
+   ("owned" "retail")
    :signals
    ((ask < 30.4)))
   ("JWN" :tags
