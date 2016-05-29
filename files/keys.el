@@ -1,4 +1,4 @@
-;;; keys.el --- Global key bindigns
+;;; keys.el --- Global key bindigns -*- lexical-binding: t -*-
 
 ;;; Commentary:
 
