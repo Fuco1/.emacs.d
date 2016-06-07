@@ -1465,7 +1465,7 @@ network prefix)."
              (tester-dir (concat root "/vendor/bin/"))
              (dir (my-php-local-file-name default-directory)))
         (when (buffer-modified-p) (save-buffer))
-        (let ((cmd (format "php %stester -c %s/tools/tester/php.ini '%s'" tester-dir root dir)))
+        (let ((cmd (format "php %stester -c %s/tests/php.ini '%s'" tester-dir root dir)))
           (async-shell-command cmd))))
     (bind-key "C-c C-c" 'my-php-run-tests php-mode-map)
 
