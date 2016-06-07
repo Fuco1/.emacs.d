@@ -409,12 +409,15 @@ class C%s extends CAbstractModule {
 
 ;; TODO: dorobit support na sync zloziek
 ;;;###autoload
-(defun my-sync-rsync-local-to-remote ()
-  "Sync the current file/directory with `my-rsync-remote'."
-  (interactive)
+(defun my-sync-rsync-local-to-remote (&optional entire-project)
+  "Sync the current file/directory with `my-rsync-remote'.
+
+With prefix argument \\[universal-argument], sync the entire project."
+  (interactive "P")
   (when (bound-and-true-p my-rsync-remote)
     (-when-let ((root) (dir-locals-find-file (buffer-file-name)))
-      (let ((relative (s-chop-prefix root (buffer-file-name)))
+      (let ((relative (if entire-project "."
+                        (s-chop-prefix root (buffer-file-name))))
             (remote my-rsync-remote))
         (with-current-buffer (get-buffer-create " *rsync-sync*")
           (kill-all-local-variables)
@@ -423,7 +426,7 @@ class C%s extends CAbstractModule {
           (setq-local remote remote)
           (set-process-sentinel
            (start-process "rsync" (current-buffer)
-                          "rsync" "-ptdR" relative remote)
+                          "rsync" "-ptdrR" relative remote)
            'my-sync-rsync-local-to-remote-sentinel))))))
 
 ;; TODO: remove duplicity with ltr
