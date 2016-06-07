@@ -614,6 +614,43 @@ idle timer to do the actual update.")
 (use-package expand-region
   :bind ("s-'" . er/expand-region))
 
+(use-package eyebrowse
+  :commands (
+             eyebrowse-mode
+             eyebrowse-switch-to-window-config-0
+             eyebrowse-switch-to-window-config-1
+             eyebrowse-switch-to-window-config-2
+             eyebrowse-switch-to-window-config-3
+             eyebrowse-switch-to-window-config-4
+             eyebrowse-switch-to-window-config-5
+             eyebrowse-switch-to-window-config-6
+             eyebrowse-switch-to-window-config-7
+             eyebrowse-switch-to-window-config-8
+             eyebrowse-switch-to-window-config-9)
+  :config
+  (progn
+
+    (defun my-eyebrowse-pop-to-ansi-term ()
+      "Switch to slot 1 (ansi-term) or back to last slot."
+      (interactive)
+      (let ((current-slot (eyebrowse--get 'current-slot)))
+        (if (/= 1 current-slot)
+            (eyebrowse-switch-to-window-config-1)
+          (eyebrowse-last-window-config))))
+
+    (bind-key "C-<f11>" 'my-eyebrowse-pop-to-ansi-term eyebrowse-mode-map)
+    (bind-key "C-c `" 'eyebrowse-last-window-config eyebrowse-mode-map)
+    (bind-key "C-c 0" 'eyebrowse-switch-to-window-config-0 eyebrowse-mode-map)
+    (bind-key "C-c 1" 'eyebrowse-switch-to-window-config-1 eyebrowse-mode-map)
+    (bind-key "C-c 2" 'eyebrowse-switch-to-window-config-2 eyebrowse-mode-map)
+    (bind-key "C-c 3" 'eyebrowse-switch-to-window-config-3 eyebrowse-mode-map)
+    (bind-key "C-c 4" 'eyebrowse-switch-to-window-config-4 eyebrowse-mode-map)
+    (bind-key "C-c 5" 'eyebrowse-switch-to-window-config-5 eyebrowse-mode-map)
+    (bind-key "C-c 6" 'eyebrowse-switch-to-window-config-6 eyebrowse-mode-map)
+    (bind-key "C-c 7" 'eyebrowse-switch-to-window-config-7 eyebrowse-mode-map)
+    (bind-key "C-c 8" 'eyebrowse-switch-to-window-config-8 eyebrowse-mode-map)
+    (bind-key "C-c 9" 'eyebrowse-switch-to-window-config-9 eyebrowse-mode-map)))
+
 (use-package firestarter
   :defer t
   :init
