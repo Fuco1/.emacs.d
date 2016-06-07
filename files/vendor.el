@@ -1967,6 +1967,159 @@ SCOPE is the scope, one of: batch, thread, plid."
       '((t (:background "#4e9a06")))
        "Face to highlight stocks with a buy order.")))
 
+(use-package term
+  :config
+  (progn
+    ;; REDEFINED FROM term.el to include tmux detection support
+(defun term-handle-ansi-terminal-messages (message)
+      ;; Is there a command here?
+      (while (string-match "\eAnSiT.+\n" message)
+        ;; Extract the command code and the argument.
+        (let* ((start (match-beginning 0))
+               (command-code (aref message (+ start 6)))
+               (argument
+                (save-match-data
+                  (substring message
+                             (+ start 8)
+                             (string-match "\r?\n" message
+                                           (+ start 8)))))
+               ignore)
+
+          ;; (message "Received message %c %s" command-code argument)
+          ;; Delete this command from MESSAGE.
+          (setq message (replace-match "" t t message))
+
+          ;; if no tmux message came, we are not inside
+          (setq-local term-ansi-tmux-id nil)
+          ;; If we recognize the type of command, set the appropriate variable.
+          (cond ((= command-code ?c)
+                 (setq term-ansi-at-dir argument))
+                ((= command-code ?h)
+                 (setq term-ansi-at-host argument))
+                ((= command-code ?u)
+                 (setq term-ansi-at-user argument))
+                ((= command-code ?t)
+                 (setq-local term-ansi-tmux-id argument)
+                 (setq ignore t))
+                ;; Otherwise ignore this one.
+                (t
+                 (setq ignore t)))
+
+          ;; Update default-directory based on the changes this command made.
+          (if ignore
+              nil
+            (setq default-directory
+                  (file-name-as-directory
+                   (if (and (string= term-ansi-at-host (system-name))
+                            (string= term-ansi-at-user (user-real-login-name)))
+                       (expand-file-name term-ansi-at-dir)
+                     (if (string= term-ansi-at-user (user-real-login-name))
+                         (concat "/" term-ansi-at-host ":" term-ansi-at-dir)
+                       (concat "/" term-ansi-at-user "@" term-ansi-at-host ":"
+                               term-ansi-at-dir)))))
+
+            ;; I'm not sure this is necessary,
+            ;; but it's best to be on the safe side.
+            (if (string= term-ansi-at-host (system-name))
+                (progn
+                  (setq ange-ftp-default-user term-ansi-at-save-user)
+                  (setq ange-ftp-default-password term-ansi-at-save-pwd)
+                  (setq ange-ftp-generate-anonymous-password term-ansi-at-save-anon))
+              (setq term-ansi-at-save-user ange-ftp-default-user)
+              (setq term-ansi-at-save-pwd ange-ftp-default-password)
+              (setq term-ansi-at-save-anon ange-ftp-generate-anonymous-password)
+              (setq ange-ftp-default-user nil)
+              (setq ange-ftp-default-password nil)
+              (setq ange-ftp-generate-anonymous-password nil))
+            )))
+      message)
+
+(defun my-term-ansi-tmux-search ()
+      (interactive)
+      (let* ((tmux-target term-ansi-tmux-id)
+             (history-limit (with-temp-buffer
+                              (shell-command
+                               (concat "tmux display-message -t " tmux-target " -p \"#{history_limit}\"")
+                               (current-buffer))
+                              (buffer-substring-no-properties (point-min) (1- (point-max)))))
+             (visible-lines (with-temp-buffer
+                              (shell-command
+                               (concat "tmux display-message -t " tmux-target " -p \"#{pane_height}\"")
+                               (current-buffer))
+                              (buffer-substring-no-properties (point-min) (1- (point-max))))))
+        (with-current-buffer (get-buffer-create "*tmux-scrollback*")
+          (shell-command
+           (concat "tmux capture-pane -e -t " tmux-target " -p -J -S -" history-limit " -E " visible-lines)
+           (current-buffer))
+          (ansi-color-apply-on-region (point-min) (point-max))
+          (goto-char (point-max))
+          (display-buffer (current-buffer)))))
+
+(defun my-term-ansi-tmux-search-backwards ()
+  (interactive)
+  ;; (term-line-mode)
+  (isearch-backward-regexp))
+
+;; (defadvice isearch-printing-char (around tmux-isearch activate)
+;;   ad-do-it
+;;   (when (bound-and-true-p term-ansi-tmux-id)
+;;     (catch 'done
+;;       (while (not isearch-success)
+;;         (my-term-ansi-tmux-scroll-down)
+;;         (sleep-for 0 100)
+;;         (when (save-excursion
+;;                 (move-to-window-line-top-bottom 0)
+;;                 (let ((line (s-trim (thing-at-point 'line))))
+;;                   (when (string-match "\\[\\([0-9]+\\)/\\([0-9]+\\)\\]\\'" line)
+;;                     (equal (match-string 1 line) (match-string 2 line)))))
+;;           (throw 'done t))
+;;         (move-to-window-line-top-bottom -1)
+;;         (sleep-for 0 100)
+;;         (isearch-repeat (if isearch-forward 'forward 'backward))))))
+
+    (defun my-term-ansi-tmux-scroll-down ()
+      (interactive)
+      (if (bound-and-true-p term-ansi-tmux-id)
+          (progn
+            (term-send-raw-string "\C-a[\ev"))
+        (term-send-raw-string "\ev")))
+
+(defun my-term-ansi-tmux-search-backwards ()
+  (interactive)
+  (if (save-excursion
+        (move-to-window-line-top-bottom -2)
+        (looking-at "Search Up: "))
+      (term-send-raw-string "\C-m\C-a[\C-r")
+    (term-send-raw-string "\C-a[\C-r")))
+
+;; (defadvice term-send-raw (around tmux-isearch activate)
+;;   ad-do-it
+;;   (when (and (bound-and-true-p term-ansi-tmux-id)
+;;              (save-excursion
+;;                (move-to-window-line-top-bottom -2)
+;;                (looking-at "Search Up: ")))
+;;     (term-send-raw-string "\C-m\C-a[\C-r")))
+
+  (defun my-term-ansi-C-r ()
+    (interactive)
+    (term-send-raw-string "\C-r"))
+
+(defun my-term-ansi-C-SPC ()
+    (interactive)
+    (term-send-raw-string "\C- "))
+
+  (bind-key "C-r" 'my-term-ansi-tmux-search-backwards term-raw-map)
+  (bind-key "M-o" 'elwm-activate-window term-raw-map)
+  (bind-key "M-r" 'my-term-ansi-C-r term-raw-map)
+  (bind-key "C-SPC" 'my-term-ansi-C-SPC term-raw-map)
+  (bind-key "M-v" 'my-term-ansi-tmux-scroll-down term-raw-map)
+
+  (defun my-term-mode-init ()
+    "Init ansi-term."
+    (toggle-truncate-lines 1))
+
+(add-hook 'term-mode-hook 'my-term-mode-init)))
+
 (use-package textile-mode
   :mode "\\.textile\\'")
 
