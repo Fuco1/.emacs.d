@@ -378,6 +378,7 @@
     ((unread elfeed-search-unread-title-face)
      (tumblr font-lock-constant-face))))
  '(elfeed-search-title-max-width 90)
+ '(elfeed-use-curl t)
  '(elpy-modules
    (quote
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
@@ -1927,9 +1928,10 @@
  '(send-mail-function (quote smtpmail-send-it))
  '(shackle-mode t)
  '(shackle-rules (quote (("*Help*" :select t))))
+ '(shell-pop-restore-window-configuration nil)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
- '(smerge-command-prefix "\\C-.m")
+ '(smerge-command-prefix "\\C-.m" t)
  '(smex-save-file "~/.emacs.d/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
@@ -2079,8 +2081,6 @@
    ("king" "industry")
    :signals
    ((yield > 3)))
-  ("LANC" :tags
-   ("king" "food"))
   ("LOW" :tags
    ("king"))
   ("MMM" :tags
@@ -2088,7 +2088,9 @@
   ("NDSN" :tags
    ("industry" "king"))
   ("PH" :tags
-   ("king" "industry"))
+   ("king" "industry")
+   :signals
+   ((yield > 2.5)))
   ("GD" :tags
    ("aerospace" "div"))
   ("ROP")
