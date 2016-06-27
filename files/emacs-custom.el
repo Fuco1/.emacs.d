@@ -1931,7 +1931,7 @@
  '(shell-pop-restore-window-configuration nil)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
- '(smerge-command-prefix "\\C-.m" t)
+ '(smerge-command-prefix "\\C-.m")
  '(smex-save-file "~/.emacs.d/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
@@ -2014,6 +2014,8 @@
    ((yield > 3)))
   ("KO" :tags
    ("food" "buffett" "king"))
+  ("CSCO" :tags
+   ("tech"))
   ("IBM" :tags
    ("tech" "buffett")
    :signals
@@ -2060,6 +2062,8 @@
   ("MCD")
   ("TGT" :tags
    ("retail"))
+  ("BT" :tags
+   ("telecom" "tech" "brexit"))
   ("VZ" :tags
    ("telecom" "tech"))
   ("CAT" :tags
@@ -2159,8 +2163,6 @@
    ("oil")
    :signals
    ((ask < 10)))
-  ("NMM" :face highlight :signals
-   ((ask < 1.2)))
   ("TSLA" :tags
    ("tech"))
   ("FB" :tags
@@ -2169,38 +2171,11 @@
    ("sec" "income")
    :signals
    ((yield > 13.999)))
-  ("GPL" :tags
-   ("microcap" "silver" "mining")
-   :signals
-   ((ask < 0.9)))
-  ("LODE" :tags
-   ("microcap" "silver" "mining")
-   :signals
-   ((ask < 0.38)))
-  ("EXK" :tags
-   ("microcap" "silver" "mining")
-   :signals
-   ((ask < 2)))
   ("CINR" :tags
    ("mining" "gold")
    :signals
-   ((ask < 23.5)))
-  ("RIC" :tags
-   ("mining" "gold")
-   :signals
-   ((ask < 3.65)))
-  ("FCX" :tags
-   ("mining" "oil")
-   :signals
-   ((ask < 8)))
-  ("ASM" :tags
-   ("microcap" "mining" "silver" "gold")
-   :signals
-   ((ask < 0.9)))
-  ("VRX" :tags
-   ("growth" "pharma")
-   :signals
-   ((ask < 30)))
+   ((ask < 23.5)
+    (yield > 10.0)))
   ("HRB" :tags
    ("finance")
    :signals
