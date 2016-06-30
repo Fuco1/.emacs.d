@@ -1128,6 +1128,7 @@ point and rebuild the agenda view."
         ("w" "todo-logio" entry (file "~/logio/logio.org")
          "* TODO %?\n%U\n" :clock-keep t)
         ("j" "journal" entry (file+datetree "~/org/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t)
+        ("o" "journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
         ("b" "bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n%(if (not (equal %:initial \"\"))
                                         (concat \"- \" %:initial) \"\")")
