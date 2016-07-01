@@ -296,7 +296,9 @@ message.")
   (progn
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-hook 'csharp-mode-hook 'company-mode)
+    (add-hook 'csharp-mode-hook 'flycheck-mode)
     (bind-key "M-'" 'omnisharp-helm-find-usages csharp-mode-map)
+    (bind-key "C-M-'" 'pop-tag-mark csharp-mode-map)
     (bind-key "C-x C-d"
               (defhydra hydra-csharp-refactor (:color blue)
                 "Refactor"
