@@ -16,6 +16,7 @@
 .recentf
 .smex-items
 /srecode-map.el
+ac-comphist.dat
 auto-save-list/*
 autobookmarks
 backups/*
