@@ -1096,6 +1096,7 @@ called, percentage usage and the command."
          ("C-c m f" . magit-fetch-popup)
          ("C-c m i" . magit-diff-popup)
          ("C-c m l" . magit-log-popup)
+         ("C-c m m" . magit-log-all)
          ("C-c m v" . magit-show-refs-popup)
          ("C-c m s" . magit-status))
   :config
