@@ -2106,7 +2106,7 @@
   ("INTC" :tags
    ("tech"))
   ("M" :tags
-   ("owned" "retail")
+   ("retail")
    :signals
    ((ask < 30.4)))
   ("JWN" :tags
