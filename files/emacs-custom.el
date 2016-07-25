@@ -1916,7 +1916,7 @@
   (eval allout-mode t))))
 '(sallet-buffer-sources
 (quote
- (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks)))
+ (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-locate)))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.emacs-places")
  '(save-place-limit nil)
