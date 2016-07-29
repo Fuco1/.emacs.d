@@ -431,7 +431,7 @@ is extension of default `tango-dark' face.")
 
    (org-code (:inherit (shadow fixed-pitch)))
    (org-block-background (:inherit fixed-pitch :background alum-6.5))
-   (org-block (:inherit markup-blockquote))
+   (org-block (:inherit fixed-pitch :background alum-6.5))
    (org-verbatim (:inherit org-code))
 
    (org-date (:inherit fixed-pitch :foreground blue-0))
