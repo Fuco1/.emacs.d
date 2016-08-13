@@ -32,6 +32,8 @@
              (setq n (1+ n))
              (get-buffer bufname)))
     (switch-to-buffer (get-buffer-create bufname))
+    (make-directory (concat user-emacs-directory "/tmp/") t)
+    (write-file (concat user-emacs-directory "/tmp/" bufname))
     (call-interactively mode)))
 
 ;;;###autoload
