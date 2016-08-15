@@ -236,6 +236,7 @@ is extension of default `tango-dark' face.")
    (font-lock-string-face (:foreground choc-1))
    (font-lock-type-face (:foreground blue-0))
    (font-lock-variable-name-face (:foreground orange-1))
+   (font-lock-negation-char-face (:foreground red-0))
 
    ;; Outline
    (outline-1 (:foreground gradient-1))
