@@ -294,9 +294,14 @@ message.")
   :defer t
   :config
   (progn
-    (add-hook 'csharp-mode-hook 'omnisharp-mode)
-    (add-hook 'csharp-mode-hook 'company-mode)
-    (add-hook 'csharp-mode-hook 'flycheck-mode)
+    (c-add-style
+     "my-C#"
+     '("C#"
+       (c-offsets-alist
+        (arglist-intro         . +)
+        (arglist-cont          . 0)
+        (arglist-cont-nonempty . +)
+        (arglist-close         . 0))))
     (bind-key "M-'" 'omnisharp-helm-find-usages csharp-mode-map)
     (bind-key "C-M-'" 'pop-tag-mark csharp-mode-map)
     (bind-key "C-x C-d"
@@ -305,7 +310,15 @@ message.")
                 ("v" omnisharp-rename "Rename variable")
                 ("u" omnisharp-fix-usings "Fix usings")
                 ("d" omnisharp-go-to-definition "Goto definition"))
-              csharp-mode-map)))
+              csharp-mode-map)
+
+
+    (defun my-csharp-mode-init ()
+      (omnisharp-mode 1)
+      (company-mode 1)
+      (flycheck-mode 1)
+      (c-set-style "my-C#"))
+    (add-hook 'csharp-mode-hook 'my-csharp-mode-init)))
 
 (use-package css-mode
   :defer t
