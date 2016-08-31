@@ -1314,7 +1314,7 @@ If in the test file, visit source."
         (require 'notmuch)))
 
     (defvar my-notmuch-update-mail-timer
-      (run-with-timer 10 400 'my-notmuch-update-mail)
+      (run-at-time "10:00" 3600 'my-notmuch-update-mail)
       "Mail update timer."))
   :config
   (progn
