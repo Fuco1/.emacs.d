@@ -9,6 +9,9 @@
 ;;                            (save-match-data
 ;;                              (when (string-match "[012][0-9]:[0-5][0-9]--\\([012][0-9]:[0-5][0-9]\\)" s1)
 ;;                                (match-string 1 s1)))))
+;;
+;; - in org-capture, replace (error "Abort") with (user-error "Abort"),
+;;   this fixes the annoying crap q/C-g does in template selection buffer
 
 ;; Reading
 ;; - http://doc.norang.ca/org-mode.html
