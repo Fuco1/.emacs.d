@@ -525,6 +525,12 @@ current agenda view added to `org-tag-alist'."
 (use-package org-protocol
   :init
   (progn
+    (defun my-org-capture-cleanup ()
+      "Clean up the frame created while capturing via org-protocol."
+      (-when-let ((&alist 'name name) (frame-parameters))
+        (when (equal name "org-protocol-capture")
+          (delete-frame))))
+    (add-hook 'org-capture-after-finalize-hook 'my-org-capture-cleanup)
     (use-package async)
     (defun my-org-protocol-save-youtube (info)
       (let* ((parts (org-protocol-split-data info t org-protocol-data-separator))
