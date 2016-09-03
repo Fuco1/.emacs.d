@@ -507,6 +507,58 @@ current agenda view added to `org-tag-alist'."
           (goto-char (point-min))
           (pop-to-buffer (current-buffer)))))
 
+    (defun my-org-generate-timeline ()
+      (let* ((slotline "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |")
+             (timeline (concat "|08:00|09:00|10:00|11:00|12:00|13:00|14:00|15:00|16:00|17:00|18:00|19:00|20:00|21:00|22:00|23:00|00:00|"
+                               "\n"
+                               slotline))
+             (tasks nil))
+        (my-with-each-line
+          (-when-let* ((time-of-day (org-get-at-bol 'time-of-day))
+                       (duration (org-get-at-bol 'duration)))
+            (when (< duration 0)
+              (cl-incf duration 1440))
+            (let* ((hour (/ time-of-day 100))
+                   (minute (mod time-of-day 100))
+                   (beg (+ (* hour 60) minute))
+                   (end (+ beg duration))
+                   (face (--if-let (org-entry-get (org-get-at-bol 'org-marker) "TIMELINE_FACE")
+                             (car (read-from-string it))
+                           '(:background "RoyalBlue"))))
+              (push (list beg end face) tasks))))
+        (setq tasks (nreverse tasks))
+        (cl-labels ((triag (n) (/ (* n (1+ n)) 2))
+                    (get-start-pos (current-line) (+ (* current-line 105) (/ (- beg 480) 10) (- (triag (1- current-line)))))
+                    (get-end-pos (current-line) (+ (* current-line 105) (/ (- end 480) 10) (- (triag (1- current-line))))))
+          (let ((current-line 1))
+            (with-temp-buffer
+              (insert timeline)
+              (-each tasks
+                (-lambda ((beg end face))
+                  (while (get-text-property (get-start-pos current-line) 'font-lock-face)
+                    (cl-incf current-line)
+                    (when (> (get-start-pos current-line) (point-max))
+                      (save-excursion
+                        (goto-char (point-max))
+                        (insert "\n" slotline))))
+                  (let ((start-pos (get-start-pos current-line))
+                        (end-pos (get-end-pos current-line)))
+                    (put-text-property start-pos end-pos 'font-lock-face face))
+                  (setq current-line 1)))
+              (buffer-string))))))
+
+    (defun my-org-insert-timeline ()
+      (goto-char (point-min))
+      (search-forward "─")
+      (forward-line)
+      (let ((inhibit-read-only t))
+        (insert (my-org-generate-timeline))
+        (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid) "\n"))
+      ;; enable `font-lock-mode' in agenda view to display the "chart"
+      (font-lock-mode))
+
+    (add-hook 'org-agenda-finalize-hook 'my-org-insert-timeline :append)
+
     (bind-keys :map org-agenda-mode-map
       ("C-c r" . my-org-agenda-clockreport)
       ("C-c g" . org-clock-budget-report)
