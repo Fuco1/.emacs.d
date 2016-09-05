@@ -1300,22 +1300,6 @@ If in the test file, visit source."
       ("C-u" . my-notmuch-unread)
       ("TAB" . my-notmuch-inbox)
       ("C-a" . my-notmuch-archived)))
-  :idle
-  (progn
-    (defun my-notmuch-update-mail ()
-      (interactive)
-      (set-process-sentinel
-       (start-process "mail-update" nil "/bin/bash" "/home/matus/bin/run-getmail")
-       'my-notmuch-update-sentinel))
-
-    (defun my-notmuch-update-sentinel (proc state)
-      (when (equal state "finished\n")
-        (message "Mail update: %s" (format-time-string "%B %e %Y %H:%M:%S %Z"))
-        (require 'notmuch)))
-
-    (defvar my-notmuch-update-mail-timer
-      (run-at-time "10:00" 3600 'my-notmuch-update-mail)
-      "Mail update timer."))
   :config
   (progn
     (use-package notmuch-unread
