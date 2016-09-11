@@ -379,6 +379,19 @@ is extension of default `tango-dark' face.")
    (markup-metadata-key (:inherit font-lock-keyword-face))
    (markup-metadata-value (:foreground butter-2))
 
+   ;; rst
+   (rst-level-1 (:inherit markup-header-1))
+   (rst-level-2 (:inherit markup-header-2))
+   (rst-level-3 (:inherit markup-header-3))
+   (rst-level-4 (:inherit markup-header-4))
+   (rst-level-5 (:inherit markup-header-5))
+
+   (rst-emphasis1 (:inherit markup-italic))
+   (rst-emphasis2 (:inherit markup-bold))
+   (rst-literal (:inherit markup-inline-code))
+
+   (rst-directive (:inherit markup-inline-code :foreground plum-1))
+
    ;; Markdown
    (markdown-header-face-1 (:inherit markup-header-1))
    (markdown-header-face-2 (:inherit markup-header-2))
