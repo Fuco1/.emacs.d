@@ -508,7 +508,14 @@ current agenda view added to `org-tag-alist'."
           (pop-to-buffer (current-buffer)))))
 
     (defun my-org-generate-timeline ()
-      (let* ((slotline "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |")
+      (let* ((current-offset (/ (- (+ (* 60 (string-to-number (format-time-string "%H")))
+                                      (string-to-number (format-time-string "%M")))
+                                   480) 10))
+             (slotline "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |")
+             (slotline (progn
+                         (when (< 0 current-offset)
+                           (put-text-property 0 current-offset 'font-lock-face '(:background "#555555") slotline))
+                         slotline))
              (timeline (concat "|08:00|09:00|10:00|11:00|12:00|13:00|14:00|15:00|16:00|17:00|18:00|19:00|20:00|21:00|22:00|23:00|00:00|"
                                "\n"
                                slotline))
@@ -535,7 +542,7 @@ current agenda view added to `org-tag-alist'."
               (insert timeline)
               (-each tasks
                 (-lambda ((beg end face))
-                  (while (get-text-property (get-start-pos current-line) 'font-lock-face)
+                  (while (get-text-property (get-start-pos current-line) 'occupied)
                     (cl-incf current-line)
                     (when (> (get-start-pos current-line) (point-max))
                       (save-excursion
@@ -543,7 +550,8 @@ current agenda view added to `org-tag-alist'."
                         (insert "\n" slotline))))
                   (let ((start-pos (get-start-pos current-line))
                         (end-pos (get-end-pos current-line)))
-                    (put-text-property start-pos end-pos 'font-lock-face face))
+                    (put-text-property start-pos end-pos 'font-lock-face face)
+                    (put-text-property start-pos end-pos 'occupied t))
                   (setq current-line 1)))
               (buffer-string))))))
 
