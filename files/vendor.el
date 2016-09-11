@@ -1783,6 +1783,14 @@ SCOPE is the scope, one of: batch, thread, plid."
 (use-package revbufs
   :bind ("C-<f5>" . revbufs))
 
+(use-package rst
+  :config
+  (progn
+    (use-package sphinx-mode)
+    (defun my-rst-mode-init ()
+      (sphinx-mode 1))
+    (add-hook 'rst-mode-hook 'my-rst-mode-init)))
+
 (use-package sallet
   :bind (("C-. C-." . helm-occur)
          ("C-'" . sallet-buffer)
@@ -1995,6 +2003,7 @@ SCOPE is the scope, one of: batch, thread, plid."
               LaTeX-mode-hook
               org-mode-hook
               markdown-mode-hook
+              rst-mode-hook
               gnus-article-mode-hook
               textile-mode-hook
               )
