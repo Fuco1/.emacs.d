@@ -346,7 +346,10 @@ half the height of parent window."
   (interactive "f")
   (with-temp-buffer
     (insert-file-contents filename)
-    (md5 (current-buffer))))
+    (let ((hash (md5 (current-buffer))))
+      (when (called-interactively-p 'interactive)
+        (message hash))
+      hash)))
 
 ;;;###autoload
 (defun my-dired-show-duplicates (list-a list-b)
