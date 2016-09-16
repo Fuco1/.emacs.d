@@ -66,8 +66,9 @@
   "Kill the current buffer.
 Warn me if I want to kill a scratch buffer."
   (interactive)
-  (if (--any? (string-match-p it (buffer-name)) '("\\*scratch"
-                                                  "\\*Messages\\*"))
+  (if (--any? (string-match-p it (buffer-name)) '(
+                                                  "\\*Messages\\*"
+                                                  ))
       (when (y-or-n-p "Do you want really to kill this buffer?")
         (kill-buffer (current-buffer)))
     (kill-buffer (current-buffer))))
