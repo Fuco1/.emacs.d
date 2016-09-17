@@ -213,6 +213,8 @@ Also used for highlighting.")
     ("(" . dired-hide-details-mode)
 
     ("C-x C-f" . my-dired-ido-find-file)
+    ("j" . my-dired-ido-find-file)
+    ("J" . dired-goto-file)
     ("k" . my-dired-do-kill-lines)
 
     ("K" . my-dired-kill-subdir)
