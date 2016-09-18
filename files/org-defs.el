@@ -511,7 +511,7 @@ current agenda view added to `org-tag-alist'."
       (let* ((current-offset (/ (- (+ (* 60 (string-to-number (format-time-string "%H")))
                                       (string-to-number (format-time-string "%M")))
                                    480) 10))
-             (slotline "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |")
+             (slotline (copy-sequence "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |"))
              (slotline (progn
                          (when (< 0 current-offset)
                            (put-text-property 0 current-offset 'font-lock-face '(:background "#555555") slotline))
