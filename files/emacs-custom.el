@@ -108,6 +108,7 @@
      (output-dvi "Yap")
      (output-pdf "View with Zathura")
      (output-html "start"))))
+ '(abm-file "~/.emacs.d/.cache/autobookmarks/autobookmarks")
  '(abm-ignore-buffers
    (quote
     ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs")))
@@ -150,9 +151,10 @@
  '(appt-display-interval 5)
  '(appt-message-warning-time 15)
  '(auto-save-file-name-transforms nil)
+ '(auto-save-list-file-prefix "~/.emacs.d/.cache/auto-save-list/.saves-")
  '(background-color "#002b36")
  '(background-mode dark)
- '(backup-directory-alist (quote (("." . "~/.emacs.d/backups"))))
+ '(backup-directory-alist (quote (("." . "~/.emacs.d/.cache/backups"))))
  '(bdf-directory-list (quote ("/usr/share/emacs/fonts/bdf")))
  '(bind-key-column-widths (quote (20 . 70)))
  '(bind-key-describe-special-forms t)
@@ -445,6 +447,7 @@
      ("A" . "1234567890qwer,.[]=c"))))
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
+ '(geben-temporary-file-directory "/home/matus/.emacs.d/.cache/geben")
  '(global-flex-isearch-mode t)
  '(global-paren-face-mode t)
  '(global-subword-mode t)
@@ -604,7 +607,7 @@
  '(ispell-program-name "hunspell")
  '(jump-char-forward-key "m")
  '(keyfreq-autosave-mode t)
- '(keyfreq-file "~/.emacs.d/.emacs.keyfreq")
+ '(keyfreq-file "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq")
  '(keyfreq-mode t)
  '(ledger-reconcile-default-commodity "Kc")
  '(ledger-reports
@@ -655,6 +658,7 @@
 " ";;; " legalese-file-name " ends here
 ")))))
  '(line-number-mode t)
+ '(litable-list-file "~/.emacs.d/.cache/litable/.litable-lists.el")
 '(log-edit-hook
 (quote
  (log-edit-insert-cvs-template log-edit-insert-changelog log-edit-show-files)))
@@ -669,6 +673,7 @@
  '(lui-time-stamp-format "[%H:%M:%S] ")
  '(lui-time-stamp-only-when-changed-p nil)
  '(lui-time-stamp-position (quote left))
+ '(magit-completing-read-function (quote ido-completing-read))
  '(magit-diff-refine-hunk (quote all))
  '(magit-log-arguments (quote ("--graph" "--color" "--decorate")))
  '(magit-push-always-verify nil)
@@ -678,6 +683,7 @@
  '(markdown-link-space-sub-char "-")
  '(max-lisp-eval-depth 1000)
  '(max-specpdl-size 10000)
+ '(mc/list-file "~/.emacs.d/.cache/multiple-cursors/.mc-lists.el")
  '(message-forward-as-mime nil)
  '(message-kill-buffer-on-exit t)
  '(message-log-max 10000)
@@ -762,6 +768,7 @@
  '(org-clock-out-remove-zero-time-clocks t)
  '(org-clock-out-when-done nil)
  '(org-clock-persist t)
+ '(org-clock-persist-file "~/.emacs.d/.cache/org/org-clock-save.el")
  '(org-clock-persist-query-resume nil)
  '(org-clock-report-include-clocking-task t)
 '(org-columns-default-format
@@ -1512,6 +1519,7 @@
  '(org-habit-show-habits-only-for-today nil)
  '(org-hide-emphasis-markers t)
  '(org-hide-leading-stars t)
+ '(org-id-locations-file "~/.emacs.d/.cache/org/.org-id-locations")
  '(org-inline-image-resolve-url (quote (org-inline-image--regexp-resolver identity)))
  '(org-latex-tables-centered nil)
  '(org-log-done (quote note))
@@ -1916,10 +1924,11 @@
   (eval allout-mode t))))
 '(sallet-buffer-sources
 (quote
- (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-locate)))
+ (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-gtags-files sallet-source-default-directory-files sallet-source-locate)))
  '(save-place t nil (saveplace))
- '(save-place-file "~/.emacs.d/.emacs-places")
+ '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
  '(save-place-limit nil)
+ '(savehist-file "~/.emacs.d/.cache/savehist/history")
  '(scroll-preserve-screen-position 1)
 '(semantic-default-submodes
 (quote
@@ -1927,12 +1936,17 @@
  '(semantic-new-buffer-setup-functions (quote ((java-mode . wisent-malabar-java-setup))))
  '(send-mail-function (quote smtpmail-send-it))
  '(shackle-mode t)
- '(shackle-rules (quote (("*Help*" :select t))))
+'(shackle-rules
+(quote
+ (("*Help*" :select t)
+  ("[0-9]\\{5\\}/.*\\.php" :regexp t :select t :inhibit-window-quit t :same t :popup nil)
+  ("magit-log\\(-popup\\)?" :regexp t :select t :inhibit-window-quit t :same t)
+  ("\\*magit:" :regexp t :select t :inhibit-window-quit t :same t))))
  '(shell-pop-restore-window-configuration nil)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
  '(smerge-command-prefix "\\C-.m")
- '(smex-save-file "~/.emacs.d/.smex-items")
+ '(smex-save-file "~/.emacs.d/.cache/smex/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
  '(smtpmail-local-domain "herakleitos")
  '(smtpmail-smtp-server "smtp.gmail.com")
@@ -2196,7 +2210,7 @@
  '(texmathp-tex-commands (quote (("derivation" env-on))))
  '(text-mode-hook (quote (text-mode-hook-identify)))
  '(tracking-ignored-buffers (quote ("#openttd")))
- '(tramp-auto-save-directory "~/.emacs.d/tramp-autosave/")
+ '(tramp-auto-save-directory "~/.emacs.d/.cache/tramp/autosave/")
  '(tramp-persistency-file-name nil)
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)

@@ -24,7 +24,8 @@
                              (mapcar 'symbol-name r))))
                        'emacs-lisp-mode)))
   (let ((n 0)
-        bufname)
+        bufname
+        (root (expand-file-name ".cache/" user-emacs-directory)))
     (while (progn
              (setq bufname (concat "*scratch"
                                    (if (= n 0) "" (int-to-string n))
@@ -32,8 +33,8 @@
              (setq n (1+ n))
              (get-buffer bufname)))
     (switch-to-buffer (get-buffer-create bufname))
-    (make-directory (concat user-emacs-directory "/tmp/") t)
-    (write-file (concat user-emacs-directory "/tmp/" bufname))
+    (make-directory root t)
+    (write-file (concat root "/" bufname))
     (call-interactively mode)))
 
 ;;;###autoload
