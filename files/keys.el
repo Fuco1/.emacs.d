@@ -17,9 +17,6 @@
 (define-key function-key-map [escape] nil)
 (define-key function-key-map [?\e] nil)
 
-
-(bind-key "C-. /" 'my-insert-date-iso)
-
 ;; Url & Browsing
 (bind-key "C-c C-w" 'browse-url-at-point)
 (bind-key "C-c w" 'browse-url)
@@ -149,7 +146,9 @@
   ("0" . my-kill-pp-eval-expression-window)
   ("s" . my-sprunge)
   ("r" . align-regexp)
-  ("C-d" . my-change-identifier-style))
+  ("C-d" . my-change-identifier-style)
+  ("/" . my-insert-date-iso)
+  ("b" . php-boris))
 
 (bind-keys :map ctl-dot-prefix-map
            :prefix "p"
