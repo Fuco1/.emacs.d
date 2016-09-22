@@ -111,41 +111,10 @@
  '(abm-file "~/.emacs.d/.cache/autobookmarks/autobookmarks")
  '(abm-ignore-buffers
    (quote
-    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs")))
+    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$")))
+ '(abm-old-bookmark-threshold 45)
+ '(achievements-mode nil)
  '(ag-highlight-search t)
- '(allout-prefixed-keybindings
-   (quote
-    (("[(control ?n)]" allout-next-visible-heading)
-     ("[(control ?p)]" allout-previous-visible-heading)
-     ("[(control ?u)]" allout-up-current-level)
-     ("[(control ?f)]" allout-forward-current-level)
-     ("[(control ?b)]" allout-backward-current-level)
-     ("[(control ?a)]" allout-beginning-of-current-entry)
-     ("[(control ?e)]" allout-end-of-entry)
-     ("[(control ?i)]" allout-show-children)
-     ("[(control ?s)]" allout-show-current-subtree)
-     ("[(control ?t)]" allout-toggle-current-subtree-exposure)
-     ("[?h]" allout-hide-current-subtree)
-     ("[(control ?o)]" allout-show-current-entry)
-     ("[?!]" allout-show-all)
-     ("[?x]" allout-toggle-current-subtree-encryption)
-     ("[? ]" allout-open-sibtopic)
-     ("[?.]" allout-open-subtopic)
-     ("[?,]" allout-open-supertopic)
-     ("[?']" allout-shift-in)
-     ("[?>]" allout-shift-in)
-     ("[?<]" allout-shift-out)
-     ("[(control ?m)]" allout-rebullet-topic)
-     ("[?*]" allout-rebullet-current-heading)
-     ("[?#]" allout-number-siblings)
-     ("[(control ?k)]" allout-kill-topic)
-     ("[(meta ?k)]" allout-copy-topic-as-kill)
-     ("[?@]" allout-resolve-xref)
-     ("[?=?c]" allout-copy-exposed-to-buffer)
-     ("[?=?i]" allout-indented-exposed-to-buffer)
-     ("[?=?t]" allout-latexify-exposed)
-     ("[?=?p]" allout-flatten-exposed-to-buffer)
-     ("[(control ?c)]" allout-hide-bodies))))
  '(appt-audible nil)
  '(appt-display-format nil)
  '(appt-display-interval 5)
@@ -161,31 +130,10 @@
  '(bjump-dired-open-command (quote dired-open-file))
  '(blink-cursor-mode nil)
  '(blink-matching-paren nil)
- '(bmkp-bmenu-commands-file "~/.emacs.d/bookmarks/emacs-bmk-bmenu-commands.el")
- '(bmkp-bmenu-image-bookmark-icon-file nil)
- '(bmkp-bmenu-state-file "~/.emacs.d/bookmarks/emacs-bmk-bmenu-state.el")
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks/bookmarks")
- '(bookmark-default-file "~/.emacs.d/bookmarks/bookmarks")
+ '(bookmark-default-file "~/.emacs.d/.cache/bookmarks/bookmarks")
  '(bookmark-version-control t)
  '(browse-kill-ring-quit-action (quote save-and-restore))
- '(bs-configurations
-   (quote
-    (("all" nil nil nil nil nil)
-     ("files" nil nil nil bs-visits-non-file bs-sort-buffer-interns-are-last)
-     ("files-and-scratch" "^\\*scratch" nil nil bs-visits-non-file bs-sort-buffer-interns-are-last)
-     ("all-intern-last" nil nil nil nil bs-sort-buffer-interns-are-last)
-     ("dired" nil
-      (lambda
-        (b)
-        (with-current-buffer b
-          (eq major-mode
-              (quote dired-mode))))
-      nil
-      (lambda
-        (b)
-        t)
-      nil))))
- '(calc-settings-file "~/.emacs.d/calc-settings.el")
+ '(calc-settings-file "~/.emacs.d/files/calc-settings.el")
  '(calc-undo-length 1000)
  '(calendar-latitude 49.2)
  '(calendar-longitude 16.633)
@@ -230,7 +178,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -388,11 +336,9 @@
  '(elpy-rpc-python-command "python3")
  '(emmet-indentation 2)
  '(emmet-preview-default nil)
- '(emms-player-list nil)
  '(enable-recursive-minibuffers t)
  '(enable-remote-dir-locals t)
- '(endless/blog-base-url "http://Fuco1.github.io/")
- '(endless/blog-dir "/home/matus/blog/")
+ '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
  '(eshell-output-filter-functions
    (quote
     (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
@@ -594,10 +540,17 @@
         (mode . lisp-mode)))))))
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
- '(image-dired-cmd-create-temp-image-options
-   "%p -size %wx%h \"%f\" -sample \"%wx%h>\" -strip jpeg:\"%t\"")
- '(image-dired-cmd-create-thumbnail-options
-   "%p -size %wx%h \"%f\" -resize \"%wx%h>\" -strip jpeg:\"%t\"")
+ '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last")
+ '(ido-ubiquitous-command-overrides
+   (quote
+    ((disable exact "execute-extended-command")
+     (enable prefix "wl-")
+     (enable-old prefix "Info-")
+     (enable exact "webjump")
+     (enable regexp "\\`\\(find\\|load\\|locate\\)-library\\'")
+     (disable prefix "org-")
+     (disable prefix "tmm-")
+     (enable regexp "\\`\\(load\\|enable\\|disable\\|describe\\|custom-theme-visit\\)-theme\\'"))))
  '(imenu-auto-rescan t)
  '(indent-tabs-mode nil)
  '(indicate-empty-lines nil)
@@ -605,6 +558,7 @@
  '(initial-buffer-choice (quote my-startup-screen))
  '(initial-major-mode (quote fundamental-mode))
  '(ispell-program-name "hunspell")
+ '(ivy-height 30)
  '(jump-char-forward-key "m")
  '(keyfreq-autosave-mode t)
  '(keyfreq-file "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq")
@@ -612,8 +566,7 @@
  '(ledger-reconcile-default-commodity "Kc")
  '(ledger-reports
    (quote
-    (("asd" "ledger ")
-     ("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
+    (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
      ("expenses" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly --real reg ^expenses")
      ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
@@ -625,7 +578,8 @@
      ("bal" "ledger -f %(ledger-file) -X Kc bal")
      ("reg" "ledger -f %(ledger-file) reg")
      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
-     ("account" "ledger -f %(ledger-file) reg %(account)"))))
+     ("reg-account" "ledger -f %(ledger-file) reg %(account)")
+     ("bal-account" "ledger -f %(ledger-file) -X Kc bal %(account)"))))
  '(legalese-date-format (quote ordinal))
  '(legalese-default-copyright "Matúš Goljer")
  '(legalese-templates
@@ -740,6 +694,7 @@
   #("----------------" 0 16
     (org-heading t))
   (800 1000 1200 1400 1600 1800 2000))))
+ '(org-agenda-todo-ignore-scheduled (quote all))
  '(org-agenda-window-setup (quote current-window))
 '(org-babel-load-languages
 (quote
@@ -1491,6 +1446,7 @@
    (1.96 . 3.538)))))
  '(org-drill-save-buffers-after-drill-sessions-p nil)
  '(org-drill-scope (quote directory))
+ '(org-email-link-description-format "%f: %.100s")
 '(org-emphasis-alist
 (quote
  (("*" markup-bold)
@@ -1625,20 +1581,18 @@
  '(preview-scale-function 1.5)
  '(proced-auto-update-flag t)
  '(proced-auto-update-interval 1)
+ '(projectile-cache-file "/home/matus/.emacs.d/.cache/projectile/projectile.cache")
 '(projectile-globally-ignored-directories
 (quote
  (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "elpa")))
+'(projectile-known-projects-file
+"/home/matus/.emacs.d/.cache/projectile/projectile-bookmarks.eld")
 '(projectile-project-root-files
 (quote
  (".dir-locals.el" ".projectile" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "rebar.config" "project.clj" "pom.xml" "build.sbt" "Gemfile" "Makefile")))
+ '(projectile-switch-project-action (lambda nil (dired default-directory)))
  '(proof-three-window-mode-policy (quote hybrid))
  '(rainbow-r-colors t)
- '(rcirc-fill-column (quote frame-width))
- '(rcirc-server-alist (quote (("chat.freenode.org"))))
- '(recentf-auto-cleanup (quote never))
- '(recentf-exclude (quote ("\"elpa/archives\"")) t)
- '(recentf-max-saved-items 200)
- '(recentf-save-file "~/.emacs.d/.recentf")
 '(reftex-label-alist
 (quote
  (("lemma" 32 "lem:" "~\\cref{%s}" nil nil)
@@ -1924,7 +1878,7 @@
   (eval allout-mode t))))
 '(sallet-buffer-sources
 (quote
- (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-gtags-files sallet-source-default-directory-files sallet-source-locate)))
+ (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-gtags-files sallet-source-default-directory-files sallet-source-projectile-projects sallet-source-locate)))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
  '(save-place-limit nil)
@@ -1934,7 +1888,9 @@
 (quote
  (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode global-semantic-mru-bookmark-mode)))
  '(semantic-new-buffer-setup-functions (quote ((java-mode . wisent-malabar-java-setup))))
+ '(semanticdb-default-save-directory "~/.emacs.d/.cache/semanticdb")
  '(send-mail-function (quote smtpmail-send-it))
+ '(server-auth-dir "~/.emacs.d/.cache/server/")
  '(shackle-mode t)
 '(shackle-rules
 (quote
@@ -1952,7 +1908,6 @@
  '(smtpmail-smtp-server "smtp.gmail.com")
  '(smtpmail-smtp-service 465)
  '(smtpmail-stream-type (quote ssl))
- '(sp-autoescape-string-quote-if-empty (quote (python-mode)))
  '(sp-autoinsert-if-followed-by-same 3)
  '(sp-autoinsert-quote-if-followed-by-closing-pair nil)
  '(sp-autoskip-closing-pair (quote always))
@@ -2001,15 +1956,6 @@
  '(sp-wrap-from-point nil)
  '(split-height-threshold 10)
  '(split-width-threshold 100)
-'(sql-connection-alist
-(quote
- (("nestle-test"
-   (sql-product
-    (quote mysql))
-   (sql-user "root")
-   (sql-server "tunel.logio.cz")
-   (sql-port 30239)))))
- '(sql-pop-to-buffer-after-send-region nil)
 '(stocklist-column-fontifiers
 (quote
  (("payout" . stocklist--fontify-payout)
@@ -2158,13 +2104,9 @@
    :signals
    ((ask < 64)))
   ("TDW" :tags
-   ("oil")
+   ("oil" "owned")
    :signals
    ((ask < 6.5)))
-  ("CLR" :tags
-   ("oil")
-   :signals
-   ((ask < 24)))
   ("PSX" :tags
    ("oil" "buffett")
    :signals
@@ -2173,33 +2115,30 @@
    ("oil")
    :signals
    ((ask < 130)))
-  ("QEP" :tags
-   ("oil")
-   :signals
-   ((ask < 10)))
   ("TSLA" :tags
    ("tech"))
   ("FB" :tags
    ("tech" "growth"))
-  ("PSEC" :tags
-   ("sec" "income")
-   :signals
-   ((yield > 13.999)))
-  ("CINR" :tags
-   ("mining" "gold")
-   :signals
-   ((ask < 23.5)
-    (yield > 10.0)))
   ("HRB" :tags
    ("finance")
    :signals
    ((yield > 4)))
-  ("OKE" :tags
-   ("income" "gas" "energy"))
   ("CMI" :tags
    ("industry" "div" "5star" "div-growth")
    :signals
-   ((ask < 105))))))
+   ((ask < 105)))
+  ("SCSC" :tags
+   ("tech")
+   :signals
+   ((ask < 33.0)))
+  ("BCEI" :tags
+   ("energy")
+   :signals
+   ((ask < 0.9)))
+  ("NOG" :tags
+   ("energy")
+   :signals
+   ((ask < 3.05))))))
 '(stocklist-tag-to-face
 (quote
  (("owned" . stocklist-owned)
@@ -2216,6 +2155,7 @@
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(uniquify-strip-common-suffix t)
+ '(url-configuration-directory "~/.emacs.d/.cache/url/")
  '(url-queue-parallel-processes 5)
  '(url-queue-timeout 30)
  '(use-package-verbose t)
@@ -2224,8 +2164,6 @@
  '(vc-make-backup-files t)
  '(vc-svn-diff-switches "-x -w")
  '(visible-bell nil)
- '(w3m-command nil)
- '(w3m-imagick-convert-program "c:\\cygwin\\bin\\convert.exe")
  '(which-func-maxout 100000)
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
