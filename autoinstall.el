@@ -1,7 +1,6 @@
 (defvar autoinstall-packages
   '(
     ag
-    bookmark+
     browse-kill-ring
     dash
     dash-functional
@@ -11,7 +10,6 @@
     eimp
     eldoc-eval
     elfeed
-    emmet-mode
     expand-region
     f
     flx
@@ -49,6 +47,7 @@
     projectile
     rainbow-mode
     s
+    shackle
     shell-pop
     smartscan
     smex
