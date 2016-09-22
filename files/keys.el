@@ -17,9 +17,6 @@
 (define-key function-key-map [escape] nil)
 (define-key function-key-map [?\e] nil)
 
-;; unfortunately C-. can't be represented by anything customize allows
-;; for this variable.
-(setq smerge-command-prefix (kbd "C-. m"))
 
 (bind-key "C-. /" 'my-insert-date-iso)
 

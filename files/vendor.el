@@ -1863,6 +1863,17 @@ SCOPE is the scope, one of: batch, thread, plid."
   :bind (("C->" . smartscan-symbol-go-forward)
          ("C-<" . smartscan-symbol-go-backward)))
 
+(use-package smerge-mode
+  :config
+  (progn
+    ;; unfortunately C-. can't be represented by anything customize allows
+    ;; for this variable.
+    (setq smerge-command-prefix (kbd "C-. m"))
+
+    (easy-mmode-defmap smerge-mode-map
+      `((,smerge-command-prefix . ,smerge-basic-map))
+      "Keymap for `smerge-mode'.")))
+
 (use-package smex
   :defer t
   :init
