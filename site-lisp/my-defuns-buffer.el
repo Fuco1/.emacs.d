@@ -73,7 +73,9 @@ Warn me if I want to kill a scratch buffer."
         (kill-buffer (current-buffer)))
     (kill-buffer (current-buffer))))
 
-(defvar my-inhibit-buffer-cleanup nil)
+(define-minor-mode my-inhibit-buffer-cleanup-mode
+  "If enabled, do not clean up whitespace on buffer save."
+  :init-value nil)
 
 ;; TODO: add some abstraction for the exceptions
 ;;;###autoload
@@ -82,7 +84,7 @@ Warn me if I want to kill a scratch buffer."
 Does not indent buffer, because it is used for a before-save-hook, and that
 might be bad."
   (interactive)
-  (unless my-inhibit-buffer-cleanup
+  (unless my-inhibit-buffer-cleanup-mode
     (let ((inhibit-read-only t))
       (when (or (called-interactively-p)
                 (and (not (memq major-mode '(snippet-mode)))
