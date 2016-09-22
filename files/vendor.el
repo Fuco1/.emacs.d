@@ -1104,7 +1104,7 @@ called, percentage usage and the command."
   (bind-keys :prefix "C-c m"
              :prefix-map ctl-c-m-map
              :prefix-docstring "Magit map")
-  :bind (("C-c m b" . magit-branch-popup)
+  :bind (("C-c m b" . magit-blame)
          ("C-c m d" . magit-dispatch-popup)
          ("C-c m f" . magit-fetch-popup)
          ("C-c m i" . magit-diff-popup)
