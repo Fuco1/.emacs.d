@@ -498,6 +498,7 @@ is extension of default `tango-dark' face.")
    (helm-candidate-number (:background plum-3))
    (helm-ff-directory (:inherit helm-buffer-directory))
    (helm-ff-file (:inherit default))
+   (helm-grep-file (:inherit font-lock-type-face))
 
    ;; Sallet
    (sallet-source-header (:height 1.3 :family ,variable-font :weight bold :background blue-3))
