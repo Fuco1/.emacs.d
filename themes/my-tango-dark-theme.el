@@ -553,6 +553,7 @@ is extension of default `tango-dark' face.")
    (fold-this-overlay (:inherit sp-pair-overlay-face))
    (highlight-thing (:background "black"))
    (which-func (:inherit font-lock-function-name-face))
+   (anzu-mode-line (:inherit font-lock-function-name-face :weight bold))
 
    ;; My special themes
    (my-reading-face (:background "#808000" :foreground "#000000")))
