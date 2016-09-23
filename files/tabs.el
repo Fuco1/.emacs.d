@@ -37,7 +37,7 @@
 
 (defun my-smart-tab-default-action (prefix)
   "Execute the default smart tab action."
-  (unless (completion-at-point)
+  (unless (ignore-errors (completion-at-point))
     (cond
      ((my-smart-tab-must-expand prefix)
       (unless (and company-mode
