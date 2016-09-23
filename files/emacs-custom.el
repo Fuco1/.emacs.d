@@ -113,8 +113,8 @@
    (quote
     ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$")))
  '(abm-old-bookmark-threshold 45)
- '(achievements-mode nil)
  '(ag-highlight-search t)
+ '(anzu-search-threshold 1000)
  '(appt-audible nil)
  '(appt-display-format nil)
  '(appt-display-interval 5)
@@ -362,6 +362,8 @@
  '(exec-path
    (quote
     ("/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/local/games" "/usr/local/libexec/emacs/24.3/x86_64-unknown-linux-gnu" "/home/matus/bin")))
+ '(explicit-shell-file-name "/usr/bin/zsh")
+ '(eyebrowse-mode t)
  '(find-grep-options "-qE")
  '(flycheck-disabled-checkers (quote (php-phplint)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
@@ -393,6 +395,7 @@
      ("A" . "1234567890qwer,.[]=c"))))
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
+ '(geben-display-window-function (quote display-buffer))
  '(geben-temporary-file-directory "/home/matus/.emacs.d/.cache/geben")
  '(global-flex-isearch-mode t)
  '(global-paren-face-mode t)
@@ -540,7 +543,7 @@
         (mode . lisp-mode)))))))
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
- '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last")
+ '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last" t)
  '(ido-ubiquitous-command-overrides
    (quote
     ((disable exact "execute-extended-command")
@@ -703,6 +706,7 @@
   (shell . t)
   (ledger . t)
   (gnuplot . t)
+  (awk . t)
   (R . t))))
  '(org-clock-budget-default-sort-column (quote ("BUDGET_WEEK" ratio desc)))
 '(org-clock-budget-intervals
@@ -1574,6 +1578,7 @@
 '(org-time-clocksum-format
 (quote
  (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
+ '(org-tree-slide-slide-in-effect nil)
  '(org-use-speed-commands t)
  '(package-enable-at-startup nil)
  '(paren-face-regexp "[(){}]")
@@ -1599,7 +1604,41 @@
   ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
 '(safe-local-variable-values
 (quote
- ((firestarter-default-type . failure)
+ ((eval when
+        (and
+         (buffer-file-name)
+         (file-regular-p
+          (buffer-file-name))
+         (string-match-p "^[^.]"
+                         (buffer-file-name)))
+        (unless
+            (featurep
+             (quote package-build))
+          (let
+              ((load-path
+                (cons ".." load-path)))
+            (require
+             (quote package-build))))
+        (package-build-minor-mode)
+        (set
+         (make-local-variable
+          (quote package-build-working-dir))
+         (expand-file-name "../working/"))
+        (set
+         (make-local-variable
+          (quote package-build-archive-dir))
+         (expand-file-name "../packages/"))
+        (set
+         (make-local-variable
+          (quote package-build-recipes-dir))
+         default-directory))
+  (swb-database . "ahold_ok")
+  (swb-port . "30245")
+  (my-rsync-remote . "speedy:/var/www/html/devel/Sandbox-goljer/")
+  (swb-database . "nestle_live")
+  (swb-port . "30238")
+  (swb-host . "tunel.logio.cz")
+  (firestarter-default-type . failure)
   (flycheck-ghc-search-path . "/home/matus/dev/haskell/mpris/src/")
   (c-style-alist
    ("ledger"
@@ -1956,6 +1995,7 @@
  '(sp-wrap-from-point nil)
  '(split-height-threshold 10)
  '(split-width-threshold 100)
+ '(sql-pop-to-buffer-after-send-region nil)
 '(stocklist-column-fontifiers
 (quote
  (("payout" . stocklist--fontify-payout)
@@ -2066,7 +2106,7 @@
   ("INTC" :tags
    ("tech"))
   ("M" :tags
-   ("retail")
+   ("owned" "retail")
    :signals
    ((ask < 30.4)))
   ("JWN" :tags
@@ -2104,9 +2144,13 @@
    :signals
    ((ask < 64)))
   ("TDW" :tags
-   ("oil" "owned")
+   ("oil")
    :signals
    ((ask < 6.5)))
+  ("CLR" :tags
+   ("oil")
+   :signals
+   ((ask < 24)))
   ("PSX" :tags
    ("oil" "buffett")
    :signals
@@ -2115,14 +2159,29 @@
    ("oil")
    :signals
    ((ask < 130)))
+  ("QEP" :tags
+   ("oil")
+   :signals
+   ((ask < 10)))
   ("TSLA" :tags
    ("tech"))
   ("FB" :tags
    ("tech" "growth"))
+  ("PSEC" :tags
+   ("sec" "income")
+   :signals
+   ((yield > 13.999)))
+  ("CINR" :tags
+   ("mining" "gold")
+   :signals
+   ((ask < 23.5)
+    (yield > 10.0)))
   ("HRB" :tags
    ("finance")
    :signals
    ((yield > 4)))
+  ("OKE" :tags
+   ("income" "gas" "energy"))
   ("CMI" :tags
    ("industry" "div" "5star" "div-growth")
    :signals
