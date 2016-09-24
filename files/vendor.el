@@ -1793,7 +1793,7 @@ SCOPE is the scope, one of: batch, thread, plid."
 
 (use-package shell-mode
   :defer t
-  :config
+  :init
   (progn
     (defun my-shell-mode-init ()
       (setq tab-width 8))
