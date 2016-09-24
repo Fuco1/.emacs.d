@@ -720,42 +720,6 @@ idle timer to do the actual update.")
       (visible-mode 1))
     (add-hook 'ggtags-global-mode-hook 'my-ggtags-global-mode-init)))
 
-;; disable for now and write a better, cleaner solution WITHOUT using
-;; the idiotic hooks
-(use-package golden-ratio
-  :diminish golden-ratio-mode
-  :disabled t
-  :config
-  (progn
-    (defun my-golden-ratio-inhibit ()
-      (or (--any? (string-match-p "\\*Ediff Control Panel" it)
-                  (mapcar 'buffer-name (mapcar 'window-buffer (window-list))))))
-    (defun my-golden-ratio ()
-      "Run `golden-ratio' if `golden-ratio-mode' is enabled."
-      (interactive)
-      (when golden-ratio-mode
-        (golden-ratio)))
-
-    (use-package guide-key
-      :config
-      (progn
-        (defadvice guide-key/popup-guide-buffer (around fix-golden-ratio activate)
-          (when (featurep 'golden-ratio) (golden-ratio-mode -1))
-          ad-do-it
-          (when (featurep 'golden-ratio) (golden-ratio-mode 1)))))
-
-    (use-package ispell
-      :config
-      (progn
-        (defadvice ispell-word (around fix-golden-ratio activate)
-          (when (featurep 'golden-ratio) (golden-ratio-mode -1))
-          ad-do-it
-          (when (featurep 'golden-ratio) (golden-ratio-mode 1)))))
-
-    (defadvice quit-window (around fix-golden-ratio activate)
-      ad-do-it
-      (my-golden-ratio))))
-
 (use-package google-maps
   :commands google-maps)
 
