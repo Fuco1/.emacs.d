@@ -3,6 +3,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'use-package)
+
 (use-package ag
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
   :init

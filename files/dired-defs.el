@@ -1,4 +1,5 @@
 ;;;_. Commentary & basic stuff
+(require 'use-package)
 
 (defconst my-dired-media-files-extensions '("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma")
   "Media file extensions that should launch in VLC.
