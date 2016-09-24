@@ -755,10 +755,6 @@ idle timer to do the actual update.")
       (scf-mode 1))
     (add-hook 'grep-mode-hook 'my-grep-mode-init)))
 
-(use-package guide-key
-  :defer t
-  :diminish guide-key-mode)
-
 (use-package flycheck
   :commands flycheck-mode
   :config
@@ -2058,6 +2054,9 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 
 (use-package web-mode
   :mode (("\\.tpl\\'" . web-mode)))
+
+(use-package which-key
+  :defer 2)
 
 (use-package whitaker
   :commands whitaker
