@@ -684,9 +684,7 @@ With \\[universal-argument] present user with list of possible methods to unpack
 (defun my-dired-size-of-file ()
   "Print size of file under point, or a list of results for marked files."
   (interactive)
-  (let* ((marked-files (dired-get-marked-files))
-         (parent (f-common-parent marked-files))
-         (marked-files (--map (s-chop-prefix parent it) marked-files)))
+  (let* ((marked-files (f-uniquify (dired-get-marked-files))))
     (if (cdr marked-files)
         (dired-do-shell-command "du --apparent-size -s -h -c * &" nil marked-files)
       (dired-do-shell-command "du --apparent-size -s -h" nil marked-files))))
