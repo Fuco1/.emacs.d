@@ -3,8 +3,8 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "my-defuns" "my-defuns.el" (22281 9815 287761
-;;;;;;  826000))
+;;;### (autoloads nil "my-defuns" "my-defuns.el" (22490 61237 726118
+;;;;;;  637000))
 ;;; Generated autoloads from my-defuns.el
 
 (autoload 'my-lorem "my-defuns" "\
@@ -72,11 +72,6 @@ Shuffle words in the active region.
 
 \(fn BEG END)" t nil)
 
-(autoload 'my-emacs-status "my-defuns" "\
-
-
-\(fn)" nil nil)
-
 (autoload 'my-toggle-buffer-input-methods "my-defuns" "\
 Toggle the input methods listed in `my-buffer-input-methods'.
 
@@ -140,7 +135,9 @@ Create the directory structure for PW module.
 (autoload 'my-sync-rsync-local-to-remote "my-defuns" "\
 Sync the current file/directory with `my-rsync-remote'.
 
-\(fn)" t nil)
+With prefix argument \\[universal-argument], sync the entire project.
+
+\(fn &optional ENTIRE-PROJECT)" t nil)
 
 (autoload 'my-sync-rsync-remote-to-local "my-defuns" "\
 Sync remote version of this file to the local copy.
@@ -156,8 +153,8 @@ Run haddock on current project.
 
 ;;;***
 
-;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (22281
-;;;;;;  9476 55759 19000))
+;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (22500
+;;;;;;  7067 336014 310000))
 ;;; Generated autoloads from my-defuns-buffer.el
 
 (autoload 'create-scratch-buffer "my-defuns-buffer" "\
@@ -221,8 +218,8 @@ Add face to region.
 
 ;;;***
 
-;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (22281
-;;;;;;  9591 171759 972000))
+;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (22503
+;;;;;;  40064 636024 979000))
 ;;; Generated autoloads from my-defuns-edit.el
 
 (autoload 'my-forward-whitespace "my-defuns-edit" "\
@@ -242,7 +239,7 @@ forward direction.
 \(fn &optional FORWARD)" t nil)
 
 (autoload 'my-kill-entire-line "my-defuns-edit" "\
-
+Kill the entire line or ARG lines the point is on.
 
 \(fn &optional ARG)" t nil)
 
@@ -398,7 +395,7 @@ Cycle styles: dashed, lower camel case, upper camel case, snakecase.
 ;;;***
 
 ;;;### (autoloads nil nil ("my-advices.el" "my-macros.el" "my-redef.el"
-;;;;;;  "vendor.el") (22281 9861 187846 873000))
+;;;;;;  "vendor.el") (22503 40381 34671 770000))
 
 ;;;***
 
