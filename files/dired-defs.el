@@ -536,14 +536,6 @@ to chose from."
               (concat "Dired " dired-actual-switches)))))
     (force-mode-line-update)))
 
-;; redefined from dired-aux.el to not make isearch in dired go into
-;; recursive edit.
-(defun dired-isearch-filenames ()
-  "Search for a string using Isearch only in file names in the Dired buffer."
-  (interactive)
-  (let ((dired-isearch-filenames t))
-    (isearch-forward nil t)))
-
 ;;;_. Zip support
 
 (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip"))
