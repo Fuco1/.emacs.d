@@ -547,8 +547,6 @@ to chose from."
 ;;;_. Zip support
 
 (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip"))
-(add-to-list 'dired-compress-file-suffixes '("\\.gz\\'" "" "zcat"))
-(add-to-list 'dired-compress-file-suffixes '("\\.bz2\\'" "" "bzcatt"))
 (add-to-list 'dired-compress-file-suffixes '("\\.tar\\.bz2\\'" "" "untarbz2"))
 (add-to-list 'dired-compress-file-suffixes '("\\.tar\\.gz\\'" "" "untargz"))
 
