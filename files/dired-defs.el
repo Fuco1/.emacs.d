@@ -314,22 +314,16 @@ You can then feed the file name(s) to other commands with \\[yank]."
   (save-excursion
     (goto-char (point-min))
     (forward-line)
-    (when (search-forward "directory" (line-end-position) t)
-      (forward-char)
-      (let* ((avail (word-at-point))
-             (avail-hr (s-trim (ls-lisp-format-file-size (* 1024 (string-to-int avail)) t 1)))
-             (inhibit-read-only t)
-             (kill-ring kill-ring))
-        (kill-word 1)
-        (insert avail-hr)))
-    (when (search-forward "available" (line-end-position) t)
-      (forward-char)
-      (let* ((avail (word-at-point))
-             (avail-hr (s-trim (ls-lisp-format-file-size (* 1024 (string-to-int avail)) t 1)))
-             (inhibit-read-only t)
-             (kill-ring kill-ring))
-        (kill-word 1)
-        (insert avail-hr)))))
+    (let ((inhibit-read-only t)
+          (kill-ring kill-ring)
+          (limit (line-end-position)))
+      (while (re-search-forward "directory\\|available" nil t)
+        (forward-char)
+        (when (not (dired-utils-get-filename))
+          (let* ((avail (word-at-point))
+                 (avail-hr (s-trim (ls-lisp-format-file-size (* 1024 (string-to-int avail)) t 1))))
+            (kill-word 1)
+            (insert avail-hr)))))))
 
 (defun my-dired-list-all-subdirs (arg)
   (interactive "P")
@@ -381,24 +375,18 @@ With no prefix argument, kill file under point or marked files.
 
 With prefix argument, kill that many files."
   (interactive "P")
-  (cond
-   ((not arg)
+  (if arg
+      (dired-do-kill-lines arg fmt)
     (condition-case err
-        (if (or (equal (car (dired-get-marked-files))
-                       (dired-file-name-at-point))
-                (equal (concat (car (dired-get-marked-files)) "/")
-                       (dired-file-name-at-point)))
+        (if (and (not (cdr (dired-get-marked-files)))
+                 (equal (car (dired-get-marked-files))
+                        (dired-utils-get-filename)))
             (progn
-              (dired-mark 1)
-              (diredp-previous-line 1)
-              (dired-do-kill-lines nil fmt)
-              (diredp-next-line 1)
-              (diredp-previous-line 1))
+              (save-excursion) (dired-mark 1)
+              (dired-do-kill-lines nil fmt))
           (dired-do-kill-lines arg fmt))
       (error ;; if no file is under point, kill the next subdir
-       (my-dired-kill-subdir))))
-   (t
-    (dired-do-kill-lines arg fmt))))
+       (my-dired-kill-subdir)))))
 
 (defun my-dired-kill-subdir (&optional arg)
   "Kill this directory listing.
