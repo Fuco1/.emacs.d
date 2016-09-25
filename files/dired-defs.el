@@ -609,21 +609,21 @@ after another using the same format.")
                  (substring default-directory 0 (1- (length default-directory))))
               ;; otherwise use the current file name as defalt
               (file-name-nondirectory (car files)))))))
-  (let ((zip-file (if (string-match ".zip$" zip-file) zip-file (concat zip-file ".zip"))))
-    (shell-command
-     (concat "zip -r "
-             (concat "\"" zip-file "\"")
-             " "
-             (mapconcat (lambda (obj) (format "\"%s\"" obj))
-                        (mapcar
-                         (lambda (filename)
-                           (file-name-nondirectory filename))
-                         (dired-get-marked-files)) " ")))
-    (dired-unmark-all-marks)
-    (revert-buffer)
-    (goto-char 0)
-    (when (search-forward zip-file nil t)
-      (goto-char (match-beginning 0)))))
+  (let ((zip-file (if (string-match ".zip$" zip-file)
+                      zip-file
+                    (concat zip-file ".zip")))
+        (process nil))
+    (setq process
+          (apply 'start-process
+                 "zip"
+                 (with-current-buffer (get-buffer-create "*dired-arc-pack-files*")
+                   (erase-buffer)
+                   (goto-char (point-min))
+                   (pop-to-buffer (current-buffer))
+                   (current-buffer))
+                 "zip" "-r" zip-file
+                 (--map (file-name-nondirectory it) (dired-get-marked-files))))
+    (dired-unmark-all-marks)))
 
 (defun dired-arc-unpack-file (where)
   "Unpack this archive into the target directory WHERE.
