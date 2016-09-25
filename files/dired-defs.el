@@ -6,7 +6,6 @@
 
 Also used for highlighting.")
 
-(use-package image-dired)
 (use-package dired-aux)
 (use-package dired-x
   :config
@@ -154,28 +153,6 @@ Also used for highlighting.")
       (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map))))
 
 ;;;_. Key bindings & hooks
-(defun my-image-dired-thumbnail-mode-init ()
-  (bind-keys :map image-dired-thumbnail-mode-map
-     ("b" . image-dired-backward-image)
-     ("f" . image-dired-forward-image)
-     ("n" . image-dired-next-line)
-     ("p" . image-dired-previous-line)
-     ("q" . kill-this-buffer)))
-(add-hook 'image-dired-thumbnail-mode-hook 'my-image-dired-thumbnail-mode-init)
-
-(defun my-image-dired-display-image-init ()
-  (bind-keys :map image-dired-display-image-mode-map
-     ("q" . kill-this-buffer)
-     ("SPC" . my-image-dired-display-next)
-     ("<backspace>" . my-image-dired-display-previous)
-     ("<wheel-down>" . my-image-dired-display-next)
-     ("<wheel-up>" . my-image-dired-display-previous)
-     ("m" . my-image-dired-mark-image-in-dired)
-     ("u" . my-image-dired-unmark-image-in-dired)
-     ("RET" . my-image-dired-display-open)
-     ("M-RET" . my-image-dired-display-external)))
-(add-hook 'image-dired-display-image-mode-hook 'my-image-dired-display-image-init)
-
 (defun my-dired-beginning-of-defun (&optional arg)
   (interactive "p")
   (unless (= (line-number-at-pos) 1)
@@ -369,116 +346,6 @@ with <date><time>.bak appended."
   (interactive (list (read-file-name "File to backup: " nil (car (dired-get-marked-files)))))
   (let ((new-name (concat file "." (format-time-string "%Y%m%d%H%M%S") ".bak")))
     (copy-file file new-name)))
-
-(defun my-image-dired--with-image-in-dired (operation)
-  "OPERATION is a function of two arguments, the file we operate
-on and associated dired buffer."
-  (let* ((old-buf (current-buffer))
-         (file (image-dired-original-file-name))
-         (dired-name (progn
-                       (string-match ".*/\\(.*\\)/.*" file)
-                       (match-string 1 file)))
-         (dired-buf (get-buffer dired-name)))
-    (if (not dired-buf)
-        (error "No associated dired buffer found.")
-      (set-buffer dired-buf)
-      (funcall operation file dired-buf)
-      (set-buffer old-buf))))
-
-(defun my-image-dired--skip-non-image (arg)
-  "Skip non-image files in direction ARG"
-  (while (and (or (file-directory-p (car (dired-get-marked-files)))
-                  (not (eq (get-char-property (point) 'face) 'my-diredp-image-face)))
-              (not (eobp))
-              (not (bobp)))
-    (dired-next-line arg)
-    (set-window-point (get-buffer-window dired-buf) (point))))
-
-(defun my-image-dired-display-next (arg)
-  (interactive "p")
-  (my-image-dired--with-image-in-dired
-   (lambda (file dired-buf)
-     (dired-goto-file file)
-     (dired-next-line arg)
-     (ignore-errors (my-image-dired--skip-non-image arg))
-     (let ((next-img (ignore-errors (dired-get-marked-files))))
-       (unless next-img
-         (if (> arg 0)
-             (progn
-               (goto-char (point-min))
-               (dired-next-line (if dired-omit-mode 2 4)))
-           (goto-char (point-max))
-           (dired-previous-line 1))
-         (my-image-dired--skip-non-image arg))
-       (image-dired-dired-display-image)
-       (set-window-point (get-buffer-window dired-buf) (point))))))
-
-(defun my-image-dired-display-previous ()
-  (interactive)
-  (my-image-dired-display-next -1))
-
-(defun my-image-dired-goto-image-in-dired ()
-  (interactive)
-  (my-image-dired--with-image-in-dired
-   (lambda (file dired-buf)
-     (dired-goto-file file)
-     (set-window-point (get-buffer-window dired-buf) (point)))))
-
-(defun my-image-dired-mark-image-in-dired ()
-  (interactive)
-  (my-image-dired--with-image-in-dired
-   (lambda (file dired-buf)
-     (dired-goto-file file)
-     (dired-mark 1)))
-  (my-image-dired-display-next 1))
-
-(defun my-image-dired-unmark-image-in-dired ()
-  (interactive)
-  (my-image-dired--with-image-in-dired
-   (lambda (file dired-buf)
-     (dired-goto-file file)
-     (dired-unmark 1))))
-
-(defun my-image-dired-display-open ()
-  (interactive)
-  (find-file (image-dired-original-file-name)))
-
-(defun my-image-dired-display-external ()
-  (interactive)
-  (w32-browser (image-dired-original-file-name)))
-
-;; FUCO PATCH image-dired
-(defun image-dired-track-original-file ()
-  "Track the original file in the associated dired buffer.
-See documentation for `image-dired-toggle-movement-tracking'.
-Interactive use only useful if `image-dired-track-movement' is nil."
-  (interactive)
-  (let ((old-buf (current-buffer))
-        (dired-buf (image-dired-associated-dired-buffer))
-        (file-name (image-dired-original-file-name)))
-    (when (and (buffer-live-p dired-buf) file-name)
-      (with-current-buffer dired-buf
-        (if (not (dired-goto-file file-name))
-            (message "Could not track file")
-          (let ((p (point)))
-            (mapc
-             (lambda (w) (set-window-point w p))
-             (cl-remove-if-not
-              (lambda (w) (equal (window-buffer w) dired-buf))
-              (cl-mapcan 'window-list (frame-list))))))))))
-
-(defadvice select-window (after image-dired-resize-image activate)
-  (when (eq major-mode 'image-dired-display-image-mode)
-    (image-dired-display-current-image-sized)))
-
-(defadvice other-window (around image-dired-resize-image activate)
-  (let ((buffer (current-buffer)))
-    ad-do-it
-    (with-current-buffer buffer
-      (when (eq major-mode 'image-dired-display-image-mode)
-        (image-dired-display-current-image-sized)))
-    (when (eq major-mode 'image-dired-display-image-mode)
-      (image-dired-display-current-image-sized))))
 
 ;;;_. Virtual dired
 ;; these functions depend on the dired plus package
