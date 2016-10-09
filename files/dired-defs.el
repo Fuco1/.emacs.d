@@ -43,6 +43,9 @@ Also used for highlighting.")
     (setf (nth 3 diredp-font-lock-keywords-1)
           ;; Properly handle the extensions
           '("[^ .\\/]\\(\\.[^. /]+\\)$" 1 diredp-file-suffix))
+    (setf (nth 4 diredp-font-lock-keywords-1)
+          ;; Properly handle the extensions
+          '("\\([^ ]+\\) -> .+$" 1 diredp-symlink))
     (setf (nth 6 diredp-font-lock-keywords-1)
           (list (concat "^  \\(.*\\(" (concat (mapconcat 'regexp-quote
                                                           (or (and (boundp 'dired-omit-extensions)
