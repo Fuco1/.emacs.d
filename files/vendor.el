@@ -116,6 +116,23 @@ return to regular interpretation of self-insert characters."
   :bind ("<f5>" . calc-same-interface)
   :config
   (progn
+    (defun my-calc-grab-region-dwim (beg end)
+      "Parse the region as a vector of numbers and push it on the Calculator stack.
+
+If the region does not contain spaces, parse it as one
+entry (same as passing \\[universal-argument] to
+`calc-grab-region').
+
+If no region is active, use word udner point."
+      (interactive (if (use-region-p)
+                       (list (region-beginning) (region-end))
+                     (-let (((beg . end) (bounds-of-thing-at-point 'word)))
+                       (list beg end))))
+      (if (string-match-p " " (buffer-substring beg end))
+          (calc-grab-region beg end nil)
+        (calc-grab-region beg end (list 4))))
+    (bind-key "g" 'my-calc-grab-region-dwim calc-dispatch-map)
+
     (fset 'calc-one-minus [?1 return ?- ?n])
     (fset 'calc-vector-normalize [return ?A ?/])
     (bind-keys :map calc-mode-map
