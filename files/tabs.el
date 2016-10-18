@@ -33,7 +33,10 @@
   "Return non-nil if we must expand."
   (unless (or (consp prefix)
               mark-active)
-    (looking-at "\\_>")))
+    (or (looking-at "\\_>")
+        ;; TODO: make this mode specific? ... this entire framework
+        ;; needs to go, is utter shite
+        (looking-back "\\."))))
 
 (defun my-smart-tab-default-action (prefix)
   "Execute the default smart tab action."
