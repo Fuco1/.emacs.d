@@ -557,13 +557,13 @@ current agenda view added to `org-tag-alist'."
 
     (defun my-org-insert-timeline ()
       (goto-char (point-min))
-      (search-forward "─")
-      (forward-line)
-      (let ((inhibit-read-only t))
-        (insert (my-org-generate-timeline))
-        (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid) "\n"))
-      ;; enable `font-lock-mode' in agenda view to display the "chart"
-      (font-lock-mode))
+      (when (search-forward "─" nil t)
+        (forward-line)
+        (let ((inhibit-read-only t))
+          (insert (my-org-generate-timeline))
+          (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid) "\n"))
+        ;; enable `font-lock-mode' in agenda view to display the "chart"
+        (font-lock-mode)))
 
     (add-hook 'org-agenda-finalize-hook 'my-org-insert-timeline :append)
 
