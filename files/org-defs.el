@@ -1613,6 +1613,7 @@ sibling before the next header."
 
 (defun my-gleeo-to-org-timestamps ()
   "Convert Gleeo export to org timestamps."
+  (interactive)
   (my-fix-reset-after-each
     (replace-regexp " " " ")
     (replace-regexp "\t" "]--[")
