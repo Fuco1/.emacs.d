@@ -1611,7 +1611,7 @@ sibling before the next header."
   (let ((kill-ring kill-ring))
     (--dotimes 3 (my-format-sanskrit-lines-no-latin))))
 
-(defun my-org-to-org-timestamps ()
+(defun my-gleeo-to-org-timestamps ()
   "Convert Gleeo export to org timestamps."
   (my-fix-reset-after-each
     (replace-regexp " " " ")
