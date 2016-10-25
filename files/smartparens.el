@@ -114,6 +114,10 @@ This predicate is only tested on \"insert\" action."
     (goto-char mb)
     (save-match-data (looking-at "^\\* "))))
 
+;;; rst-mode
+(sp-with-modes 'rst-mode
+  (sp-local-pair "``" "``"))
+
 ;;; org-mode
 (sp-with-modes 'org-mode
   (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
