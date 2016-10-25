@@ -497,8 +497,7 @@ Ith row is replaced with Ith item of DATA."
       (-let* (((_ (&plist :contents-begin cb :contents-end ce)) (org-element-table-cell-parser))
               (value (nth i data)))
         (delete-region cb ce)
-        (when (> value 0)
-          (insert (format "%.3f" value)))))))
+        (insert (format "%.3f" value))))))
 
 (defun my-update-instrument ()
   "Recalculate instrument history record."
