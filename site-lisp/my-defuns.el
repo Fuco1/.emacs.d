@@ -545,7 +545,7 @@ Ith row is replaced with Ith item of DATA."
                     (not (equal "Total" (org-get-heading t t))))
           (when (re-search-forward "^|" nil t)
             (let ((row (-last-item (org-table-to-lisp))))
-              (cl-incf total (string-to-number (nth 5 row)) )
+              (cl-incf total (string-to-number (nth 5 row)))
               (cl-incf return (* (string-to-number (nth 4 row))
                                  (string-to-number (nth 9 row)))))))
         (if (re-search-forward "^|" nil t)
