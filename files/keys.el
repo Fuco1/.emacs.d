@@ -133,6 +133,7 @@
 (define-key 'help-command (kbd "C-v") 'find-variable-at-point)
 (define-key 'help-command (kbd "C-f") 'find-function-at-point)
 (define-key 'help-command (kbd "C-k") 'find-function-on-key)
+(define-key 'help-command (kbd "C-m") 'sallet-man)
 
 (bind-key "C-h D" 'describe-personal-keybindings)
 
