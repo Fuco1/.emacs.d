@@ -2102,9 +2102,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
              yas-expand)
   :init
   (progn
-    (autoload #'yas/hippie-try-expand "yasnippet")
-    (setq yas-prompt-functions 'yas-ido-prompt)
-    (setq yas-snippet-dirs '("~/.emacs.d/vendor/yasnippet/snippets")))
+    (autoload #'yas/hippie-try-expand "yasnippet"))
   :config
   (progn
     (defvar my-yas-snippet-parent-mode '((malabar-mode . java-mode))

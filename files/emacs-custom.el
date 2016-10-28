@@ -2227,7 +2227,8 @@
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
  '(winner-mode t)
- '(x-select-enable-clipboard t))
+ '(yas-prompt-functions (quote (yas-ido-prompt)))
+ '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets"))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
