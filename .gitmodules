@@ -79,9 +79,6 @@
 [submodule "projects/org-cookbook"]
 	path = projects/org-cookbook
 	url =  git@github.com:Fuco1/org-cookbook.git
-[submodule "projects/org-food-journal"]
-	path = projects/org-food-journal
-	url =  git@github.com:Fuco1/.emacs.d.git
 [submodule "projects/org-inline-image"]
 	path = projects/org-inline-image
 	url =  git@github.com:Fuco1/org-inline-image.git
