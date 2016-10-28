@@ -1,0 +1,9 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: if
+# key: if
+# contributor: Matus Goljer <matus.goljer@gmail.com>
+# --
+if (${1:condition})
+{
+    $0
+}

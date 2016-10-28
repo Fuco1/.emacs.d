@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: testclass
+# key: testclass
+# --
+package `(my-maven-test-package)`;
+
+import org.junit.*;
+import static org.junit.Assert.*;
+
+public class `(my-maven-class)` {
+
+    public `(my-maven-class)`() {}
+
+    $0
+}

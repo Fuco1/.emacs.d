@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: uoe
+# key: uoe
+# --
+throw new UnsupportedOperationException("${1:Not implemented yet}");

@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: test
+# key: test
+# --
+@Test
+public void $1() throws Exception {
+    $0
+    fail("You need to write some test code!");
+}

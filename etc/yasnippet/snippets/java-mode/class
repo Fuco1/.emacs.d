@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: class
+# key: class
+# --
+package `(my-maven-src-package)`;
+import java.util.*;
+import java.io.*;
+
+public class `(my-maven-class)` {
+
+    public `(my-maven-class)`() {}
+
+    $0
+}

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: psvm
+# key: psvm
+# --
+public static void main(String[] args) {
+    $0
+}

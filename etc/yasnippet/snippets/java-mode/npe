@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: npe
+# key: npe
+# --
+if ($1 == null) throw new NullPointerException("$1 is null");
