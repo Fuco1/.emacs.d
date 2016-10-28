@@ -1761,9 +1761,6 @@ SCOPE is the scope, one of: batch, thread, plid."
   (progn
     (defvar my-recentf-autosave-timer (run-with-timer 500 500 'recentf-save-list))))
 
-(use-package revbufs
-  :bind ("C-<f5>" . revbufs))
-
 (use-package rst
   :config
   (progn
