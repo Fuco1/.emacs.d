@@ -1,22 +1,3 @@
-(use-package flex-isearch
-  :defer t
-  :load-path "~/.emacs.d/vendor/flex-isearch/"
-  :config
-  (progn
-    (defadvice isearch-forward-regexp (around flex-isearch activate)
-      (when (and flex-isearch-mode
-                 (equal (ad-get-arg 0) '(16)))
-        (flex-isearch-activate)
-        (ad-set-arg 0 '(4)))
-      ad-do-it)
-
-    (defadvice isearch-backward-regexp (around flex-isearch activate)
-      (when (and flex-isearch-mode
-                 (equal (ad-get-arg 0) '(16)))
-        (flex-isearch-activate)
-        (ad-set-arg 0 '(4)))
-      ad-do-it)))
-
 (defun my-isearch-forward ()
   "Repeat the forward search.
 
@@ -118,6 +99,3 @@ directory, go right back into search."
 (bind-key "<f2>" 'isearch-occur                  isearch-mode-map)
 (bind-key "\r" 'my-isearch-exit                  isearch-mode-map)
 (bind-key "<return>" 'my-isearch-exit                  isearch-mode-map)
-
-(bind-key "C-S-s" 'flex-isearch-forward)
-(bind-key "C-S-r" 'flex-isearch-backward)
