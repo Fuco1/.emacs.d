@@ -1,0 +1,141 @@
+[submodule "projects/achievements-mode"]
+	path = projects/achievements-mode
+	url =  git@github.com:Fuco1/achievements-mode.git
+[submodule "projects/autobookmarks"]
+	path = projects/autobookmarks
+	url =  git@github.com:Fuco1/autobookmarks.git
+[submodule "projects/banana.el"]
+	path = projects/banana.el
+	url =  git@github.com:Fuco1/banana.el.git
+[submodule "projects/b.el"]
+	path = projects/b.el
+	url =  git@github.com:Fuco1/b.el.git
+[submodule "projects/better-jump"]
+	path = projects/better-jump
+	url =  git@github.com:Fuco1/finna-be-octo-hipster.git
+[submodule "projects/blablabla"]
+	path = projects/blablabla
+	url =  git@github.com:Fuco1/blablabla.git
+[submodule "projects/clippy.el"]
+	path = projects/clippy.el
+	url =  git@github.com:Fuco1/clippy.el.git
+[submodule "projects/dash-pl"]
+	path = projects/dash-pl
+	url =  git@github.com:Fuco1/petulant-dangerzone.git
+[submodule "projects/dired-hacks"]
+	path = projects/dired-hacks
+	url =  git@github.com:Fuco1/dired-hacks.git
+[submodule "projects/elwm"]
+	path = projects/elwm
+	url =  git@github.com:Fuco1/elwm.git
+[submodule "projects/ETable"]
+	path = projects/ETable
+	url =  git@github.com:Fuco1/ETable.git
+[submodule "projects/flash-region"]
+	path = projects/flash-region
+	url =  git@github.com:Fuco1/flash-region.git
+[submodule "projects/flycheck-phplint"]
+	path = projects/flycheck-phplint
+	url =  git@github.com:Fuco1/flycheck-phplint.git
+[submodule "projects/free-keys"]
+	path = projects/free-keys
+	url =  git@github.com:Fuco1/free-keys.git
+[submodule "projects/$if"]
+	path = projects/$if
+	url =  git@github.com:Fuco1/dollar-if.git
+[submodule "projects/indicators.el"]
+	path = projects/indicators.el
+	url =  git@github.com:Fuco1/indicators.el.git
+[submodule "projects/interval-list"]
+	path = projects/interval-list
+	url =  git@github.com:Fuco1/interval-list.git
+[submodule "projects/interval-tree"]
+	path = projects/interval-tree
+	url =  git@github.com:Fuco1/interval-tree.git
+[submodule "projects/justify-kp"]
+	path = projects/justify-kp
+	url =  git@github.com:Fuco1/justify-kp.git
+[submodule "projects/keyadvice.el"]
+	path = projects/keyadvice.el
+	url =  git@github.com:Fuco1/keyadvice.el.git
+[submodule "projects/letcheck"]
+	path = projects/letcheck
+	url =  git@github.com:Fuco1/letcheck.git
+[submodule "projects/litable"]
+	path = projects/litable
+	url =  git@github.com:Fuco1/litable.git
+[submodule "projects/monadic-parser"]
+	path = projects/monadic-parser
+	url =  git@github.com:Fuco1/monadic-parser.git
+[submodule "projects/mql-mode"]
+	path = projects/mql-mode
+	url =  git@github.com:Fuco1/mql-mode.git
+[submodule "projects/nave-mode"]
+	path = projects/nave-mode
+	url =  git@github.com:Fuco1/nave-mode.git
+[submodule "projects/org-clock-budget"]
+	path = projects/org-clock-budget
+	url =  git@github.com:Fuco1/org-clock-budget.git
+[submodule "projects/org-cookbook"]
+	path = projects/org-cookbook
+	url =  git@github.com:Fuco1/org-cookbook.git
+[submodule "projects/org-food-journal"]
+	path = projects/org-food-journal
+	url =  git@github.com:Fuco1/.emacs.d.git
+[submodule "projects/org-inline-image"]
+	path = projects/org-inline-image
+	url =  git@github.com:Fuco1/org-inline-image.git
+[submodule "projects/orgpath"]
+	path = projects/orgpath
+	url =  git@github.com:Fuco1/org-xpath.git
+[submodule "projects/org-pretty-table"]
+	path = projects/org-pretty-table
+	url =  git@github.com:Fuco1/org-pretty-table.git
+[submodule "projects/org-velocity"]
+	path = projects/org-velocity
+	url =  git@github.com:Fuco1/org-velocity.git
+[submodule "projects/pair-parser"]
+	path = projects/pair-parser
+	url =  git@github.com:Fuco1/ballin-octo-shame.git
+[submodule "projects/php-refactor"]
+	path = projects/php-refactor
+	url =  git@github.com:Fuco1/php-refactor.git
+[submodule "projects/prognth"]
+	path = projects/prognth
+	url =  git@github.com:Fuco1/prognth.git
+[submodule "projects/sallet"]
+	path = projects/sallet
+	url =  git@github.com:Fuco1/sallet.git
+[submodule "projects/slovak-holidays"]
+	path = projects/slovak-holidays
+	url =  git@github.com:Fuco1/slovak-holidays.git
+[submodule "projects/smartparens"]
+	path = projects/smartparens
+	url =  git@github.com:Fuco1/smartparens.git
+[submodule "projects/smartparens2"]
+	path = projects/smartparens2
+	url =  git@github.com:Fuco1/spawncamping-octo-ninja.git
+[submodule "projects/smartparens.docs"]
+	path = projects/smartparens.docs
+	url =
+[submodule "projects/smartparens.wiki"]
+	path = projects/smartparens.wiki
+	url =  git@github.com:Fuco1/smartparens.wiki.git
+[submodule "projects/sphinx-mode"]
+	path = projects/sphinx-mode
+	url =  git@github.com:Fuco1/sphinx-mode.git
+[submodule "projects/sql-workbench"]
+	path = projects/sql-workbench
+	url =  git@github.com:Fuco1/sql-workbench.git
+[submodule "projects/stocklist"]
+	path = projects/stocklist
+	url =  git@github.com:Fuco1/stocklist.git
+[submodule "projects/whitaker"]
+	path = projects/whitaker
+	url =  git@github.com:Fuco1/whitaker.git
+[submodule "projects/wiktionary-translate"]
+	path = projects/wiktionary-translate
+	url =  git@github.com:Fuco1/wiktionary-translate.git
+[submodule "projects/workman-layout"]
+	path = projects/workman-layout
+	url =  git@github.com:Fuco1/workman-layout.git
