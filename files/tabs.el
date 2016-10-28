@@ -48,6 +48,17 @@
         (ignore-errors (hippie-expand prefix))))
      ((my-smart-indent)))))
 
+(defvar my-magit-read-files-is-active nil
+  "Set to t when in `magit-read-files'.
+
+This is a hack to turn off `smart-tab' behaviour and just use
+`minibuffer-complete' (because the smart shit doesn't work with
+`ido-ubiquitous-mode').")
+
+(defadvice magit-read-files (around set-flag activate)
+  (let ((my-magit-read-files-is-active t))
+    ad-do-it))
+
 (defun smart-tab (prefix)
   "Do what I mean when I hit tab.
 
@@ -63,6 +74,8 @@ expands it.  Else calls `my-smart-indent'."
     (term-send-raw-string "\t"))
    ((bound-and-true-p elfeed-search-live)
     (completion-at-point))
+   ((bound-and-true-p my-magit-read-files-is-active)
+    (minibuffer-complete))
    ((eq major-mode 'org-mode)
     (cond
      ((looking-back "^<\\sw")
