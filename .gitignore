@@ -9,6 +9,5 @@ elnode/*
 elpa/*
 etc/eshell/lastdir
 files/personal.el
-projects/*
 todo.org
 vendor/*
