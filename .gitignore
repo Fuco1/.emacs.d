@@ -7,7 +7,7 @@ dev/*
 elfeed/*
 elnode/*
 elpa/*
-eshell/lastdir
+etc/eshell/lastdir
 files/personal.el
 projects/*
 todo.org

@@ -338,6 +338,7 @@
  '(emmet-preview-default nil)
  '(enable-recursive-minibuffers t)
  '(enable-remote-dir-locals t)
+ '(eshell-directory-name "~/.emacs.d/etc/eshell/")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
  '(eshell-output-filter-functions
    (quote
