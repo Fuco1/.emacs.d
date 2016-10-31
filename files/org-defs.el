@@ -511,12 +511,12 @@ current agenda view added to `org-tag-alist'."
       (let* ((current-offset (/ (- (+ (* 60 (string-to-number (format-time-string "%H")))
                                       (string-to-number (format-time-string "%M")))
                                    480) 10))
-             (slotline (copy-sequence "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |"))
+             (slotline (copy-sequence "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |"))
              (slotline (progn
                          (when (< 0 current-offset)
                            (put-text-property 0 current-offset 'font-lock-face '(:background "#555555") slotline))
                          slotline))
-             (timeline (concat "|08:00|09:00|10:00|11:00|12:00|13:00|14:00|15:00|16:00|17:00|18:00|19:00|20:00|21:00|22:00|23:00|00:00|"
+             (timeline (concat "|06:00|07:00|08:00|09:00|10:00|11:00|12:00|13:00|14:00|15:00|16:00|17:00|18:00|19:00|20:00|21:00|22:00|23:00|00:00|"
                                "\n"
                                slotline))
              (tasks nil))
@@ -535,8 +535,8 @@ current agenda view added to `org-tag-alist'."
               (push (list beg end face) tasks))))
         (setq tasks (nreverse tasks))
         (cl-labels ((triag (n) (/ (* n (1+ n)) 2))
-                    (get-start-pos (current-line) (+ (* current-line 105) (/ (- beg 480) 10) (- (triag (1- current-line)))))
-                    (get-end-pos (current-line) (+ (* current-line 105) (/ (- end 480) 10) (- (triag (1- current-line))))))
+                    (get-start-pos (current-line) (+ (* current-line 117) (/ (- beg 360) 10) (- (triag (1- current-line)))))
+                    (get-end-pos (current-line) (+ (* current-line 117) (/ (- end 360) 10) (- (triag (1- current-line))))))
           (let ((current-line 1))
             (with-temp-buffer
               (insert timeline)
