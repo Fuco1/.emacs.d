@@ -510,7 +510,7 @@ current agenda view added to `org-tag-alist'."
     (defun my-org-generate-timeline ()
       (let* ((current-offset (/ (- (+ (* 60 (string-to-number (format-time-string "%H")))
                                       (string-to-number (format-time-string "%M")))
-                                   480) 10))
+                                   360) 10))
              (slotline (copy-sequence "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |"))
              (slotline (progn
                          (when (< 0 current-offset)
