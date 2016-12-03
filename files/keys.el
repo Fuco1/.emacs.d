@@ -23,6 +23,7 @@
 
 ;; refresh-like
 (bind-key "M-<f5>" '(lambda () (interactive) (load-file (buffer-file-name))))
+(bind-key "C-<f5>" 'revert-buffer)
 
 ;; Indenting and alignment
 (bind-key "C-<f8>" 'indent-buffer)
