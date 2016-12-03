@@ -5,6 +5,10 @@
 
 (define-abbrev-table 'Info-edit-mode-abbrev-table '())
 
+(define-abbrev-table 'TeX-error-overview-mode-abbrev-table '())
+
+(define-abbrev-table 'TeX-output-mode-abbrev-table '())
+
 (define-abbrev-table 'add-to-list '())
 
 (define-abbrev-table 'ag-mode-abbrev-table '())
@@ -78,6 +82,8 @@
 (define-abbrev-table 'dig-mode-abbrev-table '())
 
 (define-abbrev-table 'display-time-world-mode-abbrev-table '())
+
+(define-abbrev-table 'doctex-mode-abbrev-table '())
 
 (define-abbrev-table 'edebug-eval-mode-abbrev-table '())
 
@@ -179,6 +185,8 @@
 
 (define-abbrev-table 'global-abbrev-table '())
 
+(define-abbrev-table 'gnuplot-comint-mode-abbrev-table '())
+
 (define-abbrev-table 'gnus-article-edit-mode-abbrev-table '())
 
 (define-abbrev-table 'gnus-article-mode-abbrev-table '())
@@ -231,6 +239,14 @@
 
 (define-abbrev-table 'js-mode-abbrev-table '())
 
+(define-abbrev-table 'latex-mode-abbrev-table '())
+
+(define-abbrev-table 'ledger-mode-abbrev-table '())
+
+(define-abbrev-table 'ledger-reconcile-mode-abbrev-table '())
+
+(define-abbrev-table 'ledger-report-mode-abbrev-table '())
+
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
 (define-abbrev-table 'literate-haskell-mode-abbrev-table '())
@@ -245,6 +261,8 @@
 
 (define-abbrev-table 'magit-log-select-mode-abbrev-table '())
 
+(define-abbrev-table 'magit-merge-preview-mode-abbrev-table '())
+
 (define-abbrev-table 'magit-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-popup-mode-abbrev-table '())
@@ -256,6 +274,8 @@
 (define-abbrev-table 'magit-reflog-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-refs-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-repolist-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-revision-mode-abbrev-table '())
 
@@ -303,11 +323,15 @@
 
 (define-abbrev-table 'occur-mode-abbrev-table '())
 
+(define-abbrev-table 'org-clock-budget-report-mode-abbrev-table '())
+
 (define-abbrev-table 'org-export-stack-mode-abbrev-table '())
 
 (define-abbrev-table 'org-mode-abbrev-table '())
 
 (define-abbrev-table 'outline-mode-abbrev-table '())
+
+(define-abbrev-table 'overseer-buffer-mode-abbrev-table '())
 
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
 
@@ -324,6 +348,8 @@
 
 (define-abbrev-table 'pike-mode-abbrev-table '())
 
+(define-abbrev-table 'plain-tex-mode-abbrev-table '())
+
 (define-abbrev-table 'plstore-mode-abbrev-table '())
 
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
@@ -332,9 +358,17 @@
 
 (define-abbrev-table 'python-mode-abbrev-table '())
 
-(define-abbrev-table 'python-mode-skeleton-abbrev-table '())
+(define-abbrev-table 'python-mode-skeleton-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'require '())
+
+(define-abbrev-table 'rst-mode-abbrev-table
+  '(
+   ))
+
+(define-abbrev-table 'rst-toc-mode-abbrev-table '())
 
 (define-abbrev-table 'ruby-mode-abbrev-table '())
 
@@ -347,6 +381,8 @@
 (define-abbrev-table 'sh-mode-abbrev-table '())
 
 (define-abbrev-table 'shell-mode-abbrev-table '())
+
+(define-abbrev-table 'slitex-mode-abbrev-table '())
 
 (define-abbrev-table 'smime-mode-abbrev-table '())
 
@@ -376,6 +412,10 @@
 (define-abbrev-table 'tar-mode-abbrev-table '())
 
 (define-abbrev-table 'term-mode-abbrev-table '())
+
+(define-abbrev-table 'tex-mode-abbrev-table '())
+
+(define-abbrev-table 'tex-shell-abbrev-table '())
 
 (define-abbrev-table 'text-mode-abbrev-table '())
 
