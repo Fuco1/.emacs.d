@@ -387,15 +387,16 @@ overdue and a habit it is inserted multiple times."
                        (goto-char (point-min))
                        (while (and (eq (org-get-at-bol 'org-agenda-type) 'agenda)
                                    (= (forward-line 1) 0)))
-                       (point)))
+                       (point-marker)))
               (visited nil))
           (goto-char (point-min))
           (while (< (point) limit)
             (let ((p (--when-let (org-get-at-bol 'org-marker)
                        (org-with-point-at it
                          (save-excursion
-                           (org-back-to-heading t)
-                           (point-marker))))))
+                           (ignore-errors
+                             (org-back-to-heading t)
+                             (point-marker)))))))
               (if (and p
                        (member p visited))
                   (delete-region (point-at-bol) (1+ (point-at-eol)))
