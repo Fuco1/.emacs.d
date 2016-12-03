@@ -1413,8 +1413,7 @@ Switch projects and subprojects from NEXT back to TODO"
               (insert "\n* Reading\n\n"))
             (my-org-export-read-books-do-export buf)
             (with-current-buffer buf
-              (org-export-to-file 'html "~/books.html"))
-            (copy-file "~/books.html" "/fuco@dasnet.cz:/home/fuco/books.html" t))
+              (org-export-to-file 'html "~/books.html")))
         (kill-buffer "*org-books-export*")))))
 
 
