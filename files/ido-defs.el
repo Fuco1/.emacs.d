@@ -149,8 +149,9 @@
   (ido-to-end  ;; move . files to end (again)
    (--select (char-equal (string-to-char it) ?.) ido-temp-list))
   (when ido-show-dot-for-dired
-    (setq ido-temp-list
-          (cons "." (--remove (equal it ".") ido-temp-list)))))
+    (when (caddr ido-temp-list)
+      (setq ido-temp-list
+            (cons "." (--remove (equal it ".") ido-temp-list))))))
 
 (add-hook 'ido-make-file-list-hook 'ido-sort-mtime)
 (add-hook 'ido-make-dir-list-hook 'ido-sort-mtime)
