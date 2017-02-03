@@ -624,7 +624,14 @@ idle timer to do the actual update.")
 
 (use-package emmet-mode
   :defer t
-  :diminish emmet-mode)
+  :diminish emmet-mode
+  :config
+  (progn
+    (defadvice emmet-after-hook (after enable-preview activate)
+      (emmet-preview-mode))
+
+    (defadvice emmet-expand-line (after disable-preview activate)
+      (emmet-preview-abort))))
 
 (use-package emr
   :bind (("M-r" . emr-show-refactor-menu)))
