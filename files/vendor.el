@@ -304,6 +304,9 @@ message.")
   :config
   (progn
     (add-to-list 'company-backends 'company-omnisharp)
+
+    (bind-key "C-c y" 'company-yasnippet)
+
     (bind-key "C-n" 'company-select-next company-filter-map)
     (bind-key "C-p" 'company-select-previous company-filter-map)
     (bind-key "C-n" 'company-select-next company-active-map)
