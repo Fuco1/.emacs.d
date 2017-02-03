@@ -309,6 +309,16 @@ message.")
     (bind-key "C-n" 'company-select-next company-active-map)
     (bind-key "C-p" 'company-select-previous company-active-map)))
 
+(use-package compile
+  :config
+  (progn
+    (use-package ansi-color)
+    (defun my-colorize-compilation-buffer ()
+      (toggle-read-only)
+      (ansi-color-apply-on-region compilation-filter-start (point))
+      (toggle-read-only))
+    (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)))
+
 (use-package csharp-mode
   :defer t
   :config
