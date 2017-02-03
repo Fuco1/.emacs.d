@@ -55,7 +55,7 @@ forward direction."
   "Kill active region or one word backward."
   (interactive "p")
   (if (use-region-p)
-      (kill-region (region-beginning) (region-end))
+      (sp-kill-region (region-beginning) (region-end))
     (if smartparens-strict-mode
         (sp-backward-kill-word arg)
       (backward-kill-word arg))))
