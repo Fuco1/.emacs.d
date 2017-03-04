@@ -1014,6 +1014,7 @@ repeating binding, COMMAND is the command to execute."
          ("C-<f10>" . flyspell-mode))
   :init
   (progn
+    ;; TODO: add a hydra to pick dictionary
     ;; slovniky sa mozu stiahnut aj ako balicky myspell-*
     (setq ispell-local-dictionary-alist
           '((nil
