@@ -6,6 +6,7 @@
 (bind-keys :map emacs-lisp-mode-map
   ("<return>" . my-emacs-lisp-open-line)
   ("C-M-;" . clippy-describe-function)
+  ("C-c C-c" . overseer-test-run-test)
   ("C-. ." . my-describe-thing-in-buffer))
 (bind-key "C-x C-d"
           (defhydra hydra-elisp-refactor (:color blue)
