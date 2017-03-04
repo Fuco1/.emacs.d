@@ -1499,11 +1499,17 @@ network prefix)."
       "Run all Nette tests found in current directory."
       (interactive)
       (let* ((root (my-php-find-project-root))
-             (tester-dir (concat root "/vendor/bin/"))
-             (dir (my-php-local-file-name default-directory)))
+             (tester (if (file-exists-p (concat root "/vendor/bin/tester"))
+                         (concat root "/vendor/bin/tester")
+                       (concat root "/core/vendor/bin/tester")))
+             (dir (my-php-local-file-name default-directory))
+             (php-ini-file (-first 'file-exists-p
+                                   (list
+                                    (format "%s/tests/php.ini" root)
+                                    (format "%s/core/tests/php.ini" root)))))
         (when (buffer-modified-p) (save-buffer))
-        (let ((cmd (format "php %stester -c %s/tests/php.ini '%s'" tester-dir root dir)))
-          (async-shell-command cmd))))
+        (let ((cmd (format "php %s -c %s '%s'" tester php-ini-file dir)))
+          (compile cmd))))
     (bind-key "C-c C-c" 'my-php-run-tests php-mode-map)
 
     (defun my-php-switch-to-test ()
