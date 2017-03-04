@@ -1661,3 +1661,16 @@ sibling before the next header."
               (widen)
               (org-end-of-subtree t t)
               (org-paste-subtree level tree-text))))))))
+
+(defun my-org-table-to-ledger-quotes (ticker)
+  "Convert an org table with date/price quote to ledger format.
+
+PSE quotes can be downloadad as csv files at
+https://www.pse.cz/udaje-o-trhu/akcie/"
+  (let ((data (org-table-to-lisp)))
+    (-map
+     (-lambda ((d p))
+       (-let (((day mon year) (-map 'string-to-number (split-string d "\\."))))
+         (format "P %d/%02d/%02d 00:00:00 %s %s Kc"
+                 year mon day ticker p)))
+     data)))
