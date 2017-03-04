@@ -909,26 +909,20 @@ A good idea is to use directory-local variable to specify this."
 (use-package hydra
   :init
   (progn
-    (defmacro my-generate-hydra (name body &rest heads)
-      (declare (indent 2))
-      (let ((hydra (make-symbol "hydra")))
-        `(progn
-           (let ((,hydra (defhydra ,name ,body ,@heads)))
-             ,@(-map
-                (lambda (head)
-                  (let ((fname (intern (concat (symbol-name name) "/init/" (symbol-name (cadr head))))))
-                    `(progn
-                       (defun ,fname ()
-                         (interactive)
-                         (call-interactively ',(cadr head))
-                         (call-interactively ,hydra))
-                       (bind-key [remap ,(cadr head)] ',fname))))
-                heads)))))
+    (defmacro my-bind-repeatable-command (binding-start binding-repeat command)
+      "Generate a repeating hydra.
 
-    (defmacro my-make-repeatable-command (key command)
-      (declare (indent 2))
-      `(my-generate-hydra ,(intern (concat (symbol-name command) "/repeatable-hydra")) (:color red)
-         (,key ,command)))))
+BINDING-START is the initial binding, BINDING-REPEAT is the
+repeating binding, COMMAND is the command to execute."
+      (declare (debug (stringp stringp symbolp)))
+      (let* ((hydra-name (concat "hydra-" (symbol-name command)))
+             (hydra-symbol (intern hydra-name)))
+        `(progn
+           (defhydra ,hydra-symbol (:color red)
+             (,binding-repeat ,command))
+           (bind-key
+            ,binding-start
+            ',(intern (concat hydra-name "/" (symbol-name command)))))))))
 
 (use-package ibuffer
   :commands ibuffer
