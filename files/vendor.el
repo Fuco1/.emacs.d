@@ -1420,6 +1420,7 @@ If in the test file, visit source."
                 ("d" my-php-debug-geben "Debug with XDebug")
                 ("v" php-refactor-rename-variable "Rename variable")
                 ("i" php-refactor-inline-variable "Inline variable")
+                ("e" php-refactor-extract-variable "Extract variable")
                 ("c" my-php-implement-constructor "Implement constructor")
                 ("g" my-php-implement-getters-and-setters "Implement getters")
                 ("p" my-php-implement-proxy-function-call "Implement proxy")
