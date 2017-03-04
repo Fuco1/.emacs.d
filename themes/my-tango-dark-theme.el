@@ -457,8 +457,6 @@ is extension of default `tango-dark' face.")
 
    (org-mode-line-clock nil t)
 
-   (org-date (:foreground blue-0))
-
    ;; Textile
    (textile-h1-face (:inherit markup-header-1))
    (textile-h2-face (:inherit markup-header-2))
