@@ -10,6 +10,9 @@
 [submodule "projects/dired-hacks"]
 	path = projects/dired-hacks
 	url =  git@github.com:Fuco1/dired-hacks.git
+[submodule "projects/elisp-docstring-mode"]
+	path = projects/elisp-docstring-mode
+	url = git@github.com:Fuco1/elisp-docstring-mode.git
 [submodule "projects/elwm"]
 	path = projects/elwm
 	url =  git@github.com:Fuco1/elwm.git
@@ -34,6 +37,9 @@
 [submodule "projects/litable"]
 	path = projects/litable
 	url =  git@github.com:Fuco1/litable.git
+[submodule "projects/neon-mode"]
+	path = projects/neon-mode
+	url = git@github.com:Fuco1/neon-mode.git
 [submodule "projects/mql-mode"]
 	path = projects/mql-mode
 	url =  git@github.com:Fuco1/mql-mode.git
