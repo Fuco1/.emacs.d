@@ -798,7 +798,38 @@ idle timer to do the actual update.")
   :commands flycheck-mode
   :config
   (progn
-    (use-package flycheck-phplint)))
+    (use-package flycheck-phplint)
+
+    (flycheck-def-option-var flycheck-phpstan-config nil php-phpstan
+      "Path to the phpstan configuration for current project.
+
+A good idea is to use directory-local variable to specify this."
+      :type 'file)
+
+    (flycheck-def-option-var flycheck-phpstan-level "3" php-phpstan
+      "Strictness level phpstan uses to check the sources.
+
+A good idea is to use directory-local variable to specify this."
+      :type 'string)
+
+    (flycheck-define-checker php-phpstan
+      "Checker for PHPStan"
+      :command ("phpstan"
+                "analyse"
+                "--no-progress"
+                "--raw"
+                (option "-l" flycheck-phpstan-level)
+                (option "-c" flycheck-phpstan-config)
+                source)
+      :error-patterns
+      ((error line-start (*? char) ":" line ":" (message)))
+      :modes (php-mode php+-mode))
+
+    (add-to-list 'flycheck-checkers 'php-phpstan 'append)
+
+    (flycheck-add-next-checker 'php '(warning . php-phpstan) 'append)
+    (flycheck-add-next-checker 'php-phpmd '(warning . php-phpstan) 'append)
+    (flycheck-add-next-checker 'php-phpcs '(warning . php-phpstan) 'append)))
 
 (use-package fold-this
   :bind (("C-c C-v f" . fold-this)))
