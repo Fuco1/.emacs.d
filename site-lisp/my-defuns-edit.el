@@ -513,7 +513,7 @@ With raw prefix \\[universal-argument] insert the word at point."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Identifier editing
 
-(defvar my-change-identifier-style-last 's-dashed-words
+(defvar-local my-change-identifier-style-last 's-dashed-words
   "Last transformer used to change identifier style.")
 
 ;;;###autoload
