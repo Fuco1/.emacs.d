@@ -798,6 +798,8 @@ idle timer to do the actual update.")
       (scf-mode 1))
     (add-hook 'grep-mode-hook 'my-grep-mode-init)))
 
+(defvar-local flycheck-error-indicators nil)
+
 (use-package flycheck
   :commands flycheck-mode
   :config
@@ -833,7 +835,28 @@ A good idea is to use directory-local variable to specify this."
 
     (flycheck-add-next-checker 'php '(warning . php-phpstan) 'append)
     (flycheck-add-next-checker 'php-phpmd '(warning . php-phpstan) 'append)
-    (flycheck-add-next-checker 'php-phpcs '(warning . php-phpstan) 'append)))
+    (flycheck-add-next-checker 'php-phpcs '(warning . php-phpstan) 'append)
+
+    ;; (use-package flycheck-ledger)
+    (use-package indicators)
+
+    (defun flycheck-errors-to-indicator-list ()
+      (let* ((lines (-uniq (--map (flycheck-error-line it) flycheck-current-errors))))
+        (unless (> (length lines) 50)
+          (--map (ind-create-indicator-at-line it) lines))))
+
+    (defun flycheck-add-indicators ()
+      (setq-local flycheck-error-indicators (flycheck-errors-to-indicator-list))
+      (ind-update-event-handler))
+    (add-hook 'flycheck-after-syntax-check-hook 'flycheck-add-indicators)
+
+    (defun my-flycheck-init ()
+      (indicators-mode t)
+      (ind-create-indicator 'point :managed t :face font-lock-builtin-face)
+      (add-to-list 'ind-managed-list-relative 'flycheck-error-indicators)
+      (flycheck-haskell-setup)
+      (flycheck-cask-setup))
+    (add-hook 'flycheck-mode-hook 'my-flycheck-init)))
 
 (use-package fold-this
   :bind (("C-c C-v f" . fold-this)))
