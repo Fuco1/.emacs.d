@@ -1756,6 +1756,9 @@ SCOPE is the scope, one of: batch, thread, plid."
 
     (defun my-php-mode-init ()
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
+      (setq-local flycheck-php-phpstan-executable
+                  (concat (my-php-find-project-root)
+                          "/vendor/bin/phpstan"))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (c-set-style "php")
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
