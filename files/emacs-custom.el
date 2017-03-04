@@ -2263,6 +2263,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "unknown" :family "Inconsolata for Powerline Mod"))))
  '(stocklist-watched-cell ((t (:background "dim gray"))))
  '(web-mode-block-control-face ((t (:inherit font-lock-keyword-face)))))
