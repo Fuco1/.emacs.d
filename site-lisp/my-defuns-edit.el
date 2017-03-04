@@ -8,6 +8,7 @@
 
 (require 'thingatpt)
 (require 'dired)
+(require 'subword)
 
 (require 'dash)
 (require 's)
@@ -537,6 +538,26 @@ Cycle styles: dashed, lower camel case, upper camel case, snakecase."
     (setq my-change-identifier-style-last 's-dashed-words)))
   (let ((identifier (delete-and-extract-region beg end)))
     (insert (funcall my-change-identifier-style-last identifier))))
+
+;; subword-aware forward/backward
+
+(defun my-forward-word (&optional arg)
+  "Call `forward-word' or `subword-forward'.
+
+Repeat ARG times."
+  (interactive "^p")
+  (if subword-mode
+      (subword-forward arg)
+    (forward-word arg)))
+
+(defun my-backward-word (&optional arg)
+  "Call `backward-word' or `subword-backward'.
+
+Repeat ARG times."
+  (interactive "^p")
+  (if subword-mode
+      (subword-backward arg)
+    (backward-word arg)))
 
 (provide 'my-defuns-edit)
 ;;; my-defuns-edit.el ends here
