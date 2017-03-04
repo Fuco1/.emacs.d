@@ -1386,6 +1386,7 @@ If in the test file, visit source."
 
     (bind-key "C-x C-d"
               (defhydra hydra-php-refactor (:color blue)
+                ("d" my-php-debug-geben "Debug with XDebug")
                 ("v" php-refactor-rename-variable "Rename variable")
                 ("i" php-refactor-inline-variable "Inline variable")
                 ("c" my-php-implement-constructor "Implement constructor")
@@ -1703,6 +1704,15 @@ SCOPE is the scope, one of: batch, thread, plid."
                (replace-regexp-in-string "[ \t]*[{!]?$" "" it)
                (ggtags-fontify-code it)
                (concat it (and (cdr defs) " [guess]"))))))
+
+    (defun my-php-debug-geben ()
+      "Run current PHP script for debugging with geben"
+      (require 'geben)
+      (interactive)
+      (call-interactively 'geben)
+      (call-process-shell-command
+       (concat "XDEBUG_CONFIG='idekey=my-php-559' php " (buffer-file-name) " &")
+       nil 0))
 
     (defun my-php-mode-init ()
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
