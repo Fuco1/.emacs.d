@@ -357,7 +357,7 @@ message.")
   :config
   (progn
     (defun my-css-mode-setup ()
-      (multi-web-mode 1)
+      (when (featurep 'multi-web-mode) (multi-web-mode 1))
       (emmet-mode 1))
     (add-hook 'css-mode-hook 'my-css-mode-setup)))
 
@@ -1036,7 +1036,7 @@ idle timer to do the actual update.")
     (defun my-js-mode-init ()
       (when (string-match-p "conkeror" (buffer-file-name))
         (conkeror-minor-mode 1))
-      (multi-web-mode 1))
+      (when (featurep 'multi-web-mode) (multi-web-mode 1)))
     (add-hook 'js-mode-hook 'my-js-mode-init)
     (defun my-js-disable-multi-web-mode ()
       "Set current buffer to `js-mode' and disable `multi-web-mode'."
@@ -1269,6 +1269,7 @@ If in the test file, visit source."
          ("M-E" . mc/edit-ends-of-lines)))
 
 (use-package multi-web-mode
+  :disabled t
   :defer t
   :config
   (progn
@@ -1710,7 +1711,7 @@ SCOPE is the scope, one of: batch, thread, plid."
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
       (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name)))
-      (multi-web-mode 1)
+      (when (featurep 'multi-web-mode) (multi-web-mode 1))
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
 
@@ -1816,7 +1817,7 @@ SCOPE is the scope, one of: batch, thread, plid."
       (cleanup-buffer))
 
     (defun my-html-mode-setup ()
-      (multi-web-mode 1)
+      (when (featurep 'multi-web-mode) (multi-web-mode 1))
       (emmet-mode 1)
       (smartparens-mode 1)
       (bind-keys :map html-mode-map
