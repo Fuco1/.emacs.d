@@ -167,11 +167,11 @@
  '(circe-reduce-lurker-spam t)
  '(circe-server-killed-confirmation (quote ask-and-kill-all))
  '(column-number-mode t)
-  '(company-backends
-    (quote
-     (company-omnisharp company-swb company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
-                        (company-dabbrev-code company-gtags company-etags company-keywords)
-                        company-oddmuse company-dabbrev)))
+ '(company-backends
+   (quote
+    (company-omnisharp php-extras-company company-swb company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+                       (company-dabbrev-code company-gtags company-etags company-keywords)
+                       company-oddmuse company-dabbrev)))
  '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-read-command nil)
   '(completion-ignored-extensions
@@ -182,9 +182,9 @@
  '(cursor-color "#839496")
  '(cursor-type (quote box))
  '(custom-enabled-themes (quote (my-tango-dark)))
-  '(custom-safe-themes
-    (quote
-     ("efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+ '(custom-safe-themes
+   (quote
+    ("efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -344,7 +344,6 @@
  '(emmet-preview-default nil)
  '(enable-recursive-minibuffers t)
  '(enable-remote-dir-locals t)
- '(eshell-directory-name "~/.emacs.d/etc/eshell/")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
   '(eshell-output-filter-functions
     (quote
@@ -370,13 +369,15 @@
  '(explicit-shell-file-name "/usr/bin/zsh")
  '(eyebrowse-mode t)
  '(find-grep-options "-qE")
- '(flycheck-disabled-checkers (quote (php-phplint)))
+ '(flycheck-disabled-checkers (quote (php-phplint php-phpcs php-phpmd)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
  '(flycheck-ghc-args nil)
   '(flycheck-ghc-search-path
     (quote
      ("/home/matus/dotfiles/xmonad/.xmonad/lib" "/home/matus/dev/haskell/mpris/src/")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
+ '(flycheck-php-phpcs-executable "~/.composer/vendor/bin/phpcs")
+ '(flycheck-php-phpmd-executable "~/.composer/vendor/bin/phpmd")
  '(flycheck-phpcs-standard "PW")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
   '(font-latex-math-environments
@@ -549,16 +550,16 @@
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
  '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last")
-  '(ido-ubiquitous-command-overrides
-    (quote
-     ((disable exact "execute-extended-command")
-      (enable prefix "wl-")
-      (enable-old prefix "Info-")
-      (enable exact "webjump")
-      (enable regexp "\\`\\(find\\|load\\|locate\\)-library\\'")
-      (disable prefix "org-")
-      (disable prefix "tmm-")
-      (enable regexp "\\`\\(load\\|enable\\|disable\\|describe\\|custom-theme-visit\\)-theme\\'"))))
+ '(ido-ubiquitous-command-overrides
+   (quote
+    ((disable exact "execute-extended-command")
+     (enable prefix "wl-")
+     (enable-old prefix "Info-")
+     (enable exact "webjump")
+     (enable regexp "\\`\\(find\\|load\\|locate\\)-library\\'")
+     (disable prefix "org-")
+     (disable prefix "tmm-")
+     (enable regexp "\\`\\(load\\|enable\\|disable\\|describe\\|custom-theme-visit\\)-theme\\'"))))
  '(imenu-auto-rescan t)
  '(indent-tabs-mode nil)
  '(indicate-empty-lines nil)
@@ -570,6 +571,7 @@
  '(jump-char-forward-key "m")
  '(keyfreq-autosave-mode t)
  '(keyfreq-file "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq")
+ '(keyfreq-file-lock "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq.lock")
  '(keyfreq-mode t)
  '(ledger-reconcile-default-commodity "Kc")
   '(ledger-reports
@@ -635,10 +637,12 @@
  '(lui-time-stamp-format "[%H:%M:%S] ")
  '(lui-time-stamp-only-when-changed-p nil)
  '(lui-time-stamp-position (quote left))
+ '(magit-bury-buffer-function (quote quit-window))
  '(magit-completing-read-function (quote ido-completing-read))
  '(magit-diff-refine-hunk (quote all))
  '(magit-log-arguments (quote ("--graph" "--color" "--decorate")))
  '(magit-push-always-verify nil)
+ '(magit-tag-arguments (quote ("--sort=v:refname")))
  '(mail-envelope-from (quote header))
  '(mail-specify-envelope-from t)
  '(make-pointer-invisible t)
@@ -1608,9 +1612,11 @@
 (quote
  (("lemma" 32 "lem:" "~\\cref{%s}" nil nil)
   ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
+ '(require-final-newline t)
 '(safe-local-variable-values
 (quote
- ((eval when
+ ((flycheck-phpstan-config . "/home/matus/dev/Sandbox/core/tests/phpstan/phpstan.neon")
+  (eval when
         (and
          (buffer-file-name)
          (file-regular-p
@@ -1923,7 +1929,7 @@
   (eval allout-mode t))))
 '(sallet-buffer-sources
 (quote
- (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-gtags-files sallet-source-default-directory-files sallet-source-projectile-projects sallet-source-locate)))
+ (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-gtags-files sallet-source-projectile-projects sallet-source-locate)))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
  '(save-place-limit nil)
@@ -2242,9 +2248,9 @@
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
  '(winner-mode t)
- '(x-select-enable-clipboard t)
  '(yas-prompt-functions (quote (yas-ido-prompt)))
- '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets"))))
+ '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets")))
+ '(x-select-enable-clipboard t))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
@@ -2257,7 +2263,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(markup-header ((t (:inherit font-lock-function-name-face :background "#4e4e4e" :weight bold))) t)
- '(org-date ((t (:inherit fixed-pitch :foreground "#8cc4ff"))))
- '(org-level-1 ((((class color) (min-colors 65535)) :inherit outline-1) (((class color) (min-colors 256)) :inherit outline-1)))
- '(stocklist-watched-cell ((t (:background "dim gray")))))
+ '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "unknown" :family "Inconsolata for Powerline Mod"))))
+ '(stocklist-watched-cell ((t (:background "dim gray"))))
+ '(web-mode-block-control-face ((t (:inherit font-lock-keyword-face)))))
