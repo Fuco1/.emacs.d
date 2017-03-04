@@ -660,10 +660,14 @@ idle timer to do the actual update.")
   :defer t
   :config
   (progn
+    (bind-key "q" 'quit-window ess-help-mode-map)
     (defun my-ess-post-run-hook ()
       (modify-syntax-entry ?$ ".")
       (ess-execute-screen-options))
-    (add-hook 'ess-post-run-hook 'my-ess-post-run-hook)))
+    (add-hook 'ess-post-run-hook 'my-ess-post-run-hook)
+    (defun my-inferior-ess-init ()
+      (smartparens-mode 1))
+    (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)))
 
 (use-package expand-region
   :bind ("s-'" . er/expand-region))
