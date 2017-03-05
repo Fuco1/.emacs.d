@@ -30,88 +30,88 @@
      ("<up>" "Leftrightarrow" "" nil)
      ("<f1>" "ldots" "" nil))))
  '(TeX-PDF-mode t)
-  '(TeX-command-list
-    (quote
-     (("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
-       (plain-tex-mode texinfo-mode ams-tex-mode)
-       :help "Run plain TeX")
-      ("LaTeX" "%`%l%(mode)%' %t" TeX-run-TeX nil
-       (latex-mode doctex-mode)
-       :help "Run LaTeX")
-      ("Makeinfo" "makeinfo %t" TeX-run-compile nil
-       (texinfo-mode)
-       :help "Run Makeinfo with Info output")
-      ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil
-       (texinfo-mode)
-       :help "Run Makeinfo with HTML output")
-      ("AmSTeX" "%(PDF)amstex %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
-       (ams-tex-mode)
-       :help "Run AMSTeX")
-      ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
-       (context-mode)
-       :help "Run ConTeXt once")
-      ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
-       (context-mode)
-       :help "Run ConTeXt until completion")
-      ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
-      ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-      ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
-      ("Print" "%p" TeX-run-command t t :help "Print the file")
-      ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
-      ("File" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
-      ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
-      ("Check" "lacheck %s" TeX-run-compile nil
-       (latex-mode)
-       :help "Check LaTeX file for correctness")
-      ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
-      ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
-      ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
-      ("Other" "" TeX-run-command t t :help "Run an arbitrary command")
-      ("Run Zathura" "zathura --fork -s -x \"emacsclient --no-wait +%%{line} %%{input}\" %s.pdf" TeX-run-command nil t :help "Run Zathura PDF viewer"))))
-   '(TeX-output-view-style
-     (quote
-      (("^dvi$"
-        ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
-        "%(o?)dvips -t landscape %d -o && gv %f")
-       ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
-       ("^dvi$"
-        ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$")
-        "%(o?)yap %dS -paper a4r -s 0 %d")
-       ("^dvi$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)yap %dS -paper a4 %d")
-       ("^dvi$"
-        ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$")
-        "%(o?)yap %dS -paper a5r -s 0 %d")
-       ("^dvi$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)yap %dS -paper a5 %d")
-       ("^dvi$" "^b5paper$" "%(o?)yap %dS -paper b5 %d")
-       ("^dvi$" "^letterpaper$" "%(o?)yap %dS -paper us %d")
-       ("^dvi$" "^legalpaper$" "%(o?)yap %dS -paper legal %d")
-       ("^dvi$" "^executivepaper$" "%(o?)yap %dS -paper 7.25x10.5in %d")
-       ("^dvi$" "." "%(o?)yap %dS %d")
-       ("^pdf$" "." "gsview32 -remote %s -raise %o %(outpage)")
-       ("^html?$" "." "netscape %o"))))
+ '(TeX-command-list
+   (quote
+    (("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (plain-tex-mode texinfo-mode ams-tex-mode)
+      :help "Run plain TeX")
+     ("LaTeX" "%`%l%(mode)%' %t" TeX-run-TeX nil
+      (latex-mode doctex-mode)
+      :help "Run LaTeX")
+     ("Makeinfo" "makeinfo %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with Info output")
+     ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with HTML output")
+     ("AmSTeX" "%(PDF)amstex %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (ams-tex-mode)
+      :help "Run AMSTeX")
+     ("ConTeXt" "texexec --once --texutil %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt once")
+     ("ConTeXt Full" "texexec %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt until completion")
+     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
+     ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
+     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+     ("Print" "%p" TeX-run-command t t :help "Print the file")
+     ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
+     ("File" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
+     ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
+     ("Check" "lacheck %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for correctness")
+     ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
+     ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
+     ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command")
+     ("Run Zathura" "zathura --fork -s -x \"emacsclient --no-wait +%%{line} %%{input}\" %s.pdf" TeX-run-command nil t :help "Run Zathura PDF viewer"))))
+ '(TeX-output-view-style
+   (quote
+    (("^dvi$"
+      ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
+      "%(o?)dvips -t landscape %d -o && gv %f")
+     ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
+     ("^dvi$"
+      ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$")
+      "%(o?)yap %dS -paper a4r -s 0 %d")
+     ("^dvi$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)yap %dS -paper a4 %d")
+     ("^dvi$"
+      ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$")
+      "%(o?)yap %dS -paper a5r -s 0 %d")
+     ("^dvi$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)yap %dS -paper a5 %d")
+     ("^dvi$" "^b5paper$" "%(o?)yap %dS -paper b5 %d")
+     ("^dvi$" "^letterpaper$" "%(o?)yap %dS -paper us %d")
+     ("^dvi$" "^legalpaper$" "%(o?)yap %dS -paper legal %d")
+     ("^dvi$" "^executivepaper$" "%(o?)yap %dS -paper 7.25x10.5in %d")
+     ("^dvi$" "." "%(o?)yap %dS %d")
+     ("^pdf$" "." "gsview32 -remote %s -raise %o %(outpage)")
+     ("^html?$" "." "netscape %o"))))
  '(TeX-source-correlate-method (quote synctex))
  '(TeX-source-correlate-mode t)
-  '(TeX-view-program-list
-    (quote
-     (("View with Zathura"
-       ("zathura"
-        (mode-io-correlate " --synctex-forward %n:0:%b")
-        " %s.pdf"))
-      ("View with Sumatra"
-       ("sumatra -reuse-instance"
-        (mode-io-correlate " -forward-search %b %n ")
-        " %o")))))
-   '(TeX-view-program-selection
-     (quote
-      (((output-dvi style-pstricks)
-        "dvips and start")
-       (output-dvi "Yap")
-       (output-pdf "View with Zathura")
-       (output-html "start"))))
+ '(TeX-view-program-list
+   (quote
+    (("View with Zathura"
+      ("zathura"
+       (mode-io-correlate " --synctex-forward %n:0:%b")
+       " %s.pdf"))
+     ("View with Sumatra"
+      ("sumatra -reuse-instance"
+       (mode-io-correlate " -forward-search %b %n ")
+       " %o")))))
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi style-pstricks)
+      "dvips and start")
+     (output-dvi "Yap")
+     (output-pdf "View with Zathura")
+     (output-html "start"))))
  '(abm-file "~/.emacs.d/.cache/autobookmarks/autobookmarks")
-  '(abm-ignore-buffers
-    (quote
-     ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index")))
+ '(abm-ignore-buffers
+   (quote
+    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index")))
  '(abm-old-bookmark-threshold 45)
  '(ag-highlight-search t)
  '(anzu-search-threshold 1000)
@@ -121,6 +121,7 @@
  '(appt-message-warning-time 15)
  '(auto-save-file-name-transforms nil)
  '(auto-save-list-file-prefix "~/.emacs.d/.cache/auto-save-list/.saves-")
+ '(autobookmarks-mode t)
  '(background-color "#002b36")
  '(background-mode dark)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/.cache/backups"))))
@@ -148,19 +149,19 @@
  '(circe-default-user "fuco")
  '(circe-fool-list (quote ("Farsus")))
  '(circe-format-action "--> {nick} {body}")
-  '(circe-format-not-tracked
-    (quote
-     (circe-format-server-message circe-format-server-notice circe-format-server-numeric circe-format-server-topic circe-format-server-rejoin circe-format-server-lurker-activity)))
+ '(circe-format-not-tracked
+   (quote
+    (circe-format-server-message circe-format-server-notice circe-format-server-numeric circe-format-server-topic circe-format-server-rejoin circe-format-server-lurker-activity)))
  '(circe-format-say "<{nick}> {body}")
  '(circe-format-self-action "--> {nick} {body}")
  '(circe-format-self-say "<{nick}> {body}")
  '(circe-format-server-message "--> {body}")
  '(circe-highlight-nick-type (quote all))
-  '(circe-network-options
-    (quote
-     (("FreeNodep" :host "dasnet.cz" :port 7001 :pass my-circe-get-dasnet-irssi-passwd)
-      ("BitlBeep" :host "dasnet.cz" :port 7002 :pass my-circe-get-dasnet-irssi-passwd)
-      ("OFTCp" :host "dasnet.cz" :port 7003 :pass my-circe-get-dasnet-irssi-passwd))))
+ '(circe-network-options
+   (quote
+    (("FreeNodep" :host "dasnet.cz" :port 7001 :pass my-circe-get-dasnet-irssi-passwd)
+     ("BitlBeep" :host "dasnet.cz" :port 7002 :pass my-circe-get-dasnet-irssi-passwd)
+     ("OFTCp" :host "dasnet.cz" :port 7003 :pass my-circe-get-dasnet-irssi-passwd))))
  '(circe-new-buffer-behavior (quote switch))
  '(circe-new-buffer-behavior-ignore-auto-joins t)
  '(circe-prompt-string ">")
@@ -174,9 +175,9 @@
                        company-oddmuse company-dabbrev)))
  '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-read-command nil)
-  '(completion-ignored-extensions
-    (quote
-     (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
+ '(completion-ignored-extensions
+   (quote
+    (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
  '(cua-enable-cua-keys nil)
  '(cua-mode t nil (cua-base))
  '(cursor-color "#839496")
@@ -184,7 +185,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -203,125 +204,125 @@
  '(dired-details-hide-link-targets t)
  '(dired-details-initially-hide t)
  '(dired-dwim-target t)
-  '(dired-filter-group-saved-groups
-    (quote
-     (("default"
-       ("Directories"
-        (directory))
-       ("Documents" "documents")
-       ("LaTeX"
-        (extension "tex" "bib"))
-       ("Org"
-        (extension . "org"))
-       ("Archives" "archives")
-       ("Media" "media"))
-      ("pytest"
-       ("Python"
-        (extension . "py"))
-       ("Symlinks"
-        (symlink))))))
+ '(dired-filter-group-saved-groups
+   (quote
+    (("default"
+      ("Directories"
+       (directory))
+      ("Documents" "documents")
+      ("LaTeX"
+       (extension "tex" "bib"))
+      ("Org"
+       (extension . "org"))
+      ("Archives" "archives")
+      ("Media" "media"))
+     ("pytest"
+      ("Python"
+       (extension . "py"))
+      ("Symlinks"
+       (symlink))))))
  '(dired-filter-mark-prefix "\\")
  '(dired-filter-prefix "/")
-  '(dired-filter-saved-filters
-    (quote
-     (("media"
-       (extension "mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma"))
-      ("elisp"
-       (extension "el" "elc"))
-      ("archives"
-       (extension "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-      ("documents"
-       (extension "doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub")))))
-   '(dired-guess-shell-alist-user
-     (quote
-      (("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura --fork")
-       ("\\.fb2" "fbreader"))))
+ '(dired-filter-saved-filters
+   (quote
+    (("media"
+      (extension "mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma"))
+     ("elisp"
+      (extension "el" "elc"))
+     ("archives"
+      (extension "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+     ("documents"
+      (extension "doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub")))))
+ '(dired-guess-shell-alist-user
+   (quote
+    (("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura --fork")
+     ("\\.fb2" "fbreader"))))
  '(dired-hide-details-hide-information-lines nil)
  '(dired-isearch-filenames t)
  '(dired-list-mpc-music-directory "~/media/music")
  '(dired-listing-switches "-alh")
  '(dired-narrow-exit-action (quote dired-narrow-find-file))
-  '(dired-omit-extensions
-    (quote
-     (".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cp" ".cps" ".fn" ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs" ".log" ".ilg" ".out" ".ind" ".dsc" ".hi" ".synctex.gz" ".vo" ".glob" ".meta")))
-   '(dired-open-extensions
-     (quote
-      (("exe" . "wine")
-       ("docx" . "libreoffice")
-       ("doc" . "libreoffice")
-       ("xlsx" . "libreoffice")
-       ("xls" . "libreoffice")
-       ("epub" . "fbreader"))))
-    '(dired-open-functions
-      (quote
-       (dired-open-guess-shell-alist dired-open-by-extension dired-open-subdir)))
+ '(dired-omit-extensions
+   (quote
+    (".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cp" ".cps" ".fn" ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs" ".log" ".ilg" ".out" ".ind" ".dsc" ".hi" ".synctex.gz" ".vo" ".glob" ".meta")))
+ '(dired-open-extensions
+   (quote
+    (("exe" . "wine")
+     ("docx" . "libreoffice")
+     ("doc" . "libreoffice")
+     ("xlsx" . "libreoffice")
+     ("xls" . "libreoffice")
+     ("epub" . "fbreader"))))
+ '(dired-open-functions
+   (quote
+    (dired-open-guess-shell-alist dired-open-by-extension dired-open-subdir)))
  '(dired-open-query-before-exit nil)
  '(dired-open-use-nohup t)
-  '(display-buffer-alist
-    (quote
-     (((lambda
-         (b _)
-         (with-current-buffer b
-           (eq major-mode
-               (quote swb-result-mode))))
-       (display-buffer-reuse-window display-buffer-pop-up-window)
-       (reusable-frames)
-       (window-height . my-fit-window-to-buffer))
-      (".*"
-       (ignore)
-       (reusable-frames . t)))))
+ '(display-buffer-alist
+   (quote
+    (((lambda
+        (b _)
+        (with-current-buffer b
+          (eq major-mode
+              (quote swb-result-mode))))
+      (display-buffer-reuse-window display-buffer-pop-up-window)
+      (reusable-frames)
+      (window-height . my-fit-window-to-buffer))
+     (".*"
+      (ignore)
+      (reusable-frames . t)))))
  '(display-time-24hr-format t)
  '(display-time-format "%H:%M ")
-  '(display-time-string-forms
-    (quote
-     ((if
-          (and
-           (not display-time-format)
-           display-time-day-and-date)
-          (format-time-string "%a %b %e " now)
-        "")
-      (propertize
-       (format-time-string
-        (or display-time-format
-            (if display-time-24hr-format "%H:%M" "%-I:%M%p"))
-        now)
-       (quote help-echo)
-       (format-time-string "%a %b %e, %Y" now))
-      (if mail
-          (concat " "
-                  (propertize display-time-mail-string
-                              (quote display)
-                              (\`
-                               (when
-                                   (and display-time-use-mail-icon
-                                        (display-graphic-p))
-                                 (\,@ display-time-mail-icon)
-                                 (\,@
-                                  (if
-                                      (and display-time-mail-face
-                                           (memq
-                                            (plist-get
-                                             (cdr display-time-mail-icon)
-                                             :type)
-                                            (quote
-                                             (pbm xbm))))
-                                      (let
-                                          ((bg
-                                            (face-attribute display-time-mail-face :background)))
-                                        (if
-                                            (stringp bg)
-                                            (list :background bg)))))))
-                              (quote face)
-                              display-time-mail-face
-                              (quote help-echo)
-                              "You have new mail; mouse-2: Read mail"
-                              (quote mouse-face)
-                              (quote mode-line-highlight)
-                              (quote local-map)
-                              (make-mode-line-mouse-map
-                               (quote mouse-2)
-                               read-mail-command)))
-        ""))))
+ '(display-time-string-forms
+   (quote
+    ((if
+         (and
+          (not display-time-format)
+          display-time-day-and-date)
+         (format-time-string "%a %b %e " now)
+       "")
+     (propertize
+      (format-time-string
+       (or display-time-format
+           (if display-time-24hr-format "%H:%M" "%-I:%M%p"))
+       now)
+      (quote help-echo)
+      (format-time-string "%a %b %e, %Y" now))
+     (if mail
+         (concat " "
+                 (propertize display-time-mail-string
+                             (quote display)
+                             (\`
+                              (when
+                                  (and display-time-use-mail-icon
+                                       (display-graphic-p))
+                                (\,@ display-time-mail-icon)
+                                (\,@
+                                 (if
+                                     (and display-time-mail-face
+                                          (memq
+                                           (plist-get
+                                            (cdr display-time-mail-icon)
+                                            :type)
+                                           (quote
+                                            (pbm xbm))))
+                                     (let
+                                         ((bg
+                                           (face-attribute display-time-mail-face :background)))
+                                       (if
+                                           (stringp bg)
+                                           (list :background bg)))))))
+                             (quote face)
+                             display-time-mail-face
+                             (quote help-echo)
+                             "You have new mail; mouse-2: Read mail"
+                             (quote mouse-face)
+                             (quote mode-line-highlight)
+                             (quote local-map)
+                             (make-mode-line-mouse-map
+                              (quote mouse-2)
+                              read-mail-command)))
+       ""))))
  '(echo-keystrokes 0.1)
  '(ediff-diff-options "-w")
  '(ediff-merge-split-window-function (quote split-window-horizontally))
@@ -329,15 +330,15 @@
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5)
-  '(elfeed-search-face-alist
-    (quote
-     ((unread elfeed-search-unread-title-face)
-      (tumblr font-lock-constant-face))))
+ '(elfeed-search-face-alist
+   (quote
+    ((unread elfeed-search-unread-title-face)
+     (tumblr font-lock-constant-face))))
  '(elfeed-search-title-max-width 90)
  '(elfeed-use-curl t)
-  '(elpy-modules
-    (quote
-     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
  '(elpy-rpc-backend "jedi")
  '(elpy-rpc-python-command "python3")
  '(emmet-indentation 2)
@@ -345,22 +346,22 @@
  '(enable-recursive-minibuffers t)
  '(enable-remote-dir-locals t)
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
-  '(eshell-output-filter-functions
-    (quote
-     (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
-   '(eshell-prompt-function
-     (lambda nil
-       (concat
-        (format-time-string "[%H:%M:%S]:")
-        (my-abbrev-file-name
-         (eshell/pwd))
-        "
+ '(eshell-output-filter-functions
+   (quote
+    (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
+ '(eshell-prompt-function
+   (lambda nil
+     (concat
+      (format-time-string "[%H:%M:%S]:")
+      (my-abbrev-file-name
+       (eshell/pwd))
+      "
 "
-        (if
-            (=
-             (user-uid)
-             0)
-            "># " ">$ "))))
+      (if
+          (=
+           (user-uid)
+           0)
+          "># " ">$ "))))
  '(eshell-prompt-regexp "^[^#$
 ]*
 >[#$] ")
@@ -372,33 +373,33 @@
  '(flycheck-disabled-checkers (quote (php-phplint php-phpcs php-phpmd)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
  '(flycheck-ghc-args nil)
-  '(flycheck-ghc-search-path
-    (quote
-     ("/home/matus/dotfiles/xmonad/.xmonad/lib" "/home/matus/dev/haskell/mpris/src/")))
+ '(flycheck-ghc-search-path
+   (quote
+    ("/home/matus/dotfiles/xmonad/.xmonad/lib" "/home/matus/dev/haskell/mpris/src/")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
  '(flycheck-php-phpcs-executable "~/.composer/vendor/bin/phpcs")
  '(flycheck-php-phpmd-executable "~/.composer/vendor/bin/phpmd")
  '(flycheck-phpcs-standard "PW")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
-  '(font-latex-math-environments
-    (quote
-     ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "derivation")))
+ '(font-latex-math-environments
+   (quote
+    ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "derivation")))
  '(font-latex-quotes (quote auto))
-  '(font-latex-user-keyword-classes
-    (quote
-     (("refs"
-       (("tindex" "{")
-        ("sindex" "{")
-        ("index" "[{")
-        ("cref" "{"))
-       (:inherit
-        (font-lock-constant-face))
-       command))))
+ '(font-latex-user-keyword-classes
+   (quote
+    (("refs"
+      (("tindex" "{")
+       ("sindex" "{")
+       ("index" "[{")
+       ("cref" "{"))
+      (:inherit
+       (font-lock-constant-face))
+      command))))
  '(foreground-color "#839496")
-  '(free-keys-ignored-bindings
-    (quote
-     (("s" . "pnPNjkhl1234567890qwerb")
-      ("A" . "1234567890qwer,.[]=c"))))
+ '(free-keys-ignored-bindings
+   (quote
+    (("s" . "pnPNjkhl1234567890qwerb")
+     ("A" . "1234567890qwer,.[]=c"))))
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
  '(geben-display-window-function (quote display-buffer))
@@ -408,148 +409,148 @@
  '(global-subword-mode t)
  '(global-undo-tree-mode t)
  '(gnus-alias-default-identity "goljer")
-  '(gnus-alias-identity-alist
-    (quote
-     (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" ""
-       (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent"))
-       "" "~/.signature")
-      ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" ""
-       (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent"))
-       "" "~/.signature")
-      ("logio" "" "Matúš Goljer <goljer@logio.cz>" ""
-       (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent"))
-       "" "~/.signature-logio"))))
-   '(gnus-alias-identity-rules
-     (quote
-      (("logio-to-header"
-        ("to" ".*logio.*" both)
-        "logio"))))
+ '(gnus-alias-identity-alist
+   (quote
+    (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" ""
+      (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent"))
+      "" "~/.signature")
+     ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" ""
+      (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent"))
+      "" "~/.signature")
+     ("logio" "" "Matúš Goljer <goljer@logio.cz>" ""
+      (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent"))
+      "" "~/.signature-logio"))))
+ '(gnus-alias-identity-rules
+   (quote
+    (("logio-to-header"
+      ("to" ".*logio.*" both)
+      "logio"))))
  '(god-mod-alist (quote ((nil . "C-") ("g" . "M-") ("i" . "C-M-"))))
  '(google-this-keybind "\"g\"")
  '(guide-key-mode t)
-  '(guide-key/guide-key-sequence
-    (quote
-     ("C-x r" "C-x 4" "C-x j" "C-x p" "C-x n" "A-x" "M-g" "M-s"
-      (calc-mode "V" "v" "k" "a" "u" "j")
-      (dired-mode "/" "*" "C-t" "%" "c" "\\")
-      (ibuffer-mode "/" "*" "%"))))
+ '(guide-key/guide-key-sequence
+   (quote
+    ("C-x r" "C-x 4" "C-x j" "C-x p" "C-x n" "A-x" "M-g" "M-s"
+     (calc-mode "V" "v" "k" "a" "u" "j")
+     (dired-mode "/" "*" "C-t" "%" "c" "\\")
+     (ibuffer-mode "/" "*" "%"))))
  '(guide-key/idle-delay 0.6)
  '(guide-key/popup-window-position (quote bottom))
  '(guide-key/recursive-key-sequence-flag t)
-  '(haskell-mode-hook
-    (quote
-     (turn-on-haskell-indentation turn-on-haskell-doc-mode)))
+ '(haskell-mode-hook
+   (quote
+    (turn-on-haskell-indentation turn-on-haskell-doc-mode)))
  '(haskell-process-args-ghci (quote ("-ferror-spans" "-i.")))
  '(haskell-program-name "ghci +RTS -M300m")
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
  '(helm-candidate-number-limit 1000)
-  '(helm-for-files-preferred-list
-    (quote
-     (helm-source-buffers-list helm-source-recentf helm-source-bookmarks helm-source-file-cache helm-source-files-in-current-dir)))
+ '(helm-for-files-preferred-list
+   (quote
+    (helm-source-buffers-list helm-source-recentf helm-source-bookmarks helm-source-file-cache helm-source-files-in-current-dir)))
  '(highlight-thing-limit-to-defun t)
  '(history-length 3000)
-  '(ibuffer-fontification-alist
-    (quote
-     ((10 buffer-read-only font-lock-constant-face)
-      (15
-       (and buffer-file-name
-            (string-match ibuffer-compressed-file-name-regexp buffer-file-name))
-       font-lock-doc-face)
-      (20
-       (string-match "^*"
+ '(ibuffer-fontification-alist
+   (quote
+    ((10 buffer-read-only font-lock-constant-face)
+     (15
+      (and buffer-file-name
+           (string-match ibuffer-compressed-file-name-regexp buffer-file-name))
+      font-lock-doc-face)
+     (20
+      (string-match "^*"
+                    (buffer-name))
+      font-lock-keyword-face)
+     (25
+      (and
+       (string-match "^ "
                      (buffer-name))
-       font-lock-keyword-face)
-      (25
-       (and
-        (string-match "^ "
-                      (buffer-name))
-        (null buffer-file-name))
-       italic)
-      (30
-       (memq major-mode ibuffer-help-buffer-modes)
-       font-lock-comment-face)
-      (35
-       (memq major-mode
-             (quote
-              (dired-mode sr-mode)))
-       font-lock-function-name-face))))
-   '(ibuffer-saved-filter-groups
-     (quote
-      (("default"
-        ("Org"
-         (mode . org-mode))
-        ("emacs-config"
-         (or
-          (predicate let
-                     ((bfn
-                       (buffer-file-name
-                        (current-buffer))))
-                     (when bfn
-                       (and
-                        (string-match-p "\\.emacs\\.d" bfn)
-                        (eq major-mode
-                            (quote emacs-lisp-mode)))))))
-        ("emacs"
-         (or
-          (mode . emacs-lisp-mode)
-          (mode . lisp-interaction-mode)
-          (mode . inferior-emacs-lisp-mode)))
-        ("TeX"
-         (or
-          (mode . tex-mode)
-          (mode . plain-tex-mode)
-          (mode . latex-mode)))
-        ("Markdown"
-         (or
-          (mode . markdown-mode)
-          (mode . gfm-mode)))
-        ("Web"
-         (or
-          (mode . html-mode)
-          (mode . css-mode)
-          (mode . php-mode)
-          (mode . js-mode)))
-        ("Dired"
-         (mode . dired-mode))
-        ("Images"
-         (or
-          (mode . image-dired-display-image-mode)
-          (mode . image-dired-thumbnail-mode)
-          (mode . image-mode)))
-        ("Tramp"
-         (or
-          (name . "tramp")))
-        ("Programming"
-         (or
-          (mode . c-mode)
-          (mode . perl-mode)
-          (mode . python-mode)
-          (mode . cc-mode)))))))
-    '(ibuffer-saved-filters
-      (quote
-       (("irc"
-         ((mode . erc-mode)))
-        ("dipl"
-         ((filename . "_dipl")))
-        ("gnus"
-         ((or
-           (mode . message-mode)
-           (mode . mail-mode)
-           (mode . gnus-group-mode)
-           (mode . gnus-summary-mode)
-           (mode . gnus-article-mode))))
-        ("programming"
-         ((or
-           (mode . emacs-lisp-mode)
-           (mode . cperl-mode)
-           (mode . c-mode)
-           (mode . java-mode)
-           (mode . idl-mode)
-           (mode . lisp-mode)))))))
+       (null buffer-file-name))
+      italic)
+     (30
+      (memq major-mode ibuffer-help-buffer-modes)
+      font-lock-comment-face)
+     (35
+      (memq major-mode
+            (quote
+             (dired-mode sr-mode)))
+      font-lock-function-name-face))))
+ '(ibuffer-saved-filter-groups
+   (quote
+    (("default"
+      ("Org"
+       (mode . org-mode))
+      ("emacs-config"
+       (or
+        (predicate let
+                   ((bfn
+                     (buffer-file-name
+                      (current-buffer))))
+                   (when bfn
+                     (and
+                      (string-match-p "\\.emacs\\.d" bfn)
+                      (eq major-mode
+                          (quote emacs-lisp-mode)))))))
+      ("emacs"
+       (or
+        (mode . emacs-lisp-mode)
+        (mode . lisp-interaction-mode)
+        (mode . inferior-emacs-lisp-mode)))
+      ("TeX"
+       (or
+        (mode . tex-mode)
+        (mode . plain-tex-mode)
+        (mode . latex-mode)))
+      ("Markdown"
+       (or
+        (mode . markdown-mode)
+        (mode . gfm-mode)))
+      ("Web"
+       (or
+        (mode . html-mode)
+        (mode . css-mode)
+        (mode . php-mode)
+        (mode . js-mode)))
+      ("Dired"
+       (mode . dired-mode))
+      ("Images"
+       (or
+        (mode . image-dired-display-image-mode)
+        (mode . image-dired-thumbnail-mode)
+        (mode . image-mode)))
+      ("Tramp"
+       (or
+        (name . "tramp")))
+      ("Programming"
+       (or
+        (mode . c-mode)
+        (mode . perl-mode)
+        (mode . python-mode)
+        (mode . cc-mode)))))))
+ '(ibuffer-saved-filters
+   (quote
+    (("irc"
+      ((mode . erc-mode)))
+     ("dipl"
+      ((filename . "_dipl")))
+     ("gnus"
+      ((or
+        (mode . message-mode)
+        (mode . mail-mode)
+        (mode . gnus-group-mode)
+        (mode . gnus-summary-mode)
+        (mode . gnus-article-mode))))
+     ("programming"
+      ((or
+        (mode . emacs-lisp-mode)
+        (mode . cperl-mode)
+        (mode . c-mode)
+        (mode . java-mode)
+        (mode . idl-mode)
+        (mode . lisp-mode)))))))
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
- '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last")
+ '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last" t)
  '(ido-ubiquitous-command-overrides
    (quote
     ((disable exact "execute-extended-command")
@@ -559,7 +560,12 @@
      (enable regexp "\\`\\(find\\|load\\|locate\\)-library\\'")
      (disable prefix "org-")
      (disable prefix "tmm-")
-     (enable regexp "\\`\\(load\\|enable\\|disable\\|describe\\|custom-theme-visit\\)-theme\\'"))))
+     (enable regexp "\\`\\(load\\|enable\\|disable\\|describe\\|custom-theme-visit\\)-theme\\'")
+     (enable-old prefix "bbdb-")
+     (enable-old exact "where-is")
+     (disable exact "todo-add-category")
+     (enable exact "find-tag")
+     (enable prefix "etags-select-"))))
  '(imenu-auto-rescan t)
  '(indent-tabs-mode nil)
  '(indicate-empty-lines nil)
@@ -574,28 +580,28 @@
  '(keyfreq-file-lock "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq.lock")
  '(keyfreq-mode t)
  '(ledger-reconcile-default-commodity "Kc")
-  '(ledger-reports
-    (quote
-     (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
-      ("expenses" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly --real reg ^expenses")
-      ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
-      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
-      ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
-      ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets:Checking")
-      ("expenses-budget" "ledger -f %(ledger-file) -p \"this month\" -X Kc --budget --monthly reg expenses")
-      ("expenses-budget-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses")
-      ("equity" "ledger -f %(ledger-file) bal -X Kc ^assets ^liabilities")
-      ("bal" "ledger -f %(ledger-file) -X Kc bal")
-      ("reg" "ledger -f %(ledger-file) reg")
-      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
-      ("reg-account" "ledger -f %(ledger-file) reg %(account)")
-      ("bal-account" "ledger -f %(ledger-file) -X Kc bal %(account)"))))
+ '(ledger-reports
+   (quote
+    (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
+     ("expenses" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly --real reg ^expenses")
+     ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
+     ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
+     ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
+     ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets:Checking")
+     ("expenses-budget" "ledger -f %(ledger-file) -p \"this month\" -X Kc --budget --monthly reg expenses")
+     ("expenses-budget-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses")
+     ("equity" "ledger -f %(ledger-file) bal -X Kc ^assets ^liabilities")
+     ("bal" "ledger -f %(ledger-file) -X Kc bal")
+     ("reg" "ledger -f %(ledger-file) reg")
+     ("payee" "ledger -f %(ledger-file) reg @%(payee)")
+     ("reg-account" "ledger -f %(ledger-file) reg %(account)")
+     ("bal-account" "ledger -f %(ledger-file) -X Kc bal %(account)"))))
  '(legalese-date-format (quote ordinal))
  '(legalese-default-copyright "Matúš Goljer")
-  '(legalese-templates
-    (quote
-     ((emacs-lisp-mode
-       (nil ";;; " legalese-file-name " --- " _ "
+ '(legalese-templates
+   (quote
+    ((emacs-lisp-mode
+      (nil ";;; " legalese-file-name " --- " _ "
 " "
 " ";; Copyright (C) " legalese-year " " legalese-copyright "
 " "
@@ -1934,6 +1940,7 @@
  '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
  '(save-place-limit nil)
  '(savehist-file "~/.emacs.d/.cache/savehist/history")
+ '(savehist-mode t)
  '(scroll-preserve-screen-position 1)
 '(semantic-default-submodes
 (quote
@@ -2248,9 +2255,9 @@
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
  '(winner-mode t)
+ '(x-select-enable-clipboard t)
  '(yas-prompt-functions (quote (yas-ido-prompt)))
- '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets")))
- '(x-select-enable-clipboard t))
+ '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets"))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
