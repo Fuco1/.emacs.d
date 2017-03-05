@@ -87,6 +87,9 @@ return to regular interpretation of self-insert characters."
     (bind-key "o" 'bjump-info-link-jump Info-mode-map)
     (bind-key "o" 'bjump-help-link-jump help-mode-map)))
 
+(use-package browse-at-remote
+  :bind (("C-c g g" . browse-at-remote)))
+
 (use-package c-mode
   :defer t
   :config
