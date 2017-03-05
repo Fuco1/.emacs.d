@@ -10,4 +10,3 @@ elpa/*
 etc/eshell/lastdir
 files/personal.el
 todo.org
-vendor/*

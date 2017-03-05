@@ -1,15 +1,28 @@
 (server-start)
 (defconst emacs-start-time (current-time))
 
-(add-to-list 'load-path "~/.emacs.d/vendor/use-package/")
-(require 'use-package)
-(setq use-package-verbose t)
-
 ;; Emacs gurus don't need no stinking scroll bars & widgets
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
+
+(defmacro my-with-elapsed-timer (text &rest body)
+  (declare (indent 1))
+  (let ((nowvar (make-symbol "now")))
+    `(let ((,nowvar (current-time)))
+       (message "%s..." ,text)
+       (prog1 (progn ,@body)
+         (let ((elapsed
+                (float-time (time-subtract (current-time) ,nowvar))))
+           (message "%s...done (%.3fs)" ,text elapsed))))))
+
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+(require 'pallet)
+(pallet-mode t)
+(require 'use-package)
+(setq use-package-verbose t)
 
 (defun my-where-am-i ()
   (with-temp-buffer
@@ -33,11 +46,9 @@
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")))
 
-(use-package-with-elapsed-timer "Initializing packages"
-  (package-initialize)
+(my-with-elapsed-timer "Initializing packages"
   (load "~/.emacs.d/dev/dash.el/dash")
   (load "~/.emacs.d/dev/dash.el/dash-functional")
-  (load "~/.emacs.d/autoinstall")
 
   (require 'uniquify)
   (require 'f)
@@ -48,7 +59,14 @@
   (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
   (add-to-list 'load-path "~/.emacs.d/site-lisp/")
   (add-to-list 'load-path "~/.emacs.d/site-lisp/special/")
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/vendor"))
+  (mapc (lambda (dir)
+          (add-to-list 'load-path dir)
+          (-when-let
+              (autoloads (--filter
+                          (string-match-p "autoloads\\.el$" it)
+                          (f-files dir)))
+            (mapc 'load autoloads)))
+        (f-directories "~/.emacs.d/vendor"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
 
   (require 'workman-layout))
@@ -58,7 +76,7 @@
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 
-(use-package-with-elapsed-timer "Loading site lisp"
+(my-with-elapsed-timer "Loading site lisp"
   ;; load site lisp
   (require 'my-site-lisp-autoloads)
   (require 'my-advices)
@@ -70,7 +88,7 @@
   (load "~/.emacs.d/files/keys"))
 
 ;; load settings
-(use-package-with-elapsed-timer "Loading settings"
+(my-with-elapsed-timer "Loading settings"
   (load "~/.emacs.d/files/global")
   (load "~/.emacs.d/files/mode-line")
   (load "~/.emacs.d/files/tabs")
@@ -78,10 +96,10 @@
     (load "~/.emacs.d/files/windows")))
 
 ;; load config files
-(use-package-with-elapsed-timer "Loading vendor"
+(my-with-elapsed-timer "Loading vendor"
   (load "~/.emacs.d/files/vendor"))
 
-(use-package-with-elapsed-timer "Loading personal"
+(my-with-elapsed-timer "Loading personal"
   (load "~/.emacs.d/files/personal"))
 
 ;; diminish useless modeline clutter
