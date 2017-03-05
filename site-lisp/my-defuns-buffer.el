@@ -74,6 +74,11 @@ Warn me if I want to kill a scratch buffer."
         (kill-buffer (current-buffer)))
     (kill-buffer (current-buffer))))
 
+(defun my-copy-buffer-filename-as-kill ()
+  "Copy current buffer's filename to `kill-ring'."
+  (interactive)
+  (kill-new buffer-file-name))
+
 (define-minor-mode my-inhibit-buffer-cleanup-mode
   "If enabled, do not clean up whitespace on buffer save."
   :init-value nil)
