@@ -541,6 +541,7 @@ Cycle styles: dashed, lower camel case, upper camel case, snakecase."
 
 ;; subword-aware forward/backward
 
+;;;###autoload
 (defun my-forward-word (&optional arg)
   "Call `forward-word' or `subword-forward'.
 
@@ -550,6 +551,7 @@ Repeat ARG times."
       (subword-forward arg)
     (forward-word arg)))
 
+;;;###autoload
 (defun my-backward-word (&optional arg)
   "Call `backward-word' or `subword-backward'.
 

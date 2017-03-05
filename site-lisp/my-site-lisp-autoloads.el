@@ -3,8 +3,8 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "my-defuns" "my-defuns.el" (22490 61237 726118
-;;;;;;  637000))
+;;;### (autoloads nil "my-defuns" "my-defuns.el" (22716 4224 633009
+;;;;;;  867000))
 ;;; Generated autoloads from my-defuns.el
 
 (autoload 'my-lorem "my-defuns" "\
@@ -153,8 +153,8 @@ Run haddock on current project.
 
 ;;;***
 
-;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (22500
-;;;;;;  7067 336014 310000))
+;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (22715
+;;;;;;  63880 728961 210000))
 ;;; Generated autoloads from my-defuns-buffer.el
 
 (autoload 'create-scratch-buffer "my-defuns-buffer" "\
@@ -218,8 +218,8 @@ Add face to region.
 
 ;;;***
 
-;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (22503
-;;;;;;  40064 636024 979000))
+;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (22716
+;;;;;;  9682 781055 33000))
 ;;; Generated autoloads from my-defuns-edit.el
 
 (autoload 'my-forward-whitespace "my-defuns-edit" "\
@@ -392,10 +392,24 @@ Cycle styles: dashed, lower camel case, upper camel case, snakecase.
 
 \(fn BEG END)" t nil)
 
+(autoload 'my-forward-word "my-defuns-edit" "\
+Call `forward-word' or `subword-forward'.
+
+Repeat ARG times.
+
+\(fn &optional ARG)" t nil)
+
+(autoload 'my-backward-word "my-defuns-edit" "\
+Call `backward-word' or `subword-backward'.
+
+Repeat ARG times.
+
+\(fn &optional ARG)" t nil)
+
 ;;;***
 
 ;;;### (autoloads nil nil ("my-advices.el" "my-macros.el" "my-redef.el"
-;;;;;;  "vendor.el") (22503 40381 34671 770000))
+;;;;;;  "vendor.el") (22716 9730 187584 273000))
 
 ;;;***
 
