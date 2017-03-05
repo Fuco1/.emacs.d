@@ -146,7 +146,7 @@ If no region is active, use word udner point."
   :bind ("M-s c" . calendar)
   :init
   (use-package slovak-holidays
-    :init (slovak-holidays-add))
+    :config (slovak-holidays-add))
   :config
   (progn
     (defvar my-calendar-current-window nil
@@ -368,7 +368,7 @@ message.")
     (define-key cua--region-keymap [remap my-emacs-lisp-open-line] 'cua-replace-region)))
 
 (use-package custom
-  :pre-init
+  :init
   (bind-keys :prefix "C-c c"
              :prefix-map ctl-c-c-map
              :prefix-docstring "Customize map")
@@ -459,7 +459,7 @@ message.")
   :commands (dired-list-find-file dired-list-grep))
 
 (use-package dired-tagsistant
-  :pre-init
+  :init
   (bind-keys :prefix-map ctl-x-t-map
              :prefix "C-x T"
              :prefix-docstring "C-x T prefix map")
@@ -470,7 +470,7 @@ message.")
          ("C-x T % *" . dired-tagsistant-all-tags-regexp)))
 
 (use-package ediff
-  :pre-init
+  :init
   (progn
     (defvar ctl-dot-equals-prefix-map)
     (define-prefix-command 'ctl-dot-equals-prefix-map)
@@ -545,7 +545,7 @@ _B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
 (use-package elfeed
   :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
-  :idle
+  :init
   (progn
     ;; run an idle timer from this timer so it won't bother me while editing
     ;; schedule timer, make it run idle timer, make that run this timer again... blerg
@@ -1154,7 +1154,7 @@ called, percentage usage and the command."
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init)))
 
 (use-package magit
-  :pre-init
+  :init
   (bind-keys :prefix "C-c m"
              :prefix-map ctl-c-m-map
              :prefix-docstring "Magit map")
@@ -2147,7 +2147,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
     (bind-key "h" 'my-svn-diff-wc-and-trunk vc-prefix-map)))
 
 (use-package visual-regexp
-  :pre-init
+  :init
   (bind-keys :prefix "C-c v"
              :prefix-map ctl-c-v-map
              :prefix-docstring "Visual regexp map")

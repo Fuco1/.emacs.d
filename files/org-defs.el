@@ -22,7 +22,7 @@
 ;; the graph
 
 (use-package org-depend
-  :init
+  :config
   (progn
     (defun my-org-block-next-change-on-dependency (_change-plist)
       "If the blocker is not `done', do not allow switch to `todo'."
@@ -80,14 +80,13 @@
 
 (use-package org-drill
   :commands org-drill
-  :init
+  :bind (:map org-mode-map
+         ("H-d" . org-drill)
+         ("H-r" . org-drill-resume)
+         ("H-a" . org-drill-again))
+  :config
   (progn
     (use-package pcase)
-
-    (bind-keys :map org-mode-map
-      ("H-d" . org-drill)
-      ("H-r" . org-drill-resume)
-      ("H-a" . org-drill-again))
 
     (defun my-org-convert-tab-word-list-to-drill ()
       (interactive)
@@ -205,9 +204,8 @@
                        (outline-next-visible-heading -1)
                        (forward-line)
                        (point))))
-          (my-org-make-numbered-list start end)))))
-  :config
-  (progn
+          (my-org-make-numbered-list start end))))
+
     (defun org-drill-present-two-sided-card-no-cloze ()
       (with-hidden-comments
        (let ((drill-sections (org-drill-hide-all-subheadings-except nil)))
@@ -241,353 +239,350 @@
 (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
 (use-package org-agenda
   :defer t
-  :init
-  (progn
-    ;; Custom agenda command definitions
-    (defvar my-org-show-media-closed-since (apply 'encode-time (org-parse-time-string "1980-01-01"))
-      "Time since which we show the closed media")
+  :config
+  ;; Custom agenda command definitions
+  (defvar my-org-show-media-closed-since (apply 'encode-time (org-parse-time-string "1980-01-01"))
+    "Time since which we show the closed media")
 
-    (defvar my-org-show-media-closed-until (apply 'encode-time (org-parse-time-string "9999-99-99"))
-      "Time until which we show the closed media")
+  (defvar my-org-show-media-closed-until (apply 'encode-time (org-parse-time-string "9999-99-99"))
+    "Time until which we show the closed media")
 
-    (defun my-org-agenda-filter (prefix title &rest args)
-      `((,prefix . ,title)
-        (,(concat prefix "a") . "All")
-        (,(concat prefix "p") . "Ready")
-        (,(concat prefix "d") . "Done")
-        ,@(--mapcat
-           `((,(concat prefix (car it)) tags-todo ,(concat "+" (cdr it) "+TODO=\"NEXT\""))
-             (,(concat prefix "a" (car it)) tags ,(concat "+" (cdr it) "-folder"))
-             (,(concat prefix "p" (car it)) tags ,(concat "+" (cdr it) "-folder-TODO=\"DONE\"")
-              ((org-agenda-skip-function '(let ((next-headline (save-excursion
-                                                                 (or (outline-next-heading)
-                                                                     (point-max)))))
-                                            (when (member "BOOKS" (org-get-tags))
-                                              next-headline)))))
-             (,(concat prefix "d" (car it)) tags ,(concat "+" (cdr it) "-folder+TODO=\"DONE\"")
-              ((org-agenda-cmp-user-defined 'my-org-compare-closed-entries)
-               (org-agenda-sorting-strategy '(user-defined-up))
-               (org-agenda-skip-function '(let ((next-headline (save-excursion
-                                                                 (or (outline-next-heading)
-                                                                     (point-max)))))
-                                            ;; TODO: for some reason here we get a bug "Bad timestamp"
-                                            (-when-let* ((ts (org-entry-get (point) "CLOSED"))
-                                                         (closed-at (org-time-string-to-time ts)))
-                                              (when (or (time-less-p closed-at
-                                                                     my-org-show-media-closed-since)
-                                                        (time-less-p my-org-show-media-closed-until
-                                                                     closed-at))
-                                                next-headline)))))))
-           args)))
+  (defun my-org-agenda-filter (prefix title &rest args)
+    `((,prefix . ,title)
+      (,(concat prefix "a") . "All")
+      (,(concat prefix "p") . "Ready")
+      (,(concat prefix "d") . "Done")
+      ,@(--mapcat
+         `((,(concat prefix (car it)) tags-todo ,(concat "+" (cdr it) "+TODO=\"NEXT\""))
+           (,(concat prefix "a" (car it)) tags ,(concat "+" (cdr it) "-folder"))
+           (,(concat prefix "p" (car it)) tags ,(concat "+" (cdr it) "-folder-TODO=\"DONE\"")
+            ((org-agenda-skip-function '(let ((next-headline (save-excursion
+                                                               (or (outline-next-heading)
+                                                                   (point-max)))))
+                                          (when (member "BOOKS" (org-get-tags))
+                                            next-headline)))))
+           (,(concat prefix "d" (car it)) tags ,(concat "+" (cdr it) "-folder+TODO=\"DONE\"")
+            ((org-agenda-cmp-user-defined 'my-org-compare-closed-entries)
+             (org-agenda-sorting-strategy '(user-defined-up))
+             (org-agenda-skip-function '(let ((next-headline (save-excursion
+                                                               (or (outline-next-heading)
+                                                                   (point-max)))))
+                                          ;; TODO: for some reason here we get a bug "Bad timestamp"
+                                          (-when-let* ((ts (org-entry-get (point) "CLOSED"))
+                                                       (closed-at (org-time-string-to-time ts)))
+                                            (when (or (time-less-p closed-at
+                                                                   my-org-show-media-closed-since)
+                                                      (time-less-p my-org-show-media-closed-until
+                                                                   closed-at))
+                                              next-headline)))))))
+         args)))
 
-    (defvar my-custom-agenda-sections
-      '((refile . (tags "REFILE"
-                        ((org-agenda-overriding-header "Tasks to Refile")
-                         (org-tags-match-list-sublevels nil))))
-        (bugs-emacs . (tags-todo "bug/!-NEXT"
-                                 ((org-agenda-overriding-header "Bugs (in emacs projects)")
-                                  (org-agenda-files '("~/org/emacs.org"))
-                                  (org-tags-match-list-sublevels nil))))
-        (stuck-projects . (tags-todo "-STOP/!-WAIT"
-                                     ((org-agenda-overriding-header "Stuck Projects")
-                                      (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
-                                      (org-agenda-skip-function 'my-org-skip-non-stuck-projects))))
-        (next-tasks . (tags-todo "-WAIT-HOLD-STOP-BOOKS-BUG/!NEXT"
-                                 ((org-agenda-overriding-header "Next Tasks")
-                                  (org-agenda-skip-function 'my-org-skip-projects-and-habits-and-single-tasks)
-                                  (org-agenda-todo-ignore-scheduled t)
-                                  (org-agenda-todo-ignore-deadlines t)
-                                  (org-agenda-todo-ignore-with-date t)
-                                  (org-tags-match-list-sublevels t)
-                                  (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep)))))
-        (tasks . (tags-todo "-REFILE-STOP-BOOKS-download/!-HOLD-WAIT-IDEA"
-                            ((org-agenda-overriding-header "Tasks")
-                             (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
-                             (org-agenda-todo-ignore-scheduled t)
-                             (org-agenda-todo-ignore-deadlines t)
-                             (org-agenda-todo-ignore-with-date t)
-                             (org-agenda-sorting-strategy '(priority-down category-keep)))))
-        (waiting-tasks . (tags-todo "-STOP/!+WAIT"
-                                    ((org-agenda-overriding-header "Waiting Tasks")
-                                     (org-agenda-skip-function 'my-org-skip-projects)
-                                     (org-tags-match-list-sublevels nil)
-                                     (org-agenda-todo-ignore-scheduled 'future)
-                                     (org-agenda-todo-ignore-deadlines 'future))))
-        ;; Active projects and projects that wait on something
-        ;; Things we are working on
-        ;; TODO: should show immediate children tasks if narrowed
-        (projects . (tags-todo "-HOLD-STOP-GENERAL/!"
-                               ((org-agenda-overriding-header (if (my-org-restricted-p)
-                                                                  "Subprojects (and children tasks)"
-                                                                "Projects"))
-                                (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
-                                (org-agenda-skip-function 'my-org-skip-non-projects)
-                                (org-tags-match-list-sublevels 'indented)
-                                (org-agenda-sorting-strategy '(priority-down category-keep)))))
-        ;; Projects/tasks on HOLD: projects that are not cancelled, but we don't want to work on them now
-        (hold . (tags-todo "-STOP/!+HOLD"
-                           ((org-agenda-overriding-header "Postponed Projects and Tasks")
-                            (org-agenda-skip-function 'my-org-skip-stuck-projects)
-                            (org-tags-match-list-sublevels nil)
-                            (org-agenda-todo-ignore-scheduled 'future)
-                            (org-agenda-todo-ignore-deadlines 'future)))))
-      "An alist mapping keywords to custom agenda sections")
+  (defvar my-custom-agenda-sections
+    '((refile . (tags "REFILE"
+                      ((org-agenda-overriding-header "Tasks to Refile")
+                       (org-tags-match-list-sublevels nil))))
+      (bugs-emacs . (tags-todo "bug/!-NEXT"
+                               ((org-agenda-overriding-header "Bugs (in emacs projects)")
+                                (org-agenda-files '("~/org/emacs.org"))
+                                (org-tags-match-list-sublevels nil))))
+      (stuck-projects . (tags-todo "-STOP/!-WAIT"
+                                   ((org-agenda-overriding-header "Stuck Projects")
+                                    (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
+                                    (org-agenda-skip-function 'my-org-skip-non-stuck-projects))))
+      (next-tasks . (tags-todo "-WAIT-HOLD-STOP-BOOKS-BUG/!NEXT"
+                               ((org-agenda-overriding-header "Next Tasks")
+                                (org-agenda-skip-function 'my-org-skip-projects-and-habits-and-single-tasks)
+                                (org-agenda-todo-ignore-scheduled t)
+                                (org-agenda-todo-ignore-deadlines t)
+                                (org-agenda-todo-ignore-with-date t)
+                                (org-tags-match-list-sublevels t)
+                                (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep)))))
+      (tasks . (tags-todo "-REFILE-STOP-BOOKS-download/!-HOLD-WAIT-IDEA"
+                          ((org-agenda-overriding-header "Tasks")
+                           (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
+                           (org-agenda-todo-ignore-scheduled t)
+                           (org-agenda-todo-ignore-deadlines t)
+                           (org-agenda-todo-ignore-with-date t)
+                           (org-agenda-sorting-strategy '(priority-down category-keep)))))
+      (waiting-tasks . (tags-todo "-STOP/!+WAIT"
+                                  ((org-agenda-overriding-header "Waiting Tasks")
+                                   (org-agenda-skip-function 'my-org-skip-projects)
+                                   (org-tags-match-list-sublevels nil)
+                                   (org-agenda-todo-ignore-scheduled 'future)
+                                   (org-agenda-todo-ignore-deadlines 'future))))
+      ;; Active projects and projects that wait on something
+      ;; Things we are working on
+      ;; TODO: should show immediate children tasks if narrowed
+      (projects . (tags-todo "-HOLD-STOP-GENERAL/!"
+                             ((org-agenda-overriding-header (if (my-org-restricted-p)
+                                                                "Subprojects (and children tasks)"
+                                                              "Projects"))
+                              (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
+                              (org-agenda-skip-function 'my-org-skip-non-projects)
+                              (org-tags-match-list-sublevels 'indented)
+                              (org-agenda-sorting-strategy '(priority-down category-keep)))))
+      ;; Projects/tasks on HOLD: projects that are not cancelled, but we don't want to work on them now
+      (hold . (tags-todo "-STOP/!+HOLD"
+                         ((org-agenda-overriding-header "Postponed Projects and Tasks")
+                          (org-agenda-skip-function 'my-org-skip-stuck-projects)
+                          (org-tags-match-list-sublevels nil)
+                          (org-agenda-todo-ignore-scheduled 'future)
+                          (org-agenda-todo-ignore-deadlines 'future)))))
+    "An alist mapping keywords to custom agenda sections")
 
-    (setq org-agenda-custom-commands
-          `((" " "Quick Agenda"
-             ((agenda "" nil)
-              ,(cdr (assoc 'refile my-custom-agenda-sections))
-              ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
-              ,(cdr (assoc 'tasks my-custom-agenda-sections))))
-            ("A" "Full Agenda"
-             ((agenda "" nil)
-              ,(cdr (assoc 'refile my-custom-agenda-sections))
-              ,(cdr (assoc 'bugs-emacs my-custom-agenda-sections))
-              ,(cdr (assoc 'stuck-projects my-custom-agenda-sections))
-              ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
-              ,(cdr (assoc 'tasks my-custom-agenda-sections))
-              ,(cdr (assoc 'waiting-tasks my-custom-agenda-sections))
-              ,(cdr (assoc 'projects my-custom-agenda-sections))
-              ,(cdr (assoc 'hold my-custom-agenda-sections))))
-            ("t" "Todo" tags "-HOLD-STOP-BOOKS-download/!+NEXT|+TODO"
-             ((org-agenda-skip-function 'my-org-skip-projects)
-              (org-agenda-todo-ignore-scheduled t)
-              (org-agenda-todo-ignore-deadlines t)
-              (org-agenda-todo-ignore-with-date t)))
-            ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
-            ("k" . "Knowledge-base operations")
-            ("ks" "Knowledge-base search" search nil
-             ((org-agenda-files '("~/org/kb.org"))))
-            ("km" "Knowledge-base tag match" tags nil
-             ((org-agenda-files '("~/org/kb.org"))))
-            ("b" . "Bookmarks operations")
-            ("bs" "Bookmarks search" search nil
-             ((org-agenda-files '("~/org/bookmarks.org"))))
-            ("bm" "Bookmakrs tag match" tags nil
-             ((org-agenda-files '("~/org/bookmarks.org"))))
-            ("d" "Downloads" tags "+download/!TODO")
-            ;; Reading items are not marked with TODO, we use this view instead.
-            ;; Item that we are reading at the moment, however, is marked
-            ;; NEXT as every other current task.
-            ("r" "Reading"
-             ((tags "+Reading/-DONE"
-                    ((org-agenda-overriding-header "To read")
-                     (org-agenda-files '("~/org/reading.org"))))
-              (tags "+Reading/DONE"
-                    ((org-agenda-overriding-header "Finished")
-                     (org-agenda-files '("~/org/reading.org"))))))))
+  (setq org-agenda-custom-commands
+        `((" " "Quick Agenda"
+           ((agenda "" nil)
+            ,(cdr (assoc 'refile my-custom-agenda-sections))
+            ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
+            ,(cdr (assoc 'tasks my-custom-agenda-sections))))
+          ("A" "Full Agenda"
+           ((agenda "" nil)
+            ,(cdr (assoc 'refile my-custom-agenda-sections))
+            ,(cdr (assoc 'bugs-emacs my-custom-agenda-sections))
+            ,(cdr (assoc 'stuck-projects my-custom-agenda-sections))
+            ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
+            ,(cdr (assoc 'tasks my-custom-agenda-sections))
+            ,(cdr (assoc 'waiting-tasks my-custom-agenda-sections))
+            ,(cdr (assoc 'projects my-custom-agenda-sections))
+            ,(cdr (assoc 'hold my-custom-agenda-sections))))
+          ("t" "Todo" tags "-HOLD-STOP-BOOKS-download/!+NEXT|+TODO"
+           ((org-agenda-skip-function 'my-org-skip-projects)
+            (org-agenda-todo-ignore-scheduled t)
+            (org-agenda-todo-ignore-deadlines t)
+            (org-agenda-todo-ignore-with-date t)))
+          ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
+          ("k" . "Knowledge-base operations")
+          ("ks" "Knowledge-base search" search nil
+           ((org-agenda-files '("~/org/kb.org"))))
+          ("km" "Knowledge-base tag match" tags nil
+           ((org-agenda-files '("~/org/kb.org"))))
+          ("b" . "Bookmarks operations")
+          ("bs" "Bookmarks search" search nil
+           ((org-agenda-files '("~/org/bookmarks.org"))))
+          ("bm" "Bookmakrs tag match" tags nil
+           ((org-agenda-files '("~/org/bookmarks.org"))))
+          ("d" "Downloads" tags "+download/!TODO")
+          ;; Reading items are not marked with TODO, we use this view instead.
+          ;; Item that we are reading at the moment, however, is marked
+          ;; NEXT as every other current task.
+          ("r" "Reading"
+           ((tags "+Reading/-DONE"
+                  ((org-agenda-overriding-header "To read")
+                   (org-agenda-files '("~/org/reading.org"))))
+            (tags "+Reading/DONE"
+                  ((org-agenda-overriding-header "Finished")
+                   (org-agenda-files '("~/org/reading.org"))))))))
 
-    (defun my-org-agenda-remove-duplicate-habits ()
-      "Remove duplicated habits from agenda.
+  (defun my-org-agenda-remove-duplicate-habits ()
+    "Remove duplicated habits from agenda.
 
 If a task is scheduled multiple times for different days and is
 overdue and a habit it is inserted multiple times."
-      (save-excursion
-        (let ((limit (save-excursion
-                       (goto-char (point-min))
-                       (while (and (eq (org-get-at-bol 'org-agenda-type) 'agenda)
-                                   (= (forward-line 1) 0)))
-                       (point-marker)))
-              (visited nil))
-          (goto-char (point-min))
-          (while (< (point) limit)
-            (let ((p (--when-let (org-get-at-bol 'org-marker)
-                       (org-with-point-at it
-                         (save-excursion
-                           (ignore-errors
-                             (org-back-to-heading t)
-                             (point-marker)))))))
-              (if (and p
-                       (member p visited))
-                  (delete-region (point-at-bol) (1+ (point-at-eol)))
-                (when p (push p visited))
-                (forward-line 1))))
-          (--each visited (set-marker it nil)))))
+    (save-excursion
+      (let ((limit (save-excursion
+                     (goto-char (point-min))
+                     (while (and (eq (org-get-at-bol 'org-agenda-type) 'agenda)
+                                 (= (forward-line 1) 0)))
+                     (point-marker)))
+            (visited nil))
+        (goto-char (point-min))
+        (while (< (point) limit)
+          (let ((p (--when-let (org-get-at-bol 'org-marker)
+                     (org-with-point-at it
+                       (save-excursion
+                         (ignore-errors
+                           (org-back-to-heading t)
+                           (point-marker)))))))
+            (if (and p
+                     (member p visited))
+                (delete-region (point-at-bol) (1+ (point-at-eol)))
+              (when p (push p visited))
+              (forward-line 1))))
+        (--each visited (set-marker it nil)))))
 
-    (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits))
-  :config
-  (progn
-    (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
+  (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
+  (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
 
-    (defun org-agenda-time-limit (time)
-      "Call `org-agenda' with media timestamp limited."
-      (interactive "sTimestamp: ")
-      (let ((my-org-show-media-closed-since
-             (apply 'encode-time (org-parse-time-string time))))
-        (org-agenda)))
+  (defun org-agenda-time-limit (time)
+    "Call `org-agenda' with media timestamp limited."
+    (interactive "sTimestamp: ")
+    (let ((my-org-show-media-closed-since
+           (apply 'encode-time (org-parse-time-string time))))
+      (org-agenda)))
 
-    ;; View
-    (defun my-org-agenda-is-task-p ()
-      "Return non-nil if line at point is a task."
-      (org-get-at-bol 'org-marker))
+  ;; View
+  (defun my-org-agenda-is-task-p ()
+    "Return non-nil if line at point is a task."
+    (org-get-at-bol 'org-marker))
 
-    (defun my-org-agenda-remove-empty-lists ()
-      (let ((headers '("Tasks to Refile"
-                       "Bugs (in emacs projects)"
-                       "Stuck Projects"
-                       "Next Tasks"
-                       "Tasks"
-                       "Waiting Tasks"
-                       "Projects"
-                       "Subprojects (and children tasks)"
-                       "Postponed Projects and Tasks"
-                       "Reading")))
-        (let ((case-fold-search nil))
-          (--each headers
-            (save-excursion
-              (goto-char (point-min))
-              (when (re-search-forward (concat "^" (regexp-quote it)) nil t)
-                (unless (save-excursion
-                          (forward-line)
-                          (my-org-agenda-is-task-p))
-                  (delete-region (line-beginning-position) (1+ (line-end-position)))))))
+  (defun my-org-agenda-remove-empty-lists ()
+    (let ((headers '("Tasks to Refile"
+                     "Bugs (in emacs projects)"
+                     "Stuck Projects"
+                     "Next Tasks"
+                     "Tasks"
+                     "Waiting Tasks"
+                     "Projects"
+                     "Subprojects (and children tasks)"
+                     "Postponed Projects and Tasks"
+                     "Reading")))
+      (let ((case-fold-search nil))
+        (--each headers
           (save-excursion
             (goto-char (point-min))
-            (when (re-search-forward (concat "^" (regexp-opt headers)) nil t)
-              (goto-char (match-beginning 0))
-              (backward-char)
-              (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid)))))))
-
-    (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-empty-lists)
-
-    ;; Better links
-    (defun my-org-agenda-open-at-point (&optional arg)
-      "Open the first link after the headline under point."
-      (interactive "P")
-      (org-with-point-at (org-get-at-bol 'org-hd-marker)
-        (my-org-open-at-point arg)))
-
-    ;; Better filters
-    (defun my-org--get-agenda-tags ()
-      "Return all tags present in current agenda view."
-      (let (tags)
-        (my-with-each-line
-          (--when-let (org-get-at-bol 'tags)
-            (--each it (push it tags))))
-        (-uniq tags)))
-
-    (defun my-org-agenda-filter-by-tag-refine (strip &optional char)
-      "Just like `org-agenda-filter-by-tag-refine' but with tags from
-current agenda view added to `org-tag-alist'."
-      (interactive "P")
-      (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
-        (org-set-local 'org-global-tags-completion-table
-                       (-uniq (-map 'downcase
-                                    (-concat (my-org--get-agenda-tags)
-                                             (-filter 'stringp (-map 'car org-tag-alist)))))))
-      (org-agenda-filter-by-tag-refine strip char))
-
-    (defun my-org-agenda-filter-by-tag (strip &optional char narrow)
-      "Just like `org-agenda-filter-by-tag' but with tags from
-current agenda view added to `org-tag-alist'."
-      (interactive "P")
-      (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
-        (org-set-local 'org-global-tags-completion-table
-                       (-uniq (-map 'downcase
-                                    (-concat (my-org--get-agenda-tags)
-                                             (-filter 'stringp (-map 'car org-tag-alist)))))))
-      (org-agenda-filter-by-tag strip char narrow))
-
-    (defun my-org-agenda-clockreport (from to)
-      "Standalone clockreport"
-      (interactive (list (org-read-date nil nil nil "From: " nil (format-time-string "%Y-01-01"))
-                         (org-read-date nil nil nil "To: ")))
-      (let ((org-hide-emphasis-markers nil)
-            (org-agenda-files (org-agenda-files nil 'ifmode))
-            ;; the above line is to ensure the restricted range!
-            (p (copy-sequence org-agenda-clockreport-parameter-plist))
-            tbl)
-        (setq p (org-plist-delete p :block))
-        (setq p (plist-put p :tstart from))
-        (setq p (plist-put p :tend to))
-        (setq p (plist-put p :scope 'agenda))
-        (setq tbl (apply 'org-clock-get-clocktable p))
-        (with-current-buffer (get-buffer-create (format "*clockreport %s--%s*" from to))
-          (erase-buffer)
-          (insert tbl)
+            (when (re-search-forward (concat "^" (regexp-quote it)) nil t)
+              (unless (save-excursion
+                        (forward-line)
+                        (my-org-agenda-is-task-p))
+                (delete-region (line-beginning-position) (1+ (line-end-position)))))))
+        (save-excursion
           (goto-char (point-min))
-          (pop-to-buffer (current-buffer)))))
+          (when (re-search-forward (concat "^" (regexp-opt headers)) nil t)
+            (goto-char (match-beginning 0))
+            (backward-char)
+            (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid)))))))
 
-    (defun my-org-generate-timeline ()
-      (let* ((current-offset (/ (- (+ (* 60 (string-to-number (format-time-string "%H")))
-                                      (string-to-number (format-time-string "%M")))
-                                   360) 10))
-             (slotline (copy-sequence "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |"))
-             (slotline (progn
-                         (when (< 0 current-offset)
-                           (put-text-property 0 current-offset 'font-lock-face '(:background "#555555") slotline))
-                         slotline))
-             (timeline (concat "|06:00|07:00|08:00|09:00|10:00|11:00|12:00|13:00|14:00|15:00|16:00|17:00|18:00|19:00|20:00|21:00|22:00|23:00|00:00|"
-                               "\n"
-                               slotline))
-             (tasks nil))
-        (my-with-each-line
-          (-when-let* ((time-of-day (org-get-at-bol 'time-of-day))
-                       (duration (org-get-at-bol 'duration)))
-            (when (< duration 0)
-              (cl-incf duration 1440))
-            (let* ((hour (/ time-of-day 100))
-                   (minute (mod time-of-day 100))
-                   (beg (+ (* hour 60) minute))
-                   (end (+ beg duration))
-                   (face (--if-let (org-entry-get (org-get-at-bol 'org-marker) "TIMELINE_FACE")
-                             (let ((read-face (car (read-from-string it))))
-                               (if (stringp read-face)
-                                   (list :background read-face)
-                                 read-face))
-                           '(:background "RoyalBlue"))))
-              (push (list beg end face) tasks))))
-        (setq tasks (nreverse tasks))
-        (cl-labels ((triag (n) (/ (* n (1+ n)) 2))
-                    (get-start-pos (current-line) (+ (* current-line 117) (/ (- beg 360) 10) (- (triag (1- current-line)))))
-                    (get-end-pos (current-line) (+ (* current-line 117) (/ (- end 360) 10) (- (triag (1- current-line))))))
-          (let ((current-line 1))
-            (with-temp-buffer
-              (insert timeline)
-              (-each tasks
-                (-lambda ((beg end face))
-                  (while (get-text-property (get-start-pos current-line) 'occupied)
-                    (cl-incf current-line)
-                    (when (> (get-start-pos current-line) (point-max))
-                      (save-excursion
-                        (goto-char (point-max))
-                        (insert "\n" slotline))))
-                  (let ((start-pos (get-start-pos current-line))
-                        (end-pos (get-end-pos current-line)))
-                    (put-text-property start-pos end-pos 'font-lock-face face)
-                    (put-text-property start-pos end-pos 'occupied t))
-                  (setq current-line 1)))
-              (buffer-string))))))
+  (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-empty-lists)
 
-    (defun my-org-insert-timeline ()
-      (goto-char (point-min))
-      (when (search-forward "─" nil t)
-        (forward-line)
-        (let ((inhibit-read-only t))
-          (insert (my-org-generate-timeline))
-          (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid) "\n"))
-        ;; enable `font-lock-mode' in agenda view to display the "chart"
-        (font-lock-mode)))
+  ;; Better links
+  (defun my-org-agenda-open-at-point (&optional arg)
+    "Open the first link after the headline under point."
+    (interactive "P")
+    (org-with-point-at (org-get-at-bol 'org-hd-marker)
+      (my-org-open-at-point arg)))
 
-    (add-hook 'org-agenda-finalize-hook 'my-org-insert-timeline :append)
+  ;; Better filters
+  (defun my-org--get-agenda-tags ()
+    "Return all tags present in current agenda view."
+    (let (tags)
+      (my-with-each-line
+        (--when-let (org-get-at-bol 'tags)
+          (--each it (push it tags))))
+      (-uniq tags)))
 
-    (bind-keys :map org-agenda-mode-map
-      ("C-c r" . my-org-agenda-clockreport)
-      ("C-c g" . org-clock-budget-report)
-      ("C-n" . org-agenda-next-item)
-      ("C-p" . org-agenda-previous-item)
-      ("P" . my-org-narrow-to-project)
-      ("U" . my-org-narrow-to-parent)
-      ("N" . my-org-narrow-to-subtree)
-      ("W" . my-org-widen)
-      ("/" . my-org-agenda-filter-by-tag)
-      ("\\" . my-org-agenda-filter-by-tag-refine)
-      ("o" . my-org-agenda-open-at-point))))
+  (defun my-org-agenda-filter-by-tag-refine (strip &optional char)
+    "Just like `org-agenda-filter-by-tag-refine' but with tags from
+current agenda view added to `org-tag-alist'."
+    (interactive "P")
+    (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
+      (org-set-local 'org-global-tags-completion-table
+                     (-uniq (-map 'downcase
+                                  (-concat (my-org--get-agenda-tags)
+                                           (-filter 'stringp (-map 'car org-tag-alist)))))))
+    (org-agenda-filter-by-tag-refine strip char))
+
+  (defun my-org-agenda-filter-by-tag (strip &optional char narrow)
+    "Just like `org-agenda-filter-by-tag' but with tags from
+current agenda view added to `org-tag-alist'."
+    (interactive "P")
+    (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
+      (org-set-local 'org-global-tags-completion-table
+                     (-uniq (-map 'downcase
+                                  (-concat (my-org--get-agenda-tags)
+                                           (-filter 'stringp (-map 'car org-tag-alist)))))))
+    (org-agenda-filter-by-tag strip char narrow))
+
+  (defun my-org-agenda-clockreport (from to)
+    "Standalone clockreport"
+    (interactive (list (org-read-date nil nil nil "From: " nil (format-time-string "%Y-01-01"))
+                       (org-read-date nil nil nil "To: ")))
+    (let ((org-hide-emphasis-markers nil)
+          (org-agenda-files (org-agenda-files nil 'ifmode))
+          ;; the above line is to ensure the restricted range!
+          (p (copy-sequence org-agenda-clockreport-parameter-plist))
+          tbl)
+      (setq p (org-plist-delete p :block))
+      (setq p (plist-put p :tstart from))
+      (setq p (plist-put p :tend to))
+      (setq p (plist-put p :scope 'agenda))
+      (setq tbl (apply 'org-clock-get-clocktable p))
+      (with-current-buffer (get-buffer-create (format "*clockreport %s--%s*" from to))
+        (erase-buffer)
+        (insert tbl)
+        (goto-char (point-min))
+        (pop-to-buffer (current-buffer)))))
+
+  (defun my-org-generate-timeline ()
+    (let* ((current-offset (/ (- (+ (* 60 (string-to-number (format-time-string "%H")))
+                                    (string-to-number (format-time-string "%M")))
+                                 360) 10))
+           (slotline (copy-sequence "|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |"))
+           (slotline (progn
+                       (when (< 0 current-offset)
+                         (put-text-property 0 current-offset 'font-lock-face '(:background "#555555") slotline))
+                       slotline))
+           (timeline (concat "|06:00|07:00|08:00|09:00|10:00|11:00|12:00|13:00|14:00|15:00|16:00|17:00|18:00|19:00|20:00|21:00|22:00|23:00|00:00|"
+                             "\n"
+                             slotline))
+           (tasks nil))
+      (my-with-each-line
+        (-when-let* ((time-of-day (org-get-at-bol 'time-of-day))
+                     (duration (org-get-at-bol 'duration)))
+          (when (< duration 0)
+            (cl-incf duration 1440))
+          (let* ((hour (/ time-of-day 100))
+                 (minute (mod time-of-day 100))
+                 (beg (+ (* hour 60) minute))
+                 (end (+ beg duration))
+                 (face (--if-let (org-entry-get (org-get-at-bol 'org-marker) "TIMELINE_FACE")
+                           (let ((read-face (car (read-from-string it))))
+                             (if (stringp read-face)
+                                 (list :background read-face)
+                               read-face))
+                         '(:background "RoyalBlue"))))
+            (push (list beg end face) tasks))))
+      (setq tasks (nreverse tasks))
+      (cl-labels ((triag (n) (/ (* n (1+ n)) 2))
+                  (get-start-pos (current-line) (+ (* current-line 117) (/ (- beg 360) 10) (- (triag (1- current-line)))))
+                  (get-end-pos (current-line) (+ (* current-line 117) (/ (- end 360) 10) (- (triag (1- current-line))))))
+        (let ((current-line 1))
+          (with-temp-buffer
+            (insert timeline)
+            (-each tasks
+              (-lambda ((beg end face))
+                (while (get-text-property (get-start-pos current-line) 'occupied)
+                  (cl-incf current-line)
+                  (when (> (get-start-pos current-line) (point-max))
+                    (save-excursion
+                      (goto-char (point-max))
+                      (insert "\n" slotline))))
+                (let ((start-pos (get-start-pos current-line))
+                      (end-pos (get-end-pos current-line)))
+                  (put-text-property start-pos end-pos 'font-lock-face face)
+                  (put-text-property start-pos end-pos 'occupied t))
+                (setq current-line 1)))
+            (buffer-string))))))
+
+  (defun my-org-insert-timeline ()
+    (goto-char (point-min))
+    (when (search-forward "─" nil t)
+      (forward-line)
+      (let ((inhibit-read-only t))
+        (insert (my-org-generate-timeline))
+        (insert (propertize (concat "\n" (make-string (/ (window-width) 2) ?─)) 'face 'org-time-grid) "\n"))
+      ;; enable `font-lock-mode' in agenda view to display the "chart"
+      (font-lock-mode)))
+
+  (add-hook 'org-agenda-finalize-hook 'my-org-insert-timeline :append)
+
+  (bind-keys :map org-agenda-mode-map
+    ("C-c r" . my-org-agenda-clockreport)
+    ("C-c g" . org-clock-budget-report)
+    ("C-n" . org-agenda-next-item)
+    ("C-p" . org-agenda-previous-item)
+    ("P" . my-org-narrow-to-project)
+    ("U" . my-org-narrow-to-parent)
+    ("N" . my-org-narrow-to-subtree)
+    ("W" . my-org-widen)
+    ("/" . my-org-agenda-filter-by-tag)
+    ("\\" . my-org-agenda-filter-by-tag-refine)
+    ("o" . my-org-agenda-open-at-point)))
 
 (use-package org-notmuch)
 
 (use-package org-protocol
-  :init
+  :config
   (progn
     (defun my-org-capture-cleanup ()
       "Clean up the frame created while capturing via org-protocol."
@@ -611,14 +606,6 @@ current agenda view added to `org-tag-alist'."
           org-protocol-protocol-alist)))
 
 (use-package org-contacts)
-
-(use-package org-velocity
-  :disabled t ; in favour of helm
-  :commands org-velocity
-  :load-path "projects/org-velocity/"
-  :init
-  (progn
-    (bind-key "C-c s" 'org-velocity org-mode-map)))
 
 (use-package ox-publish
   :defer t

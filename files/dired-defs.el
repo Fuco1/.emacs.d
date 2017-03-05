@@ -86,7 +86,7 @@ Also used for highlighting.")
     ("C-o C-d" . dired-subtree-only-this-directory)))
 
 (use-package dired-rainbow
-  :init
+  :config
   (progn
     (dired-rainbow-define html "#4e9a06" ("htm" "html" "xhtml"))
     (dired-rainbow-define xml "#b4fa70" ("xml" "xsd" "xsl" "xslt" "wsdl"))
