@@ -75,11 +75,6 @@ return to regular interpretation of self-insert characters."
          strings mins))
       ad-do-it)))
 
-(use-package autobookmarks
-  :init
-  (progn
-    (autobookmarks-mode 1)))
-
 (use-package better-jump
   :bind (("C-\\" . bjump-word-jump)
          ("A-l" . bjump-char-jump-line)
@@ -1878,11 +1873,6 @@ SCOPE is the scope, one of: batch, thread, plid."
                 ("f" sallet-gtags-files "Find files")
                 ("t" sallet-gtags-tags "Find tags")))
     (use-package autobookmarks)))
-
-(use-package savehist
-  :config
-  (progn
-    (savehist-mode 1)))
 
 (use-package sgml-mode
   :defer t
