@@ -20,6 +20,7 @@
 (depends-on "diminish")
 (depends-on "dired+")
 (depends-on "dockerfile-mode")
+(depends-on "editorconfig")
 (depends-on "eimp")
 (depends-on "eldoc-eval")
 (depends-on "elfeed")

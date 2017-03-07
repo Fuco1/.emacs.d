@@ -328,6 +328,7 @@
  '(ediff-merge-split-window-function (quote split-window-horizontally))
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(editorconfig-mode t)
  '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5)
  '(elfeed-search-face-alist

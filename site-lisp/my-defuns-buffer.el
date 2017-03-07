@@ -98,10 +98,11 @@ might be bad."
                          (s-matches? "orders-refactor" default-directory))
                      (not (s-matches? "dev/org-mode" default-directory))))
         (delete-trailing-whitespace)
-        (unless (memq major-mode '(makefile-gmake-mode
-                                   makefile-mode
-                                   text-mode
-                                   fundamental-mode))
+        (unless (or (memq major-mode '(makefile-gmake-mode
+                                       makefile-mode
+                                       text-mode
+                                       fundamental-mode))
+                    indent-tabs-mode)
           (untabify-buffer)))
       (set-buffer-file-coding-system 'utf-8))))
 
