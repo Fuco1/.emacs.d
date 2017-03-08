@@ -1765,6 +1765,9 @@ SCOPE is the scope, one of: batch, thread, plid."
       (setq-local flycheck-php-phpstan-executable
                   (concat (my-php-find-project-root)
                           "/vendor/bin/phpstan"))
+      (setq-local flycheck-phpcs-standard
+                  (concat (my-php-find-project-root)
+                          "/ruleset.xml"))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (c-set-style "php")
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
