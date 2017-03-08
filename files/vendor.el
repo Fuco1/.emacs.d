@@ -1671,7 +1671,7 @@ These are retrieved from `imenu--index-alist'."
       "Set current buffer to `php-mode' and disable `multi-web-mode'."
       (interactive)
       (php-mode)
-      (multi-web-mode -1))
+      (when (featurep 'multi-web-mode) (multi-web-mode -1)))
 
     (defvar my-php-wrap-with-profiler-call-history nil
       "History for profiler name.")
