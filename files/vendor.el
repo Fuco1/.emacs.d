@@ -1527,8 +1527,12 @@ If already in a unit test, go to source."
       (interactive)
       (let ((other-file
              (if (string-match-p "\\.php\\'" (buffer-file-name))
-                 (replace-regexp-in-string "\\.php\\'" ".unit.phpt" (buffer-file-name))
-               (replace-regexp-in-string "\\.unit\\.phpt\\'" ".php" (buffer-file-name))))
+                 (replace-regexp-in-string
+                  "/app/" "/tests/php/"
+                  (replace-regexp-in-string "\\.php\\'" ".phpt" (buffer-file-name)))
+               (replace-regexp-in-string
+                "/tests/php/" "/app/"
+                (replace-regexp-in-string "\\.phpt\\'" ".php" (buffer-file-name)))))
             (func (which-function)))
         (find-file other-file)))
     (bind-key "C-c C-t" 'my-php-switch-to-test php-mode-map)
