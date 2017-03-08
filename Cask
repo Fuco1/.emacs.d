@@ -46,6 +46,7 @@
 (depends-on "gnus-alias")
 (depends-on "haskell-mode")
 (depends-on "helm-descbinds")
+(depends-on "helm-gtags")
 (depends-on "highlight-thing")
 (depends-on "htmlize")
 (depends-on "hydra")
