@@ -65,7 +65,6 @@
 (depends-on "markdown-mode")
 (depends-on "markdown-mode+")
 (depends-on "markdown-toc")
-(depends-on "multi-web-mode")
 (depends-on "multiple-cursors")
 (depends-on "nginx-mode")
 (depends-on "notmuch")
