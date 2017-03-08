@@ -1511,6 +1511,7 @@ network prefix)."
              (php-ini-file (-first 'file-exists-p
                                    (list
                                     (format "%s/tests/php.ini" root)
+                                    (format "%s/tests/php/php.ini" root)
                                     (format "%s/core/tests/php.ini" root)))))
         (when (buffer-modified-p) (save-buffer))
         (let ((cmd (format "php %s -c %s '%s'" tester php-ini-file dir)))
