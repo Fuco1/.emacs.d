@@ -658,6 +658,7 @@ idle timer to do the actual update.")
   :defer t
   :config
   (progn
+    (use-package ess-help)
     (bind-key "q" 'quit-window ess-help-mode-map)
     (defun my-ess-post-run-hook ()
       (modify-syntax-entry ?$ ".")
