@@ -530,7 +530,12 @@ current agenda view added to `org-tag-alist'."
                              (if (stringp read-face)
                                  (list :background read-face)
                                read-face))
-                         '(:background "RoyalBlue"))))
+                         (cond
+                          ((save-excursion
+                             (forward-char 26)
+                             (looking-at "Clocked:"))
+                           '(:background "Grey"))
+                          (t '(:background "RoyalBlue"))))))
             (push (list beg end face) tasks))))
       (setq tasks (nreverse tasks))
       (cl-labels ((triag (n) (/ (* n (1+ n)) 2))
