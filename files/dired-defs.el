@@ -287,7 +287,7 @@ When we are creating new directory, there is nothing to complete."
       (while (re-search-forward "directory\\|available" nil t)
         (forward-char)
         (when (not (dired-utils-get-filename))
-          (let* ((avail (word-at-point))
+          (let* ((avail (or (word-at-point) "0"))
                  (avail-hr (s-trim (ls-lisp-format-file-size (* 1024 (string-to-int avail)) t 1))))
             (kill-word 1)
             (insert avail-hr)))))))
