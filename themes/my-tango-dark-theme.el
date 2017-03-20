@@ -206,6 +206,8 @@ is extension of default `tango-dark' face.")
    (secondary-selection (:background blue-3))
    (shadow (:foreground alum-4))
    (trailing-whitespace (:background red-3))
+   (whitespace-tab (:foreground alum-7 :background butter-2))
+   (whitespace-indentation (:background plum-1))
 
    ;; Mode line faces
    (mode-line (:background "black"
