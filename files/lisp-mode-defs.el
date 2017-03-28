@@ -7,6 +7,7 @@
   ("<return>" . my-emacs-lisp-open-line)
   ("C-M-;" . clippy-describe-function)
   ("C-c C-c" . overseer-test-run-test)
+  ("C-c C-t" . my-elisp-run-buttercup)
   ("C-. ." . my-describe-thing-in-buffer))
 (bind-key "C-x C-d"
           (defhydra hydra-elisp-refactor (:color blue)
@@ -283,6 +284,15 @@ TO is either 'and or 'or."
       (kill-sexp)
       (pp replacement (current-buffer))
       (my-lisp-remove-excess-not))))
+
+(defun my-elisp-run-buttercup ()
+  "Run buttercup tests of current project (determined by Cask)."
+  (interactive)
+  (when (buffer-file-name)
+    (-when-let (root-dir (locate-dominating-file (buffer-file-name) "Cask"))
+      (with-temp-buffer
+        (cd root-dir)
+        (compile "cask exec buttercup -L .")))))
 
 (provide 'my-lisp-mode-defs)
 ;;; lisp-mode-defs.el ends here
