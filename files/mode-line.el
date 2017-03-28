@@ -1,5 +1,7 @@
 ;; set frame format
 
+(require 's)
+
 (defun my-buffer-narrowed-p ()
   "Return non-nil if the current buffer is narrowed."
   (/= (- (point-max) (point-min)) (buffer-size)))
@@ -174,12 +176,13 @@ OLD is the string to act on."
                  ((not (marker-buffer org-clock-marker))
                   "<fc=#d3d7cf>-:--</fc>")
                  (t
-                  (let* ((status (substring-no-properties org-mode-line-string 1
+                  (let* ((status (substring-no-properties org-mode-line-string 2
                                                           (1- (length org-mode-line-string))))
                          (split-status (split-string status " (")))
-                    (concat "<fc=#8ae234>" (car split-status) "</fc>")))))))
+                    (concat "<fc=#8ae234>" (replace-regexp-in-string "[]]" "" (car split-status)) "</fc>")))))))
   "A format construct following the conventions of
 `mode-line-format' used to produce a status for xmobar.")
 
 (defun my-emacs-status ()
+  "Format emacs status line."
   (format-mode-line my-status-line-format))
