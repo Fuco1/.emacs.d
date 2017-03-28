@@ -395,6 +395,7 @@ overdue and a habit it is inserted multiple times."
                            (org-back-to-heading t)
                            (point-marker)))))))
             (if (and p
+                     (equal (org-entry-get p "STYLE") "habit")
                      (member p visited))
                 (delete-region (point-at-bol) (1+ (point-at-eol)))
               (when p (push p visited))
