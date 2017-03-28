@@ -1195,7 +1195,7 @@ point and rebuild the agenda view."
         ("l" "read later" entry (file "~/org/refile.org")
          "* %:description :readlater:\n- %:link\n")
         ("j" "Journals")
-        ("jj" "journal" entry (file+datetree "~/org/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t)
+        ("jj" "journal" entry (file+datetree "~/org/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t)
         ("jo" "journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
         ("b" "bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n")
