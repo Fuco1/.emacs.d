@@ -1142,7 +1142,9 @@ called, percentage usage and the command."
          ("C-c m l" . magit-log-popup)
          ("C-c m m" . magit-log-all)
          ("C-c m v" . magit-show-refs-popup)
-         ("C-c m s" . magit-status))
+         ("C-c m s" . magit-status)
+         ("C-c m C-f" . magit-find-file)
+         )
   :config
   (progn
     (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
