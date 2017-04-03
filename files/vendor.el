@@ -296,7 +296,8 @@ message.")
   :commands clippy-describe-function)
 
 (use-package conf-mode
-  :mode (("\\.pwm\\'" . conf-mode)))
+  :mode (("\\.pwm\\'" . conf-mode)
+         ("\\.env\\(\\'\\|\\.\\)" . conf-mode)))
 
 (use-package company
   :config
