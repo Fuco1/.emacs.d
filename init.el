@@ -32,9 +32,12 @@
 (defun my-startup-screen ()
   (with-current-buffer (get-buffer-create "Startup screen")
     (fundamental-mode)
+    (erase-buffer)
     (insert
      (format
-      "Loaded %d packages in %.3fs seconds"
+      "Blessed art thou, who hath come to the One True Editor.
+
+Loaded %d packages in %.3fs seconds"
       (length package-activated-list)
       emacs-load-time))
     (current-buffer)))
