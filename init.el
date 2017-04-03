@@ -103,7 +103,7 @@ Loaded %d packages in %.3fs seconds"
   (load "~/.emacs.d/files/vendor"))
 
 (my-with-elapsed-timer "Loading personal"
-  (load "~/.emacs.d/files/personal"))
+  (load "~/.emacs.d/files/personal" :no-error))
 
 ;; diminish useless modeline clutter
 (require 'diminish)
