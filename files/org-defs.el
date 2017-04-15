@@ -1181,7 +1181,7 @@ point and rebuild the agenda view."
     (cadr (mail-extract-address-components (notmuch-show-get-from)))))
 
 (setq org-capture-templates
-      `(("r" "todo" entry (file "~/org/refile.org")
+      `(("r" "Todo" entry (file "~/org/refile.org")
          "* TODO %?\n%U\n%a\n" :clock-keep t)
         ("t" "Todo entries")
         ,@(let ((targets '(("te" "todo-emacs" "emacs" "Emacs config")
@@ -1192,14 +1192,24 @@ point and rebuild the agenda view."
              `(,(nth 0 it) ,(nth 1 it) entry (file+headline ,(concat "~/org/" (nth 2 it) ".org") ,(nth 3 it))
                "* TODO %?\n%U\n" :clock-keep t)
              targets))
-        ("l" "read later" entry (file "~/org/refile.org")
-         "* %:description :readlater:\n- %:link\n")
+        ("w" "Work")
+        ("wl" "Work - Logio" entry (file+olp "~/org/work.org" "Logio")
+         "* TODO %? :logio:
+%^{HELPDESK}p%U
+ - [ ] zadane v HD
+ - [ ] zadany cas v HD
+" :clock-keep t
+         )
+        ("l" "Read later" entry (file "~/org/refile.org")
+         "* %?%:description :readlater:
+- %(if (string-blank-p \"%a\") \"%:link\" \"%a\")
+%(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")
         ("j" "Journals")
-        ("jj" "journal" entry (file+datetree "~/org/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t)
-        ("jo" "journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
-        ("b" "bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
+        ("jj" "Journal" entry (file+datetree "~/org/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t)
+        ("jo" "Journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
+        ("b" "Bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n")
-        ("c" "contact" entry (file "~/org/contacts.org")
+        ("c" "Contact" entry (file "~/org/contacts.org")
          "* %(my-notmuch-show-get-name)
     :PROPERTIES:
     :EMAIL: %(my-notmuch-show-get-email)
