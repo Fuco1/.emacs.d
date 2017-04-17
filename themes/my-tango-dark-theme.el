@@ -1,5 +1,7 @@
 ;;; my-tango-dark-theme.el --- Tango-based custom theme for faces
 
+(require 'dash)
+
 (deftheme my-tango-dark
   "Face colors using the Tango palette (dark background).  This
 is extension of default `tango-dark' face.")
@@ -67,7 +69,6 @@ is extension of default `tango-dark' face.")
   "Face for metadata key markup.")
 (defface markup-metadata-value nil
   "Face for metadata value markup.")
-
 
 ;; 00, 5f, 87, af, d7, ff
 (defvar my-tango-colors
@@ -566,7 +567,7 @@ is extension of default `tango-dark' face.")
 
 ;; Local Variables:
 ;; no-byte-compile: t
-;; eval: (rainbow-mode 1)
+;; eval: (font-lock-add-keywords nil (-map (-lambda ((face . color)) (let ((pattern (concat "\\_<" (symbol-name face) "\\_>")) (color-resolved (if (stringp color) color (cdr (assq color (cdar my-tango-colors)))))) (list pattern 0 `(rainbow-colorize-match ,color-resolved)))) (cdar my-tango-colors)))
 ;; End:
 
 ;;; my-tango-dark-theme.el ends here
