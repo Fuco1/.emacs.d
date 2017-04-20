@@ -75,6 +75,10 @@ return to regular interpretation of self-insert characters."
          strings mins))
       ad-do-it)))
 
+(use-package autobookmarks
+  :config
+  (autobookmarks-mode 1))
+
 (use-package better-jump
   :bind (("C-\\" . bjump-word-jump)
          ("A-l" . bjump-char-jump-line)
