@@ -38,9 +38,7 @@
                           (,(concat "(\\<"
                                     (regexp-opt my-macro-names 'paren)
                                     "\\>")
-                           1 font-lock-keyword-face)
-                          ("(\\(describe\\|buttercup-define-matcher\\) "
-                           1 'font-lock-keyword-face))
+                           1 font-lock-keyword-face))
                         'append)
 
 (defvar my-emacs-lisp-open-line-list '(

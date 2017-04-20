@@ -1125,6 +1125,7 @@ called, percentage usage and the command."
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
       (set-input-method "english-prog")
       (eldoc-mode 1)
+      (buttercup-minor-mode 1)
       (letcheck-mode t)
       (add-to-list 'imenu-generic-expression
                    '("Ert tests" "\\(^(ert-deftest +\\)\\(\\_<.+\\_>\\)" 2))
