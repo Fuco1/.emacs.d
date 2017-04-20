@@ -290,7 +290,7 @@ TO is either 'and or 'or."
     (-when-let (root-dir (locate-dominating-file (buffer-file-name) "Cask"))
       (with-temp-buffer
         (cd root-dir)
-        (compile "cask exec buttercup -L .")))))
+        (compile "cask exec buttercup -L . -L tests")))))
 
 (provide 'my-lisp-mode-defs)
 ;;; lisp-mode-defs.el ends here
