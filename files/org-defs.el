@@ -820,6 +820,7 @@ The second part is a regexp to search in the buffer."
 
 (bind-keys :map org-mode-map
   ("TAB" . smart-tab)
+  ("RET" . scimax/org-return)
   ("<tab>" . smart-tab)
   ("C-e" . my-end-of-code-or-line)
   ("C-a" . my-back-to-indentation-or-beginning)
@@ -1571,3 +1572,59 @@ https://www.pse.cz/udaje-o-trhu/akcie/"
          (format "P %d/%02d/%02d 00:00:00 %s %s Kc"
                  year mon day ticker p)))
      data)))
+
+(defun scimax/org-return (&optional ignore)
+  "Add new list item, heading or table row with RET.
+A double return on an empty element deletes it.
+Use a prefix arg to get regular RET. "
+  (interactive "P")
+  (if ignore
+      (org-return)
+    (cond
+     ((eq 'line-break (car (org-element-context)))
+      (org-return-indent))
+     ;; Open links like usual
+     ((eq 'link (car (org-element-context)))
+      (org-open-at-point-global))
+     ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
+     ;; Johansson!
+     ((and (fboundp 'org-inlinetask-in-task-p) (org-inlinetask-in-task-p))
+      (org-return))
+     ;; add checkboxes
+     ((org-at-item-checkbox-p)
+      (org-insert-todo-heading nil))
+     ;; lists end with two blank lines, so we need to make sure we are also not
+     ;; at the beginning of a line to avoid a loop where a new entry gets
+     ;; created with only one blank line.
+     ((and (org-in-item-p) (not (bolp)))
+      (let ((context (org-element-context)))
+        (if (or (org-element-property :contents-begin context)
+                (and (eq (car context) 'verbatim)
+                     (org-element-property :contents-begin
+                       (org-element-property :parent context))))
+            (org-insert-heading)
+          (beginning-of-line)
+          (setf (buffer-substring
+                 (line-beginning-position) (line-end-position)) "")
+          (org-return))))
+     ((org-at-heading-p)
+      (if (not (string= "" (org-element-property :title (org-element-context))))
+          (progn (org-end-of-meta-data)
+                 (org-insert-heading))
+        (beginning-of-line)
+        (setf (buffer-substring
+               (line-beginning-position) (line-end-position)) "")))
+     ((org-at-table-p)
+      (if (-any?
+           (lambda (x) (not (string= "" x)))
+           (nth
+            (- (org-table-current-dline) 1)
+            (org-table-to-lisp)))
+          (org-return)
+        ;; empty row
+        (beginning-of-line)
+        (setf (buffer-substring
+               (line-beginning-position) (line-end-position)) "")
+        (org-return)))
+     (t
+      (org-return)))))
