@@ -71,6 +71,9 @@ Loaded %d packages in %.3fs seconds"
             (mapc 'load autoloads)))
         (f-directories "~/.emacs.d/vendor"))
   (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
+  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/dev/"))
+  (mapc (lambda (dir) (load (concat dir "/" (f-base dir) "-autoloads.el") t t))
+        (f-directories "~/.emacs.d/dev/"))
 
   (require 'workman-layout))
 
