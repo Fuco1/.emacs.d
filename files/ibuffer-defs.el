@@ -12,20 +12,18 @@
  (quote (("default"
           ("Org" ;; all org-related buffers
            (mode . org-mode))
-          ("emacs-elpa"
+          ("emacs-cask"
            (or (predicate
                 .
-                (let ((bfn (buffer-file-name (current-buffer))))
-                  (when bfn
-                    (and (string-match-p "\\.emacs\\.d/elpa" bfn)
-                         (eq major-mode 'emacs-lisp-mode)))))))
+                (--when-let (buffer-file-name (current-buffer))
+                  (and (string-match-p "\\.emacs\\.d/\\.cask" it)
+                       (eq major-mode 'emacs-lisp-mode))))))
           ("emacs-config"
            (or (predicate
                 .
-                (let ((bfn (buffer-file-name (current-buffer))))
-                  (when bfn
-                    (and (string-match-p "\\.emacs\\.d" bfn)
-                         (eq major-mode 'emacs-lisp-mode)))))))
+                (--when-let (buffer-file-name (current-buffer))
+                  (and (string-match-p "\\.emacs\\.d" it)
+                       (eq major-mode 'emacs-lisp-mode))))))
           ("emacs"
            (or (mode . emacs-lisp-mode)
                (mode . lisp-interaction-mode)
