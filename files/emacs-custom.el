@@ -185,7 +185,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("bead7ae71dbc5c5a619f2e625c9c941927a3d7c0851abd401da0de205e2fa93b" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -551,7 +551,9 @@
         (mode . lisp-mode)))))))
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
- '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last" t)
+ '(ido-cr+-max-items 300000)
+ '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last")
+ '(ido-ubiquitous-allow-on-functional-collection t)
  '(ido-ubiquitous-command-overrides
    (quote
     ((disable exact "execute-extended-command")
@@ -559,7 +561,6 @@
      (enable-old prefix "Info-")
      (enable exact "webjump")
      (enable regexp "\\`\\(find\\|load\\|locate\\)-library\\'")
-     (disable prefix "org-")
      (disable prefix "tmm-")
      (enable regexp "\\`\\(load\\|enable\\|disable\\|describe\\|custom-theme-visit\\)-theme\\'")
      (enable-old prefix "bbdb-")
@@ -656,7 +657,7 @@
  '(markdown-link-space-sub-char "-")
  '(max-lisp-eval-depth 1000)
  '(max-specpdl-size 10000)
- '(mc/list-file "~/.emacs.d/.cache/multiple-cursors/.mc-lists.el" t)
+ '(mc/list-file "~/.emacs.d/.cache/multiple-cursors/.mc-lists.el")
  '(message-forward-as-mime nil)
  '(message-kill-buffer-on-exit t)
  '(message-log-max 10000)
@@ -1622,7 +1623,12 @@
  '(require-final-newline t)
 '(safe-local-variable-values
 (quote
- ((flycheck-phpstan-config . "/home/matus/dev/Sandbox/core/tests/phpstan/phpstan.neon")
+ ((flycheck-phpstan-config . "/usr/src/salesforce-proxy/app/config/phpstan.neon")
+  (flycheck-phpstan-level . "5")
+  (flycheck-phpstan-config . "/usr/src/application/app/config/phpstan.neon")
+  (flycheck-php-phpstan-executable . "/home/matus/dev/salesforce-proxy/docker-phpstan")
+  (flycheck-php-phpstan-executable . "/home/matus/dev/application/docker-phpstan")
+  (flycheck-phpstan-config . "/home/matus/dev/Sandbox/core/tests/phpstan/phpstan.neon")
   (eval when
         (and
          (buffer-file-name)
