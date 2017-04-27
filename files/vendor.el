@@ -791,13 +791,15 @@ idle timer to do the actual update.")
     (flycheck-def-option-var flycheck-phpstan-config nil php-phpstan
       "Path to the phpstan configuration for current project.
 
-A good idea is to use directory-local variable to specify this."
+This is passed to the -l option in phpstan.  It is a good idea is
+to use a directory-local variable to specify this per-project."
       :type 'file)
 
     (flycheck-def-option-var flycheck-phpstan-level "3" php-phpstan
       "Strictness level phpstan uses to check the sources.
 
-A good idea is to use directory-local variable to specify this."
+This is passed to the -c option in phpstan.  A good idea is to
+use a directory-local variable to specify this per-project."
       :type 'string)
 
     (flycheck-define-checker php-phpstan
@@ -805,7 +807,7 @@ A good idea is to use directory-local variable to specify this."
       :command ("phpstan"
                 "analyse"
                 "--no-progress"
-                "--raw"
+                "--errorFormat" "raw"
                 (option "-l" flycheck-phpstan-level)
                 (option "-c" flycheck-phpstan-config)
                 source)
