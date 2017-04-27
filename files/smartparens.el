@@ -197,7 +197,7 @@ This predicate is only tested on \"insert\" action."
             (insert (format "* @param %s\n" it)))))
       (insert "* "))
      ((string-match-p ".*class\\|interface" line)
-      (save-excursion (insert "\n*\n* @author\n"))
+      (save-excursion (insert "\n"))
       (insert "* ")))
     (let ((o (sp--get-active-overlay)))
       (indent-region (overlay-start o) (overlay-end o)))))
