@@ -372,16 +372,15 @@
  '(explicit-shell-file-name "/usr/bin/zsh")
  '(eyebrowse-mode t)
  '(find-grep-options "-qE")
- '(flycheck-disabled-checkers (quote (php-phplint php-phpcs php-phpmd)))
+ '(flycheck-disabled-checkers (quote (php-phplint php-phpmd)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
  '(flycheck-ghc-args nil)
  '(flycheck-ghc-search-path
    (quote
     ("/home/matus/dotfiles/xmonad/.xmonad/lib" "/home/matus/dev/haskell/mpris/src/")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
- '(flycheck-php-phpcs-executable "~/.composer/vendor/bin/phpcs")
+ '(flycheck-php-phpcs-executable "~/.config/composer/vendor/bin/phpcs")
  '(flycheck-php-phpmd-executable "~/.composer/vendor/bin/phpmd")
- '(flycheck-phpcs-standard "PW")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
  '(font-latex-math-environments
    (quote
