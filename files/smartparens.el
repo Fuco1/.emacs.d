@@ -182,6 +182,11 @@ This predicate is only tested on \"insert\" action."
                      (forward-line)
                      (thing-at-point 'line)))
     (cond
+     ;; variable
+     ((string-match-p (rx (or "private" "protected" "public" "var") (1+ " ") "$") line)
+      (insert "* @var ")
+      (save-excursion
+        (insert "\n")))
      ((string-match-p "function" line)
       (save-excursion
         (insert "\n")
