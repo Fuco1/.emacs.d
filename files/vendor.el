@@ -1902,6 +1902,15 @@ SCOPE is the scope, one of: batch, thread, plid."
   :defer t
   :init
   (progn
+    (defadvice shell-command-sentinel (after enable-better-mode activate)
+      (when (memq (process-status (ad-get-arg 0)) '(exit signal))
+        (with-current-buffer (process-buffer (ad-get-arg 0))
+          (when (save-excursion
+                  (goto-char (point-min))
+                  (ignore-errors (json-read)))
+            (json-mode)
+            (json-mode-beautify)))))
+
     (defun my-shell-mode-init ()
       (setq tab-width 8))
     (add-hook 'shell-mode-hook 'my-shell-mode-init)))
