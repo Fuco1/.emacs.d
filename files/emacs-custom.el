@@ -175,6 +175,7 @@
                        company-oddmuse company-dabbrev)))
  '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-read-command nil)
+ '(compilation-scroll-output (quote first-error))
  '(completion-ignored-extensions
    (quote
     (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
@@ -372,7 +373,9 @@
  '(explicit-shell-file-name "/usr/bin/zsh")
  '(eyebrowse-mode t)
  '(find-grep-options "-qE")
- '(flycheck-disabled-checkers (quote (php-phplint php-phpmd)))
+ '(flycheck-disabled-checkers
+   (quote
+    (php-phplint php-phpmd emacs-lisp-checkdoc emacs-lisp-elsa)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
  '(flycheck-ghc-args nil)
  '(flycheck-ghc-search-path
@@ -568,6 +571,27 @@
      (disable exact "todo-add-category")
      (enable exact "find-tag")
      (enable prefix "etags-select-"))))
+ '(ido-ubiquitous-default-state (quote enable))
+  '(ido-ubiquitous-function-overrides
+    (quote
+     ((disable exact "read-file-name")
+      (disable exact "read-file-name-internal")
+      (disable exact "read-buffer")
+      (disable exact "gnus-emacs-completing-read")
+      (disable exact "gnus-iswitchb-completing-read")
+      (disable exact "grep-read-files")
+      (disable exact "magit-builtin-completing-read")
+      (enable exact "bookmark-completing-read")
+      (enable-old exact "webjump-read-choice")
+      (enable-old exact "webjump-read-url-choice")
+      (disable exact "isearchp-read-unicode-char")
+      (enable exact "read-char-by-name")
+      (disable exact "Info-read-node-name")
+      (disable exact "tmm-menubar")
+      (enable exact "imenu--completion-buffer")
+      (enable-old exact "auto-insert")
+      (enable exact "project--completing-read-strict")
+      (enable-old exact "legalese-elisp-keyword"))))
  '(imenu-auto-rescan t)
  '(indent-tabs-mode nil)
  '(indicate-empty-lines nil)
@@ -603,7 +627,7 @@
  '(legalese-templates
    (quote
     ((emacs-lisp-mode
-      (nil ";;; " legalese-file-name " --- " _ "
+      (nil ";;; " legalese-file-name " --- " _ " -*- lexical-binding: t -*-
 " "
 " ";; Copyright (C) " legalese-year " " legalese-copyright "
 " "
@@ -1477,7 +1501,7 @@
   ("~" markup-inline-code verbatim)
   ("+" markup-strike))))
  '(org-export-allow-bind-keywords t)
- '(org-fast-tag-selection-single-key (quote expert))
+ '(org-fast-tag-selection-single-key nil)
 '(org-file-apps
 (quote
  ((auto-mode . emacs)
@@ -1590,7 +1614,7 @@
 #+END" "<pre>?</pre>"))))
  '(org-stuck-projects (quote ("" nil nil "")))
  '(org-support-shift-select t)
- '(org-tags-exclude-from-inheritance (quote ("folder")))
+ '(org-tags-exclude-from-inheritance (quote ("folder" "publish")))
  '(org-tags-sort-function (quote string<))
 '(org-time-clocksum-format
 (quote
@@ -1623,7 +1647,9 @@
  '(require-final-newline t)
 '(safe-local-variable-values
 (quote
- ((flycheck-phpstan-config . "/usr/src/salesforce-proxy/app/config/phpstan.neon")
+ ((eval set-input-method "slovak-prog-2")
+  (default-input-method . "slovak-prog-2")
+  (flycheck-phpstan-config . "/usr/src/salesforce-proxy/app/config/phpstan.neon")
   (flycheck-phpstan-level . "5")
   (flycheck-phpstan-config . "/usr/src/application/app/config/phpstan.neon")
   (flycheck-php-phpstan-executable . "/home/matus/dev/salesforce-proxy/docker-phpstan")
@@ -1942,7 +1968,7 @@
   (eval allout-mode t))))
 '(sallet-buffer-sources
 (quote
- (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-gtags-files sallet-source-projectile-projects sallet-source-locate)))
+ (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-bookmarks sallet-source-gtags-files sallet-source-projectile-projects sallet-source-locate)))
  '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
  '(save-place-limit nil)
