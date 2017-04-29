@@ -7,9 +7,6 @@
     (use-package reftex
       :defer t
       :diminish reftex-mode)
-    ;; fix the "bug" in SP regexp wrap that treats ' as "word"
-    (modify-syntax-entry ?' ".")
-
     (require 'smartparens-latex)
     (sp-local-pair 'latex-mode "\\begin" "\\end")
     (sp-local-tag 'latex-mode "\\ba" "\\begin{align*}" "\\end{align*}")
@@ -143,6 +140,9 @@ starting with \\ and followed by a block of text enclosed in {}."
 
       (setq fill-column 100000)
       (smartparens-mode 1)
+
+      ;; fix the "bug" in SP regexp wrap that treats ' as "word"
+      (modify-syntax-entry ?' ".")
 
       (message "LaTeX mode init complete."))
     ;; ACUTeX replaces latex-mode-hook with LaTeX-mode-hook
