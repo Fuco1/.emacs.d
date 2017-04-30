@@ -331,9 +331,18 @@ message.")
     (bind-key "C-p" 'company-select-previous company-active-map)))
 
 (use-package compile
+  :bind (:map compilation-mode-map
+         ("O" . my-compile-goto-error-other-window)
+         ("o" . compile-goto-error))
   :config
   (progn
     (use-package ansi-color)
+
+    (defun my-compile-goto-error-other-window (&optional event)
+      "Just like `compile-goto-error' but visit in new window."
+      (interactive (list last-input-event))
+      (compile-goto-error event))
+
     (defun my-compile-same-window (&rest _)
       (memq this-command (list 'compile-goto-error)))
 
