@@ -334,6 +334,14 @@ message.")
   :config
   (progn
     (use-package ansi-color)
+    (defun my-compile-same-window (&rest _)
+      (memq this-command (list 'compile-goto-error)))
+
+    (add-to-list 'display-buffer-alist
+                 '(my-compile-same-window
+                   (display-buffer-reuse-window display-buffer-same-window)
+                   (inhibit-same-window . nil)))
+
     (defun my-colorize-compilation-buffer ()
       (toggle-read-only)
       (ansi-color-apply-on-region compilation-filter-start (point))
