@@ -1824,11 +1824,12 @@ SCOPE is the scope, one of: batch, thread, plid."
   (progn
     (defun my-init-prog-mode ()
       "Init `prog-mode' based modes."
-      (flycheck-mode)
-      (turn-on-smartparens-strict-mode)
-      (highlight-thing-mode)
-      (which-function-mode 1)
-      (yas-minor-mode 1))
+      (unless (string-prefix-p " *" (buffer-name))
+        (flycheck-mode)
+        (turn-on-smartparens-strict-mode)
+        (highlight-thing-mode)
+        (which-function-mode 1)
+        (yas-minor-mode 1)))
     (add-hook 'prog-mode-hook 'my-init-prog-mode)))
 
 (use-package proof-site
