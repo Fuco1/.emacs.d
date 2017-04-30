@@ -556,6 +556,8 @@ current agenda view added to `org-tag-alist'."
     'my-org-publish
     "~/.emacs.d/files/org-blog.el"
     "Publish current subtree." t)
+  :bind (:map org-mode-map
+         ("C-c P" . my-org-publish) )
   :config
   (use-package ox-extra
     :config
