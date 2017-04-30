@@ -1921,23 +1921,6 @@ SCOPE is the scope, one of: batch, thread, plid."
         ("C-c C-b" . sp-html-previous-tag)))
     (add-hook 'html-mode-hook 'my-html-mode-setup)))
 
-(use-package shell-mode
-  :defer t
-  :init
-  (progn
-    (defadvice shell-command-sentinel (after enable-better-mode activate)
-      (when (memq (process-status (ad-get-arg 0)) '(exit signal))
-        (with-current-buffer (process-buffer (ad-get-arg 0))
-          (when (save-excursion
-                  (goto-char (point-min))
-                  (ignore-errors (json-read)))
-            (json-mode)
-            (json-mode-beautify)))))
-
-    (defun my-shell-mode-init ()
-      (setq tab-width 8))
-    (add-hook 'shell-mode-hook 'my-shell-mode-init)))
-
 (use-package shell-pop
   :bind ("<f11>" . shell-pop)
   :init

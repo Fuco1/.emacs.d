@@ -1,0 +1,73 @@
+#+PROPERTY: header-args:elisp :tangle vendor-tangled.el
+
+* Shell-mode
+
+** DONE Turn on context-aware modes on shell command output         :publish:
+   CLOSED: [2017-04-29 Sat 23:10]
+   :PROPERTIES:
+   :BLOG_FILENAME: 2017-04-29-Turn-on-context-aware-modes-on-shell-command-output
+   :END:
+   :CLOCK:
+   CLOCK: [2017-04-30 Sun 16:35]--[2017-04-30 Sun 16:57] =>  0:22
+   CLOCK: [2017-04-29 Sat 22:13]--[2017-04-29 Sat 23:11] =>  0:58
+   :END:
+   :LOGBOOK:
+   - State "DONE"       from              [2017-04-29 Sat 23:10]
+   :END:
+
+These days I work with PHP quite a lot; and especially with PHP calling REST APIs.  I have written a little snippet to execute current buffer using =async-shell-command=  and usually run small helper functions or little prototype scripts directly from Emacs as I develop them.
+
+The return values (really the process output) is JSON most of the time.  So why not have the output buffer in =json-mode= when appropriate?
+
+First, let's write a little helper function to guess the appropriate major mode for a buffer.  I only have the JSON logic[fn:190762e147cd716f:This code depends on =json= (built-in) and =json-mode= (get from MELPA).] there but you can of course add more "handlers" to check for XML or TAP output and so on.  [[https://github.com/Fuco1/.emacs.d/issues/new][Let me know]] if you create something awesome!
+
+#+NAME: shell-mode-my-shell-guess-major-mode
+#+BEGIN_SRC elisp :tangle no
+(defun my-shell-guess-major-mode (buffer)
+  "Guess major mode for the content of BUFFER."
+  (with-current-buffer buffer
+    (when (save-excursion
+            (goto-char (point-min))
+            (ignore-errors (json-read)))
+      (json-mode)
+      (json-mode-beautify))))
+#+END_SRC
+
+The little difficulty here is that the process runs asynchronously so I have to hook into the sentinel to know when things are finished.  I do that with the next advice.  If the process finished, try to parse the buffer and if it contains valid JSON turn on =json-mode= and beautify the content for easier reading.
+
+#+NAME: shell-mode-shell-command-sentinel
+#+BEGIN_SRC elisp :tangle no
+(defadvice shell-command-sentinel (after enable-better-mode activate)
+  (when (memq (process-status (ad-get-arg 0)) '(exit signal))
+    (my-shell-guess-major-mode (process-buffer (ad-get-arg 0)))))
+#+END_SRC
+
+Similarly, we advice the synchronous version =shell-command=.  This function returns the exit status if it runs synchronous command or =comint-output-filter= if it was used to start an asynchronous command.  We can decide on that and either run the guess routine or leave it to the sentinel above.
+
+#+NAME: shell-mode-shell-command
+#+BEGIN_SRC elisp :tangle no
+(defadvice shell-command (after enable-better-mode activate)
+  (unless (eq ad-return-value 'comint-output-filter)
+    (-when-let (buffer (get-buffer "*Shell Command Output*"))
+      (my-shell-guess-major-mode buffer))))
+#+END_SRC
+
+** Final code
+#+BEGIN_SRC elisp :noweb yes
+(use-package shell-mode
+  :defer t
+  :init
+  (progn
+    (use-package json)
+    (use-package json-mode)
+
+    <<shell-mode-my-shell-guess-major-mode>>
+
+    <<shell-mode-shell-command-sentinel>>
+
+    <<shell-mode-shell-command>>
+
+    (defun my-shell-mode-init ()
+      (setq tab-width 8))
+    (add-hook 'shell-mode-hook 'my-shell-mode-init)))
+#+END_SRC
