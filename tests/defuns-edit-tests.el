@@ -3,12 +3,12 @@
 (require 'my-test-helper)
 (require 'my-defuns-edit)
 
-(describe "Edit functions"
+(describe "Edit function"
 
 
   (describe "my-forward-whitespace"
 
-    (it "should skip whitespace before a symbol"
+    (it "should skip whitespace before a symbol."
       (my-test-with-temp-elisp-buffer "|   foo bar"
         (my-forward-whitespace)
         (expect (point) :to-be 4)))
@@ -21,7 +21,7 @@
 
   (describe "my-kill-whitespace"
 
-    (it "should kill whitespace before the point"
+    (it "should kill whitespace before the point."
       (my-test-with-temp-elisp-buffer "foo    |  bar"
         (my-kill-whitespace)
         (my-buffer-equals "foo|  bar"))))
