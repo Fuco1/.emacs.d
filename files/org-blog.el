@@ -145,7 +145,7 @@ do not run `org-publish'."
          :auto-sitemap t
          :sitemap-title "Archive"
          :sitemap-file-entry-format "%d %t"
-         :sitemap-file-entry-format 'anti-chronologically
+         :sitemap-sort-files 'anti-chronologically
 
          :with-author t
          :with-creator nil
