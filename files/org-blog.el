@@ -91,7 +91,7 @@ where the replaced link is."
                 (org-promote-subtree))
               (org-set-tags-to (cons "ignore" (org-get-tags-at nil :local)))
               (insert (format "#+TITLE: %s\n" (org-get-heading :no-tags :no-todo)))
-              (insert (format "#+DATE: %s\n" (my-org--format-timestamp closed "%Y-%m-%d")))
+              (insert (format "#+DATE: %s\n" closed))
               (insert "\n")
               ;; Fix links relative in the source files to links
               ;; relative in the output files
