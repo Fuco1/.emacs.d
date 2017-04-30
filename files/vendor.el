@@ -527,9 +527,9 @@ _B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
         (set-window-configuration my-ediff-before-config))
       ;; clean up ediff bullshit
       (->> (buffer-list)
-        (-map 'buffer-name)
-        (--select (string-match-p "\\*[Ee]diff" it))
-        (-map 'kill-buffer)))
+           (-map 'buffer-name)
+           (--select (string-match-p "\\*[Ee]diff" it))
+           (-map 'kill-buffer)))
 
     (add-hook 'ediff-before-setup-hook 'my-ediff-before-setup)
     (add-hook 'ediff-after-setup-windows-hook 'my-ediff-after-setup 'append)
