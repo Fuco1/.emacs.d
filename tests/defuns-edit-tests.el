@@ -46,4 +46,22 @@
         (add-hook 'my-newline-hook (lambda (&optional arg) (insert "bar")) nil :local)
         (my-newline)
         (my-buffer-equals "(foo
- bar|)")))))
+ bar|)"))))
+
+
+  (describe "my--back-to-indentation"
+
+    (it "should go back to indent when `visual-line-mode' is off."
+      (spy-on 'beginning-of-visual-line)
+
+      (my-test-with-temp-elisp-buffer "  foo|"
+        (my--indentation-position)
+        (expect 'beginning-of-visual-line :not :to-have-been-called)))
+
+    (it "should go back to visual indent when `visual-line-mode' is on."
+      (spy-on 'beginning-of-visual-line)
+
+      (my-test-with-temp-elisp-buffer "  foo|"
+        (visual-line-mode 1)
+        (my--indentation-position)
+        (expect 'beginning-of-visual-line :to-have-been-called)))))

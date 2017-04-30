@@ -142,7 +142,7 @@ and indent next line according to mode."
 (defun my--back-to-indentation ()
   "Move to indentation respecting `visual-line-mode'."
   (if visual-line-mode
-      (flet ((beginning-of-line (arg) (beginning-of-visual-line arg)))
+      (cl-letf (((symbol-function 'beginning-of-line) (lambda (arg) (beginning-of-visual-line arg))))
         (back-to-indentation))
     (back-to-indentation)))
 
