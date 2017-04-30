@@ -1135,6 +1135,7 @@ called, percentage usage and the command."
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
     (defun my-emacs-lisp-init ()
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
+      (add-hook 'my-newline-hook 'my-emacs-lisp-open-line nil :local)
       (set-input-method "english-prog")
       (eldoc-mode 1)
       (buttercup-minor-mode 1)
@@ -1781,6 +1782,21 @@ SCOPE is the scope, one of: batch, thread, plid."
        (concat "XDEBUG_CONFIG='idekey=my-php-559' php " (buffer-file-name) " &")
        nil 0))
 
+    (defun my-php-open-line (&optional arg)
+      (when (and (nth 4 (syntax-ppss))
+                 (save-excursion
+                   (forward-line -1)
+                   (back-to-indentation)
+                   ;; TODO: simplify
+                   (or (looking-at "\\*")
+                       (and (looking-at "/\\*\\*")
+                            (progn
+                              (forward-line)
+                              (back-to-indentation)
+                              (not (looking-at "*/")))))))
+        (insert "* ")
+        (indent-according-to-mode)))
+
     (defun my-php-mode-init ()
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
       (setq-local flycheck-php-phpstan-executable
@@ -1790,6 +1806,7 @@ SCOPE is the scope, one of: batch, thread, plid."
                   (concat (my-php-find-project-root)
                           "/ruleset.xml"))
       (bind-key "<tab>" 'smart-tab php-mode-map)
+      (add-hook 'my-newline-hook 'my-php-open-line nil :local)
       (c-set-style "php")
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)

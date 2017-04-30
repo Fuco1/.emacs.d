@@ -24,4 +24,26 @@
     (it "should kill whitespace before the point"
       (my-test-with-temp-elisp-buffer "foo    |  bar"
         (my-kill-whitespace)
-        (my-buffer-equals "foo|  bar")))))
+        (my-buffer-equals "foo|  bar"))))
+
+
+  (describe "my-newline"
+
+    (it "should insert new line when at the end of line."
+      (my-test-with-temp-elisp-buffer "foo|"
+        (my-newline)
+        (my-buffer-equals "foo
+|")))
+
+    (it "should indent according to mode."
+      (my-test-with-temp-elisp-buffer "(foo|)"
+        (my-newline)
+        (my-buffer-equals "(foo
+ |)")))
+
+    (it "should run `my-newline-hook' after inserting the newline."
+      (my-test-with-temp-elisp-buffer "(foo|)"
+        (add-hook 'my-newline-hook (lambda (&optional arg) (insert "bar")) nil :local)
+        (my-newline)
+        (my-buffer-equals "(foo
+ bar|)")))))

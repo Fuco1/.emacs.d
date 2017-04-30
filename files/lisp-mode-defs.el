@@ -4,7 +4,6 @@
   :commands letcheck-mode)
 
 (bind-keys :map emacs-lisp-mode-map
-  ("<return>" . my-emacs-lisp-open-line)
   ("C-M-;" . clippy-describe-function)
   ("C-c C-c" . overseer-test-run-test)
   ("C-c C-t" . my-elisp-run-buttercup)
@@ -56,12 +55,10 @@
   "Forms after which we should automatically place closing paren
 on extra line.")
 
-(defun my-emacs-lisp-open-line ()
+(defun my-emacs-lisp-open-line (&optional arg)
   "Opens a new line if the point is at the closing parens of
 function on `my-emacs-lisp-open-line-list'."
-  (interactive)
   (ignore-errors
-    (my-newline)
     (when (and (save-excursion
                  (forward-char)
                  (backward-sexp)
@@ -72,7 +69,6 @@ function on `my-emacs-lisp-open-line-list'."
       (indent-according-to-mode)
       (forward-line -1)
       (indent-according-to-mode))))
-(put 'my-emacs-lisp-open-line 'delete-selection t)
 
 (defun my-describe-thing-in-buffer ()
   "Display the full documentation of FUNCTION (a symbol) in the help buffer."

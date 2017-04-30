@@ -65,30 +65,15 @@ forward direction."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; opening new lines in various ways
 
+(defvar my-newline-hook nil
+  "Hook to run to actually perform newline insertion.")
+
 ;;;###autoload
 (defun my-newline (&optional arg)
-  "Call `newline' and autoindent according to the active mode."
+  "Call `newline' and run `my-newline-hook'."
   (interactive "p")
-  (newline arg)
-  (indent-according-to-mode)
-  ;; mode-specific processing
-  (cond
-   ;; ((eq major-mode 'emacs-lisp-mode)) move my-emacs-lisp-open-line here
-   ((eq major-mode 'php-mode)
-    (cond
-     ((and (nth 4 (syntax-ppss))
-           (save-excursion
-             (forward-line -1)
-             (back-to-indentation)
-             ;; TODO: simplify
-             (or (looking-at "\\*")
-                 (and (looking-at "/\\*\\*")
-                      (progn
-                        (forward-line)
-                        (back-to-indentation)
-                        (not (looking-at "*/")))))))
-      (insert "* ")
-      (indent-according-to-mode))))))
+  (newline arg :interactive)
+  (run-hooks 'my-newline-hook))
 
 
 ;;;###autoload
