@@ -1074,8 +1074,9 @@ use a directory-local variable to specify this per-project."
   :config
   (progn
     (defun my-js-mode-init ()
-      (when (string-match-p "conkeror" (buffer-file-name))
-        (conkeror-minor-mode 1))
+      (-when-let (buffer (buffer-file-name))
+        (when (string-match-p "conkeror" buffer)
+          (conkeror-minor-mode 1)))
       (when (featurep 'multi-web-mode) (multi-web-mode 1)))
     (add-hook 'js-mode-hook 'my-js-mode-init)
     (defun my-js-disable-multi-web-mode ()
