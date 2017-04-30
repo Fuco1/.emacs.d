@@ -474,23 +474,21 @@ message.")
 
 (use-package ediff
   :init
-  (progn
-    (defvar ctl-dot-equals-prefix-map)
-    (define-prefix-command 'ctl-dot-equals-prefix-map)
-    (bind-key "C-. =" 'ctl-dot-equals-prefix-map))
-  :bind (("C-. = b" . ediff-buffers)
-         ("C-. = B" . ediff-buffers3)
-         ("C-. = =" . ediff-files)
-         ("C-. = f" . ediff-files)
-         ("C-. = F" . ediff-files3)
-         ("C-. = r" . ediff-revision)
-         ("C-. = t" . my-svn-ediff-branch-and-trunk)
-         ("C-. = p" . ediff-patch-file)
-         ("C-. = P" . ediff-patch-buffer)
-         ("C-. = l" . ediff-regions-linewise)
-         ("C-. = w" . ediff-regions-wordwise))
+  (bind-key "C-. =" 'hydra-ediff/body)
+  :commands (ediff-buffers
+             ediff-buffers3
+             ediff-files
+             ediff-files
+             ediff-files3
+             ediff-revision
+             my-svn-ediff-branch-and-trunk
+             ediff-patch-file
+             ediff-patch-buffer
+             ediff-regions-linewise
+             ediff-regions-wordwise)
   :config
   (progn
+    ;; TODO: add magit shortcuts as well
     (defhydra hydra-ediff (:color blue :hint nil)
       "
 ^Buffers           Files           VC                     Ediff regions
