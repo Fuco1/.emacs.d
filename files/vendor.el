@@ -5,6 +5,21 @@
 
 (require 'use-package)
 
+(defun my-load-or-tangle (config-file)
+  "Load CONFIG-FILE.
+
+If the file CONFIG-FILE-tangled.el exists, load it.  If not,
+first run `org-babel-tangle-file' on CONFIG-FILE.org and then
+load the result."
+  (let ((source (concat config-file ".org"))
+        (result (concat config-file "-tangled.el")))
+    (if (file-exists-p result)
+        (load (concat "~/.emacs.d/files/" result))
+      (org-babel-tangle-file source)
+      (load (concat "~/.emacs.d/files/" result)))))
+
+(my-load-or-tangle "vendor")
+
 (use-package ag
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
   :init
