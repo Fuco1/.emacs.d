@@ -315,7 +315,8 @@ properly."
                  (/= (1+ (aref cua--rectangle 3)) eor))
             (cua-resize-rectangle-right (- eor (current-column) 1))
           (goto-char eoc)))
-       (t (goto-char eoc)))))))
+       (t (goto-char eoc))))))
+  (setq disable-point-adjustment t))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
