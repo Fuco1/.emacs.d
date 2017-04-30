@@ -508,29 +508,37 @@ _B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
       ("l" ediff-regions-linewise)
       ("w" ediff-regions-wordwise))
     (defvar my-ediff-before-config nil "Window configuration before ediff.")
-    (defvar my-ediff-after-config nil "Window configuration after ediff.")
 
     (defun my-ediff-before-setup ()
-      "Function to be called before any buffers or window setup for
-    ediff."
+      "Function to be called before any buffers or window setup for `ediff'."
+      (unless (eq this-command 'exit-recursive-edit)
+        (setq my-ediff-before-config (current-window-configuration))))
+
+    (defadvice ediff-regions-wordwise (before save-window-config activate)
+      "Save window configuration before `ediff-regions-wordwise' is run.
+Doing this in the `ediff-before-setup-hook' is too late because
+by then the region selection happened which changed the window
+config from before."
       (setq my-ediff-before-config (current-window-configuration)))
 
-    (defun my-ediff-after-setup ()
-      "Function to be called after buffers and window setup for ediff."
-      (setq my-ediff-after-config (current-window-configuration)))
+    (defadvice ediff-regions-linewise (before save-window-config activate)
+      "Save window configuration before `ediff-regions-linewise' is run.
+Doing this in the `ediff-before-setup-hook' is too late because
+by then the region selection happened which changed the window
+config from before."
+      (setq my-ediff-before-config (current-window-configuration)))
 
     (defun my-ediff-quit ()
-      "Function to be called when ediff quits."
+      "Function to be called when `ediff' quits."
       (when my-ediff-before-config
         (set-window-configuration my-ediff-before-config))
-      ;; clean up ediff bullshit
+      ;; Clean up ediff control buffers
       (->> (buffer-list)
            (-map 'buffer-name)
            (--select (string-match-p "\\*[Ee]diff" it))
            (-map 'kill-buffer)))
 
     (add-hook 'ediff-before-setup-hook 'my-ediff-before-setup)
-    (add-hook 'ediff-after-setup-windows-hook 'my-ediff-after-setup 'append)
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
 (use-package eldoc
