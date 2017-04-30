@@ -106,15 +106,8 @@
 ;; deleting stuff
 (bind-key "C-<backspace>" 'my-kill-whitespace)
 
-(my-bind-repeatable-command "C-c d" "d" my-kill-entire-line)
-
-;; TODO: improve the macro `my-bind-repeatable-command' to accept
-;; multiple definitions
-(defhydra forward-backward-word (:color red)
-  ("f" my-forward-word)
-  ("b" my-backward-word))
-(bind-key "M-f" 'forward-backward-word/forward-word)
-(bind-key "M-b" 'forward-backward-word/backward-word)
+(bind-key "M-f" 'my-forward-word)
+(bind-key "M-b" 'my-backward-word)
 
 ;; up/downcase
 (bind-key "M-l" 'my-smart-downcase-word)

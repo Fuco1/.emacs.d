@@ -938,24 +938,6 @@ use a directory-local variable to specify this per-project."
 (use-package highlight-thing
   :commands highlight-thing-mode)
 
-(use-package hydra
-  :init
-  (progn
-    (defmacro my-bind-repeatable-command (binding-start binding-repeat command)
-      "Generate a repeating hydra.
-
-BINDING-START is the initial binding, BINDING-REPEAT is the
-repeating binding, COMMAND is the command to execute."
-      (declare (debug (stringp stringp symbolp)))
-      (let* ((hydra-name (concat "hydra-" (symbol-name command)))
-             (hydra-symbol (intern hydra-name)))
-        `(progn
-           (defhydra ,hydra-symbol (:color red)
-             (,binding-repeat ,command))
-           (bind-key
-            ,binding-start
-            ',(intern (concat hydra-name "/" (symbol-name command)))))))))
-
 (use-package ibuffer
   :commands ibuffer
   :init
