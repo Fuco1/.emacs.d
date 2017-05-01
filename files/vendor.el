@@ -513,7 +513,6 @@ message.")
              ediff-files
              ediff-files3
              ediff-revision
-             my-svn-ediff-branch-and-trunk
              ediff-patch-file
              ediff-patch-buffer
              ediff-regions-linewise
@@ -526,7 +525,7 @@ message.")
 ^Buffers           Files           VC                     Ediff regions
 ----------------------------------------------------------------------
 _b_uffers           _f_iles (_=_)       _r_evisions              _l_inewise
-_B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
+_B_uffers (3-way)   _F_iles (3-way)                          _w_ordwise
                   _c_urrent file
 "
       ("b" ediff-buffers)
@@ -536,7 +535,6 @@ _B_uffers (3-way)   _F_iles (3-way)   _t_runk against branch   _w_ordwise
       ("F" ediff-files3)
       ("c" ediff-current-file)
       ("r" ediff-revision)
-      ("t" my-svn-ediff-branch-and-trunk)
       ("l" ediff-regions-linewise)
       ("w" ediff-regions-wordwise))
     (defvar my-ediff-before-config nil "Window configuration before ediff.")
