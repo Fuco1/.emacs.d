@@ -1,0 +1,330 @@
+#+PROPERTY: header-args:elisp :tangle dired-tangled.el
+#+HTML_HEAD_EXTRA: <style>pre {border: 1px solid #ccc; color: #eeeeec; background-color: #2e3436; box-shadow: 3px 3px 3px #eee; padding: 8pt; font-family: monospace; overflow: auto; margin: 1.2em;}</style>
+
+* Media files
+It is convenient to be able to just ~RET~ a movie or music file and have it start playing in ~vlc~.  I use ~dired-open~ to achieve this.  However, I also want to fontify the media files with a special face and so to not duplicate the list of extensions, define it here right away.
+
+#+BEGIN_SRC elisp
+(defconst my-dired-media-files-extensions '("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma")
+  "Media file extensions that should launch in VLC.
+
+Also used for highlighting.")
+#+END_SRC
+
+* dired-x
+Another auxiliary dired package, probaly split for historical reasons (/The files are too damn large!/).
+
+** Config
+
+An oddity of virtual direds is that they can't be reverted.  I don't see any reason why, so let's redefine ~dired-virtual-revert~.
+
+#+NAME: dired-virtual-revert
+#+BEGIN_SRC elisp :tangle no
+(defun dired-virtual-revert (&optional _arg _noconfirm)
+  "Enable revert for virtual direds."
+  (let ((m (dired-file-name-at-point))
+        (buffer-modified (buffer-modified-p)))
+    (goto-char 1)
+    (dired-next-subdir 1)
+    (dired-do-redisplay nil t)
+    (while (dired-next-subdir 1 t)
+      (dired-do-redisplay nil t))
+    (when m (dired-goto-file m))
+    (set-buffer-modified-p buffer-modified)))
+#+END_SRC
+
+One really awesome and overlooked function is ~dired-jump~.  What it does is simple, it visits the directory (in ~dired~) of the file of your current buffer.  I improved it a little bit to behave a bit more clever if you already are inside dired buffer.  In that case, it visits the parent directory of the file the point is at and places the point on it.  This is useful in buffers like =ag-dired= or =find-dired= where there can be files from multiple parent directories together.
+
+#+NAME: dired-my-dired-jump
+#+BEGIN_SRC elisp :tangle no
+(defun my-dired-jump ()
+  (interactive)
+  (if (eq major-mode 'dired-mode)
+      (let ((file (dired-utils-get-filename)))
+        (dired (f-parent file))
+        (dired-utils-goto-line file))
+    (dired-jump)))
+(bind-key "C-j" 'my-dired-jump ctl-x-map)
+#+END_SRC
+
+Finally, ~dired-x~ defines ~dired-guess-shell-alist-user~ which is used to guess programs to open files with.  We add the media files on the list here.
+
+#+NAME: dired-guess-shell-alist-user
+#+BEGIN_SRC elisp :tangle no
+(add-to-list 'dired-guess-shell-alist-user
+             (list (concat "\\."
+                           (regexp-opt my-dired-media-files-extensions)
+                           "\\'")
+                   "vlc"))
+#+END_SRC
+
+** Final code
+
+#+BEGIN_SRC elisp :noweb yes
+(use-package dired-x
+  :config
+  <<dired-virtual-revert>>
+
+  <<dired-my-dired-jump>>
+
+  <<dired-guess-shell-alist-user>>)
+#+END_SRC
+
+* dired+
+
+The only reason I use ~dired+~ is that it defines a lot of useful auxiliary functions to mainupulate dired buffers.  However, it comes with its own downsides, like tons of intrusive crap nobody cares about.
+
+** Config
+
+*** Font-lock                                                 :check_on_update:
+    :PROPERTIES:
+    :UPDATE_NOTE: On update, the order or offsets of the fontifiers below might change, so check we're replacing what we really wanted to replace
+    :END:
+Especially the way it font-locks by default is absolutely insane.  I turned the intrusive faces off in the theme file, here I redefine some of the regexps it uses:
+
+#+NAME: dired+-font-lock-fix
+#+BEGIN_SRC elisp :tangle no
+;; Remove stupid font-locking
+(setf (nth 3 diredp-font-lock-keywords-1)
+      ;; Properly handle the extensions
+      '("[^ .\\/]\\(\\.[^. /]+\\)$" 1 diredp-file-suffix))
+(setf (nth 4 diredp-font-lock-keywords-1)
+          ;; Properly handle the extensions
+          '("\\([^ ]+\\) -> .+$" 1 diredp-symlink))
+(setf (nth 6 diredp-font-lock-keywords-1)
+      (list (concat
+             "^  \\(.*\\("
+             (concat
+              (mapconcat
+               'regexp-quote
+               (or (and (boundp 'dired-omit-extensions)
+                        dired-omit-extensions)
+                   completion-ignored-extensions)
+               "[*]?\\|")
+              "[*]?")        ; Allow for executable flag (*).
+             "\\)\\)$") ; Do not treat compressed files as garbage... why the hell!
+            1 diredp-ignored-file-name t))
+#+END_SRC
+
+** Final code
+
+#+BEGIN_SRC elisp :noweb yes
+(use-package dired+
+  :config
+  <<dired+-font-lock-fix>>)
+#+END_SRC
+
+* dired-hacks
+
+This is a suite of packages which I originally kept in my config but decided to pull out into separate packages (it constituted good 2000 lines of my config!).
+
+You can read more about each package on the project's [[https://github.com/Fuco1/dired-hacks][github]] page.
+
+** dired-avfs, dired-filter, dired-open, dired-images
+
+No extra configuration required---I only change the settings in customize
+
+#+BEGIN_SRC elisp
+(use-package dired-avfs)
+(use-package dired-filter)
+(use-package dired-open)
+
+;; TODO: we should just hijack C-t map from image-dired which is crap anyway
+(use-package dired-images)
+#+END_SRC
+
+** TODO migrate the values from customize here                     :noexport:
+
+** dired-subtree
+
+I don't use this package very much.  Originally, I only wrote it for eyecandy but some people apparently find it rather useful.  All I do here is set some keybindings
+
+#+BEGIN_SRC elisp
+(use-package dired-subtree
+  :init
+  (bind-keys :map dired-mode-map
+             :prefix "C-,"
+             :prefix-map dired-subtree-map
+             :prefix-docstring "Dired subtree map."
+    ("<C-i-key>" . dired-subtree-insert)
+    ("C-/" . dired-subtree-apply-filter)
+    ("C-k" . dired-subtree-remove)
+    ("C-n" . dired-subtree-next-sibling)
+    ("C-p" . dired-subtree-previous-sibling)
+    ("C-u" . dired-subtree-up)
+    ("C-d" . dired-subtree-down)
+    ("C-a" . dired-subtree-beginning)
+    ("C-e" . dired-subtree-end)
+    ("C-c" . dired-subtree-cycle)
+    ("m" . dired-subtree-mark-subtree)
+    ("u" . dired-subtree-unmark-subtree)
+    ("C-o C-f" . dired-subtree-only-this-file)
+    ("C-o C-d" . dired-subtree-only-this-directory)))
+#+END_SRC
+
+** TODO put the keybindings in dired-subtree proper                :noexport:
+
+** dired-rainbow
+
+Adds colors to dired lines based on extensions and other rules.
+
+#+BEGIN_SRC elisp
+(use-package dired-rainbow
+  :init
+  (progn
+    (dired-rainbow-define html "#4e9a06" ("htm" "html" "xhtml"))
+    (dired-rainbow-define xml "#b4fa70" ("xml" "xsd" "xsl" "xslt" "wsdl"))
+
+    (dired-rainbow-define document font-lock-function-name-face ("doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub"))
+    (dired-rainbow-define excel "#3465a4" ("xlsx"))
+    (dired-rainbow-define media "#ce5c00" my-dired-media-files-extensions)
+    (dired-rainbow-define image "#ff4b4b" ("jpg" "png" "jpeg" "gif"))
+
+    (dired-rainbow-define log "#c17d11" ("log"))
+    (dired-rainbow-define sourcefile "#fcaf3e" ("py" "c" "cc" "h" "java" "pl" "rb" "R" "php"))
+
+    (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+    (dired-rainbow-define compressed "#ad7fa8" ("zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+    (dired-rainbow-define packaged "#e6a8df" ("deb" "rpm"))
+    (dired-rainbow-define encrypted "LightBlue" ("gpg" "pgp"))
+
+    (dired-rainbow-define-chmod executable-unix "Green" "-.*x.*")
+    ))
+#+END_SRC
+
+** dired-ranger
+
+Ports some cool features from ranger into dired.  The "stage copy" is quite awesome, I rarely use dired's own ~C~ or ~R~ anymore.  Basically, mark files, hit ~c~ to "stage" them, then hit ~p~ in any other dired buffer to paste (copy) them there.  You can stage files from across multiple direds with ~C-u c~ (it appends to current stage).
+
+I haven't yet adapted my workflow to use the bookmark features but they are there for when I need them.
+
+#+BEGIN_SRC elisp
+(use-package dired-ranger
+  :init
+  (bind-keys :map dired-mode-map
+             :prefix "c"
+             :prefix-map dired-ranger-map
+             :prefix-docstring "Map for ranger operations."
+    ("c" . dired-ranger-copy)
+    ("p" . dired-ranger-paste)
+    ("m" . dired-ranger-move))
+
+  (bind-keys :map dired-mode-map
+    ("'" . dired-ranger-bookmark)
+    ("`" . dired-ranger-bookmark-visit)))
+#+END_SRC
+
+** dired-narrow
+
+Incremental search directly inside dired.  I don't use this much anymore as there are better ways to navigate (~dired-goto-file~ with ~ido~).
+
+#+BEGIN_SRC elisp
+(use-package dired-narrow
+  :commands dired-narrow
+  :init
+  (bind-key "s" 'dired-narrow dired-mode-map))
+#+END_SRC
+
+** dired-tagsistant
+
+Support for ~tagsistant~, semantic/tag-based fuse filesystem.
+
+#+BEGIN_SRC elisp
+(use-package dired-tagsistant
+  :init
+  (bind-keys :map dired-mode-map
+             :prefix "M-t"
+             :prefix-map dired-tagsistant-map
+             :prefix-docstring "Dired tagsistant map."
+    ("t" . dired-tagsistant-tag)
+    ("s" . dired-tagsistant-tag-symlink)))
+#+END_SRC
+
+* make-it-so
+
+When you need to bulk-transform files [[https://github.com/abo-abo/make-it-so][make-it-so]] is the ideal solution.  It comes with a variety of pre-baked recipes to convert e.g. =mp4=-s to =mp3=-s or =markdown= documents to =html=.
+
+I set =F5= in makefile mode to re-run the recipe.  This is useful when you tweak the recipe and don't want to invoke dired.
+
+#+NAME: make-it-so-makefile-setup
+#+BEGIN_SRC elisp :tangle no
+(use-package make-mode
+  :config
+  (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map))
+#+END_SRC
+
+** Final code
+
+The final setup looks like this.
+
+#+BEGIN_SRC elisp :noweb yes
+(use-package make-it-so
+  :commands (make-it-so)
+  :init
+  (bind-keys :map dired-mode-map
+             :prefix ","
+             :prefix-map dired-make-it-so-map
+             :prefix-docstring "Make it so map."
+    ("," . make-it-so)
+    ("f" . mis-finalize)
+    ("a" . mis-abort)
+    ("r" . mis-replace))
+
+    <<make-it-so-makefile-setup>>)
+#+END_SRC
+
+* DONE Support for imenu in dired
+  CLOSED: [2017-05-01 Mon 14:27]
+  :PROPERTIES:
+  :BLOG_FILENAME: 2017-05-01-Support-for-imenu-in-dired
+  :END:
+  :LOGBOOK:
+  - State "DONE"       from              [2017-05-01 Mon 14:27]
+  :END:
+
+=imenu= is a very simple package that builds index of /interesting/ positions in the current buffer and presents them as a menu.  You pick the item and the point moves there.  There is a built-in interface and also one in [[https://github.com/Fuco1/sallet][sallet]], [[https://github.com/emacs-helm/helm][helm]] or [[https://github.com/abo-abo/swiper][counsel]].
+
+Unfortunatelly =dired= doesn't come with support for it, so here I add some definitions to generate the index of all the inserted directories.
+
+#+BEGIN_SRC elisp
+(defun my-dired-imenu-prev-index-position (&optional arg)
+  "Go to the header line of previous directory."
+  (interactive "p")
+  (unless (= (line-number-at-pos) 1)
+    (call-interactively 'dired-prev-subdir)
+    t))
+
+(defun my-dired-extract-index-name ()
+  "Extract name of the current item for imenu."
+  (save-excursion
+    (back-to-indentation)
+    (buffer-substring-no-properties
+     (point)
+     (1- (re-search-forward ":$")))))
+
+(defun my-dired-imenu-create-index ()
+  "Create `imenu' index for dired."
+  (let* ((alist (imenu-default-create-index-function))
+         (uniquified (f-uniquify-alist (-map 'car alist))))
+    (--remove
+     (= 0 (length (car it)))
+     (--map (cons (cdr (assoc (car it) uniquified)) (cdr it))
+            alist))))
+
+(defun my-dired-imenu-init ()
+  "Initialize `imenu' variables in current buffer."
+  (setq-local imenu-prev-index-position-function
+              'my-dired-imenu-prev-index-position)
+  (setq-local imenu-extract-index-name-function
+              'my-dired-extract-index-name)
+  (setq-local imenu-create-index-function
+              'my-dired-imenu-create-index))
+#+END_SRC
+
+To use this just add =my-dired-imenu-init= to =dired-mode-hook=.
+
+#+BEGIN_SRC elisp
+(add-hook 'dired-mode-hook 'my-dired-imenu-init)
+#+END_SRC
+
+The code depends on =f= and =dash=.
