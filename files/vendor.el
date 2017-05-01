@@ -14,11 +14,12 @@ load the result."
   (let ((source (concat config-file ".org"))
         (result (concat config-file "-tangled.el")))
     (if (file-exists-p result)
-        (load (concat "~/.emacs.d/files/" result))
+        (load result)
+      (require 'org)
       (org-babel-tangle-file source)
-      (load (concat "~/.emacs.d/files/" result)))))
+      (load result))))
 
-(my-load-or-tangle "vendor")
+(my-load-or-tangle "~/.emacs.d/files/vendor")
 
 (use-package ag
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
