@@ -1,7 +1,7 @@
 .PHONY: bootstrap test
 
 test:
-	cask exec buttercup -L tests -L site-lisp tests
+	cask exec buttercup -L tests -L site-lisp --eval "(setq undercover--send-report nil)" tests
 
 bootstrap:
 	cask exec emacs --batch -L site-lisp -l bootstrap -f my-create-cache

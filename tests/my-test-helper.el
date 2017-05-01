@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'my-undercover)
+
 (defmacro my-test-with-temp-buffer (initial initform &rest forms)
   "Setup a new buffer, then run FORMS.
 

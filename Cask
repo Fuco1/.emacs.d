@@ -98,6 +98,7 @@
 (depends-on "smex")
 (depends-on "string-edit")
 (depends-on "transpose-frame")
+(depends-on "undercover")
 (depends-on "undo-tree")
 (depends-on "use-package")
 (depends-on "visual-regexp")
