@@ -101,6 +101,10 @@ Loaded %d packages in %.3fs seconds"
   (when (eq system-type 'windows-nt)
     (load "~/.emacs.d/files/windows")))
 
+;; Customize
+(setq custom-file "~/.emacs.d/files/emacs-custom.el")
+(load custom-file)
+
 ;; load config files
 (my-with-elapsed-timer "Loading vendor"
   (load "~/.emacs.d/files/vendor"))
@@ -112,10 +116,6 @@ Loaded %d packages in %.3fs seconds"
 (require 'diminish)
 (diminish 'visual-line-mode)
 (eval-after-load "face-remap" '(diminish 'buffer-face-mode))
-
-;; Customize
-(setq custom-file "~/.emacs.d/files/emacs-custom.el")
-(load custom-file)
 
 ;; Reload theme -- hackish
 (load "~/.emacs.d/themes/my-tango-dark-theme")
