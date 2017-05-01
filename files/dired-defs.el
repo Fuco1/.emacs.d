@@ -6,7 +6,6 @@
 
 Also used for highlighting.")
 
-(use-package dired-aux)
 (use-package dired-x
   :config
   (progn
