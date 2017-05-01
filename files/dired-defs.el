@@ -137,7 +137,6 @@ Also used for highlighting.")
     ("s" . dired-tagsistant-tag-symlink)))
 
 (use-package make-it-so
-  :defer t
   :commands (make-it-so)
   :init
   (bind-keys :map dired-mode-map
