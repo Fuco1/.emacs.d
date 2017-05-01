@@ -187,13 +187,12 @@ Also used for highlighting.")
 
 (add-hook 'dired-mode-hook 'my-dired-imenu-init)
 
+;; TODO: continue with org here
 (defun my-dired-init ()
   "Bunch of stuff to run for dired, either immediately or when it's loaded."
   (when (eq system-type 'windows-nt)
     (set (make-local-variable 'coding-system-for-read) 'cp1250)
     (set (make-local-variable 'file-name-coding-system) 'cp1250))
-  ;; (defvar slash-dired-prefix-map)
-  ;; (define-prefix-command 'slash-dired-prefix-map)
 
   (bind-keys :map dired-mode-map
     ;; clean bullshit bindings so C-h e b shows us real info
