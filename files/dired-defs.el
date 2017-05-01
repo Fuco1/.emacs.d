@@ -153,13 +153,15 @@ Also used for highlighting.")
     (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map)))
 
 ;;;_. Key bindings & hooks
-(defun my-dired-beginning-of-defun (&optional arg)
+(defun my-dired-imenu-prev-index-position (&optional arg)
+  "Go to the header line of previous directory."
   (interactive "p")
   (unless (= (line-number-at-pos) 1)
-    (call-interactively 'diredp-prev-subdir)
+    (call-interactively 'dired-prev-subdir)
     t))
 
 (defun my-dired-extract-index-name ()
+  "Extract name of the current item for imenu."
   (save-excursion
     (back-to-indentation)
     (buffer-substring-no-properties
@@ -167,19 +169,30 @@ Also used for highlighting.")
      (1- (re-search-forward ":$")))))
 
 (defun my-dired-imenu-create-index ()
+  "Create `imenu' index for dired."
   (let* ((alist (imenu-default-create-index-function))
          (uniquified (f-uniquify-alist (-map 'car alist))))
-    (--remove (= 0 (length (car it))) (--map (cons (cdr (assoc (car it) uniquified)) (cdr it)) alist))))
+    (--remove
+     (= 0 (length (car it)))
+     (--map (cons (cdr (assoc (car it) uniquified)) (cdr it))
+            alist))))
+
+(defun my-dired-imenu-init ()
+  "Initialize `imenu' variables in current buffer."
+  (setq-local imenu-prev-index-position-function
+              'my-dired-imenu-prev-index-position)
+  (setq-local imenu-extract-index-name-function
+              'my-dired-extract-index-name)
+  (setq-local imenu-create-index-function
+              'my-dired-imenu-create-index))
+
+(add-hook 'dired-mode-hook 'my-dired-imenu-init)
 
 (defun my-dired-init ()
   "Bunch of stuff to run for dired, either immediately or when it's loaded."
   (when (eq system-type 'windows-nt)
     (set (make-local-variable 'coding-system-for-read) 'cp1250)
     (set (make-local-variable 'file-name-coding-system) 'cp1250))
-  (set (make-local-variable 'beginning-of-defun-function) 'my-dired-beginning-of-defun)
-  (set (make-local-variable 'imenu-extract-index-name-function) 'my-dired-extract-index-name)
-  (set (make-local-variable 'imenu-create-index-function) 'my-dired-imenu-create-index)
-
   ;; (defvar slash-dired-prefix-map)
   ;; (define-prefix-command 'slash-dired-prefix-map)
 
