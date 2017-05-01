@@ -37,24 +37,26 @@ Also used for highlighting.")
                        "vlc"))))
 (use-package dired+
   :config
-  (progn
-    ;; Remove stupid font-locking
-    (setf (nth 3 diredp-font-lock-keywords-1)
-          ;; Properly handle the extensions
-          '("[^ .\\/]\\(\\.[^. /]+\\)$" 1 diredp-file-suffix))
-    (setf (nth 4 diredp-font-lock-keywords-1)
-          ;; Properly handle the extensions
-          '("\\([^ ]+\\) -> .+$" 1 diredp-symlink))
-    (setf (nth 6 diredp-font-lock-keywords-1)
-          (list (concat "^  \\(.*\\(" (concat (mapconcat 'regexp-quote
-                                                          (or (and (boundp 'dired-omit-extensions)
-                                                                   dired-omit-extensions)
-                                                              completion-ignored-extensions)
-                                                          "[*]?\\|")
-                                              "[*]?")        ; Allow for executable flag (*).
-                        "\\)\\)$") ; Do not treat compressed files as garbage... why the hell!
-                1 diredp-ignored-file-name t))
-    ))
+  ;; Remove stupid font-locking
+  (setf (nth 3 diredp-font-lock-keywords-1)
+        ;; Properly handle the extensions
+        '("[^ .\\/]\\(\\.[^. /]+\\)$" 1 diredp-file-suffix))
+  (setf (nth 4 diredp-font-lock-keywords-1)
+        ;; Properly handle the extensions
+        '("\\([^ ]+\\) -> .+$" 1 diredp-symlink))
+  (setf (nth 6 diredp-font-lock-keywords-1)
+        (list (concat
+               "^  \\(.*\\("
+               (concat
+                (mapconcat
+                 'regexp-quote
+                 (or (and (boundp 'dired-omit-extensions)
+                          dired-omit-extensions)
+                     completion-ignored-extensions)
+                 "[*]?\\|")
+                "[*]?")        ; Allow for executable flag (*).
+               "\\)\\)$") ; Do not treat compressed files as garbage... why the hell!
+              1 diredp-ignored-file-name t)))
 
 (use-package dired-avfs)
 (use-package dired-filter)
@@ -108,18 +110,17 @@ Also used for highlighting.")
 
 (use-package dired-ranger
   :init
-  (progn
-    (bind-keys :map dired-mode-map
-               :prefix "c"
-               :prefix-map dired-ranger-map
-               :prefix-docstring "Map for ranger operations."
-      ("c" . dired-ranger-copy)
-      ("p" . dired-ranger-paste)
-      ("m" . dired-ranger-move))
+  (bind-keys :map dired-mode-map
+             :prefix "c"
+             :prefix-map dired-ranger-map
+             :prefix-docstring "Map for ranger operations."
+    ("c" . dired-ranger-copy)
+    ("p" . dired-ranger-paste)
+    ("m" . dired-ranger-move))
 
-    (bind-keys :map dired-mode-map
-      ("'" . dired-ranger-bookmark)
-      ("`" . dired-ranger-bookmark-visit))))
+  (bind-keys :map dired-mode-map
+    ("'" . dired-ranger-bookmark)
+    ("`" . dired-ranger-bookmark-visit)))
 
 (use-package dired-narrow
   :commands dired-narrow
@@ -128,15 +129,13 @@ Also used for highlighting.")
 
 (use-package dired-tagsistant
   :init
-  (progn
-    (bind-keys :map dired-mode-map
-               :prefix "M-t"
-               :prefix-map dired-tagsistant-map
-               :prefix-docstring "Dired tagsistant map."
-      ("t" . dired-tagsistant-tag)
-      ("s" . dired-tagsistant-tag-symlink))))
+  (bind-keys :map dired-mode-map
+             :prefix "M-t"
+             :prefix-map dired-tagsistant-map
+             :prefix-docstring "Dired tagsistant map."
+    ("t" . dired-tagsistant-tag)
+    ("s" . dired-tagsistant-tag-symlink)))
 
-;; TODO: continue with the transformation to org here
 (use-package make-it-so
   :defer t
   :commands (make-it-so)
@@ -151,8 +150,7 @@ Also used for highlighting.")
     ("r" . mis-replace))
   (use-package make-mode
     :config
-    (progn
-      (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map))))
+    (bind-key "<f5>" 'mis-save-and-compile makefile-mode-map)))
 
 ;;;_. Key bindings & hooks
 (defun my-dired-beginning-of-defun (&optional arg)
