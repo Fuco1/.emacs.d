@@ -1550,22 +1550,30 @@ network prefix)."
           (compile cmd))))
     (bind-key "C-c C-c" 'my-php-run-tests php-mode-map)
 
+    (defvar my-php-switch-to-test-function
+      "Function used to compute test buffer name from source buffer name.")
+
+    (defvar my-php-switch-to-source-function
+      "Function used to compute source buffer name from test buffer name.")
+
+    ;; TODO: add some default functions for
+    ;; my-php-switch-to-test-function and
+    ;; my-php-switch-to-source-function + some function which takes
+    ;; strings (replace patterns) and builds the functions.
     (defun my-php-switch-to-test ()
-      "Switch to corresponding unit test.
+      "Open the corresponding test file in the same buffer.
 
-Unit tests are specified by .unit.phpt extension.
+If already in the test file go back to source.
 
-If already in a unit test, go to source."
+The functions stored in `my-php-switch-to-test-function' and
+`my-php-switch-to-source-function' are used to determine the name
+of test/source file from the source/test file."
       (interactive)
-      (let ((other-file
-             (if (string-match-p "\\.php\\'" (buffer-file-name))
-                 (replace-regexp-in-string
-                  "/app/" "/tests/php/"
-                  (replace-regexp-in-string "\\.php\\'" ".phpt" (buffer-file-name)))
-               (replace-regexp-in-string
-                "/tests/php/" "/app/"
-                (replace-regexp-in-string "\\.phpt\\'" ".php" (buffer-file-name)))))
-            (func (which-function)))
+      (let* ((file (buffer-file-name))
+             (other-file
+              (if (string-match-p "\\.php\\'" file)
+                  (funcall my-php-switch-to-test-function file)
+                (funcall my-php-switch-to-source-function file))))
         (find-file other-file)))
     (bind-key "C-c C-t" 'my-php-switch-to-test php-mode-map)
 
