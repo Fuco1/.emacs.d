@@ -1557,11 +1557,35 @@ network prefix)."
           compilation-error-regexp-alist-alist)
     (bind-key "C-c C-c" 'my-compile php-mode-map)
 
+    ;; TODO: generalize, this is not really php related.  Also rename,
+    ;; these functions are not switching.
     (defvar my-php-switch-to-test-function
       "Function used to compute test buffer name from source buffer name.")
 
     (defvar my-php-switch-to-source-function
       "Function used to compute source buffer name from test buffer name.")
+
+    (defun my-get-test-file ()
+      "Get test file associated with current buffer.
+
+This is determined by calling `my-php-switch-to-test-function'
+with the value of function `buffer-file-name'."
+      (funcall my-php-switch-to-test-function (buffer-file-name)))
+
+    (defun my-get-source-file ()
+      "Get test file associated with current buffer.
+
+This is determined by calling `my-php-switch-to-source-function'
+with the value of function `buffer-file-name'."
+      (funcall my-php-switch-to-source-function (buffer-file-name)))
+
+    (defun my-get-test-or-source-file ()
+      "Get test or source file name associated with current buffer.
+
+If in test file, return source file name and vice versa."
+      (let ((test (my-get-test-file))
+            (source (my-get-source-file)))
+        (if (equal (buffer-file-name) test) source test)))
 
     ;; TODO: add some default functions for
     ;; my-php-switch-to-test-function and
@@ -1576,12 +1600,7 @@ The functions stored in `my-php-switch-to-test-function' and
 `my-php-switch-to-source-function' are used to determine the name
 of test/source file from the source/test file."
       (interactive)
-      (let* ((file (buffer-file-name))
-             (other-file
-              (if (string-match-p "\\.php\\'" file)
-                  (funcall my-php-switch-to-test-function file)
-                (funcall my-php-switch-to-source-function file))))
-        (find-file other-file)))
+      (find-file (my-get-test-or-source-file)))
     (bind-key "C-c C-t" 'my-php-switch-to-test php-mode-map)
 
     (defun my-php-run ()
