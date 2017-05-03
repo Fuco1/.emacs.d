@@ -365,6 +365,12 @@ Call the value of `my-get-compile-command' to generate the
                    (display-buffer-reuse-window display-buffer-same-window)
                    (inhibit-same-window . nil)))
 
+    (defun my-compilation-reparse-buffer (&rest _ignored)
+      (interactive)
+      (compilation--flush-parse (point-min) (point-max))
+      (compilation--ensure-parse (point-max)))
+    (add-hook 'compilation-finish-functions 'my-compilation-reparse-buffer)
+
     (defun my-colorize-compilation-buffer ()
       (read-only-mode -1)
       (ansi-color-apply-on-region compilation-filter-start (point))
