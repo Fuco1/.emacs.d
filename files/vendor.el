@@ -339,6 +339,19 @@ message.")
   (progn
     (use-package ansi-color)
 
+    (defvar my-get-compile-command nil
+      "Command used to compute the `compile-command'.
+
+It is run in the buffer from where `compile' is called.")
+
+    (defun my-compile ()
+      "Run `compile' in current buffer.
+
+Call the value of `my-get-compile-command' to generate the
+`compile-command' which is then executed."
+      (interactive)
+      (compile (funcall my-get-compile-command)))
+
     (defun my-compile-goto-error-other-window (&optional event)
       "Just like `compile-goto-error' but visit in new window."
       (interactive (list last-input-event))
@@ -1532,23 +1545,11 @@ network prefix)."
        (my-php-local-file-name
         (expand-file-name (buffer-file-name)))))
 
-    (defun my-php-run-tests ()
-      "Run all Nette tests found in current directory."
-      (interactive)
-      (let* ((root (my-php-find-project-root))
-             (tester (if (file-exists-p (concat root "/vendor/bin/tester"))
-                         (concat root "/vendor/bin/tester")
-                       (concat root "/core/vendor/bin/tester")))
-             (dir (my-php-local-file-name default-directory))
-             (php-ini-file (-first 'file-exists-p
-                                   (list
-                                    (format "%s/tests/php.ini" root)
-                                    (format "%s/tests/php/php.ini" root)
-                                    (format "%s/core/tests/php.ini" root)))))
-        (when (buffer-modified-p) (save-buffer))
-        (let ((cmd (format "php %s -c %s '%s'" tester php-ini-file dir)))
-          (compile cmd))))
-    (bind-key "C-c C-c" 'my-php-run-tests php-mode-map)
+    (push `(nette-tester
+            "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
+            1 2 nil 2 0)
+          compilation-error-regexp-alist-alist)
+    (bind-key "C-c C-c" 'my-compile php-mode-map)
 
     (defvar my-php-switch-to-test-function
       "Function used to compute test buffer name from source buffer name.")
