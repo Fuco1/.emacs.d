@@ -366,9 +366,9 @@ Call the value of `my-get-compile-command' to generate the
                    (inhibit-same-window . nil)))
 
     (defun my-colorize-compilation-buffer ()
-      (toggle-read-only)
+      (read-only-mode -1)
       (ansi-color-apply-on-region compilation-filter-start (point))
-      (toggle-read-only))
+      (read-only-mode 1))
     (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)))
 
 (use-package csharp-mode
