@@ -1554,7 +1554,19 @@ network prefix)."
             "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
             1 2 nil 2 0)
           compilation-error-regexp-alist-alist)
-    (bind-key "C-c C-c" 'my-compile php-mode-map)
+
+    (defun my-php-compile ()
+      (interactive)
+      (let* ((dir (file-name-directory (my-get-test-file)))
+             (search-path (-cons*
+                           (f-parent (f-parent dir))
+                           (f-parent dir)
+                           (f-entries dir 'f-dir? :recursive))))
+        (my-compile)
+        (with-current-buffer (get-buffer "*compilation*")
+          (setq-local compilation-search-path search-path))))
+
+    (bind-key "C-c C-c" 'my-php-compile php-mode-map)
 
     ;; TODO: generalize, this is not really php related.  Also rename,
     ;; these functions are not switching.
