@@ -1569,15 +1569,15 @@ network prefix)."
       "Get test file associated with current buffer.
 
 This is determined by calling `my-php-switch-to-test-function'
-with the value of function `buffer-file-name'."
-      (funcall my-php-switch-to-test-function (buffer-file-name)))
+with the value of function `buffer-file-name' or `default-directory'."
+      (funcall my-php-switch-to-test-function (or (buffer-file-name) default-directory)))
 
     (defun my-get-source-file ()
       "Get test file associated with current buffer.
 
 This is determined by calling `my-php-switch-to-source-function'
-with the value of function `buffer-file-name'."
-      (funcall my-php-switch-to-source-function (buffer-file-name)))
+with the value of function `buffer-file-name' or `default-directory'."
+      (funcall my-php-switch-to-source-function (or (buffer-file-name) default-directory)))
 
     (defun my-get-test-or-source-file ()
       "Get test or source file name associated with current buffer.
@@ -1585,7 +1585,7 @@ with the value of function `buffer-file-name'."
 If in test file, return source file name and vice versa."
       (let ((test (my-get-test-file))
             (source (my-get-source-file)))
-        (if (equal (buffer-file-name) test) source test)))
+        (if (equal (or (buffer-file-name) default-directory) test) source test)))
 
     ;; TODO: add some default functions for
     ;; my-php-switch-to-test-function and
