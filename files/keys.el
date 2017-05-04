@@ -167,26 +167,38 @@
 (bind-key "<XF86HomePage>" 'toggle-input-method)
 (unbind-key "<insert>")
 (bind-key "<insert> <insert>" 'my-toggle-buffer-input-methods)
-(bind-keys :prefix "C-. i"
-           :prefix-map ctl-dot-i-prefix-map
-           :prefix-docstring "Input method map."
-  ("m" . set-input-method)
-  ("e" . toggle-input-method)
-  ("s" . (lambda () "Toggle on slovak-prog-2 input method." (interactive) (set-input-method "slovak-prog-2")))
-  ("c" . (lambda () "Toggle on czech input method." (interactive) (set-input-method "czech")))
-  ("r" . (lambda () "Toggle on russian-computer input method." (interactive) (set-input-method "russian-computer")))
-  ("q" . (lambda () "Toggle on cyrillic-translit input method." (interactive) (set-input-method "cyrillic-translit")))
-  ("i" . (lambda () "Toggle on italian-keyboard input method." (interactive) (set-input-method "italian-keyboard")))
-  ("d" . (lambda () "Toggle on german input method." (interactive) (set-input-method "german")))
-  ("t" . (lambda () "Toggle on TeX input method." (interactive) (set-input-method "TeX")))
-  ("l" . (lambda () "Toggle on latin-macrons input method." (interactive) (set-input-method "latin-macrons")))
-  ("f" . (lambda () "Toggle on french-keyboard input method." (interactive) (set-input-method "french-keyboard")))
-  ("g" . (lambda () "Toggle on greek-mizuochi input method." (interactive) (set-input-method "greek-mizuochi")))
-  ("j" . (lambda () "Toggle on japanese input method." (interactive) (set-input-method "japanese")))
-  ("h" . (lambda () "Toggle on devanagari-kyoto-harvard input method." (interactive) (set-input-method "devanagari-kyoto-harvard")))
-  ("v" . (lambda () "Toggle on devanagari-translit input method." (interactive) (set-input-method "devanagari-translit")))
-  ("w" . (lambda () "Toggle on workman input method." (interactive) (set-input-method "english-workman")))
-  ("x" . (lambda () "Toggle on ipa-x-sampa input method." (interactive) (set-input-method "ipa-x-sampa"))))
+(bind-key "C-. i"
+          (defhydra input-methods-hydra (:color blue :hint nil)
+            "
+European           | Indian           | Asian    | Special
+-------------------+------------------+----------+-----------------------------
+_s_lovak             | devanagari (_h_)   | _j_apanese | _w_orkman
+_c_zech              | de_v_anagari-trans |          | ipa-_x_-sampa
+german (_d_)         |                  |          | TeX (_t_)
+_i_talian            |                  |          |
+_f_rench             |                  |          |
+_l_atin              |                  |          |
+_g_reek              |                  |          |
+_r_ussian            |                  |          | set input _m_ethod
+cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
+"
+            ("m" set-input-method)
+            ("e" toggle-input-method)
+            ("s" (lambda () "Toggle on slovak-prog-2 input method." (interactive) (set-input-method "slovak-prog-2")))
+            ("c" (lambda () "Toggle on czech input method." (interactive) (set-input-method "czech")))
+            ("r" (lambda () "Toggle on russian-computer input method." (interactive) (set-input-method "russian-computer")))
+            ("q" (lambda () "Toggle on cyrillic-translit input method." (interactive) (set-input-method "cyrillic-translit")))
+            ("i" (lambda () "Toggle on italian-keyboard input method." (interactive) (set-input-method "italian-keyboard")))
+            ("d" (lambda () "Toggle on german input method." (interactive) (set-input-method "german")))
+            ("t" (lambda () "Toggle on TeX input method." (interactive) (set-input-method "TeX")))
+            ("l" (lambda () "Toggle on latin-macrons input method." (interactive) (set-input-method "latin-macrons")))
+            ("f" (lambda () "Toggle on french-keyboard input method." (interactive) (set-input-method "french-keyboard")))
+            ("g" (lambda () "Toggle on greek-mizuochi input method." (interactive) (set-input-method "greek-mizuochi")))
+            ("j" (lambda () "Toggle on japanese input method." (interactive) (set-input-method "japanese")))
+            ("h" (lambda () "Toggle on devanagari-kyoto-harvard input method." (interactive) (set-input-method "devanagari-kyoto-harvard")))
+            ("v" (lambda () "Toggle on devanagari-translit input method." (interactive) (set-input-method "devanagari-translit")))
+            ("w" (lambda () "Toggle on workman input method." (interactive) (set-input-method "english-workman")))
+            ("x" (lambda () "Toggle on ipa-x-sampa input method." (interactive) (set-input-method "ipa-x-sampa")))))
 
 (bind-key "H-u" 'universal-argument)
 (bind-key "H-u" 'universal-argument-more universal-argument-map)
