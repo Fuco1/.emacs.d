@@ -1,7 +1,4 @@
-(when (eq system-type 'windows-nt)
-  (custom-set-variables
-   '(ispell-program-name "d:\\progs\\Aspell\\bin\\aspell.exe")))
-
+;; custom variables
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
