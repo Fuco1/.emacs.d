@@ -102,7 +102,7 @@ and indent next line according to mode."
     (indent-according-to-mode)))
 
 ;;;###autoload
-(defun my-forward-line-and-indent (arg)
+(defun my-forward-line-and-indent (&optional arg)
   "Move point ARG lines forward and autoindent."
   (interactive "p")
   (forward-line arg)
@@ -131,8 +131,8 @@ and indent next line according to mode."
 
 (defun my--point-in-comment ()
   "Determine if the point is inside a comment"
+  ;; TODO: remove dependency on smartparens
   (or (sp-point-in-comment)
-      ;; TODO: add this into SP?
       (-when-let (s (car (syntax-after (point))))
         (or (/= 0 (logand (lsh 1 16) s))
             (/= 0 (logand (lsh 1 17) s))
@@ -200,23 +200,33 @@ instead."
   (cond
    ((and (functionp 'org-table-p)
          (org-table-p))
-    (let ((eob (save-excursion
-                 (if (re-search-backward "|" nil t)
-                     (progn
-                       (forward-char 1)
-                       (skip-chars-forward " ")
-                       (point))
-                   (line-beginning-position)))))
-      (if (= (point) eob)
-          (my--move-beginning-of-line)
-        (goto-char eob))))
+    ;; bofc -- beginning of first cell
+    (let* ((bofc (save-excursion
+                   (my--move-beginning-of-line)
+                   (forward-char 1)
+                   (skip-chars-forward " ")
+                   (point)))
+           ;; get beginning of current cell
+           (boc (save-excursion
+                  (if (re-search-backward "|" (line-beginning-position) t)
+                      (progn
+                        (forward-char 1)
+                        (skip-chars-forward " ")
+                        (point))
+                    bofc))))
+      (cond
+       ((= (point) boc)
+        (if (= boc bofc)
+            (my--move-beginning-of-line)
+          (goto-char bofc)))
+       (t (goto-char boc)))))
    ((eq major-mode 'dired-mode)
     (if (= (point) (save-excursion
                      (dired-move-to-filename)
                      (point)))
         (progn
-          (move-beginning-of-line 1)
-          (skip-syntax-forward " "))
+          (beginning-of-line 1)
+          (skip-chars-forward " "))
       (dired-move-to-filename)))
    ((eq major-mode 'org-mode)
     (org-beginning-of-line))
