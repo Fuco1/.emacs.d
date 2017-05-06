@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'my-test-helper)
+
 (require 'my-defuns-edit)
 
 (describe "Edit function"
@@ -229,6 +230,7 @@ X|   1 |   2 |   3 |
 
       (it "should go to the beginning of the file name if not there."
         (dired ".")
+        (dired-filter-mode -1)
         (goto-char (point-min))
         (forward-line 3)
         (forward-char 20)
@@ -241,11 +243,11 @@ X|   1 |   2 |   3 |
 
       (it "should go to the beginning of permissions if at file name."
         (dired ".")
+        (dired-filter-mode -1)
         (goto-char (point-min))
-        (forward-line 3)
         (search-forward "..")
         (backward-char 2)
         (my-back-to-indentation-or-beginning)
-        (expect (current-column) :to-be 2))))
+        (expect (- (point) (line-beginning-position)) :to-be 2))))
 
   )

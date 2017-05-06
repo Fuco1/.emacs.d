@@ -1,6 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'shut-up)
+
 (require 'my-undercover)
+
+(require 'my-bootstrap)
+(my-setup-load-path)
+
+(setq dired-filter-verbose nil)
 
 (defmacro my-test-with-temp-buffer (initial initform &rest forms)
   "Setup a new buffer, then run FORMS.
