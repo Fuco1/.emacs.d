@@ -350,6 +350,7 @@
  '(emmet-preview-default nil)
  '(enable-recursive-minibuffers t)
  '(enable-remote-dir-locals t)
+ '(epg-gpg-program "gpg2")
  '(eshell-aliases-file "/home/matus/.emacs.d/etc/eshell/alias")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
  '(eshell-output-filter-functions
