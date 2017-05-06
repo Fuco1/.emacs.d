@@ -252,9 +252,17 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
 ;; Jump to "logical" top/bottom of buffer in listing buffers
 ;; TODO: this needs to become a package
 
-(defmacro my-special-buffer-back-to-top (mode &rest forms)
+(defmacro my-special-beginning-of-buffer (mode &rest forms)
+  "Define a special version of `beginning-of-buffer' in MODE.
+
+The special function is defined such that the point first moves
+to `point-min' and then FORMS are evaluated.  If the point did
+not change because of the evaluation of FORMS, jump
+unconditionally to `point-min'.  This way repeated invocations
+toggle between real beginning and logical beginning of the
+buffer."
   (declare (indent 1))
-  (let ((fname (intern (concat "my-" (symbol-name mode) "-back-to-top")))
+  (let ((fname (intern (concat "my-" (symbol-name mode) "-beginning-of-buffer")))
         (mode-map (intern (concat (symbol-name mode) "-mode-map")))
         (mode-hook (intern (concat (symbol-name mode) "-mode-hook"))))
     `(progn
@@ -265,11 +273,21 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
            ,@forms
            (when (= p (point))
              (goto-char (point-min)))))
-       (add-hook ',mode-hook (lambda () (define-key ,mode-map [remap beginning-of-buffer] ',fname))))))
+       (add-hook ',mode-hook
+                 (lambda ()
+                   (define-key ,mode-map
+                     [remap beginning-of-buffer] ',fname))))))
 
-(defmacro my-special-buffer-jump-to-bottom (mode &rest forms)
+(defmacro my-special-end-of-buffer (mode &rest forms)
+  "Define a special version of `end-of-buffer' in MODE.
+
+The special function is defined such that the point first moves
+to `point-max' and then FORMS are evaluated.  If the point did
+not change because of the evaluation of FORMS, jump
+unconditionally to `point-max'.  This way repeated invocations
+toggle between real end and logical end of the buffer."
   (declare (indent 1))
-  (let ((fname (intern (concat "my-" (symbol-name mode) "-jump-to-bottom")))
+  (let ((fname (intern (concat "my-" (symbol-name mode) "-end-of-buffer")))
         (mode-map (intern (concat (symbol-name mode) "-mode-map")))
         (mode-hook (intern (concat (symbol-name mode) "-mode-hook"))))
     `(progn
@@ -280,39 +298,43 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
            ,@forms
            (when (= p (point))
              (goto-char (point-max)))))
-       (add-hook ',mode-hook (lambda () (define-key ,mode-map [remap end-of-buffer] ',fname))))))
+       (add-hook ',mode-hook
+                 (lambda ()
+                   (define-key ,mode-map
+                     [remap end-of-buffer] ',fname))))))
 
-(my-special-buffer-back-to-top dired
+(my-special-beginning-of-buffer dired
   (while (not (ignore-errors (dired-get-filename)))
     (dired-next-line 1)))
-(my-special-buffer-jump-to-bottom dired
+(my-special-end-of-buffer dired
   (dired-previous-line 1))
 
-(my-special-buffer-back-to-top occur
+(my-special-beginning-of-buffer occur
   (occur-next 1))
-(my-special-buffer-jump-to-bottom occur
+(my-special-end-of-buffer occur
   (occur-prev 1))
 
-(my-special-buffer-back-to-top ibuffer
+(my-special-beginning-of-buffer ibuffer
   (ibuffer-forward-line 1))
-(my-special-buffer-jump-to-bottom ibuffer
+(my-special-end-of-buffer ibuffer
   (ibuffer-backward-line 1))
 
-(my-special-buffer-back-to-top vc-dir
+(my-special-beginning-of-buffer vc-dir
   (vc-dir-next-line 1))
-(my-special-buffer-jump-to-bottom vc-dir
+(my-special-end-of-buffer vc-dir
   (vc-dir-previous-line 1))
 
-(my-special-buffer-back-to-top bs
+(my-special-beginning-of-buffer bs
   (bs-down 2))
-(my-special-buffer-jump-to-bottom bs
+(my-special-end-of-buffer bs
   (bs-up 1)
   (bs-down 1))
 
-(my-special-buffer-back-to-top recentf-dialog
-  (my-recentf-next-file 3))
-(my-special-buffer-jump-to-bottom recentf-dialog
-  (my-recentf-previous-file 2))
+(my-special-beginning-of-buffer recentf-dialog
+  (when (re-search-forward "^  \\[" nil t)
+    (goto-char (match-beginning 0))))
+(my-special-end-of-buffer recentf-dialog
+  (re-search-backward "^  \\[" nil t))
 
 (provide 'keys)
 ;;; keys.el ends here
