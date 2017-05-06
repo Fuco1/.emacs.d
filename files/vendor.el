@@ -896,6 +896,7 @@ use a directory-local variable to specify this per-project."
       (add-to-list 'ind-managed-list-relative 'flycheck-error-indicators)
       (flycheck-haskell-setup)
       (flycheck-cask-setup))
+    (add-hook 'flycheck-mode-hook 'flycheck-cask-setup)
     (add-hook 'flycheck-mode-hook 'my-flycheck-init)))
 
 (use-package fold-this
