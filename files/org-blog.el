@@ -169,6 +169,7 @@ do not run `org-publish'."
            (format
             "<a href=\"./sitemap.html\">Home</a>
 <a href=\"https://github.com/Fuco1/\">GitHub</a>
+<a href=\"https://www.patreon.com/user?u=3282358\">Patreon</a>
 <hr />"))
          :html-postamble
          (lambda (args)
