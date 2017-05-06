@@ -1,3 +1,5 @@
+(require 'ox-publish)
+
 (defun my-org-find-with-tags (match)
   "Find all headings in agenda files that match MATCH.
 
