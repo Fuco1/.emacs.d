@@ -179,6 +179,8 @@ do not run `org-publish'."
              (format
               "<hr />
 <div style=\"text-align: left; float: left;\">Last updated at: %s</div>
-<div style=\"text-align: right;\"><a href=\"%s\">Source</a></div>"
+<div style=\"text-align: right;\">Found a typo? <a href=\"%s\">Edit on GitHub!</a></div>"
               (format-time-string "%Y-%m-%d %H:%M")
-              (replace-regexp-in-string (regexp-quote base) "./" input)))))))
+              (replace-regexp-in-string
+               (regexp-quote base)
+               "https://github.com/Fuco1/fuco1.github.io/blob/master/" input)))))))
