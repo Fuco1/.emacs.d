@@ -58,22 +58,8 @@ Loaded %d packages in %.3fs seconds"
   (require 's)
 
   ;; add load paths
-  (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
-  (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/")
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/special/")
-  (mapc (lambda (dir)
-          (add-to-list 'load-path dir)
-          (-when-let
-              (autoloads (--filter
-                          (string-match-p "autoloads\\.el$" it)
-                          (f-files dir)))
-            (mapc 'load autoloads)))
-        (f-directories "~/.emacs.d/vendor"))
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/dev/"))
-  (mapc (lambda (dir) (load (concat dir "/" (f-base dir) "-autoloads.el") t t))
-        (f-directories "~/.emacs.d/dev/"))
+  (load "~/.emacs.d/site-lisp/my-bootstrap")
+  (my-setup-load-path)
 
   (require 'workman-layout))
 
