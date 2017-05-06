@@ -1562,6 +1562,7 @@
   ("screen" . shell-script)
   ("plantuml" . fundamental))))
  '(org-src-preserve-indentation t)
+ '(org-src-window-setup (quote current-window))
 '(org-structure-template-alist
 (quote
  (("s" "#+BEGIN_SRC ?
