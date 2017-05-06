@@ -9,4 +9,5 @@ elnode/*
 elpa/*
 etc/eshell/lastdir
 files/personal.el
+files/*-tangled.el
 todo.org
