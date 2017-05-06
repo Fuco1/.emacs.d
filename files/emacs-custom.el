@@ -1673,10 +1673,6 @@
          (cdar my-tango-colors)))
   (eval set-input-method "slovak-prog-2")
   (default-input-method . "slovak-prog-2")
-  (flycheck-phpstan-config . "/home/matus/dev/Sandbox/core/tests/phpstan/phpstan.neon")
-  (flycheck-phpstan-config . "/usr/src/salesforce-proxy/app/config/phpstan.neon")
-  (flycheck-phpstan-level . "5")
-  (flycheck-phpstan-config . "/usr/src/application/app/config/phpstan.neon")
   (flycheck-php-phpstan-executable . "/home/matus/dev/salesforce-proxy/docker-phpstan")
   (flycheck-php-phpstan-executable . "/home/matus/dev/application/docker-phpstan")
   (eval when
@@ -1709,7 +1705,6 @@
          default-directory))
   (swb-database . "ahold_ok")
   (swb-port . "30245")
-  (my-rsync-remote . "speedy:/var/www/html/devel/Sandbox-goljer/")
   (swb-database . "nestle_live")
   (swb-port . "30238")
   (swb-host . "tunel.logio.cz")
@@ -1745,7 +1740,6 @@
   (swb-host . "localhost")
   (firestarter . my-sync-rsync-remote)
   (firestarter quote my-sync-rsync-remote)
-  (my-rsync-remote . "dasnet:/home/fuco/project/foo/")
   (eval when
         (and
          (buffer-file-name)
@@ -1800,11 +1794,6 @@
         (quote
          ("Sallet sources" "\\(^(sallet-defsource +\\)\\(\\_<.+\\_>\\)" 2)))
   (my-buffer-input-methods "devanagari-translit" "devanagari-kyoto-harvard")
-  (my-pw-test-uuid . "test")
-  (my-pw-root . "/var/www/html/devel/mg/orders-refactor")
-  (my-pw-root . "/var/www/html/devel/mg/orders-refactor/")
-  (my-svn-trunk . "/fw/trunk/")
-  (my-svn-branch . "/fw/branches-devel/mg-orders-refactor/")
   (my-buffer-input-methods "devanagari-translit" "devanagari-aiba")
   (my-buffer-input-methods "TeX" "devanagari-aiba")
   (my-org-drill-language . "Sanskrit")
