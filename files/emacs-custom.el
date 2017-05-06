@@ -186,13 +186,13 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("bead7ae71dbc5c5a619f2e625c9c941927a3d7c0851abd401da0de205e2fa93b" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("50f2c57b4309b4faa92392f02e912af829518a44b730a26652e864bee21935b5" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
  '(dash-enable-fontlock t)
  '(debug-on-error t)
- '(default-input-method "chinese-tonepy")
+ '(default-input-method "english-prog")
  '(delete-by-moving-to-trash t)
  '(delete-selection-mode t)
  '(desktop-buffer-filter (quote my-desktop-filter))
@@ -384,7 +384,6 @@
     ("/home/matus/dotfiles/xmonad/.xmonad/lib" "/home/matus/dev/haskell/mpris/src/")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
  '(flycheck-php-phpcs-executable "~/.config/composer/vendor/bin/phpcs")
- '(flycheck-php-phpmd-executable "~/.composer/vendor/bin/phpmd")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
  '(font-latex-math-environments
    (quote
@@ -573,26 +572,26 @@
      (enable exact "find-tag")
      (enable prefix "etags-select-"))))
  '(ido-ubiquitous-default-state (quote enable))
-  '(ido-ubiquitous-function-overrides
-    (quote
-     ((disable exact "read-file-name")
-      (disable exact "read-file-name-internal")
-      (disable exact "read-buffer")
-      (disable exact "gnus-emacs-completing-read")
-      (disable exact "gnus-iswitchb-completing-read")
-      (disable exact "grep-read-files")
-      (disable exact "magit-builtin-completing-read")
-      (enable exact "bookmark-completing-read")
-      (enable-old exact "webjump-read-choice")
-      (enable-old exact "webjump-read-url-choice")
-      (disable exact "isearchp-read-unicode-char")
-      (enable exact "read-char-by-name")
-      (disable exact "Info-read-node-name")
-      (disable exact "tmm-menubar")
-      (enable exact "imenu--completion-buffer")
-      (enable-old exact "auto-insert")
-      (enable exact "project--completing-read-strict")
-      (enable-old exact "legalese-elisp-keyword"))))
+ '(ido-ubiquitous-function-overrides
+   (quote
+    ((disable exact "read-file-name")
+     (disable exact "read-file-name-internal")
+     (disable exact "read-buffer")
+     (disable exact "gnus-emacs-completing-read")
+     (disable exact "gnus-iswitchb-completing-read")
+     (disable exact "grep-read-files")
+     (disable exact "magit-builtin-completing-read")
+     (enable exact "bookmark-completing-read")
+     (enable-old exact "webjump-read-choice")
+     (enable-old exact "webjump-read-url-choice")
+     (disable exact "isearchp-read-unicode-char")
+     (enable exact "read-char-by-name")
+     (disable exact "Info-read-node-name")
+     (disable exact "tmm-menubar")
+     (enable exact "imenu--completion-buffer")
+     (enable-old exact "auto-insert")
+     (enable exact "project--completing-read-strict")
+     (enable-old exact "legalese-elisp-keyword"))))
  '(imenu-auto-rescan t)
  '(indent-tabs-mode nil)
  '(indicate-empty-lines nil)
@@ -1649,14 +1648,37 @@
  '(require-final-newline t)
 '(safe-local-variable-values
 (quote
- ((eval set-input-method "slovak-prog-2")
+ ((org-refile-targets
+   (nil :maxlevel . 9))
+  (eval font-lock-add-keywords nil
+        (-map
+         (-lambda
+           ((face . color))
+           (let
+               ((pattern
+                 (concat "\\_<"
+                         (symbol-name face)
+                         "\\_>"))
+                (color-resolved
+                 (if
+                     (stringp color)
+                     color
+                   (cdr
+                    (assq color
+                          (cdar my-tango-colors))))))
+             (list pattern 0
+                   (\`
+                    (rainbow-colorize-match
+                     (\, color-resolved))))))
+         (cdar my-tango-colors)))
+  (eval set-input-method "slovak-prog-2")
   (default-input-method . "slovak-prog-2")
+  (flycheck-phpstan-config . "/home/matus/dev/Sandbox/core/tests/phpstan/phpstan.neon")
   (flycheck-phpstan-config . "/usr/src/salesforce-proxy/app/config/phpstan.neon")
   (flycheck-phpstan-level . "5")
   (flycheck-phpstan-config . "/usr/src/application/app/config/phpstan.neon")
   (flycheck-php-phpstan-executable . "/home/matus/dev/salesforce-proxy/docker-phpstan")
   (flycheck-php-phpstan-executable . "/home/matus/dev/application/docker-phpstan")
-  (flycheck-phpstan-config . "/home/matus/dev/Sandbox/core/tests/phpstan/phpstan.neon")
   (eval when
         (and
          (buffer-file-name)
