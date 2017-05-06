@@ -1,5 +1,6 @@
 ;;;_. Commentary & basic stuff
 (require 'use-package)
+(require 'imenu)
 
 (defconst my-dired-media-files-extensions '("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "wmv" "mkv" "mov" "wma")
   "Media file extensions that should launch in VLC.
@@ -642,3 +643,6 @@ With \\[universal-argument] present user with list of possible methods to unpack
     (if (cdr marked-files)
         (dired-do-shell-command "du --apparent-size -s -h -c * &" nil marked-files)
       (dired-do-shell-command "du --apparent-size -s -h" nil marked-files))))
+
+(provide 'dired-defs)
+;; dired-defs.el ends here
