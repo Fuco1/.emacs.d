@@ -161,7 +161,7 @@ Callers of this function already widen the buffer view."
     (widen)
     (if (my-org-is-project-p)
         (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
-               (has-next))
+               has-next)
           (save-excursion
             (forward-line 1)
             (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
