@@ -2288,6 +2288,7 @@ If such snippet already exists, just open it for editing."
     (add-hook 'yas-minor-mode-hook 'my-yas-startup)))
 
 (my-load-or-tangle "~/.emacs.d/files/vendor")
+(my-load-or-tangle "~/.emacs.d/files/keys")
 
 ;; Local Variables:
 ;; eval: (add-to-list 'imenu-generic-expression '("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2))
