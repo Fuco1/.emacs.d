@@ -410,7 +410,7 @@
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
  '(geben-display-window-function (quote display-buffer))
- '(geben-temporary-file-directory "/home/matus/.emacs.d/.cache/geben")
+ '(geben-temporary-file-directory "/home/matus/.emacs.d/.cache/geben/")
  '(global-flex-isearch-mode t)
  '(global-paren-face-mode t)
  '(global-subword-mode t)
@@ -1982,7 +1982,7 @@
 (quote
  (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode global-semantic-mru-bookmark-mode)))
  '(semantic-new-buffer-setup-functions (quote ((java-mode . wisent-malabar-java-setup))))
- '(semanticdb-default-save-directory "~/.emacs.d/.cache/semanticdb")
+ '(semanticdb-default-save-directory "~/.emacs.d/.cache/semanticdb/")
  '(send-mail-function (quote smtpmail-send-it))
  '(server-auth-dir "~/.emacs.d/.cache/server/")
  '(shackle-mode t)
