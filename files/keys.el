@@ -336,5 +336,15 @@ toggle between real end and logical end of the buffer."
 (my-special-end-of-buffer recentf-dialog
   (re-search-backward "^  \\[" nil t))
 
+(my-special-beginning-of-buffer org-agenda
+  (org-agenda-next-item 1))
+(my-special-end-of-buffer org-agenda
+  (org-agenda-previous-item 1))
+
+(my-special-beginning-of-buffer ag
+  (compilation-next-error 1))
+(my-special-end-of-buffer ag
+  (compilation-previous-error 1))
+
 (provide 'keys)
 ;;; keys.el ends here
