@@ -1,0 +1,157 @@
+#+PROPERTY: header-args:elisp :tangle keys-tangled.el
+
+* DONE Enhanced beginning- and end-of-buffer in special mode buffers (dired etc.)
+  CLOSED: [2017-05-06 Sat 16:16]
+  :PROPERTIES:
+  :BLOG_FILENAME: 2017-05-06-Enhanced-beginning--and-end-of-buffer-in-special-mode-buffers-(dired-etc.)
+  :END:
+  :LOGBOOK:
+  - State "DONE"       from "TODO"       [2017-05-06 Sat 16:16]
+  :END:
+  :CLOCK:
+  CLOCK: [2017-05-06 Sat 15:45]--[2017-05-06 Sat 16:26] =>  0:41
+  :END:
+
+Two very useful commands are =beginning-of-buffer= (by default on =M-<=) and =end-of-buffer= (=M->=).  They do exactly what they advertise: move the point (= jump) to the beginning or end of current buffer.
+
+This works fine in buffers with text like buffers holding code (=emacs-lisp-mode=, =c-mode=...) or text (=org-mode=, =markdown-mode=...) because it does exactly what you want.
+
+One of the beautiful and most clever things in Emacs design to me is that *every* buffer is just text.  What this means is you can use all the multitude of functions that work on text to also navigate forms, special listings, tables et cetera.  Indeed, the most infuriating feeling when I use something which isn't Emacs, e.g. a GUI program with a table in it, is the inability to just search the contents of the UI: there either is a special search for each control or you simply can't do it at all.  Very annoying.
+
+However, back in Emacs not everything is perfect :).  When you are in special buffers like =dired=, =vc-dir= or =occur= it makes little sense for =beginning-of-buffer= to jump to the /actual/ beginning.  What you want 99% of the time is to go to the first logical entry, be it the first file or the first result of search.
+
+Well, nothing is simpler than to just write a macro that would generate these "better" navigation functions and remap the default functions to the new variants, right?
+
+The following two macros do just that.  Basically, they wrap the =beginning-of-buffer= functionality by first going to the real beginning and then invoke provided forms to move the point to the logical beginning.  Almost every special mode provides some sort of =...-next-line= or =...-next-item= function you can use to move from the beginning to the first logical item.
+
+One clever additional functionality is that if the point already is at the logical beginning and you invoke the function again it will actually jump to the real beginning.  Similarly it works for =end-of-buffer=.  This adds a little bit of /dwim/ flavoring to the commands.
+
+#+BEGIN_SRC elisp
+(defmacro my-special-beginning-of-buffer (mode &rest forms)
+  "Define a special version of `beginning-of-buffer' in MODE.
+
+The special function is defined such that the point first moves
+to `point-min' and then FORMS are evaluated.  If the point did
+not change because of the evaluation of FORMS, jump
+unconditionally to `point-min'.  This way repeated invocations
+toggle between real beginning and logical beginning of the
+buffer."
+  (declare (indent 1))
+  (let ((fname (intern (concat "my-" (symbol-name mode) "-beginning-of-buffer")))
+        (mode-map (intern (concat (symbol-name mode) "-mode-map")))
+        (mode-hook (intern (concat (symbol-name mode) "-mode-hook"))))
+    `(progn
+       (defun ,fname ()
+         (interactive)
+         (let ((p (point)))
+           (goto-char (point-min))
+           ,@forms
+           (when (= p (point))
+             (goto-char (point-min)))))
+       (add-hook ',mode-hook
+                 (lambda ()
+                   (define-key ,mode-map
+                     [remap beginning-of-buffer] ',fname))))))
+#+END_SRC
+
+And a corresponding version for =end-of-buffer=.
+
+#+BEGIN_SRC elisp
+(defmacro my-special-end-of-buffer (mode &rest forms)
+  "Define a special version of `end-of-buffer' in MODE.
+
+The special function is defined such that the point first moves
+to `point-max' and then FORMS are evaluated.  If the point did
+not change because of the evaluation of FORMS, jump
+unconditionally to `point-max'.  This way repeated invocations
+toggle between real end and logical end of the buffer."
+  (declare (indent 1))
+  (let ((fname (intern (concat "my-" (symbol-name mode) "-end-of-buffer")))
+        (mode-map (intern (concat (symbol-name mode) "-mode-map")))
+        (mode-hook (intern (concat (symbol-name mode) "-mode-hook"))))
+    `(progn
+       (defun ,fname ()
+         (interactive)
+         (let ((p (point)))
+           (goto-char (point-max))
+           ,@forms
+           (when (= p (point))
+             (goto-char (point-max)))))
+       (add-hook ',mode-hook
+                 (lambda ()
+                   (define-key ,mode-map
+                     [remap end-of-buffer] ',fname))))))
+#+END_SRC
+
+The key remapping works by remapping the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Remapping-Commands.html][command]];  this is an amazing Emacs feature many people aren't aware of.  What this means in short is that you do not bind a key to the command but rather remap a command to another command.  That is, whatever key you bound to =beginning-of-buffer= will now instead invoke the special function generated above.  When you remap =beginning-of-buffer= somewhere globally all the special functions will "automagically" remap as well.
+
+The macros rely on the Emacs convention where the mode name ends in =-mode= and the map ends in =-mode-map=, so far it worked everywhere (but it wouldn't be difficult to change the macro to accept those as arguments---left as an exercise to the reader).
+
+What follows is all the "overloads" I use in my config, you can use these as an inspiration to add your own.  I'm thinking of how to package this code and provide some simple interface for people to enable these in their configs and contribute more for various other special buffers.  If you want to help out with the packaging leave me a [[https://github.com/Fuco1/.emacs.d/issues/new][message]].
+
+** Dired (=M-x dired=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer dired
+  (while (not (ignore-errors (dired-get-filename)))
+    (dired-next-line 1)))
+(my-special-end-of-buffer dired
+  (dired-previous-line 1))
+#+END_SRC
+
+** Occur (=M-x occur=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer occur
+  (occur-next 1))
+(my-special-end-of-buffer occur
+  (occur-prev 1))
+#+END_SRC
+
+** Ibuffer (=M-x ibuffer=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer ibuffer
+  (ibuffer-forward-line 1))
+(my-special-end-of-buffer ibuffer
+  (ibuffer-backward-line 1))
+#+END_SRC
+
+** vc directory view (=M-x vc-dir= or =C-x v d=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer vc-dir
+  (vc-dir-next-line 1))
+(my-special-end-of-buffer vc-dir
+  (vc-dir-previous-line 1))
+#+END_SRC
+
+** bs (=M-x bs-show=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer bs
+  (bs-down 2))
+(my-special-end-of-buffer bs
+  (bs-up 1)
+  (bs-down 1))
+#+END_SRC
+
+** Recentf (=M-x recentf-open-files=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer recentf-dialog
+  (when (re-search-forward "^  \\[" nil t)
+    (goto-char (match-beginning 0))))
+(my-special-end-of-buffer recentf-dialog
+  (re-search-backward "^  \\[" nil t))
+#+END_SRC
+
+** Org Agenda (=M-x org-agenda=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer org-agenda
+  (org-agenda-next-item 1))
+(my-special-end-of-buffer org-agenda
+  (org-agenda-previous-item 1))
+#+END_SRC
+
+** ag (from =ag.el= package, =M-x ag=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer ag
+  (compilation-next-error 1))
+(my-special-end-of-buffer ag
+  (compilation-previous-error 1))
+#+END_SRC
