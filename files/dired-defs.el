@@ -272,6 +272,7 @@ When we are creating new directory, there is nothing to complete."
        (when ido-mode-old
          (ido-mode 1)))))
   ad-do-it
+  (revert-buffer)
   (goto-char (point-min))
   (dired-utils-goto-line (file-truename (ad-get-arg 0))))
 
