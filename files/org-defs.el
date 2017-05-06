@@ -356,6 +356,24 @@
             (org-agenda-todo-ignore-scheduled t)
             (org-agenda-todo-ignore-deadlines t)
             (org-agenda-todo-ignore-with-date t)))
+          ("e" "Emacs config"
+           ((todo "TODO|NEXT"
+                  ((org-agenda-overriding-header "Emacs config")
+                   (org-agenda-files '("~/.emacs.d"
+                                       "~/.emacs.d/files"
+                                       "~/.emacs.d/site-lisp"))))
+            (tags "to_publish"
+                  ((org-agenda-overriding-header "Available for publication")
+                   (org-use-tag-inheritance nil)
+                   (org-agenda-files '("~/.emacs.d"
+                                       "~/.emacs.d/files"
+                                       "~/.emacs.d/site-lisp"))))
+            (tags "published"
+                  ((org-agenda-overriding-header "Published")
+                   (org-use-tag-inheritance nil)
+                   (org-agenda-files '("~/.emacs.d"
+                                       "~/.emacs.d/files"
+                                       "~/.emacs.d/site-lisp"))))))
           ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
           ("k" . "Knowledge-base operations")
           ("ks" "Knowledge-base search" search nil
