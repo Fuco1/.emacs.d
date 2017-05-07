@@ -1,6 +1,6 @@
 #+PROPERTY: header-args:elisp :tangle keys-tangled.el
 
-* DONE Enhanced beginning- and end-of-buffer in special mode buffers (dired etc.)
+* DONE Enhanced beginning- and end-of-buffer in special mode buffers (dired etc.) :published:
   CLOSED: [2017-05-06 Sat 16:16]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-06-Enhanced-beginning--and-end-of-buffer-in-special-mode-buffers-(dired-etc.)

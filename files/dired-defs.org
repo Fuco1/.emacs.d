@@ -273,7 +273,7 @@ The final setup looks like this.
     <<make-it-so-makefile-setup>>)
 #+END_SRC
 
-* DONE Support for imenu in dired
+* DONE Support for imenu in dired                                 :published:
   CLOSED: [2017-05-01 Mon 14:27]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-01-Support-for-imenu-in-dired

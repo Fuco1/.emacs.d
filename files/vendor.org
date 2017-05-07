@@ -2,7 +2,7 @@
 
 * Shell-mode
 
-** DONE Turn on context-aware modes on shell command output         :publish:
+** DONE Turn on context-aware modes on shell command output         :published:
    CLOSED: [2017-04-29 Sat 23:10]
    :PROPERTIES:
    :BLOG_FILENAME: 2017-04-29-Turn-on-context-aware-modes-on-shell-command-output
