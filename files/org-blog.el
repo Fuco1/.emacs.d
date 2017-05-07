@@ -130,7 +130,7 @@ do not run `org-publish'."
 (defun my-org-publish-agenda ()
   "Publish all publishable entries found in agenda."
   (interactive)
-  (-each (my-org-find-with-tags "publish")
+  (-each (my-org-find-with-tags "published")
     (lambda (pom)
       (org-with-point-at pom
         (message "Publishing %s" (org-get-heading :no-tags :no-todo))
