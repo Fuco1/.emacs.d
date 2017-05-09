@@ -25,6 +25,7 @@ Finally, FORMS are run."
   `(save-window-excursion
      (let ((case-fold-search nil))
        (with-temp-buffer
+         (set-window-buffer (selected-window) (current-buffer))
          (set-input-method nil)
          ,initform
          (insert ,initial)

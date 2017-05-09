@@ -27,5 +27,22 @@
   `(progn
      ,@(apply 'append (mapcar (lambda (form) (list '(goto-char (point-min)) form)) forms))))
 
+(defmacro my-with-temporary-hook (hook fn &rest body)
+  "For the duration of BODY add FN to HOOK.
+
+FN can be a lambda or a symbol with a function.
+
+This is especially useful to add closures which are built
+on-the-fly to hooks for the duration of the BODY."
+  (declare (indent 1))
+  (let ((hook-fn (make-symbol "--temp-symbol--")))
+    `(let ((,hook-fn (make-symbol "--temp-hook--")))
+       (cl-letf (((symbol-function ,hook-fn) ,fn))
+         (unwind-protect
+             (progn
+               (add-hook ,hook ,hook-fn)
+               ,@body)
+           (remove-hook ,hook ,hook-fn))))))
+
 (provide 'my-macros)
 ;;; my-macros.el ends here
