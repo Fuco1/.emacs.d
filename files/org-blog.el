@@ -169,9 +169,15 @@ do not run `org-publish'."
          :html-preamble
          (lambda (&rest _ignore)
            (format
-            "<a href=\"./sitemap.html\">Home</a>
-<a href=\"https://github.com/Fuco1/\">GitHub</a>
-<a href=\"https://www.patreon.com/user?u=3282358\">Patreon</a>
+            "
+<div style=\"text-align: left; float: left;\">
+  <a href=\"./sitemap.html\">Home</a>
+  <a href=\"https://github.com/Fuco1/\">GitHub</a>
+  <a href=\"https://www.patreon.com/user?u=3282358\">Patreon</a>
+</div>
+<div style=\"text-align: right;\">
+  <a href=\"https://twitter.com/Fuco1337\">Twitter</a>
+</div>
 <hr />"))
          :html-postamble
          (lambda (args)
