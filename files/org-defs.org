@@ -16,7 +16,7 @@ Enable lexical binding by default.
   - State "DONE"       from "TODO"       [2017-05-09 Tue 19:12]
   :END:
   :CLOCK:
-  CLOCK: [2017-05-09 Tue 18:44]
+  CLOCK: [2017-05-09 Tue 18:44]--[2017-05-09 Tue 19:35] =>  0:51
   :END:
 
 I have a pretty standard =org-capture= workflow: during the day when an idea comes to mind or I stumble upon a task I can't solve right now or I find an article I would want to read later I use one of the several [[https://github.com/Fuco1/.emacs.d/blob/master/files/org-defs.el#L1142][capture templates I set up]] to quickly file a note and continue with minimal distraction with what I was doing at the time.
@@ -61,33 +61,6 @@ So there is the problem, fortunately nothing a little bit of hacking can't solve
 The function also showcases work with the org tag API which I personally find rather confusing (the naming seems to have been invented on the fly because it doesn't make sense half the time).
 
 I also wanted to add the functionality to preserve the inherited tags from the original position so that refiling would be tag-neutral operation.  But that actually proved rather annoying because the point of refiling under a differnet hierarchy is to /not/ have the same tags... otherwise why would you refile at all.
-
-#+BEGIN_SRC elisp :tangle no :exports none
-(defadvice org-refile (around save-original-tags activate)
-  "Remove local tags from refiled entry which are inherited in the target tree."
-  (let ((tags (org-get-tags-at nil 'local))
-        (hook (make-symbol "--temp-refile-hook--")))
-    (cl-letf (((symbol-function hook)
-               ;; this is invoked at the target location after the tree
-               ;; has been refiled
-               (lambda ()
-                 (let* ((target-tags-local (org-get-tags-at nil 'local))
-                        (target-tags-inherited
-                         (unwind-protect
-                             (progn
-                               (org-set-tags-to nil)
-                               (org-get-tags-at))
-                           (org-set-tags-to target-tags-local))))
-                   (-each tags
-                     (lambda (tag)
-                       (when (member tag target-tags-inherited)
-                         (org-toggle-tag tag 'off))))))))
-      (unwind-protect
-          (progn
-            (add-hook 'org-after-refile-insert-hook hook)
-            ad-do-it)
-        (remove-hook 'org-after-refile-insert-hook hook)))))
-#+END_SRC
 
 #+BEGIN_SRC elisp
 (provide 'org-defs-tangled)
