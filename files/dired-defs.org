@@ -1,6 +1,12 @@
 #+PROPERTY: header-args:elisp :tangle dired-tangled.el
 #+HTML_HEAD_EXTRA: <style>pre {border: 1px solid #ccc; color: #eeeeec; background-color: #2e3436; box-shadow: 3px 3px 3px #eee; padding: 8pt; font-family: monospace; overflow: auto; margin: 1.2em;}</style>
 
+Enable lexical binding by default.
+
+#+BEGIN_SRC elisp
+;; -*- lexical-binding: t -*-
+#+END_SRC
+
 * Media files
 It is convenient to be able to just ~RET~ a movie or music file and have it start playing in ~vlc~.  I use ~dired-open~ to achieve this.  However, I also want to fontify the media files with a special face and so to not duplicate the list of extensions, define it here right away.
 

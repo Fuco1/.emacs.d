@@ -1,5 +1,12 @@
 #+PROPERTY: header-args:elisp :tangle keys-tangled.el
 
+Enable lexical binding by default.
+
+#+BEGIN_SRC elisp
+;; -*- lexical-binding: t -*-
+#+END_SRC
+
+
 * DONE Enhanced beginning- and end-of-buffer in special mode buffers (dired etc.) :published:
   CLOSED: [2017-05-06 Sat 16:16]
   :PROPERTIES:

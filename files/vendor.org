@@ -1,5 +1,11 @@
 #+PROPERTY: header-args:elisp :tangle vendor-tangled.el
 
+Enable lexical binding by default.
+
+#+BEGIN_SRC elisp
+;; -*- lexical-binding: t -*-
+#+END_SRC
+
 * Shell-mode
 
 ** DONE Turn on context-aware modes on shell command output         :published:
