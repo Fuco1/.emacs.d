@@ -162,3 +162,19 @@ What follows is all the "overloads" I use in my config, you can use these as an 
 (my-special-end-of-buffer ag
   (compilation-previous-error 1))
 #+END_SRC
+
+** Notmuch (from =notmuch= package, =M-x notmuch-search=)
+#+BEGIN_SRC elisp
+(my-special-beginning-of-buffer notmuch-search
+  (notmuch-search-first-thread)
+  (beginning-of-line))
+(my-special-end-of-buffer notmuch-search
+  (notmuch-search-last-thread)
+  (end-of-line))
+#+END_SRC
+
+** Elfeed (from =elfeed= package, =M-x elfeed=)
+#+BEGIN_SRC elisp
+(my-special-end-of-buffer elfeed-search
+  (forward-line -2))
+#+END_SRC
