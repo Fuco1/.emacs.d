@@ -940,31 +940,6 @@ This usually makes new item indented one level deeper."
         (org-defkey orgtbl-mode-map (kbd (car b)) (orgtbl-make-binding (cadr b) n (kbd (car b))))
         (setq n (1+ n))))))
 
-(defadvice org-refile (around save-original-tags activate)
-  "Remove local tags from refiled entry which are inherited in the target tree."
-  (let ((tags (org-get-tags-at nil 'local))
-        (hook (make-symbol "--temp-refile-hook--")))
-    (cl-letf (((symbol-function hook)
-               ;; this is invoked at the target location after the tree
-               ;; has been refiled
-               (lambda ()
-                 (let* ((target-tags-local (org-get-tags-at nil 'local))
-                        (target-tags-inherited
-                         (unwind-protect
-                             (progn
-                               (org-set-tags-to nil)
-                               (org-get-tags-at))
-                           (org-set-tags-to target-tags-local))))
-                   (-each tags
-                     (lambda (tag)
-                       (when (member tag target-tags-inherited)
-                         (org-toggle-tag tag 'off))))))))
-      (unwind-protect
-          (progn
-            (add-hook 'org-after-refile-insert-hook hook)
-            ad-do-it)
-        (remove-hook 'org-after-refile-insert-hook hook)))))
-
 (defun my-org-global-skip-function ()
   "Global skip function for all agenda views"
   (when (member "folder" (ignore-errors (org-get-tags)))

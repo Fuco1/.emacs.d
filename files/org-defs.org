@@ -1,0 +1,94 @@
+#+PROPERTY: header-args:elisp :tangle org-defs-tangled.el
+
+Enable lexical binding by default.
+
+#+BEGIN_SRC elisp
+;; -*- lexical-binding: t -*-
+#+END_SRC
+
+
+* DONE Automatically remove inherited tags from tasks after refiling :published:
+  CLOSED: [2017-05-09 Tue 19:12]
+  :PROPERTIES:
+  :BLOG_FILENAME: 2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling
+  :END:
+  :LOGBOOK:
+  - State "DONE"       from "TODO"       [2017-05-09 Tue 19:12]
+  :END:
+  :CLOCK:
+  CLOCK: [2017-05-09 Tue 18:44]
+  :END:
+
+I have a pretty standard =org-capture= workflow: during the day when an idea comes to mind or I stumble upon a task I can't solve right now or I find an article I would want to read later I use one of the several [[https://github.com/Fuco1/.emacs.d/blob/master/files/org-defs.el#L1142][capture templates I set up]] to quickly file a note and continue with minimal distraction with what I was doing at the time.
+
+*************** TODO change the link to templates to actual headline in the config when published :noexport:
+
+When I add these tasks I try to tag them with appropriate tags.  So
+
+- for articles I add tags according to the area the article relates to (=:math:=, =:programming:=...)
+- for tasks in projects I add the project tags (=:emacs:=, =:smartparens:=...)
+- for chores I add tags about where to do the given task (=:home:=, =:garden:=...)
+
+Well, the point is, I tag the entries to-be-refiled.
+
+When I get to my daily or weekly review and refiling I had to manually go to the refiled entry and remove the painstakingly added tags.  That is because the tags are already present on the parent headlines most of the time and so get inherited... and I hate to have them duplicitly.  On the other hand, not adding the tags also proved painful because sometimes I leave (non-urgent) tasks sitting in the refile log for a couple days and by the time I get to process them there can be quite a few; the tags help me better remember what is going on.
+
+Of course, the same issue comes up with regular refiling between different hierarchies.
+
+So there is the problem, fortunately nothing a little bit of hacking can't solve.  Org mode conveniently provides =org-after-refile-insert-hook= where we can add the little function below to do the work.
+
+#+BEGIN_SRC elisp
+(defun my-org-remove-inherited-local-tags ()
+  "Remove local tags that can be inherited instead."
+  (let* ((target-tags-local (org-get-tags-at nil 'local))
+         ;; We have to remove the local tags otherwise they would not
+         ;; show up as being inherited if they are present on
+         ;; parents---the local tag would "override" the parent
+         (target-tags-inherited
+          (unwind-protect
+              (progn
+                (org-set-tags-to nil)
+                (org-get-tags-at))
+            (org-set-tags-to target-tags-local))))
+    (-each target-tags-local
+      (lambda (tag)
+        (when (member tag target-tags-inherited)
+          (org-toggle-tag tag 'off))))))
+
+(add-hook 'org-after-refile-insert-hook 'my-org-remove-inherited-local-tags)
+#+END_SRC
+
+The function also showcases work with the org tag API which I personally find rather confusing (the naming seems to have been invented on the fly because it doesn't make sense half the time).
+
+I also wanted to add the functionality to preserve the inherited tags from the original position so that refiling would be tag-neutral operation.  But that actually proved rather annoying because the point of refiling under a differnet hierarchy is to /not/ have the same tags... otherwise why would you refile at all.
+
+#+BEGIN_SRC elisp :tangle no :exports none
+(defadvice org-refile (around save-original-tags activate)
+  "Remove local tags from refiled entry which are inherited in the target tree."
+  (let ((tags (org-get-tags-at nil 'local))
+        (hook (make-symbol "--temp-refile-hook--")))
+    (cl-letf (((symbol-function hook)
+               ;; this is invoked at the target location after the tree
+               ;; has been refiled
+               (lambda ()
+                 (let* ((target-tags-local (org-get-tags-at nil 'local))
+                        (target-tags-inherited
+                         (unwind-protect
+                             (progn
+                               (org-set-tags-to nil)
+                               (org-get-tags-at))
+                           (org-set-tags-to target-tags-local))))
+                   (-each tags
+                     (lambda (tag)
+                       (when (member tag target-tags-inherited)
+                         (org-toggle-tag tag 'off))))))))
+      (unwind-protect
+          (progn
+            (add-hook 'org-after-refile-insert-hook hook)
+            ad-do-it)
+        (remove-hook 'org-after-refile-insert-hook hook)))))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(provide 'org-defs-tangled)
+#+END_SRC

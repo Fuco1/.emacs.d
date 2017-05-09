@@ -3,6 +3,7 @@
 (require 'my-test-helper)
 
 (require 'org-defs)
+(require 'org-defs-tangled)
 
 (require 'assess)
 
