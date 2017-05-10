@@ -1120,6 +1120,34 @@ use a directory-local variable to specify this per-project."
       (multi-web-mode -1)
       (setq indent-region-function nil))))
 
+(use-package json-mode
+  :defer t
+  :bind (:map json-mode-map
+         ("C-c C-c" . my-json-mode-run-jq)
+         ("C-c C-m" . my-json-minify))
+  :config
+  (defun my-json-mode-run-jq (query &optional arg)
+    "Run jq(1) on current buffer.
+
+With prefix argument \\[universal-argument] replace the buffer
+with the result of running jq(1)."
+    (interactive "sjq query: \nP")
+    (shell-command-on-region
+     (point-min) (point-max)
+     (concat "jq " (shell-quote-argument query))
+     (when arg (current-buffer))
+     (when arg t)))
+
+  (defun my-json-minify ()
+    "Minify the json at point."
+    (interactive)
+    (goto-char (point-min))
+    (let* ((p (point))
+           (json (json-read)))
+      (delete-region p (point))
+      (save-excursion
+        (insert (json-encode json))))))
+
 (use-package jump-char
   :bind (("M-m" . jump-char-forward)))
 
