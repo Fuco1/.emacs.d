@@ -306,33 +306,6 @@ half the height of parent window."
       (org-mode)
       (pop-to-buffer (current-buffer)))))
 
-;;;###autoload
-(defun my-create-new-pw-module (dir)
-  "Create the directory structure for PW module. "
-  (interactive "FModule name: ")
-  (make-directory dir)
-  (let ((full-path dir)
-        (module-name (f-filename dir)))
-    (with-temp-file (concat full-path "/" module-name ".pwm")
-      (insert (format "Name: %s
-Version: 1
-Dependencies:
-Description:
-Comments:" module-name)))
-    (with-temp-file (concat full-path "/" module-name ".php")
-      (insert (format "<?php
-
-/**
- *
- *
- * @author Matúš Goljer
- */
-class C%s extends CAbstractModule {
-
-}
-" (s-upper-camel-case module-name))))
-    (find-file (concat full-path "/" module-name ".pwm"))))
-
 (defvar my-rsync-remote nil
   "Remote rsync target for a project.")
 (put 'my-rsync-remote 'safe-local-variable 'identity)
