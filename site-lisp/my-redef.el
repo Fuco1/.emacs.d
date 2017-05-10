@@ -940,7 +940,9 @@ You can then feed the file name(s) to other commands with \\[yank]."
                (signal 'json-object-format (list "," (json-peek))))))
          ;; Skip over the "}"
          (json-advance)
-         (nreverse elements)))))
+         (if (listp elements)
+             (nreverse elements)
+           elements)))))
 
 (provide 'my-redef)
 ;;; my-redef.el ends here
