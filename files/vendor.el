@@ -1397,7 +1397,11 @@ If in the test file, visit source."
         (setq indent-region-function 'php-cautious-indent-region))))))
 
 (use-package neon-mode
-  :mode ("\\.neon\\'" . neon-mode))
+  :mode ("\\.neon\\'" . neon-mode)
+  :config
+  (defun my-neon-mode-init ()
+    (smartparens-mode 1))
+  (add-hook 'neon-mode-hook 'my-neon-mode-init))
 
 (use-package notmuch
   :bind (("C-. C-n" . notmuch))
