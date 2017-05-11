@@ -4,6 +4,7 @@
 ;;; Code:
 
 (require 'bind-key)
+(require 'company)
 
 ;; If there is a tab, make it the size of 8 spaces
 (setq-default tab-width 4)
@@ -42,10 +43,10 @@
   "Execute the default smart tab action."
   (unless (ignore-errors (completion-at-point))
     (cond
+     (company-mode
+      (company-complete))
      ((my-smart-tab-must-expand prefix)
-      (unless (and company-mode
-                   (company-complete))
-        (ignore-errors (hippie-expand prefix))))
+      (ignore-errors (hippie-expand prefix)))
      ((my-smart-indent)))))
 
 (defvar my-magit-read-files-is-active nil
