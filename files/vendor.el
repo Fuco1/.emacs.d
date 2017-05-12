@@ -2135,6 +2135,7 @@ SCOPE is the scope, one of: batch, thread, plid."
   (progn
     (defun my-swb-mode-init ()
       "Init swb mode."
+      (company-mode 1)
       (abbrev-mode 1))
 
     (add-hook 'swb-mode-hook 'my-swb-mode-init)))
