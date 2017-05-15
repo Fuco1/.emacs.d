@@ -864,7 +864,7 @@ use a directory-local variable to specify this per-project."
                 "--errorFormat" "raw"
                 (option "-l" flycheck-phpstan-level)
                 (option "-c" flycheck-phpstan-config)
-                source)
+                source-original)
       :error-patterns
       ((error line-start (*? char) ":" line ":" (message)))
       :modes (php-mode php+-mode))
