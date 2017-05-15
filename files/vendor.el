@@ -1582,9 +1582,24 @@ network prefix)."
        (my-php-local-file-name
         (expand-file-name (buffer-file-name)))))
 
+    (defvar my-php-nette-tester-diff-keymap
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "RET") 'my-php-nette-tester-ediff)
+        (define-key map [mouse-2] 'my-php-nette-tester-ediff)
+        map)
+      "Map used to run ediff on nette tester \"diff\" output.")
+
+    (defun my-php-nette-tester-ediff ()
+      "Run `ediff' on the files on current line."
+      (interactive)
+      (-let (((_ file-a file-b) (split-string (thing-at-point 'line) "'" t " +")))
+        (ediff-files file-a file-b)))
+
     (push `(nette-tester
-            "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
-            1 2 nil 2 1)
+            "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   \\(diff .*?\\)\n\\)\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
+            2 3 nil 2 2 (1 (list 'face 'underline
+                                 'keymap my-php-nette-tester-diff-keymap
+                                 'mouse-face 'highlight)))
           compilation-error-regexp-alist-alist)
 
     (defun my-php-compile ()
