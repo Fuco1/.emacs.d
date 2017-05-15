@@ -1584,7 +1584,7 @@ network prefix)."
 
     (push `(nette-tester
             "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
-            1 2 nil 2 0)
+            1 2 nil 2 1)
           compilation-error-regexp-alist-alist)
 
     (defun my-php-compile ()
