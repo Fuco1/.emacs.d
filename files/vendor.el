@@ -1594,7 +1594,8 @@ network prefix)."
                            (f-parent (f-parent dir))
                            (f-parent dir)
                            (f-entries dir 'f-dir? :recursive))))
-        (my-compile)
+        (let ((default-directory dir))
+          (my-compile))
         (with-current-buffer (get-buffer "*compilation*")
           (setq-local compilation-search-path search-path))))
 
