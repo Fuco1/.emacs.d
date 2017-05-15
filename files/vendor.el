@@ -1897,6 +1897,15 @@ SCOPE is the scope, one of: batch, thread, plid."
       (setq-local flycheck-phpcs-standard
                   (concat (my-php-find-project-root)
                           "/ruleset.xml"))
+      (unless (bound-and-true-p flycheck-phpstan-config)
+        (setq-local flycheck-phpstan-config
+                    ;; look into most common directories
+                    (-first 'file-exists-p
+                            (--map (concat (my-php-find-project-root) "/" it)
+                                   (list
+                                    "config/phpstan.neon"
+                                    "app/config/phpstan.neon"
+                                    )))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (add-hook 'my-newline-hook 'my-php-open-line nil :local)
       (c-set-style "php")
