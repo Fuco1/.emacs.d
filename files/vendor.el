@@ -1596,7 +1596,7 @@ network prefix)."
         (ediff-files file-a file-b)))
 
     (push `(nette-tester
-            "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   \\(diff .*?\\)\n\\)\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
+            "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   \\(diff .*?\\)\n\\)?\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
             2 3 nil 2 2 (1 (list 'face 'underline
                                  'keymap my-php-nette-tester-diff-keymap
                                  'mouse-face 'highlight)))
