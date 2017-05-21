@@ -27,6 +27,8 @@
 
 (require 'hydra)
 
+(use-package elfeed-link)
+
 (use-package org-depend
   :config
   (progn
