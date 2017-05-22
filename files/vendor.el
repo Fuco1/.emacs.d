@@ -1596,7 +1596,17 @@ network prefix)."
         (ediff-files file-a file-b)))
 
     (push `(nette-tester
-            "-- FAILED: .*\n\\(?:.*\n\\)*?\\(?:   \\(diff .*?\\)\n\\)?\\(?:.*\n\\)*?\\(?:   in \\(.*?\\.phpt\\)\\)(\\([0-9]+\\))"
+            ,(rx-to-string
+              '(and "-- FAILED: " (* not-newline) 10
+                    (or
+                     ;; We make the entire diff section optional
+                     (? (*? (* not-newline) 10)
+                        (and "   " (group "diff" (*? not-newline)) 10)
+                        (*? (* not-newline) 10)
+                        (and "   in " (group (*? not-newline) ".phpt") "(" (group (1+ digit)) ")"))
+                     ;; In case no diff is there just go to the file name
+                     (? (*? (* not-newline) 10)
+                        (and "   in " (group (*? not-newline) ".phpt") "(" (group (1+ digit)) ")")))))
             2 3 nil 2 2 (1 (list 'face 'underline
                                  'keymap my-php-nette-tester-diff-keymap
                                  'mouse-face 'highlight)))
