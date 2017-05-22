@@ -1945,6 +1945,28 @@ SCOPE is the scope, one of: batch, thread, plid."
                                     "tests/phpstan.neon"
                                     "tests/config/phpstan.neon"
                                     )))))
+      ;; TODO: generalize the following methods to a "namespace mapper" function, such that
+      ;; Source Namespace -> test path, e.g.
+      ;;   - App -> /tests/%namespace-full%
+      ;; Test Namespace -> source path, e.g.
+      ;;   - Tests\App\ -> /src/%namespace-relative% (everything after App)
+      ;; Relative or full is determined by the trailing \
+      (unless (bound-and-true-p my-php-switch-to-test-function)
+        (setq-local my-php-switch-to-test-function
+                    (lambda (file)
+                      (let ((case-fold-search nil))
+                        (replace-regexp-in-string
+                         (car my-php-src-to-test-mapping)
+                         (cdr my-php-src-to-test-mapping)
+                         (replace-regexp-in-string "\\.php\\'" ".phpt" file))))))
+      (unless (bound-and-true-p my-php-switch-to-source-function)
+        (setq-local my-php-switch-to-source-function
+                    (lambda (file)
+                      (let ((case-fold-search nil))
+                        (replace-regexp-in-string
+                         (cdr my-php-src-to-test-mapping)
+                         (car my-php-src-to-test-mapping)
+                         (replace-regexp-in-string "\\.phpt\\'" ".php" file))))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (add-hook 'my-newline-hook 'my-php-open-line nil :local)
       (c-set-style "php")
