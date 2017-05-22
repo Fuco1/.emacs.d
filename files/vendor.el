@@ -1634,6 +1634,14 @@ network prefix)."
     (defvar my-php-switch-to-source-function nil
       "Function used to compute source buffer name from test buffer name.")
 
+    (defvar my-php-src-to-test-mapping nil
+      "Mapping from src prefix to test prefix.")
+    (put 'my-php-src-to-test-mapping 'safe-local-variable
+         (lambda (x)
+           (and (consp x)
+                (stringp (car x))
+                (stringp (cdr x)))))
+
     (defun my-get-test-file ()
       "Get test file associated with current buffer.
 
