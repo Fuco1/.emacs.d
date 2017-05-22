@@ -1942,6 +1942,8 @@ SCOPE is the scope, one of: batch, thread, plid."
                                    (list
                                     "config/phpstan.neon"
                                     "app/config/phpstan.neon"
+                                    "tests/phpstan.neon"
+                                    "tests/config/phpstan.neon"
                                     )))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (add-hook 'my-newline-hook 'my-php-open-line nil :local)
