@@ -1628,10 +1628,10 @@ network prefix)."
 
     ;; TODO: generalize, this is not really php related.  Also rename,
     ;; these functions are not switching.
-    (defvar my-php-switch-to-test-function
+    (defvar my-php-switch-to-test-function nil
       "Function used to compute test buffer name from source buffer name.")
 
-    (defvar my-php-switch-to-source-function
+    (defvar my-php-switch-to-source-function nil
       "Function used to compute source buffer name from test buffer name.")
 
     (defun my-get-test-file ()
