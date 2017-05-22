@@ -1928,8 +1928,12 @@ SCOPE is the scope, one of: batch, thread, plid."
                   (concat (my-php-find-project-root)
                           "/vendor/bin/phpstan"))
       (setq-local flycheck-phpcs-standard
-                  (concat (my-php-find-project-root)
-                          "/ruleset.xml"))
+                  (-first 'file-exists-p
+                          (--map (concat (my-php-find-project-root) "/" it)
+                                 (list
+                                  "phpcs.xml"
+                                  "ruleset.xml"
+                                  ))))
       (unless (bound-and-true-p flycheck-phpstan-config)
         (setq-local flycheck-phpstan-config
                     ;; look into most common directories
