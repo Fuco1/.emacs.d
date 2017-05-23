@@ -12,12 +12,43 @@
 ;; Spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 
+;; Copy-paste from hippie-exp.el, function try-expand-all-abbrevs
+(defun my-try-expand-abbrevs (old)
+  "Try to expand word before point according to all abbrev tables.
+The argument OLD has to be nil the first call of this function, and t
+for subsequent calls (for further possible expansions of the same
+string).  It returns t if a new expansion is found, nil otherwise."
+  (if (not old)
+      (progn
+        (he-init-string (he-dabbrev-beg) (point))
+        (setq he-expand-list
+              (and (not (equal he-search-string ""))
+                   (mapcar (function (lambda (sym)
+                                       (if (and (boundp sym) (vectorp (eval sym)))
+                                           (abbrev-expansion (downcase he-search-string)
+                                                             (eval sym)))))
+                           ;; FUCO: here we only use the local table,
+                           ;; not all tables
+                           (list 'local-abbrev-table))))))
+  (while (and he-expand-list
+              (or (not (car he-expand-list))
+                  (he-string-member (car he-expand-list) he-tried-table t)))
+    (setq he-expand-list (cdr he-expand-list)))
+  (if (null he-expand-list)
+      (progn
+        (if old (he-reset-string))
+        ())
+    (progn
+      (he-substitute-string (car he-expand-list) t)
+      (setq he-expand-list (cdr he-expand-list))
+      t)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Hippie expand.  Groovy vans with tie-dyes.
 
 (setq hippie-expand-try-functions-list
       '(yas-hippie-try-expand
-        try-expand-all-abbrevs
+        my-try-expand-abbrevs
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill
