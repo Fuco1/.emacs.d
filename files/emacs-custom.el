@@ -1508,6 +1508,8 @@
   ("\\.mm\\'" . default)
   ("\\.x?html?\\'" . default)
   ("\\.pdf\\'" . "zathura --fork %s"))))
+ '(org-fontify-done-headline t)
+ '(org-fontify-whole-heading-line t)
  '(org-footnote-auto-label (quote random))
  '(org-footnote-define-inline t)
 '(org-format-latex-options

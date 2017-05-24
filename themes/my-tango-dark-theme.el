@@ -374,7 +374,7 @@ is extension of default `tango-dark' face.")
    (markup-alias (:inherit font-lock-type-face))
    (markup-reference (:inherit font-lock-keyword-face))
 
-   (markup-list-ordered (:inherit font-lock-builtin-face))
+   (markup-list-ordered (:inherit font-lock-type-face :weight bold))
    (markup-list-unordered (:inherit font-lock-builtin-face))
 
    (markup-blockquote (:inherit font-lock-doc-face))
@@ -460,6 +460,10 @@ is extension of default `tango-dark' face.")
    (org-property-value (:inherit markup-metadata-value))
 
    (org-mode-line-clock nil t)
+
+   (org-headline-done (:inherit shadow))
+   (org-list-dt (:inherit markup-list-ordered))
+   (org-checkbox (:inherit org-list-dt))
 
    ;; Textile
    (textile-h1-face (:inherit markup-header-1))

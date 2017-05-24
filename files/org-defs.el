@@ -843,7 +843,13 @@ The second part is a regexp to search in the buffer."
 
 (font-lock-add-keywords 'org-mode
                         `((,(my-org-emphasis-regexp "$" "$") 0 ,(my-org-emphasis-fontifier 'markup-math))
-                          (,(my-org-emphasis-regexp "{" "}") 0 ,(my-org-emphasis-fontifier 'shadow)))
+                          (,(my-org-emphasis-regexp "{" "}") 0 ,(my-org-emphasis-fontifier 'shadow))
+                          ;; Fontify done checkboxes, from https://github.com/hlissner/.emacs.d/blob/master/modules/lang/org/config.el
+                          ("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)" 1 'org-headline-done prepend)
+                          ;; Fontify list markers
+                          ("^ *\\([-+]\\|[0-9]+[).]\\) " 1 'org-list-dt t)
+                          ;; Fontify hashtags
+                          ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend))
                         'append)
 
 (bind-keys :map org-mode-map
