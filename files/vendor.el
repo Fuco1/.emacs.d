@@ -2355,6 +2355,12 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 (use-package world-time-mode
   :bind ("C-. t" . world-time-list))
 
+(use-package yaml-mode
+  :config
+  (defun my-yaml-mode-init ()
+    (font-lock-add-keywords nil '(("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append))
+  (add-hook 'yaml-mode-hook 'my-yaml-mode-init))
+
 (use-package yasnippet
   :diminish yas-minor-mode
   :commands (yas-minor-mode
