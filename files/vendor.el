@@ -523,8 +523,7 @@ Call the value of `my-get-compile-command' to generate the
          ("C-x T % *" . dired-tagsistant-all-tags-regexp)))
 
 (use-package ediff
-  :init
-  (bind-key "C-. =" 'hydra-ediff/body)
+  :bind ("C-. =" . hydra-ediff/body)
   :commands (ediff-buffers
              ediff-buffers3
              ediff-files
