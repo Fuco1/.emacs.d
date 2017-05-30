@@ -845,14 +845,20 @@ idle timer to do the actual update.")
 
 This is passed to the -l option in phpstan.  It is a good idea is
 to use a directory-local variable to specify this per-project."
-      :type 'file)
+      :type 'file
+      :safe (lambda (x)
+              (stringp x)
+              (file-exists-p x)))
 
     (flycheck-def-option-var flycheck-phpstan-level "3" php-phpstan
       "Strictness level phpstan uses to check the sources.
 
 This is passed to the -c option in phpstan.  A good idea is to
 use a directory-local variable to specify this per-project."
-      :type 'string)
+      :type 'string
+      :safe (lambda (x)
+              (and (stringp x)
+                   (string-match-p "\\`[0-9]+\\'" x))))
 
     (flycheck-define-checker php-phpstan
       "Checker for PHPStan"
