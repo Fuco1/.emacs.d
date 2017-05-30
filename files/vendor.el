@@ -1463,6 +1463,7 @@ If in the test file, visit source."
           ("C-c C-x <C-i-key>" . org-clock-in))
   :config
   (progn
+    (my-load-or-tangle "~/.emacs.d/files/org-defs")
     (load "~/.emacs.d/files/org-defs.el")))
 
 (use-package php-boris
