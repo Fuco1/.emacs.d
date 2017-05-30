@@ -410,7 +410,6 @@ Call the value of `my-get-compile-command' to generate the
   :config
   (progn
     (defun my-css-mode-setup ()
-      (when (featurep 'multi-web-mode) (multi-web-mode 1))
       (emmet-mode 1))
     (add-hook 'css-mode-hook 'my-css-mode-setup)))
 
@@ -1109,15 +1108,8 @@ use a directory-local variable to specify this per-project."
     (defun my-js-mode-init ()
       (-when-let (buffer (buffer-file-name))
         (when (string-match-p "conkeror" buffer)
-          (conkeror-minor-mode 1)))
-      (when (featurep 'multi-web-mode) (multi-web-mode 1)))
-    (add-hook 'js-mode-hook 'my-js-mode-init)
-    (defun my-js-disable-multi-web-mode ()
-      "Set current buffer to `js-mode' and disable `multi-web-mode'."
-      (interactive)
-      (js-mode)
-      (multi-web-mode -1)
-      (setq indent-region-function nil))))
+          (conkeror-minor-mode 1))))
+    (add-hook 'js-mode-hook 'my-js-mode-init)))
 
 (use-package json-mode
   :defer t
@@ -1374,27 +1366,6 @@ If in the test file, visit source."
          ("M-A" . mc/edit-beginnings-of-lines)
          ("M-E" . mc/edit-ends-of-lines)))
 
-(use-package multi-web-mode
-  :disabled t
-  :defer t
-  :config
-  (progn
-    (setq mweb-tags '((php-mode "<\\?php" "\\?>")
-                      (js-mode "<script[^>]*>" "</script>")
-                      (css-mode "<style[^>]*>" "</style>")))
-    (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-    (setq mweb-default-major-mode 'html-mode)
-
-    ;; redefined to properly re-set indentation functions
-    (defun mweb-disable ()
-      "Disable the minor mode."
-      (assq-delete-all 'multi-web-mode minor-mode-map-alist)
-      (remove-hook 'post-command-hook 'mweb-post-command-hook)
-      (cond
-       ((eq major-mode 'php-mode)
-        (setq indent-line-function 'php-cautious-indent-line)
-        (setq indent-region-function 'php-cautious-indent-region))))))
-
 (use-package neon-mode
   :mode ("\\.neon\\'" . neon-mode)
   :config
@@ -1492,7 +1463,7 @@ If in the test file, visit source."
 
 ;; TODO: move into a separate file
 (use-package php-mode
-  :mode ("\\.php[st]?\\'" . my-php-disable-multi-web-mode)
+  :mode ("\\.php[st]?\\'" . php-mode)
   :config
   (progn
     (use-package better-jump)
@@ -1784,12 +1755,6 @@ These are retrieved from `imenu--index-alist'."
       (let ((file (my-php-local-file-name (buffer-file-name))))
         (async-shell-command (format "phpcs --standard=PW %s" file))))
 
-    (defun my-php-disable-multi-web-mode ()
-      "Set current buffer to `php-mode' and disable `multi-web-mode'."
-      (interactive)
-      (php-mode)
-      (when (featurep 'multi-web-mode) (multi-web-mode -1)))
-
     (defvar my-php-wrap-with-profiler-call-history nil
       "History for profiler name.")
 
@@ -1943,7 +1908,6 @@ SCOPE is the scope, one of: batch, thread, plid."
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
       (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name)))
-      (when (featurep 'multi-web-mode) (multi-web-mode 1))
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
 
@@ -2045,7 +2009,6 @@ SCOPE is the scope, one of: batch, thread, plid."
       (cleanup-buffer))
 
     (defun my-html-mode-setup ()
-      (when (featurep 'multi-web-mode) (multi-web-mode 1))
       (emmet-mode 1)
       (smartparens-mode 1)
       (bind-keys :map html-mode-map
