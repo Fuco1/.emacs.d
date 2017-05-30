@@ -1498,6 +1498,7 @@ If in the test file, visit source."
     (use-package better-jump)
     (use-package php-eldoc)
     (use-package php-refactor)
+    (use-package emacs-nette-tester)
 
     (font-lock-add-keywords 'php-mode '(("[^:]\\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
@@ -1580,36 +1581,6 @@ network prefix)."
        "--single-update"
        (my-php-local-file-name
         (expand-file-name (buffer-file-name)))))
-
-    (defvar my-php-nette-tester-diff-keymap
-      (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "RET") 'my-php-nette-tester-ediff)
-        (define-key map [mouse-2] 'my-php-nette-tester-ediff)
-        map)
-      "Map used to run ediff on nette tester \"diff\" output.")
-
-    (defun my-php-nette-tester-ediff ()
-      "Run `ediff' on the files on current line."
-      (interactive)
-      (-let (((_ file-a file-b) (split-string (thing-at-point 'line) "'" t " +")))
-        (ediff-files file-a file-b)))
-
-    (push `(nette-tester
-            ,(rx-to-string
-              '(and "-- FAILED: " (* not-newline) 10
-                    (or
-                     ;; We make the entire diff section optional
-                     (? (*? (* not-newline) 10)
-                        (and "   " (group "diff" (*? not-newline)) 10)
-                        (*? (* not-newline) 10)
-                        (and "   in " (group (*? not-newline) ".phpt") "(" (group (1+ digit)) ")"))
-                     ;; In case no diff is there just go to the file name
-                     (? (*? (* not-newline) 10)
-                        (and "   in " (group (*? not-newline) ".phpt") "(" (group (1+ digit)) ")")))))
-            2 3 nil 2 2 (1 (list 'face 'underline
-                                 'keymap my-php-nette-tester-diff-keymap
-                                 'mouse-face 'highlight)))
-          compilation-error-regexp-alist-alist)
 
     (defun my-php-compile ()
       (interactive)

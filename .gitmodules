@@ -16,6 +16,9 @@
 [submodule "projects/elwm"]
 	path = projects/elwm
 	url =  git@github.com:Fuco1/elwm.git
+[submodule "projects/emacs-nette-tester"]
+	path = projects/emacs-nette-tester
+	url = git@github.com:Fuco1/emacs-nette-tester.git
 [submodule "projects/ETable"]
 	path = projects/ETable
 	url =  git@github.com:Fuco1/ETable.git
