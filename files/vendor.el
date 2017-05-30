@@ -871,8 +871,8 @@ use a directory-local variable to specify this per-project."
     (add-to-list 'flycheck-checkers 'php-phpstan 'append)
 
     (flycheck-add-next-checker 'php '(warning . php-phpstan) 'append)
-    (flycheck-add-next-checker 'php-phpmd '(warning . php-phpstan) 'append)
-    (flycheck-add-next-checker 'php-phpcs '(warning . php-phpstan) 'append)
+    (flycheck-add-next-checker 'php-phpmd 'php-phpstan 'append)
+    (flycheck-add-next-checker 'php-phpcs 'php-phpstan 'append)
 
     ;; (use-package flycheck-ledger)
     (use-package indicators)
