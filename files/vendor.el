@@ -1481,7 +1481,7 @@ If in the test file, visit source."
     (use-package better-jump)
     (use-package php-eldoc)
     (use-package php-refactor)
-    (use-package emacs-nette-tester)
+    (use-package nette-tester)
 
     (font-lock-add-keywords 'php-mode '(("[^:]\\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
