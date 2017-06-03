@@ -1257,7 +1257,8 @@ Switch projects and subprojects from NEXT back to TODO"
 (defun my-org-export-read-books-do-export (buf)
   "Buf is the buffer into which the export is written."
   (goto-char (point-min))
-  (forward-line)
+  (goto-char (next-single-property-change (point) 'todo-state))
+  (forward-line -1)
   (let ((index 0))
     (with-current-buffer buf
       (insert "|-+-+-+-+-+-|\n")
