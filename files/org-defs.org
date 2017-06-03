@@ -62,6 +62,70 @@ The function also showcases work with the org tag API which I personally find ra
 
 I also wanted to add the functionality to preserve the inherited tags from the original position so that refiling would be tag-neutral operation.  But that actually proved rather annoying because the point of refiling under a differnet hierarchy is to /not/ have the same tags... otherwise why would you refile at all.
 
+* DONE Fontify done checkbox items in org-mode
+  CLOSED: [2017-05-25 Thu 00:10]
+  :PROPERTIES:
+  :BLOG_FILENAME: 2017-05-25-Fontify-done-checkbox-items-in-org-mode
+  :END:
+  :CLOCK:
+  CLOCK: [2017-05-24 Wed 23:58]--[2017-05-25 Thu 00:25] =>  0:27
+  :END:
+  :LOGBOOK:
+  - State "DONE"       from              [2017-05-25 Thu 00:10]
+  :END:
+
+My computer crashed over the weekend and during the re-installation I started migrating my install scripts to puppet (I had roughly 60% covered by puppet prior to that already), so I made a check list in org with all the things to not forget to include.  The list grew quite large and hard to process visually.
+
+There is a somewhat nice feature of org mode which you can turn on using =org-fontify-done-headline= flag; if set to =t=, =DONE= headlines will be highlighted in =org-headline-done= face.  I let this face inherit from =shadow= which effectively removes these lines from my attention.
+
+So to solve my problem naturally I would like to extend this behaviour to checkbox lists.  I don't always do them in sequence and so the gradual change from "normal" to "hidden" lines nicely illustrates the progress and makes the todo items stand out.
+
+Just throw the following somewhere and reload the org buffers (close and reopen or toggle =fundamental-mode= then =org-mode= again).
+
+#+BEGIN_SRC elisp
+(font-lock-add-keywords
+ 'org-mode
+ `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)" 1 'org-headline-done prepend))
+ 'append)
+#+END_SRC
+
+Here's how it looks (list shortened for clarity):
+
+#+BEGIN_SRC org
+,*** TODO Puppet
+    :CLOCK:
+    CLOCK: [2017-05-21 Sun 18:00]--[2017-05-21 Sun 21:55] =>  3:55
+    :END:
+- [ ] cli :: Add youtube-dl
+- [ ] org :: Add plantuml.jar
+- [X] emacs :: Add Cask
+- [ ] haskell :: Add Cabal sandbox support and build everything in sandboxes
+- [ ] php :: Add Composer
+- [ ] emacs :: Add EVM
+- [ ] ruby :: Add RVM
+- [ ] node :: Add NVM
+- [ ] node :: Add NPM
+- [X] linux :: Add Wine + Winetricks
+- [ ] latin :: Add whitakers-words
+- [ ] puppet :: Add support to install "docker" apps
+- [X] setup :: Ensure download-local directory
+- [ ] prog :: Install global (6.5 at least)
+- [ ] linux :: Install pasystray (git)
+- [ ] prog :: Install ag (0.31.0+)
+- [X] cli :: Install tmux (2.0+)
+- [ ] linux :: Install twmn
+- [X] desktop :: Install slack (from .deb)
+- [ ] cli :: Install fisher
+- [X] cli ::Install ledger (from package + elisp mode from source?)
+- [ ] mail :: Install isync
+#+END_SRC
+
+(Also note that the above is /not/ a screenshot, it is an embedded =org-mode= snippet in =org-mode='s =#+BEG_SRC= block.  Inception.)
+
+I stole the regexp from [[https://github.com/hlissner/.emacs.d/blob/master/modules/lang/org/config.el][hlissner's emacs.d]] who apparently came to the same conclusion.  It's a rather nice collection of stuff so check it out, but be warned, it is /super/ idiosyncratic... which in Emacs translation basically means awesome :)
+
+* Backmatter
+
 #+BEGIN_SRC elisp
 (provide 'org-defs-tangled)
 #+END_SRC
