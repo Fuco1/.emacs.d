@@ -395,6 +395,7 @@ is extension of default `tango-dark' face.")
    (rst-literal (:inherit markup-inline-code))
 
    (rst-directive (:inherit markup-inline-code :foreground plum-1))
+   (rst-reference (:inherit markup-link))
 
    ;; Markdown
    (markdown-header-face-1 (:inherit markup-header-1))
