@@ -67,4 +67,49 @@
 ** Sub-B1
 ** Sub-B2 :math:
 *** refile :new:
-")))))
+"))))
+
+
+  (describe "agenda"
+
+    (it "should remove duplicate habits from the agenda."
+      (my-with-temp-org-file "* TODO Latin
+  SCHEDULED: <2017-06-04 Sun +2d>
+  :PROPERTIES:
+  :STYLE:    habit
+  :END:
+  SCHEDULED: <2017-06-02 Fri +2d>
+  SCHEDULED: <2017-06-03 Sat +2d>
+"
+        (let ((org-agenda-files (list (buffer-file-name)))
+              (org-agenda-span 'day)
+              (org-agenda-finalize-hook
+               (list 'my-org-agenda-remove-duplicate-habits
+                     'my-org-agenda-remove-empty-lists)))
+          (org-agenda-list nil (time-to-days
+                                (org-time-string-to-time "<2017-06-04>")))
+          (goto-char (point-max))
+          (expect (line-number-at-pos) :to-be 4))))
+
+
+    (it "should not remove duplicate clocked entries from the agenda."
+      (my-with-temp-org-file "* TODO Latin
+  SCHEDULED: <2017-06-04 Sun +2d>
+  :PROPERTIES:
+  :STYLE:    habit
+  :END:
+  :CLOCK:
+  CLOCK: [2017-06-04 Sun 21:30]--[2017-06-04 Sun 21:33]
+  CLOCK: [2017-06-04 Sun 21:24]--[2017-06-04 Sun 21:29]
+  :END:
+"
+        (let ((org-agenda-files (list (buffer-file-name)))
+              (org-agenda-span 'day)
+              (org-agenda-finalize-hook
+               (list 'my-org-agenda-remove-duplicate-habits
+                     'my-org-agenda-remove-empty-lists)))
+          (org-agenda-list nil (time-to-days
+                                (org-time-string-to-time "<2017-06-04>")))
+          (org-agenda-log-mode 1)
+          (goto-char (point-max))
+          (expect (line-number-at-pos) :to-be 14))))))

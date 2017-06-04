@@ -427,9 +427,12 @@ overdue and a habit it is inserted multiple times."
                            (point-marker)))))))
             (if (and p
                      (equal (org-entry-get p "STYLE") "habit")
-                     (member p visited))
-                (delete-region (point-at-bol) (1+ (point-at-eol)))
-              (when p (push p visited))
+                     (not (--when-let (org-get-at-bol 'extra)
+                            (string-match-p "^Clocked" it))))
+                (if (member p visited)
+                    (delete-region (point-at-bol) (1+ (point-at-eol)))
+                  (push p visited)
+                  (forward-line 1))
               (forward-line 1))))
         (--each visited (set-marker it nil)))))
 
