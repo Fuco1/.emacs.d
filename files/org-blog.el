@@ -1,4 +1,7 @@
 (require 'ox-publish)
+(require 'ox-rss)
+
+(require 'f)
 
 (defun my-org-find-with-tags (match)
   "Find all headings in agenda files that match MATCH.
@@ -79,10 +82,12 @@ where the replaced link is."
     (-if-let (closed (org-entry-get pom "CLOSED"))
         (let* ((file (my-org-blog--get-filename-from-header pom))
                (base (my-org-publish-property "blog-posts" :base-directory))
+               (link-home (my-org-publish-property "blog-rss" :html-link-home))
                (full-file (concat base "/" file ".org"))
                (tree (my-org--get-subtree-string))
                (source-buffer (current-buffer)))
           (org-entry-put pom "BLOG_FILENAME" file)
+          (org-entry-put pom "PUBDATE" closed)
           (make-directory (file-name-directory full-file) :parents)
           (with-temp-file full-file
             (let ((export-buffer (current-buffer)))
@@ -136,9 +141,39 @@ do not run `org-publish'."
         (message "Publishing %s" (org-get-heading :no-tags :no-todo))
         (my-org-publish :dont-publish)))))
 
+(defun my-org-publish-rss (project &optional sitemap-filename)
+  (org-publish-org-sitemap project sitemap-filename)
+  (let* ((base (my-org-publish-property "blog-rss" :base-directory))
+         (link-home (my-org-publish-property "blog-rss" :html-link-home))
+         (posts (f-entries base
+                           (lambda (post)
+                             (and (f-ext-p post "org")
+                                  (not (member (f-filename post)
+                                               (list "rss.org" "sitemap.org"))))))))
+    (with-temp-file (concat base "/rss.org")
+      (erase-buffer)
+      (-each (nreverse posts)
+        (lambda (post)
+          (let ((title (org-publish-find-title post))
+                (date (org-publish-find-date post)))
+            (insert (format "* %s
+:PROPERTIES:
+:RSS_PERMALINK: %s
+:PUBDATE: <%s>
+:END:
+#+include: \"%s\" :lines \"3-\"
+
+"
+                            title
+                            (replace-regexp-in-string
+                             "\\.org$" ".html"
+                             (f-filename post))
+                            (format-time-string "%Y-%m-%d" date)
+                            post))))))))
+
 (setq org-publish-project-alist
       `(("blog"
-         :components ("blog-posts"))
+         :components ("blog-posts" "blog-rss"))
         ("blog-posts"
          :base-directory ,(expand-file-name "~/documents/blog/posts")
          :publishing-directory ,(expand-file-name "~/documents/blog/")
@@ -146,6 +181,7 @@ do not run `org-publish'."
 
          :auto-sitemap t
          :sitemap-title "Archive"
+         :sitemap-function my-org-publish-rss
          :sitemap-file-entry-format "%d %t"
          :sitemap-sort-files 'anti-chronologically
 
@@ -176,6 +212,7 @@ do not run `org-publish'."
   <a href=\"https://www.patreon.com/user?u=3282358\">Patreon</a>
 </div>
 <div style=\"text-align: right;\">
+  <a href=\"https://fuco1.github.io/rss.xml\">RSS</a>
   <a href=\"https://twitter.com/Fuco1337\">Twitter</a>
 </div>
 <hr />"))
@@ -189,4 +226,18 @@ do not run `org-publish'."
               (format-time-string "%Y-%m-%d %H:%M")
               (replace-regexp-in-string
                (regexp-quote base)
-               "https://github.com/Fuco1/fuco1.github.io/blob/master/" input)))))))
+               "https://github.com/Fuco1/fuco1.github.io/blob/master/" input)))))
+        ("blog-rss"
+         :base-directory ,(expand-file-name "~/documents/blog/posts")
+         :base-extension "org"
+         :publishing-directory ,(expand-file-name "~/documents/blog/")
+         :publishing-function org-rss-publish-to-rss
+
+         :html-link-home "https://fuco1.github.io/"
+         :html-link-use-abs-url t
+
+         :title "Matus Goljer (Fuco1)"
+         :section-numbers nil
+         :exclude ".*"
+         :include ("rss.org")
+         :table-of-contents nil)))
