@@ -40,21 +40,22 @@ list of always-create directories."
 (defun my-setup-load-path ()
   "Add extra entries to `load-path', such as paths to dev
   versions of packages."
-  (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
-  (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/")
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/special/")
-  (mapc (lambda (dir)
-          (add-to-list 'load-path dir)
-          (-when-let
-              (autoloads (--filter
-                          (string-match-p "autoloads\\.el$" it)
-                          (f-files dir)))
-            (mapc 'load autoloads)))
-        (f-directories "~/.emacs.d/vendor"))
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/projects"))
-  (mapc (apply-partially 'add-to-list 'load-path) (f-directories "~/.emacs.d/dev/"))
-  (mapc (lambda (dir) (load (concat dir "/" (f-base dir) "-autoloads.el") t t))
-        (f-directories "~/.emacs.d/dev/")))
+  (let ((prefix (if (getenv "CI") "/build/Fuco1" "")))
+    (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
+    (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
+    (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/" prefix))
+    (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/special/" prefix))
+    (mapc (lambda (dir)
+            (add-to-list 'load-path dir)
+            (-when-let
+                (autoloads (--filter
+                            (string-match-p "autoloads\\.el$" it)
+                            (f-files dir)))
+              (mapc 'load autoloads)))
+          (f-directories (format "~%s/.emacs.d/vendor" prefix)))
+    (mapc (apply-partially 'add-to-list 'load-path) (f-directories (format "~%s/.emacs.d/projects" prefix)))
+    (mapc (apply-partially 'add-to-list 'load-path) (f-directories (format "~%s/.emacs.d/dev/" prefix)))
+    (mapc (lambda (dir) (load (concat dir "/" (f-base dir) "-autoloads.el") t t))
+          (f-directories (format "~%s/.emacs.d/dev/" prefix)))))
 
 (provide 'my-bootstrap)

@@ -3,6 +3,7 @@
 (require 'my-test-helper)
 
 (require 'dired-defs)
+(require 'dired-defs-tangled)
 
 (require 'assess)
 

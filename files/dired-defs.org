@@ -335,3 +335,9 @@ To use this just add =my-dired-imenu-init= to =dired-mode-hook=.
 #+END_SRC
 
 The code depends on =f= and =dash=.
+
+* Backmatter
+
+#+BEGIN_SRC elisp
+(provide 'dired-defs-tangled)
+#+END_SRC
