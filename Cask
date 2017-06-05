@@ -89,6 +89,7 @@
 (depends-on "php-refactor-mode")
 (depends-on "pos-tip")
 (depends-on "projectile")
+(depends-on "psysh")
 (depends-on "puppet-mode")
 (depends-on "rainbow-mode")
 (depends-on "scf-mode")

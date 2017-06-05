@@ -1971,6 +1971,13 @@ SCOPE is the scope, one of: batch, thread, plid."
                (list regexp files dir confirm))))))
       (rgrep regexp files dir confirm))))
 
+(use-package psysh
+  :commands (psysh)
+  :config
+  (defun my-psysh-mode-init ()
+    (smartparens-strict-mode 1))
+  (add-hook 'psysh-mode-hook 'my-psysh-mode-init))
+
 (use-package quail
   :config
   (progn
