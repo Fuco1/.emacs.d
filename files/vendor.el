@@ -1998,6 +1998,12 @@ SCOPE is the scope, one of: batch, thread, plid."
   (progn
     (defvar my-recentf-autosave-timer (run-with-timer 500 500 'recentf-save-list))))
 
+(use-package restclient-mode
+  :config
+  (defun my-restclient-mode-init ()
+    (smartparens-strict-mode 1))
+  (add-hook 'restclient-mode-hook 'my-restclient-mode-init))
+
 (use-package rst
   :config
   (progn
