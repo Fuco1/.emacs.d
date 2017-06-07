@@ -241,6 +241,10 @@ is extension of default `tango-dark' face.")
    (font-lock-variable-name-face (:foreground orange-1))
    (font-lock-negation-char-face (:foreground red-0))
 
+   ;; sh-mode
+   (sh-heredoc (:inherit font-lock-string-face :weight bold))
+   (sh-quoted-exec (:inherit markup-math))
+
    ;; Outline
    (outline-1 (:foreground gradient-1))
    (outline-2 (:foreground gradient-2))
