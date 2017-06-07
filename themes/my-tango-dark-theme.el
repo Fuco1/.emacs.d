@@ -573,6 +573,7 @@ is extension of default `tango-dark' face.")
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; eval: (font-lock-add-keywords nil (-map (-lambda ((face . color)) (let ((pattern (concat "\\_<" (symbol-name face) "\\_>")) (color-resolved (if (stringp color) color (cdr (assq color (cdar my-tango-colors)))))) (list pattern 0 `(rainbow-colorize-match ,color-resolved)))) (cdar my-tango-colors)))
+;; eval: (rainbow-mode 1)
 ;; End:
 
 ;;; my-tango-dark-theme.el ends here
