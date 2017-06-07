@@ -350,6 +350,7 @@
  '(epg-gpg-program "gpg2")
  '(eshell-aliases-file "/home/matus/.emacs.d/etc/eshell/alias")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
+ '(eshell-last-dir-ring-file-name "/home/matus/.emacs.d/.cache/eshell/lastdir")
  '(eshell-output-filter-functions
    (quote
     (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
