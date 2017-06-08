@@ -1969,7 +1969,7 @@ SCOPE is the scope, one of: batch, thread, plid."
       (rgrep regexp files dir confirm))))
 
 (use-package psysh
-  :commands (psysh)
+  :bind ("C-. b" . psysh)
   :config
   (defun my-psysh-mode-init ()
     (smartparens-strict-mode 1))
