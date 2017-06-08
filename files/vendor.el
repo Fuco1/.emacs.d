@@ -1864,6 +1864,8 @@ SCOPE is the scope, one of: batch, thread, plid."
 
     (defun my-php-mode-init ()
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
+      (when (string-match-p "/vendor/"(buffer-file-name))
+        (flycheck-mode -1))
       (setq-local flycheck-php-phpstan-executable
                   (concat (my-php-find-project-root)
                           "/vendor/bin/phpstan"))
