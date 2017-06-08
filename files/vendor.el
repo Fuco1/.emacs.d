@@ -1867,6 +1867,10 @@ SCOPE is the scope, one of: batch, thread, plid."
       (setq-local flycheck-php-phpstan-executable
                   (concat (my-php-find-project-root)
                           "/vendor/bin/phpstan"))
+      (let ((phpcs (concat (my-php-find-project-root)
+                           "/vendor/bin/phpcs")))
+        (when (file-exists-p phpcs)
+          (setq-local flycheck-php-phpcs-executable phpcs)))
       (setq-local flycheck-phpcs-standard
                   (-first 'file-exists-p
                           (--map (concat (my-php-find-project-root) "/" it)
