@@ -1466,13 +1466,6 @@ If in the test file, visit source."
     (my-load-or-tangle "~/.emacs.d/files/org-defs")
     (load "~/.emacs.d/files/org-defs.el")))
 
-(use-package php-boris
-  :config
-  (progn
-    (defun my-php-boris-mode-init ()
-      (smartparens-mode 1))
-    (add-hook 'php-boris-mode-hook 'my-php-boris-mode-init)))
-
 ;; TODO: move into a separate file
 (use-package php-mode
   :mode ("\\.php[st]?\\'" . php-mode)

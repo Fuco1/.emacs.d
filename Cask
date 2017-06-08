@@ -82,8 +82,6 @@
 (depends-on "paren-face")
 (depends-on "parse-csv")
 (depends-on "password-generator")
-(depends-on "php-boris")
-(depends-on "php-boris-minor-mode")
 (depends-on "php-eldoc")
 (depends-on "php-mode")
 (depends-on "php-refactor-mode")

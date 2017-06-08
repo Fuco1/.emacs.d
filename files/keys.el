@@ -150,8 +150,7 @@
   ("s" . my-sprunge)
   ("r" . align-regexp)
   ("C-d" . my-change-identifier-style)
-  ("/" . my-insert-date-iso)
-  ("b" . php-boris))
+  ("/" . my-insert-date-iso))
 
 (bind-keys :map ctl-dot-prefix-map
            :prefix "p"
