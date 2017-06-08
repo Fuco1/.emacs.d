@@ -35,7 +35,7 @@
     (defun my-org-block-next-change-on-dependency (_change-plist)
       "If the blocker is not `done', do not allow switch to `todo'."
       (-if-let* ((blocker-id (org-entry-get (point) "BLOCKER"))
-                 (blocker (org-find-entry-with-id blocker-id)))
+                 (blocker (org-id-find blocker-id)))
           (org-with-point-at blocker
             (if (member (org-get-todo-state) (cons 'done org-done-keywords)) t
               (setq org-block-entry-blocking (org-get-heading))
@@ -51,6 +51,7 @@
         (-when-let (target (org-refile-get-location "Blocker"))
           (org-with-point-at (-last-item target)
             (setq id (org-id-get-create)))
+          ;; TODO: make the BLOCKER property multivalued
           (org-set-property "BLOCKER" id))))
 
     (defun my-org-goto-blocker ()
@@ -65,10 +66,8 @@
        (list (let ((org-refile-targets '((nil :maxlevel . 9))))
                (org-refile-get-location "Trigger task"))
              (completing-read "to state: " (-concat org-done-keywords org-not-done-keywords))))
-      (let* ((org-refile-targets '((nil :maxlevel . 9)))
-             id)
-        (org-with-point-at (-last-item target)
-          (setq id (org-id-get-create)))
+      (let* ((id (org-with-point-at (-last-item target)
+                   (org-id-get-create))))
         (org-set-property "TRIGGER" (format "%s(%s)" id state))))
 
     (defun my-org-goto-trigger ()
