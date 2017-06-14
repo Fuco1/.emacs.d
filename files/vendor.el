@@ -5,6 +5,10 @@
 
 (require 'use-package)
 
+;; TODO: make this also load the regular file so we never forget
+;; loading either that or the tangled org source.
+;; TODO: check the timestamps on org file and the tangled result file
+;; and re-tangle if necessary
 (defun my-load-or-tangle (config-file)
   "Load CONFIG-FILE.
 
@@ -502,6 +506,7 @@ Call the value of `my-get-compile-command' to generate the
         (ido-dired))))
   :config
   (progn
+    (my-load-or-tangle "~/.emacs.d/files/dired-defs")
     (load "~/.emacs.d/files/dired-defs")
 
     ;; overload to fix bullshit
