@@ -1,4 +1,4 @@
-#+PROPERTY: header-args:elisp :tangle dired-tangled.el
+#+PROPERTY: header-args:elisp :tangle dired-defs-tangled.el
 #+HTML_HEAD_EXTRA: <style>pre {border: 1px solid #ccc; color: #eeeeec; background-color: #2e3436; box-shadow: 3px 3px 3px #eee; padding: 8pt; font-family: monospace; overflow: auto; margin: 1.2em;}</style>
 
 Enable lexical binding by default.
