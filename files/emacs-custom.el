@@ -704,7 +704,7 @@
 '(omnisharp-server-executable-path
 "/home/matus/sources/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
  '(org-M-RET-may-split-line nil)
- '(org-adapt-indentation t)
+ '(org-adapt-indentation nil)
 '(org-agenda-clock-consistency-checks
 (quote
  (:max-duration "10:00" :min-duration 0 :max-gap "0:20" :gap-ok-around
@@ -1524,6 +1524,7 @@
  '(org-hide-emphasis-markers t)
  '(org-hide-leading-stars t)
  '(org-id-locations-file "~/.emacs.d/.cache/org/.org-id-locations")
+ '(org-indent-indentation-per-level 1)
  '(org-inline-image-resolve-url (quote (org-inline-image--regexp-resolver identity)))
  '(org-latex-tables-centered nil)
  '(org-log-done (quote note))
