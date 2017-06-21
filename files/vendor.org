@@ -6,6 +6,116 @@ Enable lexical binding by default.
 ;; -*- lexical-binding: t -*-
 #+END_SRC
 
+* Sh-mode
+** DONE Font-lock interpolated variables inside double-quoted strings
+   CLOSED: [2017-06-11 Sun 20:58]
+   :PROPERTIES:
+   :BLOG_TITLE: Font-locking with custom matchers
+   :BLOG_FILENAME: 2017-06-11-Font-locking-with-custom-matchers
+   :PUBDATE:  [2017-06-11 Sun 20:58]
+   :END:
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-06-11 Sun 20:58]
+   :END:
+   :CLOCK:
+   CLOCK: [2017-06-11 Sun 20:20]--[2017-06-11 Sun 21:27] =>  1:07
+   :END:
+
+#+NAME: sh-mode-changelog
+|       Date | Change                                                                        |
+|------------+-------------------------------------------------------------------------------|
+| 2017-06-21 | The regexp was fixed to match =$FOO_BAR= and skip escaped dollars (see this [[https://github.com/Fuco1/Fuco1.github.io/pull/6][PR]]) |
+
+Previously I have written about [[file:~/org/emacs.org::*The%20absolute%20awesomeness%20of%20anchored%20font-lock%20matchers][font-lock anchored matchers]].  Today I have come across another problem and another solution with Emacs's font-lock mechanism.  This trend is starting to annoy me.
+
+I now work at a DevOps position and so I have been writing a lot of shell scripts lately to glue all the stuff we do together.  One missing feature that kept bugging me was the font-locking of interpolated variables in =sh-mode=... that is, the fact that there wasn't any!
+
+#+BEGIN_SRC bash
+FOO="hello"
+# ugly brown!
+BAR="hello $FOO"
+# I would really like to see that $FOO is *not* being interpolated
+BAZ='hello $FOO'
+# in regular usage things are highlighted, but you should always quote, right?
+bash $FOO $BAR ${BAZ}
+#+END_SRC
+
+The problem with shell programming is that you quote 90% of the time and so the font-locking is wasted :/  You might say, well, just throw in the regexp, right?  Not quite.  We do not want to highlight variables in single-quoted strings where they are not interpolated.  This means we need to only match variables in certain syntactic context.
+
+In the previous post I mentioned you can use custom matchers which are essentially regular elisp functions so long as you conform to the interface of =re-search-forward=.  So that is exactly what I've done.
+
+The following function is a bit convoluted because you need to check the parse state.  Note that the function should only "process" *one* match as =font-lock= will execute it in a loop until it returns =nil= or moves point after the =limit=.
+
+1. Look for the next string matching a variable syntax, which is either
+   - a =$= followed by word syntax, or
+   - a =$= followed by text enclosed in ={}.=
+2. If no match then return nil.  This will tell the font-lock engine
+   there is nothing to do up to =limit=.  This happens if the
+   =re-search-forward= returns =nil= right away or eventually runs out of
+   matches as we get over =limit=.
+3. If match, check if we are inside a double-quoted string.
+   - If so, great, announce a match with a =throw= and the point where
+     we ended (this is not strictly necessary, you only need to
+     return non-nil).
+   - If not =GOTO 1=.
+
+#+NAME: sh-mode-my-match-variables-in-quotes
+#+BEGIN_SRC elisp :tangle no
+(defun my-match-variables-in-quotes (limit)
+  "Match variables in double-quotes in `sh-mode'."
+  (with-syntax-table sh-mode-syntax-table
+    (catch 'done
+      (while (re-search-forward
+              ;; `rx' is cool, mkay.
+              (rx (or line-start (not (any "\\")))
+                  (group "$")
+                  (group
+                   (or (and "{" (+? nonl) "}")
+                       (and (+ (any alnum "_")))
+                       (and (any "*" "@" "#" "?" "-" "$" "!" "0" "_")))))
+              limit t)
+        (-when-let (string-syntax (nth 3 (syntax-ppss)))
+          (when (= string-syntax 34)
+            (throw 'done (point))))))))
+#+END_SRC
+
+Add the support to the current buffer (use =nil= as first argument) or =sh-mode= globally (use ='sh-mode=):
+
+#+NAME: sh-mode-font-lock-add-keywords
+#+BEGIN_SRC elisp :tangle no
+(font-lock-add-keywords
+ 'sh-mode '((my-match-variables-in-quotes
+             (1 'default t)
+             (2 font-lock-variable-name-face t))))
+#+END_SRC
+
+Quite simple and the outcome is very satisfying.  Makes reading shell scripts a lot better in my opinion.  If any of you cares to submit this upstream go ahead, I have signed the contributor papers but I hereby withdraw all claims on the above code so you don't have to go through hoops :)
+
+#+BEGIN_SRC sh
+FOO="hello"
+# yay
+BAR="hello $FOO and also ${FOO}"
+# No interpolation in single-quotes
+BAZ='hello $FOO'
+#+END_SRC
+
+** Final code
+
+The derived =bash-mode= here has no significance except to make font-locking in [[*Font-lock interpolated variables inside double-quoted strings][this blog post]] look correct.  I am lazy to change it each time I re-publish so I made this automatic.
+
+#+BEGIN_SRC elisp :noweb yes
+(use-package sh-mode
+  :defer t
+  :init
+  (progn
+    (define-derived-mode bash-mode sh-mode "Bash mode")
+
+    <<sh-mode-my-match-variables-in-quotes>>
+
+    <<sh-mode-font-lock-add-keywords>>
+    ))
+#+END_SRC
+
 * Shell-mode
 
 ** DONE Turn on context-aware modes on shell command output         :published:
