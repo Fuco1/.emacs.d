@@ -65,7 +65,7 @@ associated with the original non-sudo filename."
              (success nil))
          (unwind-protect
              (progn
-               (setq buffer-file-name (concat "/sudo::" buffer-file-name))
+               (setq buffer-file-name (concat "/sudo:localhost:" buffer-file-name))
                (save-buffer)
                (setq success t))
            (setq buffer-file-name old-buffer-file-name)
