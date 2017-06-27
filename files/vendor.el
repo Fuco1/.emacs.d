@@ -2296,7 +2296,8 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :commands wc-mode)
 
 (use-package web-mode
-  :mode (("\\.tpl\\'" . web-mode)))
+  :mode (("\\.tpl\\'" . web-mode)
+         ("\\.twig\\'" . web-mode)))
 
 (use-package which-key
   :defer 2)
