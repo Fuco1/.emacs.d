@@ -2322,6 +2322,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 (use-package yaml-mode
   :config
   (defun my-yaml-mode-init ()
+    (smartparens-mode 1)
     (font-lock-add-keywords nil '(("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append))
   (add-hook 'yaml-mode-hook 'my-yaml-mode-init))
 
