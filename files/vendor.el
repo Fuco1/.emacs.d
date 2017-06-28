@@ -1386,7 +1386,8 @@ If in the test file, visit source."
   :mode ("\\.neon\\'" . neon-mode)
   :config
   (defun my-neon-mode-init ()
-    (smartparens-mode 1))
+    (smartparens-mode 1)
+    (smartparens-strict-mode 1))
   (add-hook 'neon-mode-hook 'my-neon-mode-init))
 
 (use-package notmuch
@@ -2323,6 +2324,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :config
   (defun my-yaml-mode-init ()
     (smartparens-mode 1)
+    (smartparens-strict-mode 1)
     (font-lock-add-keywords nil '(("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append))
   (add-hook 'yaml-mode-hook 'my-yaml-mode-init))
 
