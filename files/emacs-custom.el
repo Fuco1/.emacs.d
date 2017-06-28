@@ -1650,6 +1650,7 @@
  (("lemma" 32 "lem:" "~\\cref{%s}" nil nil)
   ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
  '(require-final-newline t)
+ '(restclient-inhibit-cookies t)
 '(safe-local-variable-values
 (quote
  ((org-refile-targets
