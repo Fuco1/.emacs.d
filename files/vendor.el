@@ -2298,7 +2298,8 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 
 (use-package web-mode
   :mode (("\\.tpl\\'" . web-mode)
-         ("\\.twig\\'" . web-mode)))
+         ("\\.twig\\'" . web-mode)
+         ("\\.hbs\\'" . web-mode)))
 
 (use-package which-key
   :defer 2)
