@@ -1892,6 +1892,7 @@ SCOPE is the scope, one of: batch, thread, plid."
                     (-first 'file-exists-p
                             (--map (concat (my-php-find-project-root) "/" it)
                                    (list
+                                    "phpstan.neon"
                                     "config/phpstan.neon"
                                     "app/config/phpstan.neon"
                                     "tests/phpstan.neon"
