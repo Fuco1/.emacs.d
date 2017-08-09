@@ -1482,7 +1482,7 @@ If in the test file, visit source."
     (use-package php-refactor)
     (use-package nette-tester)
 
-    (font-lock-add-keywords 'php-mode '(("[^:]\\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
+    (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
     (bind-key "C-x C-d"
               (defhydra hydra-php-refactor (:color blue)
