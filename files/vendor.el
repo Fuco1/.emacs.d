@@ -993,6 +993,7 @@ use a directory-local variable to specify this per-project."
   :defer t
   :config
   (progn
+    (bind-key "C-c C-t" 'ft-find-test-or-source js-mode-map)
     (defun my-js-mode-init ()
       (-when-let (buffer (buffer-file-name))
         (when (string-match-p "conkeror" buffer)
@@ -1352,6 +1353,7 @@ If in the test file, visit source."
     (use-package better-jump)
     (use-package php-eldoc)
     (use-package php-refactor)
+    (use-package find-test)
     (use-package nette-tester)
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
@@ -1449,60 +1451,7 @@ network prefix)."
           (setq-local compilation-search-path search-path))))
 
     (bind-key "C-c C-c" 'my-php-compile php-mode-map)
-
-    ;; TODO: generalize, this is not really php related.  Also rename,
-    ;; these functions are not switching.
-    (defvar my-php-switch-to-test-function nil
-      "Function used to compute test buffer name from source buffer name.")
-
-    (defvar my-php-switch-to-source-function nil
-      "Function used to compute source buffer name from test buffer name.")
-
-    (defvar my-php-src-to-test-mapping nil
-      "Mapping from src prefix to test prefix.")
-    (put 'my-php-src-to-test-mapping 'safe-local-variable
-         (lambda (x)
-           (and (consp x)
-                (stringp (car x))
-                (stringp (cdr x)))))
-
-    (defun my-get-test-file ()
-      "Get test file associated with current buffer.
-
-This is determined by calling `my-php-switch-to-test-function'
-with the value of function `buffer-file-name' or `default-directory'."
-      (funcall my-php-switch-to-test-function (or (buffer-file-name) default-directory)))
-
-    (defun my-get-source-file ()
-      "Get test file associated with current buffer.
-
-This is determined by calling `my-php-switch-to-source-function'
-with the value of function `buffer-file-name' or `default-directory'."
-      (funcall my-php-switch-to-source-function (or (buffer-file-name) default-directory)))
-
-    (defun my-get-test-or-source-file ()
-      "Get test or source file name associated with current buffer.
-
-If in test file, return source file name and vice versa."
-      (let ((test (my-get-test-file))
-            (source (my-get-source-file)))
-        (if (equal (or (buffer-file-name) default-directory) test) source test)))
-
-    ;; TODO: add some default functions for
-    ;; my-php-switch-to-test-function and
-    ;; my-php-switch-to-source-function + some function which takes
-    ;; strings (replace patterns) and builds the functions.
-    (defun my-php-switch-to-test ()
-      "Open the corresponding test file in the same buffer.
-
-If already in the test file go back to source.
-
-The functions stored in `my-php-switch-to-test-function' and
-`my-php-switch-to-source-function' are used to determine the name
-of test/source file from the source/test file."
-      (interactive)
-      (find-file (my-get-test-or-source-file)))
-    (bind-key "C-c C-t" 'my-php-switch-to-test php-mode-map)
+    (bind-key "C-c C-t" 'ft-find-test-or-source php-mode-map)
 
     (defun my-php-run ()
       "Run all Nette tests found in current directory."
@@ -1770,28 +1719,6 @@ SCOPE is the scope, one of: batch, thread, plid."
                                     "tests/phpstan.neon"
                                     "tests/config/phpstan.neon"
                                     )))))
-      ;; TODO: generalize the following methods to a "namespace mapper" function, such that
-      ;; Source Namespace -> test path, e.g.
-      ;;   - App -> /tests/%namespace-full%
-      ;; Test Namespace -> source path, e.g.
-      ;;   - Tests\App\ -> /src/%namespace-relative% (everything after App)
-      ;; Relative or full is determined by the trailing \
-      (unless (bound-and-true-p my-php-switch-to-test-function)
-        (setq-local my-php-switch-to-test-function
-                    (lambda (file)
-                      (let ((case-fold-search nil))
-                        (replace-regexp-in-string
-                         (car my-php-src-to-test-mapping)
-                         (cdr my-php-src-to-test-mapping)
-                         (replace-regexp-in-string "\\.php\\'" ".phpt" file))))))
-      (unless (bound-and-true-p my-php-switch-to-source-function)
-        (setq-local my-php-switch-to-source-function
-                    (lambda (file)
-                      (let ((case-fold-search nil))
-                        (replace-regexp-in-string
-                         (cdr my-php-src-to-test-mapping)
-                         (car my-php-src-to-test-mapping)
-                         (replace-regexp-in-string "\\.phpt\\'" ".php" file))))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (add-hook 'my-newline-hook 'my-php-open-line nil :local)
       (c-set-style "php")
