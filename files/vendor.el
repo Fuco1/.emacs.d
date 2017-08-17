@@ -186,134 +186,6 @@ If no region is active, use word udner point."
         (calendar-exit)))
     (bind-key "RET" 'my-calendar-insert-date calendar-mode-map)))
 
-(use-package circe
-  :commands circe
-  :init
-  (progn
-    (autoload #'my-circe-open-irc-frame "circe" nil t)
-    (setq circe-networks nil))
-  :config
-  (progn
-    (tracking-mode 1)
-
-    (defun my-circe-get-dasnet-irssi-passwd (_)
-      (with-temp-buffer
-        (insert-file-contents "~/secrets/dasnet-irssi-proxy")
-        (buffer-string)))
-
-    (setq lui-highlight-keywords
-          '(("^--> .*" (face (:foreground "#4e9a06")))
-            ;; specific nick highlights
-            ("^<taylanub[`_]*>" (face (:foreground "#3465a4")))
-            ("<queen[`_]*>" (face (:foreground "#e6a8df")))
-            ("<jordigh[`_]*>" (face (:foreground "#e6a8df")))
-            ("<fsbot[`_]*>" (face (:foreground "#41423f")))
-            ("<rudybot[`_]*>" (face (:foreground "#41423f")))
-            ("<rhemaxx0s[`_]*>" (face (:foreground "#8ae234")))
-            ("<rhemax0s[`_]*>" (face (:foreground "#8ae234")))
-            ("<rhemaxxos[`_]*>" (face (:foreground "#8ae234")))
-            ("<rhemaxos[`_]*>" (face (:foreground "#8ae234")))
-            ("<magnars[`_]*>" (face (:foreground "#5c3566")))
-            ("<tanagoljerova[`_]*>" (face (:foreground "#ef2929")))
-            ("<nicferrier[`_]*>" (face (:foreground "#ef2929")))
-            ("<macrobat[`_]*>" (face (:foreground "#5c3566")))
-            ("<ijp[`_]*>" (face (:foreground "#729fcf")))
-            ("<johnw[`_]*>" (face (:foreground "#5c3566")))
-            ("<godmy[`_]*>" (face (:foreground "#ef2929")))
-            ("<lambdabot[`_]*>" (face (:foreground "#41423f")))
-            ("<wgreenhouse[`_]*>" (face (:foreground "#8ae234")))
-            ("<tali713[`_]*>" (face (:foreground "#8ae234")))
-            ("<forcer[`_]*>" (face (:foreground "#4e9a06")))
-            ("<tonitrus[`_]*>" (face (:foreground "#4e9a06")))
-            ;; default nick
-            ("^<.*?>" circe-originator-face)))
-
-    (defun my-circe-after-colon (_ _ _)
-      (save-excursion
-        (backward-char 1)
-        (looking-back ":")))
-
-    (sp-with-modes 'circe-channel-mode
-      (sp-local-pair "`" "'")
-      (sp-local-pair "(" nil :unless '(:add my-circe-after-colon)))
-
-    (add-hook 'circe-channel-mode-hook 'my-circe-channel-setup)
-    (add-hook 'circe-query-mode-hook 'my-circe-channel-setup)
-    (defun my-circe-channel-setup ()
-      "Setup channel buffer."
-      (my-init-text-based-modes)
-      (smartparens-mode t)
-      (set (make-local-variable 'sp-autoescape-string-quote) nil))
-
-    (defvar my-lui-highlight-buffer "*Circe-Highlights*"
-      "Name of the highlight buffer.")
-
-    (defvar my-lui-highlight-filter (lambda ()
-                                      (memq 'circe-highlight-nick-face
-                                            (lui-faces-in-region (point-min)
-                                                                 (point-max))))
-      "A function used to filter messages which should go into highlight buffer.
-
-Should return non-nil if we want to keep the message.
-
-Called with zero argument in a buffer narrowed to the current
-message.")
-
-    (defun my-lui-highlight-filter ()
-      "Return non-nil if we should keep the message."
-      (and (memq 'circe-highlight-nick-face
-                 (lui-faces-in-region (point-min)
-                                      (point-max)))
-           (not (text-property-any (point-min) (point-max)
-                                   'lui-format 'circe-format-server-numeric))))
-
-    (setq my-lui-highlight-filter 'my-lui-highlight-filter)
-
-    (add-hook 'lui-post-output-hook 'my-lui-save-highlights)
-    (defun my-lui-save-highlights ()
-      (when (funcall my-lui-highlight-filter)
-        (let ((buffer (buffer-name))
-              (target circe-chat-target)
-              (network (with-circe-server-buffer
-                         circe-server-network))
-              (text (buffer-substring (next-single-property-change (point-min) 'face) (point-max))))
-          (with-current-buffer (get-buffer-create my-lui-highlight-buffer)
-            (goto-char (point-max))
-            (save-restriction
-              (narrow-to-region (point) (point))
-              (insert (propertize (format-time-string "[%Y-%m-%d %H:%M:%S]")
-                                  'face 'lui-time-stamp-face)
-                      " "
-                      (propertize
-                       (concat (or target buffer)
-                               "@"
-                               network)
-                       'face '(:foreground "#8ae234"))
-                      " "
-                      (my-remove-text-properties-when
-                       'face '(circe-highlight-nick-face)
-                       0 (1- (length text))
-                       '(face)
-                       text))
-              (lui-buttonize))))))
-
-    (defun my-circe-open-irc-frame ()
-      "Open an IRC frame."
-      (interactive)
-      (select-frame (make-frame-command))
-      (set-frame-parameter (selected-frame) :frame-type :circe)
-      (set-frame-parameter (selected-frame) 'name "Circe")
-      (set-frame-parameter (selected-frame) 'explicit-name "Circe")
-      (set-frame-parameter (selected-frame) 'background-color "#111111"))
-
-    (defun my-circe-kill-all-irc-buffers ()
-      "Kill all circe buffers."
-      (interactive)
-      (--each (buffer-list)
-        (with-current-buffer it
-          (when (eq major-mode 'circe-server-mode)
-            (kill-buffer it)))))))
-
 (use-package clippy
   :commands clippy-describe-function)
 
@@ -1027,7 +899,7 @@ use a directory-local variable to specify this per-project."
     (setq ido-enable-flex-matching t)
     (setq ido-enable-last-directory-history nil)
     (setq ido-everywhere t)
-    (setq ido-ignore-buffers '("\\` " my-ido-buffer-filter))
+    (setq ido-ignore-buffers '("\\` "))
     (setq ido-max-directory-size 100000)
     (setq ido-mode 'both)
     (setq ido-save-directory-list-file "~/.emacs.d/.ido.last")

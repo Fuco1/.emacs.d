@@ -144,17 +144,7 @@ OLD is the string to act on."
   string)
 
 (defvar my-status-line-format
-  '((:eval (and (featurep 'tracking)
-                (let* ((shortened (tracking-shorten tracking-buffers))
-                       (urgent-buffers (--filter (text-property-any 0 (length it)
-                                                                    'face 'circe-highlight-nick-face
-                                                                    it)
-                                                 shortened))
-                       (status (concat "<fc=#ef2929>["
-                                       (mapconcat 'identity urgent-buffers ",")
-                                       "]</fc>")))
-                  (when urgent-buffers (substring-no-properties status 0 (length status))))))
-    (:eval (and (featurep 'elfeed)
+  '((:eval (and (featurep 'elfeed)
                 (format "<fc=#75507b>%d</fc>" my-elfeed-unread-count)))
     (:eval (and (featurep 'notmuch)
                 (let ((count (notmuch-unread-count)))

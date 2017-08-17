@@ -70,11 +70,6 @@
            (or
             (mode . conf-windows-mode)
             (mode . conf-colon-mode)))
-          ("IRC"
-           (or (mode . erc-mode)
-               (mode . rcirc-mode)
-               (mode . circe-channel-mode)
-               (mode . circe-server-mode)))
           ("Search"
            (or (mode . ag-mode)))
           ("Org Agenda"

@@ -138,32 +138,6 @@
  '(calendar-mark-diary-entries-flag t)
  '(calendar-view-diary-initially-flag t)
  '(calendar-week-start-day 1)
- '(circe-active-users-timeout 21600)
- '(circe-default-nick "Fuco")
- '(circe-default-part-message "Part")
- '(circe-default-quit-message "Quit")
- '(circe-default-realname "foobar")
- '(circe-default-user "fuco")
- '(circe-fool-list (quote ("Farsus")))
- '(circe-format-action "--> {nick} {body}")
- '(circe-format-not-tracked
-   (quote
-    (circe-format-server-message circe-format-server-notice circe-format-server-numeric circe-format-server-topic circe-format-server-rejoin circe-format-server-lurker-activity)))
- '(circe-format-say "<{nick}> {body}")
- '(circe-format-self-action "--> {nick} {body}")
- '(circe-format-self-say "<{nick}> {body}")
- '(circe-format-server-message "--> {body}")
- '(circe-highlight-nick-type (quote all))
- '(circe-network-options
-   (quote
-    (("FreeNodep" :host "dasnet.cz" :port 7001 :pass my-circe-get-dasnet-irssi-passwd)
-     ("BitlBeep" :host "dasnet.cz" :port 7002 :pass my-circe-get-dasnet-irssi-passwd)
-     ("OFTCp" :host "dasnet.cz" :port 7003 :pass my-circe-get-dasnet-irssi-passwd))))
- '(circe-new-buffer-behavior (quote switch))
- '(circe-new-buffer-behavior-ignore-auto-joins t)
- '(circe-prompt-string ">")
- '(circe-reduce-lurker-spam t)
- '(circe-server-killed-confirmation (quote ask-and-kill-all))
  '(column-number-mode t)
  '(company-backends
    (quote
@@ -664,12 +638,6 @@
  '(ls-lisp-use-insert-directory-program nil)
  '(ls-lisp-use-localized-time-format t)
  '(ls-lisp-verbosity (quote (uid gid)))
- '(lui-fill-column 3000)
- '(lui-highlight-keywords (quote (("^<.*?>" 0 circe-originator-face))))
- '(lui-max-buffer-size 100000)
- '(lui-time-stamp-format "[%H:%M:%S] ")
- '(lui-time-stamp-only-when-changed-p nil)
- '(lui-time-stamp-position (quote left))
  '(magit-bury-buffer-function (quote quit-window))
  '(magit-completing-read-function (quote ido-completing-read))
  '(magit-diff-refine-hunk (quote all))
@@ -2028,7 +1996,7 @@
  '(sp-hybrid-kill-excessive-whitespace nil)
 '(sp-ignore-modes-list
 (quote
- (image-dired-display-image-mode image-dired-thumbnail-mode ediff-mode recentf-dialog-mode google-maps-static-mode ibuffer-mode org-agenda-mode dired-mode elfeed-search-mode elfeed-show-mode notmuch-search-mode notmuch-show-mode notmuch-hello-mode circe-channel-mode)))
+ (image-dired-display-image-mode image-dired-thumbnail-mode ediff-mode recentf-dialog-mode google-maps-static-mode ibuffer-mode org-agenda-mode dired-mode elfeed-search-mode elfeed-show-mode notmuch-search-mode notmuch-show-mode notmuch-hello-mode)))
  '(sp-navigate-close-if-unbalanced t)
  '(sp-navigate-comments-as-sexps t)
  '(sp-navigate-consider-sgml-tags (quote (html-mode markdown-mode gfm-mode rst-mode)))

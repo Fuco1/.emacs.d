@@ -14,16 +14,6 @@
 (defun ido-disable-line-trucation () (set (make-local-variable 'truncate-lines) nil))
 (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
 
-(defun my-ido-buffer-filter (buffer)
-  "Should we try to switch to BUFFER?"
-  (let ((frame-type (frame-parameter (selected-frame) :frame-type)))
-    (cond
-     ((eq frame-type :circe)
-      (with-current-buffer buffer
-        (not (or (memq major-mode '(circe-channel-mode circe-server-mode circe-query-mode))
-                 (equal (buffer-name) (and (boundp 'my-lui-highlight-buffer) my-lui-highlight-buffer))))))
-     (t nil))))
-
 ;; see: http://emacswiki.org/emacs/InteractivelyDoThings#toc25
 (defun ido-smart-select-text ()
   "Select the current completed item.  Do NOT descend into directories."
