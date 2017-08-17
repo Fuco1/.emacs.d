@@ -248,6 +248,7 @@ Also used for highlighting.")
 
   (dired-filter-mode t)
   (dired-filter-group-mode t)
+  (dired-collapse-mode 1)
   (visual-line-mode -1)
   (toggle-truncate-lines 1))
 (add-hook 'dired-mode-hook 'my-dired-init)

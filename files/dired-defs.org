@@ -126,7 +126,7 @@ This is a suite of packages which I originally kept in my config but decided to 
 
 You can read more about each package on the project's [[https://github.com/Fuco1/dired-hacks][github]] page.
 
-** dired-avfs, dired-filter, dired-open, dired-images
+** dired-avfs, dired-filter, dired-open, dired-collapse, dired-images
 
 No extra configuration required---I only change the settings in customize
 
@@ -134,6 +134,7 @@ No extra configuration required---I only change the settings in customize
 (use-package dired-avfs)
 (use-package dired-filter)
 (use-package dired-open)
+(use-package dired-collapse)
 
 ;; TODO: we should just hijack C-t map from image-dired which is crap anyway
 (use-package dired-images)
