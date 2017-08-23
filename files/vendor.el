@@ -1489,6 +1489,21 @@ name in car and the type in cdr."
                     (push (match-string 1) args)))))
             (nreverse args)))))
 
+    (defun my-php-get-function-return-type (&optional name)
+      "Return the return type of the function.
+
+Point should be at the line containing `function'."
+      (cl-block exit
+        (save-excursion
+          (when name
+            (goto-char (point-min))
+            (unless (search-forward (concat "function " name) nil t)
+              (cl-return-from exit nil)))
+          (goto-char (sp-get (sp-down-sexp) :end))
+          (when (search-forward ":" (save-excursion (search-forward "{")) t)
+            (when (re-search-forward "[a-zA-Z0-9\\_]+" nil t)
+              (match-string-no-properties 0))))))
+
     (defun my-php-implement-constructor (&optional use-instance-variables)
       "Implement constructor.
 
