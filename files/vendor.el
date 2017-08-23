@@ -1409,11 +1409,12 @@ If in the test file, visit source."
               (ggtags-eldoc-function)))))
 
     (defun my-php-find-project-root ()
-      (with-temp-buffer
-        (if (= 0 (shell-command "global -p" (current-buffer)))
-            (s-trim (buffer-string))
-          ;; TODO: add projectile "php" project type?
-          (locate-dominating-file default-directory "composer.json"))))
+      (shut-up
+        (with-temp-buffer
+          (if (= 0 (shell-command "global -p" (current-buffer)))
+              (s-trim (buffer-string))
+            ;; TODO: add projectile "php" project type?
+            (locate-dominating-file default-directory "composer.json")))))
 
     (defun my-php-local-file-name (filename)
       "Get local part of file name.
