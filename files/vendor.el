@@ -1366,9 +1366,6 @@ If in the test file, visit source."
                 ("e" php-refactor-extract-variable "Extract variable")
                 ("c" my-php-implement-constructor "Implement constructor")
                 ("g" my-php-implement-getters-and-setters "Implement getters")
-                ("p" my-php-implement-proxy-function-call "Implement proxy")
-                ("s" my-php-run-codesniffer "Codesniffer")
-                ("C-p" my-php-wrap-with-profiler-call "Wrap with profiler call")
                 ("C-s" my-php-goto-specific "Goto specific"))
               php-mode-map)
 
@@ -1580,78 +1577,6 @@ These are retrieved from `imenu--index-alist'."
         (insert (format "return $this->%s->%s(%s);" proxy-through (which-function)
                         (mapconcat (lambda (it) (replace-regexp-in-string "[&]" "" it)) args ", ")))
         (indent-according-to-mode)))
-
-    (defun my-php-run-codesniffer ()
-      "Run phpcs(1) on file associated with current buffer."
-      (interactive)
-      (let ((file (my-php-local-file-name (buffer-file-name))))
-        (async-shell-command (format "phpcs --standard=PW %s" file))))
-
-    (defvar my-php-wrap-with-profiler-call-history nil
-      "History for profiler name.")
-
-    (defun my-php-wrap-with-profiler-call (profiler name scope)
-      "Wrap active region with call to utils-profiler.
-
-PROFILER is the name of the php instance variable containing the
-profiler.
-
-NAME is the name of the profiled block.
-
-SCOPE is the scope, one of: batch, thread, plid."
-      (interactive (list (let ((possible (--filter (string-match-p "profiler" it) (my-php-get-instance-variables))))
-                           (if (= 1 (length possible))
-                               (car possible)
-                             (completing-read "Profiler to use: "
-                                              possible nil nil
-                                              (car my-php-wrap-with-profiler-call-history)
-                                              'my-php-wrap-with-profiler-call-history)))
-                         (read-from-minibuffer "Name of the profiled block: "
-                                               (let ((str (buffer-substring-no-properties (region-beginning) (region-end))))
-                                                 (with-temp-buffer
-                                                   (insert str)
-                                                   (goto-char (point-min))
-                                                   (if (re-search-forward "->\\(.*?\\)(" nil t)
-                                                       (s-dashed-words (match-string 1))
-                                                     ""))))
-                         (read-from-minibuffer "Scope of the profiled block: " "plid" nil nil nil "plid")))
-      (when (use-region-p)
-        (let ((b (region-beginning))
-              (e (region-end))
-              (format (format "$this->%s->%%s('%s', __METHOD__, '%s');" profiler name scope)))
-          (goto-char e)
-          (unless (= 0 (length (s-trim (thing-at-point 'line))))
-            (newline))
-          (insert (format format "stop"))
-          (goto-char b)
-          (unless (= 0 (length (s-trim (thing-at-point 'line))))
-            (newline)
-            (forward-line -1))
-          (insert (format format "start"))
-          (indent-region b (+ e (* 2 (length format)))))))
-
-    (defun my-php-goto-specific ()
-      (interactive)
-      (let* ((tramp-prefix (if (tramp-tramp-file-p (buffer-file-name))
-                               (-let (([method _ host] (tramp-dissect-file-name (buffer-file-name))))
-                                 (concat "/" method ":" host ":"))
-                             ""))
-             (root (with-temp-buffer
-                     (shell-command "global -r -p" t)
-                     (s-trim (buffer-string))))
-             (specific-file (concat tramp-prefix root "/specific/settings/default/default.pwm"))
-             (project (with-temp-buffer
-                        ;; TODO: write .pwm parser?
-                        (insert-file-contents specific-file)
-                        (goto-char (point-min))
-                        (when (re-search-forward "project: +\\(.*\\)")
-                          (match-string 1))))
-             (module-name (f-base (buffer-file-name)))
-             (specific-module-name (concat module-name "-" project)))
-        (when project
-          (find-file (concat tramp-prefix root "/specific/source/"
-                             project "/extensions/" specific-module-name
-                             "/" specific-module-name ".php")))))
 
     (defun my-php-ggtags-get-definition (defs)
       (ignore-errors
