@@ -1437,7 +1437,7 @@ network prefix)."
 
     (defun my-php-compile ()
       (interactive)
-      (let* ((dir (file-name-directory (my-get-test-file)))
+      (let* ((dir (file-name-directory (ft-get-test-file)))
              (search-path (-cons*
                            (f-parent (f-parent dir))
                            (f-parent dir)
