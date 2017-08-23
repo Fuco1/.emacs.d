@@ -194,13 +194,16 @@ This predicate is only tested on \"insert\" action."
           (insert "\n"))))
      ((string-match-p "function" line)
       (save-excursion
-        (insert "\n")
         (let ((args (save-excursion
                       (forward-line)
-                      (my-php-get-function-args))))
+                      (my-php-get-function-args nil t))))
           (--each args
-            (insert (format "* @param %s\n" it)))))
-      (insert "* "))
+            (let ((type (cond
+                         ((equal (cdr it) "array") "mixed[] ")
+                         ((null (cdr it))))))
+              (when type
+                (insert (format "* @param %s%s\n" (if (eq type t) "" type) (car it))))))))
+      (search-forward "@param " nil t))
      ((string-match-p ".*class\\|interface" line)
       (save-excursion (insert "\n"))
       (insert "* ")))
