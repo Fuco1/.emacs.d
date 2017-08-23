@@ -1462,8 +1462,6 @@ network prefix)."
         (async-shell-command (format "%s %s php '%s'" pw-root pw-test-uuid file))))
     (bind-key "C-c C-r" 'my-php-run php-mode-map)
 
-    ;; TODO: get the types as well as the names... maybe use an actual
-    ;; parser for this?
     (defun my-php-get-function-args (&optional name types)
       "Return all arguments of php function.
 
