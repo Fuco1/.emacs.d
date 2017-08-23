@@ -1632,6 +1632,9 @@ These are retrieved from `imenu--index-alist'."
                            "/vendor/bin/phpcs")))
         (when (file-exists-p phpcs)
           (setq-local flycheck-php-phpcs-executable phpcs)))
+      (setf (flycheck-checker-get 'php-phpcs 'working-directory)
+            (lambda (_checker)
+              (my-php-find-project-root)))
       (setq-local flycheck-phpcs-standard
                   (-first 'file-exists-p
                           (--map (concat (my-php-find-project-root) "/" it)
