@@ -183,10 +183,15 @@ This predicate is only tested on \"insert\" action."
                      (thing-at-point 'line)))
     (cond
      ;; variable
-     ((string-match-p (rx (or "private" "protected" "public" "var") (1+ " ") "$") line)
-      (insert "* @var ")
-      (save-excursion
-        (insert "\n")))
+     ((string-match (rx (or "private" "protected" "public" "var") (1+ " ") (group "$" (1+ alnum))) line)
+      (let ((var-name (match-string 1 line))
+            (type ""))
+        ;; try to guess the type from the constructor
+        (-when-let (constructor-args (my-php-get-function-args "__construct" t))
+          (setq type (cdr (assoc var-name constructor-args))))
+        (insert "* @var " type)
+        (save-excursion
+          (insert "\n"))))
      ((string-match-p "function" line)
       (save-excursion
         (insert "\n")
