@@ -1463,25 +1463,32 @@ network prefix)."
 
     ;; TODO: get the types as well as the names... maybe use an actual
     ;; parser for this?
-    (defun my-php-get-function-args (&optional name)
+    (defun my-php-get-function-args (&optional name types)
       "Return all arguments of php function.
 
-Point should be at the line containing `function'."
-      (save-excursion
-        (when name
-          (goto-char (point-min))
-          (unless (search-forward (concat "function " name) nil t)
-            (error "Function %s does not exist" name)))
-        (let ((function-args (sp-get (sp-down-sexp)
-                               (buffer-substring-no-properties :beg :end)))
-              (args nil))
-          (save-match-data
-            (with-temp-buffer
-              (insert function-args)
-              (goto-char (point-min))
-              (while (re-search-forward "\\(&?\\$.*?\\)[ \n\t,)]" nil t)
-                (push (match-string 1) args))))
-          (nreverse args))))
+Point should be at the line containing `function'.
+
+If TYPES is non-nil, return a list of pairs with the variable
+name in car and the type in cdr."
+      (cl-block exit
+        (save-excursion
+          (when name
+            (goto-char (point-min))
+            (unless (search-forward (concat "function " name) nil t)
+              (cl-return-from exit nil)))
+          (let ((function-args (sp-get (sp-down-sexp)
+                                 (buffer-substring-no-properties :beg :end)))
+                (args nil))
+            (save-match-data
+              (with-temp-buffer
+                (insert function-args)
+                (goto-char (point-min))
+                (if types
+                    (while (re-search-forward "\\(?:\\([a-zA-Z0-9\\_]+\\) +\\)?\\(&?\\$.*?\\)[ \n\t,)]" nil t)
+                      (push (cons (match-string 2) (match-string 1)) args))
+                  (while (re-search-forward "\\(&?\\$.*?\\)[ \n\t,)]" nil t)
+                    (push (match-string 1) args)))))
+            (nreverse args)))))
 
     (defun my-php-implement-constructor (&optional use-instance-variables)
       "Implement constructor.
