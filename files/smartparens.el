@@ -202,8 +202,16 @@ This predicate is only tested on \"insert\" action."
                          ((equal (cdr it) "array") "mixed[] ")
                          ((null (cdr it))))))
               (when type
-                (insert (format "* @param %s%s\n" (if (eq type t) "" type) (car it))))))))
-      (search-forward "@param " nil t))
+                (insert (format "* @param %s%s\n" (if (eq type t) "" type) (car it)))))))
+        (let ((return-type (save-excursion
+                             (forward-line)
+                             (my-php-get-function-return-type))))
+          (let ((type (cond
+                       ((equal return-type "array") "mixed[] ")
+                       ((null return-type)))))
+            (when type
+              (insert (format "* @return %s\n" (if (eq type t) "" type)))))))
+      (re-search-forward (rx "@" (or "param" "return") " ") nil t))
      ((string-match-p ".*class\\|interface" line)
       (save-excursion (insert "\n"))
       (insert "* ")))
