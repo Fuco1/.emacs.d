@@ -1637,7 +1637,8 @@ These are retrieved from `imenu--index-alist'."
 
     (defun my-php-mode-init ()
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
-      (when (string-match-p "/vendor/"(buffer-file-name))
+      (when (and (buffer-file-name)
+                 (string-match-p "/vendor/" (buffer-file-name)))
         (flycheck-mode -1))
       (setq-local flycheck-php-phpstan-executable
                   (concat (my-php-find-project-root)
@@ -1673,7 +1674,8 @@ These are retrieved from `imenu--index-alist'."
       (c-set-style "php")
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
-      (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name)))
+      (when buffer-file-name
+        (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name))))
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
 
