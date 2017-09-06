@@ -575,6 +575,9 @@ idle timer to do the actual update.")
   :commands eshell
   :config
   (progn
+    (use-package eshell-bookmark
+      :config
+      (eshell-bookmark-setup))
     (defun my-eshell-skip-prompt ()
       (save-match-data
         (let ((eol (line-end-position)))

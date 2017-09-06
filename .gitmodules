@@ -22,6 +22,9 @@
 [submodule "projects/ETable"]
 	path = projects/ETable
 	url =  git@github.com:Fuco1/ETable.git
+[submodule "projects/eshell-bookmark"]
+	path = projects/eshell-bookmark
+	url = git@github.com:Fuco1/eshell-bookmark.git
 [submodule "projects/flash-region"]
 	path = projects/flash-region
 	url =  git@github.com:Fuco1/flash-region.git
