@@ -28,6 +28,9 @@
 [submodule "projects/flash-region"]
 	path = projects/flash-region
 	url =  git@github.com:Fuco1/flash-region.git
+[submodule "projects/find-test"]
+	path = projects/find-test
+	url = git@github.com:Fuco1/find-test.git
 [submodule "projects/free-keys"]
 	path = projects/free-keys
 	url =  git@github.com:Fuco1/free-keys.git
