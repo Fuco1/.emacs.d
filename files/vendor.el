@@ -1369,10 +1369,11 @@ If in the test file, visit source."
     (bind-key "C-x C-d"
               (defhydra hydra-php-refactor (:color blue)
                 ("d" my-php-debug-geben "Debug with XDebug")
-                ("v" php-refactor-rename-variable "Rename variable")
+                ("r" php-refactor-rename-variable "Rename variable")
                 ("i" php-refactor-inline-variable "Inline variable")
                 ("e" php-refactor-extract-variable "Extract variable")
                 ("c" my-php-implement-constructor "Implement constructor")
+                ("v" my-php-add-private-variables-for-constructor-arguments "Create properties for constructor")
                 ("g" my-php-implement-getters-and-setters "Implement getters")
                 ("C-s" my-php-goto-specific "Goto specific"))
               php-mode-map)
@@ -1567,16 +1568,12 @@ type differ."
     (defun my-php-add-private-variables-for-constructor-arguments ()
       "Generate private variable definitions for constructor arguments."
       (interactive)
-      (-when-let (args (save-excursion
-                         (goto-char (point-min))
-                         (when (search-forward "__construct" nil t)
-                           (my-php-get-function-args))))
+      (-when-let (args (my-php-get-function-args "__construct" t))
         (let ((beg (point)))
           (--each args
-            (insert (format "/** @var */\n private $%s;\n\n"
-                            ;; TODO: abstract this cleanup
-                            (replace-regexp-in-string "[&$]" "" it)
-                            (replace-regexp-in-string "[&]" "" it))))
+            (insert (format "/**\n* @var %s\n*/\n private %s;\n\n\n"
+                            (my-php-translate-type-annotation (cdr it))
+                            (replace-regexp-in-string "[&]" "" (car it)))))
           (delete-char -2)
           (indent-region beg (point)))))
 
