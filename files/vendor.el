@@ -1547,6 +1547,23 @@ With prefix argument, use all the instance variables as inputs."
             (search-forward "__construct(")
             (indent-region (point) p)))))
 
+    (defun my-php-translate-type-annotation (type)
+      "Translate TYPE into string for annotation.
+
+If the TYPE is array, return mixed[].  If the type is an object,
+return as it is.  If type is nil, return an empty string."
+      (cond
+       ((equal type "array") "mixed[] ")
+       ((stringp type) type)
+       ((null type) "")))
+
+    (defun my-php-should-insert-type-annotation (type)
+      "Test if we should insert a TYPE annotation.
+
+Only insert an docstring annotation if the TYPE and translated
+type differ."
+      (not (equal type (my-php-translate-type-annotation type))))
+
     (defun my-php-add-private-variables-for-constructor-arguments ()
       "Generate private variable definitions for constructor arguments."
       (interactive)

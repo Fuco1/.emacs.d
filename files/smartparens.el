@@ -188,7 +188,7 @@ This predicate is only tested on \"insert\" action."
             (type ""))
         ;; try to guess the type from the constructor
         (-when-let (constructor-args (my-php-get-function-args "__construct" t))
-          (setq type (cdr (assoc var-name constructor-args))))
+          (setq type (or (cdr (assoc var-name constructor-args)) "")))
         (insert "* @var " type)
         (save-excursion
           (insert "\n"))))
@@ -198,19 +198,15 @@ This predicate is only tested on \"insert\" action."
                       (forward-line)
                       (my-php-get-function-args nil t))))
           (--each args
-            (let ((type (cond
-                         ((equal (cdr it) "array") "mixed[] ")
-                         ((null (cdr it))))))
-              (when type
-                (insert (format "* @param %s%s\n" (if (eq type t) "" type) (car it)))))))
+            (when (my-php-should-insert-type-annotation (cdr it))
+              (insert (format "* @param %s%s\n"
+                              (my-php-translate-type-annotation (cdr it))
+                              (car it))))))
         (let ((return-type (save-excursion
                              (forward-line)
                              (my-php-get-function-return-type))))
-          (let ((type (cond
-                       ((equal return-type "array") "mixed[] ")
-                       ((null return-type)))))
-            (when type
-              (insert (format "* @return %s\n" (if (eq type t) "" type)))))))
+          (when (my-php-should-insert-type-annotation return-type)
+            (insert (format "* @return %s\n" (my-php-translate-type-annotation return-type))))))
       (re-search-forward (rx "@" (or "param" "return") " ") nil t))
      ((string-match-p ".*class\\|interface" line)
       (save-excursion (insert "\n"))
