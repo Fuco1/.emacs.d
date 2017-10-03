@@ -119,6 +119,8 @@
 (bind-key "M-`" 'my-jump-to-mark)
 (global-set-key [remap exchange-point-and-mark] 'my-exchange-point-and-mark-no-activate)
 
+(bind-key "C-c TAB" 'fold-dwim-toggle)
+
 (bind-keys :prefix "C-h e"
            :prefix-map ctl-h-e-map
            :prefix-docstring "List find/help map"
