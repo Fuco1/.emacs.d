@@ -336,6 +336,7 @@ is extension of default `tango-dark' face.")
 
    ;; Dired faces
    (dired-directory (:foreground cham-2))
+   (diredp-date-time (:foreground blue-1))
    (diredp-dir-name (:inherit dired-directory))
    (diredp-dir-priv (:inherit dired-directory))
    (diredp-exec-priv nil)
