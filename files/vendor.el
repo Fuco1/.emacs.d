@@ -1804,6 +1804,17 @@ These are retrieved from `imenu--index-alist'."
                 ("t" sallet-gtags-tags "Find tags")))
     (use-package autobookmarks)))
 
+(use-package server
+  :config
+  (setq server-temp-file-regexp
+        (rx (or
+             ;; Default
+             (and bol "/tmp/Re")
+             ;; Default
+             (and "/draft" eol)
+             ;; Fish prompt editation, do not ask to save buffer
+             (and bol "/tmp/tmp" (1+ any) ".fish" eol)))))
+
 (use-package sgml-mode
   :defer t
   :config
