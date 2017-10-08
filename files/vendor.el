@@ -1323,6 +1323,26 @@ If in the test file, visit source."
               (notmuch-search-next-thread))
           (notmuch-show-tag change))))
 
+    (defun my-notmuch-open-attachment-dwim (command arg file)
+      "Open attachment at point using COMMAND.
+
+ARG and FILE are passed to `dired-do-shell-command' as expected
+by that command."
+      (interactive
+       (-if-let (original-file (cdadr (assoc 'attachment (notmuch-show-current-part-handle nil))))
+           (let ((file (make-temp-name
+                        (expand-file-name
+                         (concat "notmuch-attachment-" original-file)
+                         temporary-file-directory))))
+             (list
+              (dired-read-shell-command "& on %s: " current-prefix-arg (list file))
+              current-prefix-arg
+              file))
+         (user-error "Point not on attachment.")))
+      (mm-save-part-to-file (notmuch-show-current-part-handle nil) file)
+      (dired-do-shell-command command arg (list file)))
+
+    (bind-key "C-&" 'my-notmuch-open-attachment-dwim notmuch-show-mode-map)
     (bind-key "RET" 'goto-address-at-point goto-address-highlight-keymap)
     (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
     (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
