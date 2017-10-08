@@ -72,5 +72,11 @@ associated with the original non-sudo filename."
            (when success
              (revert-buffer t t))))))))
 
+(defadvice insert-directory (around fix-collate activate)
+  (let ((process-environment (cons
+                              "LC_ALL=C"
+                              process-environment)))
+    ad-do-it))
+
 (provide 'my-advices)
 ;;; my-advices.el ends here
