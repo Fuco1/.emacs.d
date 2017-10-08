@@ -59,8 +59,8 @@ associated with the original non-sudo filename."
         ad-do-it)
     (file-error
      (when (string-prefix-p
-            "Doing chmod: operation not permitted"
-            (error-message-string err))
+            "doing chmod: operation not permitted"
+            (downcase (error-message-string err)))
        (let ((old-buffer-file-name buffer-file-name)
              (success nil))
          (unwind-protect
