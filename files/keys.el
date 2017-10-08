@@ -158,6 +158,9 @@
            :prefix "p"
            :prefix-map my-profiler-prefix-map
            :prefix-docstring "Prefix map for profiler functions"
+  ("s" . profiler-start)
+  ("e" . profiler-report)
+  ("h" . profiler-stop)
   ("f" . elp-instrument-function)
   ("p" . elp-instrument-package)
   ("r" . elp-results)
