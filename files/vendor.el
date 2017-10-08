@@ -821,7 +821,8 @@ use a directory-local variable to specify this per-project."
 
     (defun my-haskell-init ()
       ;; If we are in a stack project, change the ghci command
-      (when (locate-dominating-file (buffer-file-name) "stack.yaml")
+      (when (and (buffer-file-name)
+                 (locate-dominating-file (buffer-file-name) "stack.yaml"))
         (-let (((prog args) (s-split-up-to " " haskell-program-name 1)))
           (setq-local haskell-program-name
                       (format "stack exec %s -- %s" prog args))))
