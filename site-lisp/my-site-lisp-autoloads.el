@@ -3,12 +3,17 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "my-defuns" "my-defuns.el" (22716 4224 633009
-;;;;;;  867000))
+;;;### (autoloads nil "my-defuns" "my-defuns.el" (23002 4424 747061
+;;;;;;  654000))
 ;;; Generated autoloads from my-defuns.el
 
 (autoload 'my-lorem "my-defuns" "\
 Insert lorem ipsum text.
+
+\(fn)" t nil)
+
+(autoload 'shrug "my-defuns" "\
+Insert shrug: ¯\\_(ツ)_/¯
 
 \(fn)" t nil)
 
@@ -82,21 +87,6 @@ Switch to LRU buffer.
 
 \(fn)" t nil)
 
-(autoload 'my-svn-diff-branch-and-trunk "my-defuns" "\
-Diff current buffer's file with its trunk version, run `diff-mode' on result.
-
-\(fn)" t nil)
-
-(autoload 'my-svn-diff-wc-and-trunk "my-defuns" "\
-Diff current buffer's file with its trunk version, run `diff-mode' on result.
-
-\(fn)" t nil)
-
-(autoload 'my-svn-ediff-branch-and-trunk "my-defuns" "\
-Diff current buffer's file with its trunk version, run `ediff' on result.
-
-\(fn)" t nil)
-
 (autoload 'my-occur-dwim "my-defuns" "\
 Call `occur' with a sane default.
 
@@ -127,11 +117,6 @@ Open FILENAME, load it into a buffer and generate the md5 of its contents
 
 \(fn LIST-A LIST-B)" t nil)
 
-(autoload 'my-create-new-pw-module "my-defuns" "\
-Create the directory structure for PW module.
-
-\(fn DIR)" t nil)
-
 (autoload 'my-sync-rsync-local-to-remote "my-defuns" "\
 Sync the current file/directory with `my-rsync-remote'.
 
@@ -153,8 +138,8 @@ Run haddock on current project.
 
 ;;;***
 
-;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (22715
-;;;;;;  63880 728961 210000))
+;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (22817
+;;;;;;  44623 293283 394000))
 ;;; Generated autoloads from my-defuns-buffer.el
 
 (autoload 'create-scratch-buffer "my-defuns-buffer" "\
@@ -204,7 +189,7 @@ Including indent-buffer, which should not be called automatically on save.
 (autoload 'my-create-directory-on-save "my-defuns-buffer" "\
 
 
-\(fn &optional ##)" nil nil)
+\(fn &optional _)" nil nil)
 
 (autoload 'my-kill-pp-eval-expression-window "my-defuns-buffer" "\
 
@@ -218,8 +203,8 @@ Add face to region.
 
 ;;;***
 
-;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (22716
-;;;;;;  9682 781055 33000))
+;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (22817
+;;;;;;  44623 333283 394000))
 ;;; Generated autoloads from my-defuns-edit.el
 
 (autoload 'my-forward-whitespace "my-defuns-edit" "\
@@ -249,7 +234,7 @@ Kill active region or one word backward.
 \(fn &optional ARG)" t nil)
 
 (autoload 'my-newline "my-defuns-edit" "\
-Call `newline' and autoindent according to the active mode.
+Call `newline' and run `my-newline-hook'.
 
 \(fn &optional ARG)" t nil)
 
@@ -268,7 +253,7 @@ and indent next line according to mode.
 (autoload 'my-forward-line-and-indent "my-defuns-edit" "\
 Move point ARG lines forward and autoindent.
 
-\(fn ARG)" t nil)
+\(fn &optional ARG)" t nil)
 
 (autoload 'my-eval-and-replace "my-defuns-edit" "\
 Replace the preceding sexp with its value.
@@ -408,8 +393,9 @@ Repeat ARG times.
 
 ;;;***
 
-;;;### (autoloads nil nil ("my-advices.el" "my-macros.el" "my-redef.el"
-;;;;;;  "vendor.el") (22716 9730 187584 273000))
+;;;### (autoloads nil nil ("my-advices.el" "my-bootstrap.el" "my-macros-tangled.el"
+;;;;;;  "my-macros.el" "my-redef.el" "vendor.el") (23002 4269 645102
+;;;;;;  417000))
 
 ;;;***
 
