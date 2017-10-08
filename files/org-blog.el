@@ -50,13 +50,22 @@ FORMAT-STRING uses the conventions of `format-time-string'."
    format-string
    (apply 'encode-time (org-parse-time-string timestamp-string))))
 
+(defun my-org-blog--get-title (pom)
+  "Get title for tree at POM.
+
+If BLOG_TITLE property is present, use that, otherwise default to
+the heading."
+  (org-with-point-at pom
+    (or (org-entry-get pom "BLOG_TITLE")
+        (org-get-heading :no-tags :no-todo))))
+
 (defun my-org-blog--get-filename-from-header (pom)
   "Generate filename for tree at POM."
   (org-with-point-at pom
     (-if-let (file (org-entry-get pom "BLOG_FILENAME"))
         file
       (-if-let* ((closed (org-entry-get pom "CLOSED"))
-                 (heading (org-get-heading :no-tags :no-todo)))
+                 (heading (my-org-blog--get-title pom)))
           (concat (my-org--format-timestamp closed "%Y-%m-%d")
                   "-"
                   (replace-regexp-in-string " +" "-" heading))
@@ -85,7 +94,8 @@ where the replaced link is."
                (link-home (my-org-publish-property "blog-rss" :html-link-home))
                (full-file (concat base "/" file ".org"))
                (tree (my-org--get-subtree-string))
-               (source-buffer (current-buffer)))
+               (source-buffer (current-buffer))
+               (title (my-org-blog--get-title pom)))
           (org-entry-put pom "BLOG_FILENAME" file)
           (org-entry-put pom "PUBDATE" closed)
           (make-directory (file-name-directory full-file) :parents)
@@ -97,7 +107,7 @@ where the replaced link is."
               (while (> (org-current-level) 1)
                 (org-promote-subtree))
               (org-set-tags-to (cons "ignore" (org-get-tags-at nil :local)))
-              (insert (format "#+TITLE: %s\n" (org-get-heading :no-tags :no-todo)))
+              (insert (format "#+TITLE: %s\n" title))
               (insert (format "#+DATE: %s\n" closed))
               (insert "\n")
               ;; Fix links relative in the source files to links
