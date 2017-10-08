@@ -1,3 +1,5 @@
+(package-initialize)
+
 (server-start)
 (defconst emacs-start-time (current-time))
 (defmacro org-babel-header-args-safe-fn (safe-list) t)
