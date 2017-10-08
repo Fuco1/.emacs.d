@@ -124,6 +124,98 @@ Here's how it looks (list shortened for clarity):
 
 I stole the regexp from [[https://github.com/hlissner/.emacs.d/blob/master/modules/lang/org/config.el][hlissner's emacs.d]] who apparently came to the same conclusion.  It's a rather nice collection of stuff so check it out, but be warned, it is /super/ idiosyncratic... which in Emacs translation basically means awesome :)
 
+* Org protocol
+** DONE Maximize the org-capture buffer
+  CLOSED: [2017-09-02 Sat 22:02]
+  :PROPERTIES:
+  :BLOG_FILENAME: 2017-09-02-Maximize-the-org-capture-buffer
+  :PUBDATE:  [2017-09-02 Sat 22:02]
+  :END:
+  :LOGBOOK:
+  - State "DONE"       from              [2017-09-02 Sat 22:02]
+  :END:
+  :CLOCK:
+  CLOCK: [2017-09-02 Sat 21:00]--[2017-09-02 Sat 22:02] =>  1:02
+  :END:
+I'm a heavy user of =org-capture= and one behaviour of it always annoyed me:  instead of having the capture popup take the whole screen, it opens a new window.  This window is often small and somewhat inconvenient.  I like to do one thing at a time and so when I'm filing a note or capturing an idea I want to see only the capture buffer and no other distractions.  As we all know distractions kill flow and so we should always find ways to get all the nonsense out of the way.
+
+Recently I've started using [[https://github.com/sprig/org-capture-extension][this awesome extension]] to capture web content from firefox (works with chrome too).  I've tweaked the protocol handler to not only invoke =emacsclient "%u"= but also set some frame properties for later.
+
+Here's the bash script I use as the handler
+
+#+BEGIN_SRC sh
+#!/bin/bash
+emacsclient -c -F '((name . "org-protocol-capture"))' "$@"
+#+END_SRC
+
+The =-F= option sets the frame parameters with the specified alist.  Here I only set the name to ="org-protocol-capture"= I make sure to open new frame with =-c=.
+
+Org capture provides several hooks we can use to tweak the default behaviour.
+
+First, we make sure the capture buffer window takes the whole frame.  To do this, we first save the current window configuration and then delete all other windows on entering the =org-capture-mode=.  Unfortunately there is no "before anything happens" hook so we use a before advice instead.
+
+
+#+NAME: org-protocol-before
+#+BEGIN_SRC elisp :tangle no
+(defvar my-org-capture-before-config nil
+  "Window configuration before `org-capture'.")
+
+(defadvice org-capture (before save-config activate)
+  "Save the window configuration before `org-capture'."
+  (setq my-org-capture-before-config (current-window-configuration)))
+
+(add-hook 'org-capture-mode-hook 'delete-other-windows)
+#+END_SRC
+
+Next, after we finish the capture work flow (either with success or cancellation) we restore the window configuration saved previously.
+
+Finally, let's make sure that after we refile the captured content the frame which was possibly created (if capture was invoked with =org-protocol=) closes itself automatically.  This keeps us in the flow and keeps the distraction of killing the frame manually away.  We use the frame name to decide if we wish to kill the frame or not (this is the =-F= argument from above).
+
+
+#+NAME: org-protocol-capture-cleanup
+#+BEGIN_SRC elisp :tangle no
+(defun my-org-capture-cleanup ()
+  "Clean up the frame created while capturing via org-protocol."
+  ;; In case we run capture from emacs itself and not an external app,
+  ;; we want to restore the old window config
+  (when my-org-capture-before-config
+    (set-window-configuration my-org-capture-before-config))
+  (-when-let ((&alist 'name name) (frame-parameters))
+    (when (equal name "org-protocol-capture")
+      (delete-frame))))
+
+(add-hook 'org-capture-after-finalize-hook 'my-org-capture-cleanup)
+#+END_SRC
+
+With these tweaks the whole capture experience is much more streamlined for me.  When I invoke capture from anywhere (Emacs or via =org-protocol=), I get a full screen frame/window where I can quickly jot my thoughts.  After I'm finished everything restores itself to the previous state and I can continue with whatever task I was consumed prior to the capture process.
+
+** Final code
+
+#+BEGIN_SRC elisp :noweb yes
+(use-package org-protocol
+  :config
+  (progn
+
+    <<org-protocol-before>>
+
+    <<org-protocol-capture-cleanup>>
+
+    (use-package async)
+    (defun my-org-protocol-save-youtube (info)
+      (let* ((parts (org-protocol-split-data info t org-protocol-data-separator))
+             (link (car parts)))
+        (save-window-excursion
+          (async-start-process "ydown" "ydown" nil link)
+          (message "Youtube download started: %s" link)
+          nil)))
+
+    (push '("save-youtube"
+            :protocol "save-youtube"
+            :function my-org-protocol-save-youtube
+            :kill-client nil)
+          org-protocol-protocol-alist)))
+#+END_SRC
+
 * Backmatter
 
 #+BEGIN_SRC elisp
