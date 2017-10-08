@@ -252,6 +252,11 @@
     (progn
       (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)))
 
+  (use-package org-super-agenda
+    :config
+    (progn
+      (org-super-agenda-mode 1)))
+
   ;; Custom agenda command definitions
   (defvar my-org-show-media-closed-since (apply 'encode-time (org-parse-time-string "1980-01-01"))
     "Time since which we show the closed media")
@@ -344,7 +349,26 @@
 
   (setq org-agenda-custom-commands
         `((" " "Quick Agenda"
-           ((agenda "" nil)
+           ((agenda ""
+                    ((org-super-agenda-groups
+                      '(
+                        (:name "MIT"
+                         :tag "#mit"
+                         :order 1)
+                        (:name "Weekly"
+                         :tag "#weekly"
+                         :order 1)
+                        (:name "Monthly"
+                         :tag "#monthly"
+                         :order 1)
+                        (:name "Deadlines"
+                         :and (:deadline future)
+                         :order 20)
+                        (:name "Scheduled"
+                         :and (:scheduled past
+                               :not (:habit))
+                         :order 30)
+                        ))))
             ,(cdr (assoc 'refile my-custom-agenda-sections))
             ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
             ,(cdr (assoc 'tasks my-custom-agenda-sections))))
