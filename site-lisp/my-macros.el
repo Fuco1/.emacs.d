@@ -3,6 +3,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'my-macros-tangled nil t)
+
 (defmacro my-with-every-line (&rest forms)
   "Execute FORMS on each line following point to the end of buffer."
   (declare (indent 0))

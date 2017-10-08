@@ -36,3 +36,9 @@ An example use:
     (lambda () (with-current-buffer (get-buffer-create "*test*") (insert "x")))
     (read-from-minibuffer "Input: ")))
 #+END_SRC
+
+* Footmatter
+
+#+BEGIN_SRC elisp
+(provide 'my-macros-tangled)
+#+END_SRC
