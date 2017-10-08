@@ -61,6 +61,9 @@
 [submodule "projects/org-inline-image"]
 	path = projects/org-inline-image
 	url =  git@github.com:Fuco1/org-inline-image.git
+[submodule "projects/org-node-graph"]
+	path = projects/org-node-graph
+	url = git@github.com:Fuco1/org-node-graph.git
 [submodule "projects/orgpath"]
 	path = projects/orgpath
 	url =  git@github.com:Fuco1/org-xpath.git
