@@ -108,7 +108,7 @@
  '(abm-file "~/.emacs.d/.cache/autobookmarks/autobookmarks")
  '(abm-ignore-buffers
    (quote
-    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index")))
+    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index" "Org Src")))
  '(abm-old-bookmark-threshold 45)
  '(ag-highlight-search t)
  '(anzu-search-threshold 1000)
@@ -210,7 +210,8 @@
       (extension "doc" "docx" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub")))))
  '(dired-guess-shell-alist-user
    (quote
-    (("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura --fork")
+    (("\\.\\(?:MP[34]\\|avi\\|flv\\|m\\(?:kv\\|ov\\|p[34g]\\)\\|ogg\\|wm[av]\\)\\'" "vlc")
+     ("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura")
      ("\\.fb2" "fbreader"))))
  '(dired-hide-details-hide-information-lines nil)
  '(dired-isearch-filenames t)
@@ -324,7 +325,6 @@
  '(epg-gpg-program "gpg2")
  '(eshell-aliases-file "/home/matus/.emacs.d/etc/eshell/alias")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
- '(eshell-last-dir-ring-file-name "/home/matus/.emacs.d/.cache/eshell/lastdir")
  '(eshell-output-filter-functions
    (quote
     (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
@@ -353,6 +353,7 @@
    (quote
     (php-phplint php-phpmd emacs-lisp-checkdoc emacs-lisp-elsa)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
+ '(flycheck-gcc-language-standard "c++14")
  '(flycheck-ghc-args nil)
  '(flycheck-ghc-search-path
    (quote
@@ -406,6 +407,7 @@
       "logio"))))
  '(god-mod-alist (quote ((nil . "C-") ("g" . "M-") ("i" . "C-M-"))))
  '(google-this-keybind "\"g\"")
+ '(gud-key-prefix "")
  '(guide-key-mode t)
  '(guide-key/guide-key-sequence
    (quote
@@ -635,9 +637,9 @@
  (log-edit-insert-cvs-template log-edit-insert-changelog log-edit-show-files)))
  '(look-show-subdirs t)
  '(ls-lisp-dirs-first t)
- '(ls-lisp-use-insert-directory-program nil)
  '(ls-lisp-use-localized-time-format t)
  '(ls-lisp-verbosity (quote (uid gid)))
+ '(magit-auto-revert-mode nil)
  '(magit-bury-buffer-function (quote quit-window))
  '(magit-completing-read-function (quote ido-completing-read))
  '(magit-diff-refine-hunk (quote all))
@@ -672,7 +674,7 @@
 '(omnisharp-server-executable-path
 "/home/matus/sources/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
  '(org-M-RET-may-split-line nil)
- '(org-adapt-indentation nil)
+ '(org-adapt-indentation t)
 '(org-agenda-clock-consistency-checks
 (quote
  (:max-duration "10:00" :min-duration 0 :max-gap "0:20" :gap-ok-around
@@ -709,6 +711,8 @@
   (800 1000 1200 1400 1600 1800 2000))))
  '(org-agenda-todo-ignore-scheduled (quote all))
  '(org-agenda-window-setup (quote current-window))
+ '(org-attach-auto-tag nil)
+ '(org-attach-commit nil)
 '(org-babel-load-languages
 (quote
  ((emacs-lisp . t)
@@ -1470,7 +1474,7 @@
   ("~" markup-inline-code verbatim)
   ("+" markup-strike))))
  '(org-export-allow-bind-keywords t)
- '(org-fast-tag-selection-single-key nil)
+ '(org-fast-tag-selection-single-key (quote expert))
 '(org-file-apps
 (quote
  ((auto-mode . emacs)
@@ -1478,7 +1482,6 @@
   ("\\.x?html?\\'" . default)
   ("\\.pdf\\'" . "zathura --fork %s"))))
  '(org-fontify-done-headline t)
- '(org-fontify-whole-heading-line t)
  '(org-footnote-auto-label (quote random))
  '(org-footnote-define-inline t)
 '(org-format-latex-options
@@ -1500,17 +1503,19 @@
  '(org-lowest-priority 69)
 '(org-modules
 (quote
- (org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-checklist org-depend org-drill)))
+ (org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-inlinetask org-checklist org-depend org-drill)))
  '(org-outline-path-complete-in-steps nil)
  '(org-plantuml-jar-path "~/bin/plantuml.jar")
  '(org-priority-start-cycle-with-default nil)
+ '(org-publish-timestamp-directory "~/.emacs.d/.cache/org-timestamps/")
  '(org-refile-allow-creating-parent-nodes (quote confirm))
  '(org-refile-target-verify-function (quote my-org-verify-refile-target))
 '(org-refile-targets
 (quote
  ((nil :maxlevel . 9)
   (org-agenda-files :maxlevel . 9))))
- '(org-refile-use-outline-path t)
+ '(org-refile-use-cache t)
+ '(org-refile-use-outline-path (quote file))
  '(org-scheduled-delay-days 0)
  '(org-show-entry-below (quote ((default . t))))
  '(org-show-following-heading (quote ((default . t))))
@@ -1586,6 +1591,7 @@
 
 #+END" "<pre>?</pre>"))))
  '(org-stuck-projects (quote ("" nil nil "")))
+ '(org-super-agenda-unmatched-order 10)
  '(org-support-shift-select t)
  '(org-tags-exclude-from-inheritance (quote ("folder" "publish")))
  '(org-tags-sort-function (quote string<))
@@ -1595,6 +1601,9 @@
  '(org-tree-slide-slide-in-effect nil)
  '(org-use-speed-commands t)
  '(package-enable-at-startup nil)
+'(package-selected-packages
+(quote
+ (docker-tramp nov magit-annex restclient web-server org-super-agenda camcorder scala-mode cmake-mode evil pdf-tools org-brain yaml-mode world-time-mode which-key wgrep-ag web-mode visual-regexp use-package undo-tree undercover tuareg transpose-frame string-edit smex smartscan smartparens shell-pop shackle scf-mode rainbow-mode puppet-mode pos-tip php-refactor-mode php-mode php-eldoc php-boris-minor-mode password-generator parse-csv paren-face pandoc-mode pallet package-lint overseer ov outshine org-plus-contrib omnisharp ob-elixir notmuch nginx-mode multiple-cursors markdown-toc markdown-mode+ make-it-so magit macrostep legalese ledger-mode keyfreq jump-char json-mode js2-mode jdee ido-ubiquitous ibuffer-vc htmlize highlight-thing helm-gtags helm-descbinds gnus-alias gnuplot glsl-mode gitignore-mode flycheck-ledger flycheck-haskell flycheck-elixir flycheck-credo flycheck-cask flx-ido fish-mode firestarter expand-region exec-path-from-shell ess emr emmet-mode elpy elfeed eldoc-eval eimp editorconfig dockerfile-mode dired+ czech-holidays conkeror-minor-mode concurrent company-statistics clojure-mode cask-mode buttercup browse-kill-ring browse-at-remote auctex assess alchemist ag)))
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
  '(preview-scale-function 1.5)
@@ -1621,7 +1630,19 @@
  '(restclient-inhibit-cookies t)
 '(safe-local-variable-values
 (quote
- ((org-refile-targets
+ ((haskell-program-name . "stack exec -- ghci +RTS -M300m")
+  (eval setq compile-command
+        (concat "make -C "
+                (locate-dominating-file
+                 (buffer-file-name)
+                 ".travis.yml")))
+  (eval setq compile-command
+        (concat "make -C "
+                (locate-dominating-file
+                 (buffer-file-name)
+                 ".travis.yml")
+                " -j2"))
+  (org-refile-targets
    (nil :maxlevel . 9))
   (eval font-lock-add-keywords nil
         (-map
@@ -1961,6 +1982,7 @@
  '(savehist-file "~/.emacs.d/.cache/savehist/history")
  '(savehist-mode t)
  '(scroll-preserve-screen-position 1)
+ '(select-enable-clipboard t)
 '(semantic-default-submodes
 (quote
  (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode global-semantic-mru-bookmark-mode)))
@@ -1977,6 +1999,7 @@
   ("\\*magit:" :regexp t :select t :inhibit-window-quit t :same t)
   (Man-mode :select t :inhibit-window-quit t :same t)
   ("\\*ag search" :regexp t :inhibit-window-quit t :same t))))
+ '(shell-file-name "/bin/bash")
  '(shell-pop-restore-window-configuration nil)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
@@ -2004,6 +2027,7 @@
 (quote
  (ruby-mode gfm-mode emacs-lisp-mode html-mode org-mode python-mode text-mode latex-mode)))
  '(sp-navigate-consider-symbols t)
+ '(sp-navigate-interactive-always-progress-point t)
  '(sp-navigate-reindent-after-up (quote ((interactive emacs-lisp-mode))))
 '(sp-navigate-skip-match
 (quote
@@ -2047,7 +2071,7 @@
 '(stocklist-instruments
 (quote
  (("AAPL" :tags
-   ("tech" "growth" "owned"))
+   ("tech" "growth"))
   ("MSFT" :tags
    ("tech" "growth")
    :signals
@@ -2061,10 +2085,9 @@
    :signals
    ((yield > 4)))
   ("T" :tags
-   ("telecom" "buffett" "tech")
+   ("owned" "telecom" "buffett" "tech")
    :signals
    ((ask < 34.5)))
-  ("CLX")
   ("QCOM" :tags
    ("tech" "div-growth")
    :signals
@@ -2072,7 +2095,7 @@
   ("PG" :tags
    ("retail" "buffett" "king"))
   ("WFC" :tags
-   ("finance" "owned"))
+   ("finance"))
   ("WMT" :tags
    ("retail" "buffett")
    :signals
@@ -2094,35 +2117,33 @@
    :signals
    ((yield > 8)))
   ("GM" :tags
-   ("car" "owned"))
+   ("car"))
   ("LTC" :signals
    ((pe < 22)))
   ("JNJ" :tags
    ("healthcare" "buffett" "king"))
   ("MCD")
   ("TGT" :tags
-   ("retail"))
-  ("BT" :tags
-   ("telecom" "tech" "brexit"))
+   ("retail")
+   :signals
+   ((close < 50.0)))
   ("VZ" :tags
    ("telecom" "tech"))
   ("CAT" :tags
-   ("industry" "agro" "5star")
-   :signals
-   ((ask < 60)))
+   ("industry" "agro" "5star"))
   ("DE" :tags
-   ("industry" "agro" "5star" "div-growth")
-   :signals
-   ((ask < 65.0)))
+   ("industry" "agro" "5star" "div-growth"))
   ("UTX")
   ("AWR" :tags
-   ("king" "industry"))
+   ("king" "industry")
+   :signals
+   ((close < 40.0)))
   ("CL" :tags
    ("healthcare" "king"))
   ("DOV" :tags
    ("king" "industry"))
   ("GPC" :tags
-   ("king" "industry")
+   ("owned" "king" "industry")
    :signals
    ((yield > 3)))
   ("LOW" :tags
@@ -2137,28 +2158,14 @@
    ((yield > 2.5)))
   ("GD" :tags
    ("aerospace" "div"))
-  ("ROP")
   ("DIS" :tags
    ("growth" "owned"))
   ("CINF" :tags
    ("king" "insurance" "finance"))
-  ("AFL")
   ("INTC" :tags
    ("tech"))
-  ("M" :tags
-   ("owned" "retail")
-   :signals
-   ((ask < 30.4)))
-  ("JWN" :tags
-   ("owned" "growth" "retail"))
   ("HON" :tags
    ("industry" "aerospace"))
-  ("RIO" :tags
-   ("mining")
-   :signals
-   ((ask < 22)))
-  ("TRP" :tags
-   ("energy"))
   ("NWN" :tags
    ("gas" "energy" "king"))
   ("VVC" :tags
@@ -2170,7 +2177,7 @@
   ("UPS" :tags
    ("buffett" "div" "transport"))
   ("VLO" :tags
-   ("owned" "oil" "div-growth"))
+   ("oil" "div-growth"))
   ("XOM" :tags
    ("oil")
    :signals
@@ -2180,13 +2187,7 @@
    :signals
    ((yield > 5)))
   ("EOG" :tags
-   ("oil")
-   :signals
-   ((ask < 64)))
-  ("TDW" :tags
-   ("oil")
-   :signals
-   ((ask < 6.5)))
+   ("oil"))
   ("CLR" :tags
    ("oil")
    :signals
@@ -2195,55 +2196,24 @@
    ("oil" "buffett")
    :signals
    ((ask < 75.01)))
-  ("PXD" :tags
-   ("oil")
-   :signals
-   ((ask < 130)))
-  ("QEP" :tags
-   ("oil")
-   :signals
-   ((ask < 10)))
   ("TSLA" :tags
    ("tech"))
   ("FB" :tags
    ("tech" "growth"))
+  ("HRB" :tags
+   ("finance")
+   :signals
+   ((close < 24)))
   ("PSEC" :tags
    ("sec" "income")
    :signals
    ((yield > 13.999)))
-  ("CINR" :tags
-   ("mining" "gold")
-   :signals
-   ((ask < 23.5)
-    (yield > 10.0)))
-  ("HRB" :tags
-   ("finance")
-   :signals
-   ((yield > 4)))
   ("OKE" :tags
    ("income" "gas" "energy"))
   ("CMI" :tags
    ("industry" "div" "5star" "div-growth")
    :signals
-   ((ask < 105)))
-  ("SCSC" :tags
-   ("tech")
-   :signals
-   ((ask < 33.0)))
-  ("BCEI" :tags
-   ("energy")
-   :signals
-   ((ask < 0.9)))
-  ("NOG" :tags
-   ("energy")
-   :signals
-   ((ask < 3.05)))
-  ("WSR" :tags
-   ("reit"))
-  ("EPR" :tags
-   ("reit"))
-  ("CLDT" :tags
-   ("reit")))))
+   ((ask < 105))))))
 '(stocklist-tag-to-face
 (quote
  (("owned" . stocklist-owned)
@@ -2275,7 +2245,6 @@
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
  '(winner-mode t)
- '(x-select-enable-clipboard t)
  '(yas-prompt-functions (quote (yas-ido-prompt)))
  '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets"))))
 
