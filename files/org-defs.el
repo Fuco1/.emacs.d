@@ -421,8 +421,13 @@
           ;; Item that we are reading at the moment, however, is marked
           ;; NEXT as every other current task.
           ("r" "Reading"
-           ((tags "+Reading/-DONE"
+           ((tags "+readlater-BOOKS/-DONE"
+                  ((org-agenda-overriding-header "Read later")))
+            (tags "+Reading+BOOKS-readlater-tosort/-DONE-NEXT"
                   ((org-agenda-overriding-header "To read")
+                   (org-agenda-files '("~/org/reading.org"))))
+            (tags "+Reading+tosort"
+                  ((org-agenda-overriding-header "Sort")
                    (org-agenda-files '("~/org/reading.org"))))
             (tags "+Reading/DONE"
                   ((org-agenda-overriding-header "Finished")
