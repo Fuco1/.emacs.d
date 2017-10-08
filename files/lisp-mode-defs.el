@@ -1,8 +1,5 @@
 (require 'thingatpt)
 
-(use-package letcheck
-  :commands letcheck-mode)
-
 (bind-keys :map emacs-lisp-mode-map
   ("C-M-;" . clippy-describe-function)
   ("C-c C-c" . overseer-test-run-test)

@@ -1087,7 +1087,6 @@ called, percentage usage and the command."
       (set-input-method "english-prog")
       (eldoc-mode 1)
       (buttercup-minor-mode 1)
-      (letcheck-mode t)
       (add-to-list 'imenu-generic-expression
                    '("Ert tests" "\\(^(ert-deftest +\\)\\(\\_<.+\\_>\\)" 2))
       (setq completion-at-point-functions nil))
