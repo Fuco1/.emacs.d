@@ -1,0 +1,38 @@
+#+PROPERTY: header-args:elisp :tangle my-macros-tangled.el
+
+* my-with-temporary-hook
+  :CLOCK:
+  CLOCK: [2017-05-09 Tue 19:45]--[2017-05-09 Tue 20:25] =>  0:40
+  :END:
+
+#+BEGIN_SRC elisp
+(defmacro my-minibuffer-with-hook (hook fn &rest body)
+  "Locally add FN to HOOK in minibuffer then execute BODY.
+
+The FN is removed from HOOK after BODY finished or an `error' was
+thrown."
+  (declare (indent 1))
+  (let ((hook-fn (make-symbol "--temp-symbol--"))
+        (buffer (make-symbol "--minibuffer--")))
+    `(let ((,hook-fn (make-symbol "--temp-hook--"))
+           (,buffer nil))
+       (cl-letf (((symbol-function ,hook-fn) ,fn))
+         (unwind-protect
+             (minibuffer-with-setup-hook
+                 (lambda ()
+                   (setq ,buffer (current-buffer))
+                   (add-hook ,hook ,hook-fn nil 'local))
+               ,@body)
+           (with-current-buffer ,buffer
+             (remove-hook ,hook ,hook-fn 'local)))))))
+#+END_SRC
+
+An example use:
+
+#+BEGIN_SRC elisp :tangle no
+(defun my-minibuffer-read ()
+  (interactive)
+  (my-minibuffer-with-hook 'post-self-insert-hook
+    (lambda () (with-current-buffer (get-buffer-create "*test*") (insert "x")))
+    (read-from-minibuffer "Input: ")))
+#+END_SRC

@@ -44,32 +44,5 @@ on-the-fly to hooks for the duration of the BODY."
                ,@body)
            (remove-hook ,hook ,hook-fn))))))
 
-(defmacro my-minibuffer-with-hook (hook fn &rest body)
-  "Locally add FN to HOOK in minibuffer then execute BODY.
-
-The FN is removed from HOOK after BODY finished or an `error' was
-thrown."
-  (declare (indent 1))
-  (let ((hook-fn (make-symbol "--temp-symbol--"))
-        (buffer (make-symbol "--minibuffer--")))
-    `(let ((,hook-fn (make-symbol "--temp-hook--"))
-           (,buffer nil))
-       (cl-letf (((symbol-function ,hook-fn) ,fn))
-         (unwind-protect
-             (minibuffer-with-setup-hook
-                 (lambda ()
-                   (setq ,buffer (current-buffer))
-                   (add-hook ,hook ,hook-fn nil 'local))
-               ,@body)
-           (with-current-buffer ,buffer
-             (remove-hook ,hook ,hook-fn 'local)))))))
-
-;; (defun my-minibuffer-read ()
-;;   (interactive)
-;;   (my-minibuffer-with-hook 'post-self-insert-hook
-;;     (lambda () (with-current-buffer (get-buffer-create "*test*") (insert "x")))
-;;     (read-from-minibuffer "Input: ")))
-
-
 (provide 'my-macros)
 ;;; my-macros.el ends here
