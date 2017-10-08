@@ -1550,11 +1550,25 @@ sibling before the next header."
 (defun my-gleeo-to-org-timestamps ()
   "Convert Gleeo export to org timestamps."
   (interactive)
-  (my-fix-reset-after-each
-    (replace-regexp " " " ")
-    (replace-regexp "\t" "]--[")
-    (replace-regexp "^" "CLOCK: [")
-    (replace-regexp "$" "]")))
+  (reverse-region (point-min) (point-max))
+  (my-with-each-line
+    (delete-region (point) (search-forward "," nil t 4))
+    (search-forward "," nil t)
+    (replace-match " ")
+    (delete-region (1- (search-forward "," nil t)) (line-end-position))
+    (beginning-of-line)
+    (let ((from (delete-and-extract-region
+                 (point) (1- (search-forward " " nil t 2))))
+          (to (progn
+                (delete-char 1)
+                (delete-and-extract-region (point) (line-end-position)))))
+      (insert
+       "CLOCK: "
+       (format-time-string "[%Y-%m-%d %a %H:%M]"
+                           (org-read-date nil 'totime from))
+       "--"
+       (format-time-string "[%Y-%m-%d %a %H:%M]"
+                           (org-read-date nil 'totime to))))))
 
 (defadvice org-archive-subtree (around fix-hierarchy activate)
   (let* ((fix-archive-p (and (not current-prefix-arg)
