@@ -1402,10 +1402,11 @@ deep header and add a sibling before it.  With prefix argument
 sibling before the next header."
   (interactive "P")
   (org-back-to-heading)
-  (let ((cdepth (plist-get (cadr (org-element-at-point)) :level))
-        (ndepth (save-excursion
-                  (outline-next-heading)
-                  (plist-get (cadr (org-element-at-point)) :level))))
+  (let* ((cdepth (plist-get (cadr (org-element-at-point)) :level))
+         (ndepth (or (save-excursion
+                       (outline-next-heading)
+                       (plist-get (cadr (org-element-at-point)) :level))
+                     cdepth)))
     (cond
      ((and (< cdepth ndepth) arg)
       (my-org-next-parent-sibling))
