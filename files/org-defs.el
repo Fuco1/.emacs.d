@@ -1212,14 +1212,16 @@ point and rebuild the agenda view."
               ("IDEA" :foreground "pink" :weight bold))))
 
 (setq org-todo-state-tags-triggers
-      (quote (("STOP" ("STOP" . t))
+      (quote (
+              ("TODO" ("WAIT") ("STOP") ("HOLD"))
+              ("NEXT" ("WAIT") ("STOP") ("HOLD") ("readlater") ("watchlater"))
+              (done ("WAIT") ("STOP") ("HOLD")
+                    ("readlater") ("watchlater")
+                    ("#mit") ("#weekly") ("#monthly"))
               ("WAIT" ("WAIT" . t))
               ("HOLD" ("HOLD" . t))
-              (done ("WAIT") ("HOLD"))
-              ("TODO" ("WAIT") ("STOP") ("HOLD"))
-              ("IDEA" ("WAIT") ("STOP") ("HOLD"))
-              ("NEXT" ("WAIT") ("STOP") ("HOLD"))
-              ("DONE" ("WAIT") ("STOP") ("HOLD")))))
+              ("STOP" ("WAIT") ("STOP" . t) ("HOLD"))
+              ("IDEA" ("WAIT") ("STOP") ("HOLD")))))
 
 ;; Tags shortcuts
 (setq org-tag-alist (quote (("readlater" . ?r)
