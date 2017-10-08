@@ -38,6 +38,14 @@
      (format
       "Blessed art thou, who hath come to the One True Editor.
 
+        – Anonymous
+
+Emacs outshines all other editing software in approximately the same
+way that the noonday sun does the stars. It is not just bigger and
+brighter; it simply makes everything else vanish.
+
+        – Neal Stephenson, “In the Beginning was the Command Line”
+
 Loaded %d packages in %.3fs seconds"
       (length package-activated-list)
       emacs-load-time))
