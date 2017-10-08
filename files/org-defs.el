@@ -1150,7 +1150,8 @@ point and rebuild the agenda view."
         ("l" "Read later" entry (file "~/org/refile.org")
          "* %?%:description :readlater:
 - %(if (string-blank-p \"%a\") \"%:link\" \"%a\")
-%(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")
+%(unless (string-blank-p \"%:initial\") \"- %:initial\n\")
+%(unless (string-blank-p \"%:elfeed-entry-link\") \"- web link: %:elfeed-entry-link \n\")")
         ("j" "Journals")
         ("jj" "Journal" entry (file+datetree "~/org/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t)
         ("jo" "Journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
