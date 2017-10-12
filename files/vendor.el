@@ -2170,6 +2170,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :bind ("C-. t" . world-time-list))
 
 (use-package yaml-mode
+  :mode (("yarn.lock" . yaml-mode))
   :config
   (defun my-yaml-mode-init ()
     (smartparens-strict-mode 1)
