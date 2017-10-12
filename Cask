@@ -62,6 +62,7 @@
 (depends-on "ido-ubiquitous")
 (depends-on "jdee")
 (depends-on "js2-mode")
+(depends-on "js2-refactor")
 (depends-on "json-mode")
 (depends-on "jump-char")
 (depends-on "keyfreq")
