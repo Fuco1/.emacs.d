@@ -1043,6 +1043,8 @@ use a directory-local variable to specify this per-project."
                 ("q" nil))
               js2-mode-map)
     (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)
+    (bind-key "M-'" 'js2-jump-to-definition js2-mode-map)
+    (bind-key "M-." 'sallet-imenu js2-mode-map)
     (defun my-js2-mode-init ()
       (js2-refactor-mode 1)
       (-when-let (buffer (buffer-file-name))
