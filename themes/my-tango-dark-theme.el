@@ -538,7 +538,8 @@ is extension of default `tango-dark' face.")
    (ledger-font-payee-uncleared-face (:foreground red-1))
 
    ;; js2-mode
-   (js2-function-param (:inherit font-lock-builtin-face))
+   (js2-function-param (:inherit font-lock-variable-name-face))
+   (js2-external-variable (:inherit font-lock-keyword-face))
 
    ;; (ansi-)term
    (term-color-black (:foreground alum-4 :background alum-7))
