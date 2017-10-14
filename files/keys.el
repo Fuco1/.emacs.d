@@ -98,10 +98,7 @@
 (bind-key "RET" 'my-newline)
 (bind-key "C-o" 'my-open-line)
 (bind-key "C-S-o" 'my-forward-line-and-indent)
-(bind-key "M-j"
-          (lambda ()
-            (interactive)
-            (join-line -1)))
+(bind-key "M-j" 'my-join-lines)
 
 ;; deleting stuff
 (bind-key "C-<backspace>" 'my-kill-whitespace)

@@ -3,8 +3,8 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "my-defuns" "my-defuns.el" (23002 4424 747061
-;;;;;;  654000))
+;;;### (autoloads nil "my-defuns" "my-defuns.el" (23002 4665 154301
+;;;;;;  825000))
 ;;; Generated autoloads from my-defuns.el
 
 (autoload 'my-lorem "my-defuns" "\
@@ -203,8 +203,8 @@ Add face to region.
 
 ;;;***
 
-;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (22817
-;;;;;;  44623 333283 394000))
+;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (23010
+;;;;;;  16745 325448 828000))
 ;;; Generated autoloads from my-defuns-edit.el
 
 (autoload 'my-forward-whitespace "my-defuns-edit" "\
@@ -370,6 +370,11 @@ With raw prefix \\[universal-argument] insert the word at point.
 
 \(fn &optional ARG)" t nil)
 
+(autoload 'my-join-lines "my-defuns-edit" "\
+Pull the next line up and place cursor at its beginning.
+
+\(fn)" t nil)
+
 (autoload 'my-change-identifier-style "my-defuns-edit" "\
 Change identifier in region or under point.
 
@@ -394,8 +399,8 @@ Repeat ARG times.
 ;;;***
 
 ;;;### (autoloads nil nil ("my-advices.el" "my-bootstrap.el" "my-macros-tangled.el"
-;;;;;;  "my-macros.el" "my-redef.el" "vendor.el") (23002 4269 645102
-;;;;;;  417000))
+;;;;;;  "my-macros.el" "my-redef.el" "vendor.el") (23010 16609 103472
+;;;;;;  874000))
 
 ;;;***
 

@@ -506,6 +506,12 @@ With raw prefix \\[universal-argument] insert the word at point."
       (end-of-line)
       (insert " " text))))
 
+;;;###autoload
+(defun my-join-lines ()
+  "Pull the next line up and place cursor at its beginning."
+  (interactive)
+  (join-line -1))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Identifier editing
