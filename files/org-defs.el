@@ -29,6 +29,8 @@
 
 (use-package elfeed-link)
 
+(use-package org-project)
+
 (use-package org-depend
   :config
   (progn
@@ -1038,8 +1040,6 @@ This usually makes new item indented one level deeper."
 
 (my-org-custom-filter books "b")
 (my-org-custom-filter mov "m")
-
-(load "~/.emacs.d/files/org-project")
 
 ;;;_. Narrowing
 
