@@ -6,7 +6,6 @@
 (require 'f)
 (require 's)
 (require 'dash)
-(require 'smartparens)
 (require 'org-table)
 (require 'org-element)
 (require 'projectile)
