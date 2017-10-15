@@ -153,7 +153,6 @@
 int foo();"
             (progn
               (c++-mode)
-              (smartparens-mode 1)
               (save-excursion (syntax-ppss 1)))
           (expect (my--point-in-comment) :to-be-truthy)
           (my-back-to-indentation-or-beginning)

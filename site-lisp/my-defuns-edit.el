@@ -128,15 +128,32 @@ and indent next line according to mode."
 ;; navigate to beg/end of current line, considering indent and
 ;; comments
 
-(defun my--point-in-comment ()
+(defun my--point-in-comment (&optional p)
   "Determine if the point is inside a comment"
-  ;; TODO: remove dependency on smartparens
-  (or (sp-point-in-comment)
-      (-when-let (s (car (syntax-after (point))))
-        (or (/= 0 (logand (lsh 1 16) s))
-            (/= 0 (logand (lsh 1 17) s))
-            (/= 0 (logand (lsh 1 18) s))
-            (/= 0 (logand (lsh 1 19) s))))))
+  (setq p (or p (point)))
+  (ignore-errors
+    (save-excursion
+      (or (nth 4 (syntax-ppss p))
+          ;; this also test opening and closing comment delimiters... we
+          ;; need to chack that it is not newline, which is in "comment
+          ;; ender" class in elisp-mode, but we just want it to be
+          ;; treated as whitespace
+          (and (< p (point-max))
+               (memq (char-syntax (char-after p)) '(?< ?>))
+               (not (eq (char-after p) ?\n)))
+          ;; we also need to test the special syntax flag for comment
+          ;; starters and enders, because `syntax-ppss' does not yet
+          ;; know if we are inside a comment or not (e.g. / can be a
+          ;; division or comment starter...).
+          (-when-let (s (car (syntax-after p)))
+            (or (and (/= 0 (logand (lsh 1 16) s))
+                     (nth 4 (syntax-ppss (+ p 2))))
+                (and (/= 0 (logand (lsh 1 17) s))
+                     (nth 4 (syntax-ppss (+ p 1))))
+                (and (/= 0 (logand (lsh 1 18) s))
+                     (nth 4 (syntax-ppss (- p 1))))
+                (and (/= 0 (logand (lsh 1 19) s))
+                     (nth 4 (syntax-ppss (- p 2))))))))))
 
 (defun my--back-to-indentation ()
   "Move to indentation respecting `visual-line-mode'."
