@@ -10,20 +10,15 @@
 (describe "Dired"
 
   (it "should build imenu for dired"
-    (shut-up
-      (assess-with-filesystem '("first-dir/foo"
-                                "another-dir/bar")
-        (dired ".")
-        (goto-char (point-min))
-        (search-forward "first-dir")
-        (call-interactively 'dired-maybe-insert-subdir)
-        (goto-char (point-min))
-        (search-forward "another-dir")
-        (call-interactively 'dired-maybe-insert-subdir)
-        (let ((alist (imenu--make-index-alist)))
-          (expect (assoc "first-dir" alist) :to-be-truthy)
-          (expect (assoc "another-dir" alist) :to-be-truthy)
-          (expect (assoc (f-base default-directory) alist) :to-be-truthy)))))
+    (assess-with-filesystem '("first-dir/foo"
+                              "another-dir/bar")
+      (dired ".")
+      (dired-maybe-insert-subdir "first-dir")
+      (dired-maybe-insert-subdir "another-dir")
+      (let ((alist (imenu--make-index-alist)))
+        (expect (assoc "first-dir" alist) :to-be-truthy)
+        (expect (assoc "another-dir" alist) :to-be-truthy)
+        (expect (assoc (f-base default-directory) alist) :to-be-truthy))))
 
   (it "should revert the buffer after `dired-create-directory'."
     (shut-up
