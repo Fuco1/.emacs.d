@@ -29,7 +29,8 @@
 
 (use-package elfeed-link)
 
-(use-package org-project)
+;; TODO: replace with proper package
+(load (f-join (f-parent (f-this-file)) "org-project"))
 
 (use-package org-depend
   :config

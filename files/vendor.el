@@ -378,8 +378,8 @@ Call the value of `my-get-compile-command' to generate the
         (ido-dired))))
   :config
   (progn
-    (my-load-or-tangle "~/.emacs.d/files/dired-defs")
-    (load "~/.emacs.d/files/dired-defs")
+    (my-load-or-tangle (f-join (f-parent (f-this-file)) "dired-defs"))
+    (load (f-join (f-parent (f-this-file)) "dired-defs"))
 
     ;; overload to fix bullshit
     (defun dired-hack-local-variables () nil)))
@@ -963,7 +963,7 @@ use a directory-local variable to specify this per-project."
     (setq ido-ubiquitous-max-items nil))
   :config
   (progn
-    (load "~/.emacs.d/files/ido-defs")))
+    (load (f-join (f-parent (f-this-file)) "ido-defs"))))
 
 (use-package info
   :defer t
@@ -977,7 +977,7 @@ use a directory-local variable to specify this per-project."
          ("C-r" . isearch-backward-regexp))
   :config
   (progn
-    (load "~/.emacs.d/files/isearch-defs")))
+    (load (f-join (f-parent (f-this-file)) "isearch-defs"))))
 
 (use-package ispell
   :bind (("<f10>" . ispell-word)
@@ -1400,7 +1400,7 @@ If in the test file, visit source."
   :mode ("\\.md$" . gfm-mode)
   :config
   (progn
-    (load "~/.emacs.d/files/markdown-defs")))
+    (load (f-join (f-parent (f-this-file)) "markdown-defs"))))
 
 (use-package message
   :defer t
@@ -1538,8 +1538,8 @@ by that command."
           ("C-c C-x <C-i-key>" . org-clock-in))
   :config
   (progn
-    (my-load-or-tangle "~/.emacs.d/files/org-defs")
-    (load "~/.emacs.d/files/org-defs")))
+    (my-load-or-tangle (f-join (f-parent (f-this-file)) "org-defs"))
+    (load (f-join (f-parent (f-this-file)) "org-defs"))))
 
 ;; TODO: move into a separate file
 (use-package php-mode
@@ -1998,7 +1998,7 @@ These are retrieved from `imenu--index-alist'."
       (toggle-input-method)
       (throw 'quail-tag nil))
 
-    (load "~/.emacs.d/files/layouts")))
+    (load (f-join (f-parent (f-this-file)) "layouts"))))
 
 (use-package recentf
   :disabled t
@@ -2094,7 +2094,7 @@ separate buffer."
   :diminish smartparens-mode
   :init
   (progn
-    (load "~/.emacs.d/files/smartparens")))
+    (load (f-join (f-parent (f-this-file)) "smartparens"))))
 
 (use-package smartscan
   :bind (("C->" . smartscan-symbol-go-forward)
@@ -2237,7 +2237,7 @@ separate buffer."
              latex-mode)
   :config
   (progn
-    (load "~/.emacs.d/files/latex-defs")))
+    (load (f-join (f-parent (f-this-file)) "latex-defs"))))
 
 (use-package "text-mode"
   :init
@@ -2435,8 +2435,8 @@ If such snippet already exists, just open it for editing."
     ;; Replace yasnippets's TAB, was yas/expand
     (add-hook 'yas-minor-mode-hook 'my-yas-startup)))
 
-(my-load-or-tangle "~/.emacs.d/files/vendor")
-(my-load-or-tangle "~/.emacs.d/files/keys")
+(my-load-or-tangle (f-join (f-parent (f-this-file)) "vendor"))
+(my-load-or-tangle (f-join (f-parent (f-this-file)) "keys"))
 
 ;; Local Variables:
 ;; eval: (add-to-list 'imenu-generic-expression '("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2))
