@@ -99,8 +99,8 @@
   :STYLE:    habit
   :END:
   :CLOCK:
-  CLOCK: [2017-06-04 Sun 21:30]--[2017-06-04 Sun 21:33]
-  CLOCK: [2017-06-04 Sun 21:24]--[2017-06-04 Sun 21:29]
+  CLOCK: [2017-06-04 Sun 21:30]--[2017-06-04 Sun 21:33] => 0:03
+  CLOCK: [2017-06-04 Sun 21:24]--[2017-06-04 Sun 21:29] => 0:05
   :END:
 "
         (let ((org-agenda-files (list (buffer-file-name)))
@@ -111,5 +111,6 @@
           (org-agenda-list nil (time-to-days
                                 (org-time-string-to-time "<2017-06-04>")))
           (org-agenda-log-mode 1)
-          (goto-char (point-max))
-          (expect (line-number-at-pos) :to-be 14))))))
+          (goto-char (point-min))
+          (save-excursion (expect (search-forward "(0:03)") :to-be-truthy))
+          (save-excursion (expect (search-forward "(0:05)") :to-be-truthy)))))))
