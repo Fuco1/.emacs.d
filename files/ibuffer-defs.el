@@ -39,6 +39,7 @@
            (or (mode . html-mode)
                (mode . css-mode)
                (mode . php-mode)
+               (mode . js2-mode)
                (mode . js-mode)))
           ("Dired"
            (mode . dired-mode))
