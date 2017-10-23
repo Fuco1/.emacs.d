@@ -68,6 +68,7 @@
 (depends-on "keyfreq")
 (depends-on "ledger-mode")
 (depends-on "legalese")
+(depends-on "less-css-mode")
 (depends-on "macrostep")
 (depends-on "magit")
 (depends-on "magit-annex")
