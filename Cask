@@ -76,6 +76,7 @@
 (depends-on "markdown-mode")
 (depends-on "markdown-mode+")
 (depends-on "markdown-toc")
+(depends-on "mocha")
 (depends-on "multiple-cursors")
 (depends-on "nginx-mode")
 (depends-on "notmuch")
