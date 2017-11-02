@@ -299,6 +299,7 @@
                               (quote mouse-2)
                               read-mail-command)))
        ""))))
+ '(docker-tramp-use-names t)
  '(echo-keystrokes 0.1)
  '(ediff-diff-options "-w")
  '(ediff-merge-split-window-function (quote split-window-horizontally))
@@ -361,6 +362,7 @@
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
  '(flycheck-php-phpcs-executable "~/.config/composer/vendor/bin/phpcs")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
+ '(fold-dwim-outline-style-default (quote nested))
  '(font-latex-math-environments
    (quote
     ("display" "displaymath" "equation" "eqnarray" "gather" "multline" "align" "alignat" "xalignat" "derivation")))
@@ -577,6 +579,8 @@
  '(initial-major-mode (quote fundamental-mode))
  '(ispell-program-name "hunspell")
  '(ivy-height 30)
+ '(js2-strict-missing-semi-warning nil)
+ '(js2-strict-trailing-comma-warning nil)
  '(jump-char-forward-key "m")
  '(keyfreq-autosave-mode t)
  '(keyfreq-file "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq")
@@ -637,7 +641,9 @@
  (log-edit-insert-cvs-template log-edit-insert-changelog log-edit-show-files)))
  '(look-show-subdirs t)
  '(ls-lisp-dirs-first t)
+ '(ls-lisp-use-insert-directory-program nil)
  '(ls-lisp-use-localized-time-format t)
+ '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity (quote (uid gid)))
  '(magit-auto-revert-mode nil)
  '(magit-bury-buffer-function (quote quit-window))
@@ -662,6 +668,7 @@
  '(mis-make-command "make -j2")
  '(mis-recipes-directory "~/.emacs.d/elpa/make-it-so-20141203.811/recipes/")
  '(mm-inline-large-images (quote resize))
+ '(mocha-reporter "spec")
  '(mouse-highlight nil)
  '(mouse-wheel-progressive-speed nil)
  '(notmuch-archive-tags (quote ("-inbox" "-unread" "+archived")))
@@ -674,7 +681,7 @@
 '(omnisharp-server-executable-path
 "/home/matus/sources/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
  '(org-M-RET-may-split-line nil)
- '(org-adapt-indentation t)
+ '(org-adapt-indentation nil)
 '(org-agenda-clock-consistency-checks
 (quote
  (:max-duration "10:00" :min-duration 0 :max-gap "0:20" :gap-ok-around
