@@ -464,6 +464,27 @@ config from before."
     (add-hook 'ediff-before-setup-hook 'my-ediff-before-setup)
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
+(use-package edit-indirect
+  :defer t
+  :init
+  (defun my-after-indirect-edit-realign (beg end)
+    (save-excursion
+      (goto-char beg)
+      (let ((cc (current-column))
+            (end-marker (set-marker (make-marker) end)))
+        (while (< (progn
+                    (forward-line)
+                    (point)) end-marker)
+          (line-beginning-position)
+          (insert (make-string cc 32)))
+        (when indent-tabs-mode
+          (tabify beg end-marker))
+        (set-marker end-marker nil))))
+
+  (add-hook 'edit-indirect-after-commit-functions 'my-after-indirect-edit-realign)
+  :config
+  (bind-key "C-x C-s" 'edit-indirect-commit edit-indirect-mode-map))
+
 (use-package eldoc
   :commands eldoc-mode
   :diminish eldoc-mode
@@ -2181,6 +2202,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 (use-package yaml-mode
   :mode (("yarn.lock" . yaml-mode))
   :config
+  (bind-key "C-c '" 'edit-indirect-region yaml-mode-map)
   (defun my-yaml-mode-init ()
     (smartparens-strict-mode 1)
     (font-lock-add-keywords nil '(("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append))

@@ -27,6 +27,7 @@
 (depends-on "dired+")
 (depends-on "docker-tramp")
 (depends-on "dockerfile-mode")
+(depends-on "edit-indirect")
 (depends-on "editorconfig")
 (depends-on "eimp")
 (depends-on "eldoc-eval")
