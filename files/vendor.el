@@ -1019,7 +1019,7 @@ use a directory-local variable to specify this per-project."
              ""
              t ("-d" "cs_CZ" "-p" "/home/matus/.hunspell/personal.cs") nil utf-8)))))
 
-(use-package js2
+(use-package js2-mode
   :mode ("\\.js\\'" . js2-mode)
   :config
   (progn
