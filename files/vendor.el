@@ -1074,7 +1074,15 @@ use a directory-local variable to specify this per-project."
     (bind-key "M-'" 'js2-jump-to-definition js2-mode-map)
     (bind-key "M-." 'sallet-imenu js2-mode-map)
     (bind-key "M-j" 'my-join-lines js2-mode-map)
+
+    (use-package flycheck-flow
+      :config
+      (flycheck-add-next-checker 'javascript-eslint 'javascript-flow))
+
     (defun my-js2-mode-init ()
+      (-when-let (root (locate-dominating-file default-directory "node_modules"))
+        (setq-local flycheck-javascript-eslint-executable (concat root "/node_modules/.bin/eslint"))
+        (setq-local flycheck-javascript-flow-executable (concat root "/node_modules/.bin/flow")))
       (when (and buffer-file-name
                  (string-match-p "\\.spec\\.js\\'" buffer-file-name))
         (mocha-toggle-imenu-function))
