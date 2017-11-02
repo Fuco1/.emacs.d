@@ -187,3 +187,43 @@ Similarly, we advice the synchronous version =shell-command=.  This function ret
       (setq tab-width 8))
     (add-hook 'shell-mode-hook 'my-shell-mode-init)))
 #+END_SRC
+* Term-mode
+** TODO Emacs should maintain its own TMUX session for terminals
+** TODO Emacs should automatically join its session when starting new terminal
+** TODO auto-change directory in ansi-term (same way we do in eshell)
+For reference: https://oremacs.com/2015/01/10/dired-ansi-term/
+** TODO Better integrate kill/yank with ansi-term, fish and tmux
+** TODO Do not ask for the shell to start and just use a default
+** Kill the term buffer when process dies
+
+#+NAME: term-mode-my-term-exec-hook
+#+BEGIN_SRC elisp :tangle no
+(defun my-term-exec-hook ()
+  (let* ((buff (current-buffer))
+         (proc (get-buffer-process buff)))
+    (set-process-sentinel
+     proc
+     (lambda (process event)
+       (when (or (string= event "finished\n")
+                 (string-prefix-p "exited abnormally" event))
+         (kill-buffer buff))))))
+
+(add-hook 'term-exec-hook 'my-term-exec-hook)
+#+END_SRC
+
+** Final code
+
+#+BEGIN_SRC elisp :noweb yes
+(use-package term
+  :config
+  (bind-key "M-o" 'elwm-activate-window term-raw-map)
+
+  (defun my-term-mode-init ()
+;;   (compilation-minor-mode 1)
+  )
+
+  (add-hook 'term-mode-hook 'my-term-mode-init)
+
+  <<term-mode-my-term-exec-hook>>
+  )
+#+END_SRC
