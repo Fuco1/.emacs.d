@@ -1087,6 +1087,8 @@ use a directory-local variable to specify this per-project."
                  (string-match-p "\\.spec\\.js\\'" buffer-file-name))
         (mocha-toggle-imenu-function))
       (js2-refactor-mode 1)
+      (when (fboundp 'flow-js2-minor-mode)
+        (flow-js2-minor-mode 1))
       (-when-let (buffer (buffer-file-name))
         (when (string-match-p "conkeror" buffer)
           (conkeror-minor-mode 1))))
