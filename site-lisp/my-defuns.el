@@ -248,7 +248,8 @@ With non-nil prefix argument, ask for LANGUAGE."
             (buffer-substring-no-properties
              (region-beginning)
              (region-end))
-          (thing-at-point 'symbol))
+          (--when-let (thing-at-point 'symbol)
+            (regexp-quote it)))
         regexp-history)
   (call-interactively 'occur))
 
