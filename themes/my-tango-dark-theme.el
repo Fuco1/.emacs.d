@@ -61,6 +61,13 @@ is extension of default `tango-dark' face.")
 
 (defface markup-blockquote nil
   "Face for blockquote markup.")
+(defface markup-code-block nil
+  "Face for code block.
+
+A code block is a block that should have fixed width font and a
+background color to distinguish it form the surroundings.  The
+foreground fontification is supposed to be done natively by the
+respective major mode.  Think org SRC blocks.")
 (defface markup-pre nil
   "Face for pre markup.")
 (defface markup-comment nil
@@ -383,7 +390,8 @@ is extension of default `tango-dark' face.")
    (markup-list-unordered (:inherit font-lock-builtin-face))
 
    (markup-blockquote (:inherit font-lock-doc-face))
-   (markup-pre (:inherit fixed-pitch :background alum-6.5 :foreground plum-0))
+   (markup-code-block (:inherit fixed-pitch :background alum-6.5))
+   (markup-pre (:inherit markup-code-block :foreground plum-0))
    (markup-comment (:inherit font-lock-comment-face))
    (markup-metadata-key (:inherit font-lock-keyword-face))
    (markup-metadata-value (:foreground butter-2))
@@ -417,6 +425,7 @@ is extension of default `tango-dark' face.")
    (markdown-reference-face (:inherit markup-reference))
 
    (markdown-pre-face (:inherit markup-pre))
+   (markdown-code-face (:inherit markup-code-block))
 
    (markdown-link-face (:inherit markup-link))
 
@@ -489,7 +498,7 @@ is extension of default `tango-dark' face.")
 
    (textile-blockquote-face (:inherit markup-blockquote))
    (textile-pre-face (:inherit markup-pre))
-   (textile-code-face (:inherit markup-pre))
+   (textile-code-face (:inherit markup-code-block))
 
    (textile-link-face (:inherit markup-link))
    (textile-url-face (:inherit markup-url))
