@@ -45,6 +45,8 @@
 (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
 (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
 
+(define-key smartparens-mode-map (kbd "C-\"") 'sp-change-inner)
+
 (bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
 (bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
 
