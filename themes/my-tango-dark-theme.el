@@ -529,6 +529,9 @@ respective major mode.  Think org SRC blocks.")
    (hydra-face-red (:weight bold :foreground red-2))
    (hydra-face-blue (:weight bold :foreground blue-1))
 
+   ;; Company
+   (company-preview-common (:foreground alum-4))
+
    ;; Visible mark
    (visible-mark-face1 (:background alum-3))
    (visible-mark-face2 (:background alum-4))

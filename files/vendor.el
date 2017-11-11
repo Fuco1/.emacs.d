@@ -200,6 +200,7 @@ If no region is active, use word udner point."
 
     (bind-key "C-c y" 'company-yasnippet)
 
+    (bind-key "C-f" 'company-complete-selection company-active-map)
     (bind-key "C-n" 'company-select-next company-filter-map)
     (bind-key "C-p" 'company-select-previous company-filter-map)
     (bind-key "C-n" 'company-select-next company-active-map)
@@ -612,6 +613,9 @@ idle timer to do the actual update.")
             (goto-char (match-end 0))))))
 
     (defun my-eshell-init ()
+      (company-mode)
+      (setq-local company-backends '(company-eshell-autosuggest))
+      (setq-local company-frontends '(company-preview-frontend))
       (setq eshell-skip-prompt-function 'my-eshell-skip-prompt)
       (bind-key [remap eshell-send-input] 'my-eshell-send-input eshell-mode-map))
     (add-hook 'eshell-mode-hook 'my-eshell-init)
