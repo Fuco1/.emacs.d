@@ -144,7 +144,7 @@ OLD is the string to act on."
   string)
 
 (defvar my-status-line-format
-  '((:eval (and (featurep 'elfeed)
+  '((:eval (and (bound-and-true-p my-elfeed-unread-count)
                 (format "<fc=#75507b>%d</fc>" my-elfeed-unread-count)))
     (:eval (and (featurep 'notmuch)
                 (let ((count (notmuch-unread-count)))
