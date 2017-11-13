@@ -1083,6 +1083,13 @@ use a directory-local variable to specify this per-project."
       :config
       (flycheck-add-next-checker 'javascript-eslint 'javascript-flow))
 
+    (use-package flow-minor-mode
+      :config
+      (bind-key "M-." nil flow-minor-mode-map)
+      (bind-key "M-," nil flow-minor-mode-map)
+      (bind-key "M-'" 'flow-minor-jump-to-definition flow-minor-mode-map)
+      (bind-key "C-M-'" 'xref-pop-marker-stack flow-minor-mode-map))
+
     (defun my-js2-mode-init ()
       (-when-let (root (locate-dominating-file default-directory "node_modules"))
         (setq-local flycheck-javascript-eslint-executable (concat root "/node_modules/.bin/eslint"))
@@ -1093,6 +1100,8 @@ use a directory-local variable to specify this per-project."
       (js2-refactor-mode 1)
       (when (fboundp 'flow-js2-minor-mode)
         (flow-js2-minor-mode 1))
+      (when (flow-minor-configured-p)
+        (flow-minor-mode 1))
       (-when-let (buffer (buffer-file-name))
         (when (string-match-p "conkeror" buffer)
           (conkeror-minor-mode 1))))
