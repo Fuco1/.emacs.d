@@ -1537,7 +1537,8 @@ by that command."
 
     (defun my-php-find-project-root ()
       (shut-up
-        (let ((file (expand-file-name (buffer-file-name))))
+        (-when-let* ((file-name (buffer-file-name))
+                     (file (expand-file-name file-name)))
           (expand-file-name
            (with-temp-buffer
              (if (and (not (file-remote-p file))
