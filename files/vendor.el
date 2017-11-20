@@ -1364,7 +1364,9 @@ If in the test file, visit source."
 (use-package neon-mode
   :mode ("\\.neon\\'" . neon-mode)
   :config
+  (use-package yaml-mode)
   (defun my-neon-mode-init ()
+    (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
     (smartparens-mode 1)
     (smartparens-strict-mode 1))
   (add-hook 'neon-mode-hook 'my-neon-mode-init))
@@ -2231,8 +2233,19 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 (use-package yaml-mode
   :mode (("yarn.lock" . yaml-mode))
   :config
+  (defun my-yaml-beginning-of-defun (&optional arg)
+    (interactive)
+    (let ((cc (current-indentation)))
+      (while (and (or (save-excursion
+                        (beginning-of-line)
+                        (looking-at "[ \t]*\\($\\|#.*$\\)"))
+                      (>= (current-indentation) cc))
+                  (= 0 (forward-line -1))))
+      (back-to-indentation)))
+
   (bind-key "C-c '" 'edit-indirect-region yaml-mode-map)
   (defun my-yaml-mode-init ()
+    (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
     (smartparens-strict-mode 1)
     (font-lock-add-keywords nil '(("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append))
   (add-hook 'yaml-mode-hook 'my-yaml-mode-init))
