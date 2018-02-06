@@ -1906,6 +1906,24 @@ These are retrieved from `imenu--index-alist'."
 
 (use-package restclient-mode
   :config
+  (defun my-restclient-indirect-edit ()
+    "Use `edit-indirect-region' to edit the request body in a
+separate buffer."
+    (interactive)
+    (save-excursion
+      (goto-char (restclient-current-min))
+      (when (re-search-forward restclient-method-url-regexp (point-max) t)
+        (forward-line)
+        (while (cond
+                ((and (looking-at restclient-header-regexp) (not (looking-at restclient-empty-line-regexp))))
+                ((looking-at restclient-use-var-regexp)))
+          (forward-line))
+        (when (looking-at restclient-empty-line-regexp)
+          (forward-line))
+        (edit-indirect-region (min (point) (restclient-current-max)) (restclient-current-max) t))))
+
+  (bind-key "C-c '" 'my-restclient-indirect-edit restclient-mode-map)
+
   (defun my-restclient-mode-init ()
     (smartparens-strict-mode 1))
   (add-hook 'restclient-mode-hook 'my-restclient-mode-init))
