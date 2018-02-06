@@ -1920,11 +1920,12 @@ These are retrieved from `imenu--index-alist'."
 
 (use-package sallet
   :bind (("C-. C-." . helm-occur)
-         ("C-'" . sallet-buffer)
+         ("C-'" . csallet-buffer)
          ("H-b". sallet-register-point)
          ("M-.". sallet-imenu))
   :config
   (progn
+    (require 'sallet-concurrent)
     (bind-key "C-c p"
               (defhydra sallet-hydra (:color blue)
                 "Sallet hydra"
