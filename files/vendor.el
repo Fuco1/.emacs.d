@@ -1120,12 +1120,20 @@ use a directory-local variable to specify this per-project."
   :config
   (add-to-list 'magic-mode-alist `(,(rx buffer-start (? "[") "{\"") . json-mode))
 
+  (defvar my-json-mode-run-jq-history nil)
   (defun my-json-mode-run-jq (query &optional arg)
     "Run jq(1) on current buffer.
 
 With prefix argument \\[universal-argument] replace the buffer
 with the result of running jq(1)."
-    (interactive "sjq query: \nP")
+    (interactive (list
+                  (read-string (format "jq query%s "
+                                       (if (car my-json-mode-run-jq-history)
+                                           (format " [default: %s]:" (car my-json-mode-run-jq-history))
+                                         ":"))
+                               nil 'my-json-mode-run-jq-history
+                               my-json-mode-run-jq-history)
+                  current-prefix-arg))
     (shell-command-on-region
      (point-min) (point-max)
      (concat "jq " (shell-quote-argument query))
