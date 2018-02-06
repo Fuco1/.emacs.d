@@ -1116,6 +1116,7 @@ use a directory-local variable to specify this per-project."
   :bind (:map json-mode-map
          ("C-c C-c" . my-json-mode-run-jq)
          ("C-c C-j" . my-json-jsonify)
+         ("C-c C-o" . my-json-copy-as-org)
          ("C-c C-m" . my-json-minify))
   :config
   (add-to-list 'magic-mode-alist `(,(rx buffer-start (? "[") "{\"") . json-mode))
@@ -1141,6 +1142,31 @@ with the result of running jq(1)."
      (when arg t))
     (when arg
       (json-mode-beautify)))
+
+  (defun my-json-to-org (string)
+    "Convert json to org mode string."
+    (with-temp-buffer
+      (insert string)
+      (goto-char (point-min))
+      (let ((data (json-read)))
+        (when (> (length data) 0)
+          (erase-buffer)
+          (insert "| " (mapconcat (lambda (x) (format "%s" (car x))) (aref data 0) " | ") " |\n")
+          (insert "|-")
+          (mapc
+           (lambda (row)
+             (insert "| " (mapconcat (lambda (x) (format "%s" (cdr x))) row " | ") " |\n"))
+           data)
+          (goto-char (point-min))
+          (org-table-align)))
+      (buffer-string)))
+
+  (defun my-json-copy-as-org ()
+    "Copy current json data as org table.
+
+This assumes that the data is an array of homogenous items."
+    (interactive)
+    (kill-new (my-json-to-org (buffer-string))))
 
   (defun my-json-jsonify (beg end)
     "Turn javascript object literal into JSON.
