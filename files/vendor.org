@@ -162,6 +162,12 @@ Similarly, we advice the synchronous version =shell-command=.  This function ret
   (unless (eq ad-return-value 'comint-output-filter)
     (-when-let (buffer (get-buffer "*Shell Command Output*"))
       (my-shell-guess-major-mode buffer))))
+
+(defadvice shell-command-on-region (after enable-better-mode activate)
+  (unless (eq ad-return-value 'comint-output-filter)
+    (-when-let (buffer (get-buffer "*Shell Command Output*"))
+      (unless (ad-get-arg 4)
+        (my-shell-guess-major-mode buffer)))))
 #+END_SRC
 
 ** Final code
