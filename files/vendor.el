@@ -1855,6 +1855,27 @@ These are retrieved from `imenu--index-alist'."
   (progn
     (push '("*Pp Eval Output*" :height 15) popwin:special-display-config)))
 
+(use-package prodigy
+  :bind (:map ctl-dot-prefix-map
+         ("o" . prodigy))
+  :config
+  (progn
+    (defun prodigy-term-emulate-terminal (service output)
+      (let ((process (plist-get service :process)))
+        (prodigy-with-service-process-buffer service
+          (unless (bound-and-true-p term-pending-delete-marker)
+            (set (make-local-variable 'term-pending-delete-marker) (set-marker (make-marker) (point-min))))
+          (unless (marker-position (process-mark process))
+            (set-marker (process-mark process) (point-max)))
+          (unwind-protect
+              (progn
+                (set-process-buffer process (current-buffer))
+                (term-emulate-terminal process output))
+            (set-process-buffer process nil)))))
+
+    ;; (add-hook 'prodigy-process-on-output-hook 'prodigy-term-emulate-terminal)
+    ))
+
 (use-package prog-mode
   :init
   (progn
