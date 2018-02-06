@@ -1489,6 +1489,18 @@ by that command."
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
+    (use-package lsp-mode
+      :config
+      (lsp-define-stdio-client
+       lsp-php-major-mode
+       "php-mode"
+       'my-php-find-project-root
+       (list "php" "/home/matus/dev/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php"))
+      (bind-key "M-'" 'xref-find-definitions php-mode-map)
+      (bind-key "C-M-'" 'xref-pop-marker-stack php-mode-map))
+
+
+
     (bind-key "C-x C-d"
               (defhydra hydra-php-refactor (:color blue)
                 ("d" my-php-debug-geben "Debug with XDebug")
@@ -1826,6 +1838,11 @@ These are retrieved from `imenu--index-alist'."
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
       (when buffer-file-name
         (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name))))
+
+      (setq-local lsp-enable-completion-at-point nil)
+      (setq-local lsp-enable-eldoc nil)
+      (lsp-php-major-mode-enable)
+
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
 
@@ -2251,6 +2268,19 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 
 (use-package world-time-mode
   :bind ("C-. t" . world-time-list))
+
+(use-package xref
+  :defer t
+  :config
+  ;; these two extra methods are required to work with lsp-mode return
+  ;; values
+  (cl-defmethod xref-location-marker ((l xref-item))
+    (with-slots (location) l
+      (xref-location-marker location)))
+
+  (cl-defmethod xref-location-group ((l xref-item))
+    (with-slots (location) l
+      (xref-location-group location))))
 
 (use-package yaml-mode
   :mode (("yarn.lock" . yaml-mode))
