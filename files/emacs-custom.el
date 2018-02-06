@@ -212,7 +212,8 @@
    (quote
     (("\\.\\(?:MP[34]\\|avi\\|flv\\|m\\(?:kv\\|ov\\|p[34g]\\)\\|ogg\\|wm[av]\\)\\'" "vlc")
      ("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura")
-     ("\\.fb2" "fbreader"))))
+     ("\\.fb2" "fbreader")
+     ("\\.html\\'" "firefox"))))
  '(dired-hide-details-hide-information-lines nil)
  '(dired-isearch-filenames t)
  '(dired-list-mpc-music-directory "~/media/music")
@@ -301,6 +302,7 @@
        ""))))
  '(docker-tramp-use-names t)
  '(echo-keystrokes 0.1)
+ '(ediff-custom-diff-options "-u")
  '(ediff-diff-options "-w")
  '(ediff-merge-split-window-function (quote split-window-horizontally))
  '(ediff-split-window-function (quote split-window-horizontally))
@@ -326,6 +328,7 @@
  '(epg-gpg-program "gpg2")
  '(eshell-aliases-file "/home/matus/.emacs.d/etc/eshell/alias")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
+ '(eshell-last-dir-ring-file-name "/home/matus/.emacs.d/.cache/eshell/lastdir")
  '(eshell-output-filter-functions
    (quote
     (eshell-handle-ansi-color eshell-postoutput-scroll-to-bottom eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
@@ -655,6 +658,7 @@
  '(mail-envelope-from (quote header))
  '(mail-specify-envelope-from t)
  '(make-pointer-invisible t)
+ '(markdown-fontify-code-blocks-natively t)
  '(markdown-link-space-sub-char "-")
  '(max-lisp-eval-depth 1000)
  '(max-specpdl-size 10000)
@@ -1489,6 +1493,7 @@
   ("\\.x?html?\\'" . default)
   ("\\.pdf\\'" . "zathura --fork %s"))))
  '(org-fontify-done-headline t)
+ '(org-fontify-whole-heading-line t)
  '(org-footnote-auto-label (quote random))
  '(org-footnote-define-inline t)
 '(org-format-latex-options
@@ -2005,8 +2010,8 @@
   ("magit-log\\(-popup\\)?" :regexp t :select t :inhibit-window-quit t :same t)
   ("\\*magit:" :regexp t :select t :inhibit-window-quit t :same t)
   (Man-mode :select t :inhibit-window-quit t :same t)
-  ("\\*ag search" :regexp t :inhibit-window-quit t :same t))))
- '(shell-file-name "/bin/bash")
+  ("\\*ag search" :regexp t :inhibit-window-quit t :same t)
+  ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t))))
  '(shell-pop-restore-window-configuration nil)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
@@ -2252,6 +2257,9 @@
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
  '(winner-mode t)
+'(xref-prompt-for-identifier
+(quote
+ (not xref-find-references xref-find-definitions xref-find-definitions-other-window xref-find-definitions-other-frame)))
  '(yas-prompt-functions (quote (yas-ido-prompt)))
  '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets"))))
 
