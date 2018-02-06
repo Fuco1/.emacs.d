@@ -1130,7 +1130,9 @@ with the result of running jq(1)."
      (point-min) (point-max)
      (concat "jq " (shell-quote-argument query))
      (when arg (current-buffer))
-     (when arg t)))
+     (when arg t))
+    (when arg
+      (json-mode-beautify)))
 
   (defun my-json-jsonify (beg end)
     "Turn javascript object literal into JSON.
