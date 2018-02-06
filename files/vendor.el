@@ -1082,7 +1082,7 @@ use a directory-local variable to specify this per-project."
 
     (use-package flycheck-flow
       :config
-      (flycheck-add-next-checker 'javascript-eslint 'javascript-flow))
+      (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
 
     (use-package flow-minor-mode
       :config
@@ -1091,10 +1091,13 @@ use a directory-local variable to specify this per-project."
       (bind-key "M-'" 'flow-minor-jump-to-definition flow-minor-mode-map)
       (bind-key "C-M-'" 'xref-pop-marker-stack flow-minor-mode-map))
 
+    (use-package flow-js2-mode)
+
     (defun my-js2-mode-init ()
       (-when-let (root (locate-dominating-file default-directory "node_modules"))
         (setq-local flycheck-javascript-eslint-executable (concat root "/node_modules/.bin/eslint"))
-        (setq-local flycheck-javascript-flow-executable (concat root "/node_modules/.bin/flow")))
+        (setq-local flycheck-javascript-flow-executable (concat root "/node_modules/.bin/flow"))
+        (setq-local flycheck-javascript-flow-coverage-executable (concat root "/node_modules/.bin/flow")))
       (when (and buffer-file-name
                  (string-match-p "\\.spec\\.js\\'" buffer-file-name))
         (mocha-toggle-imenu-function))
