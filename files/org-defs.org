@@ -6,6 +6,16 @@ Enable lexical binding by default.
 ;; -*- lexical-binding: t -*-
 #+END_SRC
 
+* Setup magic-mode-alist for org mode
+#+BEGIN_SRC elisp
+;; If we are looking at something resembling an org-table
+(add-to-list 'magic-mode-alist `(,(rx (* white)
+                                      "|"
+                                      (or (and (* white) (+ alpha))
+                                          "-"))
+                                 . org-mode))
+#+END_SRC
+
 * Replace refile target picking with a sallet
   :CLOCK:
   CLOCK: [2017-06-08 Thu 19:40]--[2017-06-08 Thu 20:06] =>  0:26

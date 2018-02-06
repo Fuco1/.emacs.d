@@ -6,8 +6,18 @@
 
 ;;; Code:
 
+(require 'pcase)
 (require 'dash)
 (require 's)
+
+(defun my-scratch-autodetect-mode (beg end pre-change)
+  "Detect major mode when text is first inserted into the buffer."
+  (when (and (= 0 pre-change)
+             (= beg (point-min)))
+    (set-auto-mode)
+    (pcase major-mode
+      (`json-mode
+       (json-mode-beautify)))))
 
 ;;;###autoload
 (defun create-scratch-buffer (mode)
@@ -35,7 +45,8 @@
     (switch-to-buffer (get-buffer-create bufname))
     (make-directory root t)
     (write-file (concat root "/" bufname))
-    (call-interactively mode)))
+    (call-interactively mode)
+    (add-hook 'after-change-functions 'my-scratch-autodetect-mode 'append 'local)))
 
 ;;;###autoload
 (defun create-scratch-buffer-current-mode ()

@@ -1113,6 +1113,8 @@ use a directory-local variable to specify this per-project."
          ("C-c C-c" . my-json-mode-run-jq)
          ("C-c C-m" . my-json-minify))
   :config
+  (add-to-list 'magic-mode-alist `(,(rx buffer-start (? "[") "{\"") . json-mode))
+
   (defun my-json-mode-run-jq (query &optional arg)
     "Run jq(1) on current buffer.
 
