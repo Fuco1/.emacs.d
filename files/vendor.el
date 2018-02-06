@@ -190,8 +190,7 @@ If no region is active, use word udner point."
   :commands clippy-describe-function)
 
 (use-package conf-mode
-  :mode (("\\.pwm\\'" . conf-mode)
-         ("\\.env\\(\\'\\|\\.\\)" . conf-mode)))
+  :mode (("\\.pwm\\'" . conf-mode)))
 
 (use-package company
   :config
@@ -398,6 +397,8 @@ Call the value of `my-get-compile-command' to generate the
          ("C-x T *" . dired-tagsistant-all-tags)
          ("C-x T % +" . dired-tagsistant-some-tags-regexp)
          ("C-x T % *" . dired-tagsistant-all-tags-regexp)))
+
+(use-package dotenv-mode)
 
 (use-package ediff
   :bind ("C-. =" . hydra-ediff/body)
