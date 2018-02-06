@@ -1115,6 +1115,7 @@ use a directory-local variable to specify this per-project."
   :defer t
   :bind (:map json-mode-map
          ("C-c C-c" . my-json-mode-run-jq)
+         ("C-c C-j" . my-json-jsonify)
          ("C-c C-m" . my-json-minify))
   :config
   (add-to-list 'magic-mode-alist `(,(rx buffer-start (? "[") "{\"") . json-mode))
@@ -1130,6 +1131,15 @@ with the result of running jq(1)."
      (concat "jq " (shell-quote-argument query))
      (when arg (current-buffer))
      (when arg t)))
+
+  (defun my-json-jsonify (beg end)
+    "Turn javascript object literal into JSON.
+
+Takes active region or the entire buffer"
+    (interactive (list
+                  (or (and (use-region-p) (region-beginning)) (point-min))
+                  (or (and (use-region-p) (region-end)) (point-max))))
+    (shell-command-on-region beg end "jsonify" nil t))
 
   (defun my-json-minify ()
     "Minify the json at point."
