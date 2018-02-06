@@ -48,9 +48,16 @@ brighter; it simply makes everything else vanish.
 
         – Neal Stephenson, “In the Beginning was the Command Line”
 
-Loaded %d packages in %.3fs seconds"
+Loaded %d packages in %.3fs seconds
+
+There are %d customizable settings available."
       (length package-activated-list)
-      emacs-load-time))
+      emacs-load-time
+      (let (re) (mapatoms
+                 (lambda (symbol)
+                   (when (get symbol 'standard-value)
+                     (push symbol re))))
+           (length re))))
     (current-buffer)))
 
 ;; add repos
