@@ -1144,12 +1144,27 @@ with the result of running jq(1)."
           (org-table-align)))
       (buffer-string)))
 
+  (defun my-org-table-to-json (data)
+    "Convert org table to JSON.
+
+First line specifies the keys."
+    (-let* (((header . data) data))
+      (setq data (--drop-while (eq 'hline it) data))
+      (json-encode (--map (-zip header it) data))))
+
   (defun my-json-copy-as-org ()
     "Copy current json data as org table.
 
 This assumes that the data is an array of homogenous items."
     (interactive)
     (kill-new (my-json-to-org (buffer-string))))
+
+  (defun my-json-org-as-json ()
+    "Copy current org table as json data.
+
+This assumes that the data is an array of homogenous items."
+    (interactive)
+    (kill-new (my-org-table-to-json (org-table-to-lisp))))
 
   (defun my-json-jsonify (beg end)
     "Turn javascript object literal into JSON.
