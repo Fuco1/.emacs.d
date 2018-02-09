@@ -1415,6 +1415,7 @@ If in the test file, visit source."
   :mode ("\\.neon\\'" . neon-mode)
   :config
   (use-package yaml-mode)
+  (sp-local-pair 'neon-mode "%" "%" :unless '(sp-in-comment-p))
   (defun my-neon-mode-init ()
     (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
     (smartparens-mode 1)
