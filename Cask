@@ -66,6 +66,7 @@
 (depends-on "ibuffer-vc")
 (depends-on "ido-ubiquitous")
 (depends-on "jdee")
+(depends-on "jq-mode")
 (depends-on "js2-mode")
 (depends-on "js2-refactor")
 (depends-on "json-mode")
