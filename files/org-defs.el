@@ -835,6 +835,14 @@ The second part is a regexp to search in the buffer."
    "\\)"
    "[^[:word:]]"))
 
+(defun my-org-in-block-p ()
+  "Non-nil when point belongs to any org block."
+  (save-match-data
+    (let ((case-fold-search t)
+          (lim-up (save-excursion (outline-previous-heading)))
+          (lim-down (save-excursion (outline-next-heading))))
+      (org-between-regexps-p "^[ \t]*#\\+begin_" "^[ \t]*#\\+end_" lim-up lim-down))))
+
 (defun my-org-emphasis-fontifier (face)
   "Generate code to fontify custom emphasis."
   `(unless (org-in-block-p '("SRC"))
