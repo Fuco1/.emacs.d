@@ -124,3 +124,5 @@
   (let ((recent-buffer-name (buffer-name)))
     ad-do-it
     (ibuffer-jump-to-buffer recent-buffer-name)))
+
+(provide 'ibuffer-defs)

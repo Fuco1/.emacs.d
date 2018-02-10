@@ -620,7 +620,8 @@ idle timer to do the actual update.")
       (setq eshell-skip-prompt-function 'my-eshell-skip-prompt)
       (bind-key [remap eshell-send-input] 'my-eshell-send-input eshell-mode-map))
     (add-hook 'eshell-mode-hook 'my-eshell-init)
-    (load "~/.emacs.d/files/eshell-defs")))
+
+    (require 'eshell-defs)))
 
 (use-package ess
   :defer t
@@ -908,7 +909,7 @@ use a directory-local variable to specify this per-project."
     (add-hook 'ibuffer-mode-hook 'customize-ibuffer-mode))
   :config
   (progn
-    (load "~/.emacs.d/files/ibuffer-defs")))
+    (require 'ibuffer-defs)))
 
 (use-package ido
   :commands (
@@ -1538,7 +1539,7 @@ by that command."
   :config
   (progn
     (my-load-or-tangle "~/.emacs.d/files/org-defs")
-    (load "~/.emacs.d/files/org-defs.el")))
+    (load "~/.emacs.d/files/org-defs")))
 
 ;; TODO: move into a separate file
 (use-package php-mode

@@ -85,3 +85,5 @@ pop to that buffer if it exists."
                     "status"
                     "summary"
                     "update")))
+
+(provide 'eshell-defs)
