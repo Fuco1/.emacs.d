@@ -41,6 +41,7 @@
 (depends-on "exec-path-from-shell")
 (depends-on "expand-region")
 (depends-on "firestarter")
+(depends-on "fish-completion")
 (depends-on "fish-mode")
 (depends-on "flow-minor-mode")
 (depends-on "flx-ido")

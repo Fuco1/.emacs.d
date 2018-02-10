@@ -684,6 +684,10 @@ idle timer to do the actual update.")
     (put 'firestarter 'safe-local-variable 'identity)
     (setq firestarter-default-type 'finished)))
 
+(use-package fish-completion
+  :if (executable-find "fish")
+  :config (global-fish-completion-mode))
+
 (use-package god-mode
   :bind ("<delete>" . god-local-mode)
   :config
