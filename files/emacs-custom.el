@@ -160,7 +160,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("50f2c57b4309b4faa92392f02e912af829518a44b730a26652e864bee21935b5" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("66b84e676b3549d2108cc017bab900c763a2d4e025ffbc6203835a5d5154b6c5" "48a645c2d93a4a707cc1dc4f7859c266987b6cbd236827ab82a558d7fc61363d" "50f2c57b4309b4faa92392f02e912af829518a44b730a26652e864bee21935b5" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -717,9 +717,8 @@
 '(org-agenda-time-grid
 (quote
  ((daily weekly today require-timed)
-  #("----------------" 0 16
-    (org-heading t))
-  (800 1000 1200 1400 1600 1800 2000))))
+  (800 1000 1200 1400 1600 1800 2000)
+  "......" "----------------")))
  '(org-agenda-todo-ignore-scheduled (quote all))
  '(org-agenda-window-setup (quote current-window))
  '(org-attach-auto-tag nil)
@@ -1475,6 +1474,7 @@
    (1.96 . 3.538)))))
  '(org-drill-save-buffers-after-drill-sessions-p nil)
  '(org-drill-scope (quote directory))
+ '(org-duration-format (quote ((special . h:mm))))
  '(org-email-link-description-format "%f: %.100s")
 '(org-emphasis-alist
 (quote
@@ -1494,6 +1494,7 @@
   ("\\.pdf\\'" . "zathura --fork %s"))))
  '(org-fontify-done-headline t)
  '(org-fontify-whole-heading-line t)
+ '(org-fontify-quote-and-verse-blocks t)
  '(org-footnote-auto-label (quote random))
  '(org-footnote-define-inline t)
 '(org-format-latex-options
@@ -1611,11 +1612,12 @@
 (quote
  (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
  '(org-tree-slide-slide-in-effect nil)
+ '(org-use-fast-tag-selection t)
  '(org-use-speed-commands t)
  '(package-enable-at-startup nil)
 '(package-selected-packages
 (quote
- (docker-tramp nov magit-annex restclient web-server org-super-agenda camcorder scala-mode cmake-mode evil pdf-tools org-brain yaml-mode world-time-mode which-key wgrep-ag web-mode visual-regexp use-package undo-tree undercover tuareg transpose-frame string-edit smex smartscan smartparens shell-pop shackle scf-mode rainbow-mode puppet-mode pos-tip php-refactor-mode php-mode php-eldoc php-boris-minor-mode password-generator parse-csv paren-face pandoc-mode pallet package-lint overseer ov outshine org-plus-contrib omnisharp ob-elixir notmuch nginx-mode multiple-cursors markdown-toc markdown-mode+ make-it-so magit macrostep legalese ledger-mode keyfreq jump-char json-mode js2-mode jdee ido-ubiquitous ibuffer-vc htmlize highlight-thing helm-gtags helm-descbinds gnus-alias gnuplot glsl-mode gitignore-mode flycheck-ledger flycheck-haskell flycheck-elixir flycheck-credo flycheck-cask flx-ido fish-mode firestarter expand-region exec-path-from-shell ess emr emmet-mode elpy elfeed eldoc-eval eimp editorconfig dockerfile-mode dired+ czech-holidays conkeror-minor-mode concurrent company-statistics clojure-mode cask-mode buttercup browse-kill-ring browse-at-remote auctex assess alchemist ag)))
+ (fish-completion impatient-mode docker-tramp nov magit-annex restclient web-server org-super-agenda camcorder scala-mode cmake-mode evil pdf-tools org-brain yaml-mode world-time-mode which-key wgrep-ag web-mode visual-regexp use-package undo-tree undercover tuareg transpose-frame string-edit smex smartscan smartparens shell-pop shackle scf-mode rainbow-mode puppet-mode pos-tip php-refactor-mode php-mode php-eldoc php-boris-minor-mode password-generator parse-csv paren-face pandoc-mode pallet package-lint overseer ov outshine org-plus-contrib omnisharp ob-elixir notmuch nginx-mode multiple-cursors markdown-toc markdown-mode+ make-it-so magit macrostep legalese ledger-mode keyfreq jump-char json-mode js2-mode jdee ido-ubiquitous ibuffer-vc htmlize highlight-thing helm-gtags helm-descbinds gnus-alias gnuplot glsl-mode gitignore-mode flycheck-ledger flycheck-haskell flycheck-elixir flycheck-credo flycheck-cask flx-ido fish-mode firestarter expand-region exec-path-from-shell ess emr emmet-mode elpy elfeed eldoc-eval eimp editorconfig dockerfile-mode dired+ czech-holidays conkeror-minor-mode concurrent company-statistics clojure-mode cask-mode buttercup browse-kill-ring browse-at-remote auctex assess alchemist ag)))
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
  '(preview-scale-function 1.5)
@@ -1642,7 +1644,8 @@
  '(restclient-inhibit-cookies t)
 '(safe-local-variable-values
 (quote
- ((haskell-program-name . "stack exec -- ghci +RTS -M300m")
+ ((eval ispell-change-dictionary "slovak")
+  (haskell-program-name . "stack exec -- ghci +RTS -M300m")
   (eval setq compile-command
         (concat "make -C "
                 (locate-dominating-file
