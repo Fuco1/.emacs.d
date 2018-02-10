@@ -46,5 +46,18 @@ on-the-fly to hooks for the duration of the BODY."
                ,@body)
            (remove-hook ,hook ,hook-fn))))))
 
+(defmacro my-with-preserved-window-config (&rest body)
+  "Return a command that enters a recursive edit after executing BODY.
+
+Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit) or
+\\[abort-recursive-edit] (abort)), restore window configuration
+in current frame."
+  `(lambda ()
+     "See the documentation for `my-with-preserved-window-config'."
+     (interactive)
+     (save-window-excursion
+       ,@body
+       (recursive-edit))))
+
 (provide 'my-macros)
 ;;; my-macros.el ends here

@@ -36,6 +36,8 @@
 
 ;; Window navigation
 (windmove-default-keybindings 'meta)
+(bind-key "C-c 0" (my-with-preserved-window-config (delete-window)))
+(bind-key "C-c 1" (my-with-preserved-window-config (delete-other-windows)))
 
 ;; Easier buffer killing
 (bind-key "M-k" 'my-kill-this-buffer)
