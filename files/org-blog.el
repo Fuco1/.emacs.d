@@ -152,21 +152,22 @@ do not run `org-publish'."
         (my-org-publish :dont-publish)))))
 
 (defun my-org-publish-rss (project &optional sitemap-filename)
-  (org-publish-org-sitemap project sitemap-filename)
-  (let* ((base (my-org-publish-property "blog-rss" :base-directory))
-         (link-home (my-org-publish-property "blog-rss" :html-link-home))
-         (posts (f-entries base
-                           (lambda (post)
-                             (and (f-ext-p post "org")
-                                  (not (member (f-filename post)
-                                               (list "rss.org" "sitemap.org"))))))))
-    (with-temp-file (concat base "/rss.org")
-      (erase-buffer)
-      (-each (nreverse posts)
-        (lambda (post)
-          (let ((title (org-publish-find-title post))
-                (date (org-publish-find-date post)))
-            (insert (format "* %s
+  (prog1 (org-publish-sitemap-default project sitemap-filename)
+    (let* ((base (my-org-publish-property "blog-rss" :base-directory))
+           (link-home (my-org-publish-property "blog-rss" :html-link-home))
+           (posts (f-entries base
+                             (lambda (post)
+                               (and (f-ext-p post "org")
+                                    (not (member (f-filename post)
+                                                 (list "rss.org" "sitemap.org")))))))
+           (project (assoc "blog-posts" org-publish-project-alist)))
+      (with-temp-file (concat base "/rss.org")
+        (erase-buffer)
+        (-each (nreverse posts)
+          (lambda (post)
+            (let ((title (org-publish-find-title post project))
+                  (date (org-publish-find-date post project)))
+              (insert (format "* %s
 :PROPERTIES:
 :RSS_PERMALINK: %s
 :PUBDATE: <%s>
@@ -174,12 +175,12 @@ do not run `org-publish'."
 #+include: \"%s\" :lines \"3-\"
 
 "
-                            title
-                            (replace-regexp-in-string
-                             "\\.org$" ".html"
-                             (f-filename post))
-                            (format-time-string "%Y-%m-%d" date)
-                            post))))))))
+                              title
+                              (replace-regexp-in-string
+                               "\\.org$" ".html"
+                               (f-filename post))
+                              (format-time-string "%Y-%m-%d" date)
+                              post)))))))))
 
 (setq org-publish-project-alist
       `(("blog"
@@ -192,8 +193,14 @@ do not run `org-publish'."
          :auto-sitemap t
          :sitemap-title "Archive"
          :sitemap-function my-org-publish-rss
-         :sitemap-file-entry-format "%d %t"
-         :sitemap-sort-files 'anti-chronologically
+         :sitemap-format-entry
+         (lambda (entry style project)
+           (format "[[file:%s][%s %s]]"
+                   entry
+                   (format-time-string "%Y-%m-%d"
+                                       (org-publish-find-date entry project))
+                   (org-publish-find-title entry project)))
+         :sitemap-sort-files anti-chronologically
 
          :with-author t
          :with-creator nil
