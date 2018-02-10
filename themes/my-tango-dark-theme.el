@@ -466,6 +466,7 @@ respective major mode.  Think org SRC blocks.")
    (org-block-background (:inherit fixed-pitch :background alum-6.5))
    (org-block (:inherit fixed-pitch :background alum-6.5))
    (org-verbatim (:inherit org-code))
+   (org-quote (:inherit (variable-pitch org-block)))
 
    (org-date (:inherit fixed-pitch :foreground blue-0))
    (org-table (:inherit fixed-pitch :foreground blue-0))
