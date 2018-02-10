@@ -766,6 +766,9 @@ use a directory-local variable to specify this per-project."
     (flycheck-add-next-checker 'php-phpmd 'php-phpstan 'append)
     (flycheck-add-next-checker 'php-phpcs 'php-phpstan 'append)
 
+    (setq flycheck-puppet-parser-executable "bundler-puppet")
+    (setq flycheck-puppet-lint-executable "bundler-puppet-lint")
+
     ;; (use-package flycheck-ledger)
     (use-package indicators)
 
