@@ -1163,7 +1163,7 @@ point and rebuild the agenda view."
 %(unless (string-blank-p \"%:initial\") \"- %:initial\n\")
 %(unless (string-blank-p \"%:elfeed-entry-link\") \"- web link: %:elfeed-entry-link \n\")")
         ("j" "Journals")
-        ("jj" "Journal" entry (file+datetree "~/org/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t)
+        ("jj" "Journal" entry (file+datetree "~/data/documents/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t :empty-lines-after 1)
         ("jo" "Journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
         ("b" "Bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n")
