@@ -317,7 +317,7 @@
                                 (org-agenda-todo-ignore-with-date t)
                                 (org-tags-match-list-sublevels t)
                                 (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep)))))
-      (tasks . (tags-todo "-REFILE-STOP-BOOKS-download/!-HOLD-WAIT-IDEA"
+      (tasks . (tags-todo "-REFILE-STOP-BOOKS-MOV-download-readlater-watchlater/!-HOLD-WAIT-IDEA"
                           ((org-agenda-overriding-header "Tasks")
                            (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
                            (org-agenda-todo-ignore-scheduled t)
