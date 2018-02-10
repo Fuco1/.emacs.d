@@ -108,4 +108,4 @@
 	url = https://github.com/dieggsy/company-eshell-autosuggest
 [submodule "projects/flow-js2-mode"]
 	path = projects/flow-js2-mode
-	url = git@my.github.com:Fuco1/flow-js2-mode.git
+	url = git@github.com:Fuco1/flow-js2-mode.git
