@@ -95,45 +95,16 @@
 (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 (bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
 
-;;; markdown-mode
-(sp-with-modes '(markdown-mode gfm-mode rst-mode)
+;;; rst-mode
+(sp-with-modes 'rst-mode
   (sp-local-pair "*" "*"
                  :wrap "C-*"
                  :unless '(sp--gfm-point-after-word-p sp-point-at-bol-p)
                  :post-handlers '(("[d1]" "SPC"))
                  :skip-match 'sp--gfm-skip-asterisk)
   (sp-local-pair "**" "**")
-  (sp-local-pair "_" "_" :wrap "C-_" :unless '(sp-point-after-word-p)))
-
-(defun sp--gfm-point-after-word-p (id action context)
-  "Return t if point is after a word, nil otherwise.
-This predicate is only tested on \"insert\" action."
-  (when (eq action 'insert)
-    (sp--looking-back-p (concat "\\(\\sw\\)" (regexp-quote id)))))
-
-(defun sp--gfm-skip-asterisk (ms mb me)
-  (save-excursion
-    (goto-char mb)
-    (save-match-data (looking-at "^\\* "))))
-
-;;; rst-mode
-(sp-with-modes 'rst-mode
+  (sp-local-pair "_" "_" :wrap "C-_" :unless '(sp-point-after-word-p))
   (sp-local-pair "``" "``"))
-
-;;; org-mode
-(sp-with-modes 'org-mode
-  (sp-local-pair "*" "*" :actions '(insert wrap) :unless '(sp-point-after-word-p sp-point-at-bol-p) :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
-  (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-  (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-  (sp-local-pair "«" "»"))
-
-(defun sp--org-skip-asterisk (ms mb me)
-  (or (and (= (line-beginning-position) mb)
-           (eq 32 (char-after (1+ mb))))
-      (and (= (1+ (line-beginning-position)) me)
-           (eq 32 (char-after me)))))
 
 ;;; tex-mode latex-mode
 (sp-with-modes '(tex-mode plain-tex-mode latex-mode)
@@ -145,8 +116,6 @@ This predicate is only tested on \"insert\" action."
                  :wrap "C-("
                  :pre-handlers '(my-add-space-before-sexp-insertion)
                  :post-handlers '(my-add-space-after-sexp-insertion)))
-
-
 
 (defun my-add-space-after-sexp-insertion (id action _context)
   (when (eq action 'insert)
