@@ -516,6 +516,7 @@ overdue and a habit it is inserted multiple times."
     "Open the first link after the headline under point."
     (interactive "P")
     (org-with-point-at (org-get-at-bol 'org-hd-marker)
+      (org-next-link)
       (my-org-open-at-point arg)))
 
   ;; Better filters
