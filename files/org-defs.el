@@ -1160,7 +1160,7 @@ point and rebuild the agenda view."
         ("l" "Read later" entry (file "~/org/refile.org")
          "* %?%:description :readlater:
 - %(if (string-blank-p \"%a\") \"%:link\" \"%a\")
-%(unless (string-blank-p \"%:initial\") \"- %:initial\n\")
+%(when (< 2 (length \"%:initial\")) \"- %:initial\n\")
 %(unless (string-blank-p \"%:elfeed-entry-link\") \"- web link: %:elfeed-entry-link \n\")")
         ("j" "Journals")
         ("jj" "Journal" entry (file+datetree "~/data/documents/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t :empty-lines-after 1)
