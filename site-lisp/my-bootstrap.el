@@ -37,6 +37,8 @@ list of always-create directories."
             (message "Creating directory: %s" dir)
             (mkdir dir :parents)))))))
 
+;; TODO: we could probably use paths relative to this file instead of
+;; the prefix format stuff
 (defun my-setup-load-path ()
   "Add extra entries to `load-path', such as paths to dev
   versions of packages."
@@ -44,6 +46,7 @@ list of always-create directories."
     (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
     (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
     (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/" prefix))
+    (add-to-list 'load-path (format "~%s/.emacs.d/files/" prefix))
     (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/special/" prefix))
     (mapc (lambda (dir)
             (add-to-list 'load-path dir)
