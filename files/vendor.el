@@ -2264,6 +2264,83 @@ Omitting FRAME means currently selected frame."
     (defadvice 2C-dissociate (after close-window-after-disconnect activate)
       (delete-window))))
 
+(use-package undercover
+  :bind (("C-c C" . my-toggle-coverage))
+  :config
+  (defun my-toggle-coverage ()
+    "Toggle display of undercover coverage report in current buffer.
+
+If coverage is displayed, hide it, if not, show it."
+    (interactive)
+    (if (ov-in 'type 'undercover-report)
+        (my-hide-coverage)
+      (my-display-coverage)))
+
+  (defun my-display-coverage (&optional report-file)
+    "Display undercover coverage report in current buffer.
+
+Before you call this function you should have manually run the
+test suite over your project.
+
+It is a good idea to set the value of
+`undercover--report-file-path' locally for your project.  Use
+`add-dir-local-variable' to store the report in the project
+directory so that it won't get overwritten by a report from
+anohther project.  You must then set the same value to the Emacs
+instance that runs the tests, for example with
+
+  --eval \"(setq undercover--report-file-path \\\"$PWD\\\")\"
+
+runtime option."
+  (interactive)
+  (-when-let* ((root (locate-dominating-file (buffer-file-name) "Cask"))
+               (data (json-read-file (or report-file
+                                         undercover--report-file-path)))
+               ((&alist 'source_files source-files) data)
+               (this-file (-first
+                           (-lambda ((&alist 'name name))
+                             (equal (expand-file-name
+                                     (concat root "/" name))
+                                    (buffer-file-name)))
+                           (-concat source-files nil)))
+               ((&alist 'coverage coverage) this-file)
+               (line-number 1)
+               (lines-covered 0)
+               (lines-coverable 0))
+    (ov-clear 'type 'undercover-report)
+    (set-window-margins (selected-window) 0 4)
+    (save-excursion
+      (mapc
+       (lambda (call-count)
+         (when call-count
+           (cl-incf lines-coverable)
+           (when (< 0 call-count)
+             (goto-char (point-min))
+             (forward-line (1- line-number))
+             (ov (line-beginning-position)
+                 (line-end-position)
+                 'type 'undercover-report
+                 'face '(:background "#4e9a06")
+                 'before-string (propertize
+                                 " "
+                                 'display `((margin right-margin)
+                                            ,(propertize
+                                              (format "%dx" call-count)
+                                              'face 'default))))
+             (cl-incf lines-covered)))
+         (cl-incf line-number))
+       coverage))
+    (message "%d from %d lines covered (%.2f%%)"
+             lines-covered
+             lines-coverable
+             (/ (* 100.0 lines-covered) lines-coverable))))
+
+  (defun my-hide-coverage ()
+    "Hide undercover coverage report in current buffer."
+    (interactive)
+    (set-window-margins (selected-window) 0 0)
+    (ov-clear 'type 'undercover-report)))
+
 (use-package undo-tree
   :bind (("C-x u" . undo-tree-visualize))
   :diminish undo-tree-mode)
