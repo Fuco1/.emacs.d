@@ -860,11 +860,20 @@ The second part is a regexp to search in the buffer."
      (backward-char 1)
      nil))
 
+(defun my-org-fontify-list-marker ()
+  "Fontify the list marker at the beginning of line but not in source blocks."
+  (unless (org-in-block-p '("SRC" "EXAMPLE"))
+    (font-lock-prepend-text-property
+     (match-beginning 1)
+     (match-end 1)
+     'face 'org-list-dt)
+    nil))
+
 (font-lock-add-keywords 'org-mode
                         `((,(my-org-emphasis-regexp "$" "$") 0 ,(my-org-emphasis-fontifier 'markup-math))
                           (,(my-org-emphasis-regexp "{" "}") 0 ,(my-org-emphasis-fontifier 'shadow))
                           ;; Fontify list markers
-                          ("^ *\\([-+]\\|[0-9]+[).]\\) " 1 'org-list-dt t)
+                          ("^ *\\([-+]\\|[0-9]+[).]\\) " 1 (funcall 'my-org-fontify-list-marker))
                           ;; Fontify hashtags
                           ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend))
                         'append)
