@@ -1911,7 +1911,7 @@ These are retrieved from `imenu--index-alist'."
                                     )))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (add-hook 'my-newline-hook 'my-php-open-line nil :local)
-      (c-set-style "php")
+      (php-enable-default-coding-style)
       (editorconfig-mode-apply)
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
