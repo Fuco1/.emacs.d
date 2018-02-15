@@ -955,6 +955,14 @@ use a directory-local variable to specify this per-project."
   (progn
     (load (f-join (f-parent (f-this-file)) "ido-defs"))))
 
+(use-package inf-mongo
+  :commands inf-mongo
+  :config
+  (progn
+    (defun my-inf-mongo-init ()
+      (smartparens-mode 1))
+    (add-hook 'inf-mongo-mode-hook 'my-inf-mongo-init)))
+
 (use-package info
   :defer t
   :config
