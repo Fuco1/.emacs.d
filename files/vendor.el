@@ -28,14 +28,22 @@ load the result."
   :init
   (progn
     (bind-key "<f9>"
-              (defhydra f9-hydra (:color blue)
-                "F9 hydra: ag"
+              (defhydra f9-hydra (:color blue :hint nil)
+                "
+silversearcher: ag(1)
+
+ Files                  Directories
+------------------------------------------
+ _<f8>_ ag-files          _8_ ag-project-dired
+ _<f9>_ ag                _9_ ag-dired
+_<f10>_ ag-regexp         _0_ ag-dired-regexp
+"
                 ("<f8>" ag-files "ag-files")
                 ("<f9>" ag "ag")
                 ("<f10>" ag-regexp "ag-regexp")
-                ("7" ag-project-dired "ag-project-dired")
-                ("8" ag-dired "ag-dired")
-                ("9" ag-dired-regexp "ag-dired-regexp"))))
+                ("8" ag-project-dired "ag-project-dired")
+                ("9" ag-dired "ag-dired")
+                ("0" ag-dired-regexp "ag-dired-regexp"))))
   :config
   (progn
     (require 'wgrep)
