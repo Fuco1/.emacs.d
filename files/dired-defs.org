@@ -21,11 +21,14 @@ Also used for highlighting.")
 Another auxiliary dired package, probaly split for historical reasons (/The files are too damn large!/).
 
 ** Config
+:PROPERTIES:
+:header-args:elisp: :tangle no
+:END:
 
 An oddity of virtual direds is that they can't be reverted.  I don't see any reason why, so let's redefine ~dired-virtual-revert~.
 
 #+NAME: dired-virtual-revert
-#+BEGIN_SRC elisp :tangle no
+#+BEGIN_SRC elisp
 (defun dired-virtual-revert (&optional _arg _noconfirm)
   "Enable revert for virtual direds."
   (let ((m (dired-file-name-at-point))
@@ -42,7 +45,7 @@ An oddity of virtual direds is that they can't be reverted.  I don't see any rea
 One really awesome and overlooked function is ~dired-jump~.  What it does is simple, it visits the directory (in ~dired~) of the file of your current buffer.  I improved it a little bit to behave a bit more clever if you already are inside dired buffer.  In that case, it visits the parent directory of the file the point is at and places the point on it.  This is useful in buffers like =ag-dired= or =find-dired= where there can be files from multiple parent directories together.
 
 #+NAME: dired-my-dired-jump
-#+BEGIN_SRC elisp :tangle no
+#+BEGIN_SRC elisp
 (defun my-dired-jump ()
   (interactive)
   (if (eq major-mode 'dired-mode)
@@ -56,7 +59,7 @@ One really awesome and overlooked function is ~dired-jump~.  What it does is sim
 Finally, ~dired-x~ defines ~dired-guess-shell-alist-user~ which is used to guess programs to open files with.  We add the media files on the list here.
 
 #+NAME: dired-guess-shell-alist-user
-#+BEGIN_SRC elisp :tangle no
+#+BEGIN_SRC elisp
 (add-to-list 'dired-guess-shell-alist-user
              (list (concat "\\."
                            (regexp-opt my-dired-media-files-extensions)
