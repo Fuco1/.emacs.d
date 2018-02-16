@@ -28,6 +28,8 @@
 (font-lock-add-keywords 'emacs-lisp-mode
                         `(("\\(?:^\\| \\)\\('\\sw\\(?:\\sw\\|\\s_\\)*\\)"
                            1 'font-lock-constant-face)
+                          ("\\(?:^\\| \\)\\(#'\\sw\\(?:\\sw\\|\\s_\\)*\\)"
+                           1 'font-lock-type-face)
                           ("(\\(defhydra\\)\\>[[:blank:]]+\\(.*?\\)\\([[:blank:]]\\|$\\)"
                            (1 font-lock-keyword-face)
                            (2 font-lock-type-face))
