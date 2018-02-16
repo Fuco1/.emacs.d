@@ -78,5 +78,14 @@ associated with the original non-sudo filename."
                               process-environment)))
     ad-do-it))
 
+
+(defun my-tabify-use-buffer (orig-fun start end &optional _arg)
+  (if (and (called-interactively-p 'any)
+           (not (region-active-p)))
+      (funcall orig-fun (point-min) (point-max) _arg)
+    (funcall orig-fun start end _arg)))
+
+(advice-add 'tabify :around #'my-tabify-use-buffer)
+
 (provide 'my-advices)
 ;;; my-advices.el ends here
