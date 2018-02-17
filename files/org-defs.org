@@ -6,6 +6,18 @@ Enable lexical binding by default.
 ;; -*- lexical-binding: t -*-
 #+END_SRC
 
+* Org mode init
+
+To keep things properly aligned call =org-align-all-tags= every time
+before we save an org buffer.
+
+#+BEGIN_SRC elisp
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (add-hook 'before-save-hook 'org-align-all-tags nil 'local)))
+#+END_SRC
+
 * Setup magic-mode-alist for org mode
 #+BEGIN_SRC elisp
 ;; If we are looking at something resembling an org-table
