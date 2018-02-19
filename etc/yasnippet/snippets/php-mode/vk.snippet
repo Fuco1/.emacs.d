@@ -3,4 +3,4 @@
 # key: vk
 # contributor: Matus Goljer <matus.goljer@gmail.com>
 # --
-echo 'Debug ('.__FILE__.':'.__LINE__.'):`(car kill-ring)`<pre>'.PHP_EOL.var_export(`(car kill-ring)`, true).'</pre>'.PHP_EOL;
+echo 'Debug ('.__FILE__.':'.__LINE__.'):`(replace-regexp-in-string "'" "\\'" (car kill-ring))`<pre>'.PHP_EOL.var_export(`(car kill-ring)`, true).'</pre>'.PHP_EOL;
