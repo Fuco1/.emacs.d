@@ -1115,6 +1115,7 @@ use a directory-local variable to specify this per-project."
   :bind (:map json-mode-map
          ("C-c C-c" . my-json-mode-run-jq)
          ("C-c C-j" . my-json-jsonify)
+         ("C-c C-i" . jq-interactively)
          ("C-c C-o" . my-json-copy-as-org)
          ("C-c C-m" . my-json-minify))
   :config
