@@ -372,6 +372,8 @@ initial character.
 
 Otherwise downcase the following word."
   (interactive "P")
+  (when (and (looking-at-p "[ \t]*$") (> (prefix-numeric-value arg) 0))
+    (setq arg (- (prefix-numeric-value arg))))
   (cond
    ((equal arg '(4))
     (downcase-word 1))
@@ -404,6 +406,8 @@ If the following word is camelCase, upcase just the initial character.
 
 Otherwise upcase the following word."
   (interactive "P")
+  (when (and (looking-at-p "[ \t]*$") (> (prefix-numeric-value arg) 0))
+    (setq arg (- (prefix-numeric-value arg))))
   (cond
    ((equal arg '(4))
     (upcase-word 1))
