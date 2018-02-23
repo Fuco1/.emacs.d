@@ -253,6 +253,34 @@ Call the value of `my-get-compile-command' to generate the
       (compilation--ensure-parse (point-max)))
     (add-hook 'compilation-finish-functions 'my-compilation-reparse-buffer)
 
+    (defvar my-compile-auto-fold-alist
+      `(
+        ("^Running \".*$" "\\(^\\)Running \".*$" 0 0 1)
+        )
+      "Control automatic folding in a buffer.
+
+Each element is of the form:
+
+ (ANCHOR-START ANCHOR-END [HEADER-MATCH-GROUP [START-MATCH-GROUP [END-MATCH-GROUP]]])
+
+ANCHOR-START is a regular expression which marks the start of the
+folded region.
+
+ANCHOR-END is a regular expression which marks the end of the
+folded region.
+
+HEADER-MATCH-GROUP is a match group in ANCHOR-START which is used
+as the header of the folded region.  If nil a default \"...\"
+header is used.
+
+START-MATCH-GROUP (default 0) can be used to specify which of
+ANCHOR-START match-group's beginning is used as the beginning of
+the folded region.
+
+END-MATCH-GROUP (default 0) can be used to specify which of
+ANCHOR-END match-group's end is used as the end of the folded
+region.")
+
     (defun my-colorize-compilation-buffer ()
       (read-only-mode -1)
       (ansi-color-apply-on-region compilation-filter-start (point))
