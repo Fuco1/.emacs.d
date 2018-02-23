@@ -28,6 +28,7 @@
 (depends-on "docker-tramp")
 (depends-on "dockerfile-mode")
 (depends-on "dotenv-mode")
+(depends-on "dumb-jump")
 (depends-on "edit-indirect")
 (depends-on "editorconfig")
 (depends-on "eimp")
