@@ -1084,11 +1084,17 @@ use a directory-local variable to specify this per-project."
       :config
       (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
 
+    (defun my-flow-minor-jump-to-definition-then-dumb-jump ()
+      "Try to call `flow-minor-jump-to-definition' and if it fails use `dumb-jump-go'."
+      (interactive)
+      (when (equal (flow-minor-jump-to-definition) "Not found")
+        (dumb-jump-go)))
+
     (use-package flow-minor-mode
       :config
       (bind-key "M-." nil flow-minor-mode-map)
       (bind-key "M-," nil flow-minor-mode-map)
-      (bind-key "M-'" 'flow-minor-jump-to-definition flow-minor-mode-map)
+      (bind-key "M-'" 'my-flow-minor-jump-to-definition-then-dumb-jump flow-minor-mode-map)
       (bind-key "C-M-'" 'xref-pop-marker-stack flow-minor-mode-map))
 
     (use-package flow-js2-mode)
