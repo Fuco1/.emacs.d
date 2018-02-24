@@ -253,6 +253,129 @@ Call the value of `my-get-compile-command' to generate the
       (compilation--ensure-parse (point-max)))
     (add-hook 'compilation-finish-functions 'my-compilation-reparse-buffer)
 
+    (defvar my-compile-auto-fold-alist
+      `(
+        (,(rx (and bol "PHPStan > " (0+ any) eol))
+         ,(rx (or (and (group-n 1 bol eol) "\nPHPStan > " (0+ any) eol)
+                  (and (group-n 1 bol) "\nTotal time")))
+         0 0 1
+         "lint")
+        )
+      "Control automatic folding in a `compilation-mode' buffer.
+
+Each element is of the form:
+
+ (ANCHOR-START ANCHOR-END [HEADER-MATCH-GROUP [START-MATCH-GROUP [END-MATCH-GROUP [IGNORE-ANCHOR]]]])
+
+ANCHOR-START is a regular expression which marks the start of the
+folded region.
+
+ANCHOR-END is a regular expression which marks the end of the
+folded region.
+
+HEADER-MATCH-GROUP is a match group in ANCHOR-START which is used
+as the header of the folded region.  If nil a default \"...\"
+header is used.
+
+START-MATCH-GROUP (default 0) can be used to specify which of
+ANCHOR-START match-group's beginning is used as the beginning of
+the folded region.
+
+END-MATCH-GROUP (default 0) can be used to specify which of
+ANCHOR-END match-group's end is used as the end of the folded
+region.
+
+IGNORE-ANCHOR is a regular expression that matches against the
+header or a function which takes the header as an argument.  If
+it matches or returns non-nil do not fold this header.")
+
+    (defvar my-compile-auto-fold-header-match-data nil
+      "Remember the match data of the last match header.")
+    (make-variable-buffer-local 'my-compile-auto-fold-header-match-data)
+
+    ;; TODO: use marker instead of point?
+    (defvar my-compile-last-match 1
+      "Track the position of last match.
+
+We restart the search from this position instead of using
+`compilation-filter-start' because that might have just happened
+to be in the middle of a match and we would never find it using a
+regexp.
+
+Instead, every time we match a start or end anchor we update this
+variable.")
+    (make-variable-buffer-local 'my-compile-last-match)
+
+    (defmacro my-with-match-data (match-data &rest body)
+      "Use MATCH-DATA in BODY."
+      (declare (indent 1))
+      `(save-match-data
+         (set-match-data ,match-data)
+         ,@body))
+
+    (defun my-compile--apply-auto-fold ()
+      "Apply rules from `my-compile-auto-fold-alist'.
+
+This function is used in `compilation-filter-hook' and can work
+on chunked output.
+
+To keep the state inbetween calls we use `my-compile-last-match'
+and `my-compile-auto-fold-header-match-data'."
+      (let ((end (point)))
+        (-each my-compile-auto-fold-alist
+          (-lambda ((anchor-start
+                     anchor-end
+                     header-match-group
+                     start-match-group
+                     end-match-group
+                     ignore-anchor))
+            (save-excursion
+              (goto-char my-compile-last-match)
+              (catch 'done
+                (while (or my-compile-auto-fold-header-match-data
+                           (when (re-search-forward anchor-start end t)
+                             (setq my-compile-last-match (point))
+                             (setq my-compile-auto-fold-header-match-data (match-data))))
+                  (if (re-search-forward anchor-end end t)
+                      (let ((fold-header
+                             (my-with-match-data my-compile-auto-fold-header-match-data
+                               (match-string (or header-match-group 0))))
+                            (inhibit-read-only t))
+                        (unless (and ignore-anchor
+                                     (string-match-p ignore-anchor fold-header))
+                          (fold-this
+                           (my-with-match-data my-compile-auto-fold-header-match-data
+                             (match-beginning (or start-match-group 0)))
+                           (match-end (or end-match-group 0))
+                           fold-header))
+                        (goto-char (match-end (or end-match-group 0)))
+
+                        (setq my-compile-last-match (point))
+                        (setq my-compile-auto-fold-header-match-data nil))
+                    ;; if we have a start or found one, but there is no end,
+                    ;; quit the loop and wait for the next invocation
+                    (throw 'done t)))))))))
+
+    (defun my-compile-apply-auto-fold ()
+      "Apply rules from `my-compile-auto-fold-alist'."
+      (interactive)
+      (fold-this-unfold-all)
+      (my-compile-auto-fold-init)
+      (save-excursion
+        (goto-char (point-max))
+        (my-compile--apply-auto-fold)))
+
+    (defun my-compile-auto-fold-init (&rest _)
+      "Reset state at the beginning of compilation."
+      (setq-local my-compile-auto-fold-header-match-data nil)
+      (setq-local my-compile-last-match 1))
+
+    (add-hook 'compilation-start-hook 'my-compile-auto-fold-init)
+    ;; THIS must be called after `my-colorize-compilation-buffer'
+    ;; because it can remove "control" characters from output and mess
+    ;; with match markers.
+    (add-hook 'compilation-filter-hook 'my-compile--apply-auto-fold)
+
     (defun my-colorize-compilation-buffer ()
       (read-only-mode -1)
       (ansi-color-apply-on-region compilation-filter-start (point))
