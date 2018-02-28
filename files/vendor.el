@@ -267,6 +267,11 @@ Call the value of `my-get-compile-command' to generate the
                   (and (group-n 1 bol) "\nTotal time")))
          0 0 1
          "lint")
+        (,(rx (and bol "Running \"" (0+ any) "task" eol))
+         ,(rx (or (and (group-n 1 eol) "\nRunning \"" (0+ any) "task" eol)
+                  (and (group-n 1 bol) "\nDone.")))
+         0 0 1
+         "shell:tester")
         )
       "Control automatic folding in a `compilation-mode' buffer.
 
