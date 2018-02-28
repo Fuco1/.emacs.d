@@ -80,10 +80,10 @@ associated with the original non-sudo filename."
 
 
 (defun my-tabify-use-buffer (orig-fun start end &optional _arg)
-  (if (and (called-interactively-p 'any)
-           (not (region-active-p)))
-      (funcall orig-fun (point-min) (point-max) _arg)
-    (funcall orig-fun start end _arg)))
+  (interactive (if (use-region-p)
+                   (list (region-beginning) (region-end) nil)
+                 (list (point-min) (point-max) nil)))
+  (funcall orig-fun start end _arg))
 
 (advice-add 'tabify :around #'my-tabify-use-buffer)
 
