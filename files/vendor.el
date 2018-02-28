@@ -23,6 +23,13 @@ load the result."
       (org-babel-tangle-file source)
       (load result))))
 
+(defvar my-vendor-file (f-this-file)
+  "Path to this file")
+
+(defun load-relative (module)
+  "Load MODULE relative to this file"
+  (load (f-join (f-parent my-vendor-file) module)))
+
 (use-package ag
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
   :init
@@ -509,8 +516,8 @@ and `my-compile-auto-fold-header-match-data'."
         (ido-dired))))
   :config
   (progn
-    (my-load-or-tangle (f-join (f-parent (f-this-file)) "dired-defs"))
-    (load (f-join (f-parent (f-this-file)) "dired-defs"))
+    (my-load-or-tangle (f-join (f-parent my-vendor-file) "dired-defs"))
+    (load-relative "dired-defs")
 
     ;; overload to fix bullshit
     (defun dired-hack-local-variables () nil)))
@@ -1076,7 +1083,7 @@ use a directory-local variable to specify this per-project."
     (setq ido-ubiquitous-max-items nil))
   :config
   (progn
-    (load (f-join (f-parent (f-this-file)) "ido-defs"))))
+    (load-relative "ido-defs")))
 
 (use-package inf-mongo
   :commands inf-mongo
@@ -1098,7 +1105,7 @@ use a directory-local variable to specify this per-project."
          ("C-r" . isearch-backward-regexp))
   :config
   (progn
-    (load (f-join (f-parent (f-this-file)) "isearch-defs"))))
+    (load-relative "isearch-defs")))
 
 (use-package ispell
   :bind (("<f10>" . ispell-word)
@@ -1544,7 +1551,7 @@ If in the test file, visit source."
   :mode ("\\.md$" . gfm-mode)
   :config
   (progn
-    (load (f-join (f-parent (f-this-file)) "markdown-defs"))))
+    (load-relative "markdown-defs")))
 
 (use-package message
   :defer t
@@ -1683,8 +1690,8 @@ by that command."
           ("C-c C-x <C-i-key>" . org-clock-in))
   :config
   (progn
-    (my-load-or-tangle (f-join (f-parent (f-this-file)) "org-defs"))
-    (load (f-join (f-parent (f-this-file)) "org-defs"))))
+    (my-load-or-tangle (f-join (f-parent my-vendor-file) "org-defs"))
+    (load-relative "org-defs")))
 
 ;; TODO: move into a separate file
 (use-package php-mode
@@ -2143,7 +2150,7 @@ These are retrieved from `imenu--index-alist'."
       (toggle-input-method)
       (throw 'quail-tag nil))
 
-    (load (f-join (f-parent (f-this-file)) "layouts"))))
+    (load-relative "layouts")))
 
 (use-package recentf
   :disabled t
@@ -2250,7 +2257,7 @@ separate buffer."
   :diminish smartparens-mode
   :init
   (progn
-    (load (f-join (f-parent (f-this-file)) "smartparens"))))
+    (load-relative "smartparens")))
 
 (use-package smartscan
   :bind (("C->" . smartscan-symbol-go-forward)
@@ -2393,7 +2400,7 @@ separate buffer."
              latex-mode)
   :config
   (progn
-    (load (f-join (f-parent (f-this-file)) "latex-defs"))))
+    (load-relative "latex-defs")))
 
 (use-package "text-mode"
   :init
@@ -2668,8 +2675,8 @@ If such snippet already exists, just open it for editing."
     ;; Replace yasnippets's TAB, was yas/expand
     (add-hook 'yas-minor-mode-hook 'my-yas-startup)))
 
-(my-load-or-tangle (f-join (f-parent (f-this-file)) "vendor"))
-(my-load-or-tangle (f-join (f-parent (f-this-file)) "keys"))
+(my-load-or-tangle (f-join (f-parent my-vendor-file) "vendor"))
+(my-load-or-tangle (f-join (f-parent my-vendor-file) "keys"))
 
 ;; Local Variables:
 ;; eval: (add-to-list 'imenu-generic-expression '("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2))
