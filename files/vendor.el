@@ -1706,8 +1706,8 @@ by that command."
        "php-mode"
        'my-php-find-project-root
        (list "php" "/home/matus/dev/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php"))
-      (bind-key "M-'" 'xref-find-definitions php-mode-map)
-      (bind-key "C-M-'" 'xref-pop-marker-stack php-mode-map))
+      (bind-key "M-'" 'smart-jump-go php-mode-map)
+      (bind-key "C-M-'" 'smart-jump-back php-mode-map))
 
 
 
@@ -2233,6 +2233,17 @@ separate buffer."
     (setq shell-pop-autocd-to-working-dir t)
     (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
     (setq shell-pop-window-height 50)))
+
+(use-package smart-jump
+  :config
+  (progn
+    (smart-jump-register
+     :modes 'php-mode
+     :jump-fn 'xref-find-definitions
+     :pop-fn 'xref-pop-marker-stack
+     :should-jump t
+     :heuristic 'error
+     :async nil)))
 
 (use-package smartparens
   :defer t

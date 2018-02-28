@@ -124,6 +124,7 @@
 (depends-on "scf-mode")
 (depends-on "shackle")
 (depends-on "shell-pop")
+(depends-on "smart-jump")
 (depends-on "smartparens")
 (depends-on "smartscan")
 (depends-on "smex")
