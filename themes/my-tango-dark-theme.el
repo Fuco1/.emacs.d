@@ -582,6 +582,7 @@ respective major mode.  Think org SRC blocks.")
    (highlight-thing (:background "black"))
    (which-func (:inherit font-lock-function-name-face))
    (anzu-mode-line (:inherit font-lock-function-name-face :weight bold))
+   (yaml-tab-face (:inherit default))
 
    ;; My special themes
    (my-reading-face (:background "#808000" :foreground "#000000")))
