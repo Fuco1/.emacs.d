@@ -1234,7 +1234,19 @@ use a directory-local variable to specify this per-project."
 
     (use-package flow-js2-mode)
 
+    (defun my-eslint-fix ()
+      "Fix the current buffer with eslint."
+      (when (and flycheck-javascript-eslint-executable
+                 (buffer-file-name)
+                 (--any? (eq (flycheck-error-checker it) 'javascript-eslint) flycheck-current-errors))
+        (message "Fixing buffer: eslint --fix %s" (buffer-file-name))
+        (call-process
+         flycheck-javascript-eslint-executable
+         nil "*eslint errors*" nil "--fix" (buffer-file-name))
+        (revert-buffer t t t)))
+
     (defun my-js2-mode-init ()
+      (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
       (-when-let (root (locate-dominating-file default-directory "node_modules"))
         (setq-local flycheck-javascript-eslint-executable (concat root "/node_modules/.bin/eslint"))
         (setq-local flycheck-javascript-flow-executable (concat root "/node_modules/.bin/flow"))
