@@ -2442,6 +2442,7 @@ separate buffer."
   :defer t
   :config
   (progn
+    (require 'docker-tramp-compat)
     ;; (setq tramp-default-method "plinkx")
     ;; (setq tramp-terminal-type "dumb")
 
