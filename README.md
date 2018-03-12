@@ -2,6 +2,23 @@
 
 The pre-git history is at: https://bitbucket.org/Fuco/.emacs.d/
 
+# Installation
+
+First, install cask
+
+``` shell
+curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
+```
+
+Then from `.emacs.d` directory run
+
+``` shell
+cask install
+make
+```
+
+This should get you reasonably close to a runnable installation.
+
 # Layout
 
 * etc: extra configuration files (not elisp)
