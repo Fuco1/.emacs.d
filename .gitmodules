@@ -109,3 +109,6 @@
 [submodule "projects/flow-js2-mode"]
 	path = projects/flow-js2-mode
 	url = git@github.com:Fuco1/flow-js2-mode.git
+[submodule "dev/dash.el"]
+	path = dev/dash.el
+	url = git@github.com:magnars/dash.el.git
