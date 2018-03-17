@@ -1394,7 +1394,27 @@ called, percentage usage and the command."
 (use-package ledger-mode
   :mode ("\\.ledger\\'" . ledger-mode)
   :config
-  (progn))
+  (progn
+    (defun my-format-airbank-to-ledger ()
+      (interactive)
+      (-let* ((start (point))
+              (date-raw (buffer-substring
+                         (line-beginning-position)
+                         (line-end-position)))
+              ((d m y) (split-string date-raw "\\."))
+              (date-ledger (format "%s/%s/%s" y m d)))
+        (forward-line)
+        (replace-regexp "\\," "." nil (line-beginning-position) (line-end-position))
+        (replace-regexp "CZK" "Kc" nil (line-beginning-position) (line-end-position))
+        (replace-regexp "-" "" nil (line-beginning-position) (line-end-position))
+        (let ((amount (buffer-substring (line-beginning-position) (line-end-position))))
+          (forward-line 5)
+          (delete-region start (point))
+          (insert (format "%s * Albert
+    Expenses:Groceries   %s
+    Assets:Checking:Air Bank  -%s
+" date-ledger amount amount))
+          (forward-line 1))))))
 
 (use-package lisp-mode
   :defer t
