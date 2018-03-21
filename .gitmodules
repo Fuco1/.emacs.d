@@ -112,3 +112,6 @@
 [submodule "dev/dash.el"]
 	path = dev/dash.el
 	url = git@github.com:magnars/dash.el.git
+[submodule "projects/compile-eslint"]
+	path = projects/compile-eslint
+	url = git@github.com:Fuco1/compile-eslint.git

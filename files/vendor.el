@@ -1204,6 +1204,8 @@ use a directory-local variable to specify this per-project."
                 ("k" js2r-kill)
                 ("q" nil))
               js2-mode-map)
+    (use-package compile-eslint)
+
     (defun js2r-json-stringify-this ()
       "Wrap the expression at point with JSON.stringify."
       (interactive)
