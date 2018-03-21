@@ -1170,7 +1170,7 @@ use a directory-local variable to specify this per-project."
  ------------------------------------------------------------------------------------------------------------------------------
  [_lp_] Localize Parameter      [_ev_] Extract variable   [_wi_] Wrap buffer in IIFE    [_k_]  js2 kill      [_lt_] log this
  [_ef_] Extract function        [_iv_] Inline variable    [_ig_] Inject global in IIFE  [_ss_] split string  [_dt_] debug this
- [_ip_] Introduce parameter     [_rv_] Rename variable    [_ee_] Expand node at point   [_sl_] forward slurp
+ [_ip_] Introduce parameter     [_rv_] Rename variable    [_ee_] Expand node at point   [_sl_] forward slurp [_st_] JSON.stringify this
  [_em_] Extract method          [_vt_] Var to this        [_cc_] Contract node at point [_ba_] forward barf
  [_ao_] Arguments to object     [_sv_] Split var decl.    [_uw_] unwrap
  [_tf_] Toggle fun exp and decl [_ag_] Add var to globals
@@ -1197,12 +1197,21 @@ use a directory-local variable to specify this per-project."
                 ("ss" js2r-split-string)
                 ("uw" js2r-unwrap)
                 ("lt" js2r-log-this)
+                ("st" js2r-json-stringify-this)
                 ("dt" js2r-debug-this)
                 ("sl" js2r-forward-slurp)
                 ("ba" js2r-forward-barf)
                 ("k" js2r-kill)
                 ("q" nil))
               js2-mode-map)
+    (defun js2r-json-stringify-this ()
+      "Wrap the expression at point with JSON.stringify."
+      (interactive)
+      (let* ((expr (js2-node-at-point))
+             (beg (js2-node-abs-pos expr))
+             (end (+ beg (js2-node-len expr)))
+             (expr (delete-and-extract-region beg end)))
+        (insert (format "JSON.stringify(%s, null, 4)" expr))))
 
     (bind-key "C-c C-c" 'mocha-test-file js2-mode-map)
     (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)
