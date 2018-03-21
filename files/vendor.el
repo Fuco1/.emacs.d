@@ -1203,10 +1203,6 @@ use a directory-local variable to specify this per-project."
                 ("k" js2r-kill)
                 ("q" nil))
               js2-mode-map)
-    (use-package mocha
-      :config
-      (defvar node-error-regexp-alist
-        `((,node-error-regexp 1 2 3 nil 1))))
 
     (bind-key "C-c C-c" 'mocha-test-file js2-mode-map)
     (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)
