@@ -145,8 +145,21 @@
   (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
                                              (my-php-handle-docstring "RET")))
   (sp-local-pair "/*." ".*/" :post-handlers '(("| " "SPC")))
-  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+  (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") my-php-wrap-handler))
   (sp-local-pair "(" nil :prefix "\\(\\sw\\|\\s_\\)*"))
+
+(defun my-php-wrap-handler (&rest _ignored)
+  (save-excursion
+    (sp-get sp-last-wrapped-region
+      (goto-char :beg-in)
+      (unless (looking-at "[ \t]*$")
+        (newline-and-indent))
+      (goto-char :end-in)
+      (beginning-of-line)
+      (unless (looking-at "[ \t]*}[ \t]*$")
+        (goto-char :end-in)
+        (newline-and-indent))
+      (indent-region :beg-prf :end-suf))))
 
 (defun my-php-handle-docstring (&rest _ignored)
   (-when-let (line (save-excursion
