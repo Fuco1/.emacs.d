@@ -178,18 +178,6 @@ Here's how it looks (list shortened for clarity):
 
 I stole the regexp from [[https://github.com/hlissner/.emacs.d/blob/master/modules/lang/org/config.el][hlissner's emacs.d]] who apparently came to the same conclusion.  It's a rather nice collection of stuff so check it out, but be warned, it is /super/ idiosyncratic... which in Emacs translation basically means awesome :)
 
-** Make the whitespace before list items also fontified with =org-list-dt=
-
-This will ensure that the levels are properly aligned when mixing
-numbered lists and plain lists.
-
-#+BEGIN_SRC elisp
-(font-lock-add-keywords
- 'org-mode
- `(("^\\([ \t]*\\)\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+" 1 'org-list-dt prepend))
- 'append)
-#+END_SRC
-
 * DONE Use org-radiobutton to select an option from a list
 CLOSED: [2018-03-11 Sun 15:50]
 :PROPERTIES:
