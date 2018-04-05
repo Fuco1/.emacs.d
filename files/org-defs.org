@@ -139,7 +139,7 @@ Just throw the following somewhere and reload the org buffers (close and reopen 
 #+BEGIN_SRC elisp
 (font-lock-add-keywords
  'org-mode
- `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)" 1 'org-headline-done prepend))
+ `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\\(?:\n\\|\\'\\)\\)" 1 'org-headline-done prepend))
  'append)
 #+END_SRC
 
