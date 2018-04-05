@@ -115,7 +115,8 @@ The function also showcases work with the org tag API which I personally find ra
 
 I also wanted to add the functionality to preserve the inherited tags from the original position so that refiling would be tag-neutral operation.  But that actually proved rather annoying because the point of refiling under a differnet hierarchy is to /not/ have the same tags... otherwise why would you refile at all.
 
-* DONE Fontify done checkbox items in org-mode
+* Nicer fontification
+** DONE Fontify done checkbox items in org-mode
   CLOSED: [2017-05-25 Thu 00:10]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-25-Fontify-done-checkbox-items-in-org-mode
@@ -176,6 +177,18 @@ Here's how it looks (list shortened for clarity):
 (Also note that the above is /not/ a screenshot, it is an embedded =org-mode= snippet in =org-mode='s =#+BEG_SRC= block.  Inception.)
 
 I stole the regexp from [[https://github.com/hlissner/.emacs.d/blob/master/modules/lang/org/config.el][hlissner's emacs.d]] who apparently came to the same conclusion.  It's a rather nice collection of stuff so check it out, but be warned, it is /super/ idiosyncratic... which in Emacs translation basically means awesome :)
+
+** Make the whitespace before list items also fontified with =org-list-dt=
+
+This will ensure that the levels are properly aligned when mixing
+numbered lists and plain lists.
+
+#+BEGIN_SRC elisp
+(font-lock-add-keywords
+ 'org-mode
+ `(("^\\([ \t]*\\)\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+" 1 'org-list-dt prepend))
+ 'append)
+#+END_SRC
 
 * DONE Use org-radiobutton to select an option from a list
 CLOSED: [2018-03-11 Sun 15:50]
