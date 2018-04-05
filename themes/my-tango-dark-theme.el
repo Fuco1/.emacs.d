@@ -478,7 +478,7 @@ respective major mode.  Think org SRC blocks.")
    (org-mode-line-clock nil t)
 
    (org-headline-done (:inherit shadow))
-   (org-list-dt (:inherit markup-list-ordered))
+   (org-list-dt (:inherit (markup-list-ordered fixed-pitch)))
    (org-checkbox (:inherit org-list-dt))
 
    ;; Textile
