@@ -849,16 +849,14 @@ The second part is a regexp to search in the buffer."
 
 (defun my-org-emphasis-fontifier (face)
   "Generate code to fontify custom emphasis."
-  `(unless (org-in-block-p '("SRC" "EXAMPLE"))
-     (font-lock-prepend-text-property
-      (match-beginning 1)
-      (match-end 1)
-      'face ',face)
-     (when org-hide-emphasis-markers
-       (add-text-properties (match-beginning 2) (match-end 2) '(invisible org-link))
-       (add-text-properties (match-beginning 4) (match-end 4) '(invisible org-link)))
-     (backward-char 1)
-     nil))
+  (unless (save-match-data
+            (or (org-in-block-p '("SRC" "EXAMPLE"))
+                (eq (car (org-element-at-point)) 'fixed-width)))
+    (when org-hide-emphasis-markers
+      (add-text-properties (match-beginning 2) (match-end 2) '(invisible org-link))
+      (add-text-properties (match-beginning 4) (match-end 4) '(invisible org-link)))
+    (backward-char 1)
+    face))
 
 (defun my-org-fontify-list-marker ()
   "Fontify the list marker at the beginning of line but not in source blocks.
@@ -866,15 +864,11 @@ The second part is a regexp to search in the buffer."
 Also fontify the space in front to make sure nested lists are
 properly aligned."
   (unless (org-in-block-p '("SRC" "EXAMPLE"))
-    (font-lock-prepend-text-property
-     (match-beginning 0)
-     (match-end 0)
-     'face 'org-list-dt)
-    nil))
+    'org-list-dt))
 
 (font-lock-add-keywords 'org-mode
-                        `((,(my-org-emphasis-regexp "$" "$") 0 ,(my-org-emphasis-fontifier 'markup-math))
-                          (,(my-org-emphasis-regexp "{" "}") 0 ,(my-org-emphasis-fontifier 'shadow))
+                        `((,(my-org-emphasis-regexp "$" "$") 1 (funcall 'my-org-emphasis-fontifier 'markup-math))
+                          (,(my-org-emphasis-regexp "{" "}") 1 (funcall 'my-org-emphasis-fontifier 'shadow))
                           ;; Fontify list markers
                           ("^[ \t]*\\([-+]\\|[0-9]+[).]\\) " 0 (funcall 'my-org-fontify-list-marker))
                           ;; Fontify hashtags
