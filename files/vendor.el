@@ -1752,11 +1752,11 @@ by that command."
 
     (use-package lsp-mode
       :config
-      (lsp-define-stdio-client
-       lsp-php-major-mode
-       "php-mode"
-       'my-php-find-project-root
-       (list "php" "/home/matus/dev/php-language-server/vendor/felixfbecker/language-server/bin/php-language-server.php"))
+      (require 'lsp-php)
+
+      (require 'lsp-ui)
+      (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
       (bind-key "M-'" 'smart-jump-go php-mode-map)
       (bind-key "C-M-'" 'smart-jump-back php-mode-map))
 
@@ -2102,7 +2102,7 @@ These are retrieved from `imenu--index-alist'."
 
       (setq-local lsp-enable-completion-at-point nil)
       (setq-local lsp-enable-eldoc nil)
-      (lsp-php-major-mode-enable)
+      (lsp-php-enable)
 
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init)))
