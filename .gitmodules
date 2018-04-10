@@ -118,3 +118,9 @@
 [submodule "vendor/lsp-php"]
 	path = vendor/lsp-php
 	url = git@github.com:emacs-lsp/lsp-php.git
+[submodule "projects/org-radiobutton"]
+	path = projects/org-radiobutton
+	url = git@github.com:Fuco1/org-radiobutton.git
+[submodule "projects/fontify-face"]
+	path = projects/fontify-face
+	url = git@github.com:Fuco1/fontify-face.git
