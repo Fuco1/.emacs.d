@@ -567,6 +567,11 @@ respective major mode.  Think org SRC blocks.")
    (term-color-yellow (:foreground butter-1 :background butter-1))
    (term-bold nil)
 
+   ;; prodigy
+   (prodigy-green-face (:inherit font-lock-comment-face))
+   (prodigy-red-face (:inherit font-lock-warning-face))
+   (prodigy-yellow-face (:inherit font-lock-function-name-face))
+
    ;; Random faces
    (bmkp-local-directory (:inherit dired-directory))
    (dropdown-list-face (:inherit default :background choc-1 :foreground "black"))
