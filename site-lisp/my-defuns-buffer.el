@@ -90,6 +90,14 @@ Warn me if I want to kill a scratch buffer."
   (interactive)
   (kill-new buffer-file-name))
 
+(defun my-open-buffer-xdg ()
+  "Open the current buffer's file with xdg-open(1)."
+  (interactive)
+  (--if-let (or (buffer-file-name)
+                (ignore-errors (dired-get-file-for-visit)))
+      (start-process "" nil "xdg-open" it)
+    (user-error "No file to open")))
+
 (define-minor-mode my-inhibit-buffer-cleanup-mode
   "If enabled, do not clean up whitespace on buffer save."
   :init-value nil)
