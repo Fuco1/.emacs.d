@@ -567,6 +567,9 @@ respective major mode.  Think org SRC blocks.")
    (term-color-yellow (:foreground butter-1 :background butter-1))
    (term-bold nil)
 
+   ;; lsp-ui
+   (lsp-ui-doc-background (:background "black"))
+
    ;; prodigy
    (prodigy-green-face (:inherit font-lock-comment-face))
    (prodigy-red-face (:inherit font-lock-warning-face))
