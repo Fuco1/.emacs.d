@@ -426,6 +426,7 @@ respective major mode.  Think org SRC blocks.")
 
    (markdown-pre-face (:inherit markup-pre))
    (markdown-code-face (:inherit markup-code-block))
+   (markdown-blockquote-face (:inherit markup-blockquote))
 
    (markdown-link-face (:inherit markup-link))
 
@@ -466,7 +467,7 @@ respective major mode.  Think org SRC blocks.")
    (org-block-background (:inherit fixed-pitch :background alum-6.5))
    (org-block (:inherit fixed-pitch :background alum-6.5))
    (org-verbatim (:inherit org-code))
-   (org-quote (:background alum-6.5))
+   (org-quote (:inherit markup-blockquote :background alum-6.5))
 
    (org-date (:inherit fixed-pitch :foreground blue-0))
    (org-table (:inherit fixed-pitch :foreground blue-0))
