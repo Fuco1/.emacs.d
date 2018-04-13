@@ -425,6 +425,7 @@ respective major mode.  Think org SRC blocks.")
    (markdown-reference-face (:inherit markup-reference))
 
    (markdown-pre-face (:inherit markup-pre))
+   (markdown-list-face (:inherit markup-list-ordered))
    (markdown-code-face (:inherit markup-code-block))
    (markdown-blockquote-face (:inherit markup-blockquote))
 
@@ -570,6 +571,7 @@ respective major mode.  Think org SRC blocks.")
 
    ;; lsp-ui
    (lsp-ui-doc-background (:background "black"))
+   (lsp-ui-sideline-global (:background "black"))
 
    ;; prodigy
    (prodigy-green-face (:inherit font-lock-comment-face))
