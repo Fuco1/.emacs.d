@@ -27,6 +27,10 @@
 
 (require 'hydra)
 
+(use-package org-id
+  :config
+  (org-link-set-parameters "id" :store #'org-id-store-link))
+
 (use-package elfeed-link)
 
 ;; TODO: replace with proper package
