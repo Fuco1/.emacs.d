@@ -177,7 +177,8 @@ European           | Indian           | Asian    | Special
 -------------------+------------------+----------+-----------------------------
 _s_lovak             | devanagari (_h_)   | _j_apanese | _w_orkman
 _c_zech              | de_v_anagari-trans |          | ipa-_x_-sampa
-german (_d_)         |                  |          | TeX (_t_)
+_p_olish             |                  |          | TeX (_t_)
+german (_d_)         |                  |          |
 _i_talian            |                  |          |
 _f_rench             |                  |          |
 _l_atin              |                  |          |
@@ -189,6 +190,7 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
             ("e" toggle-input-method)
             ("s" (lambda () "Toggle on slovak-prog-2 input method." (interactive) (set-input-method "slovak-prog-2")))
             ("c" (lambda () "Toggle on czech input method." (interactive) (set-input-method "czech")))
+            ("p" (lambda () "Toggle on polish-slash input method." (interactive) (set-input-method "polish-slash")))
             ("r" (lambda () "Toggle on russian-computer input method." (interactive) (set-input-method "russian-computer")))
             ("q" (lambda () "Toggle on cyrillic-translit input method." (interactive) (set-input-method "cyrillic-translit")))
             ("i" (lambda () "Toggle on italian-keyboard input method." (interactive) (set-input-method "italian-keyboard")))
