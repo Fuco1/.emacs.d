@@ -1218,13 +1218,14 @@ point and rebuild the agenda view."
 
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "BILL(b)" "|" "DONE(d!)" "MOVE(m@)")
+      '((sequence "TODO(t)" "NEXT(n)" "BILL(b)" "|" "DONE(d!)" "MOVE(m@)" "FAIL(f@)")
         (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "STOP(s@/!)")
         (sequence "|" "IDEA(i)")))
 
 ;; TODO: move faces to theme
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "IndianRed1" :weight bold)
+              ("FAIL" :foreground "Red" :weight bold)
               ("NEXT" :foreground "RoyalBlue" :weight bold)
               ("BILL" :foreground "Green" :weight bold)
               ("DONE" :foreground "LimeGreen" :weight bold)
