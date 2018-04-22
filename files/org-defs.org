@@ -2,11 +2,19 @@
 
 Enable lexical binding by default.
 
+* Frontmatter
+:PROPERTIES:
+:ID:       d756e067-7421-4b86-acbe-8cf46de3d4d8
+:END:
+
 #+BEGIN_SRC elisp
 ;; -*- lexical-binding: t -*-
 #+END_SRC
 
 * Org mode init
+:PROPERTIES:
+:ID:       7acd8001-c210-4a63-86c7-73a48ecf4426
+:END:
 
 To keep things properly aligned call =org-align-all-tags= every time
 before we save an org buffer.
@@ -19,6 +27,9 @@ before we save an org buffer.
 #+END_SRC
 
 * Setup magic-mode-alist for org mode
+:PROPERTIES:
+:ID:       bf1fa521-7730-4d63-9f79-b8c141c6ef2e
+:END:
 #+BEGIN_SRC elisp
 ;; If we are looking at something resembling an org-table
 (add-to-list 'magic-mode-alist `(,(rx (* white)
@@ -29,6 +40,9 @@ before we save an org buffer.
 #+END_SRC
 
 * Replace refile target picking with a sallet
+:PROPERTIES:
+:ID:       4b5484fb-0fcb-4ae9-89cc-19bccad8fc40
+:END:
   :CLOCK:
   CLOCK: [2017-06-08 Thu 19:40]--[2017-06-08 Thu 20:06] =>  0:26
   :END:
@@ -64,6 +78,7 @@ This is a hack: sallet can't take an argument on creation.")
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling
   :PUBDATE:  [2017-05-09 Tue 19:12]
+  :ID:       bf0b4a00-5b6e-4b63-9146-0fd0431818f6
   :END:
   :LOGBOOK:
   - State "DONE"       from "TODO"       [2017-05-09 Tue 19:12]
@@ -120,6 +135,7 @@ I also wanted to add the functionality to preserve the inherited tags from the o
   CLOSED: [2017-05-25 Thu 00:10]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-25-Fontify-done-checkbox-items-in-org-mode
+  :ID:       0bf880d4-8975-40e4-aa19-8789bfe73ddd
   :END:
   :CLOCK:
   CLOCK: [2017-05-24 Wed 23:58]--[2017-05-25 Thu 00:25] =>  0:27
@@ -183,6 +199,7 @@ CLOSED: [2018-03-11 Sun 15:50]
 :PROPERTIES:
 :BLOG_FILENAME: 2018-03-11-Use-org-radiobutton-to-select-an-option-from-a-list
 :PUBDATE:  [2018-03-11 Sun 15:50]
+:ID:       de293a52-8c9c-464c-8fb7-e847ca40694e
 :END:
 :LOGBOOK:
 - State "DONE"       from              [2018-03-11 Sun 15:50]
@@ -375,6 +392,9 @@ Finally, let's make sure that after we refile the captured content the frame whi
 With these tweaks the whole capture experience is much more streamlined for me.  When I invoke capture from anywhere (Emacs or via =org-protocol=), I get a full screen frame/window where I can quickly jot my thoughts.  After I'm finished everything restores itself to the previous state and I can continue with whatever task I was consumed prior to the capture process.
 
 ** Final code
+:PROPERTIES:
+:ID:       3d284389-7790-4f31-9af7-309cda1de09c
+:END:
 
 #+BEGIN_SRC elisp :noweb yes
 (use-package org-protocol
@@ -401,7 +421,341 @@ With these tweaks the whole capture experience is much more streamlined for me. 
           org-protocol-protocol-alist)))
 #+END_SRC
 
+* Goals, journaling and progress tracking
+:PROPERTIES:
+:ID:       ce89e3ef-dddb-4f31-8f11-f3cc0f89d64a
+:END:
+
+This is a very long post and it probably won't make sense to every one
+at first read.  I will appreciate any feedback to make it more
+understandable.  This is something I've been thinking about for a long
+time and I feel it might help people so I want to make sure things
+make sense.
+
+Ok, now let's get to it!
+
+Org mode is a fantastic tool for making notes, writing journals,
+keeping goals and habits in check, tracking progress.  I am very
+impressed with what can be done out of the box but as usual my
+workflows are a bit more idiosyncratic and since Emacs and org mode
+are so easy to extend I have added a bunch of arguably cool features
+to make my life easier.
+
+I keep a daily journal and one of the things I try to do there is to
+keep track of my activities, habits and progress.  I also have a
+review every week, month and year to summarize the progress on a
+higher level to make the long-term changes more apparent and to enable
+me to orient myself properly in where I am in relation to where I want
+to be (which is very hard to do on a daily basis).
+
+When I started things were a bit unstructured and quickly the "free
+form" tracking became chaotic and difficult to review.  I'm a
+scientist and I need hard data!
+
+These days I still track my progress through my journal entries and
+reviews but they now have more structure.  All my goals are kept in a
+separate file, let's call it =goals.org=.  This file contains four
+top-level headlines:
+
+- Daily
+- Monthly
+- Quarterly
+- Yearly
+
+The Monthly, Quarterly and Yearly headlines contain the respective
+time intervals as subtrees.  So the /Monthly/ heading would have a
+structure like this:
+
+#+BEGIN_SRC org
+,* Monthly
+,** 2018
+,*** DONE January
+,*** DONE February
+,*** DONE March
+,*** TODO April
+#+END_SRC
+
+The yearly would contain just the years and the quarterly years and
+quarters. Each /interval/ (month/quarter/year) then contains the
+specific goals for that period of time.
+
+The /Daily/ goals are just random things I like to do for a specific
+period of time or to be reminded and tracked daily forever.  There is
+no substructure and every task or habit or property has its own
+heading.
+
+Let's say my goal for April 2018 is to read three books.  I would
+create an entry like this:
+
+#+BEGIN_SRC org
+,* Monthly
+,** 2018
+,*** TODO April
+,**** TODO Read three books
+:PROPERTIES:
+:GOAL_NUMBER_OF_BOOKS: 3
+:END:
+- goal :: read three books
+- how :: read the first one, then the second one, then third one
+- measure :: number of books
+
+Here I can include more detailed description of how to do it and why
+and what is the benefit and so on.
+#+END_SRC
+
+Every goal has these three item lists at the top of it: /goal/, /how/ and
+/measure/ which are short summaries of:
+
+- goal :: what to do
+- how ::  how to do it
+- measure ::  what is the measurable quality of the goal that I will track and how
+
+Further, these goals can have any number of properties prefixed with
+=GOAL_= with any value.  These serve as reminders of where I want to get
+and also to enable long term tracking via [[id:43ab2860-7df5-4e3b-ba92-8cab877b90d1][org tables]] which I
+auto-generate from this metadata.
+
+** Tracking daily progress
+
+I like to have a bit of a structure in my journaling and for some time
+I used a template that I copied into the entry every day from another
+file.  This quickly got annoying so I created an automated mechanism
+for creating, updating and gathering templates directly from the goals
+themselves.
+
+First, define the file where the templates will be stored.  Since I
+store them along the goals I specify my goal file.
+
+#+BEGIN_SRC elisp
+;; TODO: allow more than one file?
+(defvar my-org-goal-templates-file "~/data/documents/goals.org.gpg"
+  "File where we keep track of goals and the templates.")
+#+END_SRC
+
+The next configuration variable specifies the intervals for which we
+would like to insert the templates.  I use these four but you can add
+any number of others.  The words have no significance and are simply a
+convention.
+
+#+BEGIN_SRC elisp
+;; TODO: gather these from the buffer dynamically?
+(defvar my-org-goal-templates-intervals '(
+                                          "daily"
+                                          "weekly"
+                                          "monthly"
+                                          "yearly"
+                                          )
+  "Intervals used in templates.")
+#+END_SRC
+
+Every time I add a goal and I want to keep track of it in my journal
+entries I also add a template to its entry which can then be
+automatically inserted to the journal entries.  If there are multiple
+templates for a given interval they are all concatenated and inserted
+at the same time.  This way I can keep the templates at the tasks
+where they make sense in context and collect them all with a bit of
+elisp before I want to insert them.
+
+A template is simply an org src block with a =#+NAME= marker starting
+with =template-= followed by one of the intervals from
+=my-org-goal-templates-intervals= optionally followed by anything.  The
+labels do not have to be unique.
+
+Let's say I want to keep track of one cool thing I did every day.  I
+would create a task under the /Daily/ goals like this:
+
+#+NAME: tracking-cool-thing
+#+BEGIN_SRC org
+,* Daily
+,** Keep track of one cool thing
+
+Every day I do so many awesome things that it's hard to pick just one.
+Let's try to pick one anyway.
+
+,#+NAME: template-daily-track-cool-thing
+,#+BEGIN_SRC org
+- cool thing :: I did this cool thing today:
+  - <fill>
+,#+END_SRC
+#+END_SRC
+
+The templates are only gathered from tasks which are not marked with
+any =done= keyword.  You can put a =TODO= or nothing there and they will
+be considered.  It works this way because when I want to stop tracking
+something I can simply mark it as done or failed or stopped and the
+template will no longer be considered when we collect them.
+
+#+BEGIN_SRC elisp
+(defun my-org-get-goal-templates (interval)
+  "Find all the templates for the INTERVAL and insert at point.
+
+Only collect the templates from tasks marked with a todo keyword
+or nothing, but not from done tasks."
+  (interactive (list (completing-read "Type: " my-org-goal-templates-intervals)))
+  (let (templates)
+    (with-current-buffer (find-file-noselect my-org-goal-templates-file)
+      (org-element-map (org-element-parse-buffer) 'src-block
+        (lambda (template)
+          (-when-let (name (org-element-property :name template))
+            (when (and (string-prefix-p (concat "template-" interval) name)
+                       (or (org-entry-is-todo-p)
+                           (not (org-get-todo-state))))
+              (push template templates))))))
+    (insert
+     (mapconcat (lambda (template)
+                  (org-element-property :value template))
+                (nreverse templates) ""))))
+#+END_SRC
+
+When I'm adding a daily journal entry I call =my-org-get-goal-templates=
+with the interval =daily=.  This gathers all the daily templates from
+all the goals and inserts them concatenated at point.  The templates
+can contain any org markup not just list items or checkboxes but
+that's what I use most.  I then follow the instructions in the
+templates and fill in the appropriate data.
+
+There is nothing stopping us from adding daily templates to monthly or
+yearly goals.  It actually does not matter where the template is in
+the file.  The position of the template is irrelevant.  Also each task
+can have as many templates as you want and even have templates with
+different intervals.
+
+** Monthly reviews and summarizing daily progress.
+
+During the monthly reviews I like to summarize everything that
+happened in the previous month on several fronts: financially, at
+work, cool events I attended, progress towards my goals and so on.
+
+To facilitate this I pull data from the daily review and quickly skim
+them before writing a summary.
+
+Let's get back to the daily tracking of a cool thing I did.  I might
+want to highlight the coolest one in my monthly review.  I can add a
+monthly interval template for the monthly review:
+
+#+BEGIN_SRC org :noweb yes
+<<tracking-cool-thing>>
+
+At the end of the month, I would like to highlight the coolest thing I
+did in the entire month.
+
+,#+NAME: template-monthly-track-cool-thing
+,#+BEGIN_SRC org
+- cool thing :: This is the coolest thing I did in the last month:
+  - <date>: <fill>
+,#+END_SRC
+#+END_SRC
+
+Now I can go back to all the daily entries and look at each one, pick
+the coolest and put it in the monthly review entry.  But that's going
+to be a lot of work!  Wouldn't it be easier if I could extract just
+the cool thing items and view them aggregated in a separate buffer?
+
+That's what I can do with the function =my-org-get-items-summary=.  As
+you might have noticed I prefix every item with a tag (that is the
+part separated from the body by =::=).  I can then ask for all the items
+with this tag and gather them in a separate buffer for review.
+
+#+BEGIN_SRC elisp
+(defun my-org-get-items-summary (tag)
+  "Find all list items with TAG and aggregate them into a review buffer."
+  ;; TODO: gather the tags dynamically?
+  (interactive (list (read-from-minibuffer "tag: ")))
+  (let (items)
+    (org-element-map (org-element-parse-buffer) 'item
+      (lambda (item)
+        (-when-let (item-name (car (org-element-property :tag item)))
+          (when (equal (downcase tag) (downcase item-name))
+            (push item items)))))
+    (let ((original-buffer (current-buffer)))
+      (with-current-buffer (get-buffer-create "*org journal task summary*")
+        (erase-buffer)
+        (-each items
+          (lambda (item)
+            (insert
+             (with-current-buffer original-buffer
+               (buffer-substring
+                (org-element-property :begin item)
+                (org-element-property :end item))))))
+        (org-mode)
+        (pop-to-buffer-same-window (current-buffer))))))
+#+END_SRC
+
+By default this pulls all the items with that given tag from the
+entire buffer.  But because I keep the journal as a date tree, meaning
+a hierarchy of years, months and days I can narrow to the specific
+subtree I want to review and then the function will only work on this
+interval.  So for the monthly review I will narrow to subtree (with
+=C-x n S=) of that particular month and then call
+=my-org-get-items-summary.=
+
+A side note: this is also one of the reasons I usually keep everything
+in just one org file: it allows for all these cool tricks which would
+be just a lot more difficult if I kept things in separate files.  Many
+people do that but I have never found an advantage and only see
+disadvantages.  With all the search and filtering and querying
+capabilities of org mode navigating a single file seems to me very
+painless and convenient. Now, to be fair, I do split my files somewhat
+because having a 220000 line buffer (that's roughly the extend of all
+my =org-mode= notes) is not something Emacs can handle yet.  But I only
+do this because Emacs limits me so and not on any philosophical
+grounds.
+
+The resulting buffer might look something like this:
+
+#+BEGIN_SRC org
+- cool thing :: I did this cool thing today:
+  - I rescued a cat from a burning building
+- cool thing :: I did this cool thing today:
+  - I run into an old friend and grabbed a beer with him
+...
+#+END_SRC
+
+All the noise is removed and only the single thing remains.  It's
+important to keep the tags unique otherwise entries might get mixed
+up.  I haven't found this to be very limiting as it's not that
+difficult coming up with unique labels for things I am tracking.
+
+** Track long term progress with an org table
+:PROPERTIES:
+:ID:       43ab2860-7df5-4e3b-ba92-8cab877b90d1
+:END:
+
+#+BEGIN_SRC elisp
+(defun my-org-goal-progress-table ()
+  "Make a goal table for the current headline.
+
+Collect all the properties prefixed with GOAL_ in a table for
+periodical tracking."
+  (interactive)
+  (let ((goal-props (--filter
+                     (string-prefix-p "GOAL_" (car it))
+                     (org-entry-properties))))
+    (insert (format
+             "| Date | %s |
+|-
+|
+|-
+| | %s |
+"
+             (mapconcat (lambda (goal)
+                          (mapconcat 's-capitalize
+                                     (cdr (split-string (car goal) "_"))
+                                     " "))
+                        goal-props
+                        " | ")
+             (mapconcat 'cdr goal-props " | ")))))
+#+END_SRC
+
+You can update the table daily, weekly or monthly (or in any interval
+really).  You can use babel and a bit of =R= magic to generate graphs
+and plots and all sorts of other useful things.  Remember kids, data
+is awesome!
+
 * Backmatter
+:PROPERTIES:
+:ID:       3a57a7e4-9c02-415b-be4c-3a55b907d0f1
+:END:
 
 #+BEGIN_SRC elisp
 (provide 'org-defs-tangled)
