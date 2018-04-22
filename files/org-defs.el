@@ -1150,6 +1150,8 @@ point and rebuild the agenda view."
 (setq org-capture-templates
       `(("r" "Todo" entry (file "~/org/refile.org")
          "* TODO %?\n%U\n%a\n" :clock-keep t)
+        ("p" "Pomodoro interruption" entry (file "~/org/refile.org")
+         "* TODO %? :pomodoro:\n%U\n%a\n" :clock-keep t)
         ("t" "Todo entries")
         ,@(let ((targets '(("te" "todo-emacs" "emacs" "Emacs config")
                            ("tg" "todo-general" "me" "General")
