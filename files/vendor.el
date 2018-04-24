@@ -2655,7 +2655,6 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
       (xref-location-group location))))
 
 (use-package yaml-mode
-  :mode (("yarn.lock" . yaml-mode))
   :config
   (defun my-yaml-beginning-of-defun (&optional arg)
     (interactive)

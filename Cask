@@ -148,4 +148,5 @@
 (depends-on "which-key")
 (depends-on "world-time-mode")
 (depends-on "yaml-mode")
+(depends-on "yarn-mode")
 (depends-on "yasnippet")
