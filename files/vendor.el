@@ -429,6 +429,7 @@ and `my-compile-auto-fold-header-match-data'."
   :config
   (progn
     (defun my-css-mode-setup ()
+      (rainbow-mode 1)
       (emmet-mode 1))
     (add-hook 'css-mode-hook 'my-css-mode-setup)))
 
