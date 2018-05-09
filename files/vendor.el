@@ -2059,6 +2059,7 @@ These are retrieved from `imenu--index-alist'."
         (indent-according-to-mode)))
 
     (defun my-php-mode-init ()
+      (setq-local php-style-delete-trailing-whitespace t)
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
       (when (and (buffer-file-name)
                  (string-match-p "/vendor/" (buffer-file-name)))
@@ -2094,7 +2095,6 @@ These are retrieved from `imenu--index-alist'."
                                     )))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (add-hook 'my-newline-hook 'my-php-open-line nil :local)
-      (setq php-style-delete-trailing-whitespace t)
       (php-enable-default-coding-style)
       (editorconfig-mode-apply)
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
