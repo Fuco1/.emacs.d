@@ -555,6 +555,11 @@ respective major mode.  Think org SRC blocks.")
    ;; js2-mode
    (js2-function-param (:inherit font-lock-variable-name-face))
    (js2-external-variable (:inherit font-lock-keyword-face))
+
+   (js2-jsdoc-type (:inherit font-lock-type-face))
+   (js2-jsdoc-tag (:inherit font-lock-constant-face))
+   (js2-jsdoc-value (:inherit font-lock-variable-name-face))
+
    (rjsx-tag (:inherit web-mode-html-tag-face))
    (rjsx-attr (:inherit web-mode-html-attr-name-face))
 
