@@ -1639,6 +1639,17 @@ If in the test file, visit source."
   (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map)
   (defun my-neon-mode-init ()
     (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
+    (setq-local font-lock-extra-managed-props '(syntax-table))
+    (setq-local parse-sexp-lookup-properties t)
+    (font-lock-add-keywords
+     nil
+     '(("\\({{{?\\)\\(\\(#\\)\\|/\\)?\\(.*?\\)\\(\\(}}}?\\)\\|\\( \\(.*?\\)\\(}}}?\\)\\)\\)"
+        (1 font-lock-builtin-face t)
+        (3 '(face font-lock-builtin-face syntax-table (1)) t t)
+        (4 font-lock-keyword-face t)
+        (6 font-lock-builtin-face t t)
+        (8 nil t t)
+        (9 font-lock-builtin-face t t))))
     (smartparens-mode 1)
     (smartparens-strict-mode 1))
   (add-hook 'neon-mode-hook 'my-neon-mode-init))
