@@ -100,6 +100,7 @@
 (depends-on "ob-async")
 (depends-on "ob-elixir")
 (depends-on "ob-mongo")
+(depends-on "ob-restclient")
 (depends-on "omnisharp")
 (depends-on "org-brain")
 (depends-on "org-plus-contrib")
