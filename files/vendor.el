@@ -1216,6 +1216,12 @@ use a directory-local variable to specify this per-project."
              (expr (delete-and-extract-region beg end)))
         (insert (format "JSON.stringify(%s, null, 4)" expr))))
 
+    (defun my-nodejs-buffer-to-string (beg end)
+      (interactive "r")
+      (shell-command
+       (format "node --eval 'console.log(Buffer.from(%s).toString())'"
+               (buffer-substring-no-properties beg end))))
+
     (bind-key "C-c C-c" 'mocha-test-file js2-mode-map)
     (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)
     (bind-key "M-'" 'dumb-jump-go js2-mode-map)
