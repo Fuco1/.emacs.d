@@ -209,7 +209,9 @@ CLOCK: [2018-03-11 Sun 15:20]--[2018-03-11 Sun 15:50] =>  0:30
 :END:
 
 #+BEGIN_SRC elisp :exports none
-(use-package org-radiobutton)
+(use-package org-radiobutton
+  :config
+  (global-org-radiobutton-mode 1))
 #+END_SRC
 
 Ever since I've come across the [[http://howardism.org/Technical/Emacs/literate-devops.html][Literate DevOps]] article I was hooked
