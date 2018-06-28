@@ -1463,6 +1463,9 @@ called, percentage usage and the command."
          )
   :config
   (progn
+    (use-package gitignore-mode
+      :config
+      (add-to-list 'auto-mode-alist (cons "\\.dockerignore" 'gitignore-mode)))
     (magit-add-section-hook 'magit-status-sections-hook
                             'magit-insert-modules-unpulled-from-upstream
                             'magit-insert-unpulled-from-upstream)
