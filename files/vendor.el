@@ -1459,6 +1459,7 @@ called, percentage usage and the command."
          ("C-c m m" . magit-log-all)
          ("C-c m v" . magit-show-refs-popup)
          ("C-c m s" . magit-status)
+         ("C-c m c" . magit-find-git-config-file)
          ("C-c m C-f" . magit-find-file)
          )
   :config
