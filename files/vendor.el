@@ -2679,6 +2679,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
       (xref-location-group location))))
 
 (use-package yaml-mode
+  :mode (("\\.dockerapp\\'" . yaml-mode))
   :config
   (defun my-yaml-beginning-of-defun (&optional arg)
     (interactive)
