@@ -1434,6 +1434,19 @@ called, percentage usage and the command."
   :defer t
   :init
   (progn
+    (flycheck-define-checker emacs-lisp-elsa
+      "Checker for PHPStan"
+      :command ("/home/matus/.cask/bin/cask"
+                "exec"
+                "elsa"
+                source)
+      :error-filter flycheck-increment-error-columns
+      :error-patterns
+      ((error line-start line ":" column ":error:" (message))
+       (warning line-start line ":" column ":warning:" (message))
+       (info line-start line ":" column ":notice:" (message)))
+      :modes (emacs-lisp-mode))
+
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
     (defun my-emacs-lisp-init ()
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
