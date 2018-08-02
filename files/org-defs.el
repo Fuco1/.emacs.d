@@ -1152,6 +1152,8 @@ point and rebuild the agenda view."
          "* TODO %?\n%U\n%a\n" :clock-keep t)
         ("p" "Pomodoro interruption" entry (file "~/org/refile.org")
          "* TODO %? :pomodoro:\n%U\n%a\n" :clock-keep t)
+        ("i" "Interruption" entry (file "~/org/interruptions.org")
+         "* %? :interruption:\n%U\n%a\n" :clock-in t :clock-resume t)
         ("t" "Todo entries")
         ,@(let ((targets '(("te" "todo-emacs" "emacs" "Emacs config")
                            ("tg" "todo-general" "me" "General")
