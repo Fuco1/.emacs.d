@@ -283,6 +283,9 @@ respective major mode.  Think org SRC blocks.")
    (message-cited-text (:foreground cham-1))
    (message-separator (:foreground plum-1))
 
+   ;; Info faces
+   (Info-quoted (:inherit markup-inline-code))
+
    ;; SMerge faces
    (smerge-refined-change (:background blue-3))
 
