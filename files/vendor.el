@@ -1103,8 +1103,9 @@ use a directory-local variable to specify this per-project."
   :defer t
   :config
   (defun my-info-mode-init ()
+    (variable-pitch-mode 1)
     (use-package better-jump))
-  (add-hook 'info-mode-hook 'my-info-mode-init))
+  (add-hook 'Info-mode-hook 'my-info-mode-init))
 
 (use-package "isearch"
   :bind (("C-s" . isearch-forward-regexp)
