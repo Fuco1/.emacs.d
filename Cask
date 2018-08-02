@@ -103,6 +103,7 @@
 (depends-on "ob-restclient")
 (depends-on "omnisharp")
 (depends-on "org-brain")
+(depends-on "org-jira")
 (depends-on "org-plus-contrib")
 (depends-on "org-super-agenda")
 (depends-on "outshine")
