@@ -885,6 +885,16 @@ to use a directory-local variable to specify this per-project."
               (stringp x)
               (file-exists-p x)))
 
+    (flycheck-def-option-var flycheck-phpstan-autoload nil php-phpstan
+      "Path to the phpstan autoload for current project.
+
+This is passed to the -a option in phpstan.  It is a good idea is
+to use a directory-local variable to specify this per-project."
+      :type 'file
+      :safe (lambda (x)
+              (stringp x)
+              (file-exists-p x)))
+
     (flycheck-def-option-var flycheck-phpstan-level "3" php-phpstan
       "Strictness level phpstan uses to check the sources.
 
