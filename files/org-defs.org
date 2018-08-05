@@ -600,13 +600,17 @@ or nothing, but not from done tasks."
         (lambda (template)
           (-when-let (name (org-element-property :name template))
             (when (and (string-prefix-p (concat "template-" interval) name)
-                       (or (org-entry-is-todo-p)
-                           (not (org-get-todo-state))))
+                       (save-excursion
+                         (goto-char (org-element-property :begin template))
+                         (or (org-entry-is-todo-p)
+                             (not (org-get-todo-state)))))
               (push template templates))))))
     (insert
+     ":PROGRESS:\n"
      (mapconcat (lambda (template)
                   (org-element-property :value template))
-                (nreverse templates) ""))))
+                (nreverse templates) "")
+     ":END:")))
 #+END_SRC
 
 When I'm adding a daily journal entry I call =my-org-get-goal-templates=
