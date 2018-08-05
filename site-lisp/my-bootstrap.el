@@ -44,7 +44,6 @@ list of always-create directories."
   versions of packages."
   (let ((prefix (if (getenv "CI") "/build/Fuco1" "")))
     (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
-    (add-to-list 'load-path "/home/matus/.emacs.d/dev/legalese")
     (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/" prefix))
     (add-to-list 'load-path (format "~%s/.emacs.d/files/" prefix))
     (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/special/" prefix))
