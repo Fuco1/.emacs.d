@@ -1149,6 +1149,81 @@ point and rebuild the agenda view."
   (with-current-buffer (org-capture-get :original-buffer)
     (cadr (mail-extract-address-components (notmuch-show-get-from)))))
 
+(defun my-org-note-find-position ()
+  (let ((file (file-name-sans-extension (f-filename buffer-file-name))))
+    (pop-to-buffer (find-file "notes.org"))
+    (widen)
+    (goto-char (point-min))
+    (when (re-search-forward (concat "^\\* +" file) nil t)
+      (beginning-of-line))))
+
+(defvar my-org-node-is-note-capture nil)
+(defvar my-org-node-last-id nil)
+
+(defun my-org-note-get-template ()
+  "Create template for org inline note."
+  (-let ((id (org-id-get-create))
+         (text (and (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))))
+         (context (-let [(type (&plist :contents-begin :contents-end))
+                         (org-element-at-point)]
+                    (when (eq type 'paragraph)
+                      (buffer-substring-no-properties contents-begin contents-end)))))
+    (unless text
+      (error "Unable to create note to no content"))
+    (setq my-org-node-is-note-capture (cons (region-beginning) (region-end)))
+    (let ((template (format "* <note-placeholder>
+:PROPERTIES:
+:CREATED: %%u
+:END:
+- pingback: [[id:%s][%s]]
+%s
+
+%%?
+"
+                            id (replace-regexp-in-string "\n" " " text)
+                            (format ":CONTEXT:
+- context: %%a
+%s:END:" (if context
+             (format "  #+BEGIN_QUOTE
+%s  #+END_QUOTE
+" context)
+           "")))))
+      (with-temp-buffer
+        (pop-to-buffer (current-buffer))
+        (org-mode)
+        (insert template)
+        (goto-char (point-min))
+        (org-font-lock-ensure)
+        (search-forward "pingback: ")
+        (unless org-descriptive-links
+          (org-toggle-link-display))
+        (org-fill-paragraph)
+        (buffer-string)))))
+
+(defun my-org-note-get-id-create ()
+  (save-excursion
+    (org-back-to-heading t)
+    (when (search-forward "<note-placeholder>" (line-end-position) t)
+      (let ((id (org-id-get-create)))
+        (org-back-to-heading t)
+        (search-forward "<note-placeholder>" (line-end-position) t)
+        (replace-match id)
+        (setq my-org-node-last-id id)))))
+
+(defun my-org-note-create-link-to-note ()
+  (save-excursion
+    (when (and my-org-node-is-note-capture
+               (not org-note-abort))
+      (-let* (((beg . end) my-org-node-is-note-capture)
+              (text (delete-and-extract-region beg end)))
+        (goto-char beg)
+        (insert (format "[[id:%s][%s]]" my-org-node-last-id text)))))
+  (setq my-org-node-is-note-capture nil))
+
+(add-hook 'org-capture-mode-hook 'my-org-note-get-id-create)
+(add-hook 'org-capture-after-finalize-hook 'my-org-note-create-link-to-note)
+
 (setq org-capture-templates
       `(("r" "Todo" entry (file "~/org/refile.org")
          "* TODO %?\n%U\n%a\n" :clock-keep t)
@@ -1181,6 +1256,8 @@ point and rebuild the agenda view."
         ("j" "Journals")
         ("jj" "Journal" entry (file+datetree "~/data/documents/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t :empty-lines-after 1)
         ("jo" "Journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
+        ("jn" "Note" entry (function my-org-note-find-position)
+         (function my-org-note-get-template))
         ("b" "Bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n")
         ("c" "Contact" entry (file "~/org/contacts.org")
