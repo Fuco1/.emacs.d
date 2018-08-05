@@ -473,5 +473,22 @@ Ith row is replaced with Ith item of DATA."
                         total return (* 100 (/ return total))))
         (org-table-align)))))
 
+(defun my-kaloricke-tabulky-to-cookbook ()
+  (interactive)
+  (insert "  :PROPERTIES:\n")
+  (replace-regexp "Energie" "  :CALORIES:")
+  (replace-regexp " kcal" "")
+  (replace-regexp "Bílkoviny" "  :PROTEINS:")
+  (replace-regexp "Sacharidy" "  :CARBOHYDRATES:")
+  (replace-regexp "Tuky" "  :FATS:")
+  (replace-regexp "Vláknina" "  :FIBRE:")
+  (goto-char (point-min))
+  (replace-regexp " g" "")
+  (goto-char (point-min))
+  (replace-regexp " -" " 0")
+  (goto-char (point-max))
+  (insert "\n  :AMOUNT:   100g\n")
+  (insert "  :END:\n"))
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
