@@ -1,5 +1,4 @@
 (source "gnu" "http://elpa.gnu.org/packages/")
-(source "marmalade" "http://marmalade-repo.org/packages/")
 (source "melpa" "http://melpa.org/packages/")
 (source "melpa-stable" "http://stable.melpa.org/packages/")
 (source org)
