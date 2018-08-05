@@ -1422,6 +1422,9 @@ called, percentage usage and the command."
   (progn
     (defun my-format-airbank-to-ledger ()
       (interactive)
+      (save-excursion
+        (forward-line 1)
+        (transpose-lines 1))
       (-let* ((start (point))
               (date-raw (buffer-substring
                          (line-beginning-position)
@@ -1438,8 +1441,8 @@ called, percentage usage and the command."
           (insert (format "%s * Albert
     Expenses:Groceries   %s
     Assets:Checking:Air Bank  -%s
-" date-ledger amount amount))
-          (forward-line 1))))))
+
+" date-ledger amount amount)))))))
 
 (use-package lisp-mode
   :defer t
