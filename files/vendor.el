@@ -2059,7 +2059,8 @@ These are retrieved from `imenu--index-alist'."
         (imenu--make-index-alist))
       (-map
        'car
-       (cdr (assoc "Instance Variables" imenu--index-alist))))
+       (-concat (cdr (assoc "Instance Variables" imenu--index-alist))
+                (cdr (assoc "Property" imenu--index-alist)))))
 
     (defun my-php-implement-proxy-function-call (proxy-through)
       "Proxy this method through instance property."
