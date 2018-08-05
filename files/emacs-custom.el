@@ -111,6 +111,7 @@
     ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index" "Org Src")))
  '(abm-old-bookmark-threshold 45)
  '(ag-highlight-search t)
+ '(alert-default-style (quote libnotify))
  '(anzu-search-threshold 1000)
  '(appt-audible nil)
  '(appt-display-format nil)
@@ -234,6 +235,7 @@
    (quote
     (dired-open-guess-shell-alist dired-open-by-extension dired-open-subdir)))
  '(dired-open-query-before-exit nil)
+ '(dired-open-remote-file-regex-list (quote ("\\.html\\'")))
  '(dired-open-use-nohup t)
  '(display-buffer-alist
    (quote
@@ -648,6 +650,8 @@
  '(ls-lisp-use-localized-time-format t)
  '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity (quote (uid gid)))
+ '(lsp-inhibit-message t)
+ '(lsp-ui-flycheck-enable nil)
  '(magit-auto-revert-mode nil)
  '(magit-bury-buffer-function (quote quit-window))
  '(magit-completing-read-function (quote ido-completing-read))
@@ -723,6 +727,8 @@
  '(org-agenda-window-setup (quote current-window))
  '(org-attach-auto-tag nil)
  '(org-attach-commit nil)
+ '(org-attach-directory ".org-attach/")
+ '(org-attach-git-annex-cutoff 1)
 '(org-babel-load-languages
 (quote
  ((emacs-lisp . t)
@@ -1493,8 +1499,8 @@
   ("\\.x?html?\\'" . default)
   ("\\.pdf\\'" . "zathura --fork %s"))))
  '(org-fontify-done-headline t)
- '(org-fontify-whole-heading-line t)
  '(org-fontify-quote-and-verse-blocks t)
+ '(org-fontify-whole-heading-line t)
  '(org-footnote-auto-label (quote random))
  '(org-footnote-define-inline t)
 '(org-format-latex-options
@@ -1521,6 +1527,7 @@
  '(org-plantuml-jar-path "~/bin/plantuml.jar")
  '(org-priority-start-cycle-with-default nil)
  '(org-publish-timestamp-directory "~/.emacs.d/.cache/org-timestamps/")
+ '(org-radiobutton-mode t nil (org-radiobutton))
  '(org-refile-allow-creating-parent-nodes (quote confirm))
  '(org-refile-target-verify-function (quote my-org-verify-refile-target))
 '(org-refile-targets
@@ -1991,9 +1998,9 @@
 '(sallet-buffer-sources
 (quote
  (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-bookmarks sallet-source-gtags-files sallet-source-projectile-projects sallet-source-locate)))
- '(save-place t nil (saveplace))
  '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
  '(save-place-limit nil)
+ '(save-place-mode t nil (saveplace))
  '(savehist-file "~/.emacs.d/.cache/savehist/history")
  '(savehist-mode t)
  '(scroll-preserve-screen-position 1)
@@ -2018,6 +2025,7 @@
  '(shell-pop-restore-window-configuration nil)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
+ '(smart-jump-bind-keys nil)
  '(smerge-command-prefix "\\C-.m")
  '(smex-save-file "~/.emacs.d/.cache/smex/.smex-items")
  '(smtpmail-default-smtp-server "smtp.gmail.com")
@@ -2256,6 +2264,7 @@
  '(vc-svn-diff-switches "-x -w")
  '(visible-bell nil)
  '(which-func-maxout 100000)
+ '(which-function-mode t)
  '(which-key-mode t)
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
  '(windmove-wrap-around t)
