@@ -239,3 +239,73 @@ For reference: https://oremacs.com/2015/01/10/dired-ansi-term/
   <<term-mode-my-term-exec-hook>>
   )
 #+END_SRC
+* DONE fontify-face: Fontification of symbols referencing faces
+CLOSED: [2018-04-10 Tue 21:02]
+:PROPERTIES:
+:BLOG_FILENAME: 2018-04-10-fontify-face:-Fontification-of-symbols-referencing-faces
+:PUBDATE:  [2018-04-10 Tue 21:02]
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2018-04-10 Tue 21:02]
+:END:
+:CLOCK:
+CLOCK: [2018-04-10 Tue 20:38]--[2018-04-10 Tue 21:02] =>  0:24
+:END:
+
+Today I was updating [[https://github.com/Fuco1/.emacs.d/tree/master/themes][my theme]] to support some additional packages.
+I'm a big fan of face inheritance because it makes things very
+consistent across the board.  In particular I'm trying to reuse the
+faces in the =font-lock-= group as much as possible.
+
+I have even created a similar hierarchy for the various markup systems
+such as markdown, org mode, rst, textile, latex and others.  It's
+called, unsurprisingly, =markup= and contains all the common elements
+such as headers, code text, emphasis and so on.  I then make all the
+other modes inherit from this set of faces and thus achieve a
+consistent look and feel across all the markup
+modes.[fn:3152f1a6034caae:I might somehow package this in the future
+but haven't found a good way to plug this into existing themes.  If
+you have ideas let me know!].  Have a loop at the definitions if this
+makes no sense to you yet!
+
+Anyway, while I was working on adding new faces I got annoyed because
+I couldn't see what I was doing.  I sometimes inherit from multiple
+faces to make combined faces, sometimes I just add a parameter or two
+and it's difficult to see the results. Usually you need to switch to a
+different buffer (with the mode you are theming), find the desired
+element and look what's going on.
+
+Why couldn't the face name itself be fontified with the face? A ha!  I
+already use [[https://elpa.gnu.org/packages/rainbow-mode.html][rainbow-mode]] which colorizes color references such as
+#fafafa with the color they represent.  So I'm thinking along the same
+lines: the symbols representing faces should be fontified with that
+face.  This will make the feedback look much shorter and the
+development much faster and more convenient.
+
+I have quickly turned this idea into a package and called it
+[[https://github.com/Fuco1/fontify-face][fontify-face]].  The code is rather unsurprising, just a couple lines.
+The most interesting part is the function
+=fontify-face-colorize-matched-face= which computes the face from the
+matched region and then passes it back to font-lock to do its thing.
+
+This works because font-lock allows arbitrary forms in every place
+where you can pass a face reference.  The rule is, this form must
+evaluate to
+
+- a face reference,
+- or a plist representing face properties,
+- or nil if we don't want do do anything with the match.
+
+The form I use is =(funcall 'fontify-face-colorize-matched-face)=
+because I dislike just passing random blobs of code around.  This way
+I can redefine the function without having to mess around with
+removing the old forms from =font-lock-keywords-alist=.  This is similar
+in logic to why you shouldn't put lambda forms in hooks.
+
+So that's it folks.  Finally, here are some pictures:
+
+#+CAPTION: magit and friends
+https://i.imgur.com/hjJQVyL.png
+
+#+CAPTION: markup faces
+https://i.imgur.com/1ksWpt3.png
