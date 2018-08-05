@@ -1812,8 +1812,6 @@ by that command."
       (bind-key "M-'" 'smart-jump-go php-mode-map)
       (bind-key "C-M-'" 'smart-jump-back php-mode-map))
 
-
-
     (bind-key "C-x C-d"
               (defhydra hydra-php-refactor (:color blue)
                 ("d" my-php-debug-geben "Debug with XDebug")
@@ -2117,8 +2115,11 @@ These are retrieved from `imenu--index-alist'."
                  (string-match-p "/vendor/" (buffer-file-name)))
         (flycheck-mode -1))
       (setq-local flycheck-php-phpstan-executable
-                  (concat (my-php-find-project-root)
-                          "/vendor/bin/phpstan"))
+                  (-first 'file-exists-p
+                          (--map (concat (my-php-find-project-root) "/" it)
+                                 (list
+                                  "/vendor/bin/phpstan"
+                                  "/vendor/bin/phpstan.phar"))))
       (let ((phpcs (concat (my-php-find-project-root)
                            "/vendor/bin/phpcs")))
         (when (file-exists-p phpcs)
@@ -2143,6 +2144,7 @@ These are retrieved from `imenu--index-alist'."
                                     "config/phpstan.neon"
                                     "app/config/phpstan.neon"
                                     "tests/phpstan.neon"
+                                    "tests/phpstan/phpstan.neon"
                                     "tests/config/phpstan.neon"
                                     )))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
