@@ -31,6 +31,8 @@
   :config
   (org-link-set-parameters "id" :store #'org-id-store-link))
 
+(use-package org-inlinetask)
+
 (use-package elfeed-link)
 
 ;; TODO: replace with proper package
