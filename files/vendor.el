@@ -821,6 +821,9 @@ idle timer to do the actual update.")
     (bind-key "C-c 8" 'eyebrowse-switch-to-window-config-8 eyebrowse-mode-map)
     (bind-key "C-c 9" 'eyebrowse-switch-to-window-config-9 eyebrowse-mode-map)))
 
+(use-package face-remap
+  :bind (("M-V" . variable-pitch-mode)))
+
 (use-package firestarter
   :defer t
   :init
