@@ -758,6 +758,53 @@ really).  You can use babel and a bit of =R= magic to generate graphs
 and plots and all sorts of other useful things.  Remember kids, data
 is awesome!
 
+* Continous clocking
+
+*************** TODO Write some description about the workflow here
+*************** END
+
+
+#+BEGIN_SRC elisp
+(defvar my-org-keep-clock-running nil
+  "If non-nil, we are punched-in.
+
+This is not a setting but a state tracking variable.
+
+While punched-in, any idle time is automatically collected on
+`my-org-idle-task'.  In other words, after clocking out the idle
+task is automatically clocked-in.")
+
+(defun my-org-punch-in ()
+  "Start continuous clocking and set the default task to the
+selected task.  If no task is selected set the Organization task
+as the default task."
+  (interactive)
+  (setq my-org-keep-clock-running t)
+  (my-org-clock-in-idle-task))
+
+(defun my-org-punch-out ()
+  (interactive)
+  (setq my-org-keep-clock-running nil)
+  (when (org-clock-is-active)
+    (org-clock-out)))
+
+(defvar my-org-idle-task "a246af19-d329-4d92-ad8a-05760f00616c")
+
+(defun my-org-clock-in-idle-task ()
+  (interactive)
+  (org-with-point-at (org-id-find my-org-idle-task 'marker)
+    (org-clock-in)))
+
+(defun my-org-clock-out-maybe ()
+  (when (and my-org-keep-clock-running
+             (not org-clock-clocking-in)
+             (marker-buffer org-clock-default-task)
+             (not org-clock-resolving-clocks-due-to-idleness))
+    (my-org-clock-in-idle-task)))
+
+(add-hook 'org-clock-out-hook 'my-org-clock-out-maybe 'append)
+#+END_SRC
+
 * Backmatter
 :PROPERTIES:
 :ID:       3a57a7e4-9c02-415b-be4c-3a55b907d0f1
