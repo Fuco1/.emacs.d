@@ -2685,6 +2685,9 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :bind (("A-a" . whitaker-send-input)
          ("A-s" . whitaker-jump)))
 
+(use-package whitespace
+  :bind (("M-W" . whitespace-mode)))
+
 (use-package wiktionary-translate
   :bind ("<insert> <delete>" . wd-show-translation))
 
