@@ -788,7 +788,9 @@ as the default task."
   (when (org-clock-is-active)
     (org-clock-out)))
 
-(defvar my-org-idle-task "a246af19-d329-4d92-ad8a-05760f00616c")
+(defcustom my-org-idle-task nil
+  "Id of the idle task."
+  :type 'string)
 
 (defun my-org-clock-in-idle-task ()
   (interactive)
