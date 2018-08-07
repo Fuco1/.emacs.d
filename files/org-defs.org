@@ -800,7 +800,6 @@ as the default task."
 (defun my-org-clock-out-maybe ()
   (when (and my-org-keep-clock-running
              (not org-clock-clocking-in)
-             (marker-buffer org-clock-default-task)
              (not org-clock-resolving-clocks-due-to-idleness))
     (my-org-clock-in-idle-task)))
 
