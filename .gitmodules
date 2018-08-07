@@ -126,16 +126,16 @@
 	url = git@github.com:Fuco1/fontify-face.git
 [submodule "projects/Elsa"]
 	path = projects/Elsa
-	url = git@my.github.com:Fuco1/Elsa.git
+	url = git@github.com:Fuco1/Elsa.git
 [submodule "projects/blablabla"]
 	path = projects/blablabla
-	url = git@my.github.com:Fuco1/blablabla.git
+	url = git@github.com:Fuco1/blablabla.git
 [submodule "projects/json-log-mode"]
 	path = projects/json-log-mode
-	url = git@my.github.com:Fuco1/json-log-mode.git
+	url = git@github.com:Fuco1/json-log-mode.git
 [submodule "projects/justify-kp"]
 	path = projects/justify-kp
-	url = git@my.github.com:Fuco1/justify-kp.git
+	url = git@github.com:Fuco1/justify-kp.git
 [submodule "vendor/org-toggl"]
 	path = vendor/org-toggl
-	url = git@my.github.com:Fuco1/org-toggl.git
+	url = git@github.com:Fuco1/org-toggl.git
