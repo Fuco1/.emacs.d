@@ -1451,12 +1451,19 @@ called, percentage usage and the command."
   :defer t
   :init
   (progn
+    (use-package cask)
+
     (flycheck-define-checker emacs-lisp-elsa
       "Checker for PHPStan"
       :command ("/home/matus/.cask/bin/cask"
                 "exec"
                 "elsa"
                 source)
+      :predicate
+      (lambda ()
+        (-when-let (cask-file (locate-dominating-file default-directory "Cask"))
+          (let ((bundle (cask-initialize (file-name-directory cask-file))))
+            (cask-find-dependency bundle 'elsa))))
       :error-filter flycheck-increment-error-columns
       :error-patterns
       ((error line-start line ":" column ":error:" (message))
