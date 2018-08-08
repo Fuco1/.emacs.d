@@ -5,7 +5,6 @@
 (source org)
 
 (depends-on "async")
-(depends-on "dired+")
 (depends-on "eimp")
 (depends-on "elfeed")
 (depends-on "eimp")
