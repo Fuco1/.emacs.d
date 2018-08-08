@@ -25,7 +25,6 @@ test:
 
 travis-before-install:
 	cp Cask.travis Cask
-	mkdir dev
 	cask install
 	git clone https://github.com/Fuco1/dired-hacks projects/dired-hacks
 	git clone https://github.com/Fuco1/org-clock-budget projects/org-clock-budget
