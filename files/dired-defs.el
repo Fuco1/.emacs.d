@@ -405,10 +405,10 @@ the subdirectory listing."
   (if (or (not human-readable)
           (< file-size 1024))
       (format (if (floatp file-size) " %11.0f" " %11d") file-size)
-    (do ((file-size (/ file-size 1024.0) (/ file-size 1024.0))
-         ;; kilo, mega, giga, tera, peta, exa
-         (post-fixes (list "k" "M" "G" "T" "P" "E") (cdr post-fixes))
-         (l level (1- l)))
+    (cl-do ((file-size (/ file-size 1024.0) (/ file-size 1024.0))
+            ;; kilo, mega, giga, tera, peta, exa
+            (post-fixes (list "k" "M" "G" "T" "P" "E") (cdr post-fixes))
+            (l level (1- l)))
         ((or (= 0 l)
              (< file-size 1024)) (format " %10.0f%s"  file-size (car post-fixes))))))
 
