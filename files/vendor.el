@@ -1028,7 +1028,10 @@ use a directory-local variable to specify this per-project."
       (helm-descbinds-mode 1))
     (add-hook 'help-mode-hook 'my-help-mode-init)
     (bind-key "<tab>" 'forward-button help-mode-map)
-    (bind-key "l" 'help-go-back help-mode-map)))
+    (bind-key "<mouse-8>" 'help-go-back help-mode-map)
+    (bind-key "<mouse-9>" 'help-go-forward help-mode-map)
+    (bind-key "l" 'help-go-back help-mode-map)
+    (bind-key "L" 'help-go-forward help-mode-map)))
 
 (use-package highlight-thing
   :commands highlight-thing-mode)
