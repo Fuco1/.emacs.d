@@ -1462,11 +1462,17 @@ called, percentage usage and the command."
                 "exec"
                 "elsa"
                 source)
+      :working-directory
+      (lambda (&rest _)
+        (file-name-directory (locate-dominating-file default-directory "Cask")))
       :predicate
       (lambda ()
-        (-when-let (cask-file (locate-dominating-file default-directory "Cask"))
-          (let ((bundle (cask-initialize (file-name-directory cask-file))))
-            (cask-find-dependency bundle 'elsa))))
+        (and (buffer-file-name)
+             (not (equal (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                         "Elsafile"))
+             (-when-let (cask-file (locate-dominating-file default-directory "Cask"))
+               (let ((bundle (cask-initialize (file-name-directory cask-file))))
+                 (cask-find-dependency bundle 'elsa)))))
       :error-filter flycheck-increment-error-columns
       :error-patterns
       ((error line-start line ":" column ":error:" (message))
