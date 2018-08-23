@@ -1454,32 +1454,6 @@ called, percentage usage and the command."
   :defer t
   :init
   (progn
-    (use-package cask)
-
-    (flycheck-define-checker emacs-lisp-elsa
-      "Checker for PHPStan"
-      :command ("/home/matus/.cask/bin/cask"
-                "exec"
-                "elsa"
-                source)
-      :working-directory
-      (lambda (&rest _)
-        (file-name-directory (locate-dominating-file default-directory "Cask")))
-      :predicate
-      (lambda ()
-        (and (buffer-file-name)
-             (not (equal (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
-                         "Elsafile"))
-             (-when-let (cask-file (locate-dominating-file default-directory "Cask"))
-               (let ((bundle (cask-initialize (file-name-directory cask-file))))
-                 (cask-find-dependency bundle 'elsa)))))
-      :error-filter flycheck-increment-error-columns
-      :error-patterns
-      ((error line-start line ":" column ":error:" (message))
-       (warning line-start line ":" column ":warning:" (message))
-       (info line-start line ":" column ":notice:" (message)))
-      :modes (emacs-lisp-mode))
-
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
     (defun my-emacs-lisp-init ()
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
