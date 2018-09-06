@@ -430,6 +430,7 @@ respective major mode.  Think org SRC blocks.")
    (markdown-pre-face (:inherit markup-pre))
    (markdown-list-face (:inherit markup-list-ordered))
    (markdown-code-face (:inherit markup-code-block))
+   (markdown-table-face (:inherit fixed-pitch :foreground blue-0))
    (markdown-blockquote-face (:inherit markup-blockquote))
 
    (markdown-link-face (:inherit markup-link))
