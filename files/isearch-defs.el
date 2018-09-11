@@ -71,6 +71,19 @@ This is useful when followed by an immediate kill."
   (interactive)
   (isearch-yank-internal (lambda () (sp-forward-symbol) (point))))
 
+(defun my-isearch-forward-symbol-at-point ()
+  "Just like `isearch-forward-symbol-at-point' but immediately search forward."
+  (interactive)
+  (isearch-forward-symbol-at-point)
+  (isearch-repeat 'forward))
+
+(defun my-isearch-backward-symbol-at-point ()
+  "Just like `isearch-forward-symbol-at-point' but immediately search backward."
+  (interactive)
+  (isearch-forward-symbol-at-point)
+  (isearch-repeat 'backward)
+  (isearch-repeat 'backward))
+
 (defun my-isearch-exit ()
   "Exit search normally.
 
@@ -99,3 +112,9 @@ directory, go right back into search."
 (bind-key "<f2>" 'isearch-occur                  isearch-mode-map)
 (bind-key "\r" 'my-isearch-exit                  isearch-mode-map)
 (bind-key "<return>" 'my-isearch-exit                  isearch-mode-map)
+
+(bind-key "A-'" 'my-isearch-forward-symbol-at-point)
+(bind-key "A-'" 'my-isearch-forward isearch-mode-map)
+
+(bind-key "A-\"" 'my-isearch-backward-symbol-at-point)
+(bind-key "A-\"" 'my-isearch-backward isearch-mode-map)
