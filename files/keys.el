@@ -41,6 +41,7 @@
 
 ;; Easier buffer killing
 (bind-key "M-k" 'my-kill-this-buffer)
+(bind-key "M-K" 'kill-whole-line)
 (bind-key "C-x C-k" 'kill-buffer-and-window)
 (bind-key "C-x C-f" 'ido-find-file)
 (bind-key "C-w" 'my-kill-region-or-word)
@@ -112,6 +113,11 @@
 (bind-key "M-l" 'my-smart-downcase-word)
 (bind-key "M-u" 'my-smart-upcase-word)
 (bind-key "M-c" 'my-capitalize-word)
+
+;; tabify/untabify
+
+(bind-key "M-T" 'tabify)
+(bind-key "M-U" 'untabify)
 
 ;; mark commands
 (bind-key "C-`" 'my-push-mark-no-activate)
