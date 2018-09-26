@@ -60,6 +60,18 @@ forward direction."
         (sp-backward-kill-word arg)
       (backward-kill-word arg))))
 
+(defun my-copy-and-reindent-region (beg end)
+  "Reindent region at column 0 then copy it to the clipboard."
+  (interactive "r")
+  (let ((current-buffer (current-buffer))
+        (mm major-mode))
+    (with-temp-buffer
+      (insert-buffer-substring-no-properties current-buffer beg end)
+      (funcall mm)
+      (indent-region (point-min) (point-max))
+      (clipboard-kill-ring-save (point-min) (point-max)))
+    (deactivate-mark)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; opening new lines in various ways
