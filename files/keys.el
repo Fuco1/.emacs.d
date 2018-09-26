@@ -36,8 +36,12 @@
 
 ;; Window navigation
 (windmove-default-keybindings 'meta)
-(bind-key "C-c 0" (my-with-preserved-window-config (delete-window)))
-(bind-key "C-c 1" (my-with-preserved-window-config (delete-other-windows)))
+(bind-key "C-c 0" (my-with-preserved-window-config
+                   "Delete current window and enter `recursive-edit'."
+                   (delete-window)))
+(bind-key "C-c 1" (my-with-preserved-window-config
+                   "Delete other windows and enter `recursive-edit'."
+                   (delete-other-windows)))
 
 ;; Easier buffer killing
 (bind-key "M-k" 'my-kill-this-buffer)

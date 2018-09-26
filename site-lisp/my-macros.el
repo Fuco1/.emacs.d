@@ -53,10 +53,11 @@ Upon exiting the recursive edit (with\\[exit-recursive-edit] (exit) or
 \\[abort-recursive-edit] (abort)), restore window configuration
 in current frame."
   `(lambda ()
-     "See the documentation for `my-with-preserved-window-config'."
+     ,(let ((doc-string (if (stringp (car body)) (concat (car body) "\n\n") "")))
+        (concat doc-string "See the documentation for `my-with-preserved-window-config'."))
      (interactive)
      (save-window-excursion
-       ,@body
+       ,@(if (stringp (car body)) (cdr body) body)
        (recursive-edit))))
 
 (provide 'my-macros)
