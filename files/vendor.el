@@ -1653,7 +1653,9 @@ If in the test file, visit source."
          ("s-=" . mc/mark-all-like-this-dwim)
          ("H-SPC" . set-rectangular-region-anchor)
          ("M-A" . mc/edit-beginnings-of-lines)
-         ("M-E" . mc/edit-ends-of-lines)))
+         ("M-E" . mc/edit-ends-of-lines))
+  :config
+  (bind-key "<f1>" 'mc/insert-numbers mc/keymap))
 
 (use-package neon-mode
   :mode ("\\.neon\\'" . neon-mode)
