@@ -42,6 +42,8 @@
      (quail-define-rules
       ((append . t))
       ("1" ?ú)
+      ("[" ?ď)
+      (";" ?ň)
       ("=1" ?1))))
 
 (eval-after-load "quail/indian"
