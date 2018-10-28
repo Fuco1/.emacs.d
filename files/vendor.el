@@ -1489,6 +1489,8 @@ called, percentage usage and the command."
   :init
   (progn
     (require 'elsa-font-lock)
+    (use-package flycheck-elsa)
+
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
     (defun my-emacs-lisp-init ()
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
