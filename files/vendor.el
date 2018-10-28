@@ -1488,6 +1488,7 @@ called, percentage usage and the command."
   :defer t
   :init
   (progn
+    (require 'elsa-font-lock)
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
     (defun my-emacs-lisp-init ()
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
@@ -1495,6 +1496,7 @@ called, percentage usage and the command."
       (set-input-method "english-prog")
       (eldoc-mode 1)
       (buttercup-minor-mode 1)
+      (elsa-setup-font-lock)
       (add-to-list 'imenu-generic-expression
                    '("Ert tests" "\\(^(ert-deftest +\\)\\(\\_<.+\\_>\\)" 2))
       (setq completion-at-point-functions nil))
