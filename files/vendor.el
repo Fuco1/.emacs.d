@@ -1020,6 +1020,7 @@ use a directory-local variable to specify this per-project."
       (re-search-backward "^[[:alpha:]]"))
 
     (defun my-haskell-init ()
+      (setq-local completion-at-point-functions nil)
       ;; If we are in a stack project, change the ghci command
       (when (and (buffer-file-name)
                  (locate-dominating-file (buffer-file-name) "stack.yaml"))
