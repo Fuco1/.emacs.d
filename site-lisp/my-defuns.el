@@ -252,7 +252,7 @@ With non-nil prefix argument, ask for LANGUAGE."
         regexp-history)
   (call-interactively 'occur))
 
-
+;; TODO: contribute to orgba
 ;;;###autoload
 (defun my-insert-date-iso (date)
   "Insert timestamp."
@@ -389,6 +389,7 @@ The remote is determined by `my-rsync-remote'."
   (projectile-with-default-dir (projectile-project-root)
     (call-process-shell-command "cabal haddock --hyperlink-source &" nil 0)))
 
+;; TODO: contribute to orgba
 (defun my-org-with-column (n fun)
   "Go to Nth column of `org-mode' table and call FUN on each row."
   (declare (indent 1))
@@ -404,6 +405,7 @@ The remote is determined by `my-rsync-remote'."
         (org-table-goto-column n))
       (org-table-align))))
 
+;; TODO: contribute to orgba
 (defun my-update-column (n data)
   "Update Nth column with DATA.
 
