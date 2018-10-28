@@ -38,6 +38,7 @@
 Tasks with these tags should be ignored when determining if a
 task is a subtask in a project.")
 
+;; TODO: replace with orgba-next-heading
 (defun my-org-next-heading ()
   "Go to next heading or end of file if at the last heading."
   (or (outline-next-heading) (goto-char (point-max))))
@@ -46,6 +47,7 @@ task is a subtask in a project.")
   "Return position of next heading or end of file if at the last heading."
   (or (save-excursion (outline-next-heading)) (point-max)))
 
+;; TODO: replace with orgba-restricted-p
 (defun my-org-restricted-p ()
   "Return non-nil if org is restricted to a subtree."
   (marker-buffer org-agenda-restrict-begin))

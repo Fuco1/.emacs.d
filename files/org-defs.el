@@ -484,6 +484,7 @@ overdue and a habit it is inserted multiple times."
       (org-agenda)))
 
   ;; View
+  ;; TODO: replace with orgba-agenda-is-task-p
   (defun my-org-agenda-is-task-p ()
     "Return non-nil if line at point is a task."
     (org-get-at-bol 'org-marker))
@@ -518,6 +519,7 @@ overdue and a habit it is inserted multiple times."
   (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-empty-lists)
 
   ;; Better links
+  ;; TODO: add to orgba as interactive
   (defun my-org-agenda-open-at-point (&optional arg)
     "Open the first link after the headline under point."
     (interactive "P")
@@ -845,6 +847,7 @@ The second part is a regexp to search in the buffer."
    "\\)"
    "[^[:word:]]"))
 
+;; TODO: replace with orgba-in-any-block-p
 (defun my-org-in-block-p ()
   "Non-nil when point belongs to any org block."
   (save-match-data
@@ -881,6 +884,11 @@ properly aligned."
                           ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend))
                         'append)
 
+(defhydra my-org-refile-hydra (:color blue :hint nil)
+  "
+_k_b.org"
+  ("k" my-org-refile-kb))
+
 (bind-keys :map org-mode-map
   ("TAB" . smart-tab)
   ("RET" . my-org-return)
@@ -891,6 +899,7 @@ properly aligned."
   ;; TODO lepsia mapa pre "toggle prikazy?"
   ("C-c C-x L" . org-toggle-link-display)
   ("C-c R" . org-remove-occur-highlights)
+  ("C-c r" . my-org-refile-hydra/body)
   ("C-c k" . my-insert-key-in-org)
   ("C-c S" . org-table-sort-lines)
 
@@ -984,6 +993,7 @@ This usually makes new item indented one level deeper."
       (or (outline-next-heading)
           (point-max)))))
 
+;; TODO: replace with orgba-table-select-cell
 (defun my-org-select-cell ()
   "Select the cell in org table the point is in."
   (interactive)
@@ -1057,6 +1067,7 @@ This usually makes new item indented one level deeper."
 
 ;;;_. Narrowing
 
+;; TODO: replace with orgba-narrow-to-top-heading
 (defun my-org-narrow-to-top-heading ()
   "Narrow to the top-most tree containing point."
   (interactive)
@@ -1297,6 +1308,13 @@ point and rebuild the agenda view."
   "Exclude todo keywords with a done state from refile targets"
   (not (member (nth 2 (org-heading-components)) org-done-keywords)))
 
+(defun my-org-refile-kb ()
+  "`org-refile' to kb.org"
+  (interactive)
+  (let ((org-refile-target-verify-function nil)
+        (org-refile-targets '(("~/data/documents/kb.org" :maxlevel . 9))))
+    (call-interactively 'org-refile)))
+
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "BILL(b)" "|" "DONE(d!)" "MOVE(m@)" "FAIL(f@)")
@@ -1463,7 +1481,7 @@ Switch projects and subprojects from NEXT back to TODO"
 
 
 ;; navigation & header manipulation
-
+;; TODO: replace with orgba-next-parent-sibling
 (defun my-org-next-parent-sibling ()
   (condition-case err
       (progn
@@ -1472,6 +1490,7 @@ Switch projects and subprojects from NEXT back to TODO"
     (error
      (goto-char (point-max)))))
 
+;; TODO: replace with orgba-top-parent
 (defun my-org-top-parent ()
   "Go to the top parent of current heading."
   (interactive)
@@ -1525,6 +1544,7 @@ sibling before the next header."
     (if (= (point) (point-max)) (newline) (open-line 1))
     (insert (make-string cdepth ?*) " ")))
 
+;; TODO: replace with orgba-heading-at
 (defun my-org-header-at (&optional point)
   "Return the header element at POINT."
   (setq point (or point (point)))
