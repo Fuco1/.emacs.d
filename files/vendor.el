@@ -1719,7 +1719,6 @@ If in the test file, visit source."
   (add-hook 'neon-mode-hook 'my-neon-mode-init))
 
 (use-package notmuch
-  :bind (("C-. C-n" . notmuch))
   :init
   (progn
     (autoload #'my-notmuch-unread "notmuch" nil t)
@@ -1727,7 +1726,9 @@ If in the test file, visit source."
     (bind-keys :map ctl-dot-prefix-map
       ("C-u" . my-notmuch-unread)
       ("TAB" . my-notmuch-inbox)
-      ("C-a" . my-notmuch-archived)))
+      ("C-a" . my-notmuch-archived)
+      ("C-r" . my-notmuch-newsletter)
+      ("C-n" . notmuch)))
   :config
   (progn
     (use-package notmuch-unread
@@ -1758,6 +1759,11 @@ If in the test file, visit source."
       "Display buffer with archived mail."
       (interactive)
       (notmuch-search "tag:archived"))
+
+    (defun my-notmuch-newsletter ()
+      "Display buffer with newsletter tag."
+      (interactive)
+      (notmuch-search "tag:newsletter and not tag:archived"))
 
     (defun my-notmuch-delete-mail (&optional beg end)
       (interactive (if (use-region-p)
