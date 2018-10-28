@@ -57,7 +57,27 @@
 ;;;###autoload
 (defun untabify-buffer ()
   (interactive)
-  (untabify (point-min) (point-max)))
+  (my-untabify-indent (point-min) (point-max)))
+
+(defun my-untabify-indent (start end)
+  "Convert all indentation tabs in region to multiple spaces, preserving columns."
+  (interactive "r")
+  (let ((c (current-column)))
+    (save-excursion
+      (save-restriction
+        (narrow-to-region (point-min) end)
+        (goto-char start)
+        (while (re-search-forward "^ *\t" nil t)
+          (forward-char -1)
+          (let ((tab-beg (point))
+                (indent-tabs-mode nil)
+                column)
+            (skip-chars-forward "\t")
+            (setq column (current-column))
+            (delete-region tab-beg (point))
+            (indent-to column))
+          (beginning-of-line))))
+    (move-to-column c)))
 
 ;;;###autoload
 (defun indent-buffer ()
