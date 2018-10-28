@@ -668,6 +668,40 @@ idle timer to do the actual update.")
             (run-with-timer 1200 nil 'my-elfeed-update-schedule))))
   :config
   (progn
+
+    (defun my-elfeed-search-print-entry--default (entry)
+      "Print ENTRY to the buffer."
+      (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+             (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+             (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+             (feed (elfeed-entry-feed entry))
+             (author (elfeed-meta entry :author))
+             (feed-title
+              (when feed
+                (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+             (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
+             (tags-str (mapconcat
+                        (lambda (s) (propertize s 'face 'elfeed-search-tag-face))
+                        tags ","))
+             (title-width (- (window-width) 10 elfeed-search-trailing-width))
+             (title-column (elfeed-format-column
+                            title (elfeed-clamp
+                                   elfeed-search-title-min-width
+                                   title-width
+                                   elfeed-search-title-max-width)
+                            :left)))
+        (insert (propertize date 'face 'elfeed-search-date-face) " ")
+        (insert (propertize title-column 'face title-faces 'kbd-help title) " ")
+        (when feed-title
+          (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))
+        (when tags
+          (insert "(" tags-str ")"))
+        (when author
+          (insert " " author))))
+
+    (setq elfeed-search-print-entry-function
+          #'my-elfeed-search-print-entry--default)
+
     (defvar my-elfeed-unread-count (let ((n 0))
                                      (with-elfeed-db-visit (entry _feed)
                                        (when (memq 'unread (elfeed-entry-tags entry))
