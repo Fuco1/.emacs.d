@@ -60,5 +60,20 @@ in current frame."
        ,@(if (stringp (car body)) (cdr body) body)
        (recursive-edit))))
 
+(defmacro my-with-time (name &rest body)
+  "Run NAMEd BODY and measure the time it took to execute."
+  (declare (indent 1))
+  (let ((start (make-symbol "start")))
+    `(let ((,start (current-time)))
+       (prog1 (progn
+                ,@body)
+         (message "%sRunning %s in %.5fs"
+                  (let ((offset (plist-get ',body :offset)))
+                    (if offset
+                        (make-string offset 32)
+                      ""))
+                  ,name
+                  (float-time (time-subtract (current-time) ,start)))))))
+
 (provide 'my-macros)
 ;;; my-macros.el ends here
