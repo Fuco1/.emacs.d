@@ -96,6 +96,11 @@
 (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 (bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
 
+(sp-with-modes 'textile-mode
+  (sp-local-pair "*" "*")
+  (sp-local-pair "_" "_")
+  (sp-local-pair "@" "@"))
+
 ;;; rst-mode
 (sp-with-modes 'rst-mode
   (sp-local-pair "*" "*"
