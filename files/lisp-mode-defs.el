@@ -3,7 +3,8 @@
 (bind-keys :map emacs-lisp-mode-map
   ("C-M-;" . clippy-describe-function)
   ("C-c C-c" . overseer-test-run-test)
-  ("C-c C-t" . my-elisp-run-buttercup)
+  ("C-c t" . my-elisp-run-buttercup)
+  ("C-c C-t" . ft-find-test-or-source)
   ("C-. ." . my-describe-thing-in-buffer))
 (bind-key "C-x C-d"
           (defhydra hydra-elisp-refactor (:color blue)
