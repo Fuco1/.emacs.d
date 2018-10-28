@@ -400,13 +400,13 @@
    (quote
     (("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" ""
       (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent"))
-      "" "~/.signature")
+      "" "~/.emacs.d/.signature")
      ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" ""
       (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent"))
-      "" "~/.signature")
+      "" "~/.emacs.d/.signature")
      ("logio" "" "Matúš Goljer <goljer@logio.cz>" ""
       (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent"))
-      "" "~/.signature-logio"))))
+      "" "~/.emacs.d/.signature-logio"))))
  '(gnus-alias-identity-rules
    (quote
     (("logio-to-header"
