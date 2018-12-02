@@ -487,8 +487,7 @@ and `my-compile-auto-fold-header-match-data'."
 ;; see commentary in dired-defs.el
 (use-package dired
   :mode ("\\.wdired\\'" . my-virtual-dired-mode)
-  :bind (("C-x d"  . my-dired-files)
-         ("C-x C-j" . dired-jump))
+  :bind (("C-x C-j" . dired-jump))
   :init
   (progn
     (defvar my-virtual-dired-p nil
@@ -521,19 +520,7 @@ and `my-compile-auto-fold-header-match-data'."
 
     (defadvice org-edit-src-code (after run-wdired activate)
       (when (eq major-mode 'dired-mode)
-        (my-virtual-dired-mode)))
-
-    (defun my-dired-files (&optional arg)
-      "Like `ido-dired'.  With prefix argument call
-`diredp-dired-files' with negative argument."
-      (interactive "P")
-      (if arg
-          (progn
-            (when (not (featurep 'icicles))
-              (require 'icicles))
-            (setq current-prefix-arg -1)
-            (call-interactively 'diredp-dired-files))
-        (ido-dired))))
+        (my-virtual-dired-mode))))
   :config
   (progn
     (my-load-or-tangle (f-join (f-parent my-vendor-file) "dired-defs"))
