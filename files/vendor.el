@@ -1513,21 +1513,6 @@ called, percentage usage and the command."
     (use-package gitignore-mode
       :config
       (add-to-list 'auto-mode-alist (cons "\\.dockerignore" 'gitignore-mode)))
-    (magit-add-section-hook 'magit-status-sections-hook
-                            'magit-insert-modules-unpulled-from-upstream
-                            'magit-insert-unpulled-from-upstream)
-    (magit-add-section-hook 'magit-status-sections-hook
-                            'magit-insert-modules-unpulled-from-pushremote
-                            'magit-insert-unpulled-from-upstream)
-    (magit-add-section-hook 'magit-status-sections-hook
-                            'magit-insert-modules-unpushed-to-upstream
-                            'magit-insert-unpulled-from-upstream)
-    (magit-add-section-hook 'magit-status-sections-hook
-                            'magit-insert-modules-unpushed-to-pushremote
-                            'magit-insert-unpulled-from-upstream)
-    (magit-add-section-hook 'magit-status-sections-hook
-                            'magit-insert-submodules
-                            'magit-insert-unpulled-from-upstream)
     (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
     (require 'flyspell)))
 
