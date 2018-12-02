@@ -79,50 +79,6 @@ Finally, ~dired-x~ defines ~dired-guess-shell-alist-user~ which is used to guess
   <<dired-guess-shell-alist-user>>)
 #+END_SRC
 
-* dired+
-
-The only reason I use ~dired+~ is that it defines a lot of useful auxiliary functions to mainupulate dired buffers.  However, it comes with its own downsides, like tons of intrusive crap nobody cares about.
-
-** Config
-
-*** Font-lock                                                 :check_on_update:
-    :PROPERTIES:
-    :UPDATE_NOTE: On update, the order or offsets of the fontifiers below might change, so check we're replacing what we really wanted to replace
-    :END:
-Especially the way it font-locks by default is absolutely insane.  I turned the intrusive faces off in the theme file, here I redefine some of the regexps it uses:
-
-#+NAME: dired+-font-lock-fix
-#+BEGIN_SRC elisp :tangle no
-;; Remove stupid font-locking
-(setf (nth 3 diredp-font-lock-keywords-1)
-      ;; Properly handle the extensions
-      '("[^ .\\/]\\(\\.[^. /]+\\)$" 1 diredp-file-suffix))
-(setf (nth 4 diredp-font-lock-keywords-1)
-          ;; Properly handle the extensions
-          '("\\([^ ]+\\) -> .+$" 1 diredp-symlink))
-(setf (nth 6 diredp-font-lock-keywords-1)
-      (list (concat
-             "^  \\(.*\\("
-             (concat
-              (mapconcat
-               'regexp-quote
-               (or (and (boundp 'dired-omit-extensions)
-                        dired-omit-extensions)
-                   completion-ignored-extensions)
-               "[*]?\\|")
-              "[*]?")        ; Allow for executable flag (*).
-             "\\)\\)$") ; Do not treat compressed files as garbage... why the hell!
-            1 diredp-ignored-file-name t))
-#+END_SRC
-
-** Final code
-
-#+BEGIN_SRC elisp :noweb yes
-(use-package dired+
-  :config
-  <<dired+-font-lock-fix>>)
-#+END_SRC
-
 * dired-hacks
 
 This is a suite of packages which I originally kept in my config but decided to pull out into separate packages (it constituted good 2000 lines of my config!).

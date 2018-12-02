@@ -12,7 +12,6 @@
 
 (require 'vc-svn)
 (require 'dired)
-(require 'dired+)
 (require 'dired-list)
 
 ;;;###autoload
