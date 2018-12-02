@@ -148,7 +148,7 @@ OLD is the string to act on."
                 (format "<fc=#75507b>%d</fc>" my-elfeed-unread-count)))
     (:eval (and (require 'notmuch nil t)
                 (let ((count (notmuch-unread-count)))
-                  (if (> count 0) (format "<fc=#ef2929>[✉ %d]</fc>" count) ""))))
+                  (if (> count 0) (format "<fc=#729fcf>[✉ %d]</fc>" count) ""))))
     (org-timer-mode-line-timer
      (:eval (format "<fc=%s><%s></fc>"
                     (let ((time (abs (floor (org-timer-seconds)))))
