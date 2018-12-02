@@ -2216,6 +2216,7 @@ These are retrieved from `imenu--index-alist'."
     (add-hook 'prog-mode-hook 'my-init-prog-mode)))
 
 (use-package proof-site
+  :disabled t
   :load-path "/usr/share/emacs/site-lisp/ProofGeneral/generic/")
 
 (use-package projectile
