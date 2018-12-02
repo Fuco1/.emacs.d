@@ -139,3 +139,18 @@
 [submodule "vendor/org-toggl"]
 	path = vendor/org-toggl
 	url = git@github.com:Fuco1/org-toggl.git
+[submodule "projects/flycheck-elsa"]
+	path = projects/flycheck-elsa
+	url = git@github.com:emacs-elsa/flycheck-elsa.git
+[submodule "projects/trinary-logic"]
+	path = projects/trinary-logic
+	url = git@github.com:emacs-elsa/trinary-logic.git
+[submodule "projects/tridactyl-mode"]
+	path = projects/tridactyl-mode
+	url = git@github.com:Fuco1/tridactyl-mode.git
+[submodule "projects/orgba"]
+	path = projects/orgba
+	url = git@github.com:Fuco1/orgba.git
+[submodule "vendor/helm"]
+	path = vendor/helm
+	url = git@github.com:Fuco1/helm.git
