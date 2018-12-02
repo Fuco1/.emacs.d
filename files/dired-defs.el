@@ -36,28 +36,6 @@ Also used for highlighting.")
                                (regexp-opt my-dired-media-files-extensions)
                                "\\'")
                        "vlc"))))
-(use-package dired+
-  :config
-  ;; Remove stupid font-locking
-  (setf (nth 3 diredp-font-lock-keywords-1)
-        ;; Properly handle the extensions
-        '("[^ .\\/]\\(\\.[^. /]+\\)$" 1 diredp-file-suffix))
-  (setf (nth 4 diredp-font-lock-keywords-1)
-        ;; Properly handle the extensions
-        '("\\([^ ]+\\) -> .+$" 1 diredp-symlink))
-  (setf (nth 6 diredp-font-lock-keywords-1)
-        (list (concat
-               "^  \\(.*\\("
-               (concat
-                (mapconcat
-                 'regexp-quote
-                 (or (and (boundp 'dired-omit-extensions)
-                          dired-omit-extensions)
-                     completion-ignored-extensions)
-                 "[*]?\\|")
-                "[*]?")        ; Allow for executable flag (*).
-               "\\)\\)$") ; Do not treat compressed files as garbage... why the hell!
-              1 diredp-ignored-file-name t)))
 
 (use-package dired-avfs)
 (use-package dired-filter)
@@ -246,6 +224,7 @@ Also used for highlighting.")
              :prefix-docstring "Map containing less common dired operations on marked files."
     ("S" . my-dired-size-of-file))
 
+  (diredfl-mode 1)
   (dired-filter-mode t)
   (dired-filter-group-mode t)
   (dired-collapse-mode 1)
