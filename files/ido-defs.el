@@ -3,7 +3,7 @@
 ;;; Code:
 
 (require 'ido)
-(require 'ido-ubiquitous)
+(require 'ido-completing-read+)
 (require 'flx-ido)
 
 (ido-mode 1)

@@ -1112,33 +1112,13 @@ use a directory-local variable to specify this per-project."
     (setq ido-default-buffer-method 'selected-window)
     (setq ido-enable-flex-matching t)
     (setq ido-enable-last-directory-history nil)
-    (setq ido-everywhere t)
     (setq ido-ignore-buffers '("\\` "))
     (setq ido-max-directory-size 100000)
     (setq ido-mode 'both)
     (setq ido-save-directory-list-file "~/.emacs.d/.ido.last")
     (setq ido-show-dot-for-dired t)
     (setq ido-use-faces t)
-    (setq ido-use-virtual-buffers t)
-
-    (setq ido-ubiquitous-command-compatibility-exceptions
-          '(
-            ibuffer-switch-to-saved-filter-groups
-            ))
-    (setq ido-ubiquitous-command-exceptions
-          '(
-            smex-major-mode-commands
-            beautify-smex
-            ido-goto-symbol
-            grep-read-files
-            diredp-dired-files
-            ))
-    (setq ido-ubiquitous-enable-compatibility t)
-    (setq ido-ubiquitous-function-exceptions
-          '(
-            diredp-dired-files-interactive-spec
-            ))
-    (setq ido-ubiquitous-max-items nil))
+    (setq ido-use-virtual-buffers t))
   :config
   (progn
     (load-relative "ido-defs")))
