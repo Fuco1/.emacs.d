@@ -2272,7 +2272,7 @@ These are retrieved from `imenu--index-alist'."
   (progn
     (defvar my-recentf-autosave-timer (run-with-timer 500 500 'recentf-save-list))))
 
-(use-package restclient-mode
+(use-package restclient
   :config
   (defun my-restclient-indirect-edit ()
     "Use `edit-indirect-region' to edit the request body in a
