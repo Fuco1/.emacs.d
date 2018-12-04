@@ -2039,7 +2039,7 @@
     (("*Help*" :select t)
      ("[0-9]\\{5\\}/.*\\.php" :regexp t :select t :inhibit-window-quit t :same t :popup nil)
      ("magit-log\\(-popup\\)?" :regexp t :select t :inhibit-window-quit t :same t)
-     ("\\*magit:" :regexp t :select t :inhibit-window-quit t :same t)
+     ("\\`\\*?magit:" :regexp t :select t :inhibit-window-quit t :same t)
      (Man-mode :select t :inhibit-window-quit t :same t)
      ("\\*ag search" :regexp t :inhibit-window-quit t :same t)
      ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t))))
