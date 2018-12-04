@@ -330,6 +330,7 @@
  '(enable-remote-dir-locals t)
  '(epg-gpg-program "gpg2")
  '(eshell-aliases-file "/home/matus/.emacs.d/etc/eshell/alias")
+ '(eshell-directory-name "~/.emacs.d/.cache/eshell/")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
  '(eshell-last-dir-ring-file-name "/home/matus/.emacs.d/.cache/eshell/lastdir")
  '(eshell-output-filter-functions
@@ -690,6 +691,7 @@
     (notmuch-hello-insert-header notmuch-hello-insert-search notmuch-hello-insert-recent-searches notmuch-hello-insert-alltags notmuch-hello-insert-footer)))
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-logo nil)
+ '(nov-save-place-file "~/.emacs.d/.cache/nov/nov-places")
  '(omnisharp-server-executable-path
    "/home/matus/sources/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
  '(org-M-RET-may-split-line nil)
