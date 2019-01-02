@@ -335,6 +335,48 @@ db.webhookLogs.find({endpoint: "AddCustomer"}).sort({_id: -1}).limit(1)
 I'm going over all of my notebooks converting all the ugly option
 hacks to this setup and it is so damn pleasing! :D
 
+* DONE Multiline fontification with org-emphasis-alist
+CLOSED: [2018-12-23 Sun 18:24]
+:PROPERTIES:
+:ID:       cce8be67-e8d8-45ab-9d02-8a8ddfdcfb40
+:BLOG_FILENAME: 2018-12-23-Multiline-fontification-with-org-emphasis-alist
+:PUBDATE:  [2018-12-23 Sun 18:24]
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2018-12-23 Sun 18:24]
+:END:
+:CLOCK:
+CLOCK: [2018-12-23 Sun 18:15]--[2018-12-23 Sun 18:24] =>  0:09
+:END:
+
+By default org mode only fontifies spans of text wrapped in emphasis
+markers (customized with =org-emphasis-alist=) if they extend through at
+most one newline.  This is probably a performance optimization, one
+wholly unnecessary on modern hardware.
+
+As per this [[https://emacs.stackexchange.com/questions/18101/org-mode-multi-line-emphasis-and-bold][stack overflow]] post I re-set the constant to 10 lines and
+can probably even increase it if necessary.
+
+#+BEGIN_SRC elisp
+(setcar (nthcdr 4 org-emphasis-regexp-components) 10)
+#+END_SRC
+
+Before this starts to work you need to re-save =org-emphasis-alist=
+through the customize interface because it is using a custom setter
+=org-set-emph-re= to compute the regexpses (or, /*gulp*/, restart Emacs).
+
+Here I quote the answer in case it ever gets lost:
+
+#+BEGIN_SRC markdown
+By default, org-mode allows a single newline. So if you want to be
+able to add markup to text that spans more than two consecutive lines,
+you'll need to modify this entry.
+
+    (setcar (nthcdr 4 org-emphasis-regexp-components) N)
+
+... where N is the number of newlines you want to allow.
+#+END_SRC
+
 * Org protocol
 ** DONE Maximize the org-capture buffer
   CLOSED: [2017-09-02 Sat 22:02]
