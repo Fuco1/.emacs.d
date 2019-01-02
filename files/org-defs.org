@@ -47,8 +47,6 @@ before we save an org buffer.
   CLOCK: [2017-06-08 Thu 19:40]--[2017-06-08 Thu 20:06] =>  0:26
   :END:
 
-Go to [[file:~/.emacs.d/.cask/25.2/elpa/org-20170515/org.el::(defun%20org-refile-get-location%20(&optional%20prompt%20default-buffer%20new-nodes)][original refile get location]] and just replace the =cfunc= with our mechanism from below.
-
 #+BEGIN_SRC elisp
 (require 'sallet)
 
@@ -72,6 +70,15 @@ This is a hack: sallet can't take an argument on creation.")
   "Read an outline path like a file name."
   (let ((my-org-refile-collection collection))
     (sallet (list 'sallet-source-org-refile))))
+
+(defun my-org-refile-get-location-use-sallet (orig-fun &optional prompt default-buffer new-nodes)
+  (let ((completing-read-function 'org-refile-sallet-completing-read))
+    (funcall orig-fun prompt default-buffer new-nodes)))
+
+(advice-add 'org-refile-get-location
+            :around #'my-org-refile-get-location-use-sallet)
+
+
 #+END_SRC
 * DONE Automatically remove inherited tags from tasks after refiling :published:
   CLOSED: [2017-05-09 Tue 19:12]
