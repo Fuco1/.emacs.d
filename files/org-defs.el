@@ -942,8 +942,9 @@ properly aligned."
 
 (defhydra my-org-refile-hydra (:color blue :hint nil)
   "
-_k_b.org"
-  ("k" my-org-refile-kb))
+_k_b.org    _r_eading.org"
+  ("k" my-org-refile-kb)
+  ("r" my-org-refile-reading))
 
 (bind-keys :map org-mode-map
   ("TAB" . smart-tab)
@@ -1369,6 +1370,13 @@ point and rebuild the agenda view."
   (interactive)
   (let ((org-refile-target-verify-function nil)
         (org-refile-targets '(("~/data/documents/kb.org" :maxlevel . 9))))
+    (call-interactively 'org-refile)))
+
+(defun my-org-refile-reading ()
+  "`org-refile' to reading.org"
+  (interactive)
+  (let ((org-refile-target-verify-function nil)
+        (org-refile-targets '(("~/org/reading.org" :maxlevel . 9))))
     (call-interactively 'org-refile)))
 
 ;; TODO KEYWORDS SETTINGS
