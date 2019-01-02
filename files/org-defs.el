@@ -967,7 +967,7 @@ _k_b.org    _r_eading.org"
   ("C-x n N" . my-org-narrow-to-subtree)
   ("C-x n W" . my-org-widen)
 
-  ("C-c M-`" . org-mark-ring-goto)
+  ("C-c TAB" . org-mark-ring-goto)
 
   ("C-c C-S-n" . my-org-add-sibling)
   ("C-c C-n" . outline-next-visible-heading)
