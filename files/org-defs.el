@@ -370,6 +370,9 @@
                         (:name "Monthly"
                          :tag "#monthly"
                          :order 1)
+                        (:name "Habits"
+                         :habit t
+                         :order 11)
                         (:name "Deadlines"
                          :and (:deadline future)
                          :order 20)
