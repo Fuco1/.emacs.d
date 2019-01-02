@@ -955,6 +955,8 @@ _k_b.org    _r_eading.org"
   ("C-c C-x r" . org-clock-remove-overlays)
   ;; TODO lepsia mapa pre "toggle prikazy?"
   ("C-c C-x L" . org-toggle-link-display)
+  ("C-c C-x w" . org-cut-subtree)
+  ("C-c C-x y" . org-paste-subtree)
   ("C-c R" . org-remove-occur-highlights)
   ("C-c r" . my-org-refile-hydra/body)
   ("C-c k" . my-insert-key-in-org)
