@@ -1638,6 +1638,12 @@ If in the test file, visit source."
   :config
   (progn
     (defun my-markdown-init ()
+      (setq-local
+       which-key-inhibit-regexps
+       (list
+        "C-c C-s"
+        "C-c C-c"
+        ))
       (modify-syntax-entry ?\" "$\""))
     (add-hook 'gfm-mode-hook 'my-markdown-init)
 
