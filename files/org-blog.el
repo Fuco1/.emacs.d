@@ -139,6 +139,12 @@ do not run `org-publish'."
   (interactive "P")
   (save-excursion
     (org-back-to-heading 'invisible-ok)
+    (let ((tags (org-get-tags)))
+      (org-set-tags (-union tags (list "published"))))
+    ;; Remove the DONE keyword which was only added to get the CLOSEd
+    ;; timestamp.  But in the config we want to color the headings
+    ;; normally.
+    (org-todo "")
     (my-org-blog--create-or-update-post (point-marker))
     (unless dont-publish (org-publish "blog"))))
 
