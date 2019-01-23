@@ -7,7 +7,7 @@ Enable lexical binding by default.
 #+END_SRC
 
 * Sh-mode
-** DONE Font-lock interpolated variables inside double-quoted strings
+** DONE Font-lock interpolated variables inside double-quoted strings :published:
    CLOSED: [2017-06-11 Sun 20:58]
    :PROPERTIES:
    :BLOG_TITLE: Font-locking with custom matchers
@@ -239,7 +239,7 @@ For reference: https://oremacs.com/2015/01/10/dired-ansi-term/
   <<term-mode-my-term-exec-hook>>
   )
 #+END_SRC
-* DONE fontify-face: Fontification of symbols referencing faces
+* DONE fontify-face: Fontification of symbols referencing faces   :published:
 CLOSED: [2018-04-10 Tue 21:02]
 :PROPERTIES:
 :BLOG_FILENAME: 2018-04-10-fontify-face:-Fontification-of-symbols-referencing-faces
