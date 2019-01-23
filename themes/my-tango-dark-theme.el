@@ -469,7 +469,7 @@ respective major mode.  Think org SRC blocks.")
 
    (org-footnote (:inherit markup-reference))
 
-   (org-code (:inherit (shadow fixed-pitch)))
+   (org-code (:inherit (shadow org-block)))
    (org-block-background (:inherit fixed-pitch :background alum-6.5))
    (org-block (:inherit fixed-pitch :background alum-6.5))
    (org-verbatim (:inherit org-code))
