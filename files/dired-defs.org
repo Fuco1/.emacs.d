@@ -343,6 +343,23 @@ To use this just add =my-dired-imenu-init= to =dired-mode-hook=.
 
 The code depends on =f= and =dash=.
 
+* TODO git-annex support
+
+#+BEGIN_SRC elisp
+(defface my-dired-annex-missing
+  '((t (:background "red")))
+  "Face for unavailable git-annex files.")
+
+(defun my-dired-fontify-missing-annex-files ()
+  (-when-let (missing (-->
+                       (shell-command-to-string "find -maxdepth 1 -type f -perm -u=r -exec awk '{if ($0~\"/annex/objects\") print FILENAME; nextfile;}' '{}' \\; | sed \"s|^\\./||\"")
+                       (split-string it "\n" t)))
+    (let ((regex (regexp-opt missing)))
+      (font-lock-add-keywords nil `((,regex 0 'my-dired-annex-missing))))))
+
+(add-hook 'dired-before-readin-hook 'my-dired-fontify-missing-annex-files)
+#+END_SRC
+
 * Backmatter
 
 #+BEGIN_SRC elisp
