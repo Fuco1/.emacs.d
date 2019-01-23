@@ -472,6 +472,69 @@ With these tweaks the whole capture experience is much more streamlined for me. 
           org-protocol-protocol-alist)))
 #+END_SRC
 
+* Logging
+** DONE Use the input method from original org buffer in log note buffer
+CLOSED: [2019-01-23 Wed 08:46]
+:PROPERTIES:
+:BLOG_FILENAME: 2019-01-23-Use-the-input-method-from-original-org-buffer-in-log-note-buffer
+:PUBDATE:  [2019-01-23 Wed 08:46]
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2019-01-23 Wed 08:46]
+:END:
+:CLOCK:
+CLOCK: [2019-01-23 Wed 08:26]--[2019-01-23 Wed 08:45] =>  0:19
+:END:
+
+On switching various TODO states I've set up org mode to pop a buffer
+for [[https://orgmode.org/manual/Tracking-TODO-state-changes.html][attaching a quick note or explanation]].  You can do this also for
+refiling, clocking in or out, rescheduling and so on.
+
+I don't use these logs very often in a review or retrospective but it
+helped me a bunch of times to figure out the circumstances of my past
+actions (e.g. rescheduling, postponing work etc.) so I find it worth
+to spend 30 seconds jotting down a simple note as opposed to then
+trying to figure out everything from scratch for hours.
+
+Especially useful for when you are not meeting client's
+deadlines. Papertrail is good!
+
+Also being a daily journalist and somewhat obsessive about tracking my
+life my settings here are pretty aggressive.
+
+One thing that buggs me is, being not a native English speaker, is
+that when =org-mode= pops the note buffer its input method resets to
+English.  Given the fact that the past and current org maintainers
+also don't speak English as a first language kind of led me to expect
+there to be some setting to inherit the input method of the original
+buffer[fn:26c3f46c2efdf:And really, 99% of the time, when you say "I'm
+going to write an org-extension", it already is in core.].  Sadly, I
+couldn't find it, so I decided to "roll my own".
+
+Now here comes the part that blew my mind... I've realized I wrote the
+whole code in under 2 minutes... where simply trying to read the
+manual and search the code would easily take more
+time[fn:142441a39bad1e6a:This is not the greatest engineering and you
+should almost always prefer a well-tested lib over your own... on the
+other hand, being a pragmatic professional, I value my time over code
+purity].  This is the nice feature of being an Emacs power-user.  I
+wrote the code on the first try, registered it in a hook which name
+I've guessed and it all worked flawlessly.  Nice!
+
+#+BEGIN_SRC elisp
+(defun my-org-inherit-input-method ()
+  "Set the input method of this buffer to that of original's buffer."
+  (let* ((note-buffer (marker-buffer org-log-note-marker))
+         (im (with-current-buffer note-buffer
+               current-input-method)))
+    (set-input-method im)))
+
+(add-hook 'org-log-buffer-setup-hook 'my-org-inherit-input-method)
+#+END_SRC
+
+Of course, I've spent thousands of hours learning Elisp, so I'm not
+sure where or when the time/productivity curves actually crossed.
+
 * Goals, journaling and progress tracking
 :PROPERTIES:
 :ID:       ce89e3ef-dddb-4f31-8f11-f3cc0f89d64a
