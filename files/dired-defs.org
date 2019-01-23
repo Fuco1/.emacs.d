@@ -100,7 +100,7 @@ No extra configuration required---I only change the settings in customize
 (use-package dired-images)
 #+END_SRC
 
-** TODO migrate the values from customize here                     :noexport:
+** TODO migrate the values from customize here                        :noexport:
 
 ** dired-subtree
 
@@ -129,7 +129,7 @@ I don't use this package very much.  Originally, I only wrote it for eyecandy bu
     ("C-o C-d" . dired-subtree-only-this-directory)))
 #+END_SRC
 
-** TODO put the keybindings in dired-subtree proper                :noexport:
+** TODO put the keybindings in dired-subtree proper                   :noexport:
 
 ** dired-rainbow
 
@@ -240,7 +240,7 @@ The final setup looks like this.
     <<make-it-so-makefile-setup>>)
 #+END_SRC
 
-* DONE Support for imenu in dired                                 :published:
+* DONE Support for imenu in dired                                    :published:
   CLOSED: [2017-05-01 Mon 14:27]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-01-Support-for-imenu-in-dired
