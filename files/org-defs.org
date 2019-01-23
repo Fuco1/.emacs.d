@@ -918,6 +918,77 @@ as the default task."
 (add-hook 'org-clock-out-hook 'my-org-clock-out-maybe 'append)
 #+END_SRC
 
+* DONE Make agenda clockreport respect =org-extend-today-until=
+CLOSED: [2019-01-03 Thu 20:49]
+:PROPERTIES:
+:BLOG_FILENAME: 2019-01-03-Make-agenda-clockreport-respect-=org-extend-today-until=
+:PUBDATE:  [2019-01-03 Thu 20:49]
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2019-01-03 Thu 20:49]
+:END:
+:CLOCK:
+CLOCK: [2019-01-03 Thu 20:36]--[2019-01-03 Thu 20:49] =>  0:13
+:END:
+
+There's a cool but little known [[https://orgmode.org/][org-mode]] setting for all the the night
+owls out there called =org-extend-today-until=.  It does quite what you
+would expect: you can tell org-mode when your "logical" midnight is.
+For me, I rarely go to sleep before 12 pm so I set it to 4 am just to
+be sure.  This way even if it's already 0:15 and I refresh the agenda
+view it still displays "yesterday".
+
+The trouble is that not a lot of org mode actually respects this
+setting, so far the only things mentioned in the docstring are the
+agenda day switch and something related to reading dates from the user
+(I think through =C-c .=) but I can't see any difference in that.  If
+you are using the org modeline and summary clock for today's time
+spent on a task this will also only count contributions from the
+specified hour which is nice.  There is probably more but I haven't
+noticed yet.
+
+Since I'm an =org-agenda-clockreport-mode= I want to have that
+consistent with the modeline information.  However it goes through
+entirely different machinery and so the easiest extension point is
+simply put an advice on the function which collects the data
+(=org-clock-get-table-data=) and in case we are working in the agenda
+scope adjust the =:tstart= and =:tend= properties to respect
+=org-extend-today-until=.
+
+#+BEGIN_SRC elisp
+(defun my-convert-org-today-to-timestamp (ts)
+  "Convert TS to timestamp.
+
+TS is an absolute number of days since 0001-12-31bce
+
+The timestamp returned is in the format YYYY-MM-DD hh:mm.  The
+hour is adjusted according to `org-extend-today-until'."
+  (let ((ts-greg (calendar-gregorian-from-absolute ts)))
+    (format "%4d-%02d-%02d %02d:00"
+            (nth 2 ts-greg)
+            (car ts-greg)
+            (nth 1 ts-greg)
+            org-extend-today-until)))
+
+(defun my-org-clock-get-table-data-adjust-start (origfun file params)
+  "Adjust the start and end arguments to respect `org-extend-today-until'."
+  (when (and (eq (plist-get params :scope) 'agenda)
+             (integerp (plist-get params :tstart)))
+    (let ((ts (my-convert-org-today-to-timestamp (plist-get params :tstart)))
+          (te (my-convert-org-today-to-timestamp (plist-get params :tend))))
+      (setq params (plist-put params :tstart ts))
+      (setq params (plist-put params :tend te))))
+  (funcall origfun file params))
+
+(advice-add 'org-clock-get-table-data :around #'my-org-clock-get-table-data-adjust-start)
+#+END_SRC
+
+Recently I've been adding some nice improvements to my [[https://github.com/Fuco1/org-timeline][org-timeline]]
+package which draws a visual representation of all the
+scheduled/clocked items (see README for visuals).  I'll make sure it
+respects this setting as well.  So far I've instinctively set it to
+start drawing at 5:00.
+
 * Backmatter
 :PROPERTIES:
 :ID:       3a57a7e4-9c02-415b-be4c-3a55b907d0f1
