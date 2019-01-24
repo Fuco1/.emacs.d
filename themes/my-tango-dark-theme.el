@@ -213,9 +213,13 @@ respective major mode.  Think org SRC blocks.")
    (region (:background alum-5))
    (secondary-selection (:background blue-3))
    (shadow (:foreground alum-4))
-   (trailing-whitespace (:background red-3))
+   (trailing-whitespace (:foreground butter-2 :background red-3))
+
+   ;; Whitespace
    (whitespace-tab (:foreground alum-7 :background butter-2))
    (whitespace-indentation (:background plum-1))
+   (whitespace-line (:background plum-3))
+   (whitespace-trailing (:inherit trailing-whitespace :weight bold))
 
    ;; Mode line faces
    (mode-line (:background "black"
