@@ -138,7 +138,7 @@ The function also showcases work with the org tag API which I personally find ra
 I also wanted to add the functionality to preserve the inherited tags from the original position so that refiling would be tag-neutral operation.  But that actually proved rather annoying because the point of refiling under a differnet hierarchy is to /not/ have the same tags... otherwise why would you refile at all.
 
 * Nicer fontification
-** DONE Fontify done checkbox items in org-mode                   :published:
+** DONE Fontify done checkbox items in org-mode                      :published:
   CLOSED: [2017-05-25 Thu 00:10]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-25-Fontify-done-checkbox-items-in-org-mode
@@ -201,7 +201,7 @@ Here's how it looks (list shortened for clarity):
 
 I stole the regexp from [[https://github.com/hlissner/.emacs.d/blob/master/modules/lang/org/config.el][hlissner's emacs.d]] who apparently came to the same conclusion.  It's a rather nice collection of stuff so check it out, but be warned, it is /super/ idiosyncratic... which in Emacs translation basically means awesome :)
 
-* DONE Use org-radiobutton to select an option from a list        :published:
+* DONE Use org-radiobutton to select an option from a list           :published:
 CLOSED: [2018-03-11 Sun 15:50]
 :PROPERTIES:
 :BLOG_FILENAME: 2018-03-11-Use-org-radiobutton-to-select-an-option-from-a-list
@@ -335,7 +335,7 @@ db.webhookLogs.find({endpoint: "AddCustomer"}).sort({_id: -1}).limit(1)
 I'm going over all of my notebooks converting all the ugly option
 hacks to this setup and it is so damn pleasing! :D
 
-* DONE Multiline fontification with org-emphasis-alist            :published:
+* DONE Multiline fontification with org-emphasis-alist               :published:
 CLOSED: [2018-12-23 Sun 18:24]
 :PROPERTIES:
 :ID:       cce8be67-e8d8-45ab-9d02-8a8ddfdcfb40
@@ -378,7 +378,7 @@ you'll need to modify this entry.
 #+END_SRC
 
 * Org protocol
-** DONE Maximize the org-capture buffer                           :published:
+** DONE Maximize the org-capture buffer                              :published:
   CLOSED: [2017-09-02 Sat 22:02]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-09-02-Maximize-the-org-capture-buffer
@@ -918,7 +918,7 @@ as the default task."
 (add-hook 'org-clock-out-hook 'my-org-clock-out-maybe 'append)
 #+END_SRC
 
-* DONE Make agenda clockreport respect =org-extend-today-until=     :published:
+* DONE Make agenda clockreport respect =org-extend-today-until=        :published:
 CLOSED: [2019-01-03 Thu 20:49]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-03-Make-agenda-clockreport-respect-=org-extend-today-until=
