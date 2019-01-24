@@ -315,17 +315,48 @@
                                               next-headline)))))))
          args)))
 
-  (defvar my-custom-agenda-sections
-    '((refile . (tags "REFILE"
+  (defconst my-project-files '(
+                               "~/org/emacs.org"
+                               "~/org/me.org"
+                               "~/org/saleschamp.org"
+                               "~/org/work.org"
+                               ))
+
+  (defconst my-custom-agenda-sections
+    `((refile . (tags "REFILE"
                       ((org-agenda-overriding-header "Tasks to Refile")
+                       (org-agenda-files '("~/org/refile.org"))
                        (org-tags-match-list-sublevels nil))))
+      (super-agenda . (agenda ""
+                              ((org-super-agenda-groups
+                                '(
+                                  (:name "MIT"
+                                   :tag "#mit"
+                                   :order 1)
+                                  (:name "Weekly"
+                                   :tag "#weekly"
+                                   :order 1)
+                                  (:name "Monthly"
+                                   :tag "#monthly"
+                                   :order 1)
+                                  (:name "Habits"
+                                   :habit t
+                                   :order 11)
+                                  (:name "Deadlines"
+                                   :and (:deadline future)
+                                   :order 20)
+                                  (:name "Scheduled"
+                                   :and (:scheduled past
+                                         :not (:habit))
+                                   :order 30)
+                                  )))))
       (bugs-emacs . (tags-todo "bug/!-NEXT"
                                ((org-agenda-overriding-header "Bugs (in emacs projects)")
                                 (org-agenda-files '("~/org/emacs.org"))
                                 (org-tags-match-list-sublevels nil))))
       (stuck-projects . (tags-todo "-STOP/!-WAIT"
                                    ((org-agenda-overriding-header "Stuck Projects")
-                                    (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
+                                    (org-agenda-files ',my-project-files)
                                     (org-agenda-skip-function 'my-org-skip-non-stuck-projects))))
       (next-tasks . (tags-todo "-WAIT-HOLD-STOP-BOOKS-BUG/!NEXT"
                                ((org-agenda-overriding-header "Next Tasks")
@@ -355,7 +386,7 @@
                              ((org-agenda-overriding-header (if (my-org-restricted-p)
                                                                 "Subprojects (and children tasks)"
                                                               "Projects"))
-                              (org-agenda-files '("~/org/emacs.org" "~/org/me.org"))
+                              (org-agenda-files ',my-project-files)
                               (org-agenda-skip-function 'my-org-skip-non-projects)
                               (org-tags-match-list-sublevels 'indented)
                               (org-agenda-sorting-strategy '(priority-down category-keep)))))
@@ -370,34 +401,12 @@
 
   (setq org-agenda-custom-commands
         `((" " "Quick Agenda"
-           ((agenda ""
-                    ((org-super-agenda-groups
-                      '(
-                        (:name "MIT"
-                         :tag "#mit"
-                         :order 1)
-                        (:name "Weekly"
-                         :tag "#weekly"
-                         :order 1)
-                        (:name "Monthly"
-                         :tag "#monthly"
-                         :order 1)
-                        (:name "Habits"
-                         :habit t
-                         :order 11)
-                        (:name "Deadlines"
-                         :and (:deadline future)
-                         :order 20)
-                        (:name "Scheduled"
-                         :and (:scheduled past
-                               :not (:habit))
-                         :order 30)
-                        ))))
+           (,(cdr (assoc 'super-agenda my-custom-agenda-sections))
             ,(cdr (assoc 'refile my-custom-agenda-sections))
             ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
             ,(cdr (assoc 'tasks my-custom-agenda-sections))))
           ("A" "Full Agenda"
-           ((agenda "" nil)
+           (,(cdr (assoc 'super-agenda my-custom-agenda-sections))
             ,(cdr (assoc 'refile my-custom-agenda-sections))
             ,(cdr (assoc 'bugs-emacs my-custom-agenda-sections))
             ,(cdr (assoc 'stuck-projects my-custom-agenda-sections))
@@ -432,9 +441,9 @@
           ,@(my-org-agenda-filter "f" "Media filter" '("b" . "BOOKS") '("m" . "MOV"))
           ("k" . "Knowledge-base operations")
           ("ks" "Knowledge-base search" search nil
-           ((org-agenda-files '("~/org/kb.org"))))
+           ((org-agenda-files '("~/data/documents/kb.org"))))
           ("km" "Knowledge-base tag match" tags nil
-           ((org-agenda-files '("~/org/kb.org"))))
+           ((org-agenda-files '("~/data/documents/kb.org"))))
           ("b" . "Bookmarks operations")
           ("bs" "Bookmarks search" search nil
            ((org-agenda-files '("~/org/bookmarks.org"))))
