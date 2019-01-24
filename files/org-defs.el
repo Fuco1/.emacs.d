@@ -35,6 +35,18 @@
 
 (use-package elfeed-link)
 
+(use-package org-clock
+  :commands (
+             org-clock-in
+             org-clock-out
+             org-clock-goto
+             )
+  :config
+  (use-package org-toggl
+    :config
+    (toggl-get-projects)
+    (org-toggl-integration-mode)))
+
 ;; TODO: replace with proper package
 (load (f-join (f-parent (f-this-file)) "org-project"))
 
