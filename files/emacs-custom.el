@@ -744,6 +744,7 @@
      (ledger . t)
      (gnuplot . t)
      (awk . t)
+     (sql . t)
      (R . t))))
  '(org-clock-budget-default-sort-column (quote ("BUDGET_WEEK" ratio desc)))
  '(org-clock-budget-intervals
