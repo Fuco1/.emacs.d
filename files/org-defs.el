@@ -1922,4 +1922,21 @@ Use a prefix arg to get regular RET. "
        (t
         (org-return))))))
 
+(defun my-org-calculate-invoice ()
+  "Update invoicing information from invoice hours."
+  (interactive)
+  (let ((current-rate nil))
+    (save-excursion
+      (orgba-top-parent)
+      (org-map-tree
+       (lambda ()
+         (--when-let (org-entry-get (point) "HOURLY_RATE")
+           (setq current-rate (string-to-number it)))
+         (when current-rate
+           (--when-let (org-entry-get (point) "INVOICE_HOURS")
+             (org-entry-put
+              (point) "INVOICE_VALUE"
+              (format "%d" (* current-rate
+                              (/ (org-duration-to-minutes it) 60)))))))))))
+
 (provide 'org-defs)
