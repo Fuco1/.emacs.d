@@ -703,6 +703,7 @@
      :default-face
      ((:foreground "Red"))
      :overlap-face nil :gap-face nil :no-end-time-face nil :long-face nil :short-face nil)))
+ '(org-agenda-clockreport-parameter-plist (quote (:link t :maxlevel 3 :tcolumns 1)))
  '(org-agenda-compact-blocks t)
  '(org-agenda-files "~/org/.files")
  '(org-agenda-finalize-hook
