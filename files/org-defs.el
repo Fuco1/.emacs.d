@@ -27,6 +27,8 @@
 
 (require 'hydra)
 
+(use-package orgba)
+
 (use-package org-id
   :config
   (org-link-set-parameters "id" :store #'org-id-store-link))
