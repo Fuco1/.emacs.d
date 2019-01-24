@@ -991,7 +991,15 @@ start drawing at 5:00.
 
 * Org mode and google calendar sync
 
-Setup taken mostly from [[https://cestlaz.github.io/posts/using-emacs-26-gcal/][Using Emacs - 26 - Google Calendar, Org Agenda]].
+Setup taken mostly from [[https://cestlaz.github.io/posts/using-emacs-26-gcal/][Using Emacs - 26 - Google Calendar, Org
+Agenda]].  One exception is that I'm using a single-way sync, that is I
+only fetch from google calendar and do not publish anything.
+
+The reason is that I use multiple calendars (I basically have a google
+account at every company I work for and a personal calendar) and the
+workflow with events and inviting myself from one calendar to another
+as attendees is too complex and fragile to trust some automated tool.
+And I can not afford my calendars to break.
 
 #+BEGIN_SRC elisp
 (use-package org-gcal
@@ -1000,6 +1008,9 @@ Setup taken mostly from [[https://cestlaz.github.io/posts/using-emacs-26-gcal/][
   (setq org-gcal-client-id "781554523097-ocjovnfpqgtpoc4qv7ubr8c679t96bv7.apps.googleusercontent.com"
         org-gcal-client-secret "U5Bt-J2y7Vm69dEcRNkBLapE"
         org-gcal-file-alist '(("matus.goljer@gmail.com" .  "~/org/gcal.org"))))
+
+(add-hook 'org-agenda-mode-hook 'org-gcal-fetch)
+(add-hook 'org-capture-after-finalize-hook 'org-gcal-fetch)
 #+END_SRC
 
 * Backmatter
