@@ -1622,6 +1622,7 @@
  '(org-stuck-projects (quote ("" nil nil "")))
  '(org-super-agenda-unmatched-order 10)
  '(org-support-shift-select t)
+ '(org-tags-column -80)
  '(org-tags-exclude-from-inheritance (quote ("folder" "publish")))
  '(org-tags-sort-function (quote string<))
  '(org-time-clocksum-format
