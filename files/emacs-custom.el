@@ -600,7 +600,7 @@
      ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
      ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
-     ("budget" "ledger -f %(ledger-file) budget -X Kc not ^Assets:Checking")
+     ("budget" "ledger -f %(ledger-file) budget -X Kc not '%nobudget' -p \"this month\"")
      ("expenses-budget" "ledger -f %(ledger-file) -p \"this month\" -X Kc --budget --monthly reg expenses and not %nobudget")
      ("expenses-budget-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --budget --monthly reg expenses and not %nobudget")
      ("equity" "ledger -f %(ledger-file) bal -X Kc ^assets ^liabilities")
