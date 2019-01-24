@@ -108,6 +108,10 @@ return to regular interpretation of self-insert characters."
          strings mins))
       ad-do-it)))
 
+(use-package atomic-chrome
+  :config
+  (atomic-chrome-start-server))
+
 (use-package autobookmarks
   :config
   (autobookmarks-mode 1))
