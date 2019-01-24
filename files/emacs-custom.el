@@ -732,9 +732,9 @@
      "......" "----------------")))
  '(org-agenda-todo-ignore-scheduled (quote all))
  '(org-agenda-window-setup (quote current-window))
- '(org-attach-auto-tag nil)
+ '(org-attach-auto-tag "ATTACH")
  '(org-attach-commit nil)
- '(org-attach-directory ".org-attach/")
+ '(org-attach-directory "/home/matus/data/org-attach/")
  '(org-attach-git-annex-cutoff 1)
  '(org-babel-load-languages
    (quote
