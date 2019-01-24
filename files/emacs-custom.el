@@ -1499,6 +1499,7 @@
      ("~" markup-inline-code verbatim)
      ("+" markup-strike))))
  '(org-export-allow-bind-keywords t)
+ '(org-extend-today-until 4)
  '(org-fast-tag-selection-single-key (quote expert))
  '(org-file-apps
    (quote
