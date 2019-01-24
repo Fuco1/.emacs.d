@@ -110,6 +110,10 @@ return to regular interpretation of self-insert characters."
 
 (use-package atomic-chrome
   :config
+  (setq atomic-chrome-buffer-open-style 'frame
+        atomic-chrome-url-major-mode-alist
+        '(("github" . markdown-mode)
+          ("saleschamp\\.atlassian\\.net" . jira-markup-mode)))
   (atomic-chrome-start-server))
 
 (use-package autobookmarks
