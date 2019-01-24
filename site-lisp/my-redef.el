@@ -1075,7 +1075,6 @@ You can then feed the file name(s) to other commands with \\[yank]."
 
 (eval-after-load "json"
   '(progn
-     ;; add `nreverse' to the very end to preserve order of keys read.
      (defun json-read-object ()
        "Read the JSON object at point."
        ;; Skip over the "{"
@@ -1084,25 +1083,61 @@ You can then feed the file name(s) to other commands with \\[yank]."
        ;; read key/value pairs until "}"
        (let ((elements (json-new-object))
              key value)
-         (while (not (char-equal (json-peek) ?}))
+         (while (not (= (json-peek) ?}))
            (json-skip-whitespace)
            (setq key (json-read-string))
            (json-skip-whitespace)
-           (if (char-equal (json-peek) ?:)
+           (if (= (json-peek) ?:)
                (json-advance)
              (signal 'json-object-format (list ":" (json-peek))))
+           (json-skip-whitespace)
+           (when json-pre-element-read-function
+             (funcall json-pre-element-read-function key))
            (setq value (json-read))
+           (when json-post-element-read-function
+             (funcall json-post-element-read-function))
            (setq elements (json-add-to-object elements key value))
            (json-skip-whitespace)
-           (unless (char-equal (json-peek) ?})
-             (if (char-equal (json-peek) ?,)
+           (when (/= (json-peek) ?})
+             (if (= (json-peek) ?,)
                  (json-advance)
                (signal 'json-object-format (list "," (json-peek))))))
          ;; Skip over the "}"
          (json-advance)
-         (if (listp elements)
-             (nreverse elements)
-           elements)))))
+         (pcase json-object-type
+           (`alist (nreverse elements))
+           (`plist elements)
+           (_ elements))))
+
+     ;; ;; add `nreverse' to the very end to preserve order of keys read.
+     ;; (defun json-read-object ()
+     ;;   "Read the JSON object at point."
+     ;;   ;; Skip over the "{"
+     ;;   (json-advance)
+     ;;   (json-skip-whitespace)
+     ;;   ;; read key/value pairs until "}"
+     ;;   (let ((elements (json-new-object))
+     ;;         key value)
+     ;;     (while (not (char-equal (json-peek) ?}))
+     ;;       (json-skip-whitespace)
+     ;;       (setq key (json-read-string))
+     ;;       (json-skip-whitespace)
+     ;;       (if (char-equal (json-peek) ?:)
+     ;;           (json-advance)
+     ;;         (signal 'json-object-format (list ":" (json-peek))))
+     ;;       (setq value (json-read))
+     ;;       (setq elements (json-add-to-object elements key value))
+     ;;       (json-skip-whitespace)
+     ;;       (unless (char-equal (json-peek) ?})
+     ;;         (if (char-equal (json-peek) ?,)
+     ;;             (json-advance)
+     ;;           (signal 'json-object-format (list "," (json-peek))))))
+     ;;     ;; Skip over the "}"
+     ;;     (json-advance)
+     ;;     (if (listp elements)
+     ;;         (nreverse elements)
+     ;;       elements)))
+     ))
 
 (provide 'my-redef)
 ;;; my-redef.el ends here
