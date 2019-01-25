@@ -2307,6 +2307,9 @@
  '(which-function-mode t)
  '(which-key-mode t)
  '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
+ '(whitespace-style
+   (quote
+    (face trailing tabs spaces lines-tail newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark)))
  '(windmove-wrap-around t)
  '(winner-mode t)
  '(xref-prompt-for-identifier
