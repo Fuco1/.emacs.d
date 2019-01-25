@@ -1639,6 +1639,7 @@
  '(org-time-clocksum-format
    (quote
     (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
+ '(org-toggl-inherit-toggl-properties t)
  '(org-tree-slide-slide-in-effect nil)
  '(org-use-fast-tag-selection t)
  '(org-use-speed-commands t)
