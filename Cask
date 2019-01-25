@@ -62,6 +62,7 @@
 (depends-on "glsl-mode")
 (depends-on "gnuplot")
 (depends-on "gnus-alias")
+(depends-on "graphviz-dot-mode")
 (depends-on "haskell-mode")
 (depends-on "helm-descbinds")
 (depends-on "helm-gtags")
