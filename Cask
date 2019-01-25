@@ -6,6 +6,7 @@
 (depends-on "ag")
 (depends-on "alchemist")
 (depends-on "assess")
+(depends-on "atomic-chrome")
 (depends-on "auctex")
 (depends-on "browse-at-remote")
 (depends-on "browse-kill-ring")

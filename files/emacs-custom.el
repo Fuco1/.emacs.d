@@ -117,6 +117,7 @@
  '(appt-display-format nil)
  '(appt-display-interval 5)
  '(appt-message-warning-time 15)
+ '(atomic-chrome-buffer-open-style (quote frame))
  '(auto-save-file-name-transforms nil)
  '(auto-save-list-file-prefix "~/.emacs.d/.cache/auto-save-list/.saves-")
  '(autobookmarks-mode t)
