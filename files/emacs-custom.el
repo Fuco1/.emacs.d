@@ -1517,6 +1517,7 @@
    (quote
     (:foreground default :background default :scale 3.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
      ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-gcal-dir "~/.emacs.d/.cache/org-gcal/")
  '(org-habit-following-days 1)
  '(org-habit-graph-column 80)
  '(org-habit-preceding-days 30)
