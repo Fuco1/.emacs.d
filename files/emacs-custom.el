@@ -2062,6 +2062,7 @@
      ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t))))
  '(shell-file-name "/bin/bash")
  '(shell-pop-restore-window-configuration nil)
+ '(shell-pop-window-size 50)
  '(show-smartparens-global-mode t)
  '(shr-max-image-proportion 0.9)
  '(smart-jump-bind-keys nil)
