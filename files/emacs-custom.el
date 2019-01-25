@@ -750,7 +750,12 @@
      (gnuplot . t)
      (awk . t)
      (sql . t)
-     (R . t))))
+     (js . t)
+     (ruby . t)
+     (dot . t))))
+ '(org-babel-shell-names
+   (quote
+    ("sh" "bash" "csh" "ash" "dash" "ksh" "mksh" "posh" "fish")))
  '(org-clock-budget-default-sort-column (quote ("BUDGET_WEEK" ratio desc)))
  '(org-clock-budget-intervals
    (quote
