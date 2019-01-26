@@ -1007,7 +1007,8 @@ And I can not afford my calendars to break.
   :config
   (setq org-gcal-client-id "781554523097-ocjovnfpqgtpoc4qv7ubr8c679t96bv7.apps.googleusercontent.com"
         org-gcal-client-secret "U5Bt-J2y7Vm69dEcRNkBLapE"
-        org-gcal-file-alist '(("matus.goljer@gmail.com" .  "~/org/gcal.org"))
+        org-gcal-file-alist '(("matus.goljer@gmail.com" . "~/org/gcal.org"))
+        org-gcal-header-alist '(("matus.goljer@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"pink\"\n"))
         org-gcal-auto-archive nil
         org-gcal-notify-p nil))
 
