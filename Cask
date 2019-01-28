@@ -30,6 +30,7 @@
 (depends-on "dockerfile-mode")
 (depends-on "dotenv-mode")
 (depends-on "dumb-jump")
+(depends-on "easy-kill")
 (depends-on "edit-indirect")
 (depends-on "editorconfig")
 (depends-on "eimp")

@@ -49,6 +49,7 @@
 (bind-key "C-x C-k" 'kill-buffer-and-window)
 (bind-key "C-x C-f" 'ido-find-file)
 (bind-key "C-w" 'my-kill-region-or-word)
+(bind-key [remap kill-ring-save] 'easy-kill)
 
 ;; imenu
 (bind-key "M-," 'find-function)
