@@ -1456,8 +1456,23 @@ called, percentage usage and the command."
   :mode ("\\.ledger\\'" . ledger-mode)
   :config
   (progn
-    (defun my-format-airbank-to-ledger ()
-      (interactive)
+
+    (defun my-ledger-accouts-list ()
+      "Return all ledger accounts in ~/org/ledger.ledger."
+      (with-temp-buffer
+        (insert-file-contents "~/org/ledger.ledger")
+        (ledger-accounts-list-in-buffer)))
+
+    (defun my-ledger-payees-list ()
+      "Return all ledger payees in ~/org/ledger.ledger."
+      (with-temp-buffer
+        (insert-file-contents "~/org/ledger.ledger")
+        (ledger-payees-in-buffer)))
+
+    (defun my-format-airbank-to-ledger (account payee)
+      (interactive
+       (list (completing-read "Account: " (my-ledger-accouts-list))
+             (completing-read "Payee: " (my-ledger-payees-list))))
       (save-excursion
         (forward-line 1)
         (transpose-lines 1))
@@ -1474,11 +1489,11 @@ called, percentage usage and the command."
         (let ((amount (buffer-substring (line-beginning-position) (line-end-position))))
           (forward-line 5)
           (delete-region start (point))
-          (insert (format "%s * Albert
-    Expenses:Food:Groceries   %s
+          (insert (format "%s * %s
+    %s   %s
     Assets:Checking:Air Bank  -%s
 
-" date-ledger amount amount)))))))
+" date-ledger payee account amount amount)))))))
 
 (use-package lisp-mode
   :defer t
