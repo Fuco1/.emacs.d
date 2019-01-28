@@ -1475,7 +1475,7 @@ called, percentage usage and the command."
           (forward-line 5)
           (delete-region start (point))
           (insert (format "%s * Albert
-    Expenses:Groceries   %s
+    Expenses:Food:Groceries   %s
     Assets:Checking:Air Bank  -%s
 
 " date-ledger amount amount)))))))
