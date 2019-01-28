@@ -1863,6 +1863,8 @@ by that command."
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
+    (add-to-list 'magic-mode-alist `(,(rx "<?php") . php-mode))
+
     (use-package lsp-mode
       :config
       (require 'lsp-php)
