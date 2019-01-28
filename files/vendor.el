@@ -2582,6 +2582,7 @@ separate buffer."
               rst-mode-hook
               gnus-article-mode-hook
               textile-mode-hook
+              jira-markup-mode-hook
               )
       (add-hook it 'my-init-text-mode))))
 
