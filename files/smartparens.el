@@ -101,17 +101,6 @@
   (sp-local-pair "_" "_")
   (sp-local-pair "@" "@"))
 
-;;; rst-mode
-(sp-with-modes 'rst-mode
-  (sp-local-pair "*" "*"
-                 :wrap "C-*"
-                 :unless '(sp--gfm-point-after-word-p sp-point-at-bol-p)
-                 :post-handlers '(("[d1]" "SPC"))
-                 :skip-match 'sp--gfm-skip-asterisk)
-  (sp-local-pair "**" "**")
-  (sp-local-pair "_" "_" :wrap "C-_" :unless '(sp-point-after-word-p))
-  (sp-local-pair "``" "``"))
-
 ;;; tex-mode latex-mode
 (sp-with-modes '(tex-mode plain-tex-mode latex-mode)
   (sp-local-tag "i" "\"<" "\">"))
