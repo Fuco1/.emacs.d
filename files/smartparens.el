@@ -101,6 +101,10 @@
   (sp-local-pair "_" "_")
   (sp-local-pair "@" "@"))
 
+(sp-with-modes 'web-mode
+  (sp-local-pair "{{#if" "{{/if")
+  (sp-local-pair "{{#unless" "{{/unless"))
+
 ;;; tex-mode latex-mode
 (sp-with-modes '(tex-mode plain-tex-mode latex-mode)
   (sp-local-tag "i" "\"<" "\">"))
