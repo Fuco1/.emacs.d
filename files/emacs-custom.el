@@ -219,7 +219,7 @@
     (("\\.\\(?:MP[34]\\|avi\\|flv\\|m\\(?:kv\\|ov\\|p[34g]\\)\\|ogg\\|wm[av]\\)\\'" "vlc")
      ("\\.\\(?:djvu\\|p\\(?:df\\|s\\)\\)\\'" "zathura")
      ("\\.fb2" "fbreader")
-     ("\\.html\\'" "firefox"))))
+     ("\\.html\\'" "google-chrome"))))
  '(dired-hide-details-hide-information-lines nil)
  '(dired-isearch-filenames t)
  '(dired-list-mpc-music-directory "~/media/music")
@@ -734,8 +734,8 @@
  '(org-agenda-tags-todo-honor-ignore-options t)
  '(org-agenda-time-grid
    (quote
-    ((daily weekly today require-timed)
-     (800 1000 1200 1400 1600 1800 2000)
+    ((daily weekly today require-timed remove-match)
+     (800 1000 1200 1400 1600 1800 2000 2200)
      "......" "----------------")))
  '(org-agenda-todo-ignore-scheduled (quote all))
  '(org-agenda-window-setup (quote current-window))
@@ -754,6 +754,7 @@
      (sql . t)
      (js . t)
      (ruby . t)
+     (R . t)
      (dot . t))))
  '(org-babel-shell-names
    (quote
