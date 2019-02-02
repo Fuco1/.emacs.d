@@ -344,14 +344,16 @@
                                    :tag "#monthly"
                                    :order 1)
                                   (:name "Habits"
-                                   :habit t
+                                   :and (:habit t
+                                         :not (:time-grid))
                                    :order 11)
                                   (:name "Deadlines"
                                    :and (:deadline future)
                                    :order 20)
                                   (:name "Scheduled"
                                    :and (:scheduled past
-                                         :not (:habit))
+                                         :not (:habit)
+                                         :not (:time-grid))
                                    :order 30)
                                   )))))
       (bugs-emacs . (tags-todo "bug/!-NEXT"
