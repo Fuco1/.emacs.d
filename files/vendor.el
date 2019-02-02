@@ -434,6 +434,7 @@ and `my-compile-auto-fold-header-match-data'."
         (arglist-cont          . 0)
         (arglist-cont-nonempty . +)
         (arglist-close         . 0))))
+    ;; TODO: use smart-jump for this
     (bind-key "M-'" 'omnisharp-helm-find-usages csharp-mode-map)
     (bind-key "C-M-'" 'pop-tag-mark csharp-mode-map)
     (bind-key "C-x C-d"
@@ -1350,6 +1351,7 @@ use a directory-local variable to specify this per-project."
     (bind-key "M-." 'sallet-imenu js2-mode-map)
     (bind-key "M-j" 'my-join-lines js2-mode-map)
 
+    ;; TODO: move to smart-jump
     (defun my-flow-minor-jump-to-definition-then-dumb-jump ()
       "Try to call `flow-minor-jump-to-definition' and if it fails use `dumb-jump-go'."
       (interactive)
