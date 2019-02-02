@@ -887,28 +887,6 @@ idle timer to do the actual update.")
   :if (executable-find "fish")
   :config (global-fish-completion-mode))
 
-(use-package god-mode
-  :bind ("<delete>" . god-local-mode)
-  :config
-  (progn
-    (defvar my-god-mode-buffer-input-method nil
-      "Input method of the buffer when god-mode is disabled.")
-    (make-variable-buffer-local 'my-god-mode-buffer-input-method)
-    (defun my-update-cursor ()
-      (set-cursor-color (if (or god-local-mode buffer-read-only)
-                            "#ef2929"
-                          "#fce94f")))
-    (defun my-god-mode-init ()
-      (setq my-god-mode-buffer-input-method current-input-method)
-      (deactivate-input-method)
-      (my-update-cursor))
-    (defun my-god-mode-deinit ()
-      (when my-god-mode-buffer-input-method
-        (set-input-method my-god-mode-buffer-input-method))
-      (my-update-cursor))
-    (add-hook 'god-mode-enabled-hook 'my-god-mode-init)
-    (add-hook 'god-mode-disabled-hook 'my-god-mode-deinit)))
-
 (use-package google-maps
   :commands google-maps)
 
