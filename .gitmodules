@@ -148,9 +148,6 @@
 [submodule "projects/orgba"]
 	path = projects/orgba
 	url = git@github.com:Fuco1/orgba.git
-[submodule "vendor/jira-markup-mode"]
-	path = vendor/jira-markup-mode
-	url = git@my.github.com:Fuco1/jira-markup-mode.git
 [submodule "vendor/el-patch"]
 	path = vendor/el-patch
 	url = git@github.com:Fuco1/el-patch.git

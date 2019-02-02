@@ -1206,6 +1206,11 @@ use a directory-local variable to specify this per-project."
              ""
              t ("-d" "cs_CZ" "-p" "/home/matus/.hunspell/personal.cs") nil utf-8)))))
 
+(use-package jira-markup-mode
+  :straight
+  (jira-markup-mode :repo "git@github.com:mnuessler/jira-markup-mode.git"
+                    :fork (:repo "git@github.com:Fuco1/jira-markup-mode.git")))
+
 (use-package js2-mode
   :mode (("\\.js\\'" . js2-mode)
          ("\\.js\\.snap\\'" . js2-mode))
