@@ -441,8 +441,7 @@ and `my-compile-auto-fold-header-match-data'."
   :config
   (progn
     (defun my-css-mode-setup ()
-      (rainbow-mode 1)
-      (emmet-mode 1))
+      (rainbow-mode 1))
     (add-hook 'css-mode-hook 'my-css-mode-setup)))
 
 (use-package "cua-base"
@@ -773,17 +772,6 @@ idle timer to do the actual update.")
   (progn
     (add-hook 'dired-mode-hook (lambda () (bind-key "M-o" 'elwm-activate-window dired-mode-map)))
     (add-hook 'diff-mode-hook (lambda () (bind-key "M-o" 'elwm-activate-window diff-mode-map)))))
-
-(use-package emmet-mode
-  :defer t
-  :diminish emmet-mode
-  :config
-  (progn
-    (defadvice emmet-after-hook (after enable-preview activate)
-      (emmet-preview-mode))
-
-    (defadvice emmet-expand-line (after disable-preview activate)
-      (emmet-preview-abort))))
 
 (use-package emr
   :bind (("M-r" . emr-show-refactor-menu)))
@@ -2437,7 +2425,6 @@ separate buffer."
       (cleanup-buffer))
 
     (defun my-html-mode-setup ()
-      (emmet-mode 1)
       (smartparens-mode 1)
       (bind-keys :map html-mode-map
         ("C-c <deletechar>" . sgml-delete-tag)
