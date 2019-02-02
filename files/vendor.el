@@ -1049,8 +1049,8 @@ use a directory-local variable to specify this per-project."
 
 (use-package helm
   :straight
-  (helm :repo "git@github.com:emacs-helm/helm.git" :remote "upstream"
-        :fork (:repo "git@github.com:Fuco1/helm.git" :remote "origin"))
+  (helm :repo "git@github.com:emacs-helm/helm.git"
+        :fork (:repo "git@github.com:Fuco1/helm.git"))
   :defer t
   :config
   (progn
@@ -1852,8 +1852,8 @@ by that command."
 
 (use-package org-jira
   :straight
-  (org-jira :repo "git@github.com:ahungry/org-jira.git" :remote "upstream"
-            :fork (:repo "git@github.com:Fuco1/org-jira.git" :remote "origin")))
+  (org-jira :repo "git@github.com:ahungry/org-jira.git"
+            :fork (:repo "git@github.com:Fuco1/org-jira.git")))
 
 ;; TODO: move into a separate file
 (use-package php-mode
