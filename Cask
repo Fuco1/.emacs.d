@@ -19,7 +19,6 @@
 (depends-on "company-lsp")
 (depends-on "company-statistics")
 (depends-on "concurrent")
-(depends-on "conkeror-minor-mode")
 (depends-on "csharp-mode")
 (depends-on "czech-holidays")
 (depends-on "deferred")

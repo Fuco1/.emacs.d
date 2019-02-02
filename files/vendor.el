@@ -1349,10 +1349,7 @@ use a directory-local variable to specify this per-project."
       (when (fboundp 'flow-js2-mode)
         (flow-js2-mode 1))
       (when (flow-minor-configured-p)
-        (flow-minor-mode 1))
-      (-when-let (buffer (buffer-file-name))
-        (when (string-match-p "conkeror" buffer)
-          (conkeror-minor-mode 1))))
+        (flow-minor-mode 1)))
     (add-hook 'js2-mode-hook 'my-js2-mode-init)))
 
 (use-package json-mode
