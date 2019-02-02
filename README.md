@@ -27,7 +27,6 @@ This should get you reasonably close to a runnable installation.
 * site-lisp: extra elisp functions not yet bundled in a package
 * tests: unit/integration tests for changes my configuration makes
 * themes: holds my theme (modified tango)
-* vendor: packages not available from `package.el` archives
 
 # Tests
 
