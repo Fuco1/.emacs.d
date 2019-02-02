@@ -1048,8 +1048,11 @@ use a directory-local variable to specify this per-project."
     (add-hook 'inferior-haskell-mode-hook 'my-inferior-haskell-init)))
 
 (use-package helm
+  :straight
+  (helm :repo "git@github.com:emacs-helm/helm.git" :remote "upstream"
+        :fork (:repo "git@github.com:Fuco1/helm.git" :remote "origin"))
   :defer t
-  :init
+  :config
   (progn
     (require 'helm-config)
     (autoload 'helm-org-in-buffer-search "helm-org" nil t)
