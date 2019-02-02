@@ -4,7 +4,7 @@
 
 (require 'ido)
 (require 'ido-completing-read+)
-(require 'flx-ido)
+(use-package flx-ido :straight t)
 
 (ido-mode 1)
 (ido-ubiquitous-mode 1)
