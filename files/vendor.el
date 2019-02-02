@@ -404,7 +404,7 @@ and `my-compile-auto-fold-header-match-data'."
     (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)))
 
 (use-package crontab-mode
-  :straight (:repo "git@github.com:emacsattic/crontab-mode.git"))
+  :straight t)
 
 (use-package csharp-mode
   :defer t
@@ -1855,7 +1855,7 @@ by that command."
 
 (use-package notmuch-unread
   :after notmuch
-  :straight (:repo "git@github.com:emacsattic/notmuch-unread.git")
+  :straight t
   :config
   (el-patch-defun notmuch-unread-update-handler ()
     "Update the mode line."
