@@ -1764,7 +1764,6 @@
      (swb-database . "nestle_live")
      (swb-port . "30238")
      (swb-host . "tunel.logio.cz")
-     (firestarter-default-type . failure)
      (flycheck-ghc-search-path . "/home/matus/dev/haskell/mpris/src/")
      (c-style-alist
       ("ledger"
@@ -1794,8 +1793,6 @@
      (swb-user . "root")
      (swb-port . "3306")
      (swb-host . "localhost")
-     (firestarter . my-sync-rsync-remote)
-     (firestarter quote my-sync-rsync-remote)
      (eval when
            (and
             (buffer-file-name)

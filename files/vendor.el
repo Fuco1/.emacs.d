@@ -883,13 +883,6 @@ idle timer to do the actual update.")
 (use-package face-remap
   :bind (("M-V" . variable-pitch-mode)))
 
-(use-package firestarter
-  :defer t
-  :init
-  (progn
-    (put 'firestarter 'safe-local-variable 'identity)
-    (setq firestarter-default-type 'finished)))
-
 (use-package fish-completion
   :if (executable-find "fish")
   :config (global-fish-completion-mode))
