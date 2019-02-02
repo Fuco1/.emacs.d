@@ -103,9 +103,6 @@
 [submodule "projects/workman-layout"]
 	path = projects/workman-layout
 	url =  git@github.com:Fuco1/workman-layout.git
-[submodule "vendor/company-eshell-autosuggest"]
-	path = vendor/company-eshell-autosuggest
-	url = https://github.com/dieggsy/company-eshell-autosuggest
 [submodule "projects/flow-js2-mode"]
 	path = projects/flow-js2-mode
 	url = git@github.com:Fuco1/flow-js2-mode.git
