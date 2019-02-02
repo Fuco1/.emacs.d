@@ -160,3 +160,6 @@
 [submodule "vendor/org-jira"]
 	path = vendor/org-jira
 	url = git@my.github.com:Fuco1/org-jira.git
+[submodule "vendor/el-patch"]
+	path = vendor/el-patch
+	url = git@github.com:Fuco1/el-patch.git
