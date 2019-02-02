@@ -989,32 +989,62 @@ scheduled/clocked items (see README for visuals).  I'll make sure it
 respects this setting as well.  So far I've instinctively set it to
 start drawing at 5:00.
 
-* Org mode and google calendar sync
+* Org mode and google calendar sync                                  :published:
+:PROPERTIES:
+:BLOG_FILENAME: 2019-02-02-Org-mode-and-google-calendar-sync
+:PUBDATE:  [2019-02-02 Sat 13:54]
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2019-02-02 Sat 13:54]
+:END:
+:CLOCK:
+CLOCK: [2019-02-02 Sat 13:38]--[2019-02-02 Sat 13:53] =>  0:15
+:END:
 
-Setup taken mostly from [[https://cestlaz.github.io/posts/using-emacs-26-gcal/][Using Emacs - 26 - Google Calendar, Org
-Agenda]].  One exception is that I'm using a single-way sync, that is I
-only fetch from google calendar and do not publish anything.
+As a contractor working for multiple clients I juggle many projects
+and meetings all the time.  Fortunately for me, there is [[https://orgmode.org/][orgmode]].
+Unfortunately, my clients have not yet learned to appreciate its
+merits.  Fortunately though, they all use the GSuite platform from
+Google, which means agendas are planned in Google Calendars.
+
+So I finally bit the bullet and decided to integrate Google Calendar
+into my org agenda.  I didn't have to go a long way before finding
+[[https://github.com/kidd/org-gcal.el][org-gcal.el]].
+
+My setup is taken mostly from [[https://cestlaz.github.io/posts/using-emacs-26-gcal/][Using Emacs - 26 - Google Calendar, Org
+Agenda]] by the amazing Mike Zamansky.  One difference from Mike's setup
+is that I'm using a single-way sync only, that is I only fetch from
+google calendar and do not publish anything.
 
 The reason is that I use multiple calendars (I basically have a google
-account at every company I work for and a personal calendar) and the
+account at every company I work for plus a personal calendar) and the
 workflow with events and inviting myself from one calendar to another
 as attendees is too complex and fragile to trust some automated tool.
 And I can not afford my calendars to break.
 
-#+BEGIN_SRC elisp
+#+NAME: gcal-secret
+#+BEGIN_SRC text :exports none
+U5Bt-J2y7Vm69dEcRNkBLapE
+#+END_SRC
+
+#+BEGIN_SRC elisp :noweb no-export
 (use-package org-gcal
-  :ensure t
+  :after org
   :config
   (setq org-gcal-client-id "781554523097-ocjovnfpqgtpoc4qv7ubr8c679t96bv7.apps.googleusercontent.com"
-        org-gcal-client-secret "U5Bt-J2y7Vm69dEcRNkBLapE"
+        org-gcal-client-secret "<<gcal-secret>>"
         org-gcal-file-alist '(("matus.goljer@gmail.com" . "~/org/gcal.org"))
         org-gcal-header-alist '(("matus.goljer@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"pink\"\n"))
         org-gcal-auto-archive nil
-        org-gcal-notify-p nil))
+        org-gcal-notify-p nil)
 
-(add-hook 'org-agenda-mode-hook 'org-gcal-fetch)
-(add-hook 'org-capture-after-finalize-hook 'org-gcal-fetch)
+  (add-hook 'org-agenda-mode-hook 'org-gcal-fetch)
+  (add-hook 'org-capture-after-finalize-hook 'org-gcal-fetch))
 #+END_SRC
+
+I'm also using [[https://github.com/Fuco1/org-timeline][org-timeline]] so I add some extra header arguments to
+the generated file to add a different color to the Google Calendar
+entries.
 
 * Backmatter
 :PROPERTIES:
