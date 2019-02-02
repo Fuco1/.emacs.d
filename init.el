@@ -81,8 +81,8 @@ There are %d customizable settings available."
                          ("org" . "http://orgmode.org/elpa/")))
 
 (my-with-elapsed-timer "Initializing packages"
-  (load "~/.emacs.d/dev/dash.el/dash")
-  (load "~/.emacs.d/dev/dash.el/dash-functional")
+  (straight-use-package 'dash)
+  (straight-use-package 'dash-functional)
 
   (require 'uniquify)
   (require 'f)
