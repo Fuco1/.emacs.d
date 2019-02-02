@@ -130,7 +130,8 @@ There are %d customizable settings available."
   (load "~/.emacs.d/files/personal" :no-error))
 
 ;; diminish useless modeline clutter
-(require 'diminish)
+;; TODO: move to vendor.el
+(straight-use-package 'diminish)
 (diminish 'visual-line-mode)
 (eval-after-load "face-remap" '(diminish 'buffer-face-mode))
 
