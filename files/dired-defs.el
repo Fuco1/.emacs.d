@@ -40,6 +40,8 @@ Also used for highlighting.")
 (use-package dired-avfs)
 (use-package dired-filter)
 (use-package dired-open)
+(use-package diredfl
+  :straight t)
 
 ;; we should just hijack C-t map from image-dired which is crap anyway
 (use-package dired-images)
