@@ -3,7 +3,6 @@
 (source "melpa-stable" "http://stable.melpa.org/packages/")
 (source org)
 
-(depends-on "ag")
 (depends-on "alchemist")
 (depends-on "assess")
 (depends-on "atomic-chrome")
@@ -108,7 +107,6 @@
 (depends-on "omnisharp")
 (depends-on "org-brain")
 (depends-on "org-gcal")
-(depends-on "org-jira")
 (depends-on "org-make-toc")
 (depends-on "org-noter")
 (depends-on "org-plus-contrib")

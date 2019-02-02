@@ -31,6 +31,7 @@ load the result."
   (load (f-join (f-parent my-vendor-file) module)))
 
 (use-package ag
+  :straight t
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
   :init
   (progn
@@ -1845,6 +1846,11 @@ by that command."
   (progn
     (my-load-or-tangle (f-join (f-parent my-vendor-file) "org-defs"))
     (load-relative "org-defs")))
+
+(use-package org-jira
+  :straight
+  (org-jira :repo "git@github.com:ahungry/org-jira.git" :remote "upstream"
+            :fork (:repo "git@github.com:Fuco1/org-jira.git" :remote "origin")))
 
 ;; TODO: move into a separate file
 (use-package php-mode

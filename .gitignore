@@ -11,3 +11,7 @@ etc/eshell/lastdir
 files/personal.el
 *-tangled.el
 todo.org
+straight/build-cache.el
+straight/build/
+straight/modified/
+straight/repos/

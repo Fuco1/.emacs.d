@@ -42,12 +42,14 @@
              org-clock-in
              org-clock-out
              org-clock-goto
-             )
+             ))
+
+(use-package org-toggl
+  :after org-clock
+  :straight (org-toggl :repo "git@github.com:Fuco1/org-toggl.git")
   :config
-  (use-package org-toggl
-    :config
-    (toggl-get-projects)
-    (org-toggl-integration-mode)))
+  (toggl-get-projects)
+  (org-toggl-integration-mode))
 
 ;; TODO: replace with proper package
 (load (f-join (f-parent (f-this-file)) "org-project"))

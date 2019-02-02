@@ -1,0 +1,12 @@
+(("ag.el" . "77b4f50c5372bf219da496567b2b867261f0d354")
+ ("dash.el" . "26f065fd607cdf1a68e7987b9360accc2d0cbfb6")
+ ("el-patch" . "66510e01598a2c4ce6c973e0b6c1691d8d24c8e6")
+ ("elpa" . "02bca667fd4413918dbb9772622834f57f4356be")
+ ("emacs-request" . "db88fd21d25399ff9940c208173665b12493992b")
+ ("epkgs" . "1f31cb8521c5570044412000e21de69e6932c380")
+ ("melpa" . "cf0ece0efb1fcf0ea7364df0d35fca69862f5e9a")
+ ("org-jira" . "84fbb080d2728ad1c6dad9b9f80f29f6071c123e")
+ ("org-toggl" . "0247bc1b67d7441873668025f2645f05ae0c1456")
+ ("s.el" . "03410e6a7a2b11e47e1fea3b7d9899c7df26435e")
+ ("straight.el" . "093154e96ff4bbf00ab487234225e8391d533934"))
+:saturn
