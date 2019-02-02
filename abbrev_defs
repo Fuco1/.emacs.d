@@ -49,7 +49,9 @@
 
 (define-abbrev-table 'apropos-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table '())
+(define-abbrev-table 'awk-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'bibtex-mode-abbrev-table '())
 
@@ -69,9 +71,15 @@
 
 (define-abbrev-table 'browse-kill-ring-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table '())
+(define-abbrev-table 'bsh-script-mode-abbrev-table '())
 
-(define-abbrev-table 'c-mode-abbrev-table '())
+(define-abbrev-table 'c++-mode-abbrev-table
+  '(
+   ))
+
+(define-abbrev-table 'c-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'calc-trail-mode-abbrev-table '())
 
@@ -99,6 +107,8 @@
 
 (define-abbrev-table 'csharp-mode-abbrev-table '())
 
+(define-abbrev-table 'data-debug-mode-abbrev-table '())
+
 (define-abbrev-table 'debugger-mode-abbrev-table '())
 
 (define-abbrev-table 'define-abbrev-table '())
@@ -117,11 +127,15 @@
 
 (define-abbrev-table 'display-time-world-mode-abbrev-table '())
 
+(define-abbrev-table 'dockerfile-mode-abbrev-table '())
+
 (define-abbrev-table 'doctex-mode-abbrev-table '())
 
 (define-abbrev-table 'edebug-eval-mode-abbrev-table '())
 
 (define-abbrev-table 'edit-abbrevs-mode-abbrev-table '())
+
+(define-abbrev-table 'editorconfig-conf-mode-abbrev-table '())
 
 (define-abbrev-table 'ein:notebook-plain-mode-abbrev-table '())
 
@@ -259,6 +273,8 @@
 
 (define-abbrev-table 'helm-grep-mode-abbrev-table '())
 
+(define-abbrev-table 'helm-major-mode-abbrev-table '())
+
 (define-abbrev-table 'helm-moccur-mode-abbrev-table '())
 
 (define-abbrev-table 'help-mode-abbrev-table '())
@@ -283,9 +299,29 @@
 
 (define-abbrev-table 'internal-ange-ftp-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table '())
+(define-abbrev-table 'java-mode-abbrev-table
+  '(
+   ))
+
+(define-abbrev-table 'jdee-mode-abbrev-table
+  '(
+    ("catch" "catch" c-electric-continued-statement 0)
+    ("else" "else" c-electric-continued-statement 0)
+    ("finally" "finally" c-electric-continued-statement 0)
+    ("while" "while" c-electric-continued-statement 0)
+   ))
+
+(define-abbrev-table 'jdee-run-mode-abbrev-table '())
+
+(define-abbrev-table 'jdee-stacktrace-mode-abbrev-table '())
 
 (define-abbrev-table 'js-mode-abbrev-table '())
+
+(define-abbrev-table 'js2-jsx-mode-abbrev-table '())
+
+(define-abbrev-table 'js2-mode-abbrev-table '())
+
+(define-abbrev-table 'json-mode-abbrev-table '())
 
 (define-abbrev-table 'julia-mode-abbrev-table '())
 
@@ -302,6 +338,8 @@
 (define-abbrev-table 'literate-haskell-mode-abbrev-table '())
 
 (define-abbrev-table 'log-edit-mode-abbrev-table '())
+
+(define-abbrev-table 'log-view-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-cherry-mode-abbrev-table '())
 
@@ -335,6 +373,8 @@
 
 (define-abbrev-table 'magit-status-mode-abbrev-table '())
 
+(define-abbrev-table 'magit-submodule-list-mode-abbrev-table '())
+
 (define-abbrev-table 'makefile-automake-mode-abbrev-table '())
 
 (define-abbrev-table 'makefile-bsdmake-mode-abbrev-table '())
@@ -365,6 +405,8 @@
 
 (define-abbrev-table 'neon-mode-abbrev-table '())
 
+(define-abbrev-table 'nginx-mode-abbrev-table '())
+
 (define-abbrev-table 'notmuch-hello-mode-abbrev-table '())
 
 (define-abbrev-table 'notmuch-message-mode-abbrev-table '())
@@ -374,6 +416,8 @@
 (define-abbrev-table 'notmuch-show-mode-abbrev-table '())
 
 (define-abbrev-table 'notmuch-tree-mode-abbrev-table '())
+
+(define-abbrev-table 'nroff-mode-abbrev-table '())
 
 (define-abbrev-table 'nxml-mode-abbrev-table '())
 
@@ -404,11 +448,13 @@
     ("ar" "array" nil 1)
     ("pr" "protected" nil 0)
     ("prf" "protected function" nil 0)
-    ("pu" "public" nil 0)
-    ("puf" "public function" nil 1)
+    ("pu" "public" nil 1)
+    ("puf" "public function" nil 50)
    ))
 
-(define-abbrev-table 'pike-mode-abbrev-table '())
+(define-abbrev-table 'pike-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'plain-tex-mode-abbrev-table '())
 
@@ -418,13 +464,19 @@
 
 (define-abbrev-table 'prog-mode-abbrev-table '())
 
+(define-abbrev-table 'puppet-mode-abbrev-table '())
+
 (define-abbrev-table 'python-mode-abbrev-table '())
 
-(define-abbrev-table 'python-mode-skeleton-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'python-mode-skeleton-abbrev-table '())
+
+(define-abbrev-table 'reb-lisp-mode-abbrev-table '())
+
+(define-abbrev-table 'reb-mode-abbrev-table '())
 
 (define-abbrev-table 'require '())
+
+(define-abbrev-table 'restclient-mode-abbrev-table '())
 
 (define-abbrev-table 'rst-mode-abbrev-table
   '(
@@ -458,7 +510,9 @@
 
 (define-abbrev-table 'speedbar-mode-abbrev-table '())
 
-(define-abbrev-table 'sql-mode-abbrev-table '())
+(define-abbrev-table 'sql-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'stocklist-mode-abbrev-table '())
 
