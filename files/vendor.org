@@ -118,7 +118,7 @@ The derived =bash-mode= here has no significance except to make font-locking in 
 
 * Shell-mode
 
-** DONE Turn on context-aware modes on shell command output         :published:
+** DONE Turn on context-aware modes on shell command output          :published:
    CLOSED: [2017-04-29 Sat 23:10]
    :PROPERTIES:
    :BLOG_FILENAME: 2017-04-29-Turn-on-context-aware-modes-on-shell-command-output
@@ -239,7 +239,7 @@ For reference: https://oremacs.com/2015/01/10/dired-ansi-term/
   <<term-mode-my-term-exec-hook>>
   )
 #+END_SRC
-* DONE fontify-face: Fontification of symbols referencing faces   :published:
+* DONE fontify-face: Fontification of symbols referencing faces      :published:
 CLOSED: [2018-04-10 Tue 21:02]
 :PROPERTIES:
 :BLOG_FILENAME: 2018-04-10-fontify-face:-Fontification-of-symbols-referencing-faces
@@ -309,3 +309,86 @@ https://i.imgur.com/hjJQVyL.png
 
 #+CAPTION: markup faces
 https://i.imgur.com/1ksWpt3.png
+* DONE Using bookmarks with eshell and docker-tramp
+    CLOSED: [2017-10-08 Sun 12:25] SCHEDULED: <2017-10-08 Sun 12:00-12:40>
+    :PROPERTIES:
+    :BLOG_FILENAME: 2017-10-08-Using-bookmarks-with-eshell-and-docker-tramp
+    :PUBDATE:  [2017-10-08 Sun 12:25]
+    :END:
+    :LOGBOOK:
+    - State "DONE"       from "NEXT"       [2017-10-08 Sun 12:25]
+    :END:
+    :CLOCK:
+    CLOCK: [2017-10-08 Sun 11:58]--[2017-10-08 Sun 12:30] =>  0:32
+    :END:
+
+Emacs comes with a pretty extensible bookmarking system.  As expected,
+you can bookmark files (including positions in the file!) in order to
+quickly navigate to commonly used files.  I use this for my config
+files, personal/gdt org files, my ledger file and so on.
+
+Thanks to the Emacs philosophy of everything being a buffer you can
+also bookmark a plethora of special buffers such as email buffers,
+elfeed entries, info pages, help pages, dired buffers and many more.
+Pretty much any buffer which can be reconstructed from a set of input
+arguments can be bookmarked.
+
+As a bonus it all works through the same interface, by default bound
+to =C-x r m=, so you can just hit that to see if the buffer's type is
+supported or not.
+
+Adding support for new buffers is also amazingly simple.  All you need
+to do is define a function which makes a bookmark /record/.  A bookmark
+record is simply an alist with arbitrary data.  You can save any state
+there that is necessary for the recreation of the buffer.  The only
+required key is =handler= which has a function as a value.  This
+function is given the entire bookmark record and is responsible for
+recreating the buffer.
+
+You then locally assign (with =setq-local=) this record creating
+function to =bookmark-make-record-function= which is internally used by
+=bookmark.el= when you ask it to create a record.
+
+Recently I've been using [[https://www.docker.com/][docker]] (especially [[https://docs.docker.com/compose/][docker-compose]]) a lot and
+one thing that comes up fairly often during development is that you
+might want to execute some commands inside the container (for example
+when you are using the [[https://medium.com/@alexeiled/docker-pattern-the-build-container-b0d0e86ad601][build container pattern]]).
+
+What bothered me was the fact that I had to leave Emacs, jump to the
+terminal and fire away the commands in there.  Turns out someone
+clever figured out a way of using TRAMP[fn:1576a5b050a859aa:The
+package [[https://github.com/emacs-pe/docker-tramp.el][docker-tramp.el]] is available on MELPA] to connect into docker
+containers.  Combined with this, I can use eshell to jump into docker
+container and execute commands in there.  Whoa!
+
+#+BEGIN_EXAMPLE
+[12:15:50]:~/$ docker ps
+CONTAINER ID        IMAGE                 NAMES
+e015daa0ceac        fuco1/zathura:0.3.7   focused_hugle
+[12:15:52]:~/$ cd /docker:focused_hugle:/
+[12:17:01]:/docker:focused_hugle:$ ls
+bin   etc     lib    mnt   root  srv  usr      zathura-cb           zathura-ps
+boot  girara  lib64  opt   run   sys  var      zathura-djvu
+dev   home    media  proc  sbin  tmp  zathura  zathura-pdf-poppler
+#+END_EXAMPLE
+
+To tie all of this together I've written a small package
+[[https://github.com/Fuco1/eshell-bookmark][eshell-bookmark]][fn:2555a1662558ab6:Now available on MELPA/Stable]
+which adds bookmark support to eshell buffers.  More specifically,
+when the bookmark is activated it tries to open an eshell in the
+directory where the bookmark was created.  If an eshell session
+already exists, it just =cd=s into that directory.  The entire package
+is less than 30 lines including docstrings.  This is really the ideal
+of extensibility.
+
+Thanks to =docker-compose= containers having predictable names, I can
+now bookmark each container's eshell session and quickly jump between
+them as necessary, all from within Emacs.  No more =$ docker-compose
+exec application ...=!
+
+#+BEGIN_SRC elisp
+(use-package eshell-bookmark
+  :after eshell
+  :config
+  (add-hook 'eshell-mode-hook #'eshell-bookmark-setup))
+#+END_SRC

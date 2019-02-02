@@ -785,10 +785,6 @@ idle timer to do the actual update.")
   :commands eshell
   :config
   (progn
-    (use-package eshell-bookmark
-      :config
-      (eshell-bookmark-setup))
-
     ;; https://emacs.stackexchange.com/questions/2107/run-application-in-cwd-on-remote-host-from-within-eshell
     (defadvice eshell-gather-process-output (before absolute-cmd (command args) act)
       (setq command (file-truename command)))
