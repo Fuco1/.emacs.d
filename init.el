@@ -4,22 +4,6 @@
 (defconst emacs-start-time (current-time))
 (defmacro org-babel-header-args-safe-fn (safe-list) t)
 
-(my-with-elapsed-timer "straight.el"
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-  (straight-use-package 'el-patch))
-
 ;; Emacs gurus don't need no stinking scroll bars & widgets
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -35,6 +19,20 @@
          (let ((elapsed
                 (float-time (time-subtract (current-time) ,nowvar))))
            (message "%s...done (%.3fs)" ,text elapsed))))))
+
+(my-with-elapsed-timer "straight.el"
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage)))
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
