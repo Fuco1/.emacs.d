@@ -403,6 +403,9 @@ and `my-compile-auto-fold-header-match-data'."
       (read-only-mode 1))
     (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)))
 
+(use-package crontab-mode
+  :straight (:repo "git@github.com:emacsattic/crontab-mode.git"))
+
 (use-package csharp-mode
   :defer t
   :config
@@ -1831,6 +1834,22 @@ by that command."
     (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
     (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
     (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map)))
+
+(use-package notmuch-unread
+  :after notmuch
+  :straight (:repo "git@github.com:emacsattic/notmuch-unread.git")
+  :config
+  (el-patch-defun notmuch-unread-update-handler ()
+    "Update the mode line."
+    (el-patch-swap
+      (setq notmuch-unread-mode-line-string
+            (format " [✉ %d]" (notmuch-unread-count)))
+      (let ((count (notmuch-unread-count)))
+        (if (> count 0)
+            (setq notmuch-unread-mode-line-string
+                  (format " [✉ %d]" count))
+          (setq notmuch-unread-mode-line-string ""))))
+    (force-mode-line-update)))
 
 (use-package occur
   :commands occur
