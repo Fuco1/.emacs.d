@@ -136,9 +136,6 @@
 [submodule "projects/justify-kp"]
 	path = projects/justify-kp
 	url = git@github.com:Fuco1/justify-kp.git
-[submodule "vendor/org-toggl"]
-	path = vendor/org-toggl
-	url = git@github.com:Fuco1/org-toggl.git
 [submodule "projects/flycheck-elsa"]
 	path = projects/flycheck-elsa
 	url = git@github.com:emacs-elsa/flycheck-elsa.git
@@ -157,9 +154,6 @@
 [submodule "vendor/jira-markup-mode"]
 	path = vendor/jira-markup-mode
 	url = git@my.github.com:Fuco1/jira-markup-mode.git
-[submodule "vendor/org-jira"]
-	path = vendor/org-jira
-	url = git@my.github.com:Fuco1/org-jira.git
 [submodule "vendor/el-patch"]
 	path = vendor/el-patch
 	url = git@github.com:Fuco1/el-patch.git
