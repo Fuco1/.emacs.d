@@ -1123,8 +1123,7 @@ use a directory-local variable to specify this per-project."
 
 (use-package helm-gtags
   :straight t
-  :bind (("M-'" . helm-gtags-dwim)
-         ("C-M-'" . helm-gtags-pop-stack)))
+  :defer t)
 
 (use-package help-mode
   :defer t
@@ -2488,7 +2487,12 @@ separate buffer."
     (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
     (setq shell-pop-window-height 50)))
 
+;; TODO: move the registers to the respective modes
 (use-package smart-jump
+  :straight t
+  :bind (("M-'" . smart-jump-go)
+         ("C-M-'" . smart-jump-back)
+         ("M-\"" . smart-jump-references))
   :config
   (progn
     (smart-jump-register
