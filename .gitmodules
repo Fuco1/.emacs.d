@@ -112,9 +112,6 @@
 [submodule "projects/compile-eslint"]
 	path = projects/compile-eslint
 	url = git@github.com:Fuco1/compile-eslint.git
-[submodule "vendor/lsp-php"]
-	path = vendor/lsp-php
-	url = git@github.com:emacs-lsp/lsp-php.git
 [submodule "projects/org-radiobutton"]
 	path = projects/org-radiobutton
 	url = git@github.com:Fuco1/org-radiobutton.git
@@ -145,6 +142,3 @@
 [submodule "projects/orgba"]
 	path = projects/orgba
 	url = git@github.com:Fuco1/orgba.git
-[submodule "vendor/el-patch"]
-	path = vendor/el-patch
-	url = git@github.com:Fuco1/el-patch.git
