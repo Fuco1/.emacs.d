@@ -2621,19 +2621,6 @@ separate buffer."
               )
       (add-hook it 'my-init-text-mode))))
 
-(use-package tramp
-  :defer t
-  :config
-  (progn
-    (require 'docker-tramp-compat)
-    ;; (setq tramp-default-method "plinkx")
-    ;; (setq tramp-terminal-type "dumb")
-
-    ;; in file `tramp-sh.el' it is necessary to add
-    ;; (tramp-password-end-of-line "xy") ;see docstring for "xy"
-    ;; to "plinkx" method.
-    ))
-
 (use-package transpose-frame
   :init
   (progn
