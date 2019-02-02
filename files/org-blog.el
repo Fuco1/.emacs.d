@@ -141,11 +141,11 @@ do not run `org-publish'."
     (org-back-to-heading 'invisible-ok)
     (let ((tags (org-get-tags)))
       (org-set-tags (-union tags (list "published"))))
-    ;; Remove the DONE keyword which was only added to get the CLOSEd
+    ;; Remove the DONE keyword which was only added to get the CLOSED
     ;; timestamp.  But in the config we want to color the headings
     ;; normally.
-    (org-todo "")
     (my-org-blog--create-or-update-post (point-marker))
+    (org-todo "")
     (unless dont-publish (org-publish "blog"))))
 
 (defun my-org-publish-agenda ()
