@@ -2494,6 +2494,14 @@ separate buffer."
   :config
   (progn
     (smart-jump-register
+     :modes 'tide-mode
+     :jump-fn 'tide-jump-to-definition
+     :pop-fn 'tide-jump-back
+     :refs-fn 'tide-references
+     :should-jump t
+     :heuristic 'point
+     :async t)
+    (smart-jump-register
      :modes 'php-mode
      :jump-fn 'xref-find-definitions
      :pop-fn 'xref-pop-marker-stack
@@ -2682,6 +2690,44 @@ Omitting FRAME means currently selected frame."
                                        'transpose 'flop 'flip)
       (if (interactive-p) (recenter)))
     (bind-key "C-^" 'transpose-frame-reverse)))
+
+(use-package typescript-mode
+  :straight t
+  :config
+  (bind-key "M-'" 'smart-jump-go typescript-mode-map)
+  (bind-key "C-M-'" 'smart-jump-back typescript-mode-map)
+  (bind-key "M-\"" 'smart-jump-references typescript-mode-map)
+
+  (use-package tide
+    :straight t
+    :config
+    (defun setup-tide-mode ()
+      (interactive)
+      (tide-setup)
+      (flycheck-mode +1)
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (eldoc-mode +1)
+      (tide-hl-identifier-mode +1)
+      ;; company is an optional dependency. You have to
+      ;; install it separately via package-install
+      ;; `M-x package-install [ret] company`
+      (company-mode +1))
+
+    (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+    ;; formats the buffer before saving
+    (add-hook 'before-save-hook 'tide-format-before-save)
+
+    ;; aligns annotation to the right hand side
+    (setq company-tooltip-align-annotations t))
+
+  (defun my-typescript-mode-setup ()
+    (-when-let (root (locate-dominating-file (buffer-file-name) "tslint.json"))
+      (setq-local
+       flycheck-typescript-tslint-executable
+       (concat root "/node_modules/.bin/tslint"))))
+
+  (add-hook 'typescript-mode-hook #'my-typescript-mode-setup))
 
 (use-package two-column
   :defer t
