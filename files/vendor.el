@@ -110,6 +110,7 @@ return to regular interpretation of self-insert characters."
       ad-do-it)))
 
 (use-package atomic-chrome
+  :straight t
   :config
   (setq atomic-chrome-buffer-open-style 'frame
         atomic-chrome-url-major-mode-alist
@@ -134,7 +135,12 @@ return to regular interpretation of self-insert characters."
     (bind-key "o" 'bjump-help-link-jump help-mode-map)))
 
 (use-package browse-at-remote
+  :straight t
   :bind (("C-c g g" . browse-at-remote)))
+
+(use-package cask-mode
+  :straight t
+  :mode ("Cask\\'" . cask-mode))
 
 (use-package c-mode
   :defer t
@@ -217,17 +223,26 @@ If no region is active, use word udner point."
   :mode (("\\.pwm\\'" . conf-mode)))
 
 (use-package company
+  :straight t
   :config
-  (progn
-    (add-to-list 'company-backends 'company-omnisharp)
+  (add-to-list 'company-backends 'company-omnisharp)
 
-    (bind-key "C-c y" 'company-yasnippet)
+  (bind-key "C-c y" 'company-yasnippet)
 
-    (bind-key "C-f" 'company-complete-selection company-active-map)
-    (bind-key "C-n" 'company-select-next company-filter-map)
-    (bind-key "C-p" 'company-select-previous company-filter-map)
-    (bind-key "C-n" 'company-select-next company-active-map)
-    (bind-key "C-p" 'company-select-previous company-active-map)))
+  (bind-key "C-f" 'company-complete-selection company-active-map)
+  (bind-key "C-n" 'company-select-next company-filter-map)
+  (bind-key "C-p" 'company-select-previous company-filter-map)
+
+  (bind-key "C-n" 'company-select-next company-active-map)
+  (bind-key "C-p" 'company-select-previous company-active-map))
+
+(use-package company-lsp
+  :straight t
+  :after lsp-mode)
+
+(use-package company-statistics
+  :straight t
+  :after company)
 
 (use-package compile
   :bind (:map compilation-mode-map
@@ -407,6 +422,7 @@ and `my-compile-auto-fold-header-match-data'."
   :straight t)
 
 (use-package csharp-mode
+  :straight t
   :defer t
   :config
   (progn
@@ -554,7 +570,22 @@ and `my-compile-auto-fold-header-match-data'."
          ("C-x T % +" . dired-tagsistant-some-tags-regexp)
          ("C-x T % *" . dired-tagsistant-all-tags-regexp)))
 
-(use-package dotenv-mode)
+(use-package docker
+  :straight t)
+
+(use-package docker-tramp
+  :straight t)
+
+(use-package dockerfile-mode
+  :straight t)
+
+(use-package dotenv-mode
+  :straight t)
+
+(use-package easy-kill
+  :straight t
+  :config
+  (bind-key [remap kill-ring-save] 'easy-kill))
 
 (use-package ediff
   :bind ("C-. =" . hydra-ediff/body)
@@ -623,7 +654,8 @@ config from before."
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
 (use-package edit-indirect
-  :defer t
+  :straight t
+  :commands edit-indirect-region
   :init
   (defun my-after-indirect-edit-realign (beg end)
     (save-excursion
@@ -643,17 +675,28 @@ config from before."
   :config
   (bind-key "C-x C-s" 'edit-indirect-commit edit-indirect-mode-map))
 
+(use-package editorconfig
+  :straight t)
+
+(use-package eimp
+  :straight t
+  :after image-mode)
+
 (use-package eldoc
   :commands eldoc-mode
   :diminish eldoc-mode
+  :defines eldoc-eval-preferred-function
   :init
-  (progn
-    (setq eldoc-eval-preferred-function 'pp-eval-expression))
+  (setq eldoc-eval-preferred-function 'pp-eval-expression))
+
+(use-package eldoc-eval
+  :straight t
+  :after eldoc
   :config
-  (progn
-    (eldoc-in-minibuffer-mode 1)))
+  (eldoc-in-minibuffer-mode 1))
 
 (use-package elfeed
+  :straight t
   :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
   :init
@@ -746,6 +789,9 @@ idle timer to do the actual update.")
 (use-package el-patch
   :straight t)
 
+(use-package elpy
+  :straight t)
+
 (use-package elxiki
   :defer t
   :commands elxiki-mode
@@ -821,6 +867,7 @@ idle timer to do the actual update.")
         'stop))))
 
 (use-package ess
+  :straight t
   :defer t
   :config
   (progn
@@ -840,7 +887,11 @@ idle timer to do the actual update.")
       (smartparens-mode 1))
     (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)))
 
+(use-package exec-path-from-shell
+  :straight t)
+
 (use-package expand-region
+  :straight t
   :bind ("s-'" . er/expand-region))
 
 (use-package eyebrowse
@@ -883,12 +934,23 @@ idle timer to do the actual update.")
 (use-package face-remap
   :bind (("M-V" . variable-pitch-mode)))
 
+(use-package feature-mode
+  :straight t)
+
 (use-package fish-completion
+  :straight t
   :if (executable-find "fish")
   :config (global-fish-completion-mode))
 
-(use-package google-maps
-  :commands google-maps)
+(use-package fish-mode
+  :straight t)
+
+(use-package gitignore-mode
+  :straight t
+  :mode ("\\.dockerignore" . 'gitignore-mode))
+
+(use-package gnuplot
+  :straight t)
 
 (use-package grep
   :commands rgrep
@@ -903,11 +965,10 @@ idle timer to do the actual update.")
 (defvar-local flycheck-error-indicators nil)
 
 (use-package flycheck
+  :straight t
   :commands flycheck-mode
   :config
   (progn
-    (use-package flycheck-phplint)
-
     (flycheck-def-option-var flycheck-phpstan-config nil php-phpstan
       "Path to the phpstan configuration for current project.
 
@@ -960,7 +1021,6 @@ use a directory-local variable to specify this per-project."
     (setq flycheck-puppet-parser-executable "bundler-puppet")
     (setq flycheck-puppet-lint-executable "bundler-puppet-lint")
 
-    ;; (use-package flycheck-ledger)
     (use-package indicators)
 
     (defun flycheck-errors-to-indicator-list ()
@@ -977,26 +1037,37 @@ use a directory-local variable to specify this per-project."
       (indicators-mode t)
       (ind-create-indicator 'point :managed t :face font-lock-builtin-face)
       (add-to-list 'ind-managed-list-relative 'flycheck-error-indicators)
-      (flycheck-haskell-setup)
-      (flycheck-cask-setup))
-    (add-hook 'flycheck-mode-hook 'flycheck-cask-setup)
+      (flycheck-haskell-setup))
     (add-hook 'flycheck-mode-hook 'my-flycheck-init)))
 
+(use-package flycheck-cask
+  :straight t
+  :init (add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
+
+(use-package flycheck-haskell
+  :straight t
+  :init (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
+
+(use-package flycheck-ledger
+  :straight t
+  :after flycheck)
+
 (use-package fold-this
+  :straight t
   :bind (("C-c C-v f" . fold-this)))
+
+(use-package fold-dwim
+  :straight t)
 
 (use-package free-keys
   :commands free-keys)
 
 (use-package haskell-mode
+  :straight t
   :mode (("\\.hs\\'" . haskell-mode)
          ("\\.chs\\'" . haskell-mode))
   :config
   (progn
-    (use-package hs-lint
-      :config
-      (progn
-        (bind-key "C-c i" 'hs-lint haskell-mode-map)))
     (require 'haskell-indentation)
     (bind-key "C-c h" 'haskell-hoogle haskell-mode-map)
     (bind-key "C-c C-r" 'my-haskell-reload haskell-mode-map)
@@ -1047,10 +1118,12 @@ use a directory-local variable to specify this per-project."
       ("k" . helm-show-kill-ring))
     (bind-keys :map helm-command-map
       ("o a" . helm-org-agenda-files-headings)
-      ("o h" . helm-org-in-buffer-headings))
-    (use-package helm-gtags
-      :bind (("M-'" . helm-gtags-dwim)
-             ("C-M-'" . helm-gtags-pop-stack)))))
+      ("o h" . helm-org-in-buffer-headings))))
+
+(use-package helm-gtags
+  :straight t
+  :bind (("M-'" . helm-gtags-dwim)
+         ("C-M-'" . helm-gtags-pop-stack)))
 
 (use-package help-mode
   :defer t
@@ -1058,7 +1131,6 @@ use a directory-local variable to specify this per-project."
   (progn
     (defun my-help-mode-init ()
       (use-package better-jump)
-      (use-package helm-descbinds)
       (helm-descbinds-mode 1))
     (add-hook 'help-mode-hook 'my-help-mode-init)
     (bind-key "<tab>" 'forward-button help-mode-map)
@@ -1067,8 +1139,21 @@ use a directory-local variable to specify this per-project."
     (bind-key "l" 'help-go-back help-mode-map)
     (bind-key "L" 'help-go-forward help-mode-map)))
 
+(use-package helm-descbinds
+  :straight t
+  :after helm-mode)
+
 (use-package highlight-thing
+  :straight t
   :commands highlight-thing-mode)
+
+(use-package htmlize
+  :straight t
+  :defer t)
+
+(use-package hydra
+  :straight t
+  :defer t)
 
 (use-package ibuffer
   :commands ibuffer
@@ -1265,22 +1350,11 @@ use a directory-local variable to specify this per-project."
     (bind-key "M-." 'sallet-imenu js2-mode-map)
     (bind-key "M-j" 'my-join-lines js2-mode-map)
 
-    (use-package flycheck-flow
-      :config
-      (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
-
     (defun my-flow-minor-jump-to-definition-then-dumb-jump ()
       "Try to call `flow-minor-jump-to-definition' and if it fails use `dumb-jump-go'."
       (interactive)
       (when (equal (flow-minor-jump-to-definition) "Not found")
         (dumb-jump-go)))
-
-    (use-package flow-minor-mode
-      :config
-      (bind-key "M-." nil flow-minor-mode-map)
-      (bind-key "M-," nil flow-minor-mode-map)
-      (bind-key "M-'" 'my-flow-minor-jump-to-definition-then-dumb-jump flow-minor-mode-map)
-      (bind-key "C-M-'" 'xref-pop-marker-stack flow-minor-mode-map))
 
     (use-package flow-js2-mode)
 
@@ -1310,6 +1384,22 @@ use a directory-local variable to specify this per-project."
       (when (flow-minor-configured-p)
         (flow-minor-mode 1)))
     (add-hook 'js2-mode-hook 'my-js2-mode-init)))
+
+(use-package flycheck-flow
+  :straight t
+  :after (js2-mode flycheck)
+  :config
+  (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
+
+(use-package flow-minor-mode
+  :straight t
+  :after js2-mode
+  :config
+  ;; TODO: move to smart-jump
+  (bind-key "M-." nil flow-minor-mode-map)
+  (bind-key "M-," nil flow-minor-mode-map)
+  (bind-key "M-'" 'my-flow-minor-jump-to-definition-then-dumb-jump flow-minor-mode-map)
+  (bind-key "C-M-'" 'xref-pop-marker-stack flow-minor-mode-map))
 
 (use-package json-mode
   :defer t
@@ -1519,9 +1609,6 @@ called, percentage usage and the command."
          )
   :config
   (progn
-    (use-package gitignore-mode
-      :config
-      (add-to-list 'auto-mode-alist (cons "\\.dockerignore" 'gitignore-mode)))
     (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
     (require 'flyspell)))
 
@@ -1682,16 +1769,20 @@ delete it and re-insert new one."
   :config
   (progn
     (use-package notmuch)
-    (use-package smtpmail)
-    (use-package gnus-alias
-      :init
-      (progn
-        (gnus-alias-init)
-        (bind-key "C-c i" 'gnus-alias-select-identity message-mode-map)
-        (defun my-message-gnus-alias-init ()
-          (when (equal (my-where-am-i) "logio")
-            (run-with-timer 0.2 nil (lambda () (gnus-alias-use-identity "logio")))))
-        (add-hook 'message-setup-hook 'my-message-gnus-alias-init)))))
+    (use-package smtpmail)))
+
+(use-package gnus-alias
+  :straight t
+  :after message
+  :init (gnus-alias-init)
+  :bind (:map message-mode-map
+         ("C-c i" . 'gnus-alias-select-identity))
+  :config
+  (defun my-message-gnus-alias-init ()
+    (when (equal (my-where-am-i) "logio")
+      (run-with-timer 0.2 nil (lambda () (gnus-alias-use-identity "logio")))))
+
+  (add-hook 'message-setup-hook 'my-message-gnus-alias-init))
 
 (use-package multiple-cursors
   :bind (("C-c C-S-c" . mc/edit-lines)
@@ -1739,20 +1830,6 @@ delete it and re-insert new one."
       ("C-n" . notmuch)))
   :config
   (progn
-    (use-package notmuch-unread
-      :config
-      (progn
-        ;; REDEFINED FROM notmuch-unread-mode
-        ;; Don't show anything if there's no unread mail
-        (defun notmuch-unread-update-handler ()
-          "Update the mode line."
-          (let ((count (notmuch-unread-count)))
-            (if (> count 0)
-                (setq notmuch-unread-mode-line-string
-                      (format " [✉ %d]" count))
-              (setq notmuch-unread-mode-line-string "")))
-          (force-mode-line-update))))
-
     (defun my-notmuch-unread ()
       "Display buffer with unread mail."
       (interactive)
