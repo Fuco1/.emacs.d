@@ -812,7 +812,25 @@ idle timer to do the actual update.")
 
 (use-package esh-autosuggest
   :straight t
-  :hook (eshell-mode . esh-autosuggest-mode))
+  :hook (eshell-mode . esh-autosuggest-mode)
+  :config
+  (el-patch-defun esh-autosuggest--prefix ()
+    "Get current eshell input."
+    (let* ((input-start (progn
+                          (save-excursion
+                            (beginning-of-line)
+                            (while (not (looking-at-p eshell-prompt-regexp))
+                              (forward-line -1))
+                            (el-patch-add (re-search-forward eshell-prompt-regexp nil t))
+                            (eshell-bol))))
+           (prefix
+            (string-trim-left
+             (buffer-substring-no-properties
+              input-start
+              (line-end-position)))))
+      (if (not (string-empty-p prefix))
+          prefix
+        'stop))))
 
 (use-package ess
   :defer t
