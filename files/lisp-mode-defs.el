@@ -1,6 +1,7 @@
 (require 'thingatpt)
 
 (bind-keys :map emacs-lisp-mode-map
+  ("M-'" . my-elisp-goto-definition)
   ("C-M-;" . clippy-describe-function)
   ("C-c C-c" . overseer-test-run-test)
   ("C-c t" . my-elisp-run-buttercup)
@@ -17,6 +18,11 @@
             ("n" my-lisp-remove-excess-not "not . not => id"))
           emacs-lisp-mode-map)
 (unbind-key "C-x C-a" emacs-lisp-mode-map)
+
+(defun my-elisp-goto-definition ()
+  "Jump to definition of function at point."
+  (interactive)
+  (find-function (function-called-at-point)))
 
 (defvar my-macro-names
   '(
