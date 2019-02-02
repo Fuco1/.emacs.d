@@ -1953,8 +1953,6 @@ by that command."
 
     (use-package lsp-mode
       :config
-      (require 'lsp-php)
-
       (require 'lsp-ui)
       (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
