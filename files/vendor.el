@@ -872,11 +872,17 @@ idle timer to do the actual update.")
   :defer t
   :config
   (progn
+    (use-package ess-r-mode
+      :config
+      (bind-key "M-'" 'smart-jump-go ess-r-mode-map)
+      (bind-key "C-M-'" 'smart-jump-back ess-r-mode-map))
+
     (use-package ess-help)
     (bind-key "q" 'quit-window ess-help-mode-map)
     (bind-key "_" 'self-insert-command ess-mode-map)
     (bind-key "_" 'self-insert-command inferior-ess-mode-map)
     (defun my-ess-mode-hook ()
+      (font-lock-add-keywords nil '(("\\b\\(this\\)\\b" 1 font-lock-constant-face)))
       (smartparens-strict-mode 1))
     (add-hook 'ess-mode-hook 'my-ess-mode-hook)
     (defun my-ess-post-run-hook ()
@@ -2496,6 +2502,15 @@ separate buffer."
   :config
   (progn
     (smart-jump-register
+     :modes 'ess-r-mode
+     :jump-fn 'xref-find-definitions
+     :pop-fn 'xref-pop-marker-stack
+     :refs-fn 'xref-find-references
+     :should-jump t
+     :heuristic 'error
+     :async nil)
+
+    (smart-jump-register
      :modes 'tide-mode
      :jump-fn 'tide-jump-to-definition
      :pop-fn 'tide-jump-back
@@ -2503,6 +2518,7 @@ separate buffer."
      :should-jump t
      :heuristic 'point
      :async t)
+
     (smart-jump-register
      :modes 'php-mode
      :jump-fn 'xref-find-definitions
