@@ -491,5 +491,20 @@ Ith row is replaced with Ith item of DATA."
   (insert "\n  :AMOUNT:   100g\n")
   (insert "  :END:\n"))
 
+(defun my-reload-init ()
+  "Reload init.el."
+  (interactive)
+  (straight-transaction
+    (straight-mark-transaction-as-init)
+    (message "Reloading init.el...")
+    (load user-init-file nil 'nomessage)
+    (message "Reloading init.el... done.")))
+
+(defun my-find-dependency ()
+  "Open dependency installed with straight.el"
+  (interactive)
+  (let ((default-directory (straight--repos-dir)))
+    (call-interactively 'ido-find-file)))
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
