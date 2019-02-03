@@ -954,9 +954,15 @@ idle timer to do the actual update.")
       (bind-key "C-M-'" 'smart-jump-back ess-r-mode-map))
 
     (use-package ess-help)
-    (bind-key "q" 'quit-window ess-help-mode-map)
-    (bind-key "_" 'self-insert-command ess-mode-map)
-    (bind-key "_" 'self-insert-command inferior-ess-mode-map)
+
+    (bind-keys
+     :map ess-mode-map
+     ("_" . self-insert-command)
+     :map inferior-ess-mode-map
+     ("_" . self-insert-command)
+     :map ess-help-mode-map
+     ("q" . quit-window))
+
     (defun my-ess-mode-hook ()
       (font-lock-add-keywords nil '(("\\b\\(this\\)\\b" 1 font-lock-constant-face)))
       (smartparens-strict-mode 1))
