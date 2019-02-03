@@ -48,6 +48,8 @@
 (use-package org-toggl
   :after org-clock
   :straight (org-toggl :repo "git@github.com:Fuco1/org-toggl.git")
+  :custom
+  (org-toggl-inherit-toggl-properties t)
   :config
   (toggl-get-projects)
   (org-toggl-integration-mode))
