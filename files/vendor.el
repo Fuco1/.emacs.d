@@ -101,11 +101,11 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
 (use-package ag
   :straight t
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
-  :init
+  :bind (("<f9>" . f9-hydra/body))
+  :config
   (progn
-    (bind-key "<f9>"
-              (defhydra f9-hydra (:color blue :hint nil)
-                "
+    (defhydra f9-hydra (:color blue :hint nil)
+      "
 silversearcher: ag(1)
 
  Files                  Directories
@@ -114,14 +114,13 @@ silversearcher: ag(1)
  _<f9>_ ag                _9_ ag-dired
 _<f10>_ ag-regexp         _0_ ag-dired-regexp
 "
-                ("<f8>" ag-files "ag-files")
-                ("<f9>" ag "ag")
-                ("<f10>" ag-regexp "ag-regexp")
-                ("8" ag-project-dired "ag-project-dired")
-                ("9" ag-dired "ag-dired")
-                ("0" ag-dired-regexp "ag-dired-regexp"))))
-  :config
-  (progn
+      ("<f8>" ag-files "ag-files")
+      ("<f9>" ag "ag")
+      ("<f10>" ag-regexp "ag-regexp")
+      ("8" ag-project-dired "ag-project-dired")
+      ("9" ag-dired "ag-dired")
+      ("0" ag-dired-regexp "ag-dired-regexp"))
+
     (require 'wgrep)
     (require 'wgrep-ag)
     (add-hook 'ag-mode-hook 'wgrep-ag-setup)))
