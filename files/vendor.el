@@ -2035,6 +2035,8 @@ by that command."
 (use-package php-mode
   :straight t
   :mode ("\\.php[st]?\\'" . php-mode)
+  :init
+  (add-to-list 'magic-mode-alist `(,(rx "<?php") . php-mode))
   :config
   (progn
     (use-package better-jump)
@@ -2045,8 +2047,6 @@ by that command."
     (use-package nette-tester)
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
-
-    (add-to-list 'magic-mode-alist `(,(rx "<?php") . php-mode))
 
     (use-package lsp-mode
       :straight t
