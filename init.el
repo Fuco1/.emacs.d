@@ -32,7 +32,9 @@
            'silent 'inhibit-cookies)
         (goto-char (point-max))
         (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage)))
+    (load bootstrap-file nil 'nomessage))
+
+  (straight-use-package 'el-patch))
 
 (my-with-elapsed-timer "setup org-plus-contrib"
   (require 'subr-x)

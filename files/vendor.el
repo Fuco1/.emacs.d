@@ -858,9 +858,6 @@ idle timer to do the actual update.")
       ("M-n" . shr-next-link)
       ("M-p" . shr-previous-link))))
 
-(use-package el-patch
-  :straight t)
-
 (use-package elpy
   :straight t)
 
