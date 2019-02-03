@@ -2026,11 +2026,13 @@ by that command."
 
 ;; TODO: move into a separate file
 (use-package php-mode
+  :straight t
   :mode ("\\.php[st]?\\'" . php-mode)
   :config
   (progn
     (use-package better-jump)
-    (use-package php-eldoc)
+    (use-package php-eldoc
+      :straight t)
     (use-package php-refactor)
     (use-package find-test)
     (use-package nette-tester)
@@ -2040,8 +2042,10 @@ by that command."
     (add-to-list 'magic-mode-alist `(,(rx "<?php") . php-mode))
 
     (use-package lsp-mode
+      :straight t
       :config
-      (require 'lsp-ui)
+      (use-package lsp-ui
+        :straight t)
       (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
       (bind-key "M-'" 'smart-jump-go php-mode-map)
