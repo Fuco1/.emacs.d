@@ -953,6 +953,8 @@ idle timer to do the actual update.")
       (bind-key "M-'" 'smart-jump-go ess-r-mode-map)
       (bind-key "C-M-'" 'smart-jump-back ess-r-mode-map))
 
+    (put 'flycheck-lintr-linters 'safe-local-variable #'stringp)
+
     (use-package ess-help)
 
     (bind-keys
