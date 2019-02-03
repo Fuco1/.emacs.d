@@ -30,6 +30,72 @@ load the result."
   "Load MODULE relative to this file"
   (load (f-join (f-parent my-vendor-file) module)))
 
+(use-package hydra
+  :straight t
+  :bind (("<f1>" . f1-hydra/body)
+         ("<f7>" . f7-hydra/body)
+         ("C-. i" . input-methods-hydra/body))
+  :config
+  (defhydra f1-hydra (:color blue)
+    "F1 hydra: navigation"
+    ("<f1>" ibuffer "ibuffer")
+    ("<f2>" my-visit-init-file "Visit the user init file" )
+    ("<f3>" view-echo-area-messages "Visit messages")
+    ("<f4>" ffap "Find file at point")
+    ("<f5>" my-find-file-in-home "Find file in the home directory")
+    ("<f6>" my-find-dependency "Find dependency")
+    ("<f8>" projectile-dired "Goto project root")
+    ("<f10>" my-goto-current-clocked-task "Go to current clocked task"))
+
+  (defhydra f7-hydra (:color blue)
+    "F7 hydra: grep/find"
+    ("<f6>" my-projectile-rgrep "projectile-rgrep")
+    ("<f7>" rgrep "rgrep")
+    ("<f8>" dired-list-find-file "dired-list-find-file")
+    ("<f9>" dired-list-grep "dired-list-grep"))
+
+  (defhydra input-methods-hydra (:color blue :hint nil)
+    "
+European           | Indian           | Asian    | Special
+-------------------+------------------+----------+-----------------------------
+_s_lovak             | devanagari (_h_)   | _j_apanese | _w_orkman
+_c_zech              | de_v_anagari-trans |          | ipa-_x_-sampa
+_p_olish             |                  |          | TeX (_t_)
+german (_d_)         |                  |          |
+_i_talian            |                  |          |
+_f_rench             |                  |          |
+_l_atin              |                  |          |
+_g_reek              |                  |          |
+_r_ussian            |                  |          | set input _m_ethod
+cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
+"
+    ("m" set-input-method)
+    ("e" toggle-input-method)
+    ("s" (lambda () "Toggle on slovak-prog-2 input method." (interactive) (set-input-method "slovak-prog-2")))
+    ("c" (lambda () "Toggle on czech input method." (interactive) (set-input-method "czech")))
+    ("p" (lambda () "Toggle on polish-slash input method." (interactive) (set-input-method "polish-slash")))
+    ("r" (lambda () "Toggle on russian-computer input method." (interactive) (set-input-method "russian-computer")))
+    ("q" (lambda () "Toggle on cyrillic-translit input method." (interactive) (set-input-method "cyrillic-translit")))
+    ("i" (lambda () "Toggle on italian-keyboard input method." (interactive) (set-input-method "italian-keyboard")))
+    ("d" (lambda () "Toggle on german input method." (interactive) (set-input-method "german")))
+    ("t" (lambda () "Toggle on TeX input method." (interactive) (set-input-method "TeX")))
+    ("l" (lambda () "Toggle on latin-macrons input method." (interactive) (set-input-method "latin-macrons")))
+    ("f" (lambda () "Toggle on french-keyboard input method." (interactive) (set-input-method "french-keyboard")))
+    ("g" (lambda () "Toggle on greek-mizuochi input method." (interactive) (set-input-method "greek-mizuochi")))
+    ("j" (lambda () "Toggle on japanese input method." (interactive) (set-input-method "japanese")))
+    ("h" (lambda () "Toggle on devanagari-kyoto-harvard input method." (interactive) (set-input-method "devanagari-kyoto-harvard")))
+    ("v" (lambda () "Toggle on devanagari-translit input method." (interactive) (set-input-method "devanagari-translit")))
+    ("w" (lambda () "Toggle on workman input method." (interactive) (set-input-method "english-workman")))
+    ("x" (lambda () "Toggle on ipa-x-sampa input method." (interactive) (set-input-method "ipa-x-sampa")))))
+
+;; TODO: required by dired-images, move it there
+(use-package eimp
+  :straight t
+  :after image-mode)
+
+;; TODO: required by dired-tangled/defs, move it there
+(use-package make-it-so :straight t)
+
 (use-package ag
   :straight t
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
@@ -679,10 +745,6 @@ config from before."
 (use-package editorconfig
   :straight t)
 
-(use-package eimp
-  :straight t
-  :after image-mode)
-
 (use-package eldoc
   :commands eldoc-mode
   :diminish eldoc-mode
@@ -700,6 +762,15 @@ config from before."
   :straight t
   :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
+  :custom
+  (elfeed-db-directory "~/.emacs.d/elfeed")
+  (elfeed-max-connections 5)
+  (elfeed-search-face-alist
+   (quote
+    ((unread elfeed-search-unread-title-face)
+     (tumblr font-lock-constant-face))))
+  (elfeed-search-title-max-width 90)
+  (elfeed-use-curl t)
   :init
   (progn
     ;; run an idle timer from this timer so it won't bother me while editing
@@ -1157,10 +1228,6 @@ use a directory-local variable to specify this per-project."
   :straight t
   :defer t)
 
-(use-package hydra
-  :straight t
-  :defer t)
-
 (use-package ibuffer
   :commands ibuffer
   :init
@@ -1599,6 +1666,7 @@ called, percentage usage and the command."
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init)))
 
 (use-package magit
+  :straight t
   :init
   (bind-keys :prefix "C-c m"
              :prefix-map ctl-c-m-map
@@ -1920,6 +1988,7 @@ by that command."
     ("o" . occur-mode-display-occurrence)))
 
 (use-package org
+  :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   ;; The following lines are always needed.  Choose your own keys.
   :bind  (("C-c l" . org-store-link)
@@ -2322,6 +2391,7 @@ These are retrieved from `imenu--index-alist'."
     (push '("*Pp Eval Output*" :height 15) popwin:special-display-config)))
 
 (use-package prodigy
+  :straight t
   :bind (:map ctl-dot-prefix-map
          ("o" . prodigy))
   :config

@@ -3,7 +3,7 @@
 ;;; Code:
 
 (require 'ido)
-(require 'ido-completing-read+)
+(use-package ido-completing-read+ :straight t)
 (use-package flx-ido :straight t)
 
 (ido-mode 1)

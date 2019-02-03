@@ -1029,6 +1029,7 @@ U5Bt-J2y7Vm69dEcRNkBLapE
 
 #+BEGIN_SRC elisp :noweb no-export
 (use-package org-gcal
+  :straight t
   :after org
   :config
   (setq org-gcal-client-id "781554523097-ocjovnfpqgtpoc4qv7ubr8c679t96bv7.apps.googleusercontent.com"

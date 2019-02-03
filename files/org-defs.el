@@ -31,6 +31,7 @@
 
 (use-package org-id
   :config
+  (require 'org-element)
   (org-link-set-parameters "id" :store #'org-id-store-link))
 
 (use-package org-inlinetask)
@@ -278,6 +279,7 @@
       (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)))
 
   (use-package org-super-agenda
+    :straight t
     :config
     (progn
       (org-super-agenda-mode 1)))

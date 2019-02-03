@@ -34,11 +34,46 @@
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage)))
 
+(my-with-elapsed-timer "setup org-plus-contrib"
+  (require 'subr-x)
+  (straight-use-package 'git)
+
+  (defun org-git-version ()
+    "The Git version of org-mode.
+Inserted by installing org-mode or when a release is made."
+    (require 'git)
+    (let ((git-repo (expand-file-name
+                     "straight/repos/org/" user-emacs-directory)))
+      (string-trim
+       (git-run "describe"
+                "--match=release\*"
+                "--abbrev=6"
+                "HEAD"))))
+
+  (defun org-release ()
+    "The release version of org-mode.
+Inserted by installing org-mode or when a release is made."
+    (require 'git)
+    (let ((git-repo (expand-file-name
+                     "straight/repos/org/" user-emacs-directory)))
+      (string-trim
+       (string-remove-prefix
+        "release_"
+        (git-run "describe"
+                 "--match=release\*"
+                 "--abbrev=0"
+                 "HEAD")))))
+
+  (provide 'org-version)
+  (straight-use-package 'org-plus-contrib)
+  (straight-use-package 'org)
+  )
+
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
-(require 'pallet)
+(require 'pallet "/home/matus/.emacs.d/.cask/26.1/elpa/pallet-20150512.702/pallet.elc")
 (pallet-mode t)
-(require 'use-package)
+(straight-use-package 'use-package)
 (setq use-package-verbose t)
 
 (defun my-where-am-i ()
@@ -104,19 +139,10 @@ There are %d customizable settings available."
   (require 'my-site-lisp-autoloads)
   (require 'my-advices)
   (require 'my-macros)
-  (require 'my-redef)
   (load "~/.emacs.d/site-lisp/vendor")
 
   ;; load keys
   (load "~/.emacs.d/files/keys"))
-
-;; load settings
-(my-with-elapsed-timer "Loading settings"
-  (load "~/.emacs.d/files/global")
-  (load "~/.emacs.d/files/mode-line")
-  (load "~/.emacs.d/files/tabs")
-  (when (eq system-type 'windows-nt)
-    (load "~/.emacs.d/files/windows")))
 
 ;; Customize
 (setq custom-file "~/.emacs.d/files/emacs-custom.el")
@@ -125,6 +151,16 @@ There are %d customizable settings available."
 ;; load config files
 (my-with-elapsed-timer "Loading vendor"
   (load "~/.emacs.d/files/vendor"))
+
+(require 'my-redef)
+
+;; load settings
+(my-with-elapsed-timer "Loading settings"
+  (load "~/.emacs.d/files/global")
+  (load "~/.emacs.d/files/mode-line")
+  (load "~/.emacs.d/files/tabs")
+  (when (eq system-type 'windows-nt)
+    (load "~/.emacs.d/files/windows")))
 
 (my-with-elapsed-timer "Loading personal"
   (load "~/.emacs.d/files/personal" :no-error))
