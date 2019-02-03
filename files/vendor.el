@@ -94,7 +94,9 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
   :after image-mode)
 
 ;; TODO: required by dired-tangled/defs, move it there
-(use-package make-it-so :straight t)
+(use-package make-it-so
+  :straight t
+  :defer t)
 
 (use-package ag
   :straight t
@@ -290,6 +292,7 @@ If no region is active, use word udner point."
 
 (use-package company
   :straight t
+  :defer t
   :config
   (add-to-list 'company-backends 'company-omnisharp)
 
@@ -485,7 +488,8 @@ and `my-compile-auto-fold-header-match-data'."
     (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)))
 
 (use-package crontab-mode
-  :straight t)
+  :straight t
+  :mode "crontab\\'")
 
 (use-package csharp-mode
   :straight t
@@ -638,21 +642,24 @@ and `my-compile-auto-fold-header-match-data'."
          ("C-x T % *" . dired-tagsistant-all-tags-regexp)))
 
 (use-package docker
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package docker-tramp
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package dockerfile-mode
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package dotenv-mode
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package easy-kill
   :straight t
-  :config
-  (bind-key [remap kill-ring-save] 'easy-kill))
+  :bind ([remap kill-ring-save] . easy-kill))
 
 (use-package ediff
   :bind ("C-. =" . hydra-ediff/body)
@@ -743,7 +750,8 @@ config from before."
   (bind-key "C-x C-s" 'edit-indirect-commit edit-indirect-mode-map))
 
 (use-package editorconfig
-  :straight t)
+  :straight t
+  :config (editorconfig-mode 1))
 
 (use-package eldoc
   :commands eldoc-mode
@@ -859,7 +867,8 @@ idle timer to do the actual update.")
       ("M-p" . shr-previous-link))))
 
 (use-package elpy
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package elxiki
   :defer t
@@ -963,7 +972,8 @@ idle timer to do the actual update.")
     (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)))
 
 (use-package exec-path-from-shell
-  :straight t)
+  :straight t
+  :commands exec-path-from-shell)
 
 (use-package expand-region
   :straight t
@@ -1010,22 +1020,26 @@ idle timer to do the actual update.")
   :bind (("M-V" . variable-pitch-mode)))
 
 (use-package feature-mode
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package fish-completion
   :straight t
   :if (executable-find "fish")
+  :after eshell
   :config (global-fish-completion-mode))
 
 (use-package fish-mode
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package gitignore-mode
   :straight t
   :mode ("\\.dockerignore" . 'gitignore-mode))
 
 (use-package gnuplot
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package grep
   :commands rgrep
@@ -1117,10 +1131,12 @@ use a directory-local variable to specify this per-project."
 
 (use-package flycheck-cask
   :straight t
+  :after flycheck
   :init (add-hook 'flycheck-mode-hook #'flycheck-cask-setup))
 
 (use-package flycheck-haskell
   :straight t
+  :after flycheck
   :init (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
 
 (use-package flycheck-ledger
@@ -1132,7 +1148,8 @@ use a directory-local variable to specify this per-project."
   :bind (("C-c C-v f" . fold-this)))
 
 (use-package fold-dwim
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package free-keys
   :commands free-keys)
@@ -2778,6 +2795,7 @@ Omitting FRAME means currently selected frame."
 
 (use-package typescript-mode
   :straight t
+  :defer t
   :config
   (bind-key "M-'" 'smart-jump-go typescript-mode-map)
   (bind-key "C-M-'" 'smart-jump-back typescript-mode-map)
