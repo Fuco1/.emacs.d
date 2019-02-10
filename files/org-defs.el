@@ -38,6 +38,8 @@
 
 (use-package elfeed-link)
 
+(use-package org-cliplink :straight t)
+
 (use-package org-clock
   :commands (
              org-clock-in
