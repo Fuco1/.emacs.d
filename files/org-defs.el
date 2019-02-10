@@ -971,12 +971,6 @@ properly aligned."
                           ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend))
                         'append)
 
-(defhydra my-org-refile-hydra (:color blue :hint nil)
-  "
-_k_b.org    _r_eading.org"
-  ("k" my-org-refile-kb)
-  ("r" my-org-refile-reading))
-
 (bind-keys :map org-mode-map
   ("TAB" . smart-tab)
   ("RET" . my-org-return)
@@ -988,8 +982,6 @@ _k_b.org    _r_eading.org"
   ("C-c C-x L" . org-toggle-link-display)
   ("C-c C-x w" . org-cut-subtree)
   ("C-c C-x y" . org-paste-subtree)
-  ("C-c R" . org-remove-occur-highlights)
-  ("C-c r" . my-org-refile-hydra/body)
   ("C-c k" . my-insert-key-in-org)
   ("C-c S" . org-table-sort-lines)
 
@@ -1397,20 +1389,6 @@ point and rebuild the agenda view."
 (defun my-org-verify-refile-target ()
   "Exclude todo keywords with a done state from refile targets"
   (not (member (nth 2 (org-heading-components)) org-done-keywords)))
-
-(defun my-org-refile-kb ()
-  "`org-refile' to kb.org"
-  (interactive)
-  (let ((org-refile-target-verify-function nil)
-        (org-refile-targets '(("~/data/documents/kb.org" :maxlevel . 9))))
-    (call-interactively 'org-refile)))
-
-(defun my-org-refile-reading ()
-  "`org-refile' to reading.org"
-  (interactive)
-  (let ((org-refile-target-verify-function nil)
-        (org-refile-targets '(("~/org/reading.org" :maxlevel . 9))))
-    (call-interactively 'org-refile)))
 
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords

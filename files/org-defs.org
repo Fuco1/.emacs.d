@@ -30,8 +30,11 @@ before we save an org buffer.
 :PROPERTIES:
 :ID:       bf1fa521-7730-4d63-9f79-b8c141c6ef2e
 :END:
+
+If we are looking at something resembling an org-table assume we are
+getting an an =org-mode= file.
+
 #+BEGIN_SRC elisp
-;; If we are looking at something resembling an org-table
 (add-to-list 'magic-mode-alist `(,(rx (* white)
                                       "|"
                                       (or (and (* white) (+ alpha))
@@ -39,7 +42,8 @@ before we save an org buffer.
                                  . org-mode))
 #+END_SRC
 
-* Replace refile target picking with a sallet
+* Refiling workflows
+** Replace refile target picking with a sallet
 :PROPERTIES:
 :ID:       4b5484fb-0fcb-4ae9-89cc-19bccad8fc40
 :END:
@@ -80,7 +84,7 @@ This is a hack: sallet can't take an argument on creation.")
 
 
 #+END_SRC
-* DONE Automatically remove inherited tags from tasks after refiling :published:
+** Automatically remove inherited tags from tasks after refiling     :published:
   CLOSED: [2017-05-09 Tue 19:12]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-09-Automatically-remove-inherited-tags-from-tasks-after-refiling
@@ -136,9 +140,97 @@ So there is the problem, fortunately nothing a little bit of hacking can't solve
 The function also showcases work with the org tag API which I personally find rather confusing (the naming seems to have been invented on the fly because it doesn't make sense half the time).
 
 I also wanted to add the functionality to preserve the inherited tags from the original position so that refiling would be tag-neutral operation.  But that actually proved rather annoying because the point of refiling under a differnet hierarchy is to /not/ have the same tags... otherwise why would you refile at all.
+** Refiling hydra with pre-defined targets                           :published:
+:PROPERTIES:
+:BLOG_FILENAME: 2019-02-10-Refiling-hydra-with-pre-defined-targets
+:PUBDATE:  [2019-02-10 Sun 13:52]
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2019-02-10 Sun 13:52]
+:END:
+:CLOCK:
+CLOCK: [2019-02-10 Sun 13:17]--[2019-02-10 Sun 14:06] =>  0:49
+:END:
 
-* Nicer fontification
-** DONE Fontify done checkbox items in org-mode                      :published:
+I'm a heavy =org-capture= user and I use about 10 templates to save the
+ideas/tasks to appropriate places (work / life / emacs / other
+projects / reading...).  Sometimes, however, it is quite difficult to
+determine at the time of capture where to put the note, or it would
+take a lot of time to categorize properly... or sometimes I'm just
+lazy.  For these situations I use a general =refile.org= file.  Anything
+I don't want to deal with right now goes there.
+
+Then I often end up with 200+ notes in this file and I have to deal
+with it somehow during my weekly reviews.  Many items I simply delete,
+but some I refine and then refile away to where they belong.
+
+I use about 10 huge org files to store my data and simply calling
+=org-refile= is very slow and the number of targets grows into tens of
+thousands which makes the experience sub-optimal.
+
+I've written a simple Elisp =defmacro= to generate specialized versions
+of =org-refile= where I can limit the targets to one file or a subset of
+files.  This is done by =let=-binding =org-refine-targets= variable and
+then calling =org-refile=---it will pick up the new setting.  I also
+automatically clear the cache because during this process I often add
+or move headlines around and the cache is most of the time stale.  In
+practice it's not a problem because refiling to just one file is
+fast-enough to rebuild the cache on-the-go.
+
+#+begin_src elisp
+(defmacro my-org-make-refile-command (fn-suffix refile-targets)
+  "Generate a command to call `org-refile' with modified targets."
+  `(defun ,(intern (concat "my-org-refile-" (symbol-name fn-suffix))) ()
+     ,(format "`org-refile' to %S" refile-targets)
+     (interactive)
+     (org-refile-cache-clear)
+     (let ((org-refile-target-verify-function nil)
+           (org-refile-targets ,refile-targets))
+       (call-interactively 'org-refile))))
+#+end_src
+
+It's quite straight-forward, we have a =defun= skeleton and we splice
+the name and the target there.  The expansion looks like this
+
+#+begin_src elisp :tangle no
+(my-org-make-refile-command kb '(("~/data/documents/kb.org" :maxlevel . 9)))
+
+;; expands to
+
+(defun my-org-refile-kb nil
+  "`org-refile' to (quote ((\"~/data/documents/kb.org\" :maxlevel . 9)))"
+  (interactive)
+  (org-refile-cache-clear)
+  (let
+      ((org-refile-target-verify-function nil)
+       (org-refile-targets
+        '(("~/data/documents/kb.org" :maxlevel . 9))))
+    (call-interactively 'org-refile)))
+#+end_src
+
+Throw in a cool [[https://github.com/abo-abo/hydra][hydra]] and you're all set!
+
+#+begin_src elisp
+(my-org-make-refile-command kb '(("~/data/documents/kb.org" :maxlevel . 9)))
+(my-org-make-refile-command reading '(("~/org/reading.org" :maxlevel . 9)))
+(my-org-make-refile-command this-file `((,(buffer-file-name) :maxlevel . 9)))
+
+(defhydra my-org-refile-hydra (:color blue :hint nil)
+  "
+_t_his file
+
+Special files:
+---------------------
+_k_b.org    _r_eading.org"
+  ("k" my-org-refile-kb)
+  ("r" my-org-refile-reading)
+  ("t" my-org-refile-this-file))
+
+(bind-key "C-c r" #'my-org-refile-hydra/body org-mode-map)
+#+end_src
+
+* font-lock hacks and improvements
+** Fontify done checkbox items in org-mode                           :published:
   CLOSED: [2017-05-25 Thu 00:10]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-05-25-Fontify-done-checkbox-items-in-org-mode
@@ -201,7 +293,49 @@ Here's how it looks (list shortened for clarity):
 
 I stole the regexp from [[https://github.com/hlissner/.emacs.d/blob/master/modules/lang/org/config.el][hlissner's emacs.d]] who apparently came to the same conclusion.  It's a rather nice collection of stuff so check it out, but be warned, it is /super/ idiosyncratic... which in Emacs translation basically means awesome :)
 
-* DONE Use org-radiobutton to select an option from a list           :published:
+** Multiline fontification with org-emphasis-alist                   :published:
+CLOSED: [2018-12-23 Sun 18:24]
+:PROPERTIES:
+:ID:       cce8be67-e8d8-45ab-9d02-8a8ddfdcfb40
+:BLOG_FILENAME: 2018-12-23-Multiline-fontification-with-org-emphasis-alist
+:PUBDATE:  [2018-12-23 Sun 18:24]
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2018-12-23 Sun 18:24]
+:END:
+:CLOCK:
+CLOCK: [2018-12-23 Sun 18:15]--[2018-12-23 Sun 18:24] =>  0:09
+:END:
+
+By default org mode only fontifies spans of text wrapped in emphasis
+markers (customized with =org-emphasis-alist=) if they extend through at
+most one newline.  This is probably a performance optimization, one
+wholly unnecessary on modern hardware.
+
+As per this [[https://emacs.stackexchange.com/questions/18101/org-mode-multi-line-emphasis-and-bold][stack overflow]] post I re-set the constant to 10 lines and
+can probably even increase it if necessary.
+
+#+BEGIN_SRC elisp
+(setcar (nthcdr 4 org-emphasis-regexp-components) 10)
+#+END_SRC
+
+Before this starts to work you need to re-save =org-emphasis-alist=
+through the customize interface because it is using a custom setter
+=org-set-emph-re= to compute the regexpses (or, /*gulp*/, restart Emacs).
+
+Here I quote the answer in case it ever gets lost:
+
+#+BEGIN_SRC markdown
+By default, org-mode allows a single newline. So if you want to be
+able to add markup to text that spans more than two consecutive lines,
+you'll need to modify this entry.
+
+    (setcar (nthcdr 4 org-emphasis-regexp-components) N)
+
+... where N is the number of newlines you want to allow.
+#+END_SRC
+
+* Use org-radiobutton to select an option from a list                :published:
 CLOSED: [2018-03-11 Sun 15:50]
 :PROPERTIES:
 :BLOG_FILENAME: 2018-03-11-Use-org-radiobutton-to-select-an-option-from-a-list
@@ -335,50 +469,8 @@ db.webhookLogs.find({endpoint: "AddCustomer"}).sort({_id: -1}).limit(1)
 I'm going over all of my notebooks converting all the ugly option
 hacks to this setup and it is so damn pleasing! :D
 
-* DONE Multiline fontification with org-emphasis-alist               :published:
-CLOSED: [2018-12-23 Sun 18:24]
-:PROPERTIES:
-:ID:       cce8be67-e8d8-45ab-9d02-8a8ddfdcfb40
-:BLOG_FILENAME: 2018-12-23-Multiline-fontification-with-org-emphasis-alist
-:PUBDATE:  [2018-12-23 Sun 18:24]
-:END:
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2018-12-23 Sun 18:24]
-:END:
-:CLOCK:
-CLOCK: [2018-12-23 Sun 18:15]--[2018-12-23 Sun 18:24] =>  0:09
-:END:
-
-By default org mode only fontifies spans of text wrapped in emphasis
-markers (customized with =org-emphasis-alist=) if they extend through at
-most one newline.  This is probably a performance optimization, one
-wholly unnecessary on modern hardware.
-
-As per this [[https://emacs.stackexchange.com/questions/18101/org-mode-multi-line-emphasis-and-bold][stack overflow]] post I re-set the constant to 10 lines and
-can probably even increase it if necessary.
-
-#+BEGIN_SRC elisp
-(setcar (nthcdr 4 org-emphasis-regexp-components) 10)
-#+END_SRC
-
-Before this starts to work you need to re-save =org-emphasis-alist=
-through the customize interface because it is using a custom setter
-=org-set-emph-re= to compute the regexpses (or, /*gulp*/, restart Emacs).
-
-Here I quote the answer in case it ever gets lost:
-
-#+BEGIN_SRC markdown
-By default, org-mode allows a single newline. So if you want to be
-able to add markup to text that spans more than two consecutive lines,
-you'll need to modify this entry.
-
-    (setcar (nthcdr 4 org-emphasis-regexp-components) N)
-
-... where N is the number of newlines you want to allow.
-#+END_SRC
-
 * Org protocol
-** DONE Maximize the org-capture buffer                              :published:
+** Maximize the org-capture buffer                                   :published:
   CLOSED: [2017-09-02 Sat 22:02]
   :PROPERTIES:
   :BLOG_FILENAME: 2017-09-02-Maximize-the-org-capture-buffer
@@ -473,7 +565,7 @@ With these tweaks the whole capture experience is much more streamlined for me. 
 #+END_SRC
 
 * Logging
-** DONE Use the input method from original org buffer in log note buffer :published:
+** Use the input method from original org buffer in log note buffer  :published:
 CLOSED: [2019-01-23 Wed 08:46]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-23-Use-the-input-method-from-original-org-buffer-in-log-note-buffer
@@ -535,7 +627,7 @@ I've guessed and it all worked flawlessly.  Nice!
 Of course, I've spent thousands of hours learning Elisp, so I'm not
 sure where or when the time/productivity curves actually crossed.
 
-* Goals, journaling and progress tracking with org-mode
+* TODO Goals, journaling and progress tracking with org-mode
 :PROPERTIES:
 :ID:       ce89e3ef-dddb-4f31-8f11-f3cc0f89d64a
 :END:
@@ -870,7 +962,7 @@ really).  You can use babel and a bit of =R= magic to generate graphs
 and plots and all sorts of other useful things.  Remember kids, data
 is awesome!
 
-* Continous clocking
+* TODO Continous clocking
 
 *************** TODO Write some description about the workflow here
 *************** END
@@ -918,7 +1010,77 @@ as the default task."
 (add-hook 'org-clock-out-hook 'my-org-clock-out-maybe 'append)
 #+END_SRC
 
-* DONE Make agenda clockreport respect =org-extend-today-until=        :published:
+* Org mode and google calendar sync                                  :published:
+:PROPERTIES:
+:BLOG_FILENAME: 2019-02-02-Org-mode-and-google-calendar-sync
+:PUBDATE:  [2019-02-02 Sat 13:54]
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2019-02-02 Sat 13:54]
+:END:
+:CLOCK:
+CLOCK: [2019-02-02 Sat 13:38]--[2019-02-02 Sat 13:53] =>  0:15
+:END:
+
+As a contractor working for multiple clients I juggle many projects
+and meetings all the time.  Fortunately for me, there is [[https://orgmode.org/][orgmode]].
+Unfortunately, my clients have not yet learned to appreciate its
+merits.  Fortunately though, they all use the GSuite platform from
+Google, which means agendas are planned in Google Calendars.
+
+So I finally bit the bullet and decided to integrate Google Calendar
+into my org agenda.  I didn't have to go a long way before finding
+[[https://github.com/kidd/org-gcal.el][org-gcal.el]].
+
+My setup is taken mostly from [[https://cestlaz.github.io/posts/using-emacs-26-gcal/][Using Emacs - 26 - Google Calendar, Org
+Agenda]] by the amazing Mike Zamansky.  One difference from Mike's setup
+is that I'm using a single-way sync only, that is I only fetch from
+google calendar and do not publish anything.
+
+The reason is that I use multiple calendars (I basically have a google
+account at every company I work for plus a personal calendar) and the
+workflow with events and inviting myself from one calendar to another
+as attendees is too complex and fragile to trust some automated tool.
+And I can not afford my calendars to break.
+
+#+NAME: gcal-secret
+#+BEGIN_SRC text :exports none
+U5Bt-J2y7Vm69dEcRNkBLapE
+#+END_SRC
+
+#+BEGIN_SRC elisp :noweb no-export
+(use-package org-gcal
+  :straight t
+  :after org
+  :config
+  (setq org-gcal-client-id "781554523097-ocjovnfpqgtpoc4qv7ubr8c679t96bv7.apps.googleusercontent.com"
+        org-gcal-client-secret "<<gcal-secret>>"
+        org-gcal-file-alist '(("matus.goljer@gmail.com" . "~/org/gcal.org"))
+        org-gcal-header-alist '(("matus.goljer@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"pink\"\n"))
+        org-gcal-auto-archive nil
+        org-gcal-notify-p nil)
+
+  (add-hook 'org-agenda-mode-hook 'org-gcal-fetch)
+  (add-hook 'org-capture-after-finalize-hook 'org-gcal-fetch))
+#+END_SRC
+
+I'm also using [[https://github.com/Fuco1/org-timeline][org-timeline]] so I add some extra header arguments to
+the generated file to add a different color to the Google Calendar
+entries.
+
+* Org agenda
+** TODO Fontify agenda items based on category
+#+begin_src elisp
+(defun my-org-agenda-shadow-gcal ()
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^  gcal:.*$" nil t)
+      (add-face-text-property
+       (match-beginning 0) (match-end 0) 'shadow))))
+
+(add-hook 'org-agenda-finalize-hook #'my-org-agenda-shadow-gcal 'append)
+#+end_src
+** Make agenda clockreport respect =org-extend-today-until=            :published:
 CLOSED: [2019-01-03 Thu 20:49]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-03-Make-agenda-clockreport-respect-=org-extend-today-until=
@@ -988,64 +1150,6 @@ package which draws a visual representation of all the
 scheduled/clocked items (see README for visuals).  I'll make sure it
 respects this setting as well.  So far I've instinctively set it to
 start drawing at 5:00.
-
-* Org mode and google calendar sync                                  :published:
-:PROPERTIES:
-:BLOG_FILENAME: 2019-02-02-Org-mode-and-google-calendar-sync
-:PUBDATE:  [2019-02-02 Sat 13:54]
-:END:
-:LOGBOOK:
-- State "DONE"       from              [2019-02-02 Sat 13:54]
-:END:
-:CLOCK:
-CLOCK: [2019-02-02 Sat 13:38]--[2019-02-02 Sat 13:53] =>  0:15
-:END:
-
-As a contractor working for multiple clients I juggle many projects
-and meetings all the time.  Fortunately for me, there is [[https://orgmode.org/][orgmode]].
-Unfortunately, my clients have not yet learned to appreciate its
-merits.  Fortunately though, they all use the GSuite platform from
-Google, which means agendas are planned in Google Calendars.
-
-So I finally bit the bullet and decided to integrate Google Calendar
-into my org agenda.  I didn't have to go a long way before finding
-[[https://github.com/kidd/org-gcal.el][org-gcal.el]].
-
-My setup is taken mostly from [[https://cestlaz.github.io/posts/using-emacs-26-gcal/][Using Emacs - 26 - Google Calendar, Org
-Agenda]] by the amazing Mike Zamansky.  One difference from Mike's setup
-is that I'm using a single-way sync only, that is I only fetch from
-google calendar and do not publish anything.
-
-The reason is that I use multiple calendars (I basically have a google
-account at every company I work for plus a personal calendar) and the
-workflow with events and inviting myself from one calendar to another
-as attendees is too complex and fragile to trust some automated tool.
-And I can not afford my calendars to break.
-
-#+NAME: gcal-secret
-#+BEGIN_SRC text :exports none
-U5Bt-J2y7Vm69dEcRNkBLapE
-#+END_SRC
-
-#+BEGIN_SRC elisp :noweb no-export
-(use-package org-gcal
-  :straight t
-  :after org
-  :config
-  (setq org-gcal-client-id "781554523097-ocjovnfpqgtpoc4qv7ubr8c679t96bv7.apps.googleusercontent.com"
-        org-gcal-client-secret "<<gcal-secret>>"
-        org-gcal-file-alist '(("matus.goljer@gmail.com" . "~/org/gcal.org"))
-        org-gcal-header-alist '(("matus.goljer@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"pink\"\n"))
-        org-gcal-auto-archive nil
-        org-gcal-notify-p nil)
-
-  (add-hook 'org-agenda-mode-hook 'org-gcal-fetch)
-  (add-hook 'org-capture-after-finalize-hook 'org-gcal-fetch))
-#+END_SRC
-
-I'm also using [[https://github.com/Fuco1/org-timeline][org-timeline]] so I add some extra header arguments to
-the generated file to add a different color to the Google Calendar
-entries.
 
 * Backmatter
 :PROPERTIES:
