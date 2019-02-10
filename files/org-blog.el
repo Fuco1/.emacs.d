@@ -158,7 +158,11 @@ do not run `org-publish'."
         (my-org-publish :dont-publish)))))
 
 (defun my-org-publish-rss (project &optional sitemap-filename)
-  (prog1 (org-publish-sitemap-default project sitemap-filename)
+  (prog1 (org-publish-sitemap-default
+          project
+          (--reject
+           (ignore-errors (string-match-p "file:rss\\.org" (car-safe it)))
+           sitemap-filename))
     (let* ((base (my-org-publish-property "blog-rss" :base-directory))
            (link-home (my-org-publish-property "blog-rss" :html-link-home))
            (posts (f-entries base
