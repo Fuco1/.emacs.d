@@ -2582,11 +2582,11 @@ separate buffer."
 
 (use-package shell-pop
   :bind ("<f11>" . shell-pop)
-  :init
-  (progn
-    (setq shell-pop-autocd-to-working-dir t)
-    (setq shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
-    (setq shell-pop-window-height 50)))
+  :custom
+  (shell-pop-window-size 50)
+  (shell-pop-autocd-to-working-dir t)
+  (shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
+  (shell-pop-window-height 50))
 
 ;; TODO: move the registers to the respective modes
 (use-package smart-jump
