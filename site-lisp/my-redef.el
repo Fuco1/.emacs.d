@@ -844,8 +844,8 @@ Signals an error if the file content is not available and it was not retrieved."
               (path-relative (file-relative-name path)))
          (when (and (org-attach-use-annex)
                     (not
-                     (string-equal
-                      (el-patch-swap "found" "\nfound")
+                     ((el-patch-swap string-equal string-match-p)
+                      (el-patch-swap "found" (regexp-opt '("\nfound" "")))
                       (shell-command-to-string
                        (format "git annex find --format=found --in=here %s"
                                (shell-quote-argument path-relative))))))
