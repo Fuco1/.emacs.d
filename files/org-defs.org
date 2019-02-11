@@ -1014,6 +1014,7 @@ as the default task."
 :PROPERTIES:
 :BLOG_FILENAME: 2019-02-02-Org-mode-and-google-calendar-sync
 :PUBDATE:  [2019-02-02 Sat 13:54]
+:ID:       44b75f55-7830-4338-8a40-446a2646eda7
 :END:
 :LOGBOOK:
 - State "DONE"       from              [2019-02-02 Sat 13:54]
@@ -1055,13 +1056,28 @@ U5Bt-J2y7Vm69dEcRNkBLapE
   :config
   (setq org-gcal-client-id "781554523097-ocjovnfpqgtpoc4qv7ubr8c679t96bv7.apps.googleusercontent.com"
         org-gcal-client-secret "<<gcal-secret>>"
-        org-gcal-file-alist '(("matus.goljer@gmail.com" . "~/org/gcal.org"))
-        org-gcal-header-alist '(("matus.goljer@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"pink\"\n"))
+        org-gcal-file-alist
+        '(
+          ("matus.goljer@gmail.com" . "~/org/gcal-p.org")
+          ("goljer@logio.cz" . "~/org/gcal-l.org")
+          ("matus@saleschamp.nl" . "~/org/gcal-s.org")
+          )
+        org-gcal-header-alist
+        '(
+          ("matus.goljer@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"#729fcf\"\n")
+          ("goljer@logio.cz" . "#+PROPERTY: TIMELINE_FACE \"#8ae234\"\n")
+          ("matus@saleschamp.nl" . "#+PROPERTY: TIMELINE_FACE \"#ff4b4b\"\n")
+          )
         org-gcal-auto-archive nil
         org-gcal-notify-p nil)
 
-  (add-hook 'org-agenda-mode-hook 'org-gcal-fetch)
-  (add-hook 'org-capture-after-finalize-hook 'org-gcal-fetch))
+  (defun my-org-gcal-fetch ()
+    (ignore-errors (org-gcal-fetch)))
+
+  (add-hook 'org-agenda-mode-hook 'my-org-gcal-fetch)
+  (add-hook 'org-capture-after-finalize-hook 'my-org-gcal-fetch))
+
+
 #+END_SRC
 
 I'm also using [[https://github.com/Fuco1/org-timeline][org-timeline]] so I add some extra header arguments to
@@ -1074,9 +1090,19 @@ entries.
 (defun my-org-agenda-shadow-gcal ()
   (save-excursion
     (goto-char (point-min))
-    (while (re-search-forward "^  gcal:.*$" nil t)
+    (while (re-search-forward "^  gcal-p:.*$" nil t)
       (add-face-text-property
-       (match-beginning 0) (match-end 0) 'shadow))))
+       (match-beginning 0) (match-end 0) '(:foreground "#729fcf"))))
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^  gcal-l:.*$" nil t)
+      (add-face-text-property
+       (match-beginning 0) (match-end 0) '(:foreground "#8ae234"))))
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^  gcal-s:.*$" nil t)
+      (add-face-text-property
+       (match-beginning 0) (match-end 0) '(:foreground "#ff4b4b")))))
 
 (add-hook 'org-agenda-finalize-hook #'my-org-agenda-shadow-gcal 'append)
 #+end_src
