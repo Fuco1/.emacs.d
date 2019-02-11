@@ -2987,7 +2987,11 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
          ("A-s" . whitaker-jump)))
 
 (use-package whitespace
-  :bind (("M-W" . whitespace-mode)))
+  :bind (("M-W" . whitespace-mode))
+  :custom
+  (whitespace-style
+   (quote
+    (face trailing tabs spaces lines-tail newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark))))
 
 (use-package wiktionary-translate
   :bind ("<insert> <delete>" . wd-show-translation))
