@@ -1396,7 +1396,7 @@ point and rebuild the agenda view."
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "BILL(b)" "|" "DONE(d!)" "MOVE(m@)" "FAIL(f@)")
-        (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "STOP(s@/!)")
+        (sequence "WAIT(w@/@)" "HOLD(h@/@)" "|" "STOP(s@/@)")
         (sequence "|" "IDEA(i)")))
 
 ;; TODO: move faces to theme
