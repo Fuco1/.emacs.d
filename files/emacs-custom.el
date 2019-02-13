@@ -1998,6 +1998,8 @@
      (Man-mode :select t :inhibit-window-quit t :same t)
      ("\\*ag search" :regexp t :inhibit-window-quit t :same t)
      (messages-buffer-mode :select t :inhibit-window-quit t :same t)
+     (swb-result-mode :align
+       (quote below))
      ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t))))
  '(shell-file-name "/bin/bash")
  '(shell-pop-restore-window-configuration nil)
