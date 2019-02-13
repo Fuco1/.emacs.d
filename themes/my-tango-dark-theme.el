@@ -492,6 +492,7 @@ respective major mode.  Think org SRC blocks.")
    (org-list-dt (:inherit (markup-list-ordered fixed-pitch)))
    (org-checkbox (:inherit org-list-dt))
 
+   (org-agenda-restriction-lock (:background alum-6.5))
    ;; Textile
    (textile-h1-face (:inherit markup-header-1))
    (textile-h2-face (:inherit markup-header-2))
