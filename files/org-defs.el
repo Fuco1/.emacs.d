@@ -278,6 +278,7 @@
   :defer t
   :config
   (use-package org-timeline
+    :straight (:repo "git@github.com:Fuco1/org-timeline.git")
     :config
     (progn
       (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)))
