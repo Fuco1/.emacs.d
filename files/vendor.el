@@ -2073,6 +2073,10 @@ by that command."
       :config
       (use-package lsp-ui
         :straight t)
+
+      (require 'lsp-clients)
+      (add-hook 'php-mode-hook #'lsp)
+
       (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
       (bind-key "M-'" 'smart-jump-go php-mode-map)
@@ -2423,11 +2427,10 @@ These are retrieved from `imenu--index-alist'."
         (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name))))
 
       (setq-local lsp-enable-completion-at-point nil)
-      (setq-local lsp-enable-eldoc nil)
-      (lsp-php-enable)
+      (lsp-ui-sideline-mode -1)
 
       (eldoc-mode 1))
-    (add-hook 'php-mode-hook 'my-php-mode-init)))
+    (add-hook 'php-mode-hook 'my-php-mode-init 'append)))
 
 (use-package popwin
   :commands popwin-mode
