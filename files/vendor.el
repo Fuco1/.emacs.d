@@ -1381,10 +1381,12 @@ use a directory-local variable to specify this per-project."
                     :fork (:repo "git@github.com:Fuco1/jira-markup-mode.git")))
 
 (use-package js2-mode
+  :straight t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.js\\.snap\\'" . js2-mode))
   :config
   (progn
+    (use-package js2-refactor :straight t)
     (bind-key "C-c C-m"
               (defhydra js2-refactor-hydra (:color blue :hint nil)
                 "
@@ -1457,7 +1459,8 @@ use a directory-local variable to specify this per-project."
       (when (equal (flow-minor-jump-to-definition) "Not found")
         (dumb-jump-go)))
 
-    (use-package flow-js2-mode)
+    (use-package flow-js2-mode
+      :straight (:repo "git@github.com:Fuco1/flow-js2-mode.git"))
 
     (defun my-eslint-fix ()
       "Fix the current buffer with eslint."
@@ -1832,6 +1835,7 @@ If in the test file, visit source."
     (add-hook 'malabar-mode-hook 'my-malabar-setup)))
 
 (use-package markdown-mode
+  :straight t
   :mode ("\\.md$" . gfm-mode)
   :config
   (progn
@@ -1887,6 +1891,7 @@ delete it and re-insert new one."
   (add-hook 'message-setup-hook 'my-message-gnus-alias-init))
 
 (use-package multiple-cursors
+  :straight t
   :bind (("C-c C-S-c" . mc/edit-lines)
          ("s-\\" . mc/mark-more-like-this-extended)
          ("s-=" . mc/mark-all-like-this-dwim)
@@ -2057,6 +2062,11 @@ by that command."
     (use-package nette-tester)
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
+
+    (use-package ob-php
+      :straight
+      (ob-php :repo "https://framagit.org/steckerhalter/ob-php.git"
+              :fork (:repo "git@github.com:Fuco1/ob-php.git")))
 
     (use-package lsp-mode
       :straight t
@@ -2589,6 +2599,24 @@ separate buffer."
         ("C-c C-f" . sp-html-next-tag)
         ("C-c C-b" . sp-html-previous-tag)))
     (add-hook 'html-mode-hook 'my-html-mode-setup)))
+
+(use-package shackle
+  :straight t
+  :custom
+  (shackle-rules
+   '(
+     ("*Help*" :select t)
+     ("[0-9]\\{5\\}/.*\\.php" :regexp t :select t :inhibit-window-quit t :same t :popup nil)
+     ("magit-log\\(-popup\\)?" :regexp t :select t :inhibit-window-quit t :same t)
+     ("\\`\\*?magit:" :regexp t :select t :inhibit-window-quit t :same t)
+     (Man-mode :select t :inhibit-window-quit t :same t)
+     ("\\*ag search" :regexp t :inhibit-window-quit t :same t)
+     (messages-buffer-mode :select t :inhibit-window-quit t :same t)
+     (swb-result-mode :align 'below)
+     ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t)
+     ))
+  :config
+  (shackle-mode 1))
 
 (use-package shell-pop
   :bind ("<f11>" . shell-pop)
