@@ -3,6 +3,8 @@
 (source "melpa-stable" "http://stable.melpa.org/packages/")
 (source org)
 
+(files "init.el" "files/*.el" "site-lisp/*.el")
+
 (depends-on "assess")
 (depends-on "auctex")
 (depends-on "buttercup")
@@ -79,3 +81,7 @@
 (depends-on "yaml-mode")
 (depends-on "yarn-mode")
 (depends-on "yasnippet")
+
+(development
+ (depends-on "elsa")
+ (depends-on "trinary"))
