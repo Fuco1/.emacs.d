@@ -1520,6 +1520,34 @@ use a directory-local variable to specify this per-project."
   :config
   (add-to-list 'magic-mode-alist `(,(rx buffer-start (? "[") "{\"") . json-mode))
 
+  (defun my-check-string-json-p (&optional string)
+    "Check if STRING represents valid json object.
+
+If no STRING is specified, try to read the string at point."
+    (setq string (or string (save-excursion
+                              (goto-char (point-min))
+                              (ignore-errors (read (current-buffer))))))
+    (and (stringp string)
+         (json-read-from-string string)))
+
+  (defun my-read-json-and-json-mode (&optional string)
+    "Read json from STRING and insert it into current buffer.
+
+If no STRING is specified, try to read the string at point and
+replace it with the resulting json object."
+    (let ((replace nil))
+      (setq string (or string (prog1 (save-excursion
+                                       (goto-char (point-min))
+                                       (ignore-errors (read (current-buffer))))
+                                (setq replace t))))
+      (when replace
+        (goto-char (point-min))
+        (delete-region (point) (save-excursion (forward-sexp) (point))))
+      (insert (json-encode (json-read-from-string string)))
+      (json-mode)))
+
+  (add-to-list 'magic-fallback-mode-alist '(my-check-string-json-p . my-read-json-and-json-mode))
+
   (defvar my-json-mode-run-jq-history nil)
   (defun my-json-mode-run-jq (query &optional arg)
     "Run jq(1) on current buffer.
