@@ -2879,7 +2879,20 @@ Omitting FRAME means currently selected frame."
     ;; aligns annotation to the right hand side
     (setq company-tooltip-align-annotations t))
 
+  (defun my-tslint-fix ()
+    "Fix the current buffer with tslint."
+    (interactive)
+    (when (and flycheck-typescript-tslint-executable
+               (buffer-file-name)
+               (--any? (eq (flycheck-error-checker it) 'typescript-tslint) flycheck-current-errors))
+      (message "Fixing buffer: tslint --fix %s" (buffer-file-name))
+      (call-process
+       flycheck-typescript-tslint-executable
+       nil "*my-tslint errors*" nil "--fix" (buffer-file-name))
+      (revert-buffer t t t)))
+
   (defun my-typescript-mode-setup ()
+    (add-hook 'after-save-hook 'my-tslint-fix nil 'local)
     (-when-let (root (locate-dominating-file (buffer-file-name) "tslint.json"))
       (setq-local
        flycheck-typescript-tslint-executable
