@@ -1066,6 +1066,11 @@ idle timer to do the actual update.")
 
 (defvar-local flycheck-error-indicators nil)
 
+(use-package find-test
+  :straight (:repo "git@github.com:Fuco1/find-test.git")
+  :config
+  (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map))
+
 (use-package flycheck
   :straight t
   :commands flycheck-mode
@@ -1446,7 +1451,6 @@ use a directory-local variable to specify this per-project."
                (buffer-substring-no-properties beg end))))
 
     (bind-key "C-c C-c" 'mocha-test-file js2-mode-map)
-    (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)
     (bind-key "M-'" 'dumb-jump-go js2-mode-map)
     (bind-key "C-M-'" 'dumb-jump-back js2-mode-map)
     (bind-key "M-." 'sallet-imenu js2-mode-map)
@@ -1906,7 +1910,6 @@ delete it and re-insert new one."
   :config
   (use-package yaml-mode)
   (sp-local-pair 'neon-mode "%" "%" :unless '(sp-in-comment-p))
-  (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map)
   (defun my-neon-mode-init ()
     (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
     (setq-local font-lock-extra-managed-props '(syntax-table))
@@ -2058,7 +2061,6 @@ by that command."
     (use-package php-eldoc
       :straight t)
     (use-package php-refactor)
-    (use-package find-test)
     (use-package nette-tester)
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
@@ -2178,7 +2180,6 @@ network prefix)."
           (setq-local compilation-search-path search-path))))
 
     (bind-key "C-c C-c" 'my-php-compile php-mode-map)
-    (bind-key "C-c C-t" 'ft-find-test-or-source php-mode-map)
 
     (defun my-php-run ()
       "Run all Nette tests found in current directory."
