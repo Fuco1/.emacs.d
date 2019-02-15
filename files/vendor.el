@@ -2879,6 +2879,17 @@ Omitting FRAME means currently selected frame."
     ;; aligns annotation to the right hand side
     (setq company-tooltip-align-annotations t))
 
+  (defun my-ts-console-log (symbol)
+    (interactive (list
+                  (if (use-region-p)
+                      (buffer-substring-no-properties (region-beginning) (region-end))
+                    (tide-get-symbol-at-point))))
+    (save-excursion
+      (my-open-line)
+      (insert (s-lex-format "console.log(\"${symbol} = \", JSON.stringify(${symbol}, null, 4))"))))
+
+  (bind-key "C-c C-m l t" 'my-ts-console-log typescript-mode-map)
+
   (defun my-tslint-fix ()
     "Fix the current buffer with tslint."
     (interactive)
