@@ -2677,14 +2677,7 @@ separate buffer."
      :heuristic 'error
      :async nil)
 
-    (smart-jump-register
-     :modes 'tide-mode
-     :jump-fn 'tide-jump-to-definition
-     :pop-fn 'tide-jump-back
-     :refs-fn 'tide-references
-     :should-jump t
-     :heuristic 'point
-     :async t)
+    (smart-jump-typescript-mode-register)
 
     (smart-jump-register
      :modes 'php-mode
