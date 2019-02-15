@@ -1717,9 +1717,9 @@ called, percentage usage and the command."
          ("C-c m C-f" . magit-find-file)
          )
   :config
-  (progn
-    (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
-    (require 'flyspell)))
+  (magit-auto-revert-mode 1)
+  (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
+  (require 'flyspell))
 
 (use-package malabar-mode
   :mode "\\.java\\'"
