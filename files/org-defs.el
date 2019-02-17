@@ -993,7 +993,9 @@ properly aligned."
   ("C-x n N" . my-org-narrow-to-subtree)
   ("C-x n W" . my-org-widen)
 
-  ("C-c TAB" . org-mark-ring-goto)
+  ("C-c C-=" . org-open-at-point)
+  ("M-'" . my-org-open-at-point)
+  ("C-M-'" . org-mark-ring-goto)
 
   ("C-c C-S-n" . my-org-add-sibling)
   ("C-c C-n" . outline-next-visible-heading)
@@ -1014,18 +1016,19 @@ Will work on both org-mode and any mode that accepts plain html."
       (insert (format tag ""))
       (forward-char (if orgp -1 -6)))))
 
-(defun my-org-open-at-point (&optional arg)
-  "Just like `org-open-at-point', but open link in this window."
-  (interactive "P")
-  (if (equal arg '(16))
-      (org-open-at-point arg)
-    (let ((current-prefix-argument nil))
-      (if arg
-          (org-open-at-point '(4))
-        (let ((org-link-frame-setup (acons 'file 'find-file org-link-frame-setup)))
-          (org-open-at-point '(4)))))))
-(bind-key "C-c C-o" 'my-org-open-at-point org-mode-map)
-(bind-key "C-c C-=" 'org-open-at-point org-mode-map)
+(defun my-org-open-at-point ()
+  "Just like `org-open-at-point', but open link in this window.
+
+If there is no link on point, call `org-next-link'."
+  (interactive)
+  (let ((current-prefix-argument nil)
+        (org-link-frame-setup (acons 'file 'find-file org-link-frame-setup)))
+    (condition-case err
+        (org-open-at-point '(4))
+      (user-error
+       (progn
+         (unless (stringp (org-next-link))
+           (my-org-open-at-point)))))))
 
 (defun my-goto-current-clocked-task ()
   (interactive)
