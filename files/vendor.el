@@ -2050,6 +2050,22 @@ by that command."
     ("p" . occur-prev)
     ("o" . occur-mode-display-occurrence)))
 
+(use-package sallet
+  :straight (:repo "git@github.com:Fuco1/sallet.git")
+  :bind (("C-. C-." . helm-occur)
+         ("C-'" . csallet-buffer)
+         ("H-b". sallet-register-point)
+         ("M-.". sallet-imenu))
+  :config
+  (progn
+    (require 'sallet-concurrent)
+    (bind-key "C-c p"
+              (defhydra sallet-hydra (:color blue)
+                "Sallet hydra"
+                ("f" sallet-gtags-files "Find files")
+                ("t" sallet-gtags-tags "Find tags")))
+    (use-package autobookmarks)))
+
 (use-package org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
@@ -2592,21 +2608,6 @@ separate buffer."
     (defun my-rst-mode-init ()
       (sphinx-mode 1))
     (add-hook 'rst-mode-hook 'my-rst-mode-init)))
-
-(use-package sallet
-  :bind (("C-. C-." . helm-occur)
-         ("C-'" . csallet-buffer)
-         ("H-b". sallet-register-point)
-         ("M-.". sallet-imenu))
-  :config
-  (progn
-    (require 'sallet-concurrent)
-    (bind-key "C-c p"
-              (defhydra sallet-hydra (:color blue)
-                "Sallet hydra"
-                ("f" sallet-gtags-files "Find files")
-                ("t" sallet-gtags-tags "Find tags")))
-    (use-package autobookmarks)))
 
 (use-package server
   :config
