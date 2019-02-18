@@ -1745,6 +1745,7 @@ called, percentage usage and the command."
          ("C-c m C-f" . magit-find-file)
          )
   :config
+  (use-package gitattributes-mode :straight t)
   (magit-auto-revert-mode 1)
   (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
   (require 'flyspell))
