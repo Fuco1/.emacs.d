@@ -787,7 +787,7 @@
  '(org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
  '(org-drill-card-type-alist
    (quote
-    ((nil org-drill-present-simple-card)
+    ((nil org-drill-present-simple-card nil t)
      ("simple" org-drill-present-simple-card)
      ("twosided" org-drill-present-two-sided-card nil t)
      ("multisided" org-drill-present-multi-sided-card nil t)

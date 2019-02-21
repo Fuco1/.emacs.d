@@ -835,6 +835,79 @@ D      Show deadlines and scheduled items between a date range."
            (otherwise (user-error "No such sparse tree command \"%c\"" answer)))))
      ))
 
+(eval-after-load "org-drill"
+  '(progn
+     (el-patch-defun org-drill-entry-status ()
+       "Returns a list (STATUS DUE AGE) where DUE is the number of days overdue,
+zero being due today, -1 being scheduled 1 day in the future.
+AGE is the number of days elapsed since the item was created (nil if unknown).
+STATUS is one of the following values:
+- nil, if the item is not a drill entry, or has an empty body
+- :unscheduled
+- :future
+- :new
+- :failed
+- :overdue
+- :young
+- :old
+"
+       (save-excursion
+         (unless (org-at-heading-p)
+           (org-back-to-heading))
+         (let ((due (org-drill-entry-days-overdue))
+               (age (org-drill-entry-days-since-creation t))
+               (last-int (org-drill-entry-last-interval 1)))
+           (list
+            (cond
+             ((not (org-drill-entry-p))
+              nil)
+             ((and (org-entry-empty-p)
+                   (let* ((card-type (org-entry-get (point) "DRILL_CARD_TYPE" nil))
+                          (dat (cdr (assoc card-type org-drill-card-type-alist))))
+                     (or (el-patch-remove (null card-type))
+                         (not (third dat)))))
+              ;; body is empty, and this is not a card type where empty bodies are
+              ;; meaningful, so skip it.
+              nil)
+             ((null due)                     ; unscheduled - usually a skipped leech
+              :unscheduled)
+             ;; ((eql -1 due)
+             ;;  :tomorrow)
+             ((minusp due)                   ; scheduled in the future
+              :future)
+             ;; The rest of the stati all denote 'due' items ==========================
+             ((<= (org-drill-entry-last-quality 9999)
+                  org-drill-failure-quality)
+              ;; Mature entries that were failed last time are
+              ;; FAILED, regardless of how young, old or overdue
+              ;; they are.
+              :failed)
+             ((org-drill-entry-new-p)
+              :new)
+             ((org-drill-entry-overdue-p due last-int)
+              ;; Overdue status overrides young versus old
+              ;; distinction.
+              ;; Store marker + due, for sorting of overdue entries
+              :overdue)
+             ((<= (org-drill-entry-last-interval 9999)
+                  org-drill-days-before-old)
+              :young)
+             (t
+              :old))
+            due age))))
+
+     (el-patch-defun org-drill-maximum-item-count-reached-p ()
+       "Returns true if the current drill session has reached the
+maximum number of items."
+       (el-patch-wrap 2
+         (let ((org-drill-maximum-items-per-session
+                (or (ignore-errors (string-to-number (org-entry-get (point) "org-drill-maximum-items-per-session" t)))
+                    org-drill-maximum-items-per-session)))
+           (and org-drill-maximum-items-per-session
+                (not *org-drill-cram-mode*)
+                (>= (length *org-drill-done-entries*)
+                    org-drill-maximum-items-per-session)))))))
+
 (eval-after-load "org-attach"
   '(progn
      (el-patch-defun org-attach-annex-get-maybe (path)
