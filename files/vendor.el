@@ -2679,6 +2679,7 @@ separate buffer."
      :heuristic 'error
      :async nil)
 
+    (require 'smart-jump-typescript-mode)
     (smart-jump-typescript-mode-register)
 
     (smart-jump-register
