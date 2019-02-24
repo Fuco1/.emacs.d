@@ -184,7 +184,7 @@ return to regular interpretation of self-insert characters."
    '(
      ("github" . markdown-mode)
      ("gitlab" . markdown-mode)
-     ("gmail" . org-mode)
+     ("mail.google.com" . org-mode)
      ("helpdesk.logio.cz" . textile-mode)
      ("saleschamp\\.atlassian\\.net" . jira-markup-mode)
      ))
