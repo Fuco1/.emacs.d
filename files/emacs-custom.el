@@ -1531,6 +1531,27 @@
  '(org-id-locations-file "~/.emacs.d/.cache/org/.org-id-locations")
  '(org-indent-indentation-per-level 1)
  '(org-inline-image-resolve-url (quote (org-inline-image--regexp-resolver identity)))
+ '(org-jira-default-jql
+   "assignee = currentUser() and resolution = unresolved and \"In active sprint\" = Yes ORDER BY
+  priority DESC, created ASC")
+ '(org-jira-done-states (quote ("Declined" "Done")))
+ '(org-jira-keywords-to-jira-status-alist
+   (quote
+    (("In Progress" . "NEXT")
+     ("Feedback Needed" . "WAIT")
+     ("Testing needed" . "WAIT")
+     ("New" . "IDEA"))) t)
+ '(org-jira-priority-to-org-priority-alist
+   (quote
+    (("Highest" . 65)
+     ("High" . 66)
+     ("Medium" . 67)
+     ("Low" . 68)
+     ("Lowest" . 69))))
+ '(org-jira-priority-to-org-priority-omit-default-priority t)
+ '(org-jira-project-filename-alist (quote (("SC" . "saleschamp.org"))))
+ '(org-jira-reverse-comment-order t)
+ '(org-jira-working-dir "~/org")
  '(org-latex-tables-centered nil)
  '(org-log-done (quote note))
  '(org-log-into-drawer t)
