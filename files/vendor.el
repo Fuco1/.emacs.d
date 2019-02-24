@@ -2927,10 +2927,11 @@ Omitting FRAME means currently selected frame."
 
   (defun my-typescript-mode-setup ()
     (add-hook 'after-save-hook 'my-tslint-fix nil 'local)
-    (-when-let (root (locate-dominating-file (buffer-file-name) "tslint.json"))
-      (setq-local
-       flycheck-typescript-tslint-executable
-       (concat root "/node_modules/.bin/tslint"))))
+    (when (buffer-file-name)
+      (-when-let (root (locate-dominating-file (buffer-file-name) "tslint.json"))
+        (setq-local
+         flycheck-typescript-tslint-executable
+         (concat root "/node_modules/.bin/tslint")))))
 
   (add-hook 'typescript-mode-hook #'my-typescript-mode-setup))
 
