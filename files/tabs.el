@@ -72,13 +72,16 @@ string).  It returns t if a new expansion is found, nil otherwise."
 
 (defun my-smart-tab-default-action (prefix)
   "Execute the default smart tab action."
-  (unless (ignore-errors (completion-at-point))
-    (cond
-     (company-mode
-      (company-complete))
-     ((my-smart-tab-must-expand prefix)
-      (ignore-errors (hippie-expand prefix)))
-     ((my-smart-indent)))))
+  (if (use-region-p)
+      (indent-region (region-beginning)
+                     (region-end))
+    (unless (ignore-errors (completion-at-point))
+      (cond
+       (company-mode
+        (company-complete))
+       ((my-smart-tab-must-expand prefix)
+        (ignore-errors (hippie-expand prefix)))
+       ((my-smart-indent))))))
 
 (defvar my-magit-read-files-is-active nil
   "Set to t when in `magit-read-files'.
