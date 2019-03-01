@@ -59,6 +59,10 @@ is extension of default `tango-dark' face.")
 (defface markup-list-unordered nil
   "Face for unordered list markup.")
 
+(defface markup-block nil
+  "Face for a delimited block.
+
+Usually quotes, source blocks, preformated blocks...")
 (defface markup-blockquote nil
   "Face for blockquote markup.")
 (defface markup-code-block nil
@@ -397,8 +401,9 @@ respective major mode.  Think org SRC blocks.")
    (markup-list-ordered (:inherit font-lock-type-face :weight bold))
    (markup-list-unordered (:inherit font-lock-builtin-face))
 
-   (markup-blockquote (:inherit font-lock-doc-face))
-   (markup-code-block (:inherit fixed-pitch :background alum-6.5))
+   (markup-block (:background alum-6.5))
+   (markup-blockquote (:inherit (font-lock-doc-face markup-block)))
+   (markup-code-block (:inherit (fixed-pitch markup-block)))
    (markup-pre (:inherit markup-code-block :foreground plum-0))
    (markup-comment (:inherit font-lock-comment-face))
    (markup-metadata-key (:inherit font-lock-keyword-face))
@@ -473,11 +478,11 @@ respective major mode.  Think org SRC blocks.")
 
    (org-footnote (:inherit markup-reference))
 
+   (org-block (:inherit (fixed-pitch markup-block)))
+   (org-block-background (:inherit org-block))
    (org-code (:inherit (shadow org-block)))
-   (org-block-background (:inherit fixed-pitch :background alum-6.5))
-   (org-block (:inherit fixed-pitch :background alum-6.5))
    (org-verbatim (:inherit org-code))
-   (org-quote (:inherit markup-blockquote :background alum-6.5))
+   (org-quote (:inherit (shadow markup-block)))
 
    (org-date (:inherit fixed-pitch :foreground blue-0))
    (org-table (:inherit fixed-pitch :foreground blue-0))
