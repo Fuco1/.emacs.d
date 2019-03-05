@@ -1069,7 +1069,10 @@ idle timer to do the actual update.")
 (use-package find-test
   :straight (:repo "git@github.com:Fuco1/find-test.git")
   :config
-  (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map))
+  (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map)
+  (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map)
+  (bind-key "C-c C-t" 'ft-find-test-or-source yaml-mode-map)
+  )
 
 (use-package flycheck
   :straight t
