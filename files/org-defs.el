@@ -1349,7 +1349,9 @@ point and rebuild the agenda view."
          )
         ("l" "Read later" entry (file "~/org/refile.org")
          "* %?%:description :readlater:
-- %(if (string-blank-p \"%a\") \"%:link\" \"%a\")
+:PROPERTIES:
+:SOURCE: %:link
+:END:
 %(when (< 2 (length \"%:initial\")) \"- %:initial\n\")
 %(unless (string-blank-p \"%:elfeed-entry-link\") \"- web link: %:elfeed-entry-link \n\")")
         ("j" "Journals")
