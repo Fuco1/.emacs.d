@@ -1355,7 +1355,7 @@ point and rebuild the agenda view."
         ("j" "Journals")
         ("jj" "Journal" entry (file+datetree "~/data/documents/journal.org.gpg") "* %<%H:%M:%S> %?" :clock-keep t :kill-buffer t :empty-lines-after 1)
         ("jo" "Journal - trading" entry (file+datetree "~/org/inv.org") "* %<%H:%M:%S> %?" :clock-keep t)
-        ("jn" "Note" entry (function my-org-note-find-position)
+        ("n" "Note" entry (function my-org-note-find-position)
          (function my-org-note-get-template))
         ("b" "Bookmark" entry (file+function "~/org/bookmarks.org" my-org-handle-bookmark)
          "* %:description\n- %:link\n")
