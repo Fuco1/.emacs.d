@@ -1070,8 +1070,9 @@ idle timer to do the actual update.")
   :straight (:repo "git@github.com:Fuco1/find-test.git")
   :config
   (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map)
-  (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map)
-  (bind-key "C-c C-t" 'ft-find-test-or-source yaml-mode-map)
+  (use-package neon-mode :config (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map))
+  (use-package yaml-mode :config (bind-key "C-c C-t" 'ft-find-test-or-source yaml-mode-map))
+  (use-package js2-mode :config (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map))
   )
 
 (use-package flycheck
