@@ -1401,20 +1401,24 @@ point and rebuild the agenda view."
 ;; TODO KEYWORDS SETTINGS
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "BILL(b)" "|" "DONE(d!)" "MOVE(m@)" "FAIL(f@)")
-        (sequence "WAIT(w@/@)" "HOLD(h@/@)" "|" "STOP(s@/@)")
+        (sequence "WAIT(w@/@)" "HOLD(h@/@)" "CONF(c@/@)""|" "STOP(s@/@)")
         (sequence "|" "IDEA(i)")))
 
 ;; TODO: move faces to theme
 (setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "IndianRed1" :weight bold)
-              ("FAIL" :foreground "Red" :weight bold)
-              ("NEXT" :foreground "RoyalBlue" :weight bold)
-              ("BILL" :foreground "Green" :weight bold)
-              ("DONE" :foreground "LimeGreen" :weight bold)
-              ("WAIT" :foreground "orange" :weight bold)
-              ("HOLD" :foreground "orange" :weight bold)
-              ("STOP" :foreground "LimeGreen" :weight bold)
-              ("IDEA" :foreground "pink" :weight bold))))
+      '(
+        ("TODO" my-org-keyword-todo)
+        ("NEXT" my-org-keyword-next)
+        ("BILL" my-org-keyword-bill)
+        ("DONE" my-org-keyword-done)
+        ("MOVE" my-org-keyword-move)
+        ("FAIL" my-org-keyword-fail)
+        ("WAIT" my-org-keyword-wait)
+        ("HOLD" my-org-keyword-hold)
+        ("CONF" my-org-keyword-conf)
+        ("STOP" my-org-keyword-stop)
+        ("IDEA" my-org-keyword-idea)
+        ))
 
 (setq org-todo-state-tags-triggers
       (quote (

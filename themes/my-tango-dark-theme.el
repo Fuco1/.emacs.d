@@ -81,6 +81,18 @@ respective major mode.  Think org SRC blocks.")
 (defface markup-metadata-value nil
   "Face for metadata value markup.")
 
+(defface my-org-keyword-todo nil "Face for the TODO keyword.")
+(defface my-org-keyword-next nil "Face for the NEXT keyword.")
+(defface my-org-keyword-bill nil "Face for the BILL keyword.")
+(defface my-org-keyword-done nil "Face for the DONE keyword.")
+(defface my-org-keyword-move nil "Face for the MOVE keyword.")
+(defface my-org-keyword-fail nil "Face for the FAIL keyword.")
+(defface my-org-keyword-wait nil "Face for the WAIT keyword.")
+(defface my-org-keyword-hold nil "Face for the HOLD keyword.")
+(defface my-org-keyword-conf nil "Face for the CONF keyword.")
+(defface my-org-keyword-stop nil "Face for the STOP keyword.")
+(defface my-org-keyword-idea nil "Face for the IDEA keyword.")
+
 ;; 00, 5f, 87, af, d7, ff
 (defvar my-tango-colors
   '((((class color) (min-colors 65535))
@@ -498,6 +510,19 @@ respective major mode.  Think org SRC blocks.")
    (org-checkbox (:inherit org-list-dt))
 
    (org-agenda-restriction-lock (:background alum-6.5))
+
+   (my-org-keyword-todo (:foreground red-0 :weight bold))
+   (my-org-keyword-next (:foreground blue-1 :weight bold))
+   (my-org-keyword-bill (:foreground cham-0 :weight bold))
+   (my-org-keyword-done (:foreground cham-2 :weight bold))
+   (my-org-keyword-move (:foreground cham-2 :weight bold))
+   (my-org-keyword-fail (:foreground red-2 :weight bold))
+   (my-org-keyword-wait (:foreground orange-2 :weight bold))
+   (my-org-keyword-hold (:foreground orange-2 :weight bold))
+   (my-org-keyword-conf (:foreground orange-2 :weight bold))
+   (my-org-keyword-stop (:foreground cham-3 :weight bold))
+   (my-org-keyword-idea (:foreground plum-0 :weight bold))
+
    ;; Textile
    (textile-h1-face (:inherit markup-header-1))
    (textile-h2-face (:inherit markup-header-2))
