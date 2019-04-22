@@ -2670,6 +2670,7 @@ separate buffer."
      ("\\*ag search" :regexp t :inhibit-window-quit t :same t)
      (messages-buffer-mode :select t :inhibit-window-quit t :same t)
      (swb-result-mode :align 'below)
+     (ess-r-help-mode :same t :inhibit-window-quit t)
      ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t)
      ))
   :config
