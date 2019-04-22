@@ -1691,6 +1691,17 @@ called, percentage usage and the command."
         (insert-file-contents "~/org/ledger.ledger")
         (ledger-payees-in-buffer)))
 
+    (el-patch-defun ledger-read-transaction ()
+      "Read the text of a transaction, which is at least the current date."
+      (el-patch-swap
+        (let ((reference-date (or ledger-add-transaction-last-date (current-time))))
+          (read-string
+           "Transaction: "
+           ;; Pre-fill year and month, but not day: this assumes DD is the last format arg.
+           (ledger-format-date reference-date)
+           'ledger-minibuffer-history))
+        (ledger-read-date "New transaction")))
+
     (defun my-format-airbank-to-ledger (account payee)
       (interactive
        (list (completing-read "Account: " (my-ledger-accouts-list))
