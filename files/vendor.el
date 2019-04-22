@@ -1712,7 +1712,7 @@ called, percentage usage and the command."
       (-let* ((start (point))
               (date-raw (buffer-substring
                          (line-beginning-position)
-                         (line-end-position)))
+                         (+ 10 (line-beginning-position))))
               ((d m y) (split-string date-raw "\\."))
               (date-ledger (format "%s/%s/%s" y m d)))
         (forward-line)
@@ -1720,7 +1720,7 @@ called, percentage usage and the command."
         (replace-regexp "CZK" "Kc" nil (line-beginning-position) (line-end-position))
         (replace-regexp "-" "" nil (line-beginning-position) (line-end-position))
         (let ((amount (buffer-substring (line-beginning-position) (line-end-position))))
-          (forward-line 5)
+          (forward-line 2)
           (delete-region start (point))
           (insert (format "%s * %s
     %s   %s
