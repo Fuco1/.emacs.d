@@ -1081,6 +1081,10 @@ This usually makes new item indented one level deeper."
       (or (outline-next-heading)
           (point-max)))))
 
+(defun my-org-field-empty-p ()
+  "Return non-nil if the org table field at point is empty."
+  (equal "" (s-trim (save-excursion (org-table-get-field)))))
+
 ;; TODO: replace with orgba-table-select-cell
 (defun my-org-select-cell ()
   "Select the cell in org table the point is in."

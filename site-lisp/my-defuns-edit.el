@@ -232,15 +232,19 @@ instead."
     (let* ((bofc (save-excursion
                    (my--move-beginning-of-line)
                    (forward-char 1)
-                   (skip-chars-forward " ")
-                   (point)))
+                   (if (my-org-field-empty-p)
+                       (1+ (point))
+                     (skip-chars-forward " ")
+                     (point))))
            ;; get beginning of current cell
            (boc (save-excursion
                   (if (re-search-backward "|" (line-beginning-position) t)
                       (progn
                         (forward-char 1)
-                        (skip-chars-forward " ")
-                        (point))
+                        (if (my-org-field-empty-p)
+                            (1+ (point))
+                          (skip-chars-forward " ")
+                          (point)))
                     bofc))))
       (cond
        ((= (point) boc)
