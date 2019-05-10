@@ -379,13 +379,19 @@
                                 (org-agenda-todo-ignore-with-date t)
                                 (org-tags-match-list-sublevels t)
                                 (org-agenda-sorting-strategy '(priority-down todo-state-down effort-up category-keep)))))
-      (tasks . (tags-todo "-REFILE-STOP-BOOKS-MOV-download-readlater-watchlater/!-HOLD-WAIT-IDEA"
+      (tasks . (tags-todo "-REFILE-STOP-BOOKS-MOV-download-readlater-watchlater/!-HOLD-WAIT-IDEA-CONF"
                           ((org-agenda-overriding-header "Tasks")
                            (org-agenda-skip-function 'my-org-skip-project-tasks-maybe)
                            (org-agenda-todo-ignore-scheduled t)
                            (org-agenda-todo-ignore-deadlines t)
                            (org-agenda-todo-ignore-with-date t)
                            (org-agenda-sorting-strategy '(priority-down category-keep)))))
+      (tasks-to-discuss . (tags-todo "/!CONF"
+                                     ((org-agenda-overriding-header "Tasks to discuss")
+                                      (org-agenda-todo-ignore-scheduled t)
+                                      (org-agenda-todo-ignore-deadlines t)
+                                      (org-agenda-todo-ignore-with-date t)
+                                      (org-agenda-sorting-strategy '(priority-down category-keep)))))
       (waiting-tasks . (tags-todo "-STOP/!+WAIT"
                                   ((org-agenda-overriding-header "Waiting Tasks")
                                    (org-agenda-skip-function 'my-org-skip-projects)
@@ -417,7 +423,8 @@
            (,(cdr (assoc 'super-agenda my-custom-agenda-sections))
             ,(cdr (assoc 'refile my-custom-agenda-sections))
             ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
-            ,(cdr (assoc 'tasks my-custom-agenda-sections))))
+            ,(cdr (assoc 'tasks my-custom-agenda-sections))
+            ,(cdr (assoc 'tasks-to-discuss my-custom-agenda-sections))))
           ("A" "Full Agenda"
            (,(cdr (assoc 'super-agenda my-custom-agenda-sections))
             ,(cdr (assoc 'refile my-custom-agenda-sections))
@@ -425,6 +432,7 @@
             ,(cdr (assoc 'stuck-projects my-custom-agenda-sections))
             ,(cdr (assoc 'next-tasks my-custom-agenda-sections))
             ,(cdr (assoc 'tasks my-custom-agenda-sections))
+            ,(cdr (assoc 'tasks-to-discuss my-custom-agenda-sections))
             ,(cdr (assoc 'waiting-tasks my-custom-agenda-sections))
             ,(cdr (assoc 'projects my-custom-agenda-sections))
             ,(cdr (assoc 'hold my-custom-agenda-sections))))
@@ -532,6 +540,7 @@ overdue and a habit it is inserted multiple times."
                      "Stuck Projects"
                      "Next Tasks"
                      "Tasks"
+                     "Tasks to discuss"
                      "Waiting Tasks"
                      "Projects"
                      "Subprojects (and children tasks)"
