@@ -360,8 +360,15 @@
                                   (:name "Scheduled"
                                    :and (:scheduled past
                                          :not (:habit)
-                                         :not (:time-grid))
+                                         :not (:time-grid)
+                                         :not (:tag "piano"))
                                    :order 30)
+                                  (:name "Scheduled - piano practice"
+                                   :and (:scheduled past
+                                         :tag "piano"
+                                         :not (:habit)
+                                         :not (:time-grid))
+                                   :order 35)
                                   )))))
       (bugs-emacs . (tags-todo "bug/!-NEXT"
                                ((org-agenda-overriding-header "Bugs (in emacs projects)")
