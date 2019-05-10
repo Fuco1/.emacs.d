@@ -2555,7 +2555,7 @@ These are retrieved from `imenu--index-alist'."
       (rgrep regexp files dir confirm))))
 
 (use-package psysh
-  :bind ("C-. b" . psysh)
+  :bind ("C-. r p" . psysh)
   :config
   (defun my-psysh-mode-init ()
     (smartparens-strict-mode 1))
