@@ -350,12 +350,19 @@ The code depends on =f= and =dash=.
   '((t (:background "red")))
   "Face for unavailable git-annex files.")
 
+(defvar my-dired-fontify-missing-annex-files nil
+  "Previous value of the font-lock rule added to local dired.")
+
 (defun my-dired-fontify-missing-annex-files ()
   (-when-let (missing (-->
                        (shell-command-to-string "find -maxdepth 1 -type f -perm -u=r -exec awk '{if ($0~\"/annex/objects\") print FILENAME; nextfile;}' '{}' \\; | sed \"s|^\\./||\"")
                        (split-string it "\n" t)))
-    (let ((regex (regexp-opt missing)))
-      (font-lock-add-keywords nil `((,regex 0 'my-dired-annex-missing))))))
+    (let* ((regex (regexp-opt missing))
+           (rule `((,regex 0 'my-dired-annex-missing))))
+      (when my-dired-fontify-missing-annex-files
+        (font-lock-remove-keywords nil my-dired-fontify-missing-annex-files))
+      (font-lock-add-keywords nil rule)
+      (setq my-dired-fontify-missing-annex-files rule))))
 
 (add-hook 'dired-before-readin-hook 'my-dired-fontify-missing-annex-files)
 #+END_SRC
