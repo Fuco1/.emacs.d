@@ -56,7 +56,6 @@
 (depends-on "puppet-mode")
 (depends-on "rainbow-mode")
 (depends-on "restclient")
-(depends-on "rjsx-mode")
 (depends-on "rust-mode")
 (depends-on "scala-mode")
 (depends-on "scf-mode")
