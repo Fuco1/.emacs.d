@@ -1221,6 +1221,10 @@ use a directory-local variable to specify this per-project."
       (smartparens-mode 1))
     (add-hook 'inferior-haskell-mode-hook 'my-inferior-haskell-init)))
 
+(use-package hcl-mode
+  :mode ("\\.tf\\'")
+  :custom ((hcl-indent-level 4)))
+
 (use-package helm
   :straight
   (helm :repo "git@github.com:emacs-helm/helm.git"
