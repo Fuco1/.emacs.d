@@ -25,7 +25,6 @@
 (depends-on "less-css-mode")
 (depends-on "macrostep")
 (depends-on "markdown-toc")
-(depends-on "mocha")
 (depends-on "nginx-mode")
 (depends-on "notmuch")
 (depends-on "nov")
