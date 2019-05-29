@@ -1765,7 +1765,18 @@ called, percentage usage and the command."
     (lsp-ui-flycheck-enable nil)
 
     (lsp-ui-doc-enable t)
-    (lsp-ui-doc-use-webkit t))
+    (lsp-ui-doc-use-webkit t)
+    :config
+    (el-patch-defun lsp-ui-flycheck-enable (_)
+      "Enable flycheck integration for the current buffer."
+      (el-patch-wrap 2 0
+        (when lsp-ui-flycheck-enable
+          (when lsp-ui-flycheck-live-reporting
+            (setq-local flycheck-check-syntax-automatically nil))
+          (setq-local flycheck-checker 'lsp-ui)
+          (lsp-ui-flycheck-add-mode major-mode)
+          (add-to-list 'flycheck-checkers 'lsp-ui)
+          (add-hook 'lsp-after-diagnostics-hook 'lsp-ui-flycheck--report nil t)))))
 
   (require 'lsp-clients)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
