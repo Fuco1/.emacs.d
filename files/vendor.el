@@ -1125,7 +1125,7 @@ use a directory-local variable to specify this per-project."
                 (option "-c" flycheck-phpstan-config)
                 source-original)
       :error-patterns
-      ((error line-start (*? char) ":" line ":" (message)))
+      ((error line-start (file-name) ":" line ":" (message)))
       :modes (php-mode php+-mode))
 
     (add-to-list 'flycheck-checkers 'php-phpstan 'append)
