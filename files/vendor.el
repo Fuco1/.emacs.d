@@ -1749,8 +1749,29 @@ called, percentage usage and the command."
       (setq completion-at-point-functions nil))
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init)))
 
-(use-package magit
+(use-package lsp-mode
   :straight t
+  :after php-mode
+  :custom
+  (lsp-enable-completion-at-point nil)
+  (lsp-prefer-flymake nil)
+  :config
+  (use-package lsp-ui
+    :straight t
+    :custom
+    (lsp-ui-sideline-enable nil)
+    (lsp-ui-peek-enable nil)
+    (lsp-ui-imenu-enable nil)
+    (lsp-ui-flycheck-enable nil)
+
+    (lsp-ui-doc-enable t)
+    (lsp-ui-doc-use-webkit t))
+
+  (require 'lsp-clients)
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+(use-package magit
+  ;; :straight t
   :init
   (bind-keys :prefix "C-c m"
              :prefix-map ctl-c-m-map
@@ -2125,10 +2146,13 @@ by that command."
   :config
   (progn
     (use-package better-jump)
-    (use-package php-eldoc
-      :straight t)
+    (use-package php-eldoc :straight t)
     (use-package php-refactor)
     (use-package nette-tester)
+    (use-package lsp-mode)
+
+    (bind-key "M-'" 'smart-jump-go php-mode-map)
+    (bind-key "C-M-'" 'smart-jump-back php-mode-map)
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
@@ -2136,20 +2160,6 @@ by that command."
       :straight
       (ob-php :repo "https://framagit.org/steckerhalter/ob-php.git"
               :fork (:repo "git@github.com:Fuco1/ob-php.git")))
-
-    (use-package lsp-mode
-      :straight t
-      :config
-      (use-package lsp-ui
-        :straight t)
-
-      (require 'lsp-clients)
-      (add-hook 'php-mode-hook #'lsp)
-
-      (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-
-      (bind-key "M-'" 'smart-jump-go php-mode-map)
-      (bind-key "C-M-'" 'smart-jump-back php-mode-map))
 
     (bind-key "C-x C-d"
               (defhydra hydra-php-refactor (:color blue)
@@ -2447,6 +2457,7 @@ These are retrieved from `imenu--index-alist'."
         (indent-according-to-mode)))
 
     (defun my-php-mode-init ()
+      (lsp)
       (setq-local php-style-delete-trailing-whitespace t)
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
       (when (and (buffer-file-name)
@@ -2493,9 +2504,6 @@ These are retrieved from `imenu--index-alist'."
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
       (when buffer-file-name
         (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name))))
-
-      (setq-local lsp-enable-completion-at-point nil)
-      (lsp-ui-sideline-mode -1)
 
       (eldoc-mode 1))
     (add-hook 'php-mode-hook 'my-php-mode-init 'append)))
