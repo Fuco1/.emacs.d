@@ -154,14 +154,14 @@ A stuck project has subtasks but no next task."
                   (< (point) subtree-end)
                   (re-search-forward "^\\*+ \\(NEXT\\|WAIT\\) " subtree-end t))
         (setq has-action t)))
-    has-action))
+    (not has-action)))
 
 (defun my-org-skip-stuck-projects ()
   "Skip trees that are stuck projects."
   (save-restriction
     (widen)
     (if (my-org-is-project-p)
-        (unless (my-org-stuck-project-p)
+        (when (my-org-stuck-project-p)
           (my-org-next-heading-pos))
       nil)))
 
@@ -170,7 +170,7 @@ A stuck project has subtasks but no next task."
   (save-restriction
     (widen)
     (if (my-org-is-project-p)
-        (when (my-org-stuck-project-p)
+        (unless (my-org-stuck-project-p)
           (my-org-next-heading-pos))
       ;; not a project at all, go to next headline
       (my-org-next-heading-pos))))
