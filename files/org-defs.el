@@ -374,7 +374,7 @@
                                ((org-agenda-overriding-header "Bugs (in emacs projects)")
                                 (org-agenda-files '("~/org/emacs.org"))
                                 (org-tags-match-list-sublevels nil))))
-      (stuck-projects . (tags-todo "-STOP/!-WAIT"
+      (stuck-projects . (tags-todo "-STOP-HOLD/!-WAIT"
                                    ((org-agenda-overriding-header "Stuck Projects")
                                     (org-agenda-files ',my-project-files)
                                     (org-agenda-skip-function 'my-org-skip-non-stuck-projects))))
