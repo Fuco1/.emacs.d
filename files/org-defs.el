@@ -1032,7 +1032,7 @@ Will work on both org-mode and any mode that accepts plain html."
       (insert (format tag ""))
       (forward-char (if orgp -1 -6)))))
 
-(defun my-org-open-at-point ()
+(defun my-org-open-at-point (&rest _ignored)
   "Just like `org-open-at-point', but open link in this window.
 
 If there is no link on point, call `org-next-link'."
