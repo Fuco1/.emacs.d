@@ -419,7 +419,6 @@
       ;; Projects/tasks on HOLD: projects that are not cancelled, but we don't want to work on them now
       (hold . (tags-todo "-STOP/!+HOLD"
                          ((org-agenda-overriding-header "Postponed Projects and Tasks")
-                          (org-agenda-skip-function 'my-org-skip-stuck-projects)
                           (org-tags-match-list-sublevels nil)
                           (org-agenda-todo-ignore-scheduled 'future)
                           (org-agenda-todo-ignore-deadlines 'future)))))
