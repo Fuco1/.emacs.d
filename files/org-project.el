@@ -142,19 +142,27 @@ Callers of this function already widen the buffer view."
     (widen)
     (unless (my-org-is-project-p) (my-org-next-heading-pos))))
 
+(defun my-org-stuck-project-p ()
+  "Test if the tree at point is stuck project.
+
+A stuck project has subtasks but no next task."
+  (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+         has-action)
+    (save-excursion
+      (forward-line 1)
+      (while (and (not has-action)
+                  (< (point) subtree-end)
+                  (re-search-forward "^\\*+ \\(NEXT\\|WAIT\\) " subtree-end t))
+        (setq has-action t)))
+    has-action))
+
 (defun my-org-skip-stuck-projects ()
   "Skip trees that are stuck projects."
   (save-restriction
     (widen)
     (if (my-org-is-project-p)
-        (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
-               has-next)
-          (save-excursion
-            (forward-line 1)
-            (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
-              (unless (member "WAIT" (org-get-tags-at))
-                (setq has-next t))))
-          (unless has-next (my-org-next-heading-pos))) ; a stuck project, has subtasks but no next task
+        (unless (my-org-stuck-project-p)
+          (my-org-next-heading-pos))
       nil)))
 
 (defun my-org-skip-non-stuck-projects ()
@@ -162,14 +170,8 @@ Callers of this function already widen the buffer view."
   (save-restriction
     (widen)
     (if (my-org-is-project-p)
-        (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
-               has-next)
-          (save-excursion
-            (forward-line 1)
-            (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
-              (unless (member "WAIT" (org-get-tags-at))
-                (setq has-next t))))
-          (when has-next (my-org-next-heading-pos))) ; a stuck project, has subtasks but no next task
+        (when (my-org-stuck-project-p)
+          (my-org-next-heading-pos))
       ;; not a project at all, go to next headline
       (my-org-next-heading-pos))))
 
