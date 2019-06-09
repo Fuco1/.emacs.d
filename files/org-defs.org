@@ -323,6 +323,15 @@ Before this starts to work you need to re-save =org-emphasis-alist=
 through the customize interface because it is using a custom setter
 =org-set-emph-re= to compute the regexpses (or, /*gulp*/, restart Emacs).
 
+#+begin_src elisp
+;; This function is the customize setter so it calls (set var val)
+;; using the first and second argument.  We don't want to set anything
+;; here, only run the update function (which for some strange reason
+;; isn't using the passed-in values).  Since keywords can be safely
+;; assigned to themselves, we just use a placeholder ¯\_(ツ)_/¯
+(org-set-emph-re :ignored :ignored)
+#+end_src
+
 Here I quote the answer in case it ever gets lost:
 
 #+BEGIN_SRC markdown
