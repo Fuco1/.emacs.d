@@ -500,6 +500,7 @@ Ith row is replaced with Ith item of DATA."
     (load user-init-file nil 'nomessage)
     (message "Reloading init.el... done.")))
 
+;;;###autoload
 (defun my-find-dependency ()
   "Open dependency installed with straight.el"
   (interactive)

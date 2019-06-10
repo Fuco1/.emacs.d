@@ -3,8 +3,21 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "my-defuns" "my-defuns.el" (23002 4665 154301
-;;;;;;  825000))
+;;;### (autoloads nil "my-advices" "my-advices.el" (0 0 0 0))
+;;; Generated autoloads from my-advices.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-advices" '("my-tabify-use-buffer")))
+
+;;;***
+
+;;;### (autoloads nil "my-bootstrap" "my-bootstrap.el" (0 0 0 0))
+;;; Generated autoloads from my-bootstrap.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-bootstrap" '("my-")))
+
+;;;***
+
+;;;### (autoloads nil "my-defuns" "my-defuns.el" (0 0 0 0))
 ;;; Generated autoloads from my-defuns.el
 
 (autoload 'my-lorem "my-defuns" "\
@@ -136,10 +149,17 @@ Run haddock on current project.
 
 \(fn)" t nil)
 
+(autoload 'my-find-dependency "my-defuns" "\
+Open dependency installed with straight.el
+
+\(fn)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-defuns" '(#("my-" 0 3 (fontified nil face font-lock-function-name-face)))))
+
 ;;;***
 
-;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (22817
-;;;;;;  44623 293283 394000))
+;;;### (autoloads nil "my-defuns-buffer" "my-defuns-buffer.el" (0
+;;;;;;  0 0 0))
 ;;; Generated autoloads from my-defuns-buffer.el
 
 (autoload 'create-scratch-buffer "my-defuns-buffer" "\
@@ -201,10 +221,12 @@ Add face to region.
 
 \(fn BEG END FACE)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-defuns-buffer" '("my-")))
+
 ;;;***
 
-;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (23010
-;;;;;;  16745 325448 828000))
+;;;### (autoloads nil "my-defuns-edit" "my-defuns-edit.el" (0 0 0
+;;;;;;  0))
 ;;; Generated autoloads from my-defuns-edit.el
 
 (autoload 'my-forward-whitespace "my-defuns-edit" "\
@@ -396,11 +418,26 @@ Repeat ARG times.
 
 \(fn &optional ARG)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-defuns-edit" '("my-")))
+
 ;;;***
 
-;;;### (autoloads nil nil ("my-advices.el" "my-bootstrap.el" "my-macros-tangled.el"
-;;;;;;  "my-macros.el" "my-redef.el" "vendor.el") (23010 16609 103472
-;;;;;;  874000))
+;;;### (autoloads nil "my-macros" "my-macros.el" (0 0 0 0))
+;;; Generated autoloads from my-macros.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-macros" '("my-")))
+
+;;;***
+
+;;;### (autoloads nil "my-macros-tangled" "my-macros-tangled.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from my-macros-tangled.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-macros-tangled" '("my-minibuffer-with-hook")))
+
+;;;***
+
+;;;### (autoloads nil nil ("my-redef.el" "vendor.el") (0 0 0 0))
 
 ;;;***
 
