@@ -1512,6 +1512,13 @@ use a directory-local variable to specify this per-project."
   :straight t
   :after (js2-mode flycheck)
   :config
+  (el-patch-defun flycheck-flow--predicate ()
+    "Shall we run the checker?"
+    (and
+     buffer-file-name
+     (file-exists-p buffer-file-name)
+     (locate-dominating-file buffer-file-name ".flowconfig")
+     (el-patch-remove (flycheck-flow-tag-present-p))))
   (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
 
 (use-package flow-minor-mode
