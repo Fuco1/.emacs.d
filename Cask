@@ -10,7 +10,6 @@
 (depends-on "buttercup")
 (depends-on "cask")
 (depends-on "concurrent")
-(depends-on "czech-holidays")
 (depends-on "deferred")
 (depends-on "emr")
 (depends-on "ibuffer-vc")

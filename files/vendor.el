@@ -269,7 +269,11 @@ If no region is active, use word udner point."
   :bind ("M-s c" . calendar)
   :init
   (use-package slovak-holidays
+    :straight t
     :config (slovak-holidays-add))
+  (use-package czech-holidays
+    :straight t
+    :config (czech-holidays-add))
   :config
   (progn
     (defvar my-calendar-current-window nil
