@@ -1222,6 +1222,7 @@ use a directory-local variable to specify this per-project."
     (add-hook 'inferior-haskell-mode-hook 'my-inferior-haskell-init)))
 
 (use-package hcl-mode
+  :straight t
   :mode ("\\.tf\\'")
   :custom ((hcl-indent-level 4)))
 
