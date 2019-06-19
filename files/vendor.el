@@ -2853,6 +2853,7 @@ separate buffer."
 
 (use-package sql-workbench
   :mode ("\\.swb$" . swb-mode)
+  :straight (:repo "git@github.com:Fuco1/sql-workbench.git")
   :config
   (progn
     (defun my-swb-mode-init ()

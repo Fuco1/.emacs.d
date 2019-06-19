@@ -76,9 +76,6 @@
 [submodule "projects/sphinx-mode"]
 	path = projects/sphinx-mode
 	url =  git@github.com:Fuco1/sphinx-mode.git
-[submodule "projects/sql-workbench"]
-	path = projects/sql-workbench
-	url =  git@github.com:Fuco1/sql-workbench.git
 [submodule "projects/stocklist"]
 	path = projects/stocklist
 	url =  git@github.com:Fuco1/stocklist.git
