@@ -27,7 +27,8 @@
 
 (require 'hydra)
 
-(use-package orgba)
+(use-package orgba :straight (:repo "git@github.com:Fuco1/orgba.git"))
+(use-package org-make-toc :straight t)
 
 (use-package org-id
   :config

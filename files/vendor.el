@@ -504,6 +504,7 @@ and `my-compile-auto-fold-header-match-data'."
   :straight t
   :defer t
   :config
+  (use-package omnisharp :straight t)
   (progn
     (c-add-style
      "my-C#"
@@ -1330,6 +1331,7 @@ use a directory-local variable to specify this per-project."
     (load-relative "ido-defs")))
 
 (use-package inf-mongo
+  :straight t
   :commands inf-mongo
   :config
   (progn
@@ -1664,6 +1666,7 @@ Takes active region or the entire buffer"
   :init (progn (load "~/.emacs.d/projects/keyadvice.el/autoloads.el")))
 
 (use-package keyfreq
+  :straight t
   :bind ("C-. C-k" . keyfreq-show)
   :config
   (progn
@@ -1941,6 +1944,7 @@ If in the test file, visit source."
   :straight t
   :mode ("\\.md$" . gfm-mode)
   :config
+  (use-package markdown-toc :straight t)
   (progn
     (defun my-markdown-init ()
       (setq-local
@@ -1993,6 +1997,8 @@ delete it and re-insert new one."
 
   (add-hook 'message-setup-hook 'my-message-gnus-alias-init))
 
+(use-package ob-mongo :straight t)
+
 (use-package multiple-cursors
   :straight t
   :bind (("C-c C-S-c" . mc/edit-lines)
@@ -2025,6 +2031,8 @@ delete it and re-insert new one."
     (smartparens-mode 1)
     (smartparens-strict-mode 1))
   (add-hook 'neon-mode-hook 'my-neon-mode-init))
+
+(use-package nginx-mode :straight t)
 
 (use-package notmuch
   :init
@@ -2120,6 +2128,9 @@ by that command."
     ("n" . occur-next)
     ("p" . occur-prev)
     ("o" . occur-mode-display-occurrence)))
+
+(use-package password-generator :straight t)
+(use-package paren-face :straight t)
 
 (use-package sallet
   :straight (:repo "git@github.com:Fuco1/sallet.git")
@@ -2581,6 +2592,7 @@ These are retrieved from `imenu--index-alist'."
   :load-path "/usr/share/emacs/site-lisp/ProofGeneral/generic/")
 
 (use-package projectile
+  :straight t
   :defer t
   :diminish projectile-mode
   :commands (my-projectile-rgrep)
@@ -2613,6 +2625,8 @@ These are retrieved from `imenu--index-alist'."
     (smartparens-strict-mode 1))
   (add-hook 'psysh-mode-hook 'my-psysh-mode-init))
 
+(use-package puppet-mode :straight t)
+
 (use-package quail
   :config
   (progn
@@ -2637,6 +2651,7 @@ These are retrieved from `imenu--index-alist'."
   :straight t
   :mode ("\\.rest$" . restclient-mode)
   :config
+  (use-package ob-restclient :straight t)
   (defun my-restclient-indirect-edit ()
     "Use `edit-indirect-region' to edit the request body in a
 separate buffer."
