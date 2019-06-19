@@ -12,6 +12,7 @@
 (depends-on "concurrent")
 (depends-on "czech-holidays")
 (depends-on "deferred")
+(depends-on "emr")
 (depends-on "ibuffer-vc")
 (depends-on "impatient-mode")
 (depends-on "inf-mongo")

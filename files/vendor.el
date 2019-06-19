@@ -2936,6 +2936,24 @@ Omitting FRAME means currently selected frame."
   (use-package tide
     :straight t
     :config
+    (emr-declare-command 'tide-rename-symbol
+      :title "rename symbol"
+      :description "Rename symbol at point"
+      :modes 'typescript-mode
+      :predicate (lambda () (symbol-at-point)))
+
+    (emr-declare-command 'tide-rename-file
+      :title "rename file"
+      :description "Rename current file and all it’s references in other files"
+      :modes 'typescript-mode
+      :predicate (lambda () t))
+
+    (emr-declare-command 'tide-organize-imports
+      :title "organize imports"
+      :description "Organize imports to be in a cannonical form"
+      :modes 'typescript-mode
+      :predicate (lambda () t))
+
     (defun setup-tide-mode ()
       (interactive)
       (tide-setup)
