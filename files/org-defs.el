@@ -816,7 +816,8 @@ by a REPEAT property."
           (setq ad-return-value repeat)
         ad-do-it))))
 
-(use-package org-clock-budget)
+(use-package org-clock-budget
+  :straight (org-clock-budget :repo "git@github.com:Fuco1/org-clock-budget.git"))
 
 ;; add support for automatic org-files commits
 (defvar my-org-commit-timer
