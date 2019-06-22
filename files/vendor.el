@@ -1075,6 +1075,9 @@ idle timer to do the actual update.")
   :straight (:repo "git@github.com:Fuco1/find-test.git")
   :config
   (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map)
+  (use-package ess-r-mode
+    :defer t
+    :config (bind-key "C-c C-t" 'ft-find-test-or-source ess-r-mode-map))
   (use-package neon-mode
     :defer t
     :config (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map))
