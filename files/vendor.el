@@ -1229,7 +1229,19 @@ use a directory-local variable to specify this per-project."
 (use-package hcl-mode
   :straight t
   :mode ("\\.tf\\'")
-  :custom ((hcl-indent-level 4)))
+  :custom ((hcl-indent-level 4))
+  :config
+
+  (flycheck-define-checker tflint
+    "Checker for tflint"
+    :command ("tflint")
+    :error-patterns
+    ((error line-start "Error: Failed to load configurations: " (file-name) ":" line "," column "-" column ": " (message)))
+    :predicate (lambda ()
+                 (equal "tf" (file-name-extension (buffer-file-name))))
+    :modes (hcl-mode))
+
+  (add-to-list 'flycheck-checkers 'tflint))
 
 (use-package helm
   :straight
