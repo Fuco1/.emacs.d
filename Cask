@@ -40,7 +40,6 @@
 (depends-on "shackle")
 (depends-on "shell-pop")
 (depends-on "smart-jump")
-(depends-on "smartscan")
 (depends-on "smex")
 (depends-on "string-edit")
 (depends-on "systemd")

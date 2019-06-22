@@ -2770,10 +2770,6 @@ separate buffer."
   (progn
     (load-relative "smartparens")))
 
-(use-package smartscan
-  :bind (("C->" . smartscan-symbol-go-forward)
-         ("C-<" . smartscan-symbol-go-backward)))
-
 (use-package smerge-mode
   :config
   (progn
