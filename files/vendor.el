@@ -2161,12 +2161,11 @@ by that command."
           ("C-c C-x C-g" . my-org-get-goal-templates)
           ("C-c C-x l" . my-org-get-items-summary)
           ("C-c C-x <C-i-key>" . org-clock-in))
-  :init
-  ;; Re-set this to just space to avoid funny issues when realigning
-  ;; tables in variable-width settings.
-  (setq org-table-separator-space " ")
   :config
   (progn
+    ;; Re-set this to just space to avoid funny issues when realigning
+    ;; tables in variable-width settings.
+    (setq org-table-separator-space " ")
     (my-load-or-tangle (f-join (f-parent my-vendor-file) "org-defs"))
     (load-relative "org-defs")))
 
