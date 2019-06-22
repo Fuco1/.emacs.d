@@ -747,7 +747,7 @@ config from before."
 
 (use-package edit-indirect
   :straight t
-  :commands edit-indirect-region
+  :bind (("C-c '" . edit-indirect-region))
   :init
   (defun my-after-indirect-edit-realign (beg end)
     (save-excursion
