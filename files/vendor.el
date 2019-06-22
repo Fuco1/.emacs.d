@@ -985,7 +985,13 @@ idle timer to do the actual update.")
      ("q" . quit-window))
 
     (defun my-ess-mode-hook ()
-      (font-lock-add-keywords nil '(("\\b\\(this\\)\\b" 1 font-lock-constant-face)))
+      (font-lock-add-keywords
+       nil
+       '(
+         ("\\b\\(this\\)\\b" 1 font-lock-constant-face)
+         ("\\b\\(describe\\)(" 1 font-lock-keyword-face)
+         ("\\b\\(it\\)(" 1 font-lock-keyword-face)
+         ))
       (smartparens-strict-mode 1))
     (add-hook 'ess-mode-hook 'my-ess-mode-hook)
     (defun my-ess-post-run-hook ()
