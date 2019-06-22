@@ -1820,6 +1820,7 @@ called, percentage usage and the command."
   :config
   (use-package gitattributes-mode :straight t)
   (magit-auto-revert-mode 1)
+  (remove-hook 'server-switch-hook 'magit-commit-diff)
   (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
   (require 'flyspell))
 
