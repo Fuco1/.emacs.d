@@ -28,3 +28,36 @@
                  )))
     (--each stocks
       (my-update-ledger-stock-quotes it))))
+
+(defun my-ofx-to-ledger ()
+  "Transform ofx monthly data to ledger format.
+
+https://www.ofx.com/en-au/forex-news/historical-exchange-rates/monthly-average-rates/"
+  (interactive)
+  (let ((months '(("Jan" . "01")
+                  ("Feb" . "02")
+                  ("Mar" . "03")
+                  ("Apr" . "04")
+                  ("May" . "05")
+                  ("Jun" . "06")
+                  ("Jul" . "07")
+                  ("Aug" . "08")
+                  ("Sep" . "09")
+                  ("Oct" . "10")
+                  ("Nov" . "11")
+                  ("Dec" . "12"))))
+    (-each months
+      (-lambda ((month . number))
+        (goto-char (point-min))
+        (while (re-search-forward month nil t)
+          (replace-match number))))
+    (goto-char (point-min))
+    (my-with-each-line
+      (-let (((day month year price)
+              (->> (thing-at-point 'line)
+                   (s-trim)
+                   (s-split "[[:blank:]]"))))
+        (delete-region (line-beginning-position) (line-end-position))
+        (insert (format "P %s/%s/%s 00:00:00 $ %s Kc"
+                        year month day
+                        price))))))
