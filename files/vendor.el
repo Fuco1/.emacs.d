@@ -215,6 +215,14 @@ return to regular interpretation of self-insert characters."
   :straight t
   :mode ("Cask\\'" . cask-mode))
 
+(use-package caddyfile-mode
+  :straight t
+  :config
+  (defun my-caddyfile-hook ()
+    (setq-local tab-width 4)
+    (setq-local indent-tabs-mode nil))
+  (add-hook 'caddyfile-mode-hook #'my-caddyfile-hook))
+
 (use-package c-mode
   :defer t
   :config
