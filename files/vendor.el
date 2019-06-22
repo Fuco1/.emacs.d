@@ -1500,6 +1500,7 @@ use a directory-local variable to specify this per-project."
         (revert-buffer t t t)))
 
     (defun my-js2-mode-init ()
+      (nvm-use-for-buffer)
       (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
       (-when-let (root (locate-dominating-file default-directory "node_modules"))
         (setq-local flycheck-javascript-eslint-executable (concat root "/node_modules/.bin/eslint"))
