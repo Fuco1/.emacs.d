@@ -507,5 +507,11 @@ Ith row is replaced with Ith item of DATA."
   (let ((default-directory (straight--repos-dir)))
     (call-interactively 'ido-find-file)))
 
+;;;###autoload
+(defun my-sum-rectangle (beg end)
+  (interactive "r")
+  (message "rectangle sum: %s"
+           (-sum (-map 'string-to-number (extract-rectangle beg end)))))
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
