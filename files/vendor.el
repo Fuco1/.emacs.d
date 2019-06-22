@@ -2191,6 +2191,9 @@ by that command."
 
     (bind-key "M-'" 'smart-jump-go php-mode-map)
     (bind-key "C-M-'" 'smart-jump-back php-mode-map)
+    (bind-key "(" 'self-insert-command php-mode-map)
+    (bind-key "{" 'self-insert-command php-mode-map)
+    (bind-key "M-j" 'my-join-lines php-mode-map)
 
     (font-lock-add-keywords 'php-mode '((" \\(:\\_<.*?\\_>\\)" 1 'font-lock-builtin-face t)))
 
