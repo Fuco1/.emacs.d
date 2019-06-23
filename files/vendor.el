@@ -1117,6 +1117,11 @@ to use a directory-local variable to specify this per-project."
               (stringp x)
               (file-exists-p x)))
 
+    (flycheck-def-option-var flycheck-phpstan-config-filename "phpstan.neon" php-phpstan
+      "Name of the phpstan configuration file."
+      :type 'string
+      :safe (lambda (x) (stringp x)))
+
     (flycheck-def-option-var flycheck-phpstan-autoload nil php-phpstan
       "Path to the phpstan autoload for current project.
 
@@ -1137,17 +1142,36 @@ use a directory-local variable to specify this per-project."
               (and (stringp x)
                    (string-match-p "\\`[0-9]+\\'" x))))
 
+    (defun my-php-phpstan-find-config (filename checker)
+      (when (eq checker 'php-phpstan)
+        (-first 'file-exists-p
+                (--map (format "%s/%s/%s"
+                               (my-php-find-project-root)
+                               it
+                               filename)
+                       (list
+                        ""
+                        "config"
+                        "app/config"
+                        "tests"
+                        "tests/phpstan"
+                        "tests/config")))))
+
+    (add-hook 'flycheck-locate-config-file-functions
+              'my-php-phpstan-find-config)
+
     (flycheck-define-checker php-phpstan
       "Checker for PHPStan"
       :command ("phpstan"
                 "analyse"
                 "--no-progress"
-                "--errorFormat" "raw"
+                "--error-format" "raw"
                 (option "-l" flycheck-phpstan-level)
-                (option "-c" flycheck-phpstan-config)
+                (config-file "-c" flycheck-phpstan-config-filename)
                 source-original)
       :error-patterns
       ((error line-start (file-name) ":" line ":" (message)))
+      :working-directory my-php-find-project-root
       :modes (php-mode php+-mode))
 
     (add-to-list 'flycheck-checkers 'php-phpstan 'append)
@@ -2283,7 +2307,7 @@ by that command."
             (when (fboundp 'ggtags-eldoc-function)
               (ggtags-eldoc-function)))))
 
-    (defun my-php-find-project-root ()
+    (defun my-php-find-project-root (&rest _ignored)
       (shut-up
         (-when-let* ((file-name (buffer-file-name))
                      (file (expand-file-name file-name)))
@@ -2554,19 +2578,6 @@ These are retrieved from `imenu--index-alist'."
                                   "phpcs.xml"
                                   "ruleset.xml"
                                   ))))
-      (unless (bound-and-true-p flycheck-phpstan-config)
-        (setq-local flycheck-phpstan-config
-                    ;; look into most common directories
-                    (-first 'file-exists-p
-                            (--map (concat (my-php-find-project-root) "/" it)
-                                   (list
-                                    "phpstan.neon"
-                                    "config/phpstan.neon"
-                                    "app/config/phpstan.neon"
-                                    "tests/phpstan.neon"
-                                    "tests/phpstan/phpstan.neon"
-                                    "tests/config/phpstan.neon"
-                                    )))))
       (bind-key "<tab>" 'smart-tab php-mode-map)
       (add-hook 'my-newline-hook 'my-php-open-line nil :local)
       (php-enable-default-coding-style)
