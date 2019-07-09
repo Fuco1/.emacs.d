@@ -969,6 +969,7 @@ idle timer to do the actual update.")
   (progn
     (use-package ess-r-mode
       :config
+      (bind-key "C-c C-t" 'ft-find-test-or-source ess-r-mode-map)
       (bind-key "M-'" 'smart-jump-go ess-r-mode-map)
       (bind-key "C-M-'" 'smart-jump-back ess-r-mode-map))
 
@@ -1087,20 +1088,9 @@ idle timer to do the actual update.")
 
 (use-package find-test
   :straight (:repo "git@github.com:Fuco1/find-test.git")
-  :config
-  (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map)
-  (use-package ess-r-mode
-    :defer t
-    :config (bind-key "C-c C-t" 'ft-find-test-or-source ess-r-mode-map))
-  (use-package neon-mode
-    :defer t
-    :config (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map))
-  (use-package yaml-mode
-    :defer t
-    :config (bind-key "C-c C-t" 'ft-find-test-or-source yaml-mode-map))
-  (use-package js2-mode
-    :defer t
-    :config (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)))
+  :commands ft-find-test-or-source
+  :init
+  (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map))
 
 (use-package flycheck
   :straight t
@@ -1525,6 +1515,7 @@ use a directory-local variable to specify this per-project."
        (format "node --eval 'console.log(Buffer.from(%s).toString())'"
                (buffer-substring-no-properties beg end))))
 
+    (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)
     (bind-key "C-c C-c" 'mocha-test-file js2-mode-map)
     (bind-key "M-'" 'dumb-jump-go js2-mode-map)
     (bind-key "C-M-'" 'dumb-jump-back js2-mode-map)
@@ -2070,6 +2061,7 @@ delete it and re-insert new one."
   :config
   (use-package yaml-mode)
   (sp-local-pair 'neon-mode "%" "%" :unless '(sp-in-comment-p))
+  (bind-key "C-c C-t" 'ft-find-test-or-source neon-mode-map)
   (defun my-neon-mode-init ()
     (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
     (setq-local font-lock-extra-managed-props '(syntax-table))
@@ -3242,6 +3234,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 (use-package yaml-mode
   :mode (("\\.dockerapp\\'" . yaml-mode))
   :config
+  (bind-key "C-c C-t" 'ft-find-test-or-source yaml-mode-map)
   (defun my-yaml-beginning-of-defun (&optional arg)
     (interactive)
     (let ((cc (current-indentation)))
