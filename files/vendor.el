@@ -1087,7 +1087,7 @@ idle timer to do the actual update.")
 (defvar-local flycheck-error-indicators nil)
 
 (use-package find-test
-  :straight (:repo "git@github.com:Fuco1/find-test.git")
+  :straight (:repo "git@github.com:Fuco1/find-test.git" :files ("find-test.el"))
   :commands ft-find-test-or-source
   :init
   (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map))
