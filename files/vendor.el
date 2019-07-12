@@ -2212,7 +2212,7 @@ by that command."
   (progn
     ;; Re-set this to just space to avoid funny issues when realigning
     ;; tables in variable-width settings.
-    (setq org-table-separator-space " ")
+    (setq-default org-table-separator-space " ")
     (my-load-or-tangle (f-join (f-parent my-vendor-file) "org-defs"))
     (load-relative "org-defs")))
 
