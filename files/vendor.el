@@ -121,8 +121,7 @@ _<f10>_ ag-regexp         _0_ ag-dired-regexp
       ("9" ag-dired "ag-dired")
       ("0" ag-dired-regexp "ag-dired-regexp"))
 
-    (require 'wgrep)
-    (require 'wgrep-ag)
+    (use-package wgrep-ag :straight t)
     (add-hook 'ag-mode-hook 'wgrep-ag-setup)))
 
 (use-package allout
@@ -1078,7 +1077,8 @@ idle timer to do the actual update.")
   :commands rgrep
   :config
   (progn
-    (use-package scf-mode)
+    (use-package wgrep :straight t)
+    (use-package scf-mode :straight t)
     (bind-key "s" 'scf-mode grep-mode-map)
     (defun my-grep-mode-init ()
       (scf-mode 1))
@@ -2928,7 +2928,12 @@ separate buffer."
       '((t (:background "#4e9a06")))
        "Face to highlight stocks with a buy order.")))
 
+(use-package string-edit :straight t)
+
+(use-package systemd :straight t)
+
 (use-package textile-mode
+  :straight t
   :mode "\\.textile\\'")
 
 (use-package tex-site
@@ -2964,6 +2969,7 @@ separate buffer."
       (add-hook it 'my-init-text-mode))))
 
 (use-package transpose-frame
+  :straight t
   :init
   (progn
     (defun transpose-frame-reverse (&optional frame)
@@ -3068,6 +3074,7 @@ Omitting FRAME means currently selected frame."
       (delete-window))))
 
 (use-package undercover
+  :straight t
   :bind (("C-c C" . my-toggle-coverage))
   :config
   (defun my-toggle-coverage ()
@@ -3145,6 +3152,7 @@ runtime option."
     (ov-clear 'type 'undercover-report)))
 
 (use-package undo-tree
+  :straight t
   :bind (("C-x u" . undo-tree-visualize))
   :diminish undo-tree-mode)
 
@@ -3186,12 +3194,14 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :commands wc-mode)
 
 (use-package web-mode
+  :straight t
   :mode (("\\.tpl\\'" . web-mode)
          ("\\.twig\\'" . web-mode)
          ("\\.handlebars\\'" . web-mode)
          ("\\.hbs\\'" . web-mode)))
 
 (use-package which-key
+  :straight t
   :defer 2)
 
 (use-package whitaker
@@ -3232,6 +3242,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
       (xref-location-group location))))
 
 (use-package yaml-mode
+  :straight t
   :mode (("\\.dockerapp\\'" . yaml-mode))
   :config
   (bind-key "C-c C-t" 'ft-find-test-or-source yaml-mode-map)
@@ -3252,7 +3263,10 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
     (font-lock-add-keywords nil '(("[^[:alnum:]]@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append))
   (add-hook 'yaml-mode-hook 'my-yaml-mode-init))
 
+(use-package yarn-mode :straight t)
+
 (use-package yasnippet
+  :straight t
   :diminish yas-minor-mode
   :commands (yas-minor-mode
              yas-expand)
