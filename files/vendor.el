@@ -2788,9 +2788,6 @@ separate buffer."
      :heuristic 'error
      :async nil)
 
-    (require 'smart-jump-typescript-mode)
-    (smart-jump-typescript-mode-register)
-
     (smart-jump-register
      :modes 'php-mode
      :jump-fn 'xref-find-definitions
@@ -3006,6 +3003,9 @@ Omitting FRAME means currently selected frame."
       :description "Organize imports to be in a cannonical form"
       :modes 'typescript-mode
       :predicate (lambda () t))
+
+    (require 'smart-jump-typescript-mode)
+    (smart-jump-typescript-mode-register)
 
     (defun setup-tide-mode ()
       (interactive)
