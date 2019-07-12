@@ -1005,6 +1005,8 @@ idle timer to do the actual update.")
 
 (use-package exec-path-from-shell
   :straight t
+  :init
+  (exec-path-from-shell-initialize)
   :commands exec-path-from-shell)
 
 (use-package expand-region
