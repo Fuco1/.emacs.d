@@ -986,7 +986,7 @@ properly aligned."
                         `((,(my-org-emphasis-regexp "$" "$") 1 (funcall 'my-org-emphasis-fontifier 'markup-math))
                           (,(my-org-emphasis-regexp "{" "}") 1 (funcall 'my-org-emphasis-fontifier 'shadow))
                           ;; Fontify list markers
-                          ("^[ \t]*\\([-+]\\|[0-9]+[).]\\) " 0 (funcall 'my-org-fontify-list-marker))
+                          ("^[ \t]*\\([-+]\\|[0-9]+[).]\\) " 0 (funcall 'my-org-fontify-list-marker) append)
                           ;; Fontify hashtags
                           ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend))
                         'append)
