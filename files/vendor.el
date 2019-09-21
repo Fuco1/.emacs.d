@@ -548,6 +548,15 @@ and `my-compile-auto-fold-header-match-data'."
       (rainbow-mode 1))
     (add-hook 'css-mode-hook 'my-css-mode-setup)))
 
+(use-package csv-mode
+  :straight t
+  :mode ("\\.tsv\\'")
+  :config
+  (defun my-csv-mode-setup ()
+    (when (< (buffer-size) 30000)
+      (csv-align-fields nil (point-min) (point-max))))
+  (add-hook 'csv-mode-hook 'my-csv-mode-setup))
+
 (use-package "cua-base"
   :defer t
   :config
