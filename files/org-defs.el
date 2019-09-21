@@ -340,9 +340,11 @@
                        (org-agenda-files '("~/org/refile.org"))
                        (org-tags-match-list-sublevels nil))))
       (super-agenda . (agenda ""
-                              ((org-super-agenda-groups
-                                '(
-                                  (:name "MIT"
+                              ((org-agenda-skip-function
+                                '(or (my-org-global-skip-function)
+                                     (my-org-agenda-skip-deadline-with-wait-todo)))
+                               (org-super-agenda-groups
+                                '((:name "MIT"
                                    :tag "#mit"
                                    :order 1)
                                   (:name "Weekly"
@@ -356,7 +358,8 @@
                                          :not (:time-grid))
                                    :order 11)
                                   (:name "Deadlines"
-                                   :and (:deadline future)
+                                   :and (:deadline t
+                                         :not (:todo "WAIT"))
                                    :order 20)
                                   (:name "Scheduled"
                                    :and (:scheduled past
@@ -403,9 +406,7 @@
       (waiting-tasks . (tags-todo "-STOP/!+WAIT"
                                   ((org-agenda-overriding-header "Waiting Tasks")
                                    (org-agenda-skip-function 'my-org-skip-projects)
-                                   (org-tags-match-list-sublevels nil)
-                                   (org-agenda-todo-ignore-scheduled 'future)
-                                   (org-agenda-todo-ignore-deadlines 'future))))
+                                   (org-tags-match-list-sublevels nil))))
       ;; Active projects and projects that wait on something
       ;; Things we are working on
       ;; TODO: should show immediate children tasks if narrowed
@@ -1094,6 +1095,17 @@ This usually makes new item indented one level deeper."
 (defun my-org-global-skip-function ()
   "Global skip function for all agenda views"
   (when (member "folder" (ignore-errors (org-get-tags)))
+    (save-excursion
+      (or (outline-next-heading)
+          (point-max)))))
+
+(defun my-org-agenda-skip-deadline-with-wait-todo ()
+  "Skip agenda items which have deadlines but are on WAIT.
+
+WAIT tasks are not in our control so there is no action to be
+done."
+  (when (and (org-get-deadline-time (point))
+             (equal (org-get-todo-state) "WAIT"))
     (save-excursion
       (or (outline-next-heading)
           (point-max)))))
