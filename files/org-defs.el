@@ -118,6 +118,7 @@
 
 (use-package org-drill
   :commands org-drill
+  :defer nil
   :bind (:map org-mode-map
          ("H-d" . org-drill)
          ("H-r" . org-drill-resume)
