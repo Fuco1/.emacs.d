@@ -861,6 +861,13 @@ by a REPEAT property."
 ; If we leave Emacs running overnight - reset the appointments one minute after midnight
 (run-at-time "24:01" nil 'my-org-agenda-to-appt)
 
+(org-add-link-type "tag" 'endless/follow-tag-link)
+
+(defun endless/follow-tag-link (tag)
+  "Display a list of TODO headlines with tag TAG.
+With prefix argument, also display headlines without a TODO keyword."
+  (org-tags-view (null current-prefix-arg) tag))
+
 (org-add-link-type "my-orgdict" 'my-org-dictionary-follow)
 (defun my-org-dictionary-follow (search)
   "Follow the org-dict link.
