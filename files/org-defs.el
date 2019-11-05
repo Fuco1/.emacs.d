@@ -935,6 +935,11 @@ The second part is a regexp to search in the buffer."
     (backward-char 1)
     face))
 
+(defface my-org-key
+  '((t (:inherit markup-inline-code
+        :box (:line-width -1 :color "*" :style nil))))
+  "Face for the ~~ markup, used for key bindings.")
+
 ;; TODO: package and write a blog
 (defface my-org-inline-src-src
   '((t (:background "#212526")))

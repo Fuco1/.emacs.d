@@ -1498,14 +1498,6 @@
  '(org-drill-scope (quote directory))
  '(org-duration-format (quote ((special . h:mm))))
  '(org-email-link-description-format "%f: %.100s")
- '(org-emphasis-alist
-   (quote
-    (("*" markup-bold)
-     ("/" markup-italic)
-     ("_" underline)
-     ("=" markup-inline-code verbatim)
-     ("~" markup-inline-code verbatim)
-     ("+" markup-strike))))
  '(org-export-allow-bind-keywords t)
  '(org-export-backends (quote (html latex md odt)))
  '(org-extend-today-until 4)

@@ -2241,6 +2241,14 @@ by that command."
 (use-package org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
+  :custom
+  (org-emphasis-alist
+   '(("*" markup-bold)
+     ("/" markup-italic)
+     ("_" underline)
+     ("=" markup-inline-code verbatim)
+     ("~" my-org-key verbatim)
+     ("+" markup-strike)))
   ;; The following lines are always needed.  Choose your own keys.
   :bind  (("C-c l" . org-store-link)
           ("<f12>" . org-agenda)
