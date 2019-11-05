@@ -111,15 +111,15 @@ expands it.  Else calls `my-smart-indent'."
     (completion-at-point))
    ((bound-and-true-p my-magit-read-files-is-active)
     (minibuffer-complete))
-   ((eq major-mode 'org-mode)
+   ((memq major-mode '(org-mode markdown-mode gfm-mode))
     (cond
      ((looking-back "^<\\sw")
-      (org-cycle))
+      (if (eq major-mode 'org-mode) (org-cycle) (markdown-cycle)))
      ((my-smart-tab-must-expand prefix)
       (hippie-expand prefix))
      ((use-region-p)
       (indent-region (region-beginning) (region-end)))
-     (:otherwise (org-cycle))))
+     (:otherwise (if (eq major-mode 'org-mode) (org-cycle) (markdown-cycle)))))
    (:otherwise (my-smart-tab-default-action prefix))))
 
 (defun my-smart-indent ()
