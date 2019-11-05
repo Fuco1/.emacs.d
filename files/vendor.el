@@ -633,41 +633,7 @@ and `my-compile-auto-fold-header-match-data'."
 
 ;; see commentary in dired-defs.el
 (use-package dired
-  :mode ("\\.wdired\\'" . my-virtual-dired-mode)
   :bind (("C-x C-j" . dired-jump))
-  :init
-  (progn
-    (defvar my-virtual-dired-p nil
-      "Non-nil if the buffer is virtual dired.")
-
-    ;; TODO: if we have just one line take it to be the "current" dired
-    ;; and do not assume it specifies default directory
-    ;; TODO: actually, just remove the "top" directory option completely
-    (defun my-virtual-dired-mode (&rest _ignore)
-      (let ((magit-auto-revert-mode-old
-             (bound-and-true-p magit-auto-revert-mode)))
-        (unwind-protect
-            (save-excursion
-              (magit-auto-revert-mode -1)
-              (goto-char (point-min))
-              (back-to-indentation)
-              (let* ((ddir (thing-at-point 'filename))
-                     (dired-buffers dired-buffers))
-                (set-buffer-modified-p nil)
-                (virtual-dired nil)
-                (set-buffer-modified-p nil)
-                (setq write-contents-functions 'dired-virtual-save-buffer)
-                (set (make-local-variable 'my-virtual-dired-p) t))
-              (goto-line 2)
-              (let ((buffer-name (s-trim (thing-at-point 'line))))
-                (dired-virtual-revert)
-                (rename-buffer buffer-name)))
-          (when (boundp magit-auto-revert-mode)
-            (magit-auto-revert-mode magit-auto-revert-mode-old)))))
-
-    (defadvice org-edit-src-code (after run-wdired activate)
-      (when (eq major-mode 'dired-mode)
-        (my-virtual-dired-mode))))
   :config
   (progn
     (my-load-or-tangle (f-join (f-parent my-vendor-file) "dired-defs"))
