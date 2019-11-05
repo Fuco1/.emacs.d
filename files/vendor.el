@@ -575,7 +575,28 @@ and `my-compile-auto-fold-header-match-data'."
   :straight t
   :mode ("\\.tsv\\'")
   :config
+  (defun my-csv-mode-set-separator (variable value)
+    (mapc (lambda (x)
+            (if (/= (length x) 1)
+                (error "Non-single-char string %S" x))
+            (if (and (boundp 'csv-field-quotes)
+                     (member x csv-field-quotes))
+                (error "%S is already a quote" x)))
+          value)
+    (set (make-local-variable variable) value)
+    (setq-local csv-separator-chars (mapcar 'string-to-char value))
+    (setq-local csv--skip-regexp (apply 'concat "^\n" csv-separators))
+    (setq-local csv-separator-regexp (apply 'concat `("[" ,@value "]")))
+    (setq-local csv-font-lock-keywords
+                ;; NB: csv-separator-face variable evaluates to itself.
+                `((,csv-separator-regexp (0 'csv-separator-face)))))
+
   (defun my-csv-mode-setup ()
+    (when (or (and buffer-file-name
+                   (string-match-p "\\.tsv\\'" buffer-file-name))
+              (and (buffer-name)
+                   (string-match-p "\\.tsv\\'" (buffer-name))))
+      (my-csv-mode-set-separator 'csv-separators (list "\t")))
     (when (< (buffer-size) 30000)
       (csv-align-fields nil (point-min) (point-max))))
   (add-hook 'csv-mode-hook 'my-csv-mode-setup))
