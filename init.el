@@ -34,7 +34,9 @@
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
 
-  (straight-use-package 'el-patch))
+  (straight-use-package
+   '(el-patch :repo "git@github.com:raxod502/el-patch.git"
+              :fork (:repo "git@github.com:Fuco1/el-patch.git"))))
 
 (my-with-elapsed-timer "setup org-plus-contrib"
   (require 'subr-x)
