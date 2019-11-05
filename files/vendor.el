@@ -987,6 +987,7 @@ idle timer to do the actual update.")
   (progn
     (use-package ess-r-mode
       :config
+      (bind-key "M-\\" " %>% " ess-r-mode-map)
       (bind-key "C-c C-t" 'ft-find-test-or-source ess-r-mode-map)
       (bind-key "M-'" 'smart-jump-go ess-r-mode-map)
       (bind-key "C-M-'" 'smart-jump-back ess-r-mode-map))
@@ -999,7 +1000,8 @@ idle timer to do the actual update.")
      :map ess-mode-map
      ("_" . self-insert-command)
      :map inferior-ess-mode-map
-     ("_" . self-insert-command)
+      ("_" . self-insert-command)
+      ("M-\\" . " %>% ")
      :map ess-help-mode-map
      ("q" . quit-window))
 
