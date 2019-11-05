@@ -1489,7 +1489,9 @@ use a directory-local variable to specify this per-project."
   :config
   (progn
     (use-package js2-refactor :straight t)
-    (use-package rjsx-mode :straight t)
+    (use-package rjsx-mode
+      :straight t
+      :mode (("\\.tsx\\'" . rjsx-mode)))
     (use-package mocha :straight t)
     (bind-key "C-c C-m"
               (defhydra js2-refactor-hydra (:color blue :hint nil)
