@@ -1115,6 +1115,9 @@ idle timer to do the actual update.")
   :init
   (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map))
 
+(use-package find-local-executable
+  :straight (:repo "git@github.com:Fuco1/find-local-executable.git"))
+
 (use-package flycheck
   :straight t
   :commands flycheck-mode
@@ -1578,10 +1581,8 @@ use a directory-local variable to specify this per-project."
     (defun my-js2-mode-init ()
       (nvm-use-for-buffer)
       (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
-      (-when-let (root (locate-dominating-file default-directory "node_modules"))
-        (setq-local flycheck-javascript-eslint-executable (concat root "/node_modules/.bin/eslint"))
-        (setq-local flycheck-javascript-flow-executable (concat root "/node_modules/.bin/flow"))
-        (setq-local flycheck-javascript-flow-coverage-executable (concat root "/node_modules/.bin/flow")))
+      (find-local-executable-nodejs-setup-eslint)
+      (find-local-executable-nodejs-setup-flow)
       (when (and buffer-file-name
                  (string-match-p "\\.spec\\.js\\'" buffer-file-name))
         (mocha-toggle-imenu-function))
@@ -2590,16 +2591,8 @@ These are retrieved from `imenu--index-alist'."
       (when (and (buffer-file-name)
                  (string-match-p "/vendor/" (buffer-file-name)))
         (flycheck-mode -1))
-      (setq-local flycheck-php-phpstan-executable
-                  (-first 'file-exists-p
-                          (--map (concat (my-php-find-project-root) "/" it)
-                                 (list
-                                  "/vendor/bin/phpstan"
-                                  "/vendor/bin/phpstan.phar"))))
-      (let ((phpcs (concat (my-php-find-project-root)
-                           "/vendor/bin/phpcs")))
-        (when (file-exists-p phpcs)
-          (setq-local flycheck-php-phpcs-executable phpcs)))
+      (find-local-executable-php-setup-phpstan)
+      (find-local-executable-php-setup-phpcs)
       (setf (flycheck-checker-get 'php-phpcs 'working-directory)
             (lambda (_checker)
               (my-php-find-project-root)))
@@ -3098,11 +3091,7 @@ Omitting FRAME means currently selected frame."
 
   (defun my-typescript-mode-setup ()
     (add-hook 'after-save-hook 'my-tslint-fix nil 'local)
-    (when (buffer-file-name)
-      (-when-let (root (locate-dominating-file (buffer-file-name) "tslint.json"))
-        (setq-local
-         flycheck-typescript-tslint-executable
-         (concat root "/node_modules/.bin/tslint")))))
+    (find-local-executable-typescript-setup-tslint))
 
   (add-hook 'typescript-mode-hook #'my-typescript-mode-setup))
 
