@@ -1899,6 +1899,7 @@ called, percentage usage and the command."
          ("C-c m C-f" . magit-find-file)
          )
   :config
+  (use-package orgit :straight t)
   (use-package gitattributes-mode :straight t)
   (magit-auto-revert-mode 1)
   (remove-hook 'server-switch-hook 'magit-commit-diff)
