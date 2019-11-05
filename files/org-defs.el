@@ -364,6 +364,7 @@
                                    :order 11)
                                   (:name "Deadlines"
                                    :and (:deadline t
+                                         :not (:todo "HOLD")
                                          :not (:todo "WAIT"))
                                    :order 20)
                                   (:name "Scheduled"
