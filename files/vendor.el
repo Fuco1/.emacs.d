@@ -1588,6 +1588,8 @@ use a directory-local variable to specify this per-project."
                  (string-match-p "\\.spec\\.js\\'" buffer-file-name))
         (mocha-toggle-imenu-function))
       (js2-refactor-mode 1)
+      (company-mode 1)
+      (lsp)
       (when (fboundp 'flow-js2-mode)
         (flow-js2-mode 1))
       (when (flow-minor-configured-p)
