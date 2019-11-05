@@ -3093,6 +3093,7 @@ Omitting FRAME means currently selected frame."
       (revert-buffer t t t)))
 
   (defun my-typescript-mode-setup ()
+    (nvm-use-for-buffer)
     (add-hook 'after-save-hook 'my-tslint-fix nil 'local)
     (find-local-executable-typescript-setup-tslint))
 
