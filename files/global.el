@@ -16,6 +16,10 @@
 (add-hook 'before-save-hook 'cleanup-buffer-safe)
 (add-hook 'before-save-hook 'my-create-directory-on-save)
 
+;; Some safe file-local variables
+(put 'default-input-method 'safe-local-variable #'stringp)
+(put 'org-refile-targets #'listp)
+
 ;; UTF
 (setq locale-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)

@@ -230,6 +230,8 @@ With non-nil prefix argument, ask for LANGUAGE."
       (setq my-buffer-input-methods (-rotate 1 my-buffer-input-methods))
       (set-input-method next))))
 
+(put 'my-buffer-input-methods 'safe-local-variable #'stringp)
+
 ;;;###autoload
 (defun my-switch-buffer-LRU ()
   "Switch to LRU buffer."

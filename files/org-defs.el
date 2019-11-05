@@ -126,6 +126,10 @@
   (progn
     (use-package pcase)
 
+    (defvar my-org-drill-language "UNKNOWN"
+      "Language of the cards in this drill session.")
+    (put 'my-org-drill-language 'safe-local-variable #'stringp)
+
     (defun my-org-convert-tab-word-list-to-drill ()
       (interactive)
       (goto-char (point-min))

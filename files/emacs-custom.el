@@ -108,7 +108,7 @@
  '(abm-file "~/.emacs.d/.cache/autobookmarks/autobookmarks")
  '(abm-ignore-buffers
    (quote
-    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index" "Org Src")))
+    ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index" "Org Src" "320360-c916-4b40-b614-3e99ac7fd4c6")))
  '(abm-old-bookmark-threshold 45)
  '(ag-highlight-search t)
  '(alert-default-style (quote libnotify))
@@ -140,12 +140,6 @@
  '(calendar-view-diary-initially-flag t)
  '(calendar-week-start-day 1)
  '(column-number-mode t)
- '(company-backends
-   (quote
-    (company-omnisharp php-extras-company company-swb company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
-                       (company-dabbrev-code company-gtags company-etags company-keywords)
-                       company-oddmuse company-dabbrev)))
- '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-error-regexp-alist
    (quote
     (absoft ada aix ant bash borland python-tracebacks-and-caml comma cucumber msft edg-1 edg-2 epc ftnchek iar ibm irix java jikes-file maven jikes-line gcc-include ruby-Test::Unit gnu lcc makepp mips-1 mips-2 msft omake oracle perl php rxp sparc-pascal-file sparc-pascal-line sparc-pascal-example sun sun-ada watcom 4bsd gcov-file gcov-header gcov-nomark gcov-called-line gcov-never-called perl--Pod::Checker perl--Test perl--Test2 perl--Test::Harness weblint nette-tester)))
@@ -161,7 +155,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("22ff84fead97f05770fe28b52314221df14a43b0ffce5e5f9e331b5c5e45044d" "496c2c85f503ffed8081685d26653e48f211355325ecc181dee3293b0f4b501a" "1a02d018433b404de5cd48b696f2becaece559000268d7c385b9294378b476ef" "14e352ac2da10d5a6cdc6a74c1d34a8705f192f52f39886a9fff6d6255183471" "eac019f14171f37538b64b4bd37e8167702a63ec9dfce6b1e2fc991a617e3d81" "41ef21fb326cb60e26c21851eb2e06fdd65a2a0e40404a81166e3dae85107e9e" "66b84e676b3549d2108cc017bab900c763a2d4e025ffbc6203835a5d5154b6c5" "48a645c2d93a4a707cc1dc4f7859c266987b6cbd236827ab82a558d7fc61363d" "50f2c57b4309b4faa92392f02e912af829518a44b730a26652e864bee21935b5" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    (default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -189,7 +183,7 @@
       ("LaTeX"
        (extension "tex" "bib"))
       ("Org"
-       (extension . "org"))
+       (extension "org" "org_archive"))
       ("Archives" "archives")
       ("Media" "media"))
      ("pytest"
@@ -312,7 +306,7 @@
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(editorconfig-mode t)
  '(elfeed-db-directory "~/.emacs.d/elfeed")
- '(elfeed-max-connections 5)
+ '(elfeed-max-connections 5 t)
  '(elfeed-search-face-alist
    (quote
     ((unread elfeed-search-unread-title-face)
@@ -354,7 +348,6 @@
 >[#$] ")
  '(eshell-skip-prompt-function (quote my-eshell-skip-prompt))
  '(exec-path-from-shell-shell-name "fish")
- '(explicit-shell-file-name "/usr/bin/zsh")
  '(eyebrowse-mode t)
  '(find-grep-options "-qE")
  '(flycheck-disabled-checkers (quote (php-phplint php-phpmd emacs-lisp-checkdoc)))
@@ -427,9 +420,8 @@
  '(guide-key/recursive-key-sequence-flag t)
  '(haskell-mode-hook
    (quote
-    (turn-on-haskell-indentation turn-on-haskell-doc-mode)))
+    (turn-on-haskell-indentation turn-on-haskell-doc-mode)) t)
  '(haskell-process-args-ghci (quote ("-ferror-spans" "-i.")))
- '(haskell-program-name "ghci +RTS -M300m")
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
  '(helm-candidate-number-limit 1000)
@@ -608,7 +600,9 @@
      ("reg" "ledger -f %(ledger-file) reg")
      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
      ("reg-account" "ledger -f %(ledger-file) reg %(account)")
-     ("bal-account" "ledger -f %(ledger-file) -X Kc bal %(account)"))))
+     ("bal-account" "ledger -f %(ledger-file) -X Kc bal %(account)")
+     ("bal-saving" "ledger -f %(ledger-file) -X Kc --real bal 'assets:saving'")
+     ("envelopes" "ledger -f %(ledger-file) bal envelopes '/(checking|saving):.*:capital/' 'assets:saving:air bank' -X Kc"))))
  '(legalese-date-format (quote ordinal))
  '(legalese-default-copyright "Matúš Goljer")
  '(legalese-templates
@@ -652,7 +646,9 @@
  '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity (quote (uid gid)))
  '(lsp-inhibit-message t)
+ '(lsp-prefer-flymake nil)
  '(lsp-ui-flycheck-enable nil)
+ '(lsp-ui-sideline-enable nil)
  '(magit-auto-revert-mode nil)
  '(magit-bury-buffer-function (quote quit-window))
  '(magit-commit-arguments nil)
@@ -694,6 +690,7 @@
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-logo nil)
  '(nov-save-place-file "~/.emacs.d/.cache/nov/nov-places")
+ '(nvm-dir "/home/matus/.local/share/nvm")
  '(omnisharp-server-executable-path
    "/home/matus/sources/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
  '(org-M-RET-may-split-line nil)
@@ -712,15 +709,21 @@
    (quote
     (my-org-agenda-remove-empty-lists my-org-agenda-to-appt org-clock-budget-insert-into-agenda)))
  '(org-agenda-include-diary t)
+ '(org-agenda-prefix-format
+   (quote
+    ((agenda . " %i %-12:c%?-12t% s%5e")
+     (todo . " %i %-12:c%5e")
+     (tags . " %i %-12:c%5e")
+     (search . " %i %-12:c%5e"))))
  '(org-agenda-skip-deadline-if-done t)
  '(org-agenda-skip-function-global (quote my-org-global-skip-function))
  '(org-agenda-skip-scheduled-if-done t)
  '(org-agenda-skip-timestamp-if-done t)
  '(org-agenda-sorting-strategy
    (quote
-    ((agenda time-up priority-down category-keep)
+    ((agenda time-up deadline-up priority-down category-keep)
      (todo priority-down category-keep)
-     (tags priority-down category-keep)
+     (tags deadline-up priority-down category-keep)
      (search category-keep))))
  '(org-agenda-span (quote day))
  '(org-agenda-start-with-clockreport-mode nil)
@@ -1504,6 +1507,7 @@
      ("~" markup-inline-code verbatim)
      ("+" markup-strike))))
  '(org-export-allow-bind-keywords t)
+ '(org-export-backends (quote (html latex md odt)))
  '(org-extend-today-until 4)
  '(org-fast-tag-selection-single-key (quote expert))
  '(org-file-apps
@@ -1597,7 +1601,7 @@
  '(org-super-agenda-unmatched-order 10)
  '(org-support-shift-select t)
  '(org-tags-column -80)
- '(org-tags-exclude-from-inheritance (quote ("folder" "publish")))
+ '(org-tags-exclude-from-inheritance (quote ("folder" "publish" "ATTACH")))
  '(org-tags-sort-function (quote string<))
  '(org-time-clocksum-format
    (quote
@@ -1605,11 +1609,12 @@
  '(org-toggl-inherit-toggl-properties t)
  '(org-tree-slide-slide-in-effect nil)
  '(org-use-fast-tag-selection t)
+ '(org-use-property-inheritance (quote ("CLOCK_MODELINE_TOTAL")))
  '(org-use-speed-commands t)
  '(package-enable-at-startup nil)
  '(package-selected-packages
    (quote
-    (diredfl systemd org-noter org-make-toc company-lsp pomidor smart-jump lsp-ui lsp-mode js2-refactor fish-completion impatient-mode docker-tramp nov magit-annex restclient web-server org-super-agenda camcorder scala-mode cmake-mode evil pdf-tools org-brain yaml-mode world-time-mode which-key wgrep-ag web-mode visual-regexp use-package undo-tree undercover tuareg transpose-frame string-edit smex smartscan smartparens shell-pop shackle scf-mode rainbow-mode puppet-mode pos-tip php-refactor-mode php-mode php-eldoc php-boris-minor-mode password-generator parse-csv paren-face pandoc-mode pallet package-lint overseer ov outshine org-plus-contrib omnisharp ob-elixir notmuch nginx-mode multiple-cursors markdown-toc markdown-mode+ make-it-so magit macrostep legalese ledger-mode keyfreq jump-char json-mode js2-mode jdee ido-ubiquitous ibuffer-vc htmlize highlight-thing helm-gtags helm-descbinds gnus-alias gnuplot glsl-mode gitignore-mode flycheck-ledger flycheck-haskell flycheck-elixir flycheck-credo flycheck-cask flx-ido fish-mode firestarter expand-region exec-path-from-shell ess emr emmet-mode elpy elfeed eldoc-eval eimp editorconfig dockerfile-mode dired+ czech-holidays conkeror-minor-mode concurrent company-statistics clojure-mode cask-mode buttercup browse-kill-ring browse-at-remote auctex assess alchemist ag)))
+    (easy-kill org-gcal atomic-chrome diredfl systemd org-noter org-make-toc company-lsp pomidor smart-jump lsp-ui lsp-mode js2-refactor fish-completion impatient-mode docker-tramp nov magit-annex restclient web-server org-super-agenda camcorder scala-mode cmake-mode evil pdf-tools org-brain yaml-mode world-time-mode which-key wgrep-ag web-mode visual-regexp use-package undo-tree undercover tuareg transpose-frame string-edit smex smartscan smartparens shell-pop shackle scf-mode rainbow-mode puppet-mode pos-tip php-refactor-mode php-mode php-eldoc php-boris-minor-mode password-generator parse-csv paren-face pandoc-mode pallet package-lint overseer ov outshine org-plus-contrib omnisharp ob-elixir notmuch nginx-mode multiple-cursors markdown-toc markdown-mode+ make-it-so magit macrostep legalese ledger-mode keyfreq jump-char json-mode js2-mode jdee ido-ubiquitous ibuffer-vc htmlize highlight-thing helm-gtags helm-descbinds gnus-alias gnuplot glsl-mode gitignore-mode flycheck-ledger flycheck-haskell flycheck-elixir flycheck-credo flycheck-cask flx-ido fish-mode firestarter expand-region exec-path-from-shell ess emr emmet-mode elpy elfeed eldoc-eval eimp editorconfig dockerfile-mode dired+ czech-holidays conkeror-minor-mode concurrent company-statistics clojure-mode cask-mode buttercup browse-kill-ring browse-at-remote auctex assess alchemist ag)))
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
  '(preview-scale-function 1.5)
@@ -1634,364 +1639,7 @@
      ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
  '(require-final-newline t)
  '(restclient-inhibit-cookies t)
- '(safe-local-variable-values
-   (quote
-    ((org-noter-default-notes-file-names "forecasting.org")
-     (org-noter-notes-search-path "~/data/research/logistics/")
-     (org-noter-notes-search-path . "~/data/research/logistics/")
-     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
-     (ft-source-to-test-mapping
-      (:path "Elsa/" :prefix "elsa")
-      :path "Elsa/tests/" :prefix "test")
-     (ft-source-to-test-mapping
-      (:path "" :prefix "elsa")
-      :path "/tests/" :prefix "test")
-     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
-     (flycheck-phpstan-autoload . "/var/www/html/core/vendor/autoload.php")
-     (flycheck-phpstan-config . "/var/www/html/core/tests/phpstan/phpstan.neon")
-     (my-flycheck-get-php-source . my-pw-to-docker)
-     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/docker-phpstan")
-     (eval ispell-change-dictionary "slovak")
-     (haskell-program-name . "stack exec -- ghci +RTS -M300m")
-     (eval setq compile-command
-           (concat "make -C "
-                   (locate-dominating-file
-                    (buffer-file-name)
-                    ".travis.yml")))
-     (eval setq compile-command
-           (concat "make -C "
-                   (locate-dominating-file
-                    (buffer-file-name)
-                    ".travis.yml")
-                   " -j2"))
-     (org-refile-targets
-      (nil :maxlevel . 9))
-     (eval font-lock-add-keywords nil
-           (-map
-            (-lambda
-              ((face . color))
-              (let
-                  ((pattern
-                    (concat "\\_<"
-                            (symbol-name face)
-                            "\\_>"))
-                   (color-resolved
-                    (if
-                        (stringp color)
-                        color
-                      (cdr
-                       (assq color
-                             (cdar my-tango-colors))))))
-                (list pattern 0
-                      (\`
-                       (rainbow-colorize-match
-                        (\, color-resolved))))))
-            (cdar my-tango-colors)))
-     (eval set-input-method "slovak-prog-2")
-     (default-input-method . "slovak-prog-2")
-     (flycheck-php-phpstan-executable . "/home/matus/dev/salesforce-proxy/docker-phpstan")
-     (flycheck-php-phpstan-executable . "/home/matus/dev/application/docker-phpstan")
-     (eval when
-           (and
-            (buffer-file-name)
-            (file-regular-p
-             (buffer-file-name))
-            (string-match-p "^[^.]"
-                            (buffer-file-name)))
-           (unless
-               (featurep
-                (quote package-build))
-             (let
-                 ((load-path
-                   (cons ".." load-path)))
-               (require
-                (quote package-build))))
-           (package-build-minor-mode)
-           (set
-            (make-local-variable
-             (quote package-build-working-dir))
-            (expand-file-name "../working/"))
-           (set
-            (make-local-variable
-             (quote package-build-archive-dir))
-            (expand-file-name "../packages/"))
-           (set
-            (make-local-variable
-             (quote package-build-recipes-dir))
-            default-directory))
-     (swb-database . "ahold_ok")
-     (swb-port . "30245")
-     (swb-database . "nestle_live")
-     (swb-port . "30238")
-     (swb-host . "tunel.logio.cz")
-     (flycheck-ghc-search-path . "/home/matus/dev/haskell/mpris/src/")
-     (c-style-alist
-      ("ledger"
-       (indent-tabs-mode)
-       (c-basic-offset . 2)
-       (c-comment-only-line-offset 0 . 0)
-       (c-hanging-braces-alist
-        (substatement-open before after)
-        (arglist-cont-nonempty))
-       (c-offsets-alist
-        (statement-block-intro . +)
-        (knr-argdecl-intro . 5)
-        (substatement-open . 0)
-        (substatement-label . 0)
-        (label . 0)
-        (case-label . 0)
-        (statement-case-open . 0)
-        (statement-cont . +)
-        (arglist-intro . +)
-        (arglist-close . +)
-        (inline-open . 0)
-        (brace-list-open . 0)
-        (topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))
-       (c-special-indent-hook . c-gnu-impose-minimum)
-       (c-block-comment-prefix . "")))
-     (swb-database . "test")
-     (swb-user . "root")
-     (swb-port . "3306")
-     (swb-host . "localhost")
-     (eval when
-           (and
-            (buffer-file-name)
-            (file-regular-p
-             (buffer-file-name))
-            (string-match-p "^[^.]"
-                            (buffer-file-name)))
-           (emacs-lisp-mode)
-           (when
-               (fboundp
-                (quote flycheck-mode))
-             (flycheck-mode -1))
-           (unless
-               (featurep
-                (quote package-build))
-             (let
-                 ((load-path
-                   (cons ".." load-path)))
-               (require
-                (quote package-build))))
-           (package-build-minor-mode)
-           (set
-            (make-local-variable
-             (quote package-build-working-dir))
-            (expand-file-name "../working/"))
-           (set
-            (make-local-variable
-             (quote package-build-archive-dir))
-            (expand-file-name "../packages/"))
-           (set
-            (make-local-variable
-             (quote package-build-recipes-dir))
-            default-directory))
-     (eval add-to-list
-           (quote imenu-generic-expression)
-           (quote
-            ("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\|def-example-group\\| => \\| !!> \\| ~>"
-              (0
-               (quote font-lock-keyword-face)))
-             ("(defexamples[[:blank:]]+\\(.*\\)"
-              (1
-               (quote font-lock-function-name-face))))))
-     (eval add-to-list
-           (quote imenu-generic-expression)
-           (quote
-            ("Sallet sources" "\\(^(sallet-defsource +\\)\\(\\_<.+?\\_>\\)" 2)))
-     (eval add-to-list
-           (quote imenu-generic-expression)
-           (quote
-            ("Sallet sources" "\\(^(sallet-defsource +\\)\\(\\_<.+\\_>\\)" 2)))
-     (my-buffer-input-methods "devanagari-translit" "devanagari-kyoto-harvard")
-     (my-buffer-input-methods "devanagari-translit" "devanagari-aiba")
-     (my-buffer-input-methods "TeX" "devanagari-aiba")
-     (my-org-drill-language . "Sanskrit")
-     (haskell-program-name . "ghci -lpulse")
-     (eval when
-           (and
-            (buffer-file-name)
-            (file-regular-p
-             (buffer-file-name))
-            (string-match-p "^[^.]"
-                            (buffer-file-name)))
-           (emacs-lisp-mode)
-           (when
-               (fboundp
-                (quote flycheck-mode))
-             (flycheck-mode -1))
-           (unless
-               (featurep
-                (quote package-build))
-             (let
-                 ((load-path
-                   (cons ".." load-path)))
-               (require
-                (quote package-build))))
-           (package-build-minor-mode))
-     (my-org-drill-language . "French")
-     (eval font-lock-add-keywords nil
-           (quote
-            (("(\\(dired-filter-define\\)[[:blank:]]+\\(.+\\)"
-              (1
-               (quote font-lock-keyword-face))
-              (2
-               (quote font-lock-function-name-face))))))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\|def-example-group\\| => "
-              (0
-               (quote font-lock-keyword-face)))
-             ("(defexamples[[:blank:]]+\\(.*\\)"
-              (1
-               (quote font-lock-function-name-face))))))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\|def-example-group\\| => "
-              (0
-               (quote font-lock-keyword-face)))
-             ("(defexamples[[:blank:]]+\\(.*?\\)"
-              (1
-               (quote font-lock-function-name-face))))))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\|def-example-group\\| => "
-              (0
-               (quote font-lock-keyword-face)))
-             ("(defexamples[:blank:]+\\(.*?\\)"
-              (1
-               (quote font-lock-function-name-face))))))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\|def-example-group\\| => "
-              (0
-               (quote font-lock-keyword-face)))
-             ("(defexamples[ ]+\\(.*?\\)"
-              (1
-               (quote font-lock-function-name-face))))))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\|def-example-group\\| => "
-              (0
-               (quote font-lock-keyword-face)))
-             ("(defexamples +\\(.*?\\)"
-              (1
-               (quote font-lock-function-name-face))))))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\|def-example-group\\| => "
-              (0
-               (quote font-lock-keyword-face))))))
-     (org-refile-targets
-      ("~/org/bookmarks.org" :tag . "folder"))
-     (org-tags-exclude-from-inheritance "folder")
-     (org-tags-exclude-from-inheritance . folder)
-     (org-tags-exclude-from-inheritance . "folder")
-     (eval progn
-           (variable-pitch-mode 1)
-           (text-scale-adjust 2)
-           (overlay-put
-            (make-overlay
-             (point-min)
-             (point-max))
-            (quote face)
-            (quote my-reading-face)))
-     (dired-filter-stack
-      (dot-files)
-      (omit))
-     (my-inhibit-buffer-cleanup . t)
-     (eval progn
-           (local-set-key
-            (kbd "C-=")
-            (quote my-org-add-drill-entry))
-           (local-set-key
-            (kbd "C-<")
-            (quote my-format-russian-verb))
-           (local-set-key
-            (kbd "C->")
-            (quote my-format-meaning)))
-     (eval progn
-           (local-set-key
-            (kbd "C-=")
-            (quote my-org-add-drill-entry))
-           (local-set-key
-            (kbd "C->")
-            (quote my-format-meaning)))
-     (eval progn
-           (local-set-key
-            (kbd "C-=")
-            (quote my-org-add-drill-entry))
-           (local-set-key
-            (kbd "C->")
-            (quote my-format-latin-meaning)))
-     (eval progn
-           (local-set-key
-            (kbd "C-=")
-            (quote my-org-add-drill-entry))
-           (local-set-key
-            (kbd "C-<")
-            (quote my-format-russian-verb))
-           (local-set-key
-            (kbd "C->")
-            (quote my-format-russian-meaning)))
-     (eval progn
-           (variable-pitch-mode 1)
-           (text-scale-adjust 2))
-     (cursor-type . bar)
-     (eval progn
-           (variable-pitch-mode 1)
-           (text-scale-adjust 3))
-     (my-org-drill-language . "Latin")
-     (eval local-set-key
-           (kbd "C-=")
-           (quote my-org-add-drill-entry))
-     (eval set-input-method "cyrillic-translit")
-     (my-org-drill-language . "Russian")
-     (my-org-drill-file . t)
-     (my-org-drill-local-language . "Polish")
-     (eval virtual-dired "d:/")
-     (eval font-lock-add-keywords nil
-           (\`
-            (((\,
-               (concat "("
-                       (regexp-opt
-                        (quote
-                         ("wd-cond"))
-                        t)
-                       "\\_>"))
-              1
-              (quote font-lock-keyword-face)))))
-     (eval push
-           (file-name-directory
-            (buffer-file-name))
-           load-path)
-     (eval font-lock-add-keywords nil
-           (\`
-            (((\,
-               (concat "("
-                       (regexp-opt
-                        (quote
-                         ("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl"))
-                        t)
-                       "\\_>"))
-              1
-              (quote font-lock-variable-name-face)))))
-     (TeX-master . main)
-     (eval font-lock-add-keywords nil
-           (quote
-            (("(\\(dm-defun\\)\\(?:\\s-\\)+\\(\\_<.*?\\_>\\)"
-              (1 font-lock-keyword-face)
-              (2 font-lock-function-name-face)))))
-     (eval font-lock-add-keywords nil
-           (quote
-            (("defexamples\\| => "
-              (0
-               (quote font-lock-keyword-face))))))
-     (reftex-default-bibliography "./bibliography")
-     (eval allout-mode t))))
+ '(safe-local-variable-values '())
  '(sallet-buffer-sources
    (quote
     (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-bookmarks sallet-source-gtags-files sallet-source-projectile-projects sallet-source-locate)))

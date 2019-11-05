@@ -309,6 +309,29 @@ If no region is active, use word udner point."
 (use-package company
   :straight t
   :defer t
+  :custom
+  (company-flow-executable "yarn flow")
+  (company-lsp-cache-candidates nil)
+  (company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
+  (company-backends
+   '(
+     company-omnisharp
+     php-extras-company
+     company-swb
+     company-bbdb
+     company-nxml
+     company-css
+     company-eclim
+     company-semantic
+     company-clang
+     company-xcode
+     company-cmake
+     company-capf
+     company-files
+     (company-dabbrev-code company-gtags company-etags company-keywords)
+     company-oddmuse
+     company-dabbrev
+     ))
   :config
   (add-to-list 'company-backends 'company-omnisharp)
 
@@ -1175,6 +1198,10 @@ use a directory-local variable to specify this per-project."
       :working-directory my-php-find-project-root
       :modes (php-mode php+-mode))
 
+    (put 'flycheck-php-phpstan-executable 'safe-local-variable #'stringp)
+    (put 'flycheck-phpstan-autoload 'safe-local-variable #'stringp)
+    (put 'flycheck-phpstan-config 'safe-local-variable #'stringp)
+
     (add-to-list 'flycheck-checkers 'php-phpstan 'append)
 
     (flycheck-add-next-checker 'php '(warning . php-phpstan) 'append)
@@ -1232,6 +1259,11 @@ use a directory-local variable to specify this per-project."
   :straight t
   :mode (("\\.hs\\'" . haskell-mode)
          ("\\.chs\\'" . haskell-mode))
+  :custom (
+           (haskell-process-suggest-remove-import-lines t)
+           (haskell-process-auto-import-loaded-modules t)
+           (haskell-process-log t)
+           )
   :config
   (progn
     (require 'haskell-indentation)
