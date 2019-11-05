@@ -935,6 +935,7 @@ The second part is a regexp to search in the buffer."
     (backward-char 1)
     face))
 
+;; TODO: package and write a blog
 (defface my-org-inline-src-src
   '((t (:background "#212526")))
   "")
@@ -1002,7 +1003,10 @@ properly aligned."
                           ;; Fontify list markers
                           ("^[ \t]*\\([-+]\\|[0-9]+[).]\\) " 0 (funcall 'my-org-fontify-list-marker) append)
                           ;; Fontify hashtags
-                          ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend))
+                          ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend)
+                          ;; Fontify inline code
+                          (my-org-match-inline-src-block)
+                          )
                         'append)
 
 (bind-keys :map org-mode-map
