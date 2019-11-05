@@ -1,5 +1,21 @@
 (require 'dash)
 
+(defun my-tidyquant-to-ledger ()
+  (interactive)
+  (goto-char (point-min))
+  (replace-regexp "-" "/")
+  (goto-char (point-min))
+  (my-with-each-line
+    (let ((ticker (prog1 (s-trim (delete-and-extract-region
+                                  (line-beginning-position)
+                                  (search-forward "	")))
+                    (forward-sexp 1)))
+          (price (s-trim (delete-and-extract-region (point) (line-end-position)))))
+      (goto-char (line-beginning-position))
+      (insert "P ")
+      (forward-sexp 1)
+      (insert " 00:00:00 " ticker " $" price))))
+
 (defun my-update-ledger-stock-quotes (ticker)
   (let ((data (let ((limit (org-time-string-to-time "2015-10-01")))
                 (-filter (-lambda ((d)) (not (time-less-p (org-time-string-to-time d) limit)))
@@ -16,15 +32,14 @@
   (let ((stocks (list
                  "AAPL"
                  "DIS"
-                 "GLF"
-                 "GM"
-                 "JWN"
-                 "M"
-                 ;; "NMM" ; broken
+                 "NVDA"
+                 "O"
+                 "STAG"
                  "T"
                  "TDW"
-                 "VLO"
+                 "TSLA"
                  "WFC"
+                 "XOM"
                  )))
     (--each stocks
       (my-update-ledger-stock-quotes it))))
