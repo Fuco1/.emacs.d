@@ -1983,4 +1983,30 @@ Use a prefix arg to get regular RET. "
               (format "%d" (* current-rate
                               (/ (org-duration-to-minutes it) 60)))))))))))
 
+(defun my-org-fill-worklog-from-clocktable ()
+  "Update invoicing information from invoice hours."
+  (interactive)
+  (let ((current-rate nil))
+    (save-excursion
+      (orgba-top-parent)
+      (org-map-tree
+       (lambda ()
+         (when (re-search-forward
+                "^| Headline"
+                (save-excursion
+                  (or (ignore-errors
+                        (outline-next-heading))
+                      (point-max)))
+                t)
+           (let ((table (-remove'symbolp (cdr (org-table-to-lisp)))))
+             (-each table
+               (-lambda ((headline clock))
+                 (org-entry-put
+                  (point)
+                  (format "WORKLOG_%s"
+                          (s-replace
+                           " time" ""
+                           (s-replace "*" "" headline)))
+                  (s-replace "*" "" clock)))))))))))
+
 (provide 'org-defs)
