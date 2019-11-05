@@ -1259,6 +1259,12 @@ use a directory-local variable to specify this per-project."
   :config
   (progn
     (require 'haskell-indentation)
+
+    ;; interactive haskell setup
+    (require 'haskell-interactive-mode)
+    (require 'haskell-process)
+    (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+
     (bind-key "C-c h" 'haskell-hoogle haskell-mode-map)
     (bind-key "C-c C-r" 'my-haskell-reload haskell-mode-map)
     (bind-key "<backspace>" 'sp-backward-delete-char haskell-indentation-mode-map)
@@ -1277,13 +1283,6 @@ use a directory-local variable to specify this per-project."
       (re-search-backward "^[[:alpha:]]"))
 
     (defun my-haskell-init ()
-      (setq-local completion-at-point-functions nil)
-      ;; If we are in a stack project, change the ghci command
-      (when (and (buffer-file-name)
-                 (locate-dominating-file (buffer-file-name) "stack.yaml"))
-        (-let (((prog args) (s-split-up-to " " haskell-program-name 1)))
-          (setq-local haskell-program-name
-                      (format "stack exec %s -- %s" prog args))))
       (set (make-local-variable 'end-of-defun-function) 'my-hs-end-of-defun)
       (set (make-local-variable 'beginning-of-defun-function) 'my-hs-beg-of-defun))
     (add-hook 'haskell-mode-hook 'my-haskell-init)
