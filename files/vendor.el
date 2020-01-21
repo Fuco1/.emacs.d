@@ -1247,6 +1247,8 @@ use a directory-local variable to specify this per-project."
 (use-package free-keys
   :commands free-keys)
 
+(use-package fontify-face :straight t)
+
 (use-package haskell-mode
   :straight t
   :mode (("\\.hs\\'" . haskell-mode)
