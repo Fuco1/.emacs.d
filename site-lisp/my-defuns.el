@@ -515,5 +515,9 @@ Ith row is replaced with Ith item of DATA."
   (message "rectangle sum: %s"
            (-sum (-map 'string-to-number (extract-rectangle beg end)))))
 
+(defun my-insert-file-name (file)
+  (interactive "fFile name:\n")
+  (insert (f-canonical file)))
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
