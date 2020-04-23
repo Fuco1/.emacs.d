@@ -352,7 +352,7 @@ Lisp function does not specify a special indentation."
                 (car hi-lock-face-defaults))))))
 
 (eval-after-load "calendar"
-  '(defun calendar-basic-setup (&optional arg nodisplay)
+  '(el-patch-defun calendar-basic-setup (&optional arg nodisplay)
      "Create a three-month calendar.
 If optional prefix argument ARG is non-nil, prompts for the month
 and year, else uses the current date.  If NODISPLAY is non-nil, don't
@@ -364,8 +364,8 @@ display the generated calendar."
        (let* ((pop-up-windows t)
               ;; Not really needed now, but means we use exactly the same
               ;; behavior as before in the non-wide case (see below).
-              ;; (split-height-threshold 1000)
-              ;; (split-width-threshold calendar-split-width-threshold)
+              (split-height-threshold (el-patch-swap 1000 1))
+              (split-width-threshold calendar-split-width-threshold)
               (date (if arg (calendar-read-date t)
                       (calendar-current-date)))
               (month (calendar-extract-month date))
@@ -398,10 +398,16 @@ display the generated calendar."
            ;; the right thing in that case.
            ;;
            ;; Is this a wide frame?  If so, split it horizontally.
-           (if (window-splittable-p t) (split-window-right))
+
+           ;; The following doesn't sound useful: If we split horizontally
+           ;; here, the subsequent `pop-to-buffer' will likely split again
+           ;; horizontally and we end up with three side-by-side windows.
+           (when (window-splittable-p (selected-window) t)
+             (split-window-right))
            (pop-to-buffer calendar-buffer)
            ;; Has the window already been split vertically?
            (when (and (not (window-dedicated-p))
+                      (window-splittable-p (selected-window))
                       (window-full-height-p))
              (let ((win (split-window-below)))
                ;; In the upper window, show whatever was visible before.
@@ -412,9 +418,14 @@ display the generated calendar."
          (calendar-generate-window month year)
          (if (and calendar-view-diary-initially-flag
                   (calendar-date-is-visible-p date))
-             (diary-view-entries))))
+             ;; Do not clobber the calendar with the diary, if the diary
+             ;; has previously been shown in the window that now shows the
+             ;; calendar (bug#18381).
+             (let ((display-buffer-overriding-action
+                    '(nil . ((inhibit-same-window . t)))))
+               (diary-view-entries)))))
      (if calendar-view-holidays-initially-flag
-         (let* ((diary-buffer (get-file-buffer diary-file))
+         (let* ((diary-buffer (diary-live-p))
                 (diary-window (if diary-buffer (get-buffer-window diary-buffer)))
                 (split-height-threshold (if diary-window 2 1000)))
            ;; FIXME display buffer?
