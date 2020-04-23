@@ -487,6 +487,7 @@ respective major mode.  Think org SRC blocks.")
    (my-org-math (:foreground choc-1))
 
    (org-link (:inherit markup-link))
+   (org-target (:inherit font-lock-variable-name-face))
 
    (org-footnote (:inherit markup-reference))
 
@@ -510,6 +511,9 @@ respective major mode.  Think org SRC blocks.")
    (org-checkbox (:inherit org-list-dt))
 
    (org-agenda-restriction-lock (:background alum-6.5))
+
+   (org-todo (:inherit my-org-keyword-idea))
+   (org-done (:inherit my-org-keyword-bill))
 
    (my-org-keyword-todo (:foreground red-0 :weight bold))
    (my-org-keyword-next (:foreground blue-1 :weight bold))
