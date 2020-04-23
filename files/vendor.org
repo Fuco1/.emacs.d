@@ -85,7 +85,7 @@ Add the support to the current buffer (use =nil= as first argument) or =sh-mode=
 #+BEGIN_SRC elisp :tangle no
 (font-lock-add-keywords
  'sh-mode '((my-match-variables-in-quotes
-             (1 'default t)
+             (1 'fixed-pitch t)
              (2 font-lock-variable-name-face t))))
 #+END_SRC
 
