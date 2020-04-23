@@ -272,6 +272,10 @@ respective major mode.  Think org SRC blocks.")
    (sh-heredoc (:inherit font-lock-string-face :weight bold))
    (sh-quoted-exec (:inherit markup-math))
 
+   ;; php-mode
+   (php-object-op (:inherit fixed-pitch))
+   (php-function-call (:inherit fixed-pitch))
+
    ;; Outline
    (outline-1 (:foreground gradient-1))
    (outline-2 (:foreground gradient-2))
