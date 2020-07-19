@@ -37,8 +37,6 @@
 
 (use-package org-inlinetask)
 
-(use-package elfeed-link)
-
 (use-package org-cliplink :straight t)
 
 (use-package org-clock
