@@ -495,6 +495,8 @@ respective major mode.  Think org SRC blocks.")
 
    (org-footnote (:inherit markup-reference))
 
+   (org-priority (:inherit (font-lock-keyword-face bold)))
+
    (org-block (:inherit (fixed-pitch markup-block)))
    (org-block-background (:inherit org-block))
    (org-code (:inherit (shadow org-block)))
