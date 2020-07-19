@@ -1021,10 +1021,19 @@ properly aligned."
     'org-list-dt))
 
 (font-lock-add-keywords 'org-mode
-                        `((,(my-org-emphasis-regexp "$" "$") 1 (funcall 'my-org-emphasis-fontifier 'markup-math))
-                          (,(my-org-emphasis-regexp "{" "}") 1 (funcall 'my-org-emphasis-fontifier 'shadow))
+                        `((,(my-org-emphasis-regexp "$" "$") 1
+                           (funcall 'my-org-emphasis-fontifier 'markup-math))
+                          (,(my-org-emphasis-regexp "{" "}") 1
+                           (funcall 'my-org-emphasis-fontifier 'shadow))
                           ;; Fontify list markers
-                          ("^[ \t]*\\([-+]\\|[0-9]+[).]\\) " 0 (funcall 'my-org-fontify-list-marker) append)
+                          ("^[ \t]*\\([-+]\\|[0-9]+[).]\\) " 0
+                           (funcall 'my-org-fontify-list-marker) append)
+                          ;; Fontify whitespace at the beginning of
+                          ;; line.  The idea is that this 99% of the
+                          ;; time happens when we indent the list
+                          ;; body, so we don't want to see it jagged.
+                          ("^[ \t]*" 0
+                           (funcall 'my-org-fontify-list-marker) append)
                           ;; Fontify hashtags
                           ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend)
                           ;; Fontify inline code
