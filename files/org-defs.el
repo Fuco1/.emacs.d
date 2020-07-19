@@ -960,7 +960,7 @@ The second part is a regexp to search in the buffer."
 
 ;; TODO: package and write a blog
 (defface my-org-inline-src-src
-  '((t (:background "#212526")))
+  '((t (:inherit org-block)))
   "")
 
 (defface my-org-inline-src-lang
