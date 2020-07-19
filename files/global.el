@@ -18,7 +18,7 @@
 
 ;; Some safe file-local variables
 (put 'default-input-method 'safe-local-variable #'stringp)
-(put 'org-refile-targets #'listp)
+(put 'org-refile-targets 'safe-local-variable #'listp)
 
 ;; UTF
 (setq locale-coding-system 'utf-8)
