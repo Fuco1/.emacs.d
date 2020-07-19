@@ -144,6 +144,7 @@ I also wanted to add the functionality to preserve the inherited tags from the o
 :PROPERTIES:
 :BLOG_FILENAME: 2019-02-10-Refiling-hydra-with-pre-defined-targets
 :PUBDATE:  [2019-02-10 Sun 13:52]
+:ID:       e581e36d-e2a0-4353-a923-d8877e0b45f5
 :END:
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2019-02-10 Sun 13:52]
@@ -579,6 +580,7 @@ CLOSED: [2019-01-23 Wed 08:46]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-23-Use-the-input-method-from-original-org-buffer-in-log-note-buffer
 :PUBDATE:  [2019-01-23 Wed 08:46]
+:ID:       6b7f110b-7fb4-4ef1-a1ce-14a86c86b920
 :END:
 :LOGBOOK:
 - State "DONE"       from              [2019-01-23 Wed 08:46]
@@ -731,6 +733,9 @@ and also to enable long term tracking via [[id:43ab2860-7df5-4e3b-ba92-8cab877b9
 auto-generate from this metadata.
 
 ** Tracking daily progress
+:PROPERTIES:
+:ID:       715a3b1b-07ed-4dff-9fce-5020ec817f82
+:END:
 
 I like to have a bit of a structure in my journaling and for some time
 I used a template that I copied into the entry every day from another
@@ -840,6 +845,9 @@ can have as many templates as you want and even have templates with
 different intervals.
 
 ** Monthly reviews and summarizing daily progress.
+:PROPERTIES:
+:ID:       5d973f59-4bd2-4d49-963c-8984d3919027
+:END:
 
 During the monthly reviews I like to summarize everything that
 happened in the previous month on several fronts: financially, at
@@ -972,6 +980,9 @@ and plots and all sorts of other useful things.  Remember kids, data
 is awesome!
 
 * TODO Continous clocking
+:PROPERTIES:
+:ID:       417cb45f-0bbc-4913-936d-0eb22e0e859a
+:END:
 
 *************** TODO Write some description about the workflow here
 *************** END
@@ -1095,6 +1106,9 @@ entries.
 
 * Org agenda
 ** TODO Fontify agenda items based on category
+:PROPERTIES:
+:ID:       d2d0317b-32fe-45e4-a84a-6dc5ce679c6f
+:END:
 #+begin_src elisp
 (defun my-org-agenda-shadow-gcal ()
   (save-excursion
@@ -1115,11 +1129,12 @@ entries.
 
 (add-hook 'org-agenda-finalize-hook #'my-org-agenda-shadow-gcal 'append)
 #+end_src
-** Make agenda clockreport respect =org-extend-today-until=            :published:
+** Make agenda clockreport respect =org-extend-today-until=          :published:
 CLOSED: [2019-01-03 Thu 20:49]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-03-Make-agenda-clockreport-respect-=org-extend-today-until=
 :PUBDATE:  [2019-01-03 Thu 20:49]
+:ID:       3199475c-2369-4cc3-b9da-9f104c6c2d16
 :END:
 :LOGBOOK:
 - State "DONE"       from              [2019-01-03 Thu 20:49]
