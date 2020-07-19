@@ -2032,7 +2032,10 @@ Use a prefix arg to get regular RET. "
                         (outline-next-heading))
                       (point-max)))
                 t)
-           (let ((table (-remove'symbolp (cdr (org-table-to-lisp)))))
+           (let* ((table (-remove 'symbolp (cdr (org-table-to-lisp))))
+                  (hours (->> (-group-by 'identity table)
+                              (-map (-lambda ((key . hours))
+                                      (list key ()))))))
              (-each table
                (-lambda ((headline clock))
                  (org-entry-put
