@@ -2042,4 +2042,30 @@ Use a prefix arg to get regular RET. "
                            (s-replace "*" "" headline)))
                   (s-replace "*" "" clock)))))))))))
 
+(defun my-org-add-keywords ()
+  "Add keywords to a knowledge base entry.
+
+If a comma/semicolon-separated list is provided, it will be split
+and individual parts will be stored as keywords."
+  (interactive)
+  (let ((curent-input "")
+        (current-keywords (org-entry-get-multivalued-property (point) "KEYWORDS")))
+    (while (not (equal
+                 (setq curent-input
+                       (read-from-minibuffer
+                        (format
+                         "Keyword(s)%s: "
+                         (if (= (length current-keywords) 0)
+                             ""
+                           (format " [%s]"
+                                   (mapconcat 'identity current-keywords ", "))))))
+                 ""))
+
+      (setq curent-input (split-string curent-input "[,;]" t " +"))
+      (apply #'org-entry-put-multivalued-property
+             (point) "KEYWORDS"
+             (append current-keywords curent-input))
+      (setq current-keywords
+            (org-entry-get-multivalued-property (point) "KEYWORDS")))))
+
 (provide 'org-defs)
