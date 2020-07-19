@@ -3,8 +3,6 @@
 (source "melpa-stable" "http://stable.melpa.org/packages/")
 (source org)
 
-(files "init.el" "files/*.el" "site-lisp/*.el")
-
 (depends-on "auctex")
 (depends-on "buttercup")
 (depends-on "cask")
@@ -17,14 +15,12 @@
 (depends-on "jq-mode")
 (depends-on "json-mode")
 (depends-on "jump-char")
-(depends-on "ledger-mode")
 (depends-on "legalese")
 (depends-on "less-css-mode")
 (depends-on "macrostep")
 (depends-on "notmuch")
 (depends-on "nvm")
 (depends-on "oauth2")
-(depends-on "org-noter")
 (depends-on "overseer")
 (depends-on "package-lint")
 (depends-on "pallet")
