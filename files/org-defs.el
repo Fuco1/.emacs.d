@@ -690,6 +690,7 @@ current agenda view added to `org-tag-alist'."
          ("C-c C-x :" . org-timer-cancel-timer)))
 
 (use-package org-tree-slide
+  :straight t
   :commands org-tree-slide-mode
   :init
   (progn
