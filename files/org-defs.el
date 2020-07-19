@@ -1515,8 +1515,9 @@ point and rebuild the agenda view."
               ("IDEA" ("WAIT") ("STOP") ("HOLD")))))
 
 ;; Tags shortcuts
-(setq org-tag-alist (quote (("readlater" . ?r)
-                            ("watchlater" . ?w))))
+(setq org-tag-alist '(("readlater" . ?r)
+                      ("watchlater" . ?w)
+                      ("folder" . ?f)))
 
 (defun my-org-compare-closed-entries (a b)
   "Compare two agenda entries A and B based on CLOSED time."
