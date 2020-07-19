@@ -39,6 +39,25 @@
 
 (use-package org-cliplink :straight t)
 
+(use-package org-noter
+  :straight t
+  :config
+  (defun my-org-noter-from-attachment (orig-fun &optional arg)
+    (when (and (eq major-mode 'org-mode)
+               (not (org-entry-get (point) org-noter-property-doc-file))
+               (org-entry-get (point) "Attachments"))
+      (let* ((attach-dir (org-attach-dir t))
+             (files (org-attach-file-list attach-dir))
+             (file (if (= (length files) 1)
+                       (car files)
+                     (completing-read "Open attachment: "
+                                      (mapcar #'list files) nil t)))
+             (path (expand-file-name file attach-dir)))
+        (org-entry-put (point) org-noter-property-doc-file path)))
+    (funcall orig-fun arg))
+
+  (advice-add 'org-noter :around #'my-org-noter-from-attachment))
+
 (use-package org-clock
   :commands (
              org-clock-in
