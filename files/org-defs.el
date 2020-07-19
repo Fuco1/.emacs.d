@@ -1942,7 +1942,8 @@ Use a prefix arg to get regular RET. "
        ((eq 'line-break syntax-type)
         (org-return-indent))
        ;; Open links like usual
-       ((eq 'link syntax-type)
+       ((and (eq 'link syntax-type)
+             (/=(line-end-position) (point)))
         (org-open-at-point-global))
        ;; It doesn't make sense to add headings in
        ;; inline tasks. Thanks Anders Johansson!
@@ -1961,7 +1962,7 @@ Use a prefix arg to get regular RET. "
        ((and (not (bolp)) (org-in-item-p))
         (if (or (org-element-property
                  :contents-begin context)
-                (and (eq (car context) 'verbatim)
+                (and (memq (car context) '(verbatim link))
                      (org-element-property
                       :contents-begin
                        (org-element-property
