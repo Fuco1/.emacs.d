@@ -186,6 +186,7 @@ return to regular interpretation of self-insert characters."
      ("mail.google.com" . org-mode)
      ("helpdesk.logio.cz" . textile-mode)
      ("saleschamp\\.atlassian\\.net" . jira-markup-mode)
+     ("rundeck" . markdown-mode)
      ))
   :config
   (atomic-chrome-start-server))
