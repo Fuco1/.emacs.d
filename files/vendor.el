@@ -1510,7 +1510,7 @@ use a directory-local variable to specify this per-project."
     (put 'ido-everywhere 'buffer (cons read-buffer-function nil))
     (setq read-buffer-function 'ido-read-buffer)
 
-    (setq ido-decorations
+    (setq-default ido-decorations
           '("
 -> " "" "
    " "
