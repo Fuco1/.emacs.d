@@ -117,6 +117,15 @@
  '(appt-display-format nil)
  '(appt-display-interval 5)
  '(appt-message-warning-time 15)
+ '(atomic-chrome-buffer-open-style (quote frame) nil nil "Customized with use-package atomic-chrome")
+ '(atomic-chrome-url-major-mode-alist
+   (quote
+    (("github" . markdown-mode)
+     ("gitlab" . markdown-mode)
+     ("mail.google.com" . org-mode)
+     ("helpdesk.logio.cz" . textile-mode)
+     ("saleschamp\\.atlassian\\.net" . jira-markup-mode)
+     ("rundeck" . markdown-mode))) nil nil "Customized with use-package atomic-chrome")
  '(auto-save-file-name-transforms nil)
  '(auto-save-list-file-prefix "~/.emacs.d/.cache/auto-save-list/.saves-")
  '(autobookmarks-mode t)
@@ -131,6 +140,15 @@
  '(blink-matching-paren nil)
  '(bookmark-default-file "~/.emacs.d/.cache/bookmarks/bookmarks")
  '(bookmark-version-control t)
+ '(browse-at-remote-remote-type-domains
+   (quote
+    (("bitbucket.org" . "bitbucket")
+     ("sc.github.com" . "github")
+     ("github.com" . "github")
+     ("gitlab.com" . "gitlab")
+     ("git.savannah.gnu.org" . "gnu")
+     ("gist.github.com" . "gist")
+     ("gitlab.logio.cz" . "gitlab"))))
  '(browse-kill-ring-quit-action (quote save-and-restore))
  '(calc-settings-file "~/.emacs.d/files/calc-settings.el")
  '(calc-undo-length 1000)
@@ -140,6 +158,14 @@
  '(calendar-view-diary-initially-flag t)
  '(calendar-week-start-day 1)
  '(column-number-mode t)
+ '(company-backends
+   (quote
+    (company-omnisharp php-extras-company company-swb company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+                       (company-dabbrev-code company-gtags company-etags company-keywords)
+                       company-oddmuse company-dabbrev)))
+ '(company-flow-executable "yarn flow" t)
+ '(company-lsp-cache-candidates nil t)
+ '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-error-regexp-alist
    (quote
     (absoft ada aix ant bash borland python-tracebacks-and-caml comma cucumber msft edg-1 edg-2 epc ftnchek iar ibm irix java jikes-file maven jikes-line gcc-include ruby-Test::Unit gnu lcc makepp mips-1 mips-2 msft omake oracle perl php rxp sparc-pascal-file sparc-pascal-line sparc-pascal-example sun sun-ada watcom 4bsd gcov-file gcov-header gcov-nomark gcov-called-line gcov-never-called perl--Pod::Checker perl--Test perl--Test2 perl--Test::Harness weblint nette-tester)))
@@ -155,7 +181,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    (default)))
+    ("db52c162cc74f0c2075c054e84229fc7c3069117755b80fff0183632d5f2826d" "f8ad907be055aa9565e43a2cfa2ec5c3f9c0efef5dd283212406933c2304ae52" "492a976647ea645509162b8ab0149b2fa27e865665efbbd0ec25caf60c424e4b" "e3be3ebef0b1c4fc114e556968baabf372332a2dfa0fa88cf6cc6dfab82823e1" "3b41b13510fd34c4092c0c2a1b3c688a70b942fccbb5d1f1c43dc38113dc61f0" "8fd0ac1c37d7053b2222b032b5058e4b0beb2f1b1c0fb6cd1ddc0dce976843a4" "a70c02922950414da23f1170c98a3ecd9ee419396759a2e195a1568add09e3c6" "3618bce2b92774e2027d7e3dfcb2a276f6924476a849ea0287b93508a49d19c2" "084102b91f90f78f3ed47778ccd00b825d5ddb0a9ddd9b45dc100563480f1735" "ac117b715c7a53dbdb520a88e0be4c359bf332511060e0535005e9d4aaab2f91" "7ce30af0e9015fa72a6612fffda328e6955c6abf7b5cdd9ae6b9ebe8815e2d4a" "22ff84fead97f05770fe28b52314221df14a43b0ffce5e5f9e331b5c5e45044d" "496c2c85f503ffed8081685d26653e48f211355325ecc181dee3293b0f4b501a" "1a02d018433b404de5cd48b696f2becaece559000268d7c385b9294378b476ef" "14e352ac2da10d5a6cdc6a74c1d34a8705f192f52f39886a9fff6d6255183471" "eac019f14171f37538b64b4bd37e8167702a63ec9dfce6b1e2fc991a617e3d81" "41ef21fb326cb60e26c21851eb2e06fdd65a2a0e40404a81166e3dae85107e9e" "66b84e676b3549d2108cc017bab900c763a2d4e025ffbc6203835a5d5154b6c5" "48a645c2d93a4a707cc1dc4f7859c266987b6cbd236827ab82a558d7fc61363d" "50f2c57b4309b4faa92392f02e912af829518a44b730a26652e864bee21935b5" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -360,6 +386,7 @@
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
  '(flycheck-php-phpcs-executable "~/.config/composer/vendor/bin/phpcs")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
+ '(flycheck-python-pycompile-executable "/usr/bin/python3")
  '(fold-dwim-outline-style-default (quote nested))
  '(font-latex-math-environments
    (quote
@@ -531,6 +558,12 @@
  '(ibuffer-show-empty-filter-groups nil)
  '(ibuffer-truncate-lines nil)
  '(ido-cr+-max-items 300000)
+ '(ido-decorations
+   (quote
+    ("
+-> " "" "
+   " "
+   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
  '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last")
  '(ido-ubiquitous-allow-on-functional-collection t)
  '(ido-ubiquitous-command-overrides
@@ -587,7 +620,7 @@
  '(ledger-reconcile-default-commodity "Kc")
  '(ledger-reports
    (quote
-    (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity --group-title-format '%-40(total_expr)' -n Assets:Broker -X Kc | grep -v '^$'")
+    (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity Assets:Broker -X Kc")
      ("expenses" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly --real reg ^expenses")
      ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
@@ -616,7 +649,7 @@
 " ";; Maintainer: " legalese-author "
 " ";; Version: 0.0.1
 " ";; Created: " legalese-date "
-" ";; Package-requires: ((dash \"2.10.0\"))
+" ";; Package-requires: ((dash \"2.17.0\"))
 " ";; Keywords: "
 ((legalese-elisp-keyword)
  str ", ")
@@ -646,7 +679,7 @@
  '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity (quote (uid gid)))
  '(lsp-inhibit-message t)
- '(lsp-prefer-flymake nil)
+ '(lsp-prefer-flymake nil t)
  '(lsp-ui-flycheck-enable nil)
  '(lsp-ui-sideline-enable nil)
  '(magit-auto-revert-mode nil)
@@ -666,7 +699,7 @@
  '(make-pointer-invisible t)
  '(markdown-fontify-code-blocks-natively t)
  '(markdown-link-space-sub-char "-")
- '(max-lisp-eval-depth 1000)
+ '(max-lisp-eval-depth 100000)
  '(max-specpdl-size 10000)
  '(mc/list-file "~/.emacs.d/.cache/multiple-cursors/.mc-lists.el")
  '(message-forward-as-mime nil)
@@ -691,8 +724,7 @@
  '(notmuch-show-logo nil)
  '(nov-save-place-file "~/.emacs.d/.cache/nov/nov-places")
  '(nvm-dir "/home/matus/.local/share/nvm")
- '(omnisharp-server-executable-path
-   "/home/matus/sources/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe")
+ '(omnisharp-server-executable-path "/home/matus/sources/omnisharp/run")
  '(org-M-RET-may-split-line nil)
  '(org-adapt-indentation nil)
  '(org-agenda-clock-consistency-checks
@@ -753,7 +785,8 @@
      (js . t)
      (ruby . t)
      (R . t)
-     (dot . t))))
+     (dot . t)
+     (python . t))))
  '(org-clock-budget-default-sort-column (quote ("BUDGET_WEEK" ratio desc)))
  '(org-clock-budget-intervals
    (quote
@@ -1498,8 +1531,17 @@
  '(org-drill-scope (quote directory))
  '(org-duration-format (quote ((special . h:mm))))
  '(org-email-link-description-format "%f: %.100s")
+ '(org-emphasis-alist
+   (quote
+    (("*" markup-bold)
+     ("/" markup-italic)
+     ("_" underline)
+     ("=" markup-inline-code verbatim)
+     ("~" my-org-key verbatim)
+     ("+" markup-strike))))
  '(org-export-allow-bind-keywords t)
  '(org-export-backends (quote (html latex md odt)))
+ '(org-export-select-tags (quote ("export_org")))
  '(org-extend-today-until 4)
  '(org-fast-tag-selection-single-key (quote expert))
  '(org-file-apps
@@ -1556,7 +1598,7 @@
    (quote
     (org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-inlinetask org-checklist org-depend org-drill)))
  '(org-outline-path-complete-in-steps nil)
- '(org-plantuml-jar-path "~/bin/plantuml.jar")
+ '(org-plantuml-jar-path "~/plantuml.jar")
  '(org-priority-start-cycle-with-default nil)
  '(org-publish-timestamp-directory "~/.emacs.d/.cache/org-timestamps/")
  '(org-radiobutton-mode t t (org-radiobutton))
@@ -1572,10 +1614,16 @@
  '(org-show-entry-below (quote ((default . t))))
  '(org-show-following-heading (quote ((default . t))))
  '(org-special-ctrl-a/e t)
+ '(org-speed-commands-user
+   (quote
+    (("P" . org-graph-goto-parent)
+     ("C" . org-graph-goto-child)
+     ("T" . my-org-refile-this-file))))
  '(org-src-fontify-natively t)
  '(org-src-lang-modes
    (quote
-    (("ocaml" . tuareg)
+    (("mongo" . js)
+     ("ocaml" . tuareg)
      ("elisp" . emacs-lisp)
      ("ditaa" . artist)
      ("asymptote" . asy)
@@ -1585,10 +1633,22 @@
      ("C" . c)
      ("cpp" . c++)
      ("C++" . c++)
-     ("screen" . shell-script)
-     ("plantuml" . fundamental))))
+     ("screen" . shell-script))))
  '(org-src-preserve-indentation t)
  '(org-src-window-setup (quote current-window))
+ '(org-structure-template-alist
+   (quote
+    (("a" . "export ascii")
+     ("c" . "center")
+     ("C" . "comment")
+     ("e" . "example")
+     ("E" . "export")
+     ("h" . "export html")
+     ("l" . "export latex")
+     ("q" . "quote")
+     ("s" . "src")
+     ("v" . "verse")
+     ("A" . "ABSTRACT"))))
  '(org-stuck-projects (quote ("" nil nil "")))
  '(org-super-agenda-unmatched-order 10)
  '(org-support-shift-select t)
@@ -1623,6 +1683,7 @@
     (".dir-locals.el" ".projectile" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "rebar.config" "project.clj" "pom.xml" "build.sbt" "Gemfile" "Makefile")))
  '(projectile-switch-project-action (lambda nil (dired default-directory)))
  '(proof-three-window-mode-policy (quote hybrid))
+ '(python-shell-interpreter "python3")
  '(rainbow-r-colors t)
  '(recentf-save-file "~/.emacs.d/.cache/recentf/recentf")
  '(reftex-label-alist
@@ -1631,296 +1692,384 @@
      ("theorem" 32 "th:" "~\\cref{%s}" nil nil))))
  '(require-final-newline t)
  '(restclient-inhibit-cookies t)
- '(safe-local-variable-values '())
- '(sallet-buffer-sources
+ '(safe-local-variable-values
    (quote
-    (sallet-source-buffer sallet-source-similar-buffer sallet-source-autobookmarks sallet-source-bookmarks sallet-source-gtags-files sallet-source-projectile-projects sallet-source-locate)))
- '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
- '(save-place-limit nil)
- '(save-place-mode t nil (saveplace))
- '(savehist-file "~/.emacs.d/.cache/savehist/history")
- '(savehist-mode t)
- '(scroll-preserve-screen-position 1)
- '(select-enable-clipboard t)
- '(semantic-default-submodes
-   (quote
-    (global-semantic-idle-scheduler-mode global-semanticdb-minor-mode global-semantic-idle-summary-mode global-semantic-mru-bookmark-mode)))
- '(semantic-new-buffer-setup-functions (quote ((java-mode . wisent-malabar-java-setup))))
- '(semanticdb-default-save-directory "~/.emacs.d/.cache/semanticdb/")
- '(send-mail-function (quote smtpmail-send-it))
- '(server-auth-dir "~/.emacs.d/.cache/server/")
- '(shackle-mode t)
- '(shackle-rules
-   (quote
-    (("*Help*" :select t)
-     ("[0-9]\\{5\\}/.*\\.php" :regexp t :select t :inhibit-window-quit t :same t :popup nil)
-     ("magit-log\\(-popup\\)?" :regexp t :select t :inhibit-window-quit t :same t)
-     ("\\`\\*?magit:" :regexp t :select t :inhibit-window-quit t :same t)
-     (Man-mode :select t :inhibit-window-quit t :same t)
-     ("\\*ag search" :regexp t :inhibit-window-quit t :same t)
-     (messages-buffer-mode :select t :inhibit-window-quit t :same t)
-     (swb-result-mode :align
-       (quote below))
-     ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t))))
- '(shell-file-name "/bin/bash")
- '(shell-pop-restore-window-configuration nil)
- '(shell-pop-window-size 50)
- '(show-smartparens-global-mode t)
- '(shr-max-image-proportion 0.9)
- '(smart-jump-bind-keys nil)
- '(smerge-command-prefix "\\C-.m")
- '(smex-save-file "~/.emacs.d/.cache/smex/.smex-items")
- '(smtpmail-default-smtp-server "smtp.gmail.com")
- '(smtpmail-local-domain "herakleitos")
- '(smtpmail-smtp-server "smtp.gmail.com")
- '(smtpmail-smtp-service 465)
- '(smtpmail-stream-type (quote ssl))
- '(sp-autoinsert-if-followed-by-same 3)
- '(sp-autoinsert-quote-if-followed-by-closing-pair nil)
- '(sp-autoskip-closing-pair (quote always))
- '(sp-autoskip-opening-pair nil)
- '(sp-autowrap-region t)
- '(sp-comment-string (quote (((emacs-lisp-mode) . ";; "))))
- '(sp-hybrid-kill-excessive-whitespace nil)
- '(sp-ignore-modes-list
-   (quote
-    (image-dired-display-image-mode image-dired-thumbnail-mode ediff-mode recentf-dialog-mode google-maps-static-mode ibuffer-mode org-agenda-mode dired-mode elfeed-search-mode elfeed-show-mode notmuch-search-mode notmuch-show-mode notmuch-hello-mode)))
- '(sp-navigate-close-if-unbalanced t)
- '(sp-navigate-comments-as-sexps t)
- '(sp-navigate-consider-sgml-tags (quote (html-mode markdown-mode gfm-mode rst-mode)))
- '(sp-navigate-consider-stringlike-sexp
-   (quote
-    (ruby-mode gfm-mode emacs-lisp-mode html-mode org-mode python-mode text-mode latex-mode)))
- '(sp-navigate-consider-symbols t)
- '(sp-navigate-interactive-always-progress-point t)
- '(sp-navigate-reindent-after-up
-   (quote
-    ((interactive emacs-lisp-mode clojure-mode clojurescript-mode))))
- '(sp-navigate-skip-match
-   (quote
-    (((ruby-mode enh-ruby-mode)
-      . sp--ruby-skip-match)
-     ((emacs-lisp-mode inferior-emacs-lisp-mode lisp-interaction-mode scheme-mode inferior-scheme-mode geiser-repl-mode lisp-mode eshell-mode slime-repl-mode cider-repl-mode nrepl-repl-mode clojure-mode common-lisp-mode)
-      . sp--elisp-skip-match))))
- '(sp-override-key-bindings nil)
- '(sp-sexp-prefix
-   (quote
-    ((emacs-lisp-mode regexp "\\(?:['`]*,@?\\|[',`]\\)")
-     (latex-mode syntax "\\")
-     (racket-mode regexp "#?['`,]@?"))))
- '(sp-sexp-suffix
-   (quote
-    ((ruby-mode syntax "")
-     (json-mode regexp "")
-     (python-mode regexp "")
-     (emacs-lisp-mode regexp "'-?"))))
- '(sp-show-enclosing-pair-commands
-   (quote
-    (sp-show-enclosing-pair sp-forward-slurp-sexp sp-backward-slurp-sexp sp-forward-barf-sexp sp-backward-barf-sexp)))
- '(sp-show-pair-from-inside nil)
- '(sp-successive-kill-preserve-whitespace 2)
- '(sp-test-customize (quote ((interactive emacs-lisp-mode))))
- '(sp-undo-pairs-separately t)
- '(sp-use-subword t)
- '(sp-wrap-deactivate-smart-symbol-wrapping nil)
- '(sp-wrap-from-point nil)
- '(split-height-threshold 10)
- '(split-width-threshold 100)
- '(sql-pop-to-buffer-after-send-region nil)
- '(stocklist-column-fontifiers
-   (quote
-    (("payout" . stocklist--fontify-payout)
-     ("yield" . stocklist--fontify-yield)
-     ("eps" . stocklist--fontify-eps)
-     ("pe" . stocklist--fontify-pe)
-     ("ask" . stocklist--fontify-ask))))
- '(stocklist-default-sort (quote (yield . desc)))
- '(stocklist-instruments
-   (quote
-    (("AAPL" :tags
-      ("tech" "growth"))
-     ("MSFT" :tags
-      ("tech" "growth")
-      :signals
-      ((yield > 3)))
-     ("KO" :tags
-      ("food" "buffett" "king"))
-     ("CSCO" :tags
-      ("tech"))
-     ("IBM" :tags
-      ("tech" "buffett")
-      :signals
-      ((yield > 4)))
-     ("T" :tags
-      ("owned" "telecom" "buffett" "tech")
-      :signals
-      ((ask < 34.5)))
-     ("QCOM" :tags
-      ("tech" "div-growth")
-      :signals
-      ((ask < 46.5)))
-     ("PG" :tags
-      ("retail" "buffett" "king"))
-     ("WFC" :tags
-      ("finance"))
-     ("WMT" :tags
-      ("retail" "buffett")
-      :signals
-      ((pe < 14)))
-     ("EMR" :tags
-      ("tech" "industry" "king" "5star")
-      :signals
-      ((pe < 15)
-       (yield > 4)
-       (ask < 47)))
-     ("F" :tags
-      ("car"))
-     ("O" :tags
-      ("reit")
-      :signals
-      ((ask < 48)))
-     ("STAG" :tags
-      ("reit")
-      :signals
-      ((yield > 8)))
-     ("GM" :tags
-      ("car"))
-     ("LTC" :signals
-      ((pe < 22)))
-     ("JNJ" :tags
-      ("healthcare" "buffett" "king"))
-     ("MCD")
-     ("TGT" :tags
-      ("retail")
-      :signals
-      ((close < 50.0)))
-     ("VZ" :tags
-      ("telecom" "tech"))
-     ("CAT" :tags
-      ("industry" "agro" "5star"))
-     ("DE" :tags
-      ("industry" "agro" "5star" "div-growth"))
-     ("UTX")
-     ("AWR" :tags
-      ("king" "industry")
-      :signals
-      ((close < 40.0)))
-     ("CL" :tags
-      ("healthcare" "king"))
-     ("DOV" :tags
-      ("king" "industry"))
-     ("GPC" :tags
-      ("owned" "king" "industry")
-      :signals
-      ((yield > 3)))
-     ("LOW" :tags
-      ("king"))
-     ("MMM" :tags
-      ("industry" "king"))
-     ("NDSN" :tags
-      ("industry" "king"))
-     ("PH" :tags
-      ("king" "industry")
-      :signals
-      ((yield > 2.5)))
-     ("GD" :tags
-      ("aerospace" "div"))
-     ("DIS" :tags
-      ("growth" "owned"))
-     ("CINF" :tags
-      ("king" "insurance" "finance"))
-     ("INTC" :tags
-      ("tech"))
-     ("HON" :tags
-      ("industry" "aerospace"))
-     ("NWN" :tags
-      ("gas" "energy" "king"))
-     ("VVC" :tags
-      ("energy" "king" "utility"))
-     ("AXP" :tags
-      ("finance" "buffett")
-      :signals
-      ((yield > 2.0)))
-     ("UPS" :tags
-      ("buffett" "div" "transport"))
-     ("VLO" :tags
-      ("oil" "div-growth"))
-     ("XOM" :tags
-      ("oil")
-      :signals
-      ((ask < 77)))
-     ("CVX" :tags
-      ("oil")
-      :signals
-      ((yield > 5)))
-     ("EOG" :tags
-      ("oil"))
-     ("CLR" :tags
-      ("oil")
-      :signals
-      ((ask < 24)))
-     ("PSX" :tags
-      ("oil" "buffett")
-      :signals
-      ((ask < 75.01)))
-     ("TSLA" :tags
-      ("tech"))
-     ("FB" :tags
-      ("tech" "growth"))
-     ("HRB" :tags
-      ("finance")
-      :signals
-      ((close < 24)))
-     ("PSEC" :tags
-      ("sec" "income")
-      :signals
-      ((yield > 13.999)))
-     ("OKE" :tags
-      ("income" "gas" "energy"))
-     ("CMI" :tags
-      ("industry" "div" "5star" "div-growth")
-      :signals
-      ((ask < 105))))))
- '(stocklist-tag-to-face
-   (quote
-    (("owned" . stocklist-owned)
-     ("buffett" . my-stocklist-buffett)
-     ("div-growth" . my-stocklist-div-growth))))
- '(system-time-locale "C" t)
- '(tab-always-indent (quote complete))
- '(texmathp-tex-commands (quote (("derivation" env-on))))
- '(text-mode-hook (quote (text-mode-hook-identify)))
- '(tracking-ignored-buffers (quote ("#openttd")))
- '(tramp-auto-save-directory "~/.emacs.d/.cache/tramp/autosave/" nil (tramp))
- '(tramp-persistency-file-name nil nil (tramp))
- '(transient-mark-mode t)
- '(truncate-partial-width-windows nil)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify))
- '(uniquify-strip-common-suffix t)
- '(url-configuration-directory "~/.emacs.d/.cache/url/")
- '(url-queue-parallel-processes 5)
- '(url-queue-timeout 30)
- '(use-package-verbose t)
- '(user-full-name "Matúš Goljer")
- '(user-mail-address "matus.goljer@gmail.com")
+    ((compilation-search-path . "/home/matus/dev/ydistri/math")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (ft-source-to-test-mapping
+      (:path "/lib/" :suffix ".js")
+      :path "/test/" :suffix ".spec.js")
+     (ft-source-to-test-mapping
+      (:path "" :suffix "php")
+      :path "" :suffix "phpt")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (ft-source-to-test-mapping
+      (:path "/src/" :prefix "")
+      :path "/tests/" :prefix "test-")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (swb-database . "docker_import")
+     (swb-port . "33306")
+     (swb-host . "0.0.0.0")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (org-noter-default-notes-file-names "forecasting.org")
+     (org-noter-notes-search-path "~/data/research/logistics/")
+     (org-noter-notes-search-path . "~/data/research/logistics/")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (ft-source-to-test-mapping
+      (:path "Elsa/" :prefix "elsa")
+      :path "Elsa/tests/" :prefix "test")
+     (ft-source-to-test-mapping
+      (:path "" :prefix "elsa")
+      :path "/tests/" :prefix "test")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (flycheck-phpstan-autoload . "/var/www/html/core/vendor/autoload.php")
+     (flycheck-phpstan-config . "/var/www/html/core/tests/phpstan/phpstan.neon")
+     (my-flycheck-get-php-source . my-pw-to-docker)
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/docker-phpstan")
+     (eval ispell-change-dictionary "slovak")
+     (haskell-program-name . "stack exec -- ghci +RTS -M300m")
+     (eval setq compile-command
+           (concat "make -C "
+                   (locate-dominating-file
+                    (buffer-file-name)
+                    ".travis.yml")))
+     (eval setq compile-command
+           (concat "make -C "
+                   (locate-dominating-file
+                    (buffer-file-name)
+                    ".travis.yml")
+                   " -j2"))
+     (org-refile-targets
+      (nil :maxlevel . 9))
+     (eval font-lock-add-keywords nil
+           (-map
+            (-lambda
+              ((face . color))
+              (let
+                  ((pattern
+                    (concat "\\_<"
+                            (symbol-name face)
+                            "\\_>"))
+                   (color-resolved
+                    (if
+                        (stringp color)
+                        color
+                      (cdr
+                       (assq color
+                             (cdar my-tango-colors))))))
+                (list pattern 0
+                      (\`
+                       (rainbow-colorize-match
+                        (\, color-resolved))))))
+            (cdar my-tango-colors)))
+     (eval set-input-method "slovak-prog-2")
+     (default-input-method . "slovak-prog-2")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/salesforce-proxy/docker-phpstan")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/application/docker-phpstan")
+     (eval when
+           (and
+            (buffer-file-name)
+            (file-regular-p
+             (buffer-file-name))
+            (string-match-p "^[^.]"
+                            (buffer-file-name)))
+           (unless
+               (featurep
+                (quote package-build))
+             (let
+                 ((load-path
+                   (cons ".." load-path)))
+               (require
+                (quote package-build))))
+           (package-build-minor-mode)
+           (set
+            (make-local-variable
+             (quote package-build-working-dir))
+            (expand-file-name "../working/"))
+           (set
+            (make-local-variable
+             (quote package-build-archive-dir))
+            (expand-file-name "../packages/"))
+           (set
+            (make-local-variable
+             (quote package-build-recipes-dir))
+            default-directory))
+     (swb-database . "ahold_ok")
+     (swb-port . "30245")
+     (swb-database . "nestle_live")
+     (swb-port . "30238")
+     (swb-host . "tunel.logio.cz")
+     (flycheck-ghc-search-path . "/home/matus/dev/haskell/mpris/src/")
+     (c-style-alist
+      ("ledger"
+       (indent-tabs-mode)
+       (c-basic-offset . 2)
+       (c-comment-only-line-offset 0 . 0)
+       (c-hanging-braces-alist
+        (substatement-open before after)
+        (arglist-cont-nonempty))
+       (c-offsets-alist
+        (statement-block-intro . +)
+        (knr-argdecl-intro . 5)
+        (substatement-open . 0)
+        (substatement-label . 0)
+        (label . 0)
+        (case-label . 0)
+        (statement-case-open . 0)
+        (statement-cont . +)
+        (arglist-intro . +)
+        (arglist-close . +)
+        (inline-open . 0)
+        (brace-list-open . 0)
+        (topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))
+       (c-special-indent-hook . c-gnu-impose-minimum)
+       (c-block-comment-prefix . "")))
+     (swb-database . "test")
+     (swb-user . "root")
+     (swb-port . "3306")
+     (swb-host . "localhost")
+     (eval when
+           (and
+            (buffer-file-name)
+            (file-regular-p
+             (buffer-file-name))
+            (string-match-p "^[^.]"
+                            (buffer-file-name)))
+           (emacs-lisp-mode)
+           (when
+               (fboundp
+                (quote flycheck-mode))
+             (flycheck-mode -1))
+           (unless
+               (featurep
+                (quote package-build))
+             (let
+                 ((load-path
+                   (cons ".." load-path)))
+               (require
+                (quote package-build))))
+           (package-build-minor-mode)
+           (set
+            (make-local-variable
+             (quote package-build-working-dir))
+            (expand-file-name "../working/"))
+           (set
+            (make-local-variable
+             (quote package-build-archive-dir))
+            (expand-file-name "../packages/"))
+           (set
+            (make-local-variable
+             (quote package-build-recipes-dir))
+            default-directory))
+     (eval add-to-list
+           (quote imenu-generic-expression)
+           (quote
+            ("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\|def-example-group\\| => \\| !!> \\| ~>"
+              (0
+               (quote font-lock-keyword-face)))
+             ("(defexamples[[:blank:]]+\\(.*\\)"
+              (1
+               (quote font-lock-function-name-face))))))
+     (eval add-to-list
+           (quote imenu-generic-expression)
+           (quote
+            ("Sallet sources" "\\(^(sallet-defsource +\\)\\(\\_<.+?\\_>\\)" 2)))
+     (eval add-to-list
+           (quote imenu-generic-expression)
+           (quote
+            ("Sallet sources" "\\(^(sallet-defsource +\\)\\(\\_<.+\\_>\\)" 2)))
+     (my-buffer-input-methods "devanagari-translit" "devanagari-kyoto-harvard")
+     (my-buffer-input-methods "devanagari-translit" "devanagari-aiba")
+     (my-buffer-input-methods "TeX" "devanagari-aiba")
+     (my-org-drill-language . "Sanskrit")
+     (haskell-program-name . "ghci -lpulse")
+     (eval when
+           (and
+            (buffer-file-name)
+            (file-regular-p
+             (buffer-file-name))
+            (string-match-p "^[^.]"
+                            (buffer-file-name)))
+           (emacs-lisp-mode)
+           (when
+               (fboundp
+                (quote flycheck-mode))
+             (flycheck-mode -1))
+           (unless
+               (featurep
+                (quote package-build))
+             (let
+                 ((load-path
+                   (cons ".." load-path)))
+               (require
+                (quote package-build))))
+           (package-build-minor-mode))
+     (my-org-drill-language . "French")
+     (eval font-lock-add-keywords nil
+           (quote
+            (("(\\(dired-filter-define\\)[[:blank:]]+\\(.+\\)"
+              (1
+               (quote font-lock-keyword-face))
+              (2
+               (quote font-lock-function-name-face))))))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\|def-example-group\\| => "
+              (0
+               (quote font-lock-keyword-face)))
+             ("(defexamples[[:blank:]]+\\(.*\\)"
+              (1
+               (quote font-lock-function-name-face))))))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\|def-example-group\\| => "
+              (0
+               (quote font-lock-keyword-face)))
+             ("(defexamples[[:blank:]]+\\(.*?\\)"
+              (1
+               (quote font-lock-function-name-face))))))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\|def-example-group\\| => "
+              (0
+               (quote font-lock-keyword-face)))
+             ("(defexamples[:blank:]+\\(.*?\\)"
+              (1
+               (quote font-lock-function-name-face))))))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\|def-example-group\\| => "
+              (0
+               (quote font-lock-keyword-face)))
+             ("(defexamples[ ]+\\(.*?\\)"
+              (1
+               (quote font-lock-function-name-face))))))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\|def-example-group\\| => "
+              (0
+               (quote font-lock-keyword-face)))
+             ("(defexamples +\\(.*?\\)"
+              (1
+               (quote font-lock-function-name-face))))))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\|def-example-group\\| => "
+              (0
+               (quote font-lock-keyword-face))))))
+     (org-refile-targets
+      ("~/org/bookmarks.org" :tag . "folder"))
+     (org-tags-exclude-from-inheritance "folder")
+     (org-tags-exclude-from-inheritance . folder)
+     (org-tags-exclude-from-inheritance . "folder")
+     (eval progn
+           (variable-pitch-mode 1)
+           (text-scale-adjust 2)
+           (overlay-put
+            (make-overlay
+             (point-min)
+             (point-max))
+            (quote face)
+            (quote my-reading-face)))
+     (dired-filter-stack
+      (dot-files)
+      (omit))
+     (my-inhibit-buffer-cleanup . t)
+     (eval progn
+           (local-set-key
+            (kbd "C-=")
+            (quote my-org-add-drill-entry))
+           (local-set-key
+            (kbd "C-<")
+            (quote my-format-russian-verb))
+           (local-set-key
+            (kbd "C->")
+            (quote my-format-meaning)))
+     (eval progn
+           (local-set-key
+            (kbd "C-=")
+            (quote my-org-add-drill-entry))
+           (local-set-key
+            (kbd "C->")
+            (quote my-format-meaning)))
+     (eval progn
+           (local-set-key
+            (kbd "C-=")
+            (quote my-org-add-drill-entry))
+           (local-set-key
+            (kbd "C->")
+            (quote my-format-latin-meaning)))
+     (eval progn
+           (local-set-key
+            (kbd "C-=")
+            (quote my-org-add-drill-entry))
+           (local-set-key
+            (kbd "C-<")
+            (quote my-format-russian-verb))
+           (local-set-key
+            (kbd "C->")
+            (quote my-format-russian-meaning)))
+     (eval progn
+           (variable-pitch-mode 1)
+           (text-scale-adjust 2))
+     (cursor-type . bar)
+     (eval progn
+           (variable-pitch-mode 1)
+           (text-scale-adjust 3))
+     (my-org-drill-language . "Latin")
+     (eval local-set-key
+           (kbd "C-=")
+           (quote my-org-add-drill-entry))
+     (eval set-input-method "cyrillic-translit")
+     (my-org-drill-language . "Russian")
+     (my-org-drill-file . t)
+     (my-org-drill-local-language . "Polish")
+     (eval virtual-dired "d:/")
+     (eval font-lock-add-keywords nil
+           (\`
+            (((\,
+               (concat "("
+                       (regexp-opt
+                        (quote
+                         ("wd-cond"))
+                        t)
+                       "\\_>"))
+              1
+              (quote font-lock-keyword-face)))))
+     (eval push
+           (file-name-directory
+            (buffer-file-name))
+           load-path)
+     (eval font-lock-add-keywords nil
+           (\`
+            (((\,
+               (concat "("
+                       (regexp-opt
+                        (quote
+                         ("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl"))
+                        t)
+                       "\\_>"))
+              1
+              (quote font-lock-variable-name-face)))))
+     (TeX-master . main)
+     (eval font-lock-add-keywords nil
+           (quote
+            (("(\\(dm-defun\\)\\(?:\\s-\\)+\\(\\_<.*?\\_>\\)"
+              (1 font-lock-keyword-face)
+              (2 font-lock-function-name-face)))))
+     (eval font-lock-add-keywords nil
+           (quote
+            (("defexamples\\| => "
+              (0
+               (quote font-lock-keyword-face))))))
+     (reftex-default-bibliography "./bibliography")
+     (eval allout-mode t))))
+ '(swb-crypt-key "matus.goljer@gmail.com")
  '(vc-follow-symlinks t)
- '(vc-make-backup-files t)
- '(vc-svn-diff-switches "-x -w")
- '(visible-bell nil)
- '(which-func-maxout 100000)
- '(which-function-mode t)
- '(which-key-mode t)
- '(whitaker-program "cd /home/matus/dev/ada/whitakers-words/ && ./bin/words")
- '(whitespace-style
-   (quote
-    (face trailing tabs spaces lines-tail newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark)))
- '(windmove-wrap-around t)
- '(winner-mode t)
- '(xref-prompt-for-identifier
-   (quote
-    (not xref-find-references xref-find-definitions xref-find-definitions-other-window xref-find-definitions-other-frame)))
- '(yas-prompt-functions (quote (yas-ido-prompt)))
- '(yas-snippet-dirs (quote ("~/.emacs.d/etc/yasnippet/snippets"))))
+ '(winner-mode t))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
