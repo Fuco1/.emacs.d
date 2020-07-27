@@ -3117,8 +3117,22 @@ Omitting FRAME means currently selected frame."
     (require 'smart-jump-typescript-mode)
     (smart-jump-typescript-mode-register)
 
+
     (defun setup-tide-mode ()
       (interactive)
+
+      (font-lock-add-keywords
+       nil
+       '(("function"
+          (":\\(.*?\\)\\(,\\|)\\)"
+           (save-excursion (or (search-forward ")" nil t) (point-max)))
+           (re-search-backward ")")
+           (1 font-lock-type-face))
+          (")[[:space:]]*:\\(.*?\\)\\({\\|$\\)"
+           (save-excursion (or (search-forward "{" nil t) (point-max)))
+           nil
+           (1 font-lock-type-face)))))
+
       (tide-setup)
       (flycheck-mode +1)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
