@@ -318,6 +318,7 @@ If no region is active, use word udner point."
   :straight t
   :defer t
   :custom
+  (company-dabbrev-downcase nil)
   (company-flow-executable "yarn flow")
   (company-lsp-cache-candidates nil)
   (company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
