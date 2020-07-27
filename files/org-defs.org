@@ -1071,6 +1071,7 @@ U5Bt-J2y7Vm69dEcRNkBLapE
 
 #+BEGIN_SRC elisp :noweb no-export
 (use-package org-gcal
+  :disabled t
   :straight t
   :after org
   :config
