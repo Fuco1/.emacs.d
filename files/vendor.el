@@ -3008,6 +3008,7 @@ separate buffer."
   (progn
     (defun my-swb-mode-init ()
       "Init swb mode."
+      (org-radiobutton-mode 1)
       (company-mode 1)
       (abbrev-mode 1))
 
