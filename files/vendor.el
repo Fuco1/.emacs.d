@@ -3441,7 +3441,16 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   (defun my-yaml-mode-init ()
     (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
     (smartparens-strict-mode 1)
-    (font-lock-add-keywords nil '(("[^[:alnum:]]@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append))
+    (font-lock-add-keywords nil '(("[^[:alnum:]]@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append)
+    (font-lock-add-keywords
+     nil
+     '(("\\({{{?\\)\\(\\(#\\)\\|/\\)?\\(.*?\\)\\(\\(}}}?\\)\\|\\( \\(.*?\\)\\(}}}?\\)\\)\\)"
+        (1 font-lock-builtin-face t)
+        (3 '(face font-lock-builtin-face syntax-table (1)) t t)
+        (4 font-lock-keyword-face t)
+        (6 font-lock-builtin-face t t)
+        (8 nil t t)
+        (9 font-lock-builtin-face t t)))))
   (add-hook 'yaml-mode-hook 'my-yaml-mode-init))
 
 (use-package yarn-mode :straight t)
