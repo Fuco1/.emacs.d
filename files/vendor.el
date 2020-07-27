@@ -2391,6 +2391,11 @@ by that command."
   (org-jira :repo "git@github.com:ahungry/org-jira.git"
             :fork (:repo "git@github.com:Fuco1/org-jira.git")))
 
+(use-package pdf-tools
+  :straight t
+  :config
+  (pdf-loader-install))
+
 ;; TODO: move into a separate file
 (use-package php-mode
   :straight t
