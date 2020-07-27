@@ -2476,7 +2476,7 @@ by that command."
 
     (defun my-php-find-project-root (&rest _ignored)
       (shut-up
-        (-when-let* ((file-name (buffer-file-name))
+        (-when-let* ((file-name (or (buffer-file-name) default-directory))
                      (file (expand-file-name file-name)))
           (expand-file-name
            (with-temp-buffer
