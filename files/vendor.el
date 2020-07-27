@@ -1124,7 +1124,14 @@ idle timer to do the actual update.")
     (bind-key "C-c 9" 'eyebrowse-switch-to-window-config-9 eyebrowse-mode-map)))
 
 (use-package face-remap
-  :bind (("M-V" . variable-pitch-mode)))
+  :bind (("M-V" . variable-pitch-mode))
+  :config
+  (defun my-variable-pitch-mode-cursor-setup (orig-fun &rest args)
+    (let ((res (apply orig-fun args)))
+      (setq-local cursor-type (if buffer-face-mode 'bar 'box))
+      res))
+
+  (advice-add 'variable-pitch-mode :around #'my-variable-pitch-mode-cursor-setup))
 
 (use-package feature-mode
   :straight t
@@ -3048,7 +3055,6 @@ separate buffer."
     (defun my-init-text-mode ()
       "Init `text-mode' based modes."
       (variable-pitch-mode)
-      (setq cursor-type 'bar)
       (turn-on-visual-line-mode)
       (smartparens-mode 1))
     (--each '(
