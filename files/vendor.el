@@ -3494,6 +3494,9 @@ If such snippet already exists, just open it for editing."
     ;; Replace yasnippets's TAB, was yas/expand
     (add-hook 'yas-minor-mode-hook 'my-yas-startup)))
 
+(use-package ztree
+  :straight t)
+
 (my-load-or-tangle (f-join (f-parent my-vendor-file) "vendor"))
 (my-load-or-tangle (f-join (f-parent my-vendor-file) "keys"))
 
