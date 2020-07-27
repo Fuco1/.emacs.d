@@ -1186,6 +1186,9 @@ idle timer to do the actual update.")
 (use-package flycheck
   :straight t
   :commands flycheck-mode
+  :custom (
+           (flycheck-lintr-caching nil)
+           )
   :config
   (progn
     (flycheck-def-option-var flycheck-phpstan-config nil php-phpstan
