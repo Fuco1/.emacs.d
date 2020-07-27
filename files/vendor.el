@@ -54,6 +54,12 @@ load the result."
     ("<f8>" dired-list-find-file "dired-list-find-file")
     ("<f9>" dired-list-grep "dired-list-grep"))
 
+  (defmacro my-generate-language-env (input-method &optional dictionary)
+    `(progn
+       (set-input-method ,input-method)
+       ,(when dictionary
+          `(ispell-change-dictionary ,dictionary))))
+
   (defhydra input-methods-hydra (:color blue :hint nil)
     "
 European           | Indian           | Asian    | Special
@@ -70,9 +76,9 @@ _r_ussian            |                  |          | set input _m_ethod
 cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
 "
     ("m" set-input-method)
-    ("e" toggle-input-method)
-    ("s" (lambda () "Toggle on slovak-prog-2 input method." (interactive) (set-input-method "slovak-prog-2")))
-    ("c" (lambda () "Toggle on czech input method." (interactive) (set-input-method "czech")))
+    ("e" (lambda () (interactive) (call-interactively 'toggle-input-method) (ispell-change-dictionary "english")))
+    ("s" (my-generate-language-env "slovak-prog-2" "slovak"))
+    ("c" (my-generate-language-env "czech" "czech"))
     ("p" (lambda () "Toggle on polish-slash input method." (interactive) (set-input-method "polish-slash")))
     ("r" (lambda () "Toggle on russian-computer input method." (interactive) (set-input-method "russian-computer")))
     ("q" (lambda () "Toggle on cyrillic-translit input method." (interactive) (set-input-method "cyrillic-translit")))
