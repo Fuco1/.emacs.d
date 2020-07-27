@@ -958,60 +958,6 @@ The second part is a regexp to search in the buffer."
         :box (:line-width -1 :color "*" :style nil))))
   "Face for the ~~ markup, used for key bindings.")
 
-;; TODO: package and write a blog
-(defface my-org-inline-src-src
-  '((t (:inherit org-block)))
-  "")
-
-(defface my-org-inline-src-lang
-  '((t (:inherit org-block-begin-line)))
-  "")
-
-(defface my-org-inline-src-header
-  '((t (:inherit org-block-begin-line)))
-  "")
-
-(defface my-org-inline-src-code
-  '((t (:background "#212526")))
-  "")
-
-(defun my-org-match-inline-src-block (limit)
-  (catch 'done
-    (let (header-args
-          code)
-      (while (re-search-forward
-              (rx (group "src_")
-                  (group (+ alnum)))
-              limit t)
-        (when (looking-at-p (regexp-quote "["))
-          (setq header-args
-                (cons (point)
-                      (progn (forward-sexp) (point)))))
-        (when (looking-at-p (regexp-quote "{"))
-          (setq code
-                (cons (point)
-                      (progn (forward-sexp) (point))))
-          (when org-hide-emphasis-markers
-            (add-text-properties
-             (match-beginning 1)
-             (match-end 1)
-             '(invisible org-link)))
-          (add-face-text-property
-           (match-beginning 1)
-           (match-end 1)
-           'my-org-inline-src-src)
-          (add-face-text-property
-           (match-beginning 2)
-           (match-end 2)
-           'my-org-inline-src-lang)
-          (when header-args
-            (add-face-text-property
-             (car header-args)
-             (cdr header-args)
-             'my-org-inline-src-header))
-          (org-src-font-lock-fontify-block (match-string 2) (car code) (cdr code))
-          (throw 'done (point)))))))
-
 (defun my-org-fontify-list-marker ()
   "Fontify the list marker at the beginning of line but not in source blocks.
 

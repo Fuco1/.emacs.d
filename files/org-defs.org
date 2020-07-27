@@ -359,6 +359,74 @@ you'll need to modify this entry.
 ... where N is the number of newlines you want to allow.
 #+END_SRC
 
+** TODO Fontify inline source code
+
+#+begin_src elisp
+(defface my-org-inline-src-src
+  '((t (:inherit org-block)))
+  "")
+
+(defface my-org-inline-src-lang
+  '((t (:inherit org-block-begin-line)))
+  "")
+
+(defface my-org-inline-src-header
+  '((t (:inherit org-block-begin-line)))
+  "")
+
+(defface my-org-inline-src-code
+  '((t (:background "#212526")))
+  "")
+
+(defun my-org-match-inline-src-block (limit)
+  (catch 'done
+    (let (header-args
+          code)
+      (while (re-search-forward
+              (rx (group "src_")
+                  (group (+ alnum)))
+              limit t)
+        (when (looking-at-p (regexp-quote "["))
+          (setq header-args
+                (cons (point)
+                      (progn (forward-sexp) (point)))))
+        (when (looking-at-p (regexp-quote "{"))
+          (setq code
+                (cons (point)
+                      (progn (forward-sexp) (point))))
+          (when org-hide-emphasis-markers
+            (add-text-properties
+             (match-beginning 1)
+             (match-end 1)
+             '(invisible org-link)))
+          (add-face-text-property
+           (match-beginning 1)
+           (match-end 1)
+           'my-org-inline-src-src)
+          (add-face-text-property
+           (match-beginning 2)
+           (match-end 2)
+           'my-org-inline-src-lang)
+          (when header-args
+            (add-face-text-property
+             (car header-args)
+             (cdr header-args)
+             'my-org-inline-src-header))
+          (org-src-font-lock-fontify-block (match-string 2) (car code) (cdr code))
+          (throw 'done (point)))))))
+#+end_src
+
+#+begin_src org
+Elisp code src_elisp[:exports both]{(progn (+ 1 1))} {{{results(=2=)}}}.  We
+export code and result
+
+Just result please src_python[:results raw code]{return range(1, 3)}
+{{{results(src_python[]{[1\, 2]})}}}
+
+Some shell code src_bash{for f in `ls`; do echo $f; done | wc -l}
+{{{results(=96=)}}}
+#+end_src
+
 ** Fontify broken links
 
 https://emacs.stackexchange.com/questions/38120/validate-internal-fuzzy-links-in-org-mode
