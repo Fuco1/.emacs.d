@@ -1601,7 +1601,8 @@ use a directory-local variable to specify this per-project."
                     :fork (:repo "git@github.com:Fuco1/jira-markup-mode.git")))
 
 (use-package js2-mode
-  :straight t
+  :straight (js2-mode :repo "git@github.com:mooz/js2-mode.git"
+                      :fork (:repo "git@github.com:Fuco1/js2-mode.git"))
   :mode (("\\.js\\'" . js2-mode)
          ("\\.js\\.snap\\'" . js2-mode))
   :config
