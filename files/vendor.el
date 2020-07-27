@@ -2941,6 +2941,8 @@ separate buffer."
 ;; TODO: move the registers to the respective modes
 (use-package smart-jump
   :straight t
+  :custom
+  (smart-jump-bind-keys nil)
   :bind (("M-'" . smart-jump-go)
          ("C-M-'" . smart-jump-back)
          ("M-\"" . smart-jump-references))
