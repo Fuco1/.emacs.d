@@ -806,6 +806,7 @@ config from before."
   (eldoc-in-minibuffer-mode 1))
 
 (use-package elfeed
+  :disabled t
   :straight t
   :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
@@ -842,6 +843,7 @@ idle timer to do the actual update.")
             (run-with-timer 1200 nil 'my-elfeed-update-schedule))))
   :config
   (progn
+    (use-package elfeed-link)
 
     (defun my-elfeed-search-print-entry--default (entry)
       "Print ENTRY to the buffer."
