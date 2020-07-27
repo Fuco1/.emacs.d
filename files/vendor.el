@@ -1366,9 +1366,27 @@ use a directory-local variable to specify this per-project."
 
 (use-package hcl-mode
   :straight t
-  :mode ("\\.tf\\'")
+  :mode (("\\.tf\\'" . terraform-mode)
+         ("\\.nomad\\'" . nomad-mode))
   :custom ((hcl-indent-level 4))
   :config
+
+  (define-derived-mode nomad-mode hcl-mode "nomad")
+  (define-derived-mode terraform-mode hcl-mode "terraform")
+
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection (lambda () "nomad-lsp"))
+    :major-modes '(nomad-mode)
+    :priority 1
+    :server-id 'nomad-ls))
+
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection (lambda () "terraform-lsp"))
+    :major-modes '(terraform-mode)
+    :priority 1
+    :server-id 'terraform-ls))
 
   (flycheck-define-checker tflint
     "Checker for tflint"
@@ -1378,6 +1396,33 @@ use a directory-local variable to specify this per-project."
     :predicate (lambda ()
                  (equal "tf" (file-name-extension (buffer-file-name))))
     :modes (hcl-mode))
+
+  (defun my-terraform-find-resource (resource)
+    (interactive (list (sp-get (sp-get-enclosing-sexp)
+                         (buffer-substring-no-properties :beg-in :end-in))))
+    (-let* (((resource-type name) (s-split "\\." resource))
+            (root (locate-dominating-file (buffer-file-name) ".git"))
+            ((&plist :results) (dumb-jump-get-results "resource")))
+      (-filter
+       (-lambda ((&plist :context))
+         (and (string-match-p "\\`resource" context)
+              (string-match-p resource-type context)
+              (string-match-p name context)))
+       results)))
+
+  (defun my-hcl-indirect-edit ()
+    "Use `edit-indirect-region' to edit the heredoce in HCL."
+    (interactive)
+    (save-excursion
+      (when-let (beg (save-excursion
+                       (and (re-search-backward "<<\\([[:alpha:]]+\\)$" nil t)
+                            (1+ (match-end 0)))))
+        (let ((end-marker (match-string 1)))
+          (when-let (end (save-excursion
+                           (re-search-forward (format "^%s" end-marker))))
+            (edit-indirect-region beg (- end (length end-marker)) t))))))
+
+  (bind-key "C-c '" 'my-hcl-indirect-edit hcl-mode-map)
 
   (add-to-list 'flycheck-checkers 'tflint))
 
