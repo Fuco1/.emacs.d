@@ -1273,7 +1273,13 @@ use a directory-local variable to specify this per-project."
     (defun flycheck-errors-to-indicator-list ()
       (let* ((lines (-uniq (--map (flycheck-error-line it) flycheck-current-errors))))
         (unless (> (length lines) 50)
-          (--map (ind-create-indicator-at-line it) lines))))
+          (--map (ind-create-indicator-at-line
+                  (flycheck-error-line it)
+                  :face (case (flycheck-error-level it)
+                          (info 'font-lock-keyword-face)
+                          (warning 'font-lock-variable-name-face)
+                          (error 'font-lock-warning-face)))
+                 flycheck-current-errors))))
 
     (defun flycheck-add-indicators ()
       (setq-local flycheck-error-indicators (flycheck-errors-to-indicator-list))
