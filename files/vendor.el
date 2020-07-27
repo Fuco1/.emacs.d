@@ -3470,6 +3470,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :diminish yas-minor-mode
   :commands (yas-minor-mode
              yas-expand)
+  :custom (yas-snippet-dirs '("/home/matus/.emacs.d/etc/yasnippet/snippets"))
   :init
   (progn
     (autoload #'yas-hippie-try-expand "yasnippet"))
