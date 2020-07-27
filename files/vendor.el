@@ -1893,9 +1893,14 @@ called, percentage usage and the command."
          (cdr list) "")))))
 
 (use-package ledger-mode
+  :straight t
   :mode ("\\.ledger\\'" . ledger-mode)
   :config
   (progn
+    (defun my-ledger-mode-init ()
+      (company-mode 1))
+
+    (add-hook 'ledger-mode-hook 'my-ledger-mode-init)
 
     (defun my-ledger-accouts-list ()
       "Return all ledger accounts in ~/org/ledger.ledger."
