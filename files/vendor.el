@@ -3211,11 +3211,10 @@ Omitting FRAME means currently selected frame."
 
     (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-    ;; formats the buffer before saving
-    (add-hook 'before-save-hook 'tide-format-before-save)
-
     ;; aligns annotation to the right hand side
-    (setq company-tooltip-align-annotations t))
+    (setq company-tooltip-align-annotations t)
+
+    (flycheck-add-next-checker 'typescript-tide'javascript-eslint))
 
   (defun my-ts-console-log (symbol)
     (interactive (list
@@ -3243,7 +3242,11 @@ Omitting FRAME means currently selected frame."
   (defun my-typescript-mode-setup ()
     (nvm-use-for-buffer)
     (add-hook 'after-save-hook 'my-tslint-fix nil 'local)
-    (find-local-executable-typescript-setup-tslint))
+    (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
+    ;; formats the buffer before saving
+    (add-hook 'before-save-hook 'tide-format-before-save nil 'local)
+    (find-local-executable-typescript-setup-tslint)
+    (find-local-executable-nodejs-setup-eslint))
 
   (add-hook 'typescript-mode-hook #'my-typescript-mode-setup))
 
