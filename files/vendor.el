@@ -305,7 +305,8 @@ If no region is active, use word udner point."
   :commands clippy-describe-function)
 
 (use-package conf-mode
-  :mode (("\\.pwm\\'" . conf-mode)))
+  :mode (("\\.pwm\\'" . conf-mode)
+         ("\\Pipfile\\'" . conf-toml-mode)))
 
 (use-package company
   :straight t
