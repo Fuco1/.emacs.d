@@ -367,6 +367,8 @@ If no region is active, use word udner point."
 
 It is run in the buffer from where `compile' is called.")
 
+    (put 'my-get-compile-command 'safe-local-variable #'identity)
+
     (defun my-compile ()
       "Run `compile' in current buffer.
 
@@ -994,6 +996,7 @@ idle timer to do the actual update.")
       :config
       (bind-key "M-\\" " %>% " ess-r-mode-map)
       (bind-key "C-c C-t" 'ft-find-test-or-source ess-r-mode-map)
+      (bind-key "C-c t" 'my-ess-compile ess-r-mode-map)
       (bind-key "M-'" 'smart-jump-go ess-r-mode-map)
       (bind-key "C-M-'" 'smart-jump-back ess-r-mode-map))
 
@@ -1005,12 +1008,54 @@ idle timer to do the actual update.")
      :map ess-mode-map
      ("_" . self-insert-command)
      :map inferior-ess-mode-map
-      ("_" . self-insert-command)
-      ("M-\\" . " %>% ")
+     ("_" . self-insert-command)
+     ("M-\\" . " %>% ")
      :map ess-help-mode-map
      ("q" . quit-window))
 
+    (defun my-r-open-line (&optional arg)
+      (when (and (save-excursion
+                   (forward-line -1)
+                   (end-of-line)
+                   (nth 4 (syntax-ppss))))
+        (when-let ((prefix
+                    (save-excursion
+                      (forward-line -1)
+                      (back-to-indentation)
+                      (cond
+                       ((looking-at "#'") "#' ")
+                       ((looking-at "##") "## ")))))
+          (insert prefix)
+          (indent-according-to-mode))))
+
+    (let ((form `(my-r-testthat
+                  ,(rx-to-string
+                    '(and line-start
+                          (+ whitespace)
+                          (group (* not-newline))
+                          "#"
+                          (group (1+ digit))
+                          ":"
+                          (group (1+ digit))
+                          (* not-newline)
+                          "[failure]"
+                          line-end))
+                  1 2 3 2 1)))
+      (if (assq 'my-r-testthat compilation-error-regexp-alist-alist)
+          (setf (cdr (assq 'my-r-testthat compilation-error-regexp-alist-alist)) (cdr form))
+        (push form compilation-error-regexp-alist-alist)))
+
+    (add-to-list 'compilation-error-regexp-alist 'my-r-testthat)
+
+    (defun my-ess-compile ()
+      (interactive)
+      (let ((root (locate-dominating-file default-directory "run-tests.R")))
+        (with-temp-buffer
+          (cd root)
+          (compile "Rscript run-tests.R"))))
+
     (defun my-ess-mode-hook ()
+      (add-hook 'my-newline-hook 'my-r-open-line nil :local)
       (font-lock-add-keywords
        nil
        '(
