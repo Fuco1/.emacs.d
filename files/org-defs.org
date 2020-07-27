@@ -253,9 +253,23 @@ So to solve my problem naturally I would like to extend this behaviour to checkb
 Just throw the following somewhere and reload the org buffers (close and reopen or toggle =fundamental-mode= then =org-mode= again).
 
 #+BEGIN_SRC elisp
+(defun my-org-fontify-done-list-item (limit)
+  "Fontify a list item marked with [X] with `org-headline-done' face."
+  ;; The [@number] syntax is for renumbering ordered lists.  See
+  ;; https://orgmode.org/manual/Plain-Lists.html
+  (when (re-search-forward
+         "^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\\(?:\n\\|\\'\\)\\)"
+         limit
+         t)
+    (backward-char 1)
+    (-let (((_ (&plist :parent (_ (&plist :begin)) :end)) (org-element-at-point)))
+      (set-match-data (list begin end))
+      (goto-char end)
+      t)))
+
 (font-lock-add-keywords
  'org-mode
- `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\\(?:\n\\|\\'\\)\\)" 1 'org-headline-done prepend))
+ `((my-org-fontify-done-list-item 0 'org-headline-done prepend))
  'append)
 #+END_SRC
 
