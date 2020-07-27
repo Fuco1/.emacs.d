@@ -390,8 +390,9 @@ Call the value of `my-get-compile-command' to generate the
 
     (defun my-compilation-reparse-buffer (&rest _ignored)
       (interactive)
-      (compilation--flush-parse (point-min) (point-max))
-      (compilation--ensure-parse (point-max)))
+      (ignore-errors
+        (compilation--flush-parse (point-min) (point-max))
+        (compilation--ensure-parse (point-max))))
     (add-hook 'compilation-finish-functions 'my-compilation-reparse-buffer)
 
     (defvar my-compile-auto-fold-alist
