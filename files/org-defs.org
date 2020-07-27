@@ -359,6 +359,21 @@ you'll need to modify this entry.
 ... where N is the number of newlines you want to allow.
 #+END_SRC
 
+** Fontify broken links
+
+https://emacs.stackexchange.com/questions/38120/validate-internal-fuzzy-links-in-org-mode
+
+Links to non-existing files will now be red with an underline.
+
+#+begin_src elisp
+(org-link-set-parameters
+ "file"
+ :face (lambda (path)
+         (if (file-exists-p path)
+             'org-link
+           '(org-warning underline))))
+#+end_src
+
 * Use org-radiobutton to select an option from a list                :published:
 CLOSED: [2018-03-11 Sun 15:50]
 :PROPERTIES:
