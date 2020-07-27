@@ -1081,7 +1081,9 @@ idle timer to do the actual update.")
   :commands exec-path-from-shell)
 
 (use-package expand-region
-  :straight t
+  :straight (expand-region
+             :repo "git@github.com:magnars/expand-region.el.git"
+             :fork (:repo "git@github.com:Fuco1/expand-region.el.git"))
   :bind ("s-'" . er/expand-region))
 
 (use-package eyebrowse
