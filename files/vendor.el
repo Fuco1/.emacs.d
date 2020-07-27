@@ -3082,7 +3082,10 @@ Omitting FRAME means currently selected frame."
     (bind-key "C-^" 'transpose-frame-reverse)))
 
 (use-package typescript-mode
-  :straight t
+  :straight (typescript-mode
+             :repo "https://github.com/emacs-typescript/typescript.el.git"
+             :fork (:repo "git@github.com:Fuco1/typescript.el.git"))
+  :mode (("\\.tsx\\'" . typescript-mode))
   :defer t
   :config
   (bind-key "M-'" 'smart-jump-go typescript-mode-map)
