@@ -1219,7 +1219,7 @@ to use a directory-local variable to specify this per-project."
     (flycheck-def-option-var flycheck-phpstan-level "3" php-phpstan
       "Strictness level phpstan uses to check the sources.
 
-This is passed to the -c option in phpstan.  A good idea is to
+This is passed to the -l option in phpstan.  A good idea is to
 use a directory-local variable to specify this per-project."
       :type 'string
       :safe (lambda (x)
@@ -1264,7 +1264,7 @@ use a directory-local variable to specify this per-project."
 
     (add-to-list 'flycheck-checkers 'php-phpstan 'append)
 
-    (flycheck-add-next-checker 'php '(warning . php-phpstan) 'append)
+    (flycheck-add-next-checker 'php '(warning . php-phpstan))
     (flycheck-add-next-checker 'php-phpmd 'php-phpstan 'append)
     (flycheck-add-next-checker 'php-phpcs 'php-phpstan 'append)
 
