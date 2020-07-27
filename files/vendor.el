@@ -1609,8 +1609,7 @@ use a directory-local variable to specify this per-project."
   (progn
     (use-package js2-refactor :straight t)
     (use-package rjsx-mode
-      :straight t
-      :mode (("\\.tsx\\'" . rjsx-mode)))
+      :straight t)
     (use-package mocha :straight t)
     (bind-key "C-c C-m"
               (defhydra js2-refactor-hydra (:color blue :hint nil)
@@ -1711,8 +1710,7 @@ use a directory-local variable to specify this per-project."
       (lsp)
       (when (fboundp 'flow-js2-mode)
         (flow-js2-mode 1))
-      (when (flow-minor-configured-p)
-        (flow-minor-mode 1)))
+      (flow-minor-enable-automatically))
     (add-hook 'js2-mode-hook 'my-js2-mode-init)))
 
 (use-package flycheck-flow
