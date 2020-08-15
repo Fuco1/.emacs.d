@@ -2358,6 +2358,11 @@ by that command."
                 ("t" sallet-gtags-tags "Find tags")))
     (use-package autobookmarks)))
 
+(use-package saveplace
+  :custom
+  (save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
+  (save-place-mode t))
+
 (use-package org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
