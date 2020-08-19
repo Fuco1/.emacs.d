@@ -2994,8 +2994,21 @@ separate buffer."
      :modes 'php-mode
      :jump-fn 'xref-find-definitions
      :pop-fn 'xref-pop-marker-stack
+     :should-jump (lambda ()
+                    (and
+                     (buffer-file-name)
+                     (not (file-remote-p (buffer-file-name)))))
+     :heuristic 'error
+     :order 1
+     :async nil)
+
+    (smart-jump-register
+     :modes 'php-mode
+     :jump-fn 'helm-gtags-dwim
+     :pop-fn 'helm-gtags-pop-stack
      :should-jump t
      :heuristic 'error
+     :order 2
      :async nil)))
 
 (use-package smartparens
