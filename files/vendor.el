@@ -1929,6 +1929,29 @@ called, percentage usage and the command."
            'ledger-minibuffer-history))
         (ledger-read-date "New transaction")))
 
+    (defun my-equa-uver-to-ledger ()
+      (interactive)
+      (let ((transactions nil))
+        (my-with-each-line
+          (let ((line (split-string (thing-at-point 'line) " ")))
+            (push (format
+                   "
+%s * Splatka Equabank
+    Liabilities:Loan:EquaBank                %.2f Kc
+    Expenses:Loan:Equabank                   %.2f Kc
+    Assets:Checking:Equabank:Capital        -%.2f Kc
+"
+                   (format "%s/%s/%s"
+                           (nth 2 (split-string (nth 1 line) "\\."))
+                           (nth 1 (split-string (nth 1 line) "\\."))
+                           (nth 0 (split-string (nth 1 line) "\\.")))
+                   (string-to-number (replace-regexp-in-string "," "." (nth 7 line)))
+                   (string-to-number (replace-regexp-in-string "," "." (nth 6 line)))
+                   (string-to-number (replace-regexp-in-string "," "." (nth 5 line))))
+                  transactions)))
+        (erase-buffer)
+        (insert (s-join "\n" (nreverse transactions)))))
+
     (defun my-format-airbank-to-ledger (account payee)
       (interactive
        (list (completing-read "Account: " (my-ledger-accouts-list))
