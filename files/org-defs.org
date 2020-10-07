@@ -1168,7 +1168,6 @@ U5Bt-J2y7Vm69dEcRNkBLapE
 
 #+BEGIN_SRC elisp :noweb no-export
 (use-package org-gcal
-  :disabled t
   :straight t
   :after org
   :config
@@ -1178,13 +1177,11 @@ U5Bt-J2y7Vm69dEcRNkBLapE
         '(
           ("matus.goljer@gmail.com" . "~/org/gcal-p.org")
           ("goljer@logio.cz" . "~/org/gcal-l.org")
-          ("matus@saleschamp.nl" . "~/org/gcal-s.org")
           )
         org-gcal-header-alist
         '(
           ("matus.goljer@gmail.com" . "#+PROPERTY: TIMELINE_FACE \"#729fcf\"\n")
           ("goljer@logio.cz" . "#+PROPERTY: TIMELINE_FACE \"#8ae234\"\n")
-          ("matus@saleschamp.nl" . "#+PROPERTY: TIMELINE_FACE \"#ff4b4b\"\n")
           )
         org-gcal-auto-archive nil
         org-gcal-notify-p nil)
