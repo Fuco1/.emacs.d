@@ -59,8 +59,20 @@ getting an an =org-mode= file.
 
 This is a hack: sallet can't take an argument on creation.")
 
+(defun my-sallet-org-refile-candidates ()
+  (let* ((candidates my-org-refile-collection)
+         (default (--when-let (car org-refile-history)
+                    (concat it "/")))
+         (default-items (--filter (equal (car it) default) candidates)))
+    (when (> (length default-items) 0)
+      (setq candidates
+            (->> candidates
+                 (--remove (equal (car it) default))
+                 (-concat default-items))))
+    candidates))
+
 (sallet-defsource org-refile ()
-  (candidates (lambda () my-org-refile-collection))
+  (candidates my-sallet-org-refile-candidates)
   (header "Refile target")
   (renderer
    (lambda (candidate _ user-data)
