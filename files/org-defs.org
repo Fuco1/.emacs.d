@@ -372,6 +372,9 @@ you'll need to modify this entry.
 #+END_SRC
 
 ** TODO Fontify inline source code
+:PROPERTIES:
+:ID:       9c2b9ec9-c6fb-454b-9ea9-f4688432696b
+:END:
 
 #+begin_src elisp
 (defface my-org-inline-src-src
@@ -440,6 +443,9 @@ Some shell code src_bash{for f in `ls`; do echo $f; done | wc -l}
 #+end_src
 
 ** Fontify broken links
+:PROPERTIES:
+:ID:       1338944c-0be1-4292-85ab-989bc7db212f
+:END:
 
 https://emacs.stackexchange.com/questions/38120/validate-internal-fuzzy-links-in-org-mode
 
