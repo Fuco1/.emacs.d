@@ -1426,6 +1426,14 @@ use a directory-local variable to specify this per-project."
                            (re-search-forward (format "^%s" end-marker))))
             (edit-indirect-region beg (- end (length end-marker)) t))))))
 
+  (add-to-list 'magic-fallback-mode-alist '(my-check-buffer-yaml-p . yaml-mode))
+  (defun my-check-buffer-yaml-p ()
+    "Check if the buffer maybe contains YAML content."
+    (goto-char (point-min))
+    (when (re-search-forward "[a-z]:[ \n\t]" nil t)
+      (message "Guessing that the buffer has YAML content: yes")
+      t))
+
   (bind-key "C-c '" 'my-hcl-indirect-edit hcl-mode-map)
 
   (add-to-list 'flycheck-checkers 'tflint))
