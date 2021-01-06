@@ -2752,7 +2752,9 @@ These are retrieved from `imenu--index-alist'."
         (indent-according-to-mode)))
 
     (defun my-php-mode-init ()
-      (lsp)
+      (unless (and buffer-file-name
+                   (file-remote-p buffer-file-name))
+        (lsp))
       (setq-local php-style-delete-trailing-whitespace t)
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
       (when (and (buffer-file-name)
