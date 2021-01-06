@@ -1292,6 +1292,73 @@ You can then feed the file name(s) to other commands with \\[yank]."
            (kill-new string))
          (message "%s" string)))))
 
+(eval-after-load "latex"
+  '(progn
+     ;; If we still get a byte-compiled error, we also need to reload
+     ;; the defcustom LaTeX-math-list, because it uses this function
+     ;; as a setter callback which is inlined.
+     (el-patch-defun LaTeX-math-initialize ()
+       (let ((math (reverse (append LaTeX-math-list LaTeX-math-default)))
+             (map LaTeX-math-keymap)
+             (unicode (and LaTeX-math-menu-unicode (fboundp 'decode-char))))
+         (while math
+           (let* ((entry (car math))
+                  (key (nth 0 entry))
+                  (prefix
+                   (and unicode
+                        (nth 3 entry)))
+                  value menu name)
+             (setq math (cdr math))
+             (if (and prefix
+                      (setq prefix (decode-char 'ucs (nth 3 entry))))
+                 (setq prefix (concat (string prefix) " \\"))
+               (setq prefix "\\"))
+             (if (listp (cdr entry))
+                 (setq value (nth 1 entry)
+                       menu (nth 2 entry))
+               (setq value (cdr entry)
+                     menu nil))
+             (if (stringp value)
+                 (progn
+                   (setq name (intern (concat "LaTeX-math-" value)))
+                   (fset name (list 'lambda (list 'arg) (list 'interactive "*P")
+                                    (list 'LaTeX-math-insert value 'arg))))
+               (setq name value))
+             (if key
+                 (progn
+                   (setq key (cond ((numberp key) (char-to-string key))
+                                   ((stringp key) (read-kbd-macro key))
+                                   (t (vector key))))
+                   (define-key map key name)))
+             (el-patch-remove
+               (if menu
+                   (let ((parent LaTeX-math-menu))
+                     (if (listp menu)
+                         (progn
+                           (while (cdr menu)
+                             (let ((sub (assoc (car menu) LaTeX-math-menu)))
+                               (if sub
+                                   (setq parent sub)
+                                 (setcdr parent (cons (list (car menu)) (cdr parent))))
+                               (setq menu (cdr menu))))
+                           (setq menu (car menu))))
+                     (let ((sub (assoc menu parent)))
+                       (if sub
+                           (if (stringp value)
+                               (setcdr sub (cons (vector (concat prefix value)
+                                                         name t)
+                                                 (cdr sub)))
+                             (error "Cannot have multiple special math menu items"))
+                         (setcdr parent
+                                 (cons (if (stringp value)
+                                           (list menu (vector (concat prefix value)
+                                                              name t))
+                                         (vector menu name t))
+                                       (cdr parent))))))))))
+         ;; Make the math prefix char available if it has not been used as a prefix.
+         (unless (lookup-key map (LaTeX-math-abbrev-prefix))
+           (define-key map (LaTeX-math-abbrev-prefix) 'self-insert-command))))))
+
 (eval-after-load "json"
   '(progn
      (defun json-read-object ()
