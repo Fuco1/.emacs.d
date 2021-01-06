@@ -618,6 +618,16 @@
  '(keyfreq-file-lock "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq.lock")
  '(keyfreq-mode t)
  '(ledger-reconcile-default-commodity "Kc")
+ '(ledger-report-format-specifiers
+   (quote
+    (("ledger-file" . ledger-report-ledger-file-format-specifier)
+     ("binary" . ledger-report-binary-format-specifier)
+     ("payee" . ledger-report-payee-format-specifier)
+     ("account" . ledger-report-account-format-specifier)
+     ("month" . ledger-report-month-format-specifier)
+     ("tagname" . ledger-report-tagname-format-specifier)
+     ("tagvalue" . ledger-report-tagvalue-format-specifier)
+     ("period" . my-ledger-report-period-format-specifier))))
  '(ledger-reports
    (quote
     (("portfolio" "ledger -f %(ledger-file) bal --group-by commodity Assets:Broker -X Kc")
@@ -627,7 +637,7 @@
      ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
      ("budget" "ledger -f %(ledger-file) bal -X Kc '^Assets:Checking:Air Bank'")
      ("expenses-budget" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly reg 'Assets:Checking:Air Bank:Budget:Expenses'")
-     ("expenses-budget-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly reg 'Assets:Checking:Air Bank:Budget:Expenses'")
+     ("expenses-budget-year" "ledger -f %(ledger-file) -p %(period) -X Kc --monthly reg 'Assets:Checking:Air Bank:Budget:Expenses'")
      ("equity" "ledger -f %(ledger-file) bal -X Kc ^assets ^liabilities")
      ("bal" "ledger -f %(ledger-file) -X Kc bal")
      ("reg" "ledger -f %(ledger-file) reg")

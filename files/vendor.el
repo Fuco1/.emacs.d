@@ -1984,7 +1984,10 @@ called, percentage usage and the command."
     %s   %s
     Assets:Checking:Air Bank  -%s
 
-" date-ledger payee account amount amount)))))))
+" date-ledger payee account amount amount)))))
+
+    (defun my-ledger-report-period-format-specifier ()
+      (read-string "Period: [-p] " nil nil "this year"))))
 
 (use-package lisp-mode
   :defer t
