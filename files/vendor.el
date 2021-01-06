@@ -2512,12 +2512,13 @@ by that command."
         (-when-let* ((file-name (or (buffer-file-name) default-directory))
                      (file (expand-file-name file-name)))
           (expand-file-name
-           (with-temp-buffer
-             (if (and (not (file-remote-p file))
-                      (= 0 (shell-command "global -p" (current-buffer))))
-                 (s-trim (buffer-string))
-               ;; TODO: add projectile "php" project type?
-               (locate-dominating-file default-directory "composer.json")))))))
+           (or (with-temp-buffer
+                 (if (and (not (file-remote-p file))
+                          (= 0 (shell-command "global -p" (current-buffer))))
+                     (s-trim (buffer-string))
+                   ;; TODO: add projectile "php" project type?
+                   (locate-dominating-file default-directory "composer.json")))
+               default-directory)))))
 
     (defun my-php-local-file-name (filename)
       "Get local part of file name.
