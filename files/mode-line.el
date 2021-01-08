@@ -38,8 +38,11 @@
                   (format "(wc:%d,%d,%d)"
                           (abs (- (point) (mark)))
                           (count-words-region (point) (mark))
-                          (abs (- (line-number-at-pos (point))
-                                  (line-number-at-pos (mark)))))
+                          (abs (-
+                                (string-to-number (format-mode-line "%l"))
+                                (save-excursion
+                                  (goto-char (mark))
+                                  (string-to-number (format-mode-line "%l"))))))
                 (format "(%%l,%%c,%d)" (point)))))
 
    "%["
