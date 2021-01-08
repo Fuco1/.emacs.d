@@ -164,7 +164,7 @@
                        (company-dabbrev-code company-gtags company-etags company-keywords)
                        company-oddmuse company-dabbrev)))
  '(company-flow-executable "yarn flow" t)
- '(company-lsp-cache-candidates nil t)
+ '(company-lsp-cache-candidates nil)
  '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-error-regexp-alist
    (quote
@@ -617,6 +617,7 @@
  '(keyfreq-file "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq")
  '(keyfreq-file-lock "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq.lock")
  '(keyfreq-mode t)
+ '(ledger-copy-transaction-insert-blank-line-after t)
  '(ledger-reconcile-default-commodity "Kc")
  '(ledger-report-format-specifiers
    (quote
@@ -801,6 +802,7 @@
  '(org-clock-budget-intervals
    (quote
     (("BUDGET_YEAR" org-clock-budget-interval-this-year)
+     ("BUDGET_MONTH" org-clock-budget-interval-this-month)
      ("BUDGET_WEEK" org-clock-budget-interval-this-week))))
  '(org-clock-budget-ratio-faces
    (quote
@@ -2077,7 +2079,12 @@
                (quote font-lock-keyword-face))))))
      (reftex-default-bibliography "./bibliography")
      (eval allout-mode t))))
+ '(show-smartparens-global-mode t)
  '(swb-crypt-key "matus.goljer@gmail.com")
+ '(tramp-default-proxies-alist
+   (quote
+    (("\\(puppet\\|worker-\\|nomad-server-\\)" "root" "/ssh:%h:")
+     ("\\(puppet\\|worker-\\|nomad-server-\\)" nil "/ssh:gateway:"))) nil (tramp))
  '(vc-follow-symlinks t)
  '(winner-mode t))
 
