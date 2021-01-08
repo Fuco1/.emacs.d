@@ -77,7 +77,13 @@
 ;; TODO: replace with proper package
 (load (f-join (f-parent (f-this-file)) "org-project"))
 
+(use-package org-edna
+  :straight t
+  :config
+  (org-edna-mode 1))
+
 (use-package org-depend
+  :disabled t
   :config
   (progn
     (defun my-org-block-next-change-on-dependency (_change-plist)
