@@ -1237,6 +1237,249 @@ Any match of REMOVE-RE will be removed from TXT."
                'format org-prefix-format-compiled
                'dotime dotime)))))))
 
+(eval-after-load "org-clock"
+  '(progn
+     (el-patch-defun org-dblock-write:clocktable (params)
+       "Write the standard clocktable."
+       (setq params (org-combine-plists org-clocktable-defaults params))
+       (catch 'exit
+         (let* ((scope (plist-get params :scope))
+                (files (pcase scope
+                         (`agenda
+                          (org-agenda-files t))
+                         (`agenda-with-archives
+                          (org-add-archive-files (org-agenda-files t)))
+                         (`file-with-archives
+                          (and buffer-file-name
+                               (org-add-archive-files (list buffer-file-name))))
+                         ((pred functionp) (funcall scope))
+                         ((pred consp) scope)
+                         (_ (or (buffer-file-name) (current-buffer)))))
+                (block (plist-get params :block))
+                (ts (plist-get params :tstart))
+                (te (plist-get params :tend))
+                (ws (plist-get params :wstart))
+                (ms (plist-get params :mstart))
+                (step (plist-get params :step))
+                (formatter (or (plist-get params :formatter)
+                               org-clock-clocktable-formatter
+                               'org-clocktable-write-default))
+                cc)
+           ;; Check if we need to do steps
+           (when block
+             ;; Get the range text for the header
+             (setq cc (org-clock-special-range block nil t ws ms)
+                   ts (car cc)
+                   te (nth 1 cc)))
+           (when step
+             ;; Write many tables, in steps
+             (unless (or block (and ts te))
+               (error "Clocktable `:step' can only be used with `:block' or `:tstart,:end'"))
+             (org-clocktable-steps params)
+             (throw 'exit nil))
+
+           (org-agenda-prepare-buffers (if (consp files) files (list files)))
+
+           (let ((origin (point))
+                 (tables
+                  (if (consp files)
+                      (mapcar (lambda (file)
+                                (with-current-buffer (find-buffer-visiting file)
+                                  (save-excursion
+                                    (save-restriction
+                                      (org-clock-get-table-data file params)))))
+                              files)
+                    ;; Get the right restriction for the scope.
+                    (save-restriction
+                      (cond
+                       ((not scope))	     ;use the restriction as it is now
+                       ((eq scope 'file) (widen))
+                       ((eq scope 'subtree) (org-narrow-to-subtree))
+                       ((eq scope 'tree)
+                        (while (org-up-heading-safe))
+                        (org-narrow-to-subtree))
+                       ((and (symbolp scope)
+                             (string-match "\\`tree\\([0-9]+\\)\\'"
+                                           (symbol-name scope)))
+                        (let ((level (string-to-number
+                                      (match-string 1 (symbol-name scope)))))
+                          (catch 'exit
+                            (while (org-up-heading-safe)
+                              (looking-at org-outline-regexp)
+                              (when (<= (org-reduced-level (funcall outline-level))
+                                        level)
+                                (throw 'exit nil))))
+                          (org-narrow-to-subtree))))
+                      (list (org-clock-get-table-data nil params)))))
+                 (multifile
+                  ;; Even though `file-with-archives' can consist of
+                  ;; multiple files, we consider this is one extended file
+                  ;; instead.
+                  (and (consp files) (not (eq scope 'file-with-archives)))))
+
+             (el-patch-add (setq tables (my-merge-clockreport-tables tables)))
+
+             (funcall formatter
+                      origin
+                      tables
+                      (org-combine-plists params `(:multifile ,multifile)))))))
+
+     (el-patch-defun org-clock-get-table-data (file params)
+       "Get the clocktable data for file FILE, with parameters PARAMS.
+FILE is only for identification - this function assumes that
+the correct buffer is current, and that the wanted restriction is
+in place.
+The return value will be a list with the file name and the total
+file time (in minutes) as 1st and 2nd elements.  The third element
+of this list will be a list of headline entries.  Each entry has the
+following structure:
+
+  (LEVEL HEADLINE TAGS TIMESTAMP TIME PROPERTIES)
+
+LEVEL:      The level of the headline, as an integer.  This will be
+            the reduced level, so 1,2,3,... even if only odd levels
+            are being used.
+HEADLINE:   The text of the headline.  Depending on PARAMS, this may
+            already be formatted like a link.
+TAGS:       The list of tags of the headline.
+TIMESTAMP:  If PARAMS require it, this will be a time stamp found in the
+            entry, any of SCHEDULED, DEADLINE, NORMAL, or first inactive,
+            in this sequence.
+TIME:       The sum of all time spend in this tree, in minutes.  This time
+            will of cause be restricted to the time block and tags match
+            specified in PARAMS.
+PROPERTIES: The list properties specified in the `:properties' parameter
+            along with their value, as an alist following the pattern
+            (NAME . VALUE)."
+       (let* ((maxlevel (or (plist-get params :maxlevel) 3))
+              (timestamp (plist-get params :timestamp))
+              (ts (plist-get params :tstart))
+              (te (plist-get params :tend))
+              (ws (plist-get params :wstart))
+              (ms (plist-get params :mstart))
+              (block (plist-get params :block))
+              (link (plist-get params :link))
+              (tags (plist-get params :tags))
+              (match (plist-get params :match))
+              (properties (plist-get params :properties))
+              (inherit-property-p (plist-get params :inherit-props))
+              (matcher (and match (cdr (org-make-tags-matcher match))))
+              (el-patch-add path) cc st p tbl)
+
+         (setq org-clock-file-total-minutes nil)
+         (when block
+           (setq cc (org-clock-special-range block nil t ws ms)
+                 ts (car cc)
+                 te (nth 1 cc)))
+         (when (integerp ts) (setq ts (calendar-gregorian-from-absolute ts)))
+         (when (integerp te) (setq te (calendar-gregorian-from-absolute te)))
+         (when (and ts (listp ts))
+           (setq ts (format "%4d-%02d-%02d" (nth 2 ts) (car ts) (nth 1 ts))))
+         (when (and te (listp te))
+           (setq te (format "%4d-%02d-%02d" (nth 2 te) (car te) (nth 1 te))))
+         ;; Now the times are strings we can parse.
+         (if ts (setq ts (org-matcher-time ts)))
+         (if te (setq te (org-matcher-time te)))
+         (save-excursion
+           (org-clock-sum ts te
+                          (when matcher
+                            `(lambda ()
+                               (let* ((todo (org-get-todo-state))
+                                      (tags-list (org-get-tags))
+                                      (org-scanner-tags tags-list)
+                                      (org-trust-scanner-tags t))
+                                 (funcall ,matcher todo tags-list nil)))))
+           (goto-char (point-min))
+           (setq st t)
+           (while (or (and (bobp) (prog1 st (setq st nil))
+                           (get-text-property (point) :org-clock-minutes)
+                           (setq p (point-min)))
+                      (setq p (next-single-property-change
+                               (point) :org-clock-minutes)))
+             (goto-char p)
+             (let ((time (get-text-property p :org-clock-minutes)))
+               (when (and time (> time 0) (org-at-heading-p))
+                 (let ((level (org-reduced-level (org-current-level))))
+                   (when (<= level maxlevel)
+                     (let* ((headline (org-get-heading t t t t))
+                            (hdl
+                             (if (not link) headline
+                               (let ((search
+                                      (org-make-org-heading-search-string headline)))
+                                 (org-make-link-string
+                                  (if (not (buffer-file-name)) search
+                                    (format "file:%s::%s" (buffer-file-name) search))
+                                  ;; Prune statistics cookies.  Replace
+                                  ;; links with their description, or
+                                  ;; a plain link if there is none.
+                                  (org-trim
+                                   (org-link-display-format
+                                    (replace-regexp-in-string
+                                     "\\[[0-9]+%\\]\\|\\[[0-9]+/[0-9]+\\]" ""
+                                     headline)))))))
+                            (tgs (and tags (org-get-tags)))
+                            (tsp
+                             (and timestamp
+                                  (cl-some (lambda (p) (org-entry-get (point) p))
+                                           '("SCHEDULED" "DEADLINE" "TIMESTAMP"
+                                             "TIMESTAMP_IA"))))
+                            (props
+                             (and properties
+                                  (delq nil
+                                        (mapcar
+                                         (lambda (p)
+                                           (let ((v (org-entry-get
+                                                     (point) p inherit-property-p)))
+                                             (and v (cons p v))))
+                                         properties)))))
+                       (el-patch-add
+                         (while (and path (>= (caar path) level))
+                           (pop path))
+                         (push (list level headline) path))
+                       (push (list level hdl tgs tsp time
+                                   (el-patch-swap
+                                     props
+                                     (append props
+                                             (list :archive-merger-path
+                                               (substring-no-properties
+                                                (mapconcat
+                                                 #'cadr
+                                                 (reverse path)
+                                                 "/"))))))
+                             tbl)))))))
+           (list file org-clock-file-total-minutes (nreverse tbl)))))
+
+     (defun my-merge-clockreport-tables (tables)
+       "Merge the same clock entires in TABLES into one table.
+
+Entries are identified by their full path."
+       (let ((final-table (make-hash-table :test 'equal))
+             (order 0)
+             (total-time 0))
+         (-each tables
+           (-lambda ((_ file-total entries))
+             (cl-incf total-time file-total)
+             (-each entries
+               (-lambda ((entry &as level headline tags timestamp time properties))
+                 (let ((path (plist-get properties :archive-merger-path)))
+                   (-if-let (final-entry (gethash path final-table))
+                       ;; set 5th item because we cons the order in front
+                       (setf (nth 5 final-entry)
+                             (+ (nth 5 final-entry)
+                                (nth 4 entry)))
+                     (puthash path (cons order entry) final-table)
+                     (cl-incf order)))))))
+         (let* ((final-entries (hash-table-values final-table))
+                (final-entries (--sort (string-collate-lessp
+                                        (plist-get (nth 6 it) :archive-merger-path)
+                                        (plist-get (nth 6 other) :archive-merger-path)
+                                        nil
+                                        :ignore-case)
+                                       final-entries))
+                (final-entries (-map #'cdr final-entries))
+                (first-table (car tables)))
+           (list (list (car first-table) total-time final-entries)))))))
+
 (eval-after-load "windmove"
   '(progn
      ;; Call user-error instead of error
