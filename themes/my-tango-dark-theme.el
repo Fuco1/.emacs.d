@@ -215,7 +215,7 @@ respective major mode.  Think org SRC blocks.")
    'my-tango-dark
    (default (:foreground alum-1
              :background alum-6
-             :height 120
+             :height 160
              :family ,fixed-sys))
    (cursor (:background butter-1))
 
@@ -644,7 +644,7 @@ respective major mode.  Think org SRC blocks.")
    (hl-line (:inherit nil :background alum-7))
    (indent-guide-face (:inherit paren-face))
    (sp-pair-overlay-face (:background blue-3 :foreground alum-1))
-   (variable-pitch (:height 144 :family ,variable-font))
+   (variable-pitch (:height 220 :family ,variable-font))
    (wgrep-delete-face (:inherit font-lock-warning-face))
    (fold-this-overlay (:inherit sp-pair-overlay-face))
    (highlight-thing (:background "black"))
