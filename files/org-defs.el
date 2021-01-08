@@ -1826,7 +1826,17 @@ sibling before the next header."
   (let* ((fix-archive-p (and (not current-prefix-arg)
                              (not (use-region-p))))
          (afile (org-extract-archive-file (org-get-local-archive-location)))
-         (buffer (or (find-buffer-visiting afile) (find-file-noselect afile))))
+         (buffer (or (find-buffer-visiting afile) (find-file-noselect afile)))
+         ;; Get all the parents and their tags, we will try to
+         ;; recreate the same situation in the archive buffer.
+         ;; TODO: make this customizable.
+         (parents-and-tags (save-excursion
+                             (let (parents)
+                               (while (org-up-heading-safe)
+                                 (push (list :heading (org-get-heading t t t t)
+                                             :tags (org-get-tags nil :local))
+                                       parents))
+                               parents))))
     ad-do-it
     (when fix-archive-p
       (with-current-buffer buffer
@@ -1848,14 +1858,19 @@ sibling before the next header."
                   (if (re-search-forward
                        (rx-to-string
                         `(: bol (repeat ,level "*") (1+ " ") ,heading)) nil t)
-                      (org-narrow-to-subtree)
+                      (progn
+                        (org-narrow-to-subtree)
+                        (org-set-tags (plist-get (car parents-and-tags) :tags)))
                     (goto-char (point-max))
                     (unless (looking-at "^")
                       (insert "\n"))
                     (insert (make-string level ?*)
                             " "
-                            heading
-                            "\n"))
+                            heading)
+                    (org-set-tags (plist-get (car parents-and-tags) :tags))
+                    (end-of-line)
+                    (insert "\n"))
+                  (pop parents-and-tags)
                   (cl-incf level)))
               (widen)
               (org-end-of-subtree t t)
