@@ -1854,7 +1854,10 @@ sibling before the next header."
         (goto-char (point-max))
         (while (org-up-heading-safe))
         (let* ((olpath (org-entry-get (point) "ARCHIVE_OLPATH"))
-               (path (and olpath (split-string olpath "/")))
+               (path (and olpath
+                          (--map
+                           (replace-regexp-in-string "^/" "" it)
+                           (s-slice-at "/\\sw" olpath))))
                (level 1)
                tree-text)
           (when olpath
