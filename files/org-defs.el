@@ -1572,7 +1572,7 @@ Switch projects and subprojects from NEXT back to TODO"
   (let ((org-agenda-files (list "~/org/me.org" "~/org/reading.org" "~/org/languages.org")))
     (save-window-excursion
       (unwind-protect
-          (let ((years-to-export (nreverse (number-sequence 2014 2017)))
+          (let ((years-to-export (nreverse (number-sequence 2014 2021)))
                 (buf (get-buffer-create "*org-books-export*"))
                 (my-org-show-media-closed-since
                  (apply 'encode-time (org-parse-time-string "2014-01-01")))
