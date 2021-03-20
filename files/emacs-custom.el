@@ -1681,6 +1681,7 @@
     (easy-kill org-gcal atomic-chrome diredfl systemd org-noter org-make-toc company-lsp pomidor smart-jump lsp-ui lsp-mode js2-refactor fish-completion impatient-mode docker-tramp nov magit-annex restclient web-server org-super-agenda camcorder scala-mode cmake-mode evil pdf-tools org-brain yaml-mode world-time-mode which-key wgrep-ag web-mode visual-regexp use-package undo-tree undercover tuareg transpose-frame string-edit smex smartscan smartparens shell-pop shackle scf-mode rainbow-mode puppet-mode pos-tip php-refactor-mode php-mode php-eldoc php-boris-minor-mode password-generator parse-csv paren-face pandoc-mode pallet package-lint overseer ov outshine org-plus-contrib omnisharp ob-elixir notmuch nginx-mode multiple-cursors markdown-toc markdown-mode+ make-it-so magit macrostep legalese ledger-mode keyfreq jump-char json-mode js2-mode jdee ido-ubiquitous ibuffer-vc htmlize highlight-thing helm-gtags helm-descbinds gnus-alias gnuplot glsl-mode gitignore-mode flycheck-ledger flycheck-haskell flycheck-elixir flycheck-credo flycheck-cask flx-ido fish-mode firestarter expand-region exec-path-from-shell ess emr emmet-mode elpy elfeed eldoc-eval eimp editorconfig dockerfile-mode dired+ czech-holidays conkeror-minor-mode concurrent company-statistics clojure-mode cask-mode buttercup browse-kill-ring browse-at-remote auctex assess alchemist ag)))
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
+ '(pomidor-play-sound-file nil)
  '(preview-scale-function 1.5)
  '(proced-auto-update-flag t)
  '(proced-auto-update-interval 1)

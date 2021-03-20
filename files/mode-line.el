@@ -45,6 +45,12 @@
                                   (string-to-number (format-mode-line "%l"))))))
                 (format "(%%l,%%c,%d)" (point)))))
 
+   (:eval (cond
+           ((pomidor-overwork-p)
+            (propertize "<<< TAKE A BREAK >>> " 'face '(error bold)))
+           ((pomidor-break-over-p)
+            (propertize "<<< BACK TO WORK >>> " 'face '(success bold)))))
+
    "%["
    (:eval (my-mode-line-construct-path-1 (buffer-file-name) (buffer-name)))
    "%]"
