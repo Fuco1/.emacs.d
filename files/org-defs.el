@@ -1580,6 +1580,7 @@ Switch projects and subprojects from NEXT back to TODO"
             (with-current-buffer buf
               (erase-buffer)
               (org-mode)
+              (insert "#+options: num:1\n")
               (insert "* Done\n"))
             (--each years-to-export
               (with-current-buffer buf
@@ -1590,6 +1591,14 @@ Switch projects and subprojects from NEXT back to TODO"
                      (apply 'encode-time (org-parse-time-string (format "%d-01-01" (1+ it))))))
                 (org-agenda nil "fdb")
                 (my-org-export-read-books-do-export buf)
+                (with-current-buffer buf
+                  (let ((count (save-excursion
+                                 (forward-line -1)
+                                 (1- (length (-remove-item 'hline (org-table-to-lisp)))))))
+                    (save-excursion
+                      (org-back-to-heading t)
+                      (end-of-line)
+                      (insert (format " (%d total)" count)))))
                 (with-current-buffer buf
                   (insert "\n\n"))))
             (org-agenda nil "fb")
