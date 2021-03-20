@@ -985,7 +985,7 @@ properly aligned."
                           ;; line.  The idea is that this 99% of the
                           ;; time happens when we indent the list
                           ;; body, so we don't want to see it jagged.
-                          ("^[ \t]*" 0
+                          ("^[ \t]+" 0
                            (funcall 'my-org-fontify-list-marker) append)
                           ;; Fontify hashtags
                           ("\\s-\\(#[^ \n]+\\)" 1 'font-lock-keyword-face prepend)
