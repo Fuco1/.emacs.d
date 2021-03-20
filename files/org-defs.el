@@ -1506,7 +1506,8 @@ Switch projects and subprojects from NEXT back to TODO"
 (defun my-org-export-read-books-do-export (buf)
   "Buf is the buffer into which the export is written."
   (goto-char (point-min))
-  (goto-char (next-single-property-change (point) 'todo-state))
+  (--when-let (next-single-property-change (point) 'todo-state)
+    (goto-char it))
   (forward-line -1)
   (let ((index 0))
     (with-current-buffer buf
@@ -1515,41 +1516,42 @@ Switch projects and subprojects from NEXT back to TODO"
       (insert "|-+-+-+-+-+-|\n"))
     (while (and (= 0 (forward-line))
                 (not (eobp)))
-      (org-with-point-at (org-get-at-bol 'org-hd-marker)
-        (let* ((element (cadr (org-element-at-point)))
-               (title (plist-get element :title))
-               (author (plist-get element :AUTHOR))
-               (published (plist-get element :PUBLISHED))
-               (original-title (plist-get element :ORIGINAL_TITLE))
-               (tags (org-get-tags-at))
-               (language (cdr (assoc (let* ((language-tag
-                                             (car (-intersection tags '("DE" "IT" "LA" "RU" "FR" "ES" "IL" "SA" "PL" "JP"))))
-                                            (language-prop (plist-get element :LANGUAGE)))
-                                       (or language-prop language-tag "EN"))
-                                     '(("DE" . "German")
-                                       ("IT" . "Italian")
-                                       ("LA" . "Latin")
-                                       ("RU" . "Russian")
-                                       ("FR" . "French")
-                                       ("ES" . "Spanish")
-                                       ("IL" . "Hebrew")
-                                       ("SA" . "Sanskrit")
-                                       ("PL" . "Polish")
-                                       ("JP" . "Japanese")
-                                       ("CS" . "Czech")
-                                       ("SK" . "Slovak")
-                                       ("EN" . "English"))))))
-          (unless (member "noexport" tags)
-            (cl-incf index)
-            (with-current-buffer buf
-              ;; num, lan, title, published, author, orig. title
-              (insert (format "| %d. | %s | %s | %s | %s | %s |\n"
-                              index
-                              language
-                              title
-                              published
-                              author
-                              (or original-title ""))))))))
+      (-when-let (marker (org-get-at-bol 'org-hd-marker))
+        (org-with-point-at marker
+          (let* ((element (cadr (org-element-at-point)))
+                 (title (plist-get element :title))
+                 (author (plist-get element :AUTHOR))
+                 (published (plist-get element :PUBLISHED))
+                 (original-title (plist-get element :ORIGINAL_TITLE))
+                 (tags (org-get-tags-at))
+                 (language (cdr (assoc (let* ((language-tag
+                                               (car (-intersection tags '("DE" "IT" "LA" "RU" "FR" "ES" "IL" "SA" "PL" "JP"))))
+                                              (language-prop (plist-get element :LANGUAGE)))
+                                         (or language-prop language-tag "EN"))
+                                       '(("DE" . "German")
+                                         ("IT" . "Italian")
+                                         ("LA" . "Latin")
+                                         ("RU" . "Russian")
+                                         ("FR" . "French")
+                                         ("ES" . "Spanish")
+                                         ("IL" . "Hebrew")
+                                         ("SA" . "Sanskrit")
+                                         ("PL" . "Polish")
+                                         ("JP" . "Japanese")
+                                         ("CS" . "Czech")
+                                         ("SK" . "Slovak")
+                                         ("EN" . "English"))))))
+            (unless (member "noexport" tags)
+              (cl-incf index)
+              (with-current-buffer buf
+                ;; num, lan, title, published, author, orig. title
+                (insert (format "| %d. | %s | %s | %s | %s | %s |\n"
+                                index
+                                language
+                                title
+                                published
+                                author
+                                (or original-title "")))))))))
     (with-current-buffer buf
       (insert "|-+-+-+-+-+-|\n")
       (save-excursion
