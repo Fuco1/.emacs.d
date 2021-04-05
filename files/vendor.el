@@ -71,17 +71,18 @@ german (_d_)         |                  |          |
 _i_talian            |                  |          |
 _f_rench             |                  |          |
 _l_atin              |                  |          |
-_g_reek              |                  |          |
-_r_ussian            |                  |          | set input _m_ethod
+_g_reek              |                  |          | describe IM (_?_)
+_b_ulgarian          |                  |          | set input _m_ethod
 cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
 "
     ("m" set-input-method)
+    ("?" describe-input-method)
     ("e" (lambda () (interactive) (call-interactively 'toggle-input-method) (ispell-change-dictionary "english")))
     ("s" (my-generate-language-env "slovak-prog-2" "slovak"))
     ("c" (my-generate-language-env "czech" "czech"))
     ("p" (lambda () "Toggle on polish-slash input method." (interactive) (set-input-method "polish-slash")))
-    ("r" (lambda () "Toggle on russian-computer input method." (interactive) (set-input-method "russian-computer")))
     ("q" (lambda () "Toggle on cyrillic-translit input method." (interactive) (set-input-method "cyrillic-translit")))
+    ("b" (lambda () "Toggle on bulgarian-phonetic input method." (interactive) (set-input-method "bulgarian-phonetic")))
     ("i" (lambda () "Toggle on italian-keyboard input method." (interactive) (set-input-method "italian-keyboard")))
     ("d" (lambda () "Toggle on german input method." (interactive) (set-input-method "german")))
     ("t" (lambda () "Toggle on TeX input method." (interactive) (set-input-method "TeX")))
