@@ -2816,6 +2816,9 @@ These are retrieved from `imenu--index-alist'."
 (use-package pomidor
   :straight t)
 
+(use-package prettier-js
+  :straight t)
+
 (use-package prodigy
   :straight (prodigy :repo "git@github.com:rejeep/prodigy.el.git")
   :bind (:map ctl-dot-prefix-map
@@ -3320,7 +3323,9 @@ Omitting FRAME means currently selected frame."
     (add-hook 'after-save-hook 'my-tslint-fix nil 'local)
     (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
     ;; formats the buffer before saving
-    (add-hook 'before-save-hook 'tide-format-before-save nil 'local)
+    (if (find-local-executable-typescript-setup-prettier)
+        (prettier-js-mode 1)
+      (add-hook 'before-save-hook 'tide-format-before-save nil 'local))
     (find-local-executable-typescript-setup-tslint)
     (find-local-executable-nodejs-setup-eslint))
 
