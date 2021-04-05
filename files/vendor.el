@@ -2914,6 +2914,17 @@ These are retrieved from `imenu--index-alist'."
   (progn
     (defvar my-recentf-autosave-timer (run-with-timer 500 500 'recentf-save-list))))
 
+(use-package reformatter
+  :straight t
+  :config
+  (reformatter-define styler
+    :program "Rscript"
+    :args (list "-e" "con <- file(\"stdin\")
+out <- styler::style_text(readLines(con))
+close(con)
+out")
+    :lighter " styler"))
+
 (use-package restclient
   :straight t
   :mode ("\\.rest$" . restclient-mode)
