@@ -203,14 +203,24 @@ return to regular interpretation of self-insert characters."
   (autobookmarks-mode 1))
 
 (use-package better-jump
-  :bind (("C-\\" . bjump-word-jump)
-         ("A-l" . bjump-char-jump-line)
-         ("A-;" . bjump-word-jump-paragraph)
-         ("s-o" . bjump-window-jump)
-         ("A-j" . bjump-window-jump)
-         ("A-k" . bjump-window-delete))
+  :bind (("C-j" . bjump-hydra/body))
   :config
   (progn
+    (defhydra bjump-hydra (:color blue :hint nil)
+      "
+better jump:
+
+ Word                          Character
+-----------------------------------------------------------
+ jump to _w_ord                  jump to _c_har
+ jump to word in _p_aragraph     jump to char on _l_ine
+"
+      ("w" bjump-word-jump)
+      ("p" bjump-word-jump-paragraph)
+      ("c" bjump-char-jump)
+      ("l" bjump-char-jump-line)
+      ("o" bjump-window-jump))
+
     (bind-key "o" 'bjump-info-link-jump Info-mode-map)
     (bind-key "o" 'bjump-help-link-jump help-mode-map)))
 
