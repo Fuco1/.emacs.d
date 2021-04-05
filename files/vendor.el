@@ -2813,6 +2813,9 @@ These are retrieved from `imenu--index-alist'."
   (progn
     (push '("*Pp Eval Output*" :height 15) popwin:special-display-config)))
 
+(use-package pomidor
+  :straight t)
+
 (use-package prodigy
   :straight (prodigy :repo "git@github.com:rejeep/prodigy.el.git")
   :bind (:map ctl-dot-prefix-map
