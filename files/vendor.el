@@ -2920,7 +2920,7 @@ These are retrieved from `imenu--index-alist'."
   (reformatter-define styler
     :program "Rscript"
     :args (list "-e" "con <- file(\"stdin\")
-out <- styler::style_text(readLines(con))
+out <- styler::style_text(readLines(con), transformers = styler::tidyverse_style(indent_by = 4))
 close(con)
 out")
     :lighter " styler"))
