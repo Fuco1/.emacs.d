@@ -42,6 +42,11 @@
 (use-package org-noter
   :straight t
   :config
+  (unbind-key "C-M-." org-noter-doc-mode-map)
+  (unbind-key "C-M-." org-noter-notes-mode-map)
+  (bind-key "M-S" 'org-noter-sync-current-note org-noter-doc-mode-map)
+  (bind-key "M-S" 'org-noter-sync-current-note org-noter-notes-mode-map)
+
   (defun my-org-noter-from-attachment (orig-fun &optional arg)
     (when (and (eq major-mode 'org-mode)
                (not (org-entry-get (point) org-noter-property-doc-file))
