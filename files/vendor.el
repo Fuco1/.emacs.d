@@ -658,11 +658,12 @@ and `my-compile-auto-fold-header-match-data'."
       (let ((case-fold-search nil)) (re-search-backward "INS")))
 
     (bind-keys :prefix "C-,"
+               :map Custom-mode-map
                :prefix-map custom-custom-map
                :prefix-docstring "Custom custom map."
-      ("s" . my-custom-jump-to-state)
-      ("t" . my-custom-jump-to-toggle)
-      ("i" . my-custom-jump-to-last-insert))))
+               ("s" . my-custom-jump-to-state)
+               ("t" . my-custom-jump-to-toggle)
+               ("i" . my-custom-jump-to-last-insert))))
 
 (use-package diff-mode
   :defer t
