@@ -111,6 +111,7 @@
     ("\\.ido\\.last" "\\.git" "\\.svn" "\\.log" "Maildir" "\\*message\\*" "\\.cask" "\\.avfs" "/tmp/crontab" "-autoloads\\.el$" "elfeed/index" "Org Src" "320360-c916-4b40-b614-3e99ac7fd4c6")))
  '(abm-old-bookmark-threshold 45)
  '(ag-highlight-search t)
+ '(ahk-indentation 2)
  '(alert-default-style (quote libnotify))
  '(anzu-search-threshold 1000)
  '(appt-audible nil)
@@ -163,6 +164,7 @@
     (company-omnisharp php-extras-company company-swb company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
                        (company-dabbrev-code company-gtags company-etags company-keywords)
                        company-oddmuse company-dabbrev)))
+ '(company-dabbrev-downcase nil)
  '(company-flow-executable "yarn flow" t)
  '(company-lsp-cache-candidates nil)
  '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
@@ -181,7 +183,7 @@
  '(custom-enabled-themes (quote (my-tango-dark)))
  '(custom-safe-themes
    (quote
-    ("db52c162cc74f0c2075c054e84229fc7c3069117755b80fff0183632d5f2826d" "f8ad907be055aa9565e43a2cfa2ec5c3f9c0efef5dd283212406933c2304ae52" "492a976647ea645509162b8ab0149b2fa27e865665efbbd0ec25caf60c424e4b" "e3be3ebef0b1c4fc114e556968baabf372332a2dfa0fa88cf6cc6dfab82823e1" "3b41b13510fd34c4092c0c2a1b3c688a70b942fccbb5d1f1c43dc38113dc61f0" "8fd0ac1c37d7053b2222b032b5058e4b0beb2f1b1c0fb6cd1ddc0dce976843a4" "a70c02922950414da23f1170c98a3ecd9ee419396759a2e195a1568add09e3c6" "3618bce2b92774e2027d7e3dfcb2a276f6924476a849ea0287b93508a49d19c2" "084102b91f90f78f3ed47778ccd00b825d5ddb0a9ddd9b45dc100563480f1735" "ac117b715c7a53dbdb520a88e0be4c359bf332511060e0535005e9d4aaab2f91" "7ce30af0e9015fa72a6612fffda328e6955c6abf7b5cdd9ae6b9ebe8815e2d4a" "22ff84fead97f05770fe28b52314221df14a43b0ffce5e5f9e331b5c5e45044d" "496c2c85f503ffed8081685d26653e48f211355325ecc181dee3293b0f4b501a" "1a02d018433b404de5cd48b696f2becaece559000268d7c385b9294378b476ef" "14e352ac2da10d5a6cdc6a74c1d34a8705f192f52f39886a9fff6d6255183471" "eac019f14171f37538b64b4bd37e8167702a63ec9dfce6b1e2fc991a617e3d81" "41ef21fb326cb60e26c21851eb2e06fdd65a2a0e40404a81166e3dae85107e9e" "66b84e676b3549d2108cc017bab900c763a2d4e025ffbc6203835a5d5154b6c5" "48a645c2d93a4a707cc1dc4f7859c266987b6cbd236827ab82a558d7fc61363d" "50f2c57b4309b4faa92392f02e912af829518a44b730a26652e864bee21935b5" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
+    ("c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "db52c162cc74f0c2075c054e84229fc7c3069117755b80fff0183632d5f2826d" "f8ad907be055aa9565e43a2cfa2ec5c3f9c0efef5dd283212406933c2304ae52" "492a976647ea645509162b8ab0149b2fa27e865665efbbd0ec25caf60c424e4b" "e3be3ebef0b1c4fc114e556968baabf372332a2dfa0fa88cf6cc6dfab82823e1" "3b41b13510fd34c4092c0c2a1b3c688a70b942fccbb5d1f1c43dc38113dc61f0" "8fd0ac1c37d7053b2222b032b5058e4b0beb2f1b1c0fb6cd1ddc0dce976843a4" "a70c02922950414da23f1170c98a3ecd9ee419396759a2e195a1568add09e3c6" "3618bce2b92774e2027d7e3dfcb2a276f6924476a849ea0287b93508a49d19c2" "084102b91f90f78f3ed47778ccd00b825d5ddb0a9ddd9b45dc100563480f1735" "ac117b715c7a53dbdb520a88e0be4c359bf332511060e0535005e9d4aaab2f91" "7ce30af0e9015fa72a6612fffda328e6955c6abf7b5cdd9ae6b9ebe8815e2d4a" "22ff84fead97f05770fe28b52314221df14a43b0ffce5e5f9e331b5c5e45044d" "496c2c85f503ffed8081685d26653e48f211355325ecc181dee3293b0f4b501a" "1a02d018433b404de5cd48b696f2becaece559000268d7c385b9294378b476ef" "14e352ac2da10d5a6cdc6a74c1d34a8705f192f52f39886a9fff6d6255183471" "eac019f14171f37538b64b4bd37e8167702a63ec9dfce6b1e2fc991a617e3d81" "41ef21fb326cb60e26c21851eb2e06fdd65a2a0e40404a81166e3dae85107e9e" "66b84e676b3549d2108cc017bab900c763a2d4e025ffbc6203835a5d5154b6c5" "48a645c2d93a4a707cc1dc4f7859c266987b6cbd236827ab82a558d7fc61363d" "50f2c57b4309b4faa92392f02e912af829518a44b730a26652e864bee21935b5" "f2289b463590c0ecd2c4f80f06a96879a1f117eeb1fafaaeb11a8de127e5a905" "273b6863fc52b2a625fb2c1b640324996dc1eca3100aa83a749acb1e19ad77a2" "efddfa844e16b847af6c385f038db7743bc89401f26ad8eb513189f38da4b0c8" "f7bb90012e579862aed8e9463b62aeef7b766f47952d749f70c104dacc04c3c1" "40c228360e83cac0b5018d21fcc36fa01b69f3cb36bf96d4f81859a4b6d389f6" "27675ce1f696bc999ad213b347cc95466365573b1d03f824838f05b6bd88bc25" "71f3bb667b653f12e7e1631886a439a6bc53291dc39a665ff1e87fafabaa6629" "b59d50421840ea25d1ca038dfcb92f675200214c323f79fee2752a31c270d218" "85a33780b4db76e5b42f281a0b6a5106fdae544e55c382b68db2a78679c24c92" "ca101936b9943980660aa22d38be4db990a968d0ec315478ba06dd856f4fb17f" "6c0bca15239714172bf4772eb69f494b32b31dbfe42e65289ab4ed717207a603" "d162d8458661f0033ccb41806082360db0460079108dded068c29556565ba223" "5b0c30d399c03b761b319d092e050859a6d58a76fa401525368ee9f426a665a7" "1ee0d1b3c0b58b69a60ca698c2f4f76322db67c23e6a44eb199a985f7cef204d" "bba45d4eb89b3c8493fe6d3076623f2d2f89afbdbe32928d0c0bcb5c334ae90b" "7037a4e8db7ec508773a0abf6c150b6c0d18d23ab77a2ab294ac1bb19d5971e4" default)))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -384,6 +386,7 @@
    (quote
     ("/home/matus/dotfiles/xmonad/.xmonad/lib" "/home/matus/dev/haskell/mpris/src/")))
  '(flycheck-gnat-include-path (quote ("/home/matus/dev/ada/whitakers-words/src")))
+ '(flycheck-lintr-caching nil)
  '(flycheck-php-phpcs-executable "~/.config/composer/vendor/bin/phpcs")
  '(flycheck-phpmd-rulesets (quote ("codesize" "controversial" "design")))
  '(flycheck-python-pycompile-executable "/usr/bin/python3")
@@ -402,6 +405,7 @@
       (:inherit
        (font-lock-constant-face))
       command))))
+ '(fontify-face-mode-lighter " 💡")
  '(foreground-color "#839496")
  '(free-keys-ignored-bindings
    (quote
@@ -449,6 +453,10 @@
    (quote
     (turn-on-haskell-indentation turn-on-haskell-doc-mode)) t)
  '(haskell-process-args-ghci (quote ("-ferror-spans" "-i.")))
+ '(haskell-process-auto-import-loaded-modules t t)
+ '(haskell-process-log t t)
+ '(haskell-process-suggest-remove-import-lines t t)
+ '(hcl-indent-level 4 t)
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
  '(helm-candidate-number-limit 1000)
@@ -617,7 +625,7 @@
  '(keyfreq-file "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq")
  '(keyfreq-file-lock "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq.lock")
  '(keyfreq-mode t)
- '(ledger-copy-transaction-insert-blank-line-after t)
+ '(ledger-copy-transaction-insert-blank-line-after t t)
  '(ledger-reconcile-default-commodity "Kc")
  '(ledger-report-format-specifiers
    (quote
@@ -689,9 +697,14 @@
  '(ls-lisp-use-localized-time-format t)
  '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity (quote (uid gid)))
+ '(lsp-enable-completion-at-point nil)
  '(lsp-inhibit-message t)
  '(lsp-prefer-flymake nil t)
- '(lsp-ui-flycheck-enable nil)
+ '(lsp-ui-doc-enable t)
+ '(lsp-ui-doc-use-webkit t)
+ '(lsp-ui-flycheck-enable nil t)
+ '(lsp-ui-imenu-enable nil)
+ '(lsp-ui-peek-enable nil)
  '(lsp-ui-sideline-enable nil)
  '(magit-auto-revert-mode nil)
  '(magit-bury-buffer-function (quote quit-window))
@@ -1707,7 +1720,219 @@
  '(restclient-inhibit-cookies t)
  '(safe-local-variable-values
    (quote
-    ((compilation-search-path . "/home/matus/dev/ydistri/math")
+    ((ft-source-to-test-mapping
+      (:path "" :suffix "php")
+      :path "" :suffix "unit.phpt")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (my-org-drill-language . Bulgarian)
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (lsp-serenata-uris .
+                        ["/home/matus/dev/logio/core/" "/home/matus/dev/logio/core/modules" "/home/matus/dev/logio/core/framework" "/home/matus/dev/logio/core/src"])
+     (lsp--override-calculate-lisp-indent\? . t)
+     (flycheck-disabled-checkers quote
+                                 (emacs-lisp-checkdoc))
+     (eval progn
+           (let
+               ((dirloc-lsp-defun-regexp
+                 (concat
+                  (concat "^\\s-*(" "lsp-defun" "\\s-+\\(")
+                  (or
+                   (bound-and-true-p lisp-mode-symbol-regexp)
+                   "\\(?:\\sw\\|\\s_\\|\\\\.\\)+")
+                  "\\)")))
+             (add-to-list
+              (quote imenu-generic-expression)
+              (list "Functions" dirloc-lsp-defun-regexp 1)))
+           (defvar lsp--override-calculate-lisp-indent\? nil "Whether to override `lisp-indent-function' with
+              the updated `calculate-lisp-indent' definition from
+              Emacs 28.")
+           (defun wrap-calculate-lisp-indent
+               (func &optional parse-start)
+             "Return appropriate indentation for current line as Lisp code.
+In usual case returns an integer: the column to indent to.
+If the value is nil, that means don't change the indentation
+because the line starts inside a string.
+
+PARSE-START may be a buffer position to start parsing from, or a
+parse state as returned by calling `parse-partial-sexp' up to the
+beginning of the current line.
+
+The value can also be a list of the form (COLUMN CONTAINING-SEXP-START).
+This means that following lines at the same level of indentation
+should not necessarily be indented the same as this line.
+Then COLUMN is the column to indent to, and CONTAINING-SEXP-START
+is the buffer position of the start of the containing expression."
+             (if
+                 (not lsp--override-calculate-lisp-indent\?)
+                 (funcall func parse-start)
+               (save-excursion
+                 (beginning-of-line)
+                 (let
+                     ((indent-point
+                       (point))
+                      state
+                      (desired-indent nil)
+                      (retry t)
+                      whitespace-after-open-paren calculate-lisp-indent-last-sexp containing-sexp)
+                   (cond
+                    ((or
+                      (markerp parse-start)
+                      (integerp parse-start))
+                     (goto-char parse-start))
+                    ((null parse-start)
+                     (beginning-of-defun))
+                    (t
+                     (setq state parse-start)))
+                   (unless state
+                     (while
+                         (<
+                          (point)
+                          indent-point)
+                       (setq state
+                             (parse-partial-sexp
+                              (point)
+                              indent-point 0))))
+                   (while
+                       (and retry state
+                            (>
+                             (elt state 0)
+                             0))
+                     (setq retry nil)
+                     (setq calculate-lisp-indent-last-sexp
+                           (elt state 2))
+                     (setq containing-sexp
+                           (elt state 1))
+                     (goto-char
+                      (1+ containing-sexp))
+                     (if
+                         (and calculate-lisp-indent-last-sexp
+                              (> calculate-lisp-indent-last-sexp
+                                 (point)))
+                         (let
+                             ((peek
+                               (parse-partial-sexp calculate-lisp-indent-last-sexp indent-point 0)))
+                           (if
+                               (setq retry
+                                     (car
+                                      (cdr peek)))
+                               (setq state peek)))))
+                   (if retry nil
+                     (goto-char
+                      (1+ containing-sexp))
+                     (setq whitespace-after-open-paren
+                           (looking-at
+                            (rx whitespace)))
+                     (if
+                         (not calculate-lisp-indent-last-sexp)
+                         (setq desired-indent
+                               (current-column))
+                       (parse-partial-sexp
+                        (point)
+                        calculate-lisp-indent-last-sexp 0 t)
+                       (cond
+                        ((looking-at "\\s("))
+                        ((>
+                          (save-excursion
+                            (forward-line 1)
+                            (point))
+                          calculate-lisp-indent-last-sexp)
+                         (if
+                             (or
+                              (=
+                               (point)
+                               calculate-lisp-indent-last-sexp)
+                              whitespace-after-open-paren)
+                             nil
+                           (progn
+                             (forward-sexp 1)
+                             (parse-partial-sexp
+                              (point)
+                              calculate-lisp-indent-last-sexp 0 t)))
+                         (backward-prefix-chars))
+                        (t
+                         (goto-char calculate-lisp-indent-last-sexp)
+                         (beginning-of-line)
+                         (parse-partial-sexp
+                          (point)
+                          calculate-lisp-indent-last-sexp 0 t)
+                         (backward-prefix-chars)))))
+                   (let
+                       ((normal-indent
+                         (current-column)))
+                     (cond
+                      ((elt state 3)
+                       nil)
+                      ((and
+                        (integerp lisp-indent-offset)
+                        containing-sexp)
+                       (goto-char containing-sexp)
+                       (+
+                        (current-column)
+                        lisp-indent-offset))
+                      (calculate-lisp-indent-last-sexp
+                       (or
+                        (and lisp-indent-function
+                             (not retry)
+                             (funcall lisp-indent-function indent-point state))
+                        (and
+                         (save-excursion
+                           (goto-char indent-point)
+                           (skip-chars-forward " 	")
+                           (looking-at ":"))
+                         (save-excursion
+                           (goto-char calculate-lisp-indent-last-sexp)
+                           (backward-prefix-chars)
+                           (while
+                               (not
+                                (or
+                                 (looking-back "^[ 	]*\\|([ 	]+"
+                                               (line-beginning-position))
+                                 (and containing-sexp
+                                      (>=
+                                       (1+ containing-sexp)
+                                       (point)))))
+                             (forward-sexp -1)
+                             (backward-prefix-chars))
+                           (setq calculate-lisp-indent-last-sexp
+                                 (point)))
+                         (> calculate-lisp-indent-last-sexp
+                            (save-excursion
+                              (goto-char
+                               (1+ containing-sexp))
+                              (parse-partial-sexp
+                               (point)
+                               calculate-lisp-indent-last-sexp 0 t)
+                              (point)))
+                         (let
+                             ((parse-sexp-ignore-comments t)
+                              indent)
+                           (goto-char calculate-lisp-indent-last-sexp)
+                           (or
+                            (and
+                             (looking-at ":")
+                             (setq indent
+                                   (current-column)))
+                            (and
+                             (<
+                              (line-beginning-position)
+                              (prog2
+                                  (backward-sexp)
+                                  (point)))
+                             (looking-at ":")
+                             (setq indent
+                                   (current-column))))
+                           indent))
+                        normal-indent))
+                      (desired-indent)
+                      (t normal-indent)))))))
+           (when
+               (< emacs-major-version 28)
+             (advice-add
+              (function calculate-lisp-indent)
+              :around
+              (function wrap-calculate-lisp-indent))))
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (compilation-search-path . "/home/matus/dev/ydistri/math")
      (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
      (ft-source-to-test-mapping
       (:path "/lib/" :suffix ".js")
@@ -2080,14 +2305,36 @@
                (quote font-lock-keyword-face))))))
      (reftex-default-bibliography "./bibliography")
      (eval allout-mode t))))
- '(show-smartparens-global-mode t)
- '(swb-crypt-key "matus.goljer@gmail.com")
- '(tramp-default-proxies-alist
+ '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
+ '(save-place-mode t)
+ '(shackle-rules
    (quote
-    (("\\(puppet\\|worker-\\|nomad-server-\\)" "root" "/ssh:%h:")
-     ("\\(puppet\\|worker-\\|nomad-server-\\)" nil "/ssh:gateway:"))) nil (tramp))
+    (("*Help*" :select t)
+     ("[0-9]\\{5\\}/.*\\.php" :regexp t :select t :inhibit-window-quit t :same t :popup nil)
+     ("magit-log\\(-popup\\)?" :regexp t :select t :inhibit-window-quit t :same t)
+     ("\\`\\*?magit:" :regexp t :select t :inhibit-window-quit t :same t)
+     (Man-mode :select t :inhibit-window-quit t :same t)
+     ("\\*ag search" :regexp t :inhibit-window-quit t :same t)
+     (messages-buffer-mode :select t :inhibit-window-quit t :same t)
+     (swb-result-mode :align
+       (quote below))
+     (ess-r-help-mode :same t :inhibit-window-quit t)
+     ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t))))
+ '(shell-pop-autocd-to-working-dir t)
+ '(shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
+ '(shell-pop-window-height 50)
+ '(shell-pop-window-size 50)
+ '(show-smartparens-global-mode t)
+ '(smart-jump-bind-keys nil)
+ '(solarized-scale-org-headlines nil)
+ '(sp-ignore-modes-list nil)
+ '(swb-crypt-key "matus.goljer@gmail.com")
  '(vc-follow-symlinks t)
- '(winner-mode t))
+ '(whitespace-style
+   (quote
+    (face trailing tabs spaces lines-tail newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark)) t)
+ '(winner-mode t)
+ '(yas-snippet-dirs (quote ("/home/matus/.emacs.d/etc/yasnippet/snippets"))))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
