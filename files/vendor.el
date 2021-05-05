@@ -643,19 +643,20 @@ and `my-compile-auto-fold-header-match-data'."
     (defun my-custom-jump-to-state ()
       (interactive)
       (goto-char (point-min))
-      (re-search-forward "State :")
+      (my-with-user-errors (re-search-forward "State :"))
       (backward-char 7))
 
     (defun my-custom-jump-to-toggle ()
       (interactive)
       (goto-char (point-min))
-      (re-search-forward "Toggle")
+      (my-with-user-errors (re-search-forward "Toggle"))
       (backward-char 6))
 
     (defun my-custom-jump-to-last-insert ()
       (interactive)
       (goto-char (point-max))
-      (let ((case-fold-search nil)) (re-search-backward "INS")))
+      (let ((case-fold-search nil))
+        (my-with-user-errors (re-search-backward "INS"))))
 
     (bind-keys :prefix "C-,"
                :map Custom-mode-map

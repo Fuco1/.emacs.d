@@ -75,5 +75,12 @@ in current frame."
                   ,name
                   (float-time (time-subtract (current-time) ,start)))))))
 
+(defmacro my-with-user-errors (&rest forms)
+  "Run FORMS demoting all errors to `user-error'."
+  `(condition-case err
+       (progn
+         ,@forms)
+     (error (user-error (error-message-string err)))))
+
 (provide 'my-macros)
 ;;; my-macros.el ends here
