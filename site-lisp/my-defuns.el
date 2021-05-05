@@ -519,5 +519,16 @@ Ith row is replaced with Ith item of DATA."
   (interactive "fFile name:\n")
   (insert (f-canonical file)))
 
+(defun my-switch-theme (theme)
+  "Switch to THEME while disabling all active themes."
+  (interactive
+   (list
+    (intern
+     (completing-read
+      "Switch to custom theme: "
+      obarray (lambda (sym) (get sym 'theme-settings)) t))))
+  (--each custom-enabled-themes (disable-theme it))
+  (enable-theme theme))
+
 (provide 'my-defuns)
 ;;; my-defuns.el ends here
