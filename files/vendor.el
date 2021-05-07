@@ -1046,7 +1046,13 @@ idle timer to do the actual update.")
                        ((looking-at "#'") "#' ")
                        ((looking-at "##") "## ")))))
           (insert prefix)
-          (indent-according-to-mode))))
+          (indent-according-to-mode)))
+      (when (and (equal last-command 'my-newline)
+                 (string-match-p
+                  "#[#']"
+                  (s-trim (thing-at-point 'line))))
+        (delete-region (line-beginning-position 0) (line-end-position))
+        (indent-according-to-mode)))
 
     (let ((form `(my-r-testthat
                   ,(rx-to-string
