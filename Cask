@@ -19,7 +19,6 @@
 (depends-on "less-css-mode")
 (depends-on "macrostep")
 (depends-on "notmuch")
-(depends-on "nvm")
 (depends-on "oauth2")
 (depends-on "overseer")
 (depends-on "package-lint")

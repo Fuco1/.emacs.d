@@ -2246,6 +2246,9 @@ delete it and re-insert new one."
     (use-package notmuch)
     (use-package smtpmail)))
 
+(use-package nvm
+  :straight t)
+
 (use-package gnus-alias
   :straight t
   :after message
