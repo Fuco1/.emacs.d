@@ -170,10 +170,19 @@ do not run `org-publish'."
                                (and (f-ext-p post "org")
                                     (not (member (f-filename post)
                                                  (list "rss.org" "sitemap.org")))))))
+           (posts (-take
+                   10
+                   (-sort
+                    (-on (-flip 'time-less-p) (lambda (x) (nth 5 (file-attributes x))))
+                    (-sort
+                     (-on (-flip 'time-less-p)
+                          (lambda (x)
+                            (org-time-string-to-time (substring (f-filename x) 0 10))))
+                     posts))))
            (project (assoc "blog-posts" org-publish-project-alist)))
       (with-temp-file (concat base "/rss.org")
         (erase-buffer)
-        (-each (nreverse posts)
+        (-each posts
           (lambda (post)
             (let ((title (org-publish-find-title post project))
                   (date (org-publish-find-date post project)))
