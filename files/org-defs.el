@@ -984,7 +984,7 @@ properly aligned."
                           (,(my-org-emphasis-regexp "{" "}") 1
                            (funcall 'my-org-emphasis-fontifier 'shadow))
                           ;; Fontify list markers
-                          ("^[ \t]*\\([-+]\\|[0-9]+[).]\\) " 0
+                          ("^[ \t]*\\([-+]\\| +\\*\\|[0-9]+[).]\\) " 0
                            (funcall 'my-org-fontify-list-marker) append)
                           ;; Fontify whitespace at the beginning of
                           ;; line.  The idea is that this 99% of the
