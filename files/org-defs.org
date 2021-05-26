@@ -242,6 +242,46 @@ _k_b.org    _r_eading.org"
 (bind-key "C-c r" #'my-org-refile-hydra/body org-mode-map)
 #+end_src
 
+* Speed commands for regular lists
+:PROPERTIES:
+:ID:       b1258951-366e-444f-be7c-d44ee4a6f618
+:END:
+
+#+begin_src elisp
+(defun my-org-next-item-ignore-indent ()
+  "Go to next list item ignoring indent."
+  (interactive)
+  (let* ((s (org-list-struct))
+         (next-item (--first (> (car it) (point)) s)))
+    (if next-item
+        (goto-char (car next-item))
+      (error "On last item"))))
+
+(defun my-org-previous-item-ignore-indent ()
+  "Go to previous list item ignoring indent."
+  (interactive)
+  (let* ((s (org-list-struct))
+         (prev-item (--last (< (car it) (point)) s)))
+    (if prev-item
+        (goto-char (car prev-item))
+      (error "On first item"))))
+
+(defun my-org-speed-command-list-activate (keys)
+  "Hook for activating single-letter speed commands.
+`org-speed-commands-default' specifies a minimal command set.
+Use `org-speed-commands-user' for further customization."
+  (when (and (bolp)
+             (looking-at-p org-list-full-item-re)
+             (not (org-at-heading-p)))
+    (cdr (assoc keys '(
+                       ("b" . org-previous-item)
+                       ("f" . org-next-item)
+                       ("p" . my-org-previous-item-ignore-indent)
+                       ("n" . my-org-next-item-ignore-indent)
+                       )))))
+
+(add-hook 'org-speed-command-hook 'my-org-speed-command-list-activate)
+#+end_src
 * font-lock hacks and improvements
 ** Fontify done checkbox items in org-mode                           :published:
   CLOSED: [2017-05-25 Thu 00:10]
