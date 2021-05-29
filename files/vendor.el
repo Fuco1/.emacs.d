@@ -1589,42 +1589,42 @@ use a directory-local variable to specify this per-project."
     ;; slovniky sa mozu stiahnut aj ako balicky myspell-*
     (setq ispell-local-dictionary-alist
           '((nil
-             "[A-Za-z]" "[^A-Za-z]" "[']" nil ("-p" "/home/matus/.hunspell/personal.en") nil iso-8859-1)
+             "[A-Za-z]" "[^A-Za-z]" "[']" nil ("-p" "/home/matus/org/.hunspell/personal.en") nil iso-8859-1)
             ("deutsch"
              "[[:alpha:]ÄÖÜéäöüß]"
              "[^[:alpha:]ÄÖÜéäöüß]"
              "[']"
-             t ("-d" "de_DE" "-p" "/home/matus/.hunspell/personal.de") nil utf-8)
+             t ("-d" "de_DE" "-p" "/home/matus/org/.hunspell/personal.de") nil utf-8)
             ("francais"
              "[[:alpha:]ÀÂÇÈÉÊËÎÏÔÙÛÜàâçèéêëîïôùûü]"
              "[^[:alpha:]ÀÂÇÈÉÊËÎÏÔÙÛÜàâçèéêëîïôùûü]"
              "[-']"
-             t ("-d" "fr_FR" "-p" "/home/matus/.hunspell/personal.fr") nil utf-8)
+             t ("-d" "fr_FR" "-p" "/home/matus/org/.hunspell/personal.fr") nil utf-8)
             ("italiano"
              "[[:alpha:]ÀÂÇÈÉÊËÎÏÔÙÛÜàâçèéêëîïôùûü]"
              "[^[:alpha:]ÀÂÇÈÉÊËÎÏÔÙÛÜàâçèéêëîïôùûü]"
              "[']"
-             t ("-d" "it_IT" "-p" "/home/matus/.hunspell/personal.it") nil utf-8)
+             t ("-d" "it_IT" "-p" "/home/matus/org/.hunspell/personal.it") nil utf-8)
             ("latin"
              "[[:alpha:]]"
              "[^[:alpha:]]"
              ""
-             t ("-d" "la_LA" "-p" "/home/matus/.hunspell/personal.la") nil utf-8)
+             t ("-d" "la_LA" "-p" "/home/matus/org/.hunspell/personal.la") nil utf-8)
             ("russian"
              "[[:alpha:]]"
              "[^[:alpha:]]"
              ""
-             nil ("-d" "ru_RU" "-p" "/home/matus/.hunspell/personal.ru") nil utf-8)
+             nil ("-d" "ru_RU" "-p" "/home/matus/org/.hunspell/personal.ru") nil utf-8)
             ("slovak"
              "[[:alpha:]áäčďéíĺľňóôŕšťúýžÁÄČĎÉÍĹĽŇÓÔŔŠŤÚÝŽ]"
              "[^[:alpha:]áäčďéíĺľňóôŕšťúýžÁÄČĎÉÍĹĽŇÓÔŔŠŤÚÝŽ]"
              ""
-             t ("-d" "sk_SK" "-p" "/home/matus/.hunspell/personal.sk") nil utf-8)
+             t ("-d" "sk_SK" "-p" "/home/matus/org/.hunspell/personal.sk") nil utf-8)
             ("czech"
              "[[:alpha:]áčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]"
              "[^[:alpha:]áčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]"
              ""
-             t ("-d" "cs_CZ" "-p" "/home/matus/.hunspell/personal.cs") nil utf-8)))))
+             t ("-d" "cs_CZ" "-p" "/home/matus/org/.hunspell/personal.cs") nil utf-8)))))
 
 (use-package jira-markup-mode
   :straight
