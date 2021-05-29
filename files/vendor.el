@@ -1075,10 +1075,13 @@ idle timer to do the actual update.")
 
     (defun my-ess-compile ()
       (interactive)
-      (let ((root (locate-dominating-file default-directory "run-tests.R")))
+      (let ((root (locate-dominating-file default-directory "run-tests.R"))
+            (bfn (buffer-file-name)))
         (with-temp-buffer
           (cd root)
-          (compile "Rscript run-tests.R"))))
+          (compile (--if-let bfn
+                       (concat "Rscript run-tests.R " it )
+                     "Rscript run-tests.R")))))
 
     (defun my-ess-mode-hook ()
       (add-hook 'my-newline-hook 'my-r-open-line nil :local)
