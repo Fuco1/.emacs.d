@@ -70,13 +70,17 @@ _p_olish             |                  |          | TeX (_t_)
 german (_d_)         |                  |          |
 _i_talian            |                  |          |
 _f_rench             |                  |          |
-_l_atin              |                  |          |
+_l_atin              |                  |          | dis_a_ble IM
 _g_reek              |                  |          | describe IM (_?_)
 _b_ulgarian          |                  |          | set input _m_ethod
 cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
 "
     ("m" set-input-method)
     ("?" describe-input-method)
+    ("a" (lambda ()
+           (interactive)
+           (deactivate-input-method)
+           (setq quail-current-package nil)))
     ("e" (lambda () (interactive) (call-interactively 'toggle-input-method) (ispell-change-dictionary "english")))
     ("s" (my-generate-language-env "slovak-prog-2" "slovak"))
     ("c" (my-generate-language-env "czech" "czech"))
