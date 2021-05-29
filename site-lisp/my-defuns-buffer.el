@@ -14,7 +14,11 @@
   "Detect major mode when text is first inserted into the buffer."
   (when (and (= 0 pre-change)
              (= beg (point-min)))
+    ;; if auto-mode sets fundamental-mode, use emacs-lisp-mode by
+    ;; default
     (set-auto-mode)
+    (when (eq major-mode 'fundamental-mode)
+      (emacs-lisp-mode))
     (pcase major-mode
       (`json-mode
        (json-mode-beautify)))))
@@ -22,17 +26,16 @@
 ;;;###autoload
 (defun create-scratch-buffer (mode)
   "Create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
-  (interactive (list (if current-prefix-arg
-                         (intern
-                          (ido-completing-read
-                           "Major mode to set: "
-                           (let (r)
-                             (mapatoms
-                              (lambda (x)
-                                (when (s-suffix? "-mode" (symbol-name x))
-                                  (push x r))))
-                             (mapcar 'symbol-name r))))
-                       'emacs-lisp-mode)))
+  (interactive (list (when current-prefix-arg
+                       (intern
+                        (ido-completing-read
+                         "Major mode to set: "
+                         (let (r)
+                           (mapatoms
+                            (lambda (x)
+                              (when (s-suffix? "-mode" (symbol-name x))
+                                (push x r))))
+                           (mapcar 'symbol-name r)))))))
   (let ((n 0)
         bufname
         (root (expand-file-name ".cache/" user-emacs-directory)))
@@ -45,8 +48,10 @@
     (switch-to-buffer (get-buffer-create bufname))
     (make-directory root t)
     (write-file (concat root "/" bufname))
-    (call-interactively mode)
-    (add-hook 'after-change-functions 'my-scratch-autodetect-mode 'append 'local)))
+    (when mode
+      (call-interactively mode))
+    (unless mode
+      (add-hook 'after-change-functions 'my-scratch-autodetect-mode 'append 'local))))
 
 ;;;###autoload
 (defun create-scratch-buffer-current-mode ()
