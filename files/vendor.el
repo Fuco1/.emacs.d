@@ -1027,6 +1027,17 @@ idle timer to do the actual update.")
     (put 'flycheck-lintr-linters 'safe-local-variable #'stringp)
 
     (use-package ess-help)
+    (use-package rect)
+
+    (defun my-dwim-ess-yank (orig-fun &rest args)
+      (cond
+       (killed-rectangle
+        (my-insert-rectangle-as-R-vector (s-join "\n" killed-rectangle))
+        (setq killed-rectangle nil))
+       ((plist-member (text-properties-at 0 (car kill-ring)) 'yank-handler)
+        (my-insert-rectangle-as-R-vector (car kill-ring)))
+       (t (apply orig-fun args))))
+    (advice-add 'ess-yank :around #'my-dwim-ess-yank)
 
     (bind-keys
      :map ess-mode-map

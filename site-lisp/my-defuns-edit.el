@@ -599,5 +599,10 @@ Repeat ARG times."
       (subword-backward arg)
     (backward-word arg)))
 
+(defun my-insert-rectangle-as-R-vector (&optional string)
+  (interactive (list (car kill-ring)))
+  (let ((data (-map 's-trim (s-split "\n" string))))
+    (insert (format "c(%s)" (s-join ", " data)))))
+
 (provide 'my-defuns-edit)
 ;;; my-defuns-edit.el ends here
