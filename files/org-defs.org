@@ -51,6 +51,10 @@ getting an an =org-mode= file.
   CLOCK: [2017-06-08 Thu 19:40]--[2017-06-08 Thu 20:06] =>  0:26
   :END:
 
+*************** TODO Write a simple description about how this showcases org hacking
+*************** END
+
+
 #+BEGIN_SRC elisp
 (require 'sallet)
 
@@ -113,6 +117,7 @@ This is a hack: sallet can't take an argument on creation.")
 I have a pretty standard =org-capture= workflow: during the day when an idea comes to mind or I stumble upon a task I can't solve right now or I find an article I would want to read later I use one of the several [[https://github.com/Fuco1/.emacs.d/blob/master/files/org-defs.el#L1142][capture templates I set up]] to quickly file a note and continue with minimal distraction with what I was doing at the time.
 
 *************** TODO change the link to templates to actual headline in the config when published :noexport:
+*************** END
 
 When I add these tasks I try to tag them with appropriate tags.  So
 
@@ -242,7 +247,7 @@ _k_b.org    _r_eading.org"
 (bind-key "C-c r" #'my-org-refile-hydra/body org-mode-map)
 #+end_src
 
-* Speed commands for regular lists
+* TODO Speed commands for regular lists
 :PROPERTIES:
 :ID:       b1258951-366e-444f-be7c-d44ee4a6f618
 :END:
@@ -482,9 +487,13 @@ Some shell code src_bash{for f in `ls`; do echo $f; done | wc -l}
 {{{results(=96=)}}}
 #+end_src
 
-** Fontify broken links
+** DONE Fontify broken links
+CLOSED: [2021-05-29 Sat 15:55]
 :PROPERTIES:
 :ID:       1338944c-0be1-4292-85ab-989bc7db212f
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2021-05-29 Sat 15:55]
 :END:
 
 https://emacs.stackexchange.com/questions/38120/validate-internal-fuzzy-links-in-org-mode
@@ -1287,7 +1296,7 @@ entries.
 
 (add-hook 'org-agenda-finalize-hook #'my-org-agenda-shadow-gcal 'append)
 #+end_src
-** Make agenda clockreport respect =org-extend-today-until=          :published:
+** Make agenda clockreport respect =org-extend-today-until=            :published:
 CLOSED: [2019-01-03 Thu 20:49]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-03-Make-agenda-clockreport-respect-=org-extend-today-until=
@@ -1358,6 +1367,84 @@ package which draws a visual representation of all the
 scheduled/clocked items (see README for visuals).  I'll make sure it
 respects this setting as well.  So far I've instinctively set it to
 start drawing at 5:00.
+
+** Restrict agenda to multiple subtrees                              :published:
+:PROPERTIES:
+:ID:       1dd5bf4b-b3d7-4a48-8c89-55a083ba32f8
+:BLOG_FILENAME: 2021-05-29-Restrict-agenda-to-multiple-subtrees
+:PUBDATE:  [2021-05-29 Sat 15:09]
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2021-05-29 Sat 15:09]
+:END:
+
+The function =org-agenda-set-restriction-lock= is very useful for
+speeding up agenda when working on a specific project (implemented as
+a file or an Orgmode subtree).  Personally, I use two agenda views,
+one "quick" with 5 simple sections and one "full" with 10 rather
+complicated sections.
+
+The quick one lists all the actionable tasks, all the stuck tasks or
+notes that need to be processed and refiled.  The full one lists all
+the tasks from the project, including hierarchical project
+dependencies, tasks on hold, bugs, waiting tasks and so on.  The full
+view takes a lot more processing power and is not useful maybe 80% of
+the time when I simply want to find work to do next.
+
+For the times when I want to get a complete overview over a project
+and do some light management or planning, I use the full agenda view.
+
+One thing that kept bothering me was that the only option was to
+restrict to a file or a subtree, but nothing in
+between[fn:5e46d60f36b26ee:While it is possible to restrict to a
+region from the org-agenda speed dial, I find it quite impractical and
+prefer to do the restrictions from the project's buffer], such as a
+region spanning multiple subtrees.  Since I'm not a huge fan of
+nesting headers just for the sake of nesting (flatter structures and
+[[https://github.com/Fuco1/org-node-graph][graphs]] are much nicer for organization).
+
+Luckily, the function =org-agenda-set-restriction-lock= is fairly
+hackable.  It uses overlays and markers for managing the restriction,
+so all we need to do is grab the current active region's bounds and
+set the org variables appropriately.
+
+#+begin_src elisp
+(defun my-org-agenda-set-restriction-lock (orig-fun &optional type)
+  (if (not (use-region-p))
+      ;; unless a region is active, use the original function for
+      ;; cancel/file/subtree
+      (funcall orig-fun type)
+    ;; here we do approximately the same as subtree except find the
+    ;; beginning of subtree at region's beginning and end of subtree
+    ;; at region's end (could span multiple subtrees)
+    (setq org-agenda-restrict (current-buffer))
+    ;; use 'my-region to avoid potential future conflict
+    (setq org-agenda-overriding-restriction 'my-region)
+    (put 'org-agenda-files 'org-restrict
+         (list (buffer-file-name (buffer-base-buffer))))
+    (let ((beg (region-beginning))
+          (end (region-end)))
+      (save-excursion
+        (goto-char beg)
+        (org-back-to-heading t)
+        (setq beg (point)))
+      (save-excursion
+        (goto-char end)
+        (org-end-of-subtree t t)
+        (setq end (point)))
+      (move-overlay org-agenda-restriction-lock-overlay
+                    beg
+                    (if org-agenda-restriction-lock-highlight-subtree
+                        end
+                      (point-at-eol)))
+      (move-marker org-agenda-restrict-begin beg)
+      (move-marker org-agenda-restrict-end end))
+    (message "Locking agenda restriction to region")
+    (org-agenda-maybe-redo)))
+
+(advice-add 'org-agenda-set-restriction-lock :around #'my-org-agenda-set-restriction-lock)
+#+end_src
+
 
 * Backmatter
 :PROPERTIES:
