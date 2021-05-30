@@ -169,7 +169,11 @@ do not run `org-publish'."
                              (lambda (post)
                                (and (f-ext-p post "org")
                                     (not (member (f-filename post)
-                                                 (list "rss.org" "sitemap.org")))))))
+                                                 (list
+                                                  "rss.org"
+                                                  "sitemap.org"
+                                                  "index.org"
+                                                  )))))))
            (posts (-take
                    10
                    (-sort
@@ -211,6 +215,7 @@ do not run `org-publish'."
 
          :auto-sitemap t
          :sitemap-title "Archive"
+         :sitemap-filename "index.org"
          :sitemap-function my-org-publish-rss
          :sitemap-format-entry
          (lambda (entry style project)
@@ -230,6 +235,8 @@ do not run `org-publish'."
          :with-todo-keywords nil
          :section-numbers nil
 
+         :exclude "rss\\.org"
+
          ;; the following removes extra headers from HTML output -- important!
          :html-home/up-format ""
          :html-head nil ;; cleans up anything that would have been in there.
@@ -243,7 +250,7 @@ do not run `org-publish'."
            (format
             "
 <div style=\"text-align: left; float: left;\">
-  <a href=\"./sitemap.html\">Home</a>
+  <a href=\"./index.html\">Home</a>
   <a href=\"https://github.com/Fuco1/\">GitHub</a>
   <a href=\"https://www.patreon.com/user?u=3282358\">Patreon</a>
 </div>
