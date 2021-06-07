@@ -1,4 +1,4 @@
-;;; my-redef.el --- Global redefinitions of Emacs's own code
+;;; my-redef.el --- Global redefinitions of Emacs's own code  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
@@ -184,6 +184,231 @@ Lisp function does not specify a special indentation."
                (re-search-forward "%\\?" end t))
            (replace-match ""))
        (org-table-align))))
+
+(eval-after-load "org-table"
+  '(progn
+     (el-patch-defun org-table-expand-lhs-ranges (equations)
+       "Expand list of formulas.
+If some of the RHS in the formulas are ranges or a row reference,
+expand them to individual field equations for each field.  This
+function assumes the table is already analyzed (i.e., using
+`org-table-analyze')."
+       (let (res)
+         (dolist (e equations (nreverse res))
+           (let ((lhs (car e))
+                 (rhs (cdr e)))
+             (cond
+              ((string-match-p "\\`@-?[-+0-9]+\\$-?[0-9]+\\'" lhs)
+               ;; This just refers to one fixed field.
+               (push e res))
+              ((string-match-p "\\`[a-zA-Z][_a-zA-Z0-9]*\\'" lhs)
+               ;; This just refers to one fixed named field.
+               (push e res))
+              ((string-match-p "\\`\\$[0-9]+\\'" lhs)
+               ;; Column formulas are treated specially and are not
+               ;; expanded.
+               (push e res))
+              (el-patch-add
+                ((string-match-p "\\`\\@[I]+\\$[0-9]+\\'" lhs)
+                 ;; Hline relative LHS formulas are expanded on the left and
+                 ;; pushed
+                 (let* ((range (org-table-get-range
+                                lhs org-table-current-begin-pos nil nil 'corners))
+                        (r1 (org-table-line-to-dline (nth 0 range)))
+                        (c1 (nth 1 range))
+                        (r2 (org-table-line-to-dline (nth 2 range) 'above))
+                        (c2 (nth 3 range)))
+                   (push (cons (format "@%d$%d" r1 c1) rhs) res))))
+              ((string-match "\\`@[0-9]+\\'" lhs)
+               (dotimes (ic org-table-current-ncol)
+                 (push (cons (propertize (format "%s$%d" lhs (1+ ic)) :orig-eqn e)
+                             rhs)
+                       res)))
+              (t
+               (let* ((range (org-table-get-range
+                              lhs org-table-current-begin-pos 1 nil 'corners))
+                      (r1 (org-table-line-to-dline (nth 0 range)))
+                      (c1 (nth 1 range))
+                      (r2 (org-table-line-to-dline (nth 2 range) 'above))
+                      (c2 (nth 3 range)))
+                 (cl-loop for ir from r1 to r2 do
+                          (cl-loop for ic from c1 to c2 do
+                                   (push (cons (propertize
+                                                (format "@%d$%d" ir ic) :orig-eqn e)
+                                               rhs)
+                                         res))))))))))
+
+
+     (el-patch-defun org-table-recalculate (&optional all noalign)
+       "Recalculate the current table line by applying all stored formulas.
+
+With prefix arg ALL, do this for all lines in the table.
+
+When called with a `\\[universal-argument] \\[universal-argument]' prefix, or \
+if ALL is the symbol `iterate',
+recompute the table until it no longer changes.
+
+If NOALIGN is not nil, do not re-align the table after the computations
+are done.  This is typically used internally to save time, if it is
+known that the table will be realigned a little later anyway."
+       (interactive "P")
+       (unless (memq this-command org-recalc-commands)
+         (push this-command org-recalc-commands))
+       (unless (org-at-table-p) (user-error "Not at a table"))
+       (if (or (eq all 'iterate) (equal all '(16)))
+           (org-table-iterate)
+         (org-table-analyze)
+         (let* ((eqlist (sort (org-table-get-stored-formulas)
+                              (lambda (a b) (string< (car a) (car b)))))
+                (inhibit-redisplay (not debug-on-error))
+                (line-re org-table-dataline-regexp)
+                (log-first-time (current-time))
+                (log-last-time log-first-time)
+                (cnt 0)
+                beg end eqlcol eqlfield)
+           ;; Insert constants in all formulas.
+           (when eqlist
+             (org-table-save-field
+              ;; Expand equations, then split the equation list between
+              ;; column formulas and field formulas.
+              (dolist (eq eqlist)
+                (let* ((rhs (org-table-formula-substitute-names
+                             (org-table-formula-handle-first/last-rc (cdr eq))))
+                       (old-lhs (car eq))
+                       (lhs
+                        (org-table-formula-handle-first/last-rc
+                         (cond
+                          (el-patch-remove
+                            ((string-match "\\`@-?I+" old-lhs)
+                             (user-error "Can't assign to hline relative reference")))
+                          ((string-match "\\`$[<>]" old-lhs)
+                           (let ((new (org-table-formula-handle-first/last-rc
+                                       old-lhs)))
+                             (when (assoc new eqlist)
+                               (user-error "\"%s=\" formula tries to overwrite \
+existing formula for column %s"
+                                           old-lhs
+                                           new))
+                             new))
+                          (t old-lhs)))))
+                  (if (string-match-p "\\`\\$[0-9]+\\'" lhs)
+                      (push (cons lhs rhs) eqlcol)
+                    (push (cons lhs rhs) eqlfield))))
+              (setq eqlcol (nreverse eqlcol))
+              ;; Expand ranges in lhs of formulas
+              (setq eqlfield (org-table-expand-lhs-ranges (nreverse eqlfield)))
+              ;; Get the correct line range to process.
+              (if all
+                  (progn
+                    (setq end (copy-marker (org-table-end)))
+                    (goto-char (setq beg org-table-current-begin-pos))
+                    (cond
+                     ((re-search-forward org-table-calculate-mark-regexp end t)
+                      ;; This is a table with marked lines, compute selected
+                      ;; lines.
+                      (setq line-re org-table-recalculate-regexp))
+                     ;; Move forward to the first non-header line.
+                     ((and (re-search-forward org-table-dataline-regexp end t)
+                           (re-search-forward org-table-hline-regexp end t)
+                           (re-search-forward org-table-dataline-regexp end t))
+                      (setq beg (match-beginning 0)))
+                     ;; Just leave BEG at the start of the table.
+                     (t nil)))
+                (setq beg (line-beginning-position)
+                      end (copy-marker (line-beginning-position 2))))
+              (goto-char beg)
+              ;; Mark named fields untouchable.  Also check if several
+              ;; field/range formulas try to set the same field.
+              (remove-text-properties beg end '(:org-untouchable t))
+              (let ((current-line (count-lines org-table-current-begin-pos
+                                               (line-beginning-position)))
+                    seen-fields)
+                (dolist (eq eqlfield)
+                  (let* ((name (car eq))
+                         (location (assoc name org-table-named-field-locations))
+                         (eq-line (or (nth 1 location)
+                                      (and (string-match "\\`@\\([0-9]+\\)" name)
+                                           (aref org-table-dlines
+                                                 (string-to-number
+                                                  (match-string 1 name))))))
+                         (reference
+                          (if location
+                              ;; Turn field coordinates associated to NAME
+                              ;; into an absolute reference.
+                              (format "@%d$%d"
+                                      (org-table-line-to-dline eq-line)
+                                      (nth 2 location))
+                            name)))
+                    (when (member reference seen-fields)
+                      (user-error "Several field/range formulas try to set %s"
+                                  reference))
+                    (push reference seen-fields)
+                    (when (or all (eq eq-line current-line))
+                      (org-table-goto-field name)
+                      (org-table-put-field-property :org-untouchable t)))))
+              ;; Evaluate the column formulas, but skip fields covered by
+              ;; field formulas.
+              (goto-char beg)
+              (while (re-search-forward line-re end t)
+                (unless (string-match "\\` *[_^!$/] *\\'" (org-table-get-field 1))
+                  ;; Unprotected line, recalculate.
+                  (cl-incf cnt)
+                  (when all
+                    (setq log-last-time
+                          (org-table-message-once-per-second
+                           log-last-time
+                           "Re-applying formulas to full table...(line %d)" cnt)))
+                  (if (markerp org-last-recalc-line)
+                      (move-marker org-last-recalc-line (line-beginning-position))
+                    (setq org-last-recalc-line
+                          (copy-marker (line-beginning-position))))
+                  (dolist (entry eqlcol)
+                    (goto-char org-last-recalc-line)
+                    (org-table-goto-column
+                     (string-to-number (substring (car entry) 1)) nil 'force)
+                    (unless (get-text-property (point) :org-untouchable)
+                      (org-table-eval-formula
+                       nil (cdr entry) 'noalign 'nocst 'nostore 'noanalysis)))))
+              ;; Evaluate the field formulas.
+              (dolist (eq eqlfield)
+                (let ((reference (car eq))
+                      (formula (cdr eq)))
+                  (setq log-last-time
+                        (org-table-message-once-per-second
+                         (and all log-last-time)
+                         "Re-applying formula to field: %s" (car eq)))
+                  (org-table-goto-field
+                   reference
+                   ;; Possibly create a new column, as long as
+                   ;; `org-table-formula-create-columns' allows it.
+                   (let ((column-count (progn (end-of-line)
+                                              (1- (org-table-current-column)))))
+                     (lambda (column)
+                       (when (> column 1000)
+                         (user-error "Formula column target too large"))
+                       (and (> column column-count)
+                            (or (eq org-table-formula-create-columns t)
+                                (and (eq org-table-formula-create-columns 'warn)
+                                     (progn
+                                       (org-display-warning
+                                        "Out-of-bounds formula added columns")
+                                       t))
+                                (and (eq org-table-formula-create-columns 'prompt)
+                                     (yes-or-no-p
+                                      "Out-of-bounds formula.  Add columns? "))
+                                (user-error
+                                 "Missing columns in the table.  Aborting"))))))
+                  (org-table-eval-formula nil formula t t t t))))
+             ;; Clean up markers and internal text property.
+             (remove-text-properties (point-min) (point-max) '(org-untouchable t))
+             (set-marker end nil)
+             (unless noalign
+               (when org-table-may-need-update (org-table-align))
+               (when all
+                 (org-table-message-once-per-second
+                  log-first-time "Re-applying formulas to %d lines... done" cnt)))
+             (org-table-message-once-per-second
+              (and all log-first-time) "Re-applying formulas... done")))))))
 
 ;; Fix the annoying assumption where it grabs the FIRST line from
 ;; .authinfo as the user to auth with.  This in itself is not "that"
