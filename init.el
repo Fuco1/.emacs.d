@@ -158,6 +158,7 @@ There are %d customizable settings available."
   (load "~/.emacs.d/files/vendor"))
 
 (require 'my-redef)
+(require 'my-redef-dynamic)
 
 ;; load settings
 (my-with-elapsed-timer "Loading settings"
