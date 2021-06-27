@@ -209,11 +209,13 @@ function assumes the table is already analyzed (i.e., using
                ;; expanded.
                (push e res))
               (el-patch-add
-                ((string-match-p "\\`\\@[I]+\\$[0-9]+\\'" lhs)
+                ((string-match "\\`\\@[I]+\\$\\([0-9]+\\)\\'" lhs)
                  ;; Hline relative LHS formulas are expanded on the left and
                  ;; pushed
-                 (let* ((range (org-table-get-range
-                                lhs org-table-current-begin-pos nil nil 'corners))
+                 (let* ((current-col (string-to-number (match-string 1 lhs)))
+                        (range (org-table-get-range
+                                lhs org-table-current-begin-pos current-col
+                                nil 'corners))
                         (r1 (org-table-line-to-dline (nth 0 range)))
                         (c1 (nth 1 range))
                         (r2 (org-table-line-to-dline (nth 2 range) 'above))
