@@ -257,7 +257,11 @@ _k_b.org    _r_eading.org"
   "Go to next list item ignoring indent."
   (interactive)
   (let* ((s (org-list-struct))
-         (next-item (--first (> (car it) (point)) s)))
+         (p (point))
+         (next-item (--first
+                     (and (not (invisible-p (car it)))
+                          (> (car it) (point)))
+                     s)))
     (if next-item
         (goto-char (car next-item))
       (error "On last item"))))
@@ -266,7 +270,10 @@ _k_b.org    _r_eading.org"
   "Go to previous list item ignoring indent."
   (interactive)
   (let* ((s (org-list-struct))
-         (prev-item (--last (< (car it) (point)) s)))
+         (prev-item (--last
+                     (and (not (invisible-p (car it)))
+                          (< (car it) (point)))
+                     s)))
     (if prev-item
         (goto-char (car prev-item))
       (error "On first item"))))
@@ -1296,7 +1303,7 @@ entries.
 
 (add-hook 'org-agenda-finalize-hook #'my-org-agenda-shadow-gcal 'append)
 #+end_src
-** Make agenda clockreport respect =org-extend-today-until=            :published:
+** Make agenda clockreport respect =org-extend-today-until=          :published:
 CLOSED: [2019-01-03 Thu 20:49]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-03-Make-agenda-clockreport-respect-=org-extend-today-until=
