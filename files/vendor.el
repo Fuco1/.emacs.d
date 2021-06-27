@@ -1048,6 +1048,28 @@ idle timer to do the actual update.")
      :map ess-help-mode-map
      ("q" . quit-window))
 
+    (defun my-r-read-logger ()
+      (ess-get-words-from-vector "lgr::logger_index() %>% pull(name) %>% as.character\n"))
+
+    (defun my-r-set-logger (logger level)
+      (interactive
+       (list (completing-read "Logger: " (my-r-read-logger) nil t)
+             (completing-read "Level: " (list
+                                         "fatal"
+                                         "error"
+                                         "warn"
+                                         "info"
+                                         "debug"
+                                         "trace"
+                                         ))))
+      (ess-command
+       (format
+        "lgr::get_logger(%S)$set_threshold(%S)\n"
+        logger
+        level)))
+
+    (bind-key "C-c l" 'my-r-set-logger inferior-ess-mode-map)
+
     (defun my-r-open-line (&optional arg)
       (when (and (save-excursion
                    (forward-line -1)
