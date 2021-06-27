@@ -2079,7 +2079,7 @@ called, percentage usage and the command."
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package magit
-  ;; :straight t
+  :straight t
   :init
   (bind-keys :prefix "C-c m"
              :prefix-map ctl-c-m-map
