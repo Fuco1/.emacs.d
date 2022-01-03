@@ -3385,6 +3385,7 @@ Omitting FRAME means currently selected frame."
   (defun my-typescript-mode-setup ()
     (nvm-use-for-buffer)
     (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
+    (add-hook 'my-newline-hook 'my-php-open-line nil 'local)
     ;; formats the buffer before saving
     (if (find-local-executable-typescript-setup-prettier)
         (prettier-js-mode 1)
