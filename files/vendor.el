@@ -1081,12 +1081,13 @@ idle timer to do the actual update.")
                       (back-to-indentation)
                       (cond
                        ((looking-at "#'") "#' ")
+                       ((looking-at "#\\*") "#* ")
                        ((looking-at "##") "## ")))))
           (insert prefix)
           (indent-according-to-mode)))
       (when (and (equal last-command 'my-newline)
                  (string-match-p
-                  "#[#']"
+                  "#[#'*]"
                   (s-trim (thing-at-point 'line))))
         (delete-region (line-beginning-position 0) (line-end-position))
         (indent-according-to-mode)))
@@ -2097,7 +2098,6 @@ called, percentage usage and the command."
           (add-to-list 'flycheck-checkers 'lsp-ui)
           (add-hook 'lsp-after-diagnostics-hook 'lsp-ui-flycheck--report nil t)))))
 
-  (require 'lsp-clients)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package magit
