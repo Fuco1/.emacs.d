@@ -1101,8 +1101,6 @@ idle timer to do the actual update.")
                           (group (1+ digit))
                           ":"
                           (group (1+ digit))
-                          (* not-newline)
-                          "[failure]"
                           line-end))
                   1 2 3 2 1)))
       (if (assq 'my-r-testthat compilation-error-regexp-alist-alist)
