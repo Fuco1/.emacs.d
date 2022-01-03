@@ -239,6 +239,20 @@ For reference: https://oremacs.com/2015/01/10/dired-ansi-term/
   <<term-mode-my-term-exec-hook>>
   )
 #+END_SRC
+* ess-mode
+
+#+begin_src elisp
+(use-package ess
+  :config
+  (progn
+    (defun my-ess-eval-last-sexp ()
+      (interactive)
+      (-when-let (ok (sp-get-sexp t))
+        (sp-get ok
+          (ess-eval-region :beg-prf :end nil))))
+    (bind-key "C-x C-e" 'my-ess-eval-last-sexp ess-r-mode-map)))
+#+end_src
+
 * DONE fontify-face: Fontification of symbols referencing faces      :published:
 CLOSED: [2018-04-10 Tue 21:02]
 :PROPERTIES:
