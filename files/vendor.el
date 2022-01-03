@@ -3384,7 +3384,6 @@ Omitting FRAME means currently selected frame."
 
   (defun my-typescript-mode-setup ()
     (nvm-use-for-buffer)
-    (add-hook 'after-save-hook 'my-tslint-fix nil 'local)
     (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
     ;; formats the buffer before saving
     (if (find-local-executable-typescript-setup-prettier)
