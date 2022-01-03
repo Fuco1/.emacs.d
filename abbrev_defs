@@ -279,9 +279,13 @@
 
 (define-abbrev-table 'gfm-view-mode-abbrev-table '())
 
+(define-abbrev-table 'git-commit-elisp-text-mode-abbrev-table '())
+
 (define-abbrev-table 'git-commit-mode-abbrev-table '())
 
 (define-abbrev-table 'git-rebase-mode-abbrev-table '())
+
+(define-abbrev-table 'gitattributes-mode-abbrev-table '())
 
 (define-abbrev-table 'gitignore-mode-abbrev-table '())
 
@@ -314,6 +318,8 @@
 (define-abbrev-table 'haskell-presentation-mode-abbrev-table '())
 
 (define-abbrev-table 'haskell-yesod-parse-routes-mode-abbrev-table '())
+
+(define-abbrev-table 'hcl-mode-abbrev-table '())
 
 (define-abbrev-table 'helm-grep-mode-abbrev-table '())
 
@@ -431,6 +437,8 @@
 
 (define-abbrev-table 'magit-revision-mode-abbrev-table '())
 
+(define-abbrev-table 'magit-section-mode-abbrev-table '())
+
 (define-abbrev-table 'magit-stash-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-stashes-mode-abbrev-table '())
@@ -472,6 +480,8 @@
 (define-abbrev-table 'neon-mode-abbrev-table '())
 
 (define-abbrev-table 'nginx-mode-abbrev-table '())
+
+(define-abbrev-table 'nomad-mode-abbrev-table '())
 
 (define-abbrev-table 'notmuch-hello-mode-abbrev-table '())
 
@@ -525,6 +535,10 @@
 (define-abbrev-table 'plain-tex-mode-abbrev-table '())
 
 (define-abbrev-table 'plstore-mode-abbrev-table '())
+
+(define-abbrev-table 'pomidor-history-mode-abbrev-table '())
+
+(define-abbrev-table 'pomidor-mode-abbrev-table '())
 
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 
@@ -586,6 +600,8 @@
   '(
    ))
 
+(define-abbrev-table 'sqlcmd-mode-abbrev-table '())
+
 (define-abbrev-table 'stocklist-mode-abbrev-table '())
 
 (define-abbrev-table 'swb-cell-edit-mode-abbrev-table '())
@@ -596,9 +612,10 @@
     ("ll" "limit 100" nil 4)
     ("pa" "promo_action pa" nil 7)
     ("paid" "promo_action_id" nil 1)
-    ("pld" "product_locator_id" nil 4)
+    ("pld" "product_locator_id" nil 5)
+    ("plo" "product_locator_ordering plo" nil 5)
     ("sc" "select count(*) from" nil 7)
-    ("sf" "select * from" nil 9)
+    ("sf" "select * from" nil 10)
    ))
 
 (define-abbrev-table 'swb-result-mode-abbrev-table '())
@@ -610,6 +627,8 @@
 (define-abbrev-table 'tar-mode-abbrev-table '())
 
 (define-abbrev-table 'term-mode-abbrev-table '())
+
+(define-abbrev-table 'terraform-mode-abbrev-table '())
 
 (define-abbrev-table 'tex-mode-abbrev-table '())
 
