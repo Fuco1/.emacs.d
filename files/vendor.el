@@ -1493,6 +1493,7 @@ use a directory-local variable to specify this per-project."
       t))
 
   (bind-key "C-c '" 'my-hcl-indirect-edit hcl-mode-map)
+  (bind-key "C-c '" 'my-hcl-indirect-edit nomad-mode-map)
 
   (add-to-list 'flycheck-checkers 'tflint))
 
