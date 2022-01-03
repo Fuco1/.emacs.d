@@ -142,9 +142,9 @@
 (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
                                                     ("* ||\n[i]" "RET")))
 
-
-(sp-local-pair 'js2-mode "/**" "*/" :post-handlers '(("| " "SPC")
-                                                     ("* ||\n[i]" "RET")))
+(sp-with-modes '(js2-mode typescript-mode)
+  (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
+                                             ("* ||\n[i]" "RET"))))
 
 ;;; PHP
 (sp-with-modes '(php-mode)
