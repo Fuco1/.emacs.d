@@ -2497,9 +2497,7 @@ by that command."
             :fork (:repo "git@github.com:Fuco1/org-jira.git")))
 
 (use-package pdf-tools
-  :straight t
-  :config
-  (pdf-loader-install))
+  :straight t)
 
 ;; TODO: move into a separate file
 (use-package php-mode
