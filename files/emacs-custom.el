@@ -170,14 +170,18 @@
  '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-error-regexp-alist
    (quote
-    (absoft ada aix ant bash borland python-tracebacks-and-caml comma cucumber msft edg-1 edg-2 epc ftnchek iar ibm irix java jikes-file maven jikes-line gcc-include ruby-Test::Unit gnu lcc makepp mips-1 mips-2 msft omake oracle perl php rxp sparc-pascal-file sparc-pascal-line sparc-pascal-example sun sun-ada watcom 4bsd gcov-file gcov-header gcov-nomark gcov-called-line gcov-never-called perl--Pod::Checker perl--Test perl--Test2 perl--Test::Harness weblint nette-tester)))
+    (absoft ada aix ant bash borland python-tracebacks-and-caml comma cucumber msft edg-1 edg-2 epc ftnchek iar ibm irix java jikes-file maven jikes-line gcc-include ruby-Test::Unit gnu lcc makepp mips-1 mips-2 msft omake oracle perl php rxp sparc-pascal-file sparc-pascal-line sparc-pascal-example sun sun-ada watcom 4bsd gcov-file gcov-header gcov-nomark gcov-called-line gcov-never-called perl--Pod::Checker perl--Test perl--Test2 perl--Test::Harness weblint nette-tester my-r-testthat)))
+ '(compilation-message-face (quote default))
  '(compilation-read-command nil)
  '(compilation-scroll-output (quote first-error))
  '(completion-ignored-extensions
    (quote
     (".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi")))
  '(cua-enable-cua-keys nil)
+ '(cua-global-mark-cursor-color "#2aa198")
  '(cua-mode nil nil (cua-base))
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
  '(cursor-color "#839496")
  '(cursor-type (quote box))
  '(custom-enabled-themes (quote (my-tango-dark)))
@@ -188,7 +192,7 @@
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
  '(dash-enable-fontlock t)
- '(debug-on-error t)
+ '(debug-on-error nil)
  '(default-input-method "english-prog")
  '(delete-by-moving-to-trash t)
  '(delete-selection-mode t)
@@ -377,6 +381,7 @@
  '(eshell-skip-prompt-function (quote my-eshell-skip-prompt))
  '(exec-path-from-shell-shell-name "fish")
  '(eyebrowse-mode t)
+ '(fci-rule-color "#eee8d5")
  '(find-grep-options "-qE")
  '(flycheck-disabled-checkers (quote (php-phplint php-phpmd emacs-lisp-checkdoc)))
  '(flycheck-emacs-lisp-load-path (quote inherit))
@@ -456,15 +461,37 @@
  '(haskell-process-auto-import-loaded-modules t t)
  '(haskell-process-log t t)
  '(haskell-process-suggest-remove-import-lines t t)
- '(hcl-indent-level 4 t)
+ '(hcl-indent-level 4)
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
  '(helm-candidate-number-limit 1000)
  '(helm-for-files-preferred-list
    (quote
     (helm-source-buffers-list helm-source-recentf helm-source-bookmarks helm-source-file-cache helm-source-files-in-current-dir)))
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-symbol-colors
+   (quote
+    ("#eef6d970af00" "#cef5e0cccfbc" "#fd55c91db29c" "#dadbd2f0dc18" "#e0a3de03afa1" "#f84ccba1ad99" "#d28cd9ebdf8a")))
+ '(highlight-symbol-foreground-color "#586e75")
+ '(highlight-tail-colors
+   (quote
+    (("#eee8d5" . 0)
+     ("#b3c34d" . 20)
+     ("#6ccec0" . 30)
+     ("#74adf5" . 50)
+     ("#e1af4b" . 60)
+     ("#fb7640" . 70)
+     ("#ff699e" . 85)
+     ("#eee8d5" . 100))))
  '(highlight-thing-limit-to-defun t)
  '(history-length 3000)
+ '(hl-bg-colors
+   (quote
+    ("#e1af4b" "#fb7640" "#ff6849" "#ff699e" "#8d85e7" "#74adf5" "#6ccec0" "#b3c34d")))
+ '(hl-fg-colors
+   (quote
+    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
+ '(hl-paren-colors (quote ("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900")))
  '(ibuffer-fontification-alist
    (quote
     ((10 buffer-read-only font-lock-constant-face)
@@ -643,7 +670,7 @@
      ("expenses" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly --real reg ^expenses")
      ("expenses-year" "ledger -f %(ledger-file) -p \"this year\" -X Kc --monthly --real reg ^expenses")
      ("cash-flow-monthly" "ledger -f %(ledger-file) -p \"this month\" bal -X Kc ^income ^expenses")
-     ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses")
+     ("cash-flow" "ledger -f %(ledger-file) bal -X Kc ^income ^expenses ^gifts")
      ("budget" "ledger -f %(ledger-file) bal -X Kc '^Assets:Checking:Air Bank'")
      ("expenses-budget" "ledger -f %(ledger-file) -p \"this month\" -X Kc --monthly reg 'Assets:Checking:Air Bank:Budget:Expenses'")
      ("expenses-budget-year" "ledger -f %(ledger-file) -p %(period) -X Kc --monthly reg 'Assets:Checking:Air Bank:Budget:Expenses'")
@@ -654,7 +681,7 @@
      ("reg-account" "ledger -f %(ledger-file) reg %(account)")
      ("bal-account" "ledger -f %(ledger-file) -X Kc bal %(account)")
      ("bal-saving" "ledger -f %(ledger-file) -X Kc --real bal 'assets:saving'")
-     ("envelopes" "ledger -f %(ledger-file) bal envelopes '/(checking|saving):.*:capital/' 'assets:saving:air bank' -X Kc"))))
+     ("envelopes" "ledger -f %(ledger-file) bal envelopes '/saving:.*:capital/' 'assets:saving:air bank' -X Kc"))))
  '(legalese-date-format (quote ordinal))
  '(legalese-default-copyright "Matúš Goljer")
  '(legalese-templates
@@ -697,9 +724,11 @@
  '(ls-lisp-use-localized-time-format t)
  '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity (quote (uid gid)))
+ '(lsp-completion-enable nil)
  '(lsp-enable-completion-at-point nil)
  '(lsp-inhibit-message t)
  '(lsp-prefer-flymake nil t)
+ '(lsp-ui-doc-border "#586e75")
  '(lsp-ui-doc-enable t)
  '(lsp-ui-doc-use-webkit t)
  '(lsp-ui-flycheck-enable nil t)
@@ -747,6 +776,9 @@
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-logo nil)
  '(nov-save-place-file "~/.emacs.d/.cache/nov/nov-places")
+ '(nrepl-message-colors
+   (quote
+    ("#dc322f" "#cb4b16" "#b58900" "#5b7300" "#b3c34d" "#0061a8" "#2aa198" "#d33682" "#6c71c4")))
  '(nvm-dir "/home/matus/.local/share/nvm")
  '(omnisharp-server-executable-path "/home/matus/sources/omnisharp/run")
  '(org-M-RET-may-split-line nil)
@@ -771,6 +803,7 @@
      (todo . " %i %-12:c%5e")
      (tags . " %i %-12:c%5e")
      (search . " %i %-12:c%5e"))))
+ '(org-agenda-restriction-lock-highlight-subtree nil)
  '(org-agenda-skip-deadline-if-done t)
  '(org-agenda-skip-function-global (quote my-org-global-skip-function))
  '(org-agenda-skip-scheduled-if-done t)
@@ -1565,7 +1598,7 @@
      ("~" my-org-key verbatim)
      ("+" markup-strike))))
  '(org-export-allow-bind-keywords t)
- '(org-export-backends (quote (html latex md odt)))
+ '(org-export-backends (quote (ascii html latex md odt)))
  '(org-export-select-tags (quote ("export_org")))
  '(org-extend-today-until 4)
  '(org-fast-tag-selection-single-key (quote expert))
@@ -1695,6 +1728,8 @@
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
  '(pomidor-play-sound-file nil)
+ '(pos-tip-background-color "#eee8d5")
+ '(pos-tip-foreground-color "#586e75")
  '(preview-scale-function 1.5)
  '(proced-auto-update-flag t)
  '(proced-auto-update-interval 1)
@@ -1721,6 +1756,31 @@
  '(safe-local-variable-values
    (quote
     ((ft-source-to-test-mapping
+      (:path "/" :prefix "elsa-")
+      :path "/tests" :prefix "test-")
+     (ft-source-to-test-mapping
+      (:path "/" :prefix "elsa-")
+      :path "tests/" :prefix "test-")
+     (ft-source-to-test-mapping
+      (:path "/" :prefix "elsa-")
+      :path "/tests/" :prefix "test-")
+     (ft-source-to-test-mapping
+      (:path "" :prefix "elsa-")
+      :path "/tests/" :prefix "test-")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (ft-source-to-test-mapping
+      (:path "/src/" :prefix "")
+      :path "/tests/testthat/" :prefix "test-")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (compilation-search-path . "/home/matus/dev/ydistri/testthatBdd")
+     (ft-source-to-test-mapping
+      (:path "/R/" :prefix "")
+      :path "/tests/testthat/" :prefix "test-")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (eval sql-set-product
+           (quote ms))
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (ft-source-to-test-mapping
       (:path "" :suffix "php")
       :path "" :suffix "unit.phpt")
      (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
@@ -2326,14 +2386,49 @@ is the buffer position of the start of the containing expression."
  '(shell-pop-window-size 50)
  '(show-smartparens-global-mode t)
  '(smart-jump-bind-keys nil)
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(solarized-scale-org-headlines nil)
  '(sp-ignore-modes-list nil)
  '(swb-crypt-key "matus.goljer@gmail.com")
+ '(term-default-bg-color "#fdf6e3")
+ '(term-default-fg-color "#657b83")
+ '(user-full-name "Matúš Goljer")
+ '(user-mail-address "matus.goljer@gmail.com")
+ '(vc-annotate-background nil)
+ '(vc-annotate-background-mode nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#dc322f")
+     (40 . "#ca7966842090")
+     (60 . "#c05678c91534")
+     (80 . "#b58900")
+     (100 . "#a6088eed0000")
+     (120 . "#9e3a91a70000")
+     (140 . "#9629943b0000")
+     (160 . "#8dc696ae0000")
+     (180 . "#859900")
+     (200 . "#76f09b6145e9")
+     (220 . "#6cd69caa5b9d")
+     (240 . "#5f5f9e06701f")
+     (260 . "#4c1b9f788425")
+     (280 . "#2aa198")
+     (300 . "#3003984faf4d")
+     (320 . "#2f7093e9bae0")
+     (340 . "#2c5a8f79c670")
+     (360 . "#268bd2"))))
+ '(vc-annotate-very-old-color nil)
  '(vc-follow-symlinks t)
+ '(weechat-color-list
+   (quote
+    (unspecified "#fdf6e3" "#eee8d5" "#a7020a" "#dc322f" "#5b7300" "#859900" "#866300" "#b58900" "#0061a8" "#268bd2" "#a00559" "#d33682" "#007d76" "#2aa198" "#657b83" "#839496")))
  '(whitespace-style
    (quote
-    (face trailing tabs spaces lines-tail newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark)) t)
+    (face trailing tabs spaces lines-tail newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark)))
  '(winner-mode t)
+ '(xterm-color-names
+   ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"])
+ '(xterm-color-names-bright
+   ["#fdf6e3" "#cb4b16" "#93a1a1" "#839496" "#657b83" "#6c71c4" "#586e75" "#002b36"])
  '(yas-snippet-dirs (quote ("/home/matus/.emacs.d/etc/yasnippet/snippets"))))
 
 (put 'narrow-to-region 'disabled nil)
