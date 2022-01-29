@@ -516,6 +516,60 @@ Links to non-existing files will now be red with an underline.
            '(org-warning underline))))
 #+end_src
 
+** Add fontification for progress cookie in org agenda               :published:
+:PROPERTIES:
+:BLOG_FILENAME: 2022-01-04-Add-fontification-for-progress-cookie-in-org-agenda
+:PUBDATE:  [2022-01-04 Tue 16:37]
+:ID:       301e1066-b82c-4d0d-8011-022734b2f193
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2022-01-04 Tue 16:37]
+:END:
+
+In Org mode, there is an easy way to visualize progress on a task with
+subtasks.  You can place a "progress cookie" =[/]= or =[%]= in the title
+of a TODO task or parent item in a list, hit ~C-c C-c~ and Org will
+calculate the progress for you.
+
+#+begin_src org
+,* TODO foo [1/3]
+,** TODO one
+,** TODO two
+,** DONE three
+- parent [66%]
+  - [X] one
+  - [X] two
+  - [ ] three
+#+end_src
+
+These are fontified with =org-checkbox-statistics-todo= to make them
+easily stand out.  However, for some reason this face is not applied
+in the Org agenda buffer.
+
+Because the agenda buffer does not use font-lock for fontifying and
+instead inserts already fontified text in the buffer directly, we
+can't simply add a regexp with =font-lock-add-keywords=.  But the
+solution is nonetheless very straight-forward.  Create a function
+which will search for the regexp in the buffer and add the face text
+property.  Then add it to the =org-agenda-finalize-hook= and that's
+that!
+
+#+begin_src elisp
+(defun my-fontify-progress-cookie ()
+  "Fontify progress cookies in org agenda."
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\[[[:digit:]]+/[[:digit:]]+\\]" nil t)
+      (add-face-text-property (match-beginning 0) (match-end 0)
+                              'org-checkbox-statistics-todo))
+    (goto-char (point-min))
+    (while (re-search-forward "\\[[[:digit:]]+%\\]" nil t)
+      (add-face-text-property (match-beginning 0) (match-end 0)
+                              'org-checkbox-statistics-todo))))
+
+(add-hook 'org-agenda-finalize-hook 'my-fontify-progress-cookie)
+#+end_src
+
 * Use org-radiobutton to select an option from a list                :published:
 CLOSED: [2018-03-11 Sun 15:50]
 :PROPERTIES:
