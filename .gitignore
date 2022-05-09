@@ -7,7 +7,6 @@ dev/*
 elfeed/*
 elnode/*
 elpa/*
-etc/eshell/lastdir
 files/personal.el
 *-tangled.el
 todo.org
@@ -16,3 +15,4 @@ straight/build/
 straight/modified/
 straight/repos/
 request/
+var/

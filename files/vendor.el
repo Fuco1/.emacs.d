@@ -367,7 +367,6 @@ If no region is active, use word udner point."
   (company-dabbrev-downcase nil)
   (company-flow-executable "yarn flow")
   (company-lsp-cache-candidates nil)
-  (company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
   (company-backends
    '(
      company-omnisharp
@@ -875,7 +874,6 @@ config from before."
   :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
   :custom
-  (elfeed-db-directory "~/.emacs.d/elfeed")
   (elfeed-max-connections 5)
   (elfeed-search-face-alist
    (quote
@@ -2556,7 +2554,6 @@ by that command."
 
 (use-package saveplace
   :custom
-  (save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
   (save-place-mode t))
 
 (use-package org
@@ -3726,7 +3723,6 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :diminish yas-minor-mode
   :commands (yas-minor-mode
              yas-expand)
-  :custom (yas-snippet-dirs '("/home/matus/.emacs.d/etc/yasnippet/snippets"))
   :init
   (progn
     (autoload #'yas-hippie-try-expand "yasnippet"))

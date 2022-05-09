@@ -39,6 +39,9 @@
               :fork (:repo "git@github.com:Fuco1/el-patch.git")))
   (require 'el-patch))
 
+(straight-use-package 'no-littering)
+(require 'no-littering)
+
 (my-with-elapsed-timer "setup org-plus-contrib"
   (require 'subr-x)
   (straight-use-package 'git)

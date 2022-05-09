@@ -128,18 +128,15 @@
      ("saleschamp\\.atlassian\\.net" . jira-markup-mode)
      ("rundeck" . markdown-mode))) nil nil "Customized with use-package atomic-chrome")
  '(auto-save-file-name-transforms nil)
- '(auto-save-list-file-prefix "~/.emacs.d/.cache/auto-save-list/.saves-")
  '(autobookmarks-mode t)
  '(background-color "#002b36")
  '(background-mode dark)
- '(backup-directory-alist (quote (("." . "~/.emacs.d/.cache/backups"))))
  '(bdf-directory-list (quote ("/usr/share/emacs/fonts/bdf")))
  '(bind-key-column-widths (quote (20 . 70)))
  '(bind-key-describe-special-forms t)
  '(bjump-dired-open-command (quote dired-open-file))
  '(blink-cursor-mode nil)
  '(blink-matching-paren nil)
- '(bookmark-default-file "~/.emacs.d/.cache/bookmarks/bookmarks")
  '(bookmark-version-control t)
  '(browse-at-remote-remote-type-domains
    (quote
@@ -151,7 +148,6 @@
      ("gist.github.com" . "gist")
      ("gitlab.logio.cz" . "gitlab"))))
  '(browse-kill-ring-quit-action (quote save-and-restore))
- '(calc-settings-file "~/.emacs.d/files/calc-settings.el")
  '(calc-undo-length 1000)
  '(calendar-latitude 49.2)
  '(calendar-longitude 16.633)
@@ -167,7 +163,6 @@
  '(company-dabbrev-downcase nil)
  '(company-flow-executable "yarn flow" t)
  '(company-lsp-cache-candidates nil)
- '(company-statistics-file "~/.emacs.d/.cache/company/company-statistics-cache.el")
  '(compilation-error-regexp-alist
    (quote
     (absoft ada aix ant bash borland python-tracebacks-and-caml comma cucumber msft edg-1 edg-2 epc ftnchek iar ibm irix java jikes-file maven jikes-line gcc-include ruby-Test::Unit gnu lcc makepp mips-1 mips-2 msft omake oracle perl php rxp sparc-pascal-file sparc-pascal-line sparc-pascal-example sun sun-ada watcom 4bsd gcov-file gcov-header gcov-nomark gcov-called-line gcov-never-called perl--Pod::Checker perl--Test perl--Test2 perl--Test::Harness weblint nette-tester my-r-testthat)))
@@ -200,7 +195,6 @@
  '(desktop-buffer-filter (quote my-desktop-filter))
  '(desktop-save t)
  '(diary-display-function (quote ignore))
- '(diary-file "~/org/diary")
  '(dired-avfs-archives (quote ("zip" "rar" "tar" "bz2")))
  '(dired-details-hidden-string "")
  '(dired-details-hide-extra-lines nil)
@@ -338,7 +332,6 @@
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(editorconfig-mode t)
- '(elfeed-db-directory "~/.emacs.d/elfeed")
  '(elfeed-max-connections 5 t)
  '(elfeed-search-face-alist
    (quote
@@ -356,8 +349,6 @@
  '(enable-recursive-minibuffers t)
  '(enable-remote-dir-locals t)
  '(epg-gpg-program "gpg2")
- '(eshell-aliases-file "/home/matus/.emacs.d/etc/eshell/alias")
- '(eshell-directory-name "~/.emacs.d/.cache/eshell/")
  '(eshell-history-file-name "/home/matus/.emacs.d/.cache/eshell/history")
  '(eshell-last-dir-ring-file-name "/home/matus/.emacs.d/.cache/eshell/lastdir")
  '(eshell-output-filter-functions
@@ -420,7 +411,6 @@
  '(free-keys-modifiers (quote ("" "C" "M" "C-M" "A" "H" "s")))
  '(gc-cons-threshold 20000000)
  '(geben-display-window-function (quote display-buffer))
- '(geben-temporary-file-directory "/home/matus/.emacs.d/.cache/geben/")
  '(global-flex-isearch-mode t)
  '(global-paren-face-mode t)
  '(global-subword-mode t)
@@ -600,7 +590,6 @@
 -> " "" "
    " "
    ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
- '(ido-save-directory-list-file "~/.emacs.d/.cache/ido/.ido.last")
  '(ido-ubiquitous-allow-on-functional-collection t)
  '(ido-ubiquitous-command-overrides
    (quote
@@ -651,8 +640,6 @@
  '(js2-strict-trailing-comma-warning nil)
  '(jump-char-forward-key "m")
  '(keyfreq-autosave-mode t)
- '(keyfreq-file "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq")
- '(keyfreq-file-lock "~/.emacs.d/.cache/keyfreq/.emacs.keyfreq.lock")
  '(keyfreq-mode t)
  '(ledger-copy-transaction-insert-blank-line-after t t)
  '(ledger-reconcile-default-commodity "Kc")
@@ -716,7 +703,6 @@
 " ";;; " legalese-file-name " ends here
 ")))))
  '(line-number-mode t)
- '(litable-list-file "~/.emacs.d/.cache/litable/.litable-lists.el")
  '(log-edit-hook
    (quote
     (log-edit-insert-cvs-template log-edit-insert-changelog log-edit-show-files)))
@@ -734,7 +720,6 @@
    (quote
     ("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx1G" "-Xms100m")))
  '(lsp-prefer-flymake nil t)
- '(lsp-session-file "/home/matus/.emacs.d/.cache/lsp/.lsp-session-v1")
  '(lsp-ui-doc-border "#586e75")
  '(lsp-ui-doc-enable t)
  '(lsp-ui-doc-use-webkit t)
@@ -761,7 +746,6 @@
  '(markdown-link-space-sub-char "-")
  '(max-lisp-eval-depth 100000)
  '(max-specpdl-size 10000)
- '(mc/list-file "~/.emacs.d/.cache/multiple-cursors/.mc-lists.el")
  '(message-forward-as-mime nil)
  '(message-kill-buffer-on-exit t)
  '(message-log-max 10000)
@@ -782,7 +766,6 @@
     (notmuch-hello-insert-header notmuch-hello-insert-search notmuch-hello-insert-recent-searches notmuch-hello-insert-alltags notmuch-hello-insert-footer)))
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-logo nil)
- '(nov-save-place-file "~/.emacs.d/.cache/nov/nov-places")
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#5b7300" "#b3c34d" "#0061a8" "#2aa198" "#d33682" "#6c71c4")))
@@ -871,7 +854,6 @@
  '(org-clock-out-remove-zero-time-clocks t)
  '(org-clock-out-when-done nil)
  '(org-clock-persist t)
- '(org-clock-persist-file "~/.emacs.d/.cache/org/org-clock-save.el")
  '(org-clock-persist-query-resume nil)
  '(org-clock-report-include-clocking-task t)
  '(org-columns-default-format
@@ -1624,14 +1606,12 @@
    (quote
     (:foreground default :background default :scale 3.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
      ("begin" "$1" "$" "$$" "\\(" "\\["))))
- '(org-gcal-dir "~/.emacs.d/.cache/org-gcal/")
  '(org-habit-following-days 1)
  '(org-habit-graph-column 80)
  '(org-habit-preceding-days 30)
  '(org-habit-show-habits-only-for-today nil)
  '(org-hide-emphasis-markers t)
  '(org-hide-leading-stars t)
- '(org-id-locations-file "~/.emacs.d/.cache/org/.org-id-locations")
  '(org-indent-indentation-per-level 1)
  '(org-inline-image-resolve-url (quote (org-inline-image--regexp-resolver identity)))
  '(org-jira-default-jql
@@ -1664,7 +1644,6 @@
     (org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-inlinetask org-checklist org-depend org-drill)))
  '(org-outline-path-complete-in-steps nil)
  '(org-priority-start-cycle-with-default nil)
- '(org-publish-timestamp-directory "~/.emacs.d/.cache/org-timestamps/")
  '(org-radiobutton-mode t t (org-radiobutton))
  '(org-refile-allow-creating-parent-nodes (quote confirm))
  '(org-refile-target-verify-function (quote my-org-verify-refile-target))
@@ -1739,12 +1718,9 @@
  '(preview-scale-function 1.5)
  '(proced-auto-update-flag t)
  '(proced-auto-update-interval 1)
- '(projectile-cache-file "/home/matus/.emacs.d/.cache/projectile/projectile.cache")
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "elpa")))
- '(projectile-known-projects-file
-   "/home/matus/.emacs.d/.cache/projectile/projectile-bookmarks.eld")
  '(projectile-project-root-files
    (quote
     (".dir-locals.el" ".projectile" ".git" ".hg" ".fslckout" ".bzr" "_darcs" "rebar.config" "project.clj" "pom.xml" "build.sbt" "Gemfile" "Makefile")))
@@ -1752,7 +1728,6 @@
  '(proof-three-window-mode-policy (quote hybrid))
  '(python-shell-interpreter "python3")
  '(rainbow-r-colors t)
- '(recentf-save-file "~/.emacs.d/.cache/recentf/recentf")
  '(reftex-label-alist
    (quote
     (("lemma" 32 "lem:" "~\\cref{%s}" nil nil)
@@ -2371,7 +2346,6 @@ is the buffer position of the start of the containing expression."
                (quote font-lock-keyword-face))))))
      (reftex-default-bibliography "./bibliography")
      (eval allout-mode t))))
- '(save-place-file "~/.emacs.d/.cache/save-place/.emacs-places")
  '(save-place-mode t)
  '(shackle-rules
    (quote
@@ -2436,8 +2410,7 @@ is the buffer position of the start of the containing expression."
  '(xterm-color-names-bright
    ["#fdf6e3" "#cb4b16" "#93a1a1" "#839496" "#657b83" "#6c71c4" "#586e75" "#002b36"])
  '(yankpad-file "/home/matus/data/documents/yankpad.org")
- '(yankpad-use-yasnippet nil)
- '(yas-snippet-dirs (quote ("/home/matus/.emacs.d/etc/yasnippet/snippets"))))
+ '(yankpad-use-yasnippet nil))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
