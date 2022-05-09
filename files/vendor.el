@@ -1547,7 +1547,16 @@ use a directory-local variable to specify this per-project."
         (let ((end-marker (match-string 1)))
           (when-let (end (save-excursion
                            (re-search-forward (format "^%s" end-marker))))
-            (edit-indirect-region beg (- end (length end-marker)) t))))))
+            ;; guess the major mode of indirect buffer
+            (let ((mm-maybe (save-excursion
+                              (goto-char (1- beg))
+                              (beginning-of-line)
+                              (skip-syntax-forward " ")
+                              (cond
+                               ((looking-at "policy") 'hcl-mode))))
+                  (buffer (edit-indirect-region beg (- end (length end-marker) 1))))
+              (when mm-maybe
+                (with-current-buffer buffer (funcall mm-maybe)))))))))
 
   (add-to-list 'magic-fallback-mode-alist '(my-check-buffer-yaml-p . yaml-mode))
   (defun my-check-buffer-yaml-p ()
