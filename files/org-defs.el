@@ -562,7 +562,6 @@ overdue and a habit it is inserted multiple times."
         (--each visited (set-marker it nil)))))
 
   (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
-  (add-hook 'org-agenda-finalize-hook 'my-org-agenda-remove-duplicate-habits)
 
   (defun org-agenda-time-limit (time)
     "Call `org-agenda' with media timestamp limited."
