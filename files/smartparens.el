@@ -137,12 +137,12 @@
         (insert " ")))))
 
 ;;; C++
-(sp-with-modes '(malabar-mode c++-mode)
+(sp-with-modes '(malabar-mode c++-mode java-mode)
   (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
 (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
                                                     ("* ||\n[i]" "RET")))
 
-(sp-with-modes '(js2-mode typescript-mode)
+(sp-with-modes '(js2-mode typescript-mode java-mode)
   (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
                                              ("* ||\n[i]" "RET"))))
 
