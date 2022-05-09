@@ -701,6 +701,11 @@ and `my-compile-auto-fold-header-match-data'."
                ("t" . my-custom-jump-to-toggle)
                ("i" . my-custom-jump-to-last-insert))))
 
+(use-package deadgrep
+  :straight (deadgrep
+             :repo "https://github.com/Wilfred/deadgrep.git"
+             :fork (:repo "git@github.com:Fuco1/deadgrep.git")))
+
 (use-package diff-mode
   :defer t
   :config
