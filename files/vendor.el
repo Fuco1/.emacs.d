@@ -3666,6 +3666,11 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 
 (use-package yarn-mode :straight t)
 
+(use-package yankpad
+  :straight (yankpad
+             :repo "git@github.com:Kungsgeten/yankpad.git"
+             :fork (:repo "git@github.com:Fuco1/yankpad.git")))
+
 (use-package yasnippet
   :straight t
   :diminish yas-minor-mode
