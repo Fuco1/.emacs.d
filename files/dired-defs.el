@@ -395,7 +395,7 @@ the subdirectory listing."
    (t
     (my-dired-parent-directory)
     (save-excursion
-      (call-interactively 'dired-maybe-insert-subdir)
+      (beginning-of-line)
       (dired-do-kill-lines '(4))))))
 
 (defun my-dired-maybe-insert-subdir ()
@@ -408,8 +408,8 @@ the subdirectory listing."
   "Go to parent directory listing. This is like calling
 `dired-maybe-insert-subdir' on the listing header."
   (interactive)
-  (diredp-next-subdir 0)
-  (call-interactively 'dired-maybe-insert-subdir))
+  (dired-next-subdir 0)
+  (beginning-of-line))
 
 ;;;_. Sorting
 (require 'ls-lisp)
