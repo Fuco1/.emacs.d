@@ -2552,6 +2552,11 @@ by that command."
   (org-jira :repo "git@github.com:ahungry/org-jira.git"
             :fork (:repo "git@github.com:Fuco1/org-jira.git")))
 
+(use-package ov
+  :straight
+  (ov :repo "https://github.com/emacsorphanage/ov.git"
+      :fork (:repo "git@github.com:Fuco1/ov.el.git")))
+
 (use-package pdf-tools
   :straight t)
 
