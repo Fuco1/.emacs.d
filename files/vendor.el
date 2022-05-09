@@ -34,6 +34,7 @@ load the result."
   :straight t
   :bind (("<f1>" . f1-hydra/body)
          ("<f7>" . f7-hydra/body)
+         ("C-. b" . buffer-hydra/body)
          ("C-. i" . input-methods-hydra/body))
   :config
   (defhydra f1-hydra (:color blue)
@@ -46,6 +47,9 @@ load the result."
     ("<f6>" my-find-dependency "Find dependency")
     ("<f8>" projectile-dired "Goto project root")
     ("<f10>" my-goto-current-clocked-task "Go to current clocked task"))
+
+  (defhydra buffer-hydra (:color blue)
+    ("o" my-open-buffer-xdg "Open buffer with external application"))
 
   (defhydra f7-hydra (:color blue)
     "F7 hydra: grep/find"

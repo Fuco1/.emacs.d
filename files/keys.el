@@ -180,10 +180,6 @@
            :prefix-map ctl-dot-repl-prefix-map
            :prefix-docstring "Map for starting repls")
 
-(bind-key "C-. b"
-          (defhydra buffer-hydra (:color blue)
-            ("o" my-open-buffer-xdg "Open buffer with external application")))
-
 (bind-key "C-. e" 'eval-region emacs-lisp-mode-map)
 
 (bind-key "<XF86HomePage>" 'toggle-input-method)
