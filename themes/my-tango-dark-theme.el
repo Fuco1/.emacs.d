@@ -487,6 +487,9 @@ respective major mode.  Think org SRC blocks.")
 
    (font-latex-verbatim-face (:inherit markup-pre))
 
+   ;; sphinx
+   (sphinx-code-block-face (:inherit (fixed-pitch markup-block)))
+
    ;; org-mode
    (org-level-1 (:inherit outline-1))
    (org-level-2 (:inherit outline-2))
