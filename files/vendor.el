@@ -2133,6 +2133,14 @@ called, percentage usage and the command."
     (require 'elsa-font-lock)
     (use-package flycheck-elsa)
 
+    (emr-declare-command 'my-merge-let-forms
+      :title "merge let forms"
+      :modes 'emacs-lisp-mode
+      :predicate (lambda ()
+                   (save-excursion
+                     (my-goto-dominating-form '(let let*))
+                     (my-goto-dominating-form '(let let*)))))
+
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
     (defun my-emacs-lisp-init ()
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
