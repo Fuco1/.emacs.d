@@ -134,8 +134,8 @@
                    ((not (file-exists-p a)) nil)
                    ((not (file-exists-p b)) nil)
                    (t (time-less-p
-                       (sixth (file-attributes (concat ido-current-directory b)))
-                       (sixth (file-attributes (concat ido-current-directory a))))))))))
+                       (cl-sixth (file-attributes (concat ido-current-directory b)))
+                       (cl-sixth (file-attributes (concat ido-current-directory a))))))))))
   (ido-to-end  ;; move . files to end (again)
    (--select (char-equal (string-to-char it) ?.) ido-temp-list))
   (when ido-show-dot-for-dired
