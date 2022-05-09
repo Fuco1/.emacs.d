@@ -97,7 +97,9 @@ No extra configuration required---I only change the settings in customize
 (use-package dired-collapse)
 
 ;; TODO: we should just hijack C-t map from image-dired which is crap anyway
-(use-package dired-images)
+(use-package dired-images
+  :custom
+  (di-thumbs-directory (locate-user-emacs-file "var/dired-images/cache/")))
 #+END_SRC
 
 ** TODO migrate the values from customize here                        :noexport:

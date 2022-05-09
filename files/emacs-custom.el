@@ -194,6 +194,7 @@
  '(delete-selection-mode t)
  '(desktop-buffer-filter (quote my-desktop-filter))
  '(desktop-save t)
+ '(di-thumbs-directory "~/.emacs.d/var/dired-images/cache/" nil nil "Customized with use-package dired-images")
  '(diary-display-function (quote ignore))
  '(dired-avfs-archives (quote ("zip" "rar" "tar" "bz2")))
  '(dired-details-hidden-string "")
