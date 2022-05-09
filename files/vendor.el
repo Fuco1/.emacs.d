@@ -1065,6 +1065,29 @@ idle timer to do the actual update.")
 
     (put 'flycheck-lintr-linters 'safe-local-variable #'stringp)
 
+    ;; https://github.com/emacs-ess/ESS/issues/1194
+    (el-patch-defun ess-calculate-indent--args-prev-call (block)
+      ;; Handle brackets chains such as ][ (cf data.table)
+      (ess-climb-chained-delims)
+      ;; Handle call chains
+      (if ess-indent-from-chain-start
+          (while (and (ess-backward-sexp)
+                      (when (looking-back (el-patch-swap
+                                            "[[(][ \t,]*"
+                                            (rx (or (char ?\[ ?\() "::")
+                                                (* (char ?  ?	 ?,))))
+                                          (line-beginning-position))
+                        (goto-char (match-beginning 0)))))
+        (ess-backward-sexp))
+      (when ess-indent-from-lhs
+        (ess-climb-lhs))
+      (if (and nil
+               (eq block 'fun-decl)
+               (not (eq arg-block 'opening))
+               (not (eq (ess-offset-type type-sym) 'open-delim)))
+          (+ (ess-offset 'block) (current-column))
+        (current-column)))
+
     (use-package ess-help)
     (use-package rect)
 
