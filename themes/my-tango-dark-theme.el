@@ -276,6 +276,15 @@ respective major mode.  Think org SRC blocks.")
    (php-object-op (:inherit fixed-pitch))
    (php-function-call (:inherit fixed-pitch))
 
+   ;; jdee-mode
+   (jdee-font-lock-constant-face (:inherit font-lock-constant-face))
+
+   (jdee-font-lock-modifier-face (:inherit font-lock-keyword-face))
+   (jdee-font-lock-public-face (:inherit jdee-font-lock-modifier-face))
+   (jdee-font-lock-private-face (:inherit jdee-font-lock-modifier-face))
+
+   (jdee-font-lock-number-face (:inherit default))
+
    ;; Outline
    (outline-1 (:foreground gradient-1))
    (outline-2 (:foreground gradient-2))

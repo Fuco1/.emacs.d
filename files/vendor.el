@@ -259,14 +259,41 @@ better jump:
     (add-hook 'c-mode-hook 'my-c-mode-setup)))
 
 (use-package cc-mode
-  :defer t
   :config
   (progn
     (bind-keys :map c++-mode-map
       ("C-M-x" . compile))
     (defun my-c++-mode-setup ()
       (c-set-style "stroustrup"))
-    (add-hook 'c++-mode-hook 'my-c++-mode-setup)))
+    (add-hook 'c++-mode-hook 'my-c++-mode-setup)
+
+    (use-package lsp-java
+      :straight t
+      :config
+      (progn
+        (emr-declare-command 'lsp-java-add-import
+          :title "lsp-java-add-import"
+          :description "Add import"
+          :modes '(java-mode)
+          :predicate (lambda () t))
+
+        (emr-declare-command 'lsp-java-organize-imports
+          :title "lsp-java-organize-imports"
+          :description "Organize imports"
+          :modes '(java-mode)
+          :predicate (lambda () t))
+
+        (add-hook 'java-mode-hook #'lsp)))
+
+    (defun my-java-mode-init ()
+      (lsp)
+      (lsp-completion-mode 1)
+      (lsp-enable-imenu)
+      (company-mode)
+      (add-hook 'my-newline-hook 'my-php-open-line nil 'local)
+      (set (make-local-variable 'company-backends) (list 'company-capf)))
+
+    (add-hook 'java-mode-hook #'my-java-mode-init)))
 
 (use-package calc
   :bind ("<f5>" . calc-same-interface)
@@ -2109,6 +2136,19 @@ called, percentage usage and the command."
           (add-to-list 'flycheck-checkers 'lsp-ui)
           (add-hook 'lsp-after-diagnostics-hook 'lsp-ui-flycheck--report nil t)))))
 
+  (emr-declare-command 'lsp-rename
+    :title "lsp-rename"
+    :description "Rename symbol at point"
+    :modes '(prog-mode)
+    :predicate (lambda ()
+                 (and lsp-mode (symbol-at-point))))
+
+  (emr-declare-command 'lsp-execute-code-action
+    :title "lsp-execute-code-action"
+    :description "Execute LSP code action"
+    :modes '(prog-mode)
+    :predicate (lambda () t))
+
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package magit
@@ -3095,6 +3135,16 @@ separate buffer."
      :async nil)
 
     (smart-jump-register
+     :modes 'java-mode
+     :jump-fn 'xref-find-definitions
+     :pop-fn 'xref-pop-marker-stack
+     :refs-fn 'xref-find-references
+     :should-jump t
+     :heuristic 'error
+     :order 1
+     :async nil)
+
+    (smart-jump-register
      :modes 'php-mode
      :jump-fn 'xref-find-definitions
      :pop-fn 'xref-pop-marker-stack
@@ -3103,7 +3153,7 @@ separate buffer."
                      (buffer-file-name)
                      (not (file-remote-p (buffer-file-name)))))
      :heuristic 'error
-     :order 1
+     :order 3
      :async nil)
 
     (smart-jump-register
