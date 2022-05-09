@@ -965,6 +965,7 @@ idle timer to do the actual update.")
     (add-hook 'diff-mode-hook (lambda () (bind-key "M-o" 'elwm-activate-window diff-mode-map)))))
 
 (use-package emr
+  :straight t
   :bind (("M-r" . emr-show-refactor-menu)))
 
 (use-package eshell
@@ -1668,6 +1669,10 @@ use a directory-local variable to specify this per-project."
              "[^[:alpha:]áčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]"
              ""
              t ("-d" "cs_CZ" "-p" "/home/matus/org/.hunspell/personal.cs") nil utf-8)))))
+
+(use-package jdee
+  :disabled t
+  :straight t)
 
 (use-package jira-markup-mode
   :straight
