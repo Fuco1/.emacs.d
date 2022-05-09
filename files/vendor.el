@@ -3640,7 +3640,9 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
          ("\\.hbs\\'" . web-mode)))
 
 (use-package which-key
-  :straight t)
+  :straight t
+  :custom
+  (which-key-mode t))
 
 (use-package whitaker
   :commands whitaker

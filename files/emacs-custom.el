@@ -2401,6 +2401,7 @@ is the buffer position of the start of the containing expression."
  '(weechat-color-list
    (quote
     (unspecified "#fdf6e3" "#eee8d5" "#a7020a" "#dc322f" "#5b7300" "#859900" "#866300" "#b58900" "#0061a8" "#268bd2" "#a00559" "#d33682" "#007d76" "#2aa198" "#657b83" "#839496")))
+ '(which-key-mode t nil nil "Customized with use-package which-key")
  '(whitespace-style
    (quote
     (face trailing tabs spaces lines-tail newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark)))
