@@ -105,6 +105,9 @@ In all other buffers: if PREFIX is \\[universal-argument], calls
 expands it.  Else calls `my-smart-indent'."
   (interactive "P")
   (cond
+   ((and allout-mode
+         (allout-on-current-heading-p))
+    (allout-toggle-current-subtree-exposure))
    ((eq major-mode 'term-mode)
     (term-send-raw-string "\t"))
    ((bound-and-true-p elfeed-search-live)
