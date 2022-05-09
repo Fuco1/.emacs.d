@@ -2339,7 +2339,7 @@ delete it and re-insert new one."
     (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
   :config
   (progn
-    (use-package notmuch)
+    (use-package notmuch :disabled t)
     (use-package smtpmail)))
 
 (use-package nvm
@@ -2397,6 +2397,7 @@ delete it and re-insert new one."
 (use-package nginx-mode :straight t)
 
 (use-package notmuch
+  :disabled t
   :init
   (progn
     (autoload #'my-notmuch-unread "notmuch" nil t)
@@ -2466,6 +2467,7 @@ by that command."
     (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map)))
 
 (use-package notmuch-unread
+  :disabled t
   :after notmuch
   :straight t
   :config
