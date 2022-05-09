@@ -829,7 +829,9 @@ config from before."
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
 (use-package edit-indirect
-  :straight t
+  :straight (edit-indirect
+             :repo "git@github.com:Fanael/edit-indirect.git"
+             :fork (:repo "git@github.com:Fuco1/edit-indirect.git"))
   :bind (("C-c '" . edit-indirect-region))
   :init
   (defun my-after-indirect-edit-realign (beg end)
