@@ -3480,18 +3480,6 @@ Omitting FRAME means currently selected frame."
 
   (bind-key "C-c C-m l t" 'my-ts-console-log typescript-mode-map)
 
-  (defun my-tslint-fix ()
-    "Fix the current buffer with tslint."
-    (interactive)
-    (when (and flycheck-typescript-tslint-executable
-               (buffer-file-name)
-               (--any? (eq (flycheck-error-checker it) 'typescript-tslint) flycheck-current-errors))
-      (message "Fixing buffer: tslint --fix %s" (buffer-file-name))
-      (call-process
-       flycheck-typescript-tslint-executable
-       nil "*my-tslint errors*" nil "--fix" (buffer-file-name))
-      (revert-buffer t t t)))
-
   (defun my-typescript-mode-setup ()
     (nvm-use-for-buffer)
     (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
@@ -3500,7 +3488,6 @@ Omitting FRAME means currently selected frame."
     (if (find-local-executable-typescript-setup-prettier)
         (prettier-js-mode 1)
       (add-hook 'before-save-hook 'tide-format-before-save nil 'local))
-    (find-local-executable-typescript-setup-tslint)
     (find-local-executable-nodejs-setup-eslint))
 
   (add-hook 'typescript-mode-hook #'my-typescript-mode-setup))
