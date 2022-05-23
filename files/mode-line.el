@@ -134,26 +134,37 @@ OLD is the string to act on."
 (defvar my-abbrev-file-name-alist
   `((,abbreviated-home-dir . "~/")
     ("~/languages/" . "L|")
-    ("/usr/local/share/emacs/24.3/lisp/" . "E|")
-    ("~/dev/tex/fic/" . "FIC|")
-    ("~/.emacs.d/elpa/" . "ELPA|")
     ("~/.emacs.d/" . "ED|")
     ("/var/www/html/devel/" . "WEBD|")
     ("/var/www/html/" . "WEB|")
-    ("/modules/source/" . "|MOD|")
-    ("/specific/source/" . "|SP|")
-    ("/extensions/" . "|E|")
+    ((lambda () (locate-dominating-file default-directory ".git")) . "")
     )
-  "An alist defining translations of paths to shortcuts.")
+  "An alist defining translations of paths to shortcuts.
+
+The car is the FROM pattern which is replaced with the cdr TO pattern.
+
+FROM can be a string or a function.  If function, it is called
+with no arguments and should return a search pattern to be
+replaced.
+
+TO can be a string or a function.  If function, it is called with
+one argument, the FROM (which has been resolved to string if it
+was a function) and should return a replacement string.")
 
 (defun my-abbrev-file-name (string)
+  "Abbreviate STRING using rules from `my-abbrev-file-name-alist'."
   (save-match-data
     (-each my-abbrev-file-name-alist
       (-lambda ((from . to))
-        (when (string-match from string)
-          (setq string (my-replace-match to string)))
-        (when (string-match (concat "|" (substring from 1)) string)
-          (setq string (my-replace-match to string))))))
+        (when (functionp from)
+          (setq from (funcall from)))
+        (when from
+          (when (functionp to)
+            (setq to (funcall to from)))
+          (when (string-match from string)
+            (setq string (my-replace-match to string)))
+          (when (string-match (concat "|" (substring from 1)) string)
+            (setq string (my-replace-match to string)))))))
   string)
 
 (defvar my-status-line-format
