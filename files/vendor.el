@@ -2133,7 +2133,8 @@ called, percentage usage and the command."
   :init
   (progn
     (require 'elsa-font-lock)
-    (use-package flycheck-elsa)
+    (use-package flycheck-elsa
+      :straight (:repo "git@github.com:emacs-elsa/flycheck-elsa.git"))
 
     (emr-declare-command 'my-merge-let-forms
       :title "merge let forms"
