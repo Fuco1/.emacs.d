@@ -210,6 +210,9 @@ return to regular interpretation of self-insert characters."
   :config
   (autobookmarks-mode 1))
 
+(use-package auctex
+  :straight t)
+
 (use-package better-jump
   :bind (("C-j" . bjump-hydra/body))
   :config
@@ -3358,7 +3361,6 @@ separate buffer."
   :mode "\\.textile\\'")
 
 (use-package tex-site
-  :load-path "site-lisp/auctex/"
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :commands (TeX-latex-mode
              TeX-mode

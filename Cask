@@ -3,7 +3,6 @@
 (source "melpa-stable" "http://stable.melpa.org/packages/")
 (source org)
 
-(depends-on "auctex")
 (depends-on "buttercup")
 (depends-on "cask")
 (depends-on "concurrent")
