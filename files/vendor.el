@@ -272,6 +272,7 @@ better jump:
 
     (use-package lsp-java
       :straight t
+      :after emr
       :config
       (progn
         (emr-declare-command 'lsp-java-add-import
