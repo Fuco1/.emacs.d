@@ -2385,6 +2385,9 @@ delete it and re-insert new one."
     (use-package notmuch :disabled t)
     (use-package smtpmail)))
 
+(use-package nomad-tramp
+  :straight (:repo "git@github.com:ydistri/nomad-tramp.git"))
+
 (use-package nvm
   :straight t)
 
