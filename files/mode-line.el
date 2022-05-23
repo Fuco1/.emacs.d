@@ -5,7 +5,7 @@
 (setq global-mode-string '(""))
 (add-to-list 'mode-line-misc-info '(tracking-mode ("" tracking-mode-line-buffers " ")) t)
 
-(setq-default
+(setq
  frame-title-format
  '("%b ; %*"
    (:eval (when (buffer-file-name)
