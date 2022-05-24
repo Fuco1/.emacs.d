@@ -146,6 +146,9 @@
   (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
                                              ("* ||\n[i]" "RET"))))
 
+(sp-with-modes 'typescript-mode
+  (sp-local-pair "<" ">" :actions '(navigate)))
+
 ;;; PHP
 (sp-with-modes '(php-mode)
   (sp-local-pair "/**" "*/" :post-handlers '(("| " "SPC")
