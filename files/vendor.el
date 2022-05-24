@@ -113,6 +113,13 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
   :straight t
   :defer t)
 
+(use-package add-node-modules-path
+  :straight t
+  :config
+  (add-hook 'js2-mode-hook #'add-node-modules-path)
+  (add-hook 'typescript-mode-hook #'add-node-modules-path)
+  (add-hook 'css-mode-hook #'add-node-modules-path))
+
 (use-package ag
   :straight t
   :commands (ag ag-regexp ag-files ag-project-dired ag-dired ag-dired-regexp)
@@ -3499,8 +3506,7 @@ Omitting FRAME means currently selected frame."
     ;; formats the buffer before saving
     (if (find-local-executable-typescript-setup-prettier)
         (prettier-js-mode 1)
-      (add-hook 'before-save-hook 'tide-format-before-save nil 'local))
-    (find-local-executable-nodejs-setup-eslint))
+      (add-hook 'before-save-hook 'tide-format-before-save nil 'local)))
 
   (add-hook 'typescript-mode-hook #'my-typescript-mode-setup))
 
