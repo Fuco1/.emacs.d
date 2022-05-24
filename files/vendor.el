@@ -627,10 +627,12 @@ and `my-compile-auto-fold-header-match-data'."
 (use-package css-mode
   :defer t
   :config
-  (progn
-    (defun my-css-mode-setup ()
-      (rainbow-mode 1))
-    (add-hook 'css-mode-hook 'my-css-mode-setup)))
+  (defun my-css-mode-setup ()
+    (rainbow-mode 1)
+    (when (find-local-executable-typescript-setup-prettier)
+      (prettier-js-mode 1))
+    (find-local-executable-typescript-setup-stylelint))
+  (add-hook 'css-mode-hook 'my-css-mode-setup))
 
 (use-package csv-mode
   :straight t
