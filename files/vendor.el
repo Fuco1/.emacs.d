@@ -2946,10 +2946,10 @@ These are retrieved from `imenu--index-alist'."
 
     (defun my-php-mode-init ()
       (nvm-use-for-buffer)
-      ;; (unless (and buffer-file-name
-      ;;              (file-remote-p buffer-file-name))
-      ;;   (lsp)
-      ;;   (lsp-ui-imenu-mode -1))
+      (unless (and buffer-file-name
+                   (file-remote-p buffer-file-name))
+        (lsp)
+        (lsp-ui-imenu-mode -1))
       (setq-local php-style-delete-trailing-whitespace t)
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
       (when (and (buffer-file-name)
