@@ -1312,7 +1312,9 @@ idle timer to do the actual update.")
   :straight (:repo "git@github.com:Fuco1/find-local-executable.git"))
 
 (use-package flycheck
-  :straight t
+  :straight (flycheck
+             :repo "git@github.com:flycheck/flycheck.git"
+             :fork (:repo "git@github.com:Fuco1/flycheck.git"))
   :commands flycheck-mode
   :custom (
            (flycheck-lintr-caching nil)
