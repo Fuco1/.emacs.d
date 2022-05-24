@@ -3485,7 +3485,7 @@ Omitting FRAME means currently selected frame."
     ;; aligns annotation to the right hand side
     (setq company-tooltip-align-annotations t)
 
-    (flycheck-add-next-checker 'typescript-tide 'javascript-eslint))
+    (flycheck-add-next-checker 'typescript-tide '(t . javascript-eslint) 'append))
 
   (defun my-ts-console-log (symbol)
     (interactive (list
