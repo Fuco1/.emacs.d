@@ -2163,7 +2163,6 @@ called, percentage usage and the command."
 
 (use-package lsp-mode
   :straight t
-  :after php-mode
   :custom
   (lsp-enable-completion-at-point nil)
   (lsp-prefer-flymake nil)
@@ -2617,6 +2616,7 @@ by that command."
 (use-package php-mode
   :straight t
   :mode ("\\.php[st]?\\'" . php-mode)
+  :after lsp-mode
   :init
   (add-to-list 'magic-mode-alist `(,(rx "<?php") . php-mode))
   :config
@@ -2625,7 +2625,7 @@ by that command."
     (use-package php-eldoc :straight t)
     (use-package php-refactor)
     (use-package nette-tester)
-    (use-package lsp-mode)
+    (require 'lsp-mode)
 
     (bind-key "M-'" 'smart-jump-go php-mode-map)
     (bind-key "C-M-'" 'smart-jump-back php-mode-map)
