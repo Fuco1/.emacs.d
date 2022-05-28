@@ -2021,10 +2021,6 @@ Takes active region or the entire buffer"
 (use-package jump-char
   :bind (("M-m" . jump-char-forward)))
 
-(use-package keyadvice
-  :defer t
-  :init (progn (load "~/.emacs.d/projects/keyadvice.el/autoloads.el")))
-
 (use-package keyfreq
   :straight t
   :bind ("C-. C-k" . keyfreq-show)
