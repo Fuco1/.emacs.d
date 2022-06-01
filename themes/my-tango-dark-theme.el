@@ -237,6 +237,25 @@ respective major mode.  Think org SRC blocks.")
    (whitespace-line (:background plum-3))
    (whitespace-trailing (:inherit trailing-whitespace :weight bold))
 
+   ;; ansi-color.el
+   (ansi-color-black (:background alum-7 :foreground alum-7))
+   (ansi-color-red (:background red-0 :foreground red-0))
+   (ansi-color-green (:background cham-0 :foreground cham-0))
+   (ansi-color-yellow (:background butter-1  :foreground butter-1))
+   (ansi-color-blue (:background blue-1 :foreground blue-1))
+   (ansi-color-magenta (:background plum-1 :foreground plum-1))
+   (ansi-color-cyan (:background blue-0 :foreground blue-0))
+   (ansi-color-white (:background alum-1 :foreground alum-1))
+
+   (ansi-color-bright-black (:background alum-7 :foreground alum-7 :weight bold))
+   (ansi-color-bright-red (:background red-0 :foreground red-0 :weight bold))
+   (ansi-color-bright-green (:background cham-0 :foreground cham-0 :weight bold))
+   (ansi-color-bright-yellow (:background butter-1  :foreground butter-1 :weight bold))
+   (ansi-color-bright-blue (:background blue-1 :foreground blue-1 :weight bold))
+   (ansi-color-bright-magenta (:background plum-1 :foreground plum-1 :weight bold))
+   (ansi-color-bright-cyan (:background blue-0 :foreground blue-0 :weight bold))
+   (ansi-color-bright-white (:background alum-1 :foreground alum-1 :weight bold))
+
    ;; Mode line faces
    (mode-line (:background "black"
                :foreground alum-2
@@ -672,6 +691,7 @@ respective major mode.  Think org SRC blocks.")
    `(ansi-color-names-vector ,(apply 'vector (mapcar 'my-tango-resolve-color [alum-7 red-0 cham-0 butter-1 blue-1 plum-1 blue-0 alum-1])))))
 
 (provide-theme 'my-tango-dark)
+(put 'my-tango-dark 'theme-immediate t)
 
 ;; Local Variables:
 ;; no-byte-compile: t
