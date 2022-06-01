@@ -250,6 +250,9 @@ better jump:
   :straight t
   :mode ("Cask\\'" . cask-mode))
 
+(use-package eask-mode
+  :straight (eask-mode :repo "emacs-eask/eask-mode"))
+
 (use-package caddyfile-mode
   :straight t
   :config
