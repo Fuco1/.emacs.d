@@ -681,13 +681,12 @@ and `my-compile-auto-fold-header-match-data'."
     (define-key cua--region-keymap [remap my-emacs-lisp-open-line] 'cua-replace-region)))
 
 (use-package custom
-  :init
-  (bind-keys :prefix "C-c c"
-             :prefix-map ctl-c-c-map
-             :prefix-docstring "Customize map")
-  :bind (("C-c c v" . customize-variable)
-         ("C-c c f" . customize-face)
-         ("C-c c g" . customize-group))
+  :bind (:prefix "C-c c"
+         :prefix-map ctl-c-c-map
+         :prefix-docstring "Customize map"
+         ("v" . customize-variable)
+         ("f" . customize-face)
+         ("g" . customize-group))
   :config
   (progn
     (defun my-custom-jump-to-state ()
