@@ -718,9 +718,7 @@ and `my-compile-auto-fold-header-match-data'."
                  ("i" . my-custom-jump-to-last-insert)))))
 
 (use-package deadgrep
-  :straight (deadgrep
-             :repo "https://github.com/Wilfred/deadgrep.git"
-             :fork (:repo "git@github.com:Fuco1/deadgrep.git")))
+  :straight (deadgrep :fork t))
 
 (use-package diff-mode
   :defer t
@@ -845,9 +843,7 @@ config from before."
     (add-hook 'ediff-quit-hook 'my-ediff-quit)))
 
 (use-package edit-indirect
-  :straight (edit-indirect
-             :repo "git@github.com:Fanael/edit-indirect.git"
-             :fork (:repo "git@github.com:Fuco1/edit-indirect.git"))
+  :straight (edit-indirect :fork t)
   :bind (("C-c '" . edit-indirect-region))
   :init
   (defun my-after-indirect-edit-realign (beg end)
@@ -1226,9 +1222,7 @@ idle timer to do the actual update.")
   :commands exec-path-from-shell)
 
 (use-package expand-region
-  :straight (expand-region
-             :repo "git@github.com:magnars/expand-region.el.git"
-             :fork (:repo "git@github.com:Fuco1/expand-region.el.git"))
+  :straight (expand-region :fork t)
   :bind ("s-'" . er/expand-region))
 
 (use-package eyebrowse
@@ -1292,7 +1286,7 @@ idle timer to do the actual update.")
   :straight t
   :defer t)
 
-(use-package gitignore-mode
+(use-package git-modes
   :straight t
   :mode ("\\.dockerignore" . 'gitignore-mode))
 
@@ -1314,18 +1308,16 @@ idle timer to do the actual update.")
 (defvar-local flycheck-error-indicators nil)
 
 (use-package find-test
-  :straight (:repo "git@github.com:Fuco1/find-test.git" :files ("find-test.el"))
+  :straight (:repo "Fuco1/find-test" :files ("find-test.el"))
   :commands ft-find-test-or-source
   :init
   (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map))
 
 (use-package find-local-executable
-  :straight (:repo "git@github.com:Fuco1/find-local-executable.git"))
+  :straight (:repo "Fuco1/find-local-executable"))
 
 (use-package flycheck
-  :straight (flycheck
-             :repo "git@github.com:flycheck/flycheck.git"
-             :fork (:repo "git@github.com:Fuco1/flycheck.git"))
+  :straight (flycheck :fork t)
   :commands flycheck-mode
   :custom (
            (flycheck-lintr-caching nil)
@@ -1589,9 +1581,7 @@ use a directory-local variable to specify this per-project."
   (add-to-list 'flycheck-checkers 'tflint))
 
 (use-package helm
-  :straight
-  (helm :repo "git@github.com:emacs-helm/helm.git"
-        :fork (:repo "git@github.com:Fuco1/helm.git"))
+  :straight (helm :repo "Fuco1/helm" :fetcher github :files ("*.el" "emacs-helm.sh"))
   :defer t
   :config
   (progn
@@ -1763,12 +1753,10 @@ use a directory-local variable to specify this per-project."
 
 (use-package jira-markup-mode
   :straight
-  (jira-markup-mode :repo "git@github.com:mnuessler/jira-markup-mode.git"
-                    :fork (:repo "git@github.com:Fuco1/jira-markup-mode.git")))
+  (jira-markup-mode :fork t))
 
 (use-package js2-mode
-  :straight (js2-mode :repo "git@github.com:mooz/js2-mode.git"
-                      :fork (:repo "git@github.com:Fuco1/js2-mode.git"))
+  :straight (js2-mode :fork t)
   :mode (("\\.js\\'" . js2-mode)
          ("\\.js\\.snap\\'" . js2-mode))
   :config
@@ -1850,7 +1838,7 @@ use a directory-local variable to specify this per-project."
         (dumb-jump-go)))
 
     (use-package flow-js2-mode
-      :straight (:repo "git@github.com:Fuco1/flow-js2-mode.git"))
+      :straight (:repo "Fuco1/flow-js2-mode"))
 
     (defun my-eslint-fix ()
       "Fix the current buffer with eslint."
@@ -2145,7 +2133,7 @@ called, percentage usage and the command."
   (progn
     (require 'elsa-font-lock)
     (use-package flycheck-elsa
-      :straight (:repo "git@github.com:emacs-elsa/flycheck-elsa.git"))
+      :straight (:repo "emacs-elsa/flycheck-elsa"))
 
     (emr-declare-command 'my-merge-let-forms
       :title "merge let forms"
@@ -2230,7 +2218,6 @@ called, percentage usage and the command."
          )
   :config
   (use-package orgit :straight t)
-  (use-package gitattributes-mode :straight t)
   (magit-auto-revert-mode 1)
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (bind-key "<tab>" 'magit-section-toggle magit-mode-map)
@@ -2398,7 +2385,7 @@ delete it and re-insert new one."
     (use-package smtpmail)))
 
 (use-package nomad-tramp
-  :straight (:repo "git@github.com:ydistri/nomad-tramp.git"))
+  :straight (:repo "ydistri/nomad-tramp"))
 
 (use-package nvm
   :straight t)
@@ -2555,7 +2542,7 @@ by that command."
 (use-package paren-face :straight t)
 
 (use-package sallet
-  :straight (:repo "git@github.com:Fuco1/sallet.git")
+  :straight (:repo "Fuco1/sallet")
   :bind (("C-. C-." . helm-occur)
          ("C-'" . csallet-buffer)
          ("H-b". sallet-register-point)
@@ -2575,7 +2562,6 @@ by that command."
   (save-place-mode t))
 
 (use-package org
-  :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :custom
   (org-emphasis-alist
@@ -2608,13 +2594,10 @@ by that command."
 
 (use-package org-jira
   :straight
-  (org-jira :repo "git@github.com:ahungry/org-jira.git"
-            :fork (:repo "git@github.com:Fuco1/org-jira.git")))
+  (org-jira :fork t))
 
 (use-package ov
-  :straight
-  (ov :repo "https://github.com/emacsorphanage/ov.git"
-      :fork (:repo "git@github.com:Fuco1/ov.el.git")))
+  :straight (ov :fork t))
 
 (use-package pdf-tools
   :straight t)
@@ -2646,7 +2629,7 @@ by that command."
     (use-package ob-php
       :straight
       (ob-php :repo "https://framagit.org/steckerhalter/ob-php.git"
-              :fork (:repo "git@github.com:Fuco1/ob-php.git")))
+              :fork (:host github :repo "Fuco1/ob-php")))
 
     (bind-key "C-x C-d"
               (defhydra hydra-php-refactor (:color blue)
@@ -2992,7 +2975,7 @@ These are retrieved from `imenu--index-alist'."
   :straight t)
 
 (use-package prodigy
-  :straight (prodigy :repo "git@github.com:rejeep/prodigy.el.git")
+  :straight t
   :bind (:map ctl-dot-prefix-map
          ("o" . prodigy))
   :config
@@ -3341,7 +3324,7 @@ separate buffer."
 
 (use-package sql-workbench
   :mode ("\\.swb$" . swb-mode)
-  :straight (:repo "git@github.com:Fuco1/sql-workbench.git")
+  :straight (:repo "Fuco1/sql-workbench")
   :config
   (progn
     (defun my-swb-mode-init ()
@@ -3420,9 +3403,7 @@ Omitting FRAME means currently selected frame."
     (bind-key "C-^" 'transpose-frame-reverse)))
 
 (use-package typescript-mode
-  :straight (typescript-mode
-             :repo "https://github.com/emacs-typescript/typescript.el.git"
-             :fork (:repo "git@github.com:Fuco1/typescript.el.git"))
+  :straight (typescript-mode :fork t)
   :mode (("\\.tsx\\'" . typescript-mode))
   :defer t
   :config
@@ -3721,9 +3702,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 (use-package yarn-mode :straight t)
 
 (use-package yankpad
-  :straight (yankpad
-             :repo "git@github.com:Kungsgeten/yankpad.git"
-             :fork (:repo "git@github.com:Fuco1/yankpad.git")))
+  :straight (yankpad :fork t))
 
 (use-package yasnippet
   :straight t
