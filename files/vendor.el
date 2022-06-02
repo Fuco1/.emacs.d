@@ -1214,6 +1214,7 @@ idle timer to do the actual update.")
       (ess-execute-screen-options))
     (add-hook 'ess-post-run-hook 'my-ess-post-run-hook)
     (defun my-inferior-ess-init ()
+      (setq-local ansi-color-for-comint-mode 'filter)
       (smartparens-mode 1))
     (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)))
 
