@@ -3210,6 +3210,16 @@ separate buffer."
      :async nil)
 
     (smart-jump-register
+     :modes 'terraform-mode
+     :jump-fn 'xref-find-definitions
+     :pop-fn 'xref-pop-marker-stack
+     :refs-fn 'xref-find-references
+     :should-jump t
+     :heuristic 'error
+     :order 1
+     :async nil)
+
+    (smart-jump-register
      :modes 'php-mode
      :jump-fn 'xref-find-definitions
      :pop-fn 'xref-pop-marker-stack
