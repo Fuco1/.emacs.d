@@ -217,8 +217,8 @@ return to regular interpretation of self-insert characters."
   :config
   (autobookmarks-mode 1))
 
-(use-package auctex
-  :straight t)
+;; (use-package auctex
+;;   :straight t)
 
 (use-package better-jump
   :bind (("C-j" . bjump-hydra/body))
