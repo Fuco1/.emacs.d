@@ -80,10 +80,6 @@ Inserted by installing org-mode or when a release is made."
   (straight-use-package 'org)
   )
 
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-(require 'pallet "/home/matus/.emacs.d/.cask/26.3/elpa/pallet-20150512.702/pallet.elc")
-(pallet-mode t)
 (straight-use-package 'use-package)
 (setq use-package-verbose t)
 

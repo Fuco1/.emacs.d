@@ -246,6 +246,8 @@ better jump:
   :straight t
   :bind (("C-c g g" . browse-at-remote)))
 
+(use-package buttercup :straight t)
+
 (use-package cask-mode
   :straight t
   :mode ("Cask\\'" . cask-mode))
@@ -1627,21 +1629,18 @@ use a directory-local variable to specify this per-project."
   :defer t)
 
 (use-package ibuffer
-  :commands ibuffer
-  :init
-  (progn
-    ;; startup function
-    (defun customize-ibuffer-mode ()
-      "Startup function."
-      (ibuffer-switch-to-saved-filter-groups "default")
-      (-map (-partial 'add-to-list 'ibuffer-hidden-filter-groups)
-            '("Tramp" "emacs-elpa" "Org Agenda" "Search" "Dired"))
-      (visual-line-mode -1)
-      (toggle-truncate-lines 1))
-    (add-hook 'ibuffer-mode-hook 'customize-ibuffer-mode))
   :config
-  (progn
-    (require 'ibuffer-defs)))
+  (use-package ibuffer-vc :straight t)
+  (require 'ibuffer-defs)
+
+  (defun customize-ibuffer-mode ()
+    "Startup function."
+    (ibuffer-switch-to-saved-filter-groups "default")
+    (-map (-partial 'add-to-list 'ibuffer-hidden-filter-groups)
+          '("Tramp" "emacs-elpa" "Org Agenda" "Search" "Dired"))
+    (visual-line-mode -1)
+    (toggle-truncate-lines 1))
+  (add-hook 'ibuffer-mode-hook 'customize-ibuffer-mode))
 
 (use-package ido
   :commands (
@@ -1891,7 +1890,7 @@ use a directory-local variable to specify this per-project."
   (bind-key "C-M-'" 'xref-pop-marker-stack flow-minor-mode-map))
 
 (use-package json-mode
-  :defer t
+  :straight t
   :bind (:map json-mode-map
          ("C-c C-c" . my-json-mode-run-jq)
          ("C-c C-j" . my-json-jsonify)
@@ -2010,8 +2009,7 @@ Takes active region or the entire buffer"
       (save-excursion
         (insert (json-encode json))))))
 
-(use-package jump-char
-  :bind (("M-m" . jump-char-forward)))
+(use-package jq-mode :straight t)
 
 (use-package keyfreq
   :straight t
@@ -2127,6 +2125,8 @@ called, percentage usage and the command."
     (defun my-ledger-report-period-format-specifier ()
       (read-string "Period: [-p] " nil nil "this year"))))
 
+(use-package legalese :straight t)
+
 (use-package lisp-mode
   :defer t
   :init
@@ -2198,6 +2198,8 @@ called, percentage usage and the command."
     :predicate (lambda () t))
 
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+(use-package macrostep :straight t)
 
 (use-package magit
   :straight t
@@ -2442,6 +2444,7 @@ delete it and re-insert new one."
 (use-package nginx-mode :straight t)
 
 (use-package notmuch
+  :straight t
   :disabled t
   :init
   (progn
@@ -2538,8 +2541,14 @@ by that command."
     ("p" . occur-prev)
     ("o" . occur-mode-display-occurrence)))
 
+(use-package overseer
+  :straight (overseer :fork "Fuco1/overseer.el"))
+
 (use-package password-generator :straight t)
-(use-package paren-face :straight t)
+(use-package paren-face
+  :straight t
+  :config
+  (global-paren-face-mode 1))
 
 (use-package sallet
   :straight (:repo "Fuco1/sallet")
@@ -2549,6 +2558,7 @@ by that command."
          ("M-.". sallet-imenu))
   :config
   (progn
+    (use-package deferred :straight t)
     (require 'sallet-concurrent)
     (bind-key "C-c p"
               (defhydra sallet-hydra (:color blue)
@@ -2968,11 +2978,9 @@ These are retrieved from `imenu--index-alist'."
   (progn
     (push '("*Pp Eval Output*" :height 15) popwin:special-display-config)))
 
-(use-package pomidor
-  :straight t)
+(use-package pomidor :straight t)
 
-(use-package prettier-js
-  :straight t)
+(use-package prettier-js :straight t)
 
 (use-package prodigy
   :straight t
@@ -3041,6 +3049,7 @@ These are retrieved from `imenu--index-alist'."
       (rgrep regexp files dir confirm))))
 
 (use-package psysh
+  :straight t
   :bind ("C-. r p" . psysh)
   :config
   (defun my-psysh-mode-init ()
@@ -3061,6 +3070,8 @@ These are retrieved from `imenu--index-alist'."
       (throw 'quail-tag nil))
 
     (load-relative "layouts")))
+
+(use-package rainbow-mode :straight t)
 
 (use-package recentf
   :disabled t
@@ -3161,6 +3172,7 @@ separate buffer."
   (shackle-mode 1))
 
 (use-package shell-pop
+  :straight t
   :bind ("<f11>" . shell-pop)
   :custom
   (shell-pop-window-size 50)
@@ -3237,7 +3249,7 @@ separate buffer."
       "Keymap for `smerge-mode'.")))
 
 (use-package smex
-  :defer t
+  :straight t
   :init
   (progn
     (bind-key "M-x" 'beautify-smex)
@@ -3608,15 +3620,13 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
     (bind-key "h" 'my-svn-diff-wc-and-trunk vc-prefix-map)))
 
 (use-package visual-regexp
+  :straight t
   :init
   (bind-keys :prefix "C-c v"
              :prefix-map ctl-c-v-map
              :prefix-docstring "Visual regexp map")
   :bind (("C-c v r" . vr/replace)
          ("C-c v q" . vr/query-replace)))
-
-(use-package wc-mode
-  :commands wc-mode)
 
 (use-package web-mode
   :straight t
