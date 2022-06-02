@@ -679,7 +679,7 @@ current agenda view added to `org-tag-alist'."
     ("\\" . my-org-agenda-filter-by-tag-refine)
     ("o" . my-org-agenda-open-at-point)))
 
-(use-package org-notmuch)
+(use-package org-notmuch :disabled t)
 
 (use-package org-contacts)
 
