@@ -34,9 +34,9 @@
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
 
-  (straight-use-package
-   '(el-patch :repo "git@github.com:raxod502/el-patch.git"
-              :fork (:repo "git@github.com:Fuco1/el-patch.git")))
+  (setq straight-host-usernames '((github . "Fuco1")))
+
+  (straight-use-package '(el-patch :fork t))
   (require 'el-patch))
 
 (prog1 "Set up no-littering"
