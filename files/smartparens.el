@@ -93,8 +93,9 @@
 ;;;;;;;;;;;;;;;;;;
 ;; pair management
 
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-(bind-key "C-(" 'sp---wrap-with-40 minibuffer-local-map)
+(sp-with-modes '(minibuffer-inactive-mode minibuffer-mode)
+  (sp-local-pair "'" nil :actions nil)
+  (sp-local-pair "(" nil :wrap "C-("))
 
 (sp-with-modes 'org-mode
   (sp-local-pair "=" "=" :wrap "C-="))
