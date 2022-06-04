@@ -692,6 +692,7 @@ respective major mode.  Think org SRC blocks.")
 
 (provide-theme 'my-tango-dark)
 (put 'my-tango-dark 'theme-immediate t)
+(setq custom--inhibit-theme-enable nil)
 
 ;; Local Variables:
 ;; no-byte-compile: t
