@@ -606,7 +606,7 @@ respective major mode.  Think org SRC blocks.")
    (helm-grep-file (:inherit font-lock-type-face))
 
    ;; Sallet
-   (sallet-source-header (:height 1.3 :family ,variable-font :weight bold :background blue-3))
+   (sallet-source-header (:height 1.3 :family ,variable-font :weight bold :background blue-3 :extend t))
 
    ;; Hydra
    (hydra-face-amaranth (:weight bold :foreground plum-2))
