@@ -34,6 +34,10 @@
 ;; cua-selection-mode for all the goodies ;)
 (cua-selection-mode t)
 
+;; Make the process read buffer much bigger (4k -> 1M) for better
+;; performance.
+(setq read-process-output-max (* 1024 1024))
+
 (setq edebug-inhibit-emacs-lisp-mode-bindings t)
 
 (defun my-try-smerge ()
