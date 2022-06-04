@@ -154,7 +154,7 @@
  '(cursor-type 'box)
  '(custom-enabled-themes '(my-tango-dark))
  '(custom-safe-themes
-   '("898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
+   '("3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -623,9 +623,12 @@
  '(ls-lisp-use-localized-time-format t)
  '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity '(uid gid))
+ '(lsp-clients-r-server-command '("lsp-r"))
  '(lsp-enable-completion-at-point nil)
  '(lsp-headerline-breadcrumb-segments '(symbols))
  '(lsp-inhibit-message t)
+ '(lsp-keymap-prefix "s-o")
+ '(lsp-modeline-code-actions-segments nil)
  '(lsp-ui-doc-border "#586e75")
  '(magit-auto-revert-mode nil)
  '(magit-bury-buffer-function 'quit-window)
@@ -1596,7 +1599,30 @@
  '(require-final-newline t)
  '(restclient-inhibit-cookies t)
  '(safe-local-variable-values
-   '((compilation-search-path . "/home/matus/dev/ydistri/math")
+   '((checkdoc-package-keywords-flag)
+     (eval font-lock-add-keywords nil
+           (-map
+            (-lambda
+              ((face . color))
+              (let
+                  ((pattern
+                    (concat "\\_<"
+                            (symbol-name face)
+                            "\\_>"))
+                   (color-resolved
+                    (if
+                        (stringp color)
+                        color
+                      (cdr
+                       (assq color
+                             (cdar my-tango-colors))))))
+                (list pattern 0
+                      `(rainbow-colorize-match ,color-resolved)
+                      'prepend)))
+            (cdar my-tango-colors))
+           'append)
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (compilation-search-path . "/home/matus/dev/ydistri/math")
      (ft-source-to-test-mapping
       (:path "/R/" :prefix "")
       :path "/tests/testthat/" :prefix "test-")
