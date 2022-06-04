@@ -302,10 +302,8 @@ better jump:
         (add-hook 'java-mode-hook #'lsp)))
 
     (defun my-java-mode-init ()
-      (lsp)
-      (lsp-completion-mode 1)
+      (my-lsp-init-all)
       (lsp-enable-imenu)
-      (company-mode)
       (add-hook 'my-newline-hook 'my-php-open-line nil 'local)
       (set (make-local-variable 'company-backends) (list 'company-capf)))
 
@@ -1187,6 +1185,7 @@ idle timer to do the actual update.")
 
     (defun my-ess-mode-hook ()
       (add-hook 'my-newline-hook 'my-r-open-line nil :local)
+      (my-lsp-init-all)
       (font-lock-add-keywords
        nil
        '(
@@ -2175,6 +2174,11 @@ called, percentage usage and the command."
           (lsp-ui-flycheck-add-mode major-mode)
           (add-to-list 'flycheck-checkers 'lsp-ui)
           (add-hook 'lsp-after-diagnostics-hook 'lsp-ui-flycheck--report nil t)))))
+
+  (defun my-lsp-init-all ()
+    (lsp)
+    (lsp-completion-mode 1)
+    (company-mode))
 
   (emr-declare-command 'lsp-rename
     :title "lsp-rename"
