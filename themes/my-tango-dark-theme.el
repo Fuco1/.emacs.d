@@ -616,6 +616,13 @@ respective major mode.  Think org SRC blocks.")
    ;; Company
    (company-preview-common (:foreground alum-4))
 
+   ;; Popup-el
+   (popup-isearch-match (:inherit highlight))
+   (popup-tip-face (:foreground alum-7 :background alum-4))
+   (popup-menu-face (:foreground alum-1 :background "gray26"))
+   (popup-menu-selection-face (:foreground alum-1 :background "gray31"))
+   (popup-menu-summary-face (:foreground "LightCyan3" :background "gray26"))
+
    ;; Visible mark
    (visible-mark-face1 (:background alum-3))
    (visible-mark-face2 (:background alum-4))
