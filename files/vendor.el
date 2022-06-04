@@ -382,11 +382,9 @@ If no region is active, use word udner point."
   :custom
   (company-dabbrev-downcase nil)
   (company-flow-executable "yarn flow")
-  (company-lsp-cache-candidates nil)
   (company-backends
    '(
      company-omnisharp
-     php-extras-company
      company-swb
      company-bbdb
      company-nxml
@@ -402,9 +400,6 @@ If no region is active, use word udner point."
      company-oddmuse
      company-dabbrev
      ))
-  :config
-  (add-to-list 'company-backends 'company-omnisharp)
-
   (bind-key "C-c y" 'company-yasnippet)
 
   (bind-key "C-f" 'company-complete-selection company-active-map)
@@ -413,10 +408,6 @@ If no region is active, use word udner point."
 
   (bind-key "C-n" 'company-select-next company-active-map)
   (bind-key "C-p" 'company-select-previous company-active-map))
-
-(use-package company-lsp
-  :straight t
-  :after lsp-mode)
 
 (use-package company-statistics
   :straight t
