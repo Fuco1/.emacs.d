@@ -173,6 +173,7 @@
  '(dired-details-hide-extra-lines nil)
  '(dired-details-hide-link-targets t)
  '(dired-details-initially-hide t)
+ '(dired-du-size-format t)
  '(dired-dwim-target t)
  '(dired-filter-group-saved-groups
    '(("default"
