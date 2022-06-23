@@ -3662,6 +3662,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   :bind ("<insert> <delete>" . wd-show-translation))
 
 (use-package windmove
+  :disabled t
   :bind (("A-C-p" . windmove-up)
          ("A-C-;" . windmove-down)
          ("A-C-l" . windmove-left)

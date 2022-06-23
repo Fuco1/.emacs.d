@@ -35,7 +35,6 @@
 (bind-key "C-c u" 'cleanup-buffer)
 
 ;; Window navigation
-(windmove-default-keybindings 'meta)
 (bind-key "C-c 0" (my-with-preserved-window-config
                    "Delete current window and enter `recursive-edit'."
                    (delete-window)))
