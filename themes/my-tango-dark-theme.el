@@ -357,8 +357,11 @@ respective major mode.  Think org SRC blocks.")
 
    ;; Diff faces
    (diff-added (:foreground cham-1))
+   (diff-indicator-added (:inherit diff-added))
    (diff-removed (:foreground red-1))
+   (diff-indicator-removed (:inherit diff-removed))
    (diff-changed (:foreground orange-1))
+   (diff-indicator-changed (:inherit diff-changed))
    (diff-file-header (:bold t))
    (diff-header (:foreground blue-1))
    (diff-refine-change (:background blue-3))
