@@ -624,17 +624,6 @@ overdue and a habit it is inserted multiple times."
           (--each it (push it tags))))
       (-uniq tags)))
 
-  (defun my-org-agenda-filter-by-tag-refine (strip &optional char)
-    "Just like `org-agenda-filter-by-tag-refine' but with tags from
-current agenda view added to `org-tag-alist'."
-    (interactive "P")
-    (unless (local-variable-p 'org-global-tags-completion-table (current-buffer))
-      (setq-local org-global-tags-completion-table
-                  (-uniq (-map 'downcase
-                               (-concat (my-org--get-agenda-tags)
-                                        (-filter 'stringp (-map 'car org-tag-alist)))))))
-    (org-agenda-filter-by-tag-refine strip char))
-
   (defun my-org-agenda-filter-by-tag (strip &optional char narrow)
     "Just like `org-agenda-filter-by-tag' but with tags from
 current agenda view added to `org-tag-alist'."
