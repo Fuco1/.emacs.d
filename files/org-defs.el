@@ -1826,10 +1826,14 @@ sibling before the next header."
        (format-time-string "[%Y-%m-%d %a %H:%M]"
                            (org-read-date nil 'totime to))))))
 
+(defun my-org-archive-file ()
+  "Get the archive file for the current org buffer."
+  (car (org-archive--compute-location org-archive-location)))
+
 (defadvice org-archive-subtree (around fix-hierarchy activate)
   (let* ((fix-archive-p (and (not current-prefix-arg)
                              (not (use-region-p))))
-         (afile (org-extract-archive-file (org-get-local-archive-location)))
+         (afile (my-org-archive-file))
          (buffer (or (find-buffer-visiting afile) (find-file-noselect afile)))
          ;; Get all the parents and their tags, we will try to
          ;; recreate the same situation in the archive buffer.
