@@ -47,14 +47,15 @@ string).  It returns t if a new expansion is found, nil otherwise."
 ;; Hippie expand.  Groovy vans with tie-dyes.
 
 (setq hippie-expand-try-functions-list
-      '(yas-hippie-try-expand
+      '(try-complete-file-name-partially
+        try-complete-file-name
+        yas-hippie-try-expand
         my-try-expand-abbrevs
         try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill
-        try-complete-file-name-partially
-        try-complete-file-name
-        try-complete-lisp-symbol))
+        try-expand-dabbrev-all-buffers
+        try-complete-lisp-symbol
+        ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Smart Tab
@@ -68,20 +69,26 @@ string).  It returns t if a new expansion is found, nil otherwise."
     (or (looking-at "\\_>")
         ;; TODO: make this mode specific? ... this entire framework
         ;; needs to go, is utter shite
-        (looking-back "\\."))))
+        (looking-back "\\." 1)
+        (looking-back "/" 1))))
 
 (defun my-smart-tab-default-action (prefix)
   "Execute the default smart tab action."
   (if (use-region-p)
       (indent-region (region-beginning)
                      (region-end))
-    (unless (ignore-errors (completion-at-point))
-      (cond
-       (company-mode
-        (company-complete))
-       ((my-smart-tab-must-expand prefix)
-        (ignore-errors (hippie-expand prefix)))
-       ((my-smart-indent))))))
+    (cond
+     ((let ((p (point)))
+        (my-smart-indent)
+        (/= p (point))))
+     ((and company-mode (shut-up (company-complete))))
+     ((and (my-smart-tab-must-expand prefix)
+           (ignore-errors
+             (hippie-expand prefix)
+             (>= he-num 0))))
+     ((ignore-errors (completion-at-point)))
+     ((and copilot-mode (copilot-complete)))
+     ((my-smart-indent)))))
 
 (defvar my-magit-read-files-is-active nil
   "Set to t when in `magit-read-files'.
@@ -110,6 +117,9 @@ expands it.  Else calls `my-smart-indent'."
     (allout-toggle-current-subtree-exposure))
    ((eq major-mode 'term-mode)
     (term-send-raw-string "\t"))
+   ((and copilot--overlay
+         ;; most likely we are in a copilot overlay, try to accept
+         (copilot-accept-completion)))
    ((bound-and-true-p elfeed-search-live)
     (completion-at-point))
    ((bound-and-true-p my-magit-read-files-is-active)
