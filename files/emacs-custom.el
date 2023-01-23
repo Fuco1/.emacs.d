@@ -111,6 +111,7 @@
  '(appt-display-format nil)
  '(appt-display-interval 5)
  '(appt-message-warning-time 15)
+ '(auth-source-save-behavior nil)
  '(auto-save-file-name-transforms nil)
  '(autobookmarks-mode t)
  '(background-color "#002b36")
@@ -145,6 +146,7 @@
  '(compilation-scroll-output 'first-error)
  '(completion-ignored-extensions
    '(".cm/" ".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".hi"))
+ '(copilot-enable-predicates '((lambda nil nil)))
  '(cua-enable-cua-keys nil)
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-mode nil nil (cua-base))
@@ -154,7 +156,7 @@
  '(cursor-type 'box)
  '(custom-enabled-themes '(my-tango-dark))
  '(custom-safe-themes
-   '("3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
+   '("c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -166,8 +168,8 @@
  '(delete-selection-mode t)
  '(desktop-buffer-filter 'my-desktop-filter)
  '(desktop-save t)
- '(di-thumbs-directory "~/.emacs.d/var/dired-images/cache/" nil nil "Customized with use-package dired-images")
  '(diary-display-function 'ignore)
+ '(diff-font-lock-syntax nil)
  '(dired-avfs-archives '("zip" "rar" "tar" "bz2"))
  '(dired-details-hidden-string "")
  '(dired-details-hide-extra-lines nil)
@@ -715,6 +717,7 @@
  '(org-attach-commit nil)
  '(org-attach-directory "/home/matus/data/org-attach/")
  '(org-attach-git-annex-cutoff 1)
+ '(org-attach-id-dir "/home/matus/data/org-attach/")
  '(org-babel-load-languages
    '((emacs-lisp . t)
      (plantuml . t)
@@ -1514,6 +1517,7 @@
  '(org-jira-reverse-comment-order t)
  '(org-jira-working-dir "~/org")
  '(org-latex-tables-centered nil)
+ '(org-link-email-description-format "%f: %.100s")
  '(org-log-done 'note)
  '(org-log-into-drawer t)
  '(org-lowest-priority 69)
@@ -1551,6 +1555,7 @@
      ("screen" . shell-script)))
  '(org-src-preserve-indentation t)
  '(org-src-window-setup 'current-window)
+ '(org-startup-folded 'content)
  '(org-structure-template-alist
    '(("a" . "export ascii")
      ("c" . "center")
@@ -1580,6 +1585,7 @@
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
  '(pomidor-play-sound-file nil)
+ '(pomidor-seconds 1200)
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(preview-scale-function 1.5)
@@ -1599,7 +1605,11 @@
  '(require-final-newline t)
  '(restclient-inhibit-cookies t)
  '(safe-local-variable-values
-   '((checkdoc-package-keywords-flag)
+   '((ft-source-to-test-mapping
+      (:path "/" :prefix "elsa-")
+      :path "/tests/" :prefix "test-")
+     (eval sql-set-product 'ms)
+     (checkdoc-package-keywords-flag)
      (eval font-lock-add-keywords nil
            (-map
             (-lambda
