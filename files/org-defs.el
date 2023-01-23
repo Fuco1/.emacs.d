@@ -400,6 +400,7 @@
                                    :and (:scheduled past
                                          :not (:habit)
                                          :not (:time-grid)
+                                         :not (:todo "STOP")
                                          :not (:tag "piano"))
                                    :order 30)
                                   (:name "Scheduled - piano practice"
