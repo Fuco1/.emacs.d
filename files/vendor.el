@@ -711,6 +711,9 @@ and `my-compile-auto-fold-header-match-data'."
 (use-package deadgrep
   :straight (deadgrep :fork t))
 
+(use-package diakritika
+  :straight (:repo "Fuco1/diakritika" :files ("diakritika.el")))
+
 (use-package diff-mode
   :defer t
   :config
