@@ -2484,7 +2484,27 @@ by that command."
 
 (use-package org-jira
   :straight
-  (org-jira :fork t))
+  (org-jira :fork t)
+  :disable t
+  :config
+  (defun my-org-jira-add-issue-id-to-headline (Issue)
+    (ensure-on-issue-id (oref Issue issue-id)
+      (save-excursion
+        (org-back-to-heading t)
+        ;; (unless (looking-at-p "^\\*\\* ")
+        ;;   (org-up-heading-safe))
+        (org-beginning-of-line)
+        (insert (org-jira-get-issue-key (oref Issue issue-id)) " "))))
+
+  (advice-add 'org-jira--render-issue :after 'my-org-jira-add-issue-id-to-headline)
+
+  (defun my-org-jira-update-workload-on-clock-out ()
+    ;; pretty weak way to detect if this comes from org-jira but will do
+    ;; for now.
+    (when (org-entry-get (point) "assignee")
+      (ignore-errors (org-jira-update-worklogs-from-org-clocks))))
+
+  (add-hook 'org-clock-out-hook 'my-org-jira-update-workload-on-clock-out))
 
 (use-package ov
   :straight (ov :fork t))
