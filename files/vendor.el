@@ -2185,14 +2185,13 @@ called, percentage usage and the command."
     :title "lsp-rename"
     :description "Rename symbol at point"
     :modes '(prog-mode)
-    :predicate (lambda ()
-                 (and lsp-mode (symbol-at-point))))
+    :predicate (lambda () (and lsp-mode (symbol-at-point))))
 
   (emr-declare-command 'lsp-execute-code-action
     :title "lsp-execute-code-action"
     :description "Execute LSP code action"
     :modes '(prog-mode)
-    :predicate (lambda () t))
+    :predicate (lambda () lsp-mode))
 
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
@@ -3346,20 +3345,26 @@ Omitting FRAME means currently selected frame."
     :straight t
     :config
     (emr-declare-command 'tide-rename-symbol
-      :title "rename symbol"
+      :title "tide-rename-symbol"
       :description "Rename symbol at point"
       :modes 'typescript-mode
       :predicate (lambda () (symbol-at-point)))
 
     (emr-declare-command 'tide-rename-file
-      :title "rename file"
+      :title "tide-rename-file"
       :description "Rename current file and all it’s references in other files"
       :modes 'typescript-mode
       :predicate (lambda () t))
 
     (emr-declare-command 'tide-organize-imports
-      :title "organize imports"
+      :title "tide-organize-imports"
       :description "Organize imports to be in a cannonical form"
+      :modes 'typescript-mode
+      :predicate (lambda () t))
+
+    (emr-declare-command 'tide-add-eslint-disable-next-line
+      :title "tide-add-eslint-disable-next-line"
+      :description "Disable next line's eslint check"
       :modes 'typescript-mode
       :predicate (lambda () t))
 
