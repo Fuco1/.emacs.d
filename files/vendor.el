@@ -113,6 +113,8 @@ cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
   :straight t
   :defer t)
 
+(use-package apheleia :straight t)
+
 (use-package add-node-modules-path
   :straight t
   :config
@@ -621,8 +623,6 @@ and `my-compile-auto-fold-header-match-data'."
   :config
   (defun my-css-mode-setup ()
     (rainbow-mode 1)
-    (when (find-local-executable-typescript-setup-prettier)
-      (prettier-js-mode 1))
     (find-local-executable-typescript-setup-stylelint))
   (add-hook 'css-mode-hook 'my-css-mode-setup))
 
@@ -2849,8 +2849,6 @@ These are retrieved from `imenu--index-alist'."
 
 (use-package pomidor :straight t)
 
-(use-package prettier-js :straight t)
-
 (use-package prodigy
   :straight t
   :bind (:map ctl-dot-prefix-map
@@ -2883,6 +2881,7 @@ These are retrieved from `imenu--index-alist'."
         (turn-on-smartparens-strict-mode)
         (highlight-thing-mode)
         (which-function-mode 1)
+        (apheleia-mode 1)
         (yas-minor-mode 1)))
     (add-hook 'prog-mode-hook 'my-init-prog-mode)))
 
@@ -3376,8 +3375,7 @@ Omitting FRAME means currently selected frame."
     (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
     (add-hook 'my-newline-hook 'my-php-open-line nil 'local)
     ;; formats the buffer before saving
-    (if (find-local-executable-typescript-setup-prettier)
-        (prettier-js-mode 1)
+    (unless (find-local-executable-typescript-setup-prettier)
       (add-hook 'before-save-hook 'tide-format-before-save nil 'local)))
 
   (add-hook 'typescript-mode-hook #'my-typescript-mode-setup))
