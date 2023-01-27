@@ -3342,7 +3342,7 @@ Omitting FRAME means currently selected frame."
   (bind-key "M-\"" 'smart-jump-references typescript-mode-map)
 
   (use-package tide
-    :straight t
+    :straight (tide :fork t)
     :config
     (emr-declare-command 'tide-rename-symbol
       :title "tide-rename-symbol"
