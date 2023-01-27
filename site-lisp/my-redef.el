@@ -1595,35 +1595,6 @@ You can then feed the file name(s) to other commands with \\[yank]."
            (`alist (nreverse elements))
            (`plist elements)
            (_ elements))))
-
-     ;; ;; add `nreverse' to the very end to preserve order of keys read.
-     ;; (defun json-read-object ()
-     ;;   "Read the JSON object at point."
-     ;;   ;; Skip over the "{"
-     ;;   (json-advance)
-     ;;   (json-skip-whitespace)
-     ;;   ;; read key/value pairs until "}"
-     ;;   (let ((elements (json-new-object))
-     ;;         key value)
-     ;;     (while (not (char-equal (json-peek) ?}))
-     ;;       (json-skip-whitespace)
-     ;;       (setq key (json-read-string))
-     ;;       (json-skip-whitespace)
-     ;;       (if (char-equal (json-peek) ?:)
-     ;;           (json-advance)
-     ;;         (signal 'json-object-format (list ":" (json-peek))))
-     ;;       (setq value (json-read))
-     ;;       (setq elements (json-add-to-object elements key value))
-     ;;       (json-skip-whitespace)
-     ;;       (unless (char-equal (json-peek) ?})
-     ;;         (if (char-equal (json-peek) ?,)
-     ;;             (json-advance)
-     ;;           (signal 'json-object-format (list "," (json-peek))))))
-     ;;     ;; Skip over the "}"
-     ;;     (json-advance)
-     ;;     (if (listp elements)
-     ;;         (nreverse elements)
-     ;;       elements)))
      ))
 
 (eval-after-load "jsonrpc"
