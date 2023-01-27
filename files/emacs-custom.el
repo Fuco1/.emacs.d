@@ -156,7 +156,7 @@
  '(cursor-type 'box)
  '(custom-enabled-themes '(my-tango-dark))
  '(custom-safe-themes
-   '("c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
+   '("b467d90433db3e687056e45e1141044c2158dc4ef2ace6e5cab38b88cee5eb06" "c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -760,7 +760,6 @@
  '(org-cycle-emulate-tab nil)
  '(org-deadline-warning-days 30)
  '(org-default-notes-file "~/org/refile.org")
- '(org-default-priority 67)
  '(org-drill-add-random-noise-to-intervals-p t)
  '(org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
  '(org-drill-card-type-alist
@@ -1520,10 +1519,11 @@
  '(org-link-email-description-format "%f: %.100s")
  '(org-log-done 'note)
  '(org-log-into-drawer t)
- '(org-lowest-priority 69)
  '(org-modules
    '(org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-inlinetask org-checklist org-depend org-drill))
  '(org-outline-path-complete-in-steps nil)
+ '(org-priority-default 67)
+ '(org-priority-lowest 69)
  '(org-priority-start-cycle-with-default nil)
  '(org-radiobutton-mode t t (org-radiobutton))
  '(org-refile-allow-creating-parent-nodes 'confirm)
