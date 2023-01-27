@@ -295,6 +295,9 @@ respective major mode.  Think org SRC blocks.")
    (php-object-op (:inherit fixed-pitch))
    (php-function-call (:inherit fixed-pitch))
 
+   ;; typescript-mode
+   (typescript-primitive-face (:inherit font-lock-type-face))
+
    ;; jdee-mode
    (jdee-font-lock-constant-face (:inherit font-lock-constant-face))
 
@@ -543,6 +546,7 @@ respective major mode.  Think org SRC blocks.")
 
    (org-special-keyword (:inherit markup-metadata-key))
    (org-property-value (:inherit markup-metadata-value))
+   (org-drawer (:inherit org-special-keyword))
 
    (org-mode-line-clock nil t)
 
@@ -592,6 +596,11 @@ respective major mode.  Think org SRC blocks.")
    (textile-footnotemark-face (:inherit markup-reference))
    (textile-footnote-face (:inherit markup-blockquote))
    (textile-lang-face (:inherit markup-alias))
+
+   ;; Terraform
+   (terraform--resource-type-face (:inherit font-lock-type-face))
+   (terraform--resource-name-face (:inherit font-lock-function-name-face))
+   (terraform--builtin-face (:inherit font-lock-keyword-face))
 
    ;; Ido faces
    (ido-first-match (:foreground choc-1 :weight bold))
