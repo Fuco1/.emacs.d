@@ -853,12 +853,7 @@ config from before."
   :straight t
   :config (editorconfig-mode 1))
 
-(use-package eldoc
-  :commands eldoc-mode
-  :diminish eldoc-mode
-  :defines eldoc-eval-preferred-function
-  :init
-  (setq eldoc-eval-preferred-function 'pp-eval-expression))
+(use-package eldoc :diminish eldoc-mode)
 
 (use-package eldoc-eval
   :straight t
@@ -2129,7 +2124,6 @@ called, percentage usage and the command."
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
       (add-hook 'my-newline-hook 'my-emacs-lisp-open-line nil :local)
       (set-input-method "english-prog")
-      (eldoc-mode 1)
       (buttercup-minor-mode 1)
       (elsa-setup-font-lock)
       (add-to-list 'imenu-generic-expression
@@ -2836,9 +2830,7 @@ These are retrieved from `imenu--index-alist'."
       (setq-local ggtags-get-definition-function 'my-php-ggtags-get-definition)
       (setq-local eldoc-documentation-function 'my-php-eldoc-function)
       (when buffer-file-name
-        (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name))))
-
-      (eldoc-mode 1))
+        (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name)))))
     (add-hook 'php-mode-hook 'my-php-mode-init 'append)))
 
 (use-package popwin
@@ -3344,7 +3336,6 @@ Omitting FRAME means currently selected frame."
       (tide-setup)
       (flycheck-mode +1)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      (eldoc-mode +1)
       (tide-hl-identifier-mode +1)
       ;; company is an optional dependency. You have to
       ;; install it separately via package-install
