@@ -254,6 +254,11 @@ better jump:
   :straight t
   :mode ("Cask\\'" . cask-mode))
 
+(use-package dumb-jump
+  :straight t
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
 (use-package eask-mode
   :straight (eask-mode :repo "emacs-eask/eask-mode"))
 
@@ -605,9 +610,6 @@ and `my-compile-auto-fold-header-match-data'."
         (arglist-cont          . 0)
         (arglist-cont-nonempty . +)
         (arglist-close         . 0))))
-    ;; TODO: use smart-jump for this
-    (bind-key "M-'" 'omnisharp-helm-find-usages csharp-mode-map)
-    (bind-key "C-M-'" 'pop-tag-mark csharp-mode-map)
     (bind-key "C-x C-d"
               (defhydra hydra-csharp-refactor (:color blue)
                 "Refactor"
@@ -1060,9 +1062,7 @@ idle timer to do the actual update.")
       :config
       (bind-key "M-\\" " %>% " ess-r-mode-map)
       (bind-key "C-c C-t" 'ft-find-test-or-source ess-r-mode-map)
-      (bind-key "C-c t" 'my-ess-compile ess-r-mode-map)
-      (bind-key "M-'" 'smart-jump-go ess-r-mode-map)
-      (bind-key "C-M-'" 'smart-jump-back ess-r-mode-map))
+      (bind-key "C-c t" 'my-ess-compile ess-r-mode-map))
 
     (put 'flycheck-lintr-linters 'safe-local-variable #'stringp)
 
@@ -1591,10 +1591,6 @@ use a directory-local variable to specify this per-project."
       ("o a" . helm-org-agenda-files-headings)
       ("o h" . helm-org-in-buffer-headings))))
 
-(use-package helm-gtags
-  :straight t
-  :defer t)
-
 (use-package help-mode
   :defer t
   :config
@@ -1813,8 +1809,6 @@ use a directory-local variable to specify this per-project."
 
     (bind-key "C-c C-t" 'ft-find-test-or-source js2-mode-map)
     (bind-key "C-c C-c" 'mocha-test-file js2-mode-map)
-    (bind-key "M-'" 'dumb-jump-go js2-mode-map)
-    (bind-key "C-M-'" 'dumb-jump-back js2-mode-map)
     (bind-key "M-." 'sallet-imenu js2-mode-map)
     (bind-key "M-j" 'my-join-lines js2-mode-map)
 
@@ -2489,8 +2483,6 @@ by that command."
     (use-package nette-tester)
     (require 'lsp-mode)
 
-    (bind-key "M-'" 'smart-jump-go php-mode-map)
-    (bind-key "C-M-'" 'smart-jump-back php-mode-map)
     (bind-key "M-." 'sallet-imenu php-mode-map)
     (bind-key "(" 'self-insert-command php-mode-map)
     (bind-key "{" 'self-insert-command php-mode-map)
@@ -3041,65 +3033,18 @@ separate buffer."
   (shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
   (shell-pop-window-height 50))
 
-;; TODO: move the registers to the respective modes
 (use-package smart-jump
   :straight t
-  :custom
-  (smart-jump-bind-keys nil)
   :bind (("M-'" . smart-jump-go)
          ("C-M-'" . smart-jump-back)
          ("M-\"" . smart-jump-references))
   :config
-  (progn
-    (smart-jump-register
-     :modes 'ess-r-mode
-     :jump-fn 'xref-find-definitions
-     :pop-fn 'xref-pop-marker-stack
-     :refs-fn 'xref-find-references
-     :should-jump t
-     :heuristic 'error
-     :async nil)
+  (smart-jump-setup-default-registers)
 
-    (smart-jump-register
-     :modes 'java-mode
-     :jump-fn 'xref-find-definitions
-     :pop-fn 'xref-pop-marker-stack
-     :refs-fn 'xref-find-references
-     :should-jump t
-     :heuristic 'error
-     :order 1
-     :async nil)
-
-    (smart-jump-register
-     :modes 'terraform-mode
-     :jump-fn 'xref-find-definitions
-     :pop-fn 'xref-pop-marker-stack
-     :refs-fn 'xref-find-references
-     :should-jump t
-     :heuristic 'error
-     :order 1
-     :async nil)
-
-    (smart-jump-register
-     :modes 'php-mode
-     :jump-fn 'xref-find-definitions
-     :pop-fn 'xref-pop-marker-stack
-     :should-jump (lambda ()
-                    (and
-                     (buffer-file-name)
-                     (not (file-remote-p (buffer-file-name)))))
-     :heuristic 'error
-     :order 3
-     :async nil)
-
-    (smart-jump-register
-     :modes 'php-mode
-     :jump-fn 'helm-gtags-dwim
-     :pop-fn 'helm-gtags-pop-stack
-     :should-jump t
-     :heuristic 'error
-     :order 2
-     :async nil)))
+  ;; register smart-jump for mode-map keybindings
+  (smart-jump-register :modes 'ess-r-mode)
+  (smart-jump-register :modes 'php-mode)
+  (smart-jump-register :modes 'csharp-mode))
 
 (use-package smartparens
   :defer t
@@ -3300,9 +3245,8 @@ Omitting FRAME means currently selected frame."
   :mode (("\\.tsx\\'" . typescript-mode))
   :defer t
   :config
-  (bind-key "M-'" 'smart-jump-go typescript-mode-map)
-  (bind-key "C-M-'" 'smart-jump-back typescript-mode-map)
-  (bind-key "M-\"" 'smart-jump-references typescript-mode-map)
+  (provide 'smart-jump-typescript-mode)
+  (smart-jump-typescript-mode-register 'typescript-mode)
 
   (use-package tide
     :straight (tide :fork t)
@@ -3331,9 +3275,8 @@ Omitting FRAME means currently selected frame."
       :modes 'typescript-mode
       :predicate (lambda () t))
 
-    (require 'smart-jump-typescript-mode)
-    (smart-jump-typescript-mode-register)
-
+    (unbind-key "M-," tide-mode-map)
+    (unbind-key "M-." tide-mode-map)
 
     (defun setup-tide-mode ()
       (interactive)
