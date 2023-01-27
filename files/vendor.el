@@ -1301,6 +1301,18 @@ idle timer to do the actual update.")
       (scf-mode 1))
     (add-hook 'grep-mode-hook 'my-grep-mode-init)))
 
+(use-package grip
+  :straight (:repo "git@github.com:seagle0128/grip-mode.git"
+             :files ("grip-mode.el"))
+  :config
+  ;; flicker issues
+  ;; https://github.com/akirakyle/emacs-webkit/issues/18
+  ;; (modify-frame-parameters nil '((inhibit-double-buffering . t)))
+
+  (setq grip-github-user "Fuco1")
+  (setq grip-preview-use-webkit nil)
+  (setq grip-update-after-change nil))
+
 (defvar-local flycheck-error-indicators nil)
 
 (use-package find-test
