@@ -380,7 +380,6 @@ If no region is active, use word udner point."
   :straight t
   :custom
   (company-dabbrev-downcase nil)
-  (company-flow-executable "yarn flow")
   (company-backends
    '(
      company-omnisharp
@@ -1819,16 +1818,6 @@ use a directory-local variable to specify this per-project."
     (bind-key "M-." 'sallet-imenu js2-mode-map)
     (bind-key "M-j" 'my-join-lines js2-mode-map)
 
-    ;; TODO: move to smart-jump
-    (defun my-flow-minor-jump-to-definition-then-dumb-jump ()
-      "Try to call `flow-minor-jump-to-definition' and if it fails use `dumb-jump-go'."
-      (interactive)
-      (when (equal (flow-minor-jump-to-definition) "Not found")
-        (dumb-jump-go)))
-
-    (use-package flow-js2-mode
-      :straight (:repo "Fuco1/flow-js2-mode"))
-
     (defun my-eslint-fix ()
       "Fix the current buffer with eslint."
       (when (and flycheck-javascript-eslint-executable
@@ -1850,34 +1839,8 @@ use a directory-local variable to specify this per-project."
         (mocha-toggle-imenu-function))
       (js2-refactor-mode 1)
       (company-mode 1)
-      (lsp)
-      (when (fboundp 'flow-js2-mode)
-        (flow-js2-mode 1))
-      (flow-minor-enable-automatically))
+      (lsp))
     (add-hook 'js2-mode-hook 'my-js2-mode-init)))
-
-(use-package flycheck-flow
-  :straight t
-  :after (js2-mode flycheck)
-  :config
-  (el-patch-defun flycheck-flow--predicate ()
-    "Shall we run the checker?"
-    (and
-     buffer-file-name
-     (file-exists-p buffer-file-name)
-     (locate-dominating-file buffer-file-name ".flowconfig")
-     (el-patch-remove (flycheck-flow-tag-present-p))))
-  (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
-
-(use-package flow-minor-mode
-  :straight t
-  :after js2-mode
-  :config
-  ;; TODO: move to smart-jump
-  (bind-key "M-." nil flow-minor-mode-map)
-  (bind-key "M-," nil flow-minor-mode-map)
-  (bind-key "M-'" 'my-flow-minor-jump-to-definition-then-dumb-jump flow-minor-mode-map)
-  (bind-key "C-M-'" 'xref-pop-marker-stack flow-minor-mode-map))
 
 (use-package json-mode
   :straight t
