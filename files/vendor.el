@@ -2174,6 +2174,8 @@ called, percentage usage and the command."
           (add-to-list 'flycheck-checkers 'lsp-ui)
           (add-hook 'lsp-after-diagnostics-hook 'lsp-ui-flycheck--report nil t)))))
 
+  (add-to-list 'lsp-disabled-clients 'tfls)
+
   (defun my-lsp-init-all ()
     (lsp)
     (lsp-completion-mode 1)
