@@ -3,7 +3,7 @@
 ;; global
 (require 'smartparens-config)
 
-(add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; keybinding management
@@ -93,7 +93,7 @@
 ;;;;;;;;;;;;;;;;;;
 ;; pair management
 
-(sp-with-modes '(minibuffer-inactive-mode minibuffer-mode)
+(sp-with-modes '(minibuffer-mode)
   (sp-local-pair "'" nil :actions nil)
   (sp-local-pair "(" nil :wrap "C-("))
 
