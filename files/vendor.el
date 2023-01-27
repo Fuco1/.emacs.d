@@ -376,7 +376,6 @@ If no region is active, use word udner point."
 
 (use-package company
   :straight t
-  :defer t
   :custom
   (company-dabbrev-downcase nil)
   (company-flow-executable "yarn flow")
@@ -397,15 +396,7 @@ If no region is active, use word udner point."
      (company-dabbrev-code company-gtags company-etags company-keywords)
      company-oddmuse
      company-dabbrev
-     ))
-  (bind-key "C-c y" 'company-yasnippet)
-
-  (bind-key "C-f" 'company-complete-selection company-active-map)
-  (bind-key "C-n" 'company-select-next company-filter-map)
-  (bind-key "C-p" 'company-select-previous company-filter-map)
-
-  (bind-key "C-n" 'company-select-next company-active-map)
-  (bind-key "C-p" 'company-select-previous company-active-map))
+     )))
 
 (use-package company-statistics
   :straight t
