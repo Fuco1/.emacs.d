@@ -17,14 +17,14 @@
      ;; check to see if the timestamp has this ending part (in case
      ;; the range is not composed of two timestamps for >day long
      ;; intervals) and update the "end of task" variable accordingly.
-     (defun org-agenda-format-item (extra txt &optional level category tags dotime
-                                          remove-re habitp)
+     (el-patch-defun org-agenda-format-item (extra txt &optional with-level with-category tags dotime
+                                                   remove-re habitp)
        "Format TXT to be inserted into the agenda buffer.
 In particular, add the prefix and corresponding text properties.
 
 EXTRA must be a string to replace the `%s' specifier in the prefix format.
-LEVEL may be a string to replace the `%l' specifier.
-CATEGORY (a string, a symbol or nil) may be used to overrule the default
+WITH-LEVEL may be a string to replace the `%l' specifier.
+WITH-CATEGORY (a string, a symbol or nil) may be used to overrule the default
 category taken from local variable or file name.  It will replace the `%c'
 specifier in the format.
 DOTIME, when non-nil, indicates that a time-of-day should be extracted from
@@ -54,10 +54,14 @@ Any match of REMOVE-RE will be removed from TXT."
                       org-agenda-show-inherited-tags
                       org-agenda-hide-tags-regexp))
 
-           (let* ((category (or category
-                                (if (stringp org-category)
-                                    org-category
-                                  (and org-category (symbol-name org-category)))
+           (with-no-warnings
+             ;; `time', `tag', `effort' are needed for the eval of the prefix format.
+             ;; Based on what I see in `org-compile-prefix-format', I added
+             ;; a few more.
+             (defvar breadcrumbs) (defvar category) (defvar category-icon)
+             (defvar effort) (defvar extra)
+             (defvar level) (defvar tag) (defvar time))
+           (let* ((category (or with-category
                                 (if buffer-file-name
                                     (file-name-sans-extension
                                      (file-name-nondirectory buffer-file-name))
@@ -68,12 +72,13 @@ Any match of REMOVE-RE will be removed from TXT."
                                    ""))
                   (effort (and (not (string= txt ""))
                                (get-text-property 1 'effort txt)))
-                  ;; time, tag, effort are needed for the eval of the prefix format
                   (tag (if tags (nth (1- (length tags)) tags) ""))
+                  (time-grid-trailing-characters (nth 2 org-agenda-time-grid))
+                  (extra (or (and (not habitp) extra) ""))
                   time
-                  (ts (if dotime (concat
-                                  (if (stringp dotime) dotime "")
-                                  (and org-agenda-search-headline-for-time txt))))
+                  (ts (when dotime (concat
+                                    (if (stringp dotime) dotime "")
+                                    (and org-agenda-search-headline-for-time txt))))
                   (time-of-day (and dotime (org-get-time-of-day ts)))
                   stamp plain s0 s1 s2 rtn srp l
                   duration breadcrumbs)
@@ -86,42 +91,44 @@ Any match of REMOVE-RE will be removed from TXT."
                  (setq s0 (match-string 0 ts)
                        srp (and stamp (match-end 3))
                        s1 (match-string (if plain 1 2) ts)
-                       s2 (or (match-string (if plain 8 (if srp 4 6)) ts)
-                              ;; FUCO: test if s1 is a range, and if
-                              ;; so, update s2 to the end time
-                              (save-match-data
-                                (when (string-match "[012][0-9]:[0-5][0-9]--?\\([012][0-9]:[0-5][0-9]\\)" s1)
-                                  (match-string 1 s1)))))
+                       s2 (el-patch-wrap 1 1
+                            (or (match-string (if plain 8 (if srp 4 6)) ts)
+                                ;; FUCO: test if s1 is a range, and if
+                                ;; so, update s2 to the end time
+                                (save-match-data
+                                  (when (string-match "[012][0-9]:[0-5][0-9]--?\\([012][0-9]:[0-5][0-9]\\)" s1)
+                                    (match-string 1 s1))))))
 
                  ;; If the times are in TXT (not in DOTIMES), and the prefix will list
                  ;; them, we might want to remove them there to avoid duplication.
                  ;; The user can turn this off with a variable.
-                 (if (and org-prefix-has-time
-                          org-agenda-remove-times-when-in-prefix (or stamp plain)
-                          (string-match (concat (regexp-quote s0) " *") txt)
-                          (not (equal ?\] (string-to-char (substring txt (match-end 0)))))
-                          (if (eq org-agenda-remove-times-when-in-prefix 'beg)
-                              (= (match-beginning 0) 0)
-                            t))
-                     (setq txt (replace-match "" nil nil txt))))
-               ;; Normalize the time(s) to 24 hour
-               (if s1 (setq s1 (org-get-time-of-day s1 'string t)))
-               (if s2 (setq s2 (org-get-time-of-day s2 'string t)))
-
-               ;; Try to set s2 if s1 and `org-agenda-default-appointment-duration' are set
-               (let (org-time-clocksum-use-effort-durations)
-                 (when (and s1 (not s2) org-agenda-default-appointment-duration)
-                   (setq s2
-                         (org-minutes-to-clocksum-string
-                          (+ (org-hh:mm-string-to-minutes s1)
-                             org-agenda-default-appointment-duration)))))
-
+                 (when (and org-prefix-has-time
+                            org-agenda-remove-times-when-in-prefix (or stamp plain)
+                            (string-match (concat (regexp-quote s0) " *") txt)
+                            (not (equal ?\] (string-to-char (substring txt (match-end 0)))))
+                            (if (eq org-agenda-remove-times-when-in-prefix 'beg)
+                                (= (match-beginning 0) 0)
+                              t))
+                   (setq txt (replace-match "" nil nil txt))))
+               ;; Normalize the time(s) to 24 hour.
+               (when s1 (setq s1 (org-get-time-of-day s1 t)))
+               (when s2 (setq s2 (org-get-time-of-day s2 t)))
+               ;; Try to set s2 if s1 and
+               ;; `org-agenda-default-appointment-duration' are set
+               (when (and s1 (not s2) org-agenda-default-appointment-duration)
+                 (setq s2
+                       (org-duration-from-minutes
+                        (+ (org-duration-to-minutes s1 t)
+                           org-agenda-default-appointment-duration)
+                        nil t)))
                ;; Compute the duration
                (when s2
-                 (setq duration (- (org-hh:mm-string-to-minutes s2)
-                                   (org-hh:mm-string-to-minutes s1)))))
-
-             (when (string-match "\\([ \t]+\\)\\(:[[:alnum:]_@#%:]+:\\)[ \t]*$" txt)
+                 (setq duration (- (org-duration-to-minutes s2)
+                                   (org-duration-to-minutes s1))))
+               ;; Format S1 and S2 for display.
+               (when s1 (setq s1 (format "%5s" (org-get-time-of-day s1 'overtime))))
+               (when s2 (setq s2 (org-get-time-of-day s2 'overtime))))
+             (when (string-match org-tag-group-re txt)
                ;; Tags are in the string
                (if (or (eq org-agenda-remove-tags t)
                        (and org-agenda-remove-tags
@@ -129,8 +136,9 @@ Any match of REMOVE-RE will be removed from TXT."
                    (setq txt (replace-match "" t t txt))
                  (setq txt (replace-match
                             (concat (make-string (max (- 50 (length txt)) 1) ?\ )
-                                    (match-string 2 txt))
+                                    (match-string 1 txt))
                             t t txt))))
+
              (when remove-re
                (while (string-match remove-re txt)
                  (setq txt (replace-match "" t t txt))))
@@ -140,46 +148,45 @@ Any match of REMOVE-RE will be removed from TXT."
              (add-text-properties 0 (length txt) '(org-heading t) txt)
 
              ;; Prepare the variables needed in the eval of the compiled format
-             (if org-prefix-has-breadcrumbs
-                 (setq breadcrumbs (org-with-point-at (org-get-at-bol 'org-marker)
-                                     (let ((s (org-display-outline-path nil nil "->" t)))
-                                       (if (eq "" s) "" (concat s "->"))))))
+             (when org-prefix-has-breadcrumbs
+               (setq breadcrumbs (org-with-point-at (org-get-at-bol 'org-marker)
+                                   (let ((s (org-format-outline-path (org-get-outline-path)
+                                                                     (1- (frame-width))
+                                                                     nil org-agenda-breadcrumbs-separator)))
+                                     (if (eq "" s) "" (concat s org-agenda-breadcrumbs-separator))))))
              (setq time (cond (s2 (concat
                                    (org-agenda-time-of-day-to-ampm-maybe s1)
                                    "-" (org-agenda-time-of-day-to-ampm-maybe s2)
-                                   (if org-agenda-timegrid-use-ampm " ")))
+                                   (when org-agenda-timegrid-use-ampm " ")))
                               (s1 (concat
                                    (org-agenda-time-of-day-to-ampm-maybe s1)
                                    (if org-agenda-timegrid-use-ampm
-                                       "........ "
-                                     "......")))
+                                       (concat time-grid-trailing-characters " ")
+                                     time-grid-trailing-characters)))
                               (t ""))
-                   extra (or (and (not habitp) extra) "")
                    category (if (symbolp category) (symbol-name category) category)
-                   level (or level ""))
-             (if (string-match org-bracket-link-regexp category)
+                   level (or with-level ""))
+             (if (string-match org-link-bracket-re category)
                  (progn
-                   (setq l (if (match-end 3)
-                               (- (match-end 3) (match-beginning 3))
-                             (- (match-end 1) (match-beginning 1))))
+                   (setq l (string-width (or (match-string 2) (match-string 1))))
                    (when (< l (or org-prefix-category-length 0))
                      (setq category (copy-sequence category))
                      (org-add-props category nil
                        'extra-space (make-string
                                      (- org-prefix-category-length l 1) ?\ ))))
-               (if (and org-prefix-category-max-length
-                        (>= (length category) org-prefix-category-max-length))
-                   (setq category (substring category 0 (1- org-prefix-category-max-length)))))
+               (when (and org-prefix-category-max-length
+                          (>= (length category) org-prefix-category-max-length))
+                 (setq category (substring category 0 (1- org-prefix-category-max-length)))))
              ;; Evaluate the compiled format
-             (setq rtn (concat (eval formatter) txt))
+             (setq rtn (concat (eval formatter t) txt))
 
              ;; And finally add the text properties
              (remove-text-properties 0 (length rtn) '(line-prefix t wrap-prefix t) rtn)
              (org-add-props rtn nil
                'org-category category
-               'tags (mapcar 'org-downcase-keep-props tags)
-               'org-highest-priority org-highest-priority
-               'org-lowest-priority org-lowest-priority
+               'tags tags
+               'org-priority-highest org-priority-highest
+               'org-priority-lowest org-priority-lowest
                'time-of-day time-of-day
                'duration duration
                'breadcrumbs breadcrumbs
