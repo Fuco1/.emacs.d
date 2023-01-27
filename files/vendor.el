@@ -1272,6 +1272,9 @@ idle timer to do the actual update.")
   :straight t
   :mode ("\\.dockerignore" . 'gitignore-mode))
 
+(use-package go-mode
+  :straight t)
+
 (use-package gnuplot
   :straight t
   :defer t)
