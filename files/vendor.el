@@ -1819,8 +1819,7 @@ use a directory-local variable to specify this per-project."
                  (string-match-p "\\.spec\\.js\\'" buffer-file-name))
         (mocha-toggle-imenu-function))
       (js2-refactor-mode 1)
-      (company-mode 1)
-      (lsp))
+      (my-lsp-init-all))
     (add-hook 'js2-mode-hook 'my-js2-mode-init)))
 
 (use-package json-mode
@@ -2096,34 +2095,12 @@ called, percentage usage and the command."
   (lsp-enable-completion-at-point nil)
   (lsp-prefer-flymake nil)
   :config
-  (use-package lsp-ui
-    :straight t
-    :custom
-    (lsp-ui-sideline-enable nil)
-    (lsp-ui-peek-enable nil)
-    (lsp-ui-imenu-enable nil)
-    (lsp-ui-flycheck-enable nil)
-
-    (lsp-ui-doc-enable t)
-    (lsp-ui-doc-use-webkit t)
-    :config
-    (el-patch-defun lsp-ui-flycheck-enable (_)
-      "Enable flycheck integration for the current buffer."
-      (el-patch-wrap 2 0
-        (when lsp-ui-flycheck-enable
-          (when lsp-ui-flycheck-live-reporting
-            (setq-local flycheck-check-syntax-automatically nil))
-          (setq-local flycheck-checker 'lsp-ui)
-          (lsp-ui-flycheck-add-mode major-mode)
-          (add-to-list 'flycheck-checkers 'lsp-ui)
-          (add-hook 'lsp-after-diagnostics-hook 'lsp-ui-flycheck--report nil t)))))
-
   (add-to-list 'lsp-disabled-clients 'tfls)
 
   (defun my-lsp-init-all ()
     (lsp)
     (lsp-completion-mode 1)
-    (company-mode))
+    (company-mode 1))
 
   (emr-declare-command 'lsp-rename
     :title "lsp-rename"
@@ -2135,9 +2112,7 @@ called, percentage usage and the command."
     :title "lsp-execute-code-action"
     :description "Execute LSP code action"
     :modes '(prog-mode)
-    :predicate (lambda () lsp-mode))
-
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+    :predicate (lambda () lsp-mode)))
 
 (use-package macrostep :straight t)
 
@@ -2782,8 +2757,7 @@ These are retrieved from `imenu--index-alist'."
       (nvm-use-for-buffer)
       (unless (and buffer-file-name
                    (file-remote-p buffer-file-name))
-        (lsp)
-        (lsp-ui-imenu-mode -1))
+        (my-lsp-init-all))
       (setq-local php-style-delete-trailing-whitespace t)
       (add-hook 'after-save-hook 'my-php-update-gtags t t)
       (when (and (buffer-file-name)
