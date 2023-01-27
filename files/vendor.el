@@ -581,6 +581,13 @@ and `my-compile-auto-fold-header-match-data'."
       (read-only-mode 1))
     (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)))
 
+(use-package copilot
+  :straight (copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "assets" "*.el")
+                     :fork (:host github :repo "Fuco1/copilot.el" :files ("dist" "assets" "*.el")))
+  :bind (:map copilot-completion-map
+         ("TAB" . copilot-accept-completion)
+         ("<tab>" . copilot-accept-completion)))
+
 (use-package crontab-mode
   :straight t
   :mode "crontab\\'")
@@ -2860,6 +2867,7 @@ These are retrieved from `imenu--index-alist'."
         (highlight-thing-mode)
         (which-function-mode 1)
         (apheleia-mode 1)
+        (copilot-mode 1)
         (yas-minor-mode 1)))
     (add-hook 'prog-mode-hook 'my-init-prog-mode)))
 
