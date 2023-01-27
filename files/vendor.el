@@ -1332,6 +1332,11 @@ idle timer to do the actual update.")
            )
   :config
   (progn
+    (use-package flycheck-vale
+      :straight t
+      :config
+      (flycheck-vale-setup))
+
     (flycheck-def-option-var flycheck-phpstan-config nil php-phpstan
       "Path to the phpstan configuration for current project.
 
@@ -2878,7 +2883,7 @@ These are retrieved from `imenu--index-alist'."
     (defun my-init-prog-mode ()
       "Init `prog-mode' based modes."
       (unless (string-prefix-p " *" (buffer-name))
-        (flycheck-mode)
+        (flycheck-mode 1)
         (turn-on-smartparens-strict-mode)
         (highlight-thing-mode)
         (which-function-mode 1)
@@ -2993,6 +2998,7 @@ separate buffer."
   (progn
     (use-package sphinx-mode)
     (defun my-rst-mode-init ()
+      (flycheck-mode 1)
       (sphinx-mode 1))
     (add-hook 'rst-mode-hook 'my-rst-mode-init)))
 
