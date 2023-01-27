@@ -2224,7 +2224,7 @@ called, percentage usage and the command."
 
 (use-package markdown-mode
   :straight t
-  :mode ("\\.md$" . gfm-mode)
+  :mode ("\\.mdx?$" . gfm-mode)
   :config
   (use-package markdown-toc :straight t)
   (progn
