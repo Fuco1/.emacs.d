@@ -1626,5 +1626,59 @@ You can then feed the file name(s) to other commands with \\[yank]."
      ;;       elements)))
      ))
 
+(eval-after-load "jsonrpc"
+  '(progn
+     (el-patch-defun jsonrpc--log-event (connection message &optional type)
+       "Log a JSONRPC-related event.
+CONNECTION is the current connection.  MESSAGE is a JSON-like
+plist.  TYPE is a symbol saying if this is a client or server
+originated."
+       (let ((max (jsonrpc--events-buffer-scrollback-size connection)))
+         (when (or (null max) (cl-plusp max))
+           (with-current-buffer (jsonrpc-events-buffer connection)
+             (cl-destructuring-bind (&key method id error &allow-other-keys) message
+               (let* ((inhibit-read-only t)
+                      (subtype (cond ((and method id)       'request)
+                                     (method                'notification)
+                                     (id                    'reply)
+                                     (t                     'message)))
+                      (type
+                       (concat (format "%s" (or type 'internal))
+                               (if type
+                                   (format "-%s" subtype)))))
+                 (goto-char (point-max))
+                 (prog1
+                     (let ((msg (format "[%s]%s%s %s:\n%s"
+                                        type
+                                        (if id (format " (id:%s)" id) "")
+                                        (if error " ERROR" "")
+                                        (current-time-string)
+                                        (pp-to-string message))))
+                       (when error
+                         (setq msg (propertize msg 'face 'error)))
+                       (insert-before-markers msg))
+                   ;; Trim the buffer if it's too large
+                   (when max
+                     (save-excursion
+                       (goto-char (point-min))
+                       (while (> (buffer-size) max)
+                         (delete-region
+                          (point)
+                          (el-patch-swap
+                            (progn (forward-line 1)
+                                   (forward-sexp 1)
+                                   (forward-line 2)
+                                   (point))
+                            ;; PATCH: if the sexp at point is too long
+                            ;; and can't be parsed, jsonrpc used to
+                            ;; crash.  Here we just return first 100
+                            ;; chars and bail.
+                            (or (ignore-errors
+                                  (progn (forward-line 1)
+                                         (forward-sexp 1)
+                                         (forward-line 2)
+                                         (point)))
+                                (min (point-max) 100))))))))))))))))
+
 (provide 'my-redef)
 ;;; my-redef.el ends here
