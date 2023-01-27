@@ -387,7 +387,6 @@ If no region is active, use word udner point."
   (company-dabbrev-downcase nil)
   (company-backends
    '(
-     company-omnisharp
      company-swb
      company-bbdb
      company-nxml
@@ -598,9 +597,7 @@ and `my-compile-auto-fold-header-match-data'."
 
 (use-package csharp-mode
   :straight t
-  :defer t
   :config
-  (use-package omnisharp :straight t)
   (progn
     (c-add-style
      "my-C#"
@@ -610,18 +607,9 @@ and `my-compile-auto-fold-header-match-data'."
         (arglist-cont          . 0)
         (arglist-cont-nonempty . +)
         (arglist-close         . 0))))
-    (bind-key "C-x C-d"
-              (defhydra hydra-csharp-refactor (:color blue)
-                "Refactor"
-                ("v" omnisharp-rename "Rename variable")
-                ("u" omnisharp-fix-usings "Fix usings")
-                ("d" omnisharp-go-to-definition "Goto definition"))
-              csharp-mode-map)
-
 
     (defun my-csharp-mode-init ()
-      (omnisharp-mode 1)
-      (company-mode 1)
+      (my-lsp-init-all)
       (flycheck-mode 1)
       (c-set-style "my-C#"))
     (add-hook 'csharp-mode-hook 'my-csharp-mode-init)))
