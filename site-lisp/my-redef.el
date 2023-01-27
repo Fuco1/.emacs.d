@@ -112,7 +112,7 @@ function assumes the table is already analyzed (i.e., using
            (let ((lhs (car e))
                  (rhs (cdr e)))
              (cond
-              ((string-match-p "\\`@-?[-+0-9]+\\$-?[0-9]+\\'" lhs)
+              ((string-match-p "\\`@[-+0-9]+\\$-?[0-9]+\\'" lhs)
                ;; This just refers to one fixed field.
                (push e res))
               ((string-match-p "\\`[a-zA-Z][_a-zA-Z0-9]*\\'" lhs)
@@ -184,140 +184,140 @@ known that the table will be realigned a little later anyway."
                 beg end eqlcol eqlfield)
            ;; Insert constants in all formulas.
            (when eqlist
-             (org-table-save-field
-              ;; Expand equations, then split the equation list between
-              ;; column formulas and field formulas.
-              (dolist (eq eqlist)
-                (let* ((rhs (org-table-formula-substitute-names
-                             (org-table-formula-handle-first/last-rc (cdr eq))))
-                       (old-lhs (car eq))
-                       (lhs
-                        (org-table-formula-handle-first/last-rc
-                         (cond
-                          (el-patch-remove
-                            ((string-match "\\`@-?I+" old-lhs)
-                             (user-error "Can't assign to hline relative reference")))
-                          ((string-match "\\`$[<>]" old-lhs)
-                           (let ((new (org-table-formula-handle-first/last-rc
-                                       old-lhs)))
-                             (when (assoc new eqlist)
-                               (user-error "\"%s=\" formula tries to overwrite \
+             (org-table-with-shrunk-columns
+              (org-table-save-field
+               ;; Expand equations, then split the equation list between
+               ;; column formulas and field formulas.
+               (dolist (eq eqlist)
+                 (let* ((rhs (org-table-formula-substitute-names
+                              (org-table-formula-handle-first/last-rc (cdr eq))))
+                        (old-lhs (car eq))
+                        (lhs
+                         (org-table-formula-handle-first/last-rc
+                          (cond
+                           (el-patch-remove
+                             ((string-match "\\`@-?I+" old-lhs)
+                              (user-error "Can't assign to hline relative reference")))
+                           ((string-match "\\`\\$[<>]" old-lhs)
+                            (let ((new (org-table-formula-handle-first/last-rc
+                                        old-lhs)))
+                              (when (assoc new eqlist)
+                                (user-error "\"%s=\" formula tries to overwrite \
 existing formula for column %s"
-                                           old-lhs
-                                           new))
-                             new))
-                          (t old-lhs)))))
-                  (if (string-match-p "\\`\\$[0-9]+\\'" lhs)
-                      (push (cons lhs rhs) eqlcol)
-                    (push (cons lhs rhs) eqlfield))))
-              (setq eqlcol (nreverse eqlcol))
-              ;; Expand ranges in lhs of formulas
-              (setq eqlfield (org-table-expand-lhs-ranges (nreverse eqlfield)))
-              ;; Get the correct line range to process.
-              (if all
-                  (progn
-                    (setq end (copy-marker (org-table-end)))
-                    (goto-char (setq beg org-table-current-begin-pos))
-                    (cond
-                     ((re-search-forward org-table-calculate-mark-regexp end t)
-                      ;; This is a table with marked lines, compute selected
-                      ;; lines.
-                      (setq line-re org-table-recalculate-regexp))
-                     ;; Move forward to the first non-header line.
-                     ((and (re-search-forward org-table-dataline-regexp end t)
-                           (re-search-forward org-table-hline-regexp end t)
-                           (re-search-forward org-table-dataline-regexp end t))
-                      (setq beg (match-beginning 0)))
-                     ;; Just leave BEG at the start of the table.
-                     (t nil)))
-                (setq beg (line-beginning-position)
-                      end (copy-marker (line-beginning-position 2))))
-              (goto-char beg)
-              ;; Mark named fields untouchable.  Also check if several
-              ;; field/range formulas try to set the same field.
-              (remove-text-properties beg end '(:org-untouchable t))
-              (let ((current-line (count-lines org-table-current-begin-pos
-                                               (line-beginning-position)))
-                    seen-fields)
-                (dolist (eq eqlfield)
-                  (let* ((name (car eq))
-                         (location (assoc name org-table-named-field-locations))
-                         (eq-line (or (nth 1 location)
-                                      (and (string-match "\\`@\\([0-9]+\\)" name)
-                                           (aref org-table-dlines
-                                                 (string-to-number
-                                                  (match-string 1 name))))))
-                         (reference
-                          (if location
-                              ;; Turn field coordinates associated to NAME
-                              ;; into an absolute reference.
-                              (format "@%d$%d"
-                                      (org-table-line-to-dline eq-line)
-                                      (nth 2 location))
-                            name)))
-                    (when (member reference seen-fields)
-                      (user-error "Several field/range formulas try to set %s"
-                                  reference))
-                    (push reference seen-fields)
-                    (when (or all (eq eq-line current-line))
-                      (org-table-goto-field name)
-                      (org-table-put-field-property :org-untouchable t)))))
-              ;; Evaluate the column formulas, but skip fields covered by
-              ;; field formulas.
-              (goto-char beg)
-              (while (re-search-forward line-re end t)
-                (unless (string-match "\\` *[_^!$/] *\\'" (org-table-get-field 1))
-                  ;; Unprotected line, recalculate.
-                  (cl-incf cnt)
-                  (when all
-                    (setq log-last-time
-                          (org-table-message-once-per-second
-                           log-last-time
-                           "Re-applying formulas to full table...(line %d)" cnt)))
-                  (if (markerp org-last-recalc-line)
-                      (move-marker org-last-recalc-line (line-beginning-position))
-                    (setq org-last-recalc-line
-                          (copy-marker (line-beginning-position))))
-                  (dolist (entry eqlcol)
-                    (goto-char org-last-recalc-line)
-                    (org-table-goto-column
-                     (string-to-number (substring (car entry) 1)) nil 'force)
-                    (unless (get-text-property (point) :org-untouchable)
-                      (org-table-eval-formula
-                       nil (cdr entry) 'noalign 'nocst 'nostore 'noanalysis)))))
-              ;; Evaluate the field formulas.
-              (dolist (eq eqlfield)
-                (let ((reference (car eq))
-                      (formula (cdr eq)))
-                  (setq log-last-time
-                        (org-table-message-once-per-second
-                         (and all log-last-time)
-                         "Re-applying formula to field: %s" (car eq)))
-                  (org-table-goto-field
-                   reference
-                   ;; Possibly create a new column, as long as
-                   ;; `org-table-formula-create-columns' allows it.
-                   (let ((column-count (progn (end-of-line)
-                                              (1- (org-table-current-column)))))
-                     (lambda (column)
-                       (when (> column 1000)
-                         (user-error "Formula column target too large"))
-                       (and (> column column-count)
-                            (or (eq org-table-formula-create-columns t)
-                                (and (eq org-table-formula-create-columns 'warn)
-                                     (progn
-                                       (org-display-warning
-                                        "Out-of-bounds formula added columns")
-                                       t))
-                                (and (eq org-table-formula-create-columns 'prompt)
-                                     (yes-or-no-p
-                                      "Out-of-bounds formula.  Add columns? "))
-                                (user-error
-                                 "Missing columns in the table.  Aborting"))))))
-                  (org-table-eval-formula nil formula t t t t))))
-             ;; Clean up markers and internal text property.
-             (remove-text-properties (point-min) (point-max) '(org-untouchable t))
-             (set-marker end nil)
+                                            old-lhs
+                                            new))
+                              new))
+                           (t old-lhs)))))
+                   (if (string-match-p "\\`\\$[0-9]+\\'" lhs)
+                       (push (cons lhs rhs) eqlcol)
+                     (push (cons lhs rhs) eqlfield))))
+               (setq eqlcol (nreverse eqlcol))
+               ;; Expand ranges in lhs of formulas
+               (setq eqlfield (org-table-expand-lhs-ranges (nreverse eqlfield)))
+               ;; Get the correct line range to process.
+               (if all
+                   (progn
+                     (setq end (copy-marker (org-table-end)))
+                     (goto-char (setq beg org-table-current-begin-pos))
+                     (cond
+                      ((re-search-forward org-table-calculate-mark-regexp end t)
+                       ;; This is a table with marked lines, compute selected
+                       ;; lines.
+                       (setq line-re org-table-recalculate-regexp))
+                      ;; Move forward to the first non-header line.
+                      ((and (re-search-forward org-table-dataline-regexp end t)
+                            (re-search-forward org-table-hline-regexp end t)
+                            (re-search-forward org-table-dataline-regexp end t))
+                       (setq beg (match-beginning 0)))
+                      ;; Just leave BEG at the start of the table.
+                      (t nil)))
+                 (setq beg (line-beginning-position)
+                       end (copy-marker (line-beginning-position 2))))
+               (goto-char beg)
+               ;; Mark named fields untouchable.  Also check if several
+               ;; field/range formulas try to set the same field.
+               (remove-text-properties beg end '(:org-untouchable t))
+               (let ((current-line (count-lines org-table-current-begin-pos
+                                                (line-beginning-position)))
+                     seen-fields)
+                 (dolist (eq eqlfield)
+                   (let* ((name (car eq))
+                          (location (assoc name org-table-named-field-locations))
+                          (eq-line (or (nth 1 location)
+                                       (and (string-match "\\`@\\([0-9]+\\)" name)
+                                            (aref org-table-dlines
+                                                  (string-to-number
+                                                   (match-string 1 name))))))
+                          (reference
+                           (if location
+                               ;; Turn field coordinates associated to NAME
+                               ;; into an absolute reference.
+                               (format "@%d$%d"
+                                       (org-table-line-to-dline eq-line)
+                                       (nth 2 location))
+                             name)))
+                     (when (member reference seen-fields)
+                       (user-error "Several field/range formulas try to set %s"
+                                   reference))
+                     (push reference seen-fields)
+                     (when (or all (eq eq-line current-line))
+                       (org-table-goto-field name)
+                       (org-table-put-field-property :org-untouchable t)))))
+               ;; Evaluate the column formulas, but skip fields covered by
+               ;; field formulas.
+               (goto-char beg)
+               (while (re-search-forward line-re end t)
+                 (unless (string-match "\\` *[_^!$/] *\\'" (org-table-get-field 1))
+                   ;; Unprotected line, recalculate.
+                   (cl-incf cnt)
+                   (when all
+                     (setq log-last-time
+                           (org-table-message-once-per-second
+                            log-last-time
+                            "Re-applying formulas to full table...(line %d)" cnt)))
+                   (if (markerp org-last-recalc-line)
+                       (move-marker org-last-recalc-line (line-beginning-position))
+                     (setq org-last-recalc-line
+                           (copy-marker (line-beginning-position))))
+                   (dolist (entry eqlcol)
+                     (goto-char org-last-recalc-line)
+                     (org-table-goto-column
+                      (string-to-number (substring (car entry) 1)) nil 'force)
+                     (unless (get-text-property (point) :org-untouchable)
+                       (org-table-eval-formula
+                        nil (cdr entry) 'noalign 'nocst 'nostore 'noanalysis)))))
+               ;; Evaluate the field formulas.
+               (dolist (eq eqlfield)
+                 (let ((reference (car eq))
+                       (formula (cdr eq)))
+                   (setq log-last-time
+                         (org-table-message-once-per-second
+                          (and all log-last-time)
+                          "Re-applying formula to field: %s" (car eq)))
+                   (org-table-goto-field
+                    reference
+                    ;; Possibly create a new column, as long as
+                    ;; `org-table-formula-create-columns' allows it.
+                    (let ((column-count (progn (end-of-line)
+                                               (1- (org-table-current-column)))))
+                      (lambda (column)
+                        (when (> column 1000)
+                          (user-error "Formula column target too large"))
+                        (and (> column column-count)
+                             (or (eq org-table-formula-create-columns t)
+                                 (and (eq org-table-formula-create-columns 'warn)
+                                      (progn
+                                        (org-display-warning
+                                         "Out-of-bounds formula added columns")
+                                        t))
+                                 (and (eq org-table-formula-create-columns 'prompt)
+                                      (yes-or-no-p
+                                       "Out-of-bounds formula.  Add columns? "))
+                                 (user-error
+                                  "Missing columns in the table.  Aborting"))))))
+                   (org-table-eval-formula nil formula t t t t)))
+               ;; Clean up marker.
+               (set-marker end nil)))
              (unless noalign
                (when org-table-may-need-update (org-table-align))
                (when all
@@ -733,202 +733,6 @@ enough to shift date past today.  Continue? "
            (setq org-log-post-message msg)
            (message "%s" msg))))
 
-     ;; TODO: when we find a SCHEDULED, check for *ALL* such cookies
-     ;; in the current task and pick the smallest date.
-     ;; (defun org-agenda-get-scheduled (&optional deadlines with-hour)
-     ;;   "Return the scheduled information for agenda display.
-     ;; Optional argument DEADLINES is a list of deadline items to be
-     ;; displayed in agenda view.  When WITH-HOUR is non-nil, only return
-     ;; scheduled items with an hour specification like [h]h:mm."
-     ;;   (let* ((props (list 'org-not-done-regexp org-not-done-regexp
-     ;;               'org-todo-regexp org-todo-regexp
-     ;;               'org-complex-heading-regexp org-complex-heading-regexp
-     ;;               'done-face 'org-agenda-done
-     ;;               'mouse-face 'highlight
-     ;;               'help-echo
-     ;;               (format "mouse-2 or RET jump to Org file %s"
-     ;;                   (abbreviate-file-name buffer-file-name))))
-     ;;      (regexp (if with-hour
-     ;;              org-scheduled-time-hour-regexp
-     ;;            org-scheduled-time-regexp))
-     ;;      (today (org-today))
-     ;;      (todayp (org-agenda-today-p date)) ; DATE bound by calendar.
-     ;;      (current (calendar-absolute-from-gregorian date))
-     ;;      (deadline-pos
-     ;;       (mapcar (lambda (d)
-     ;;             (let ((m (get-text-property 0 'org-hd-marker d)))
-     ;;               (and m (marker-position m))))
-     ;;           deadlines))
-     ;;      scheduled-items)
-     ;;     (goto-char (point-min))
-     ;;     (while (re-search-forward regexp nil t)
-     ;;       (catch :skip
-     ;;     (unless (save-match-data (org-at-planning-p)) (throw :skip nil))
-     ;;     (org-agenda-skip)
-     ;;     (let* ((s (match-string 1))
-     ;;            (pos (1- (match-beginning 1)))
-     ;;            (todo-state (save-match-data (org-get-todo-state)))
-     ;;            (donep (member todo-state org-done-keywords))
-     ;;            (show-all (or (eq org-agenda-repeating-timestamp-show-all t)
-     ;;                  (member todo-state
-     ;;                      org-agenda-repeating-timestamp-show-all)))
-     ;;            (sexp? (string-prefix-p "%%" s))
-     ;;            ;; SCHEDULE is the bare scheduled date, i.e., without
-     ;;            ;; any repeater if non-nil, or last repeat if SHOW-ALL
-     ;;            ;; is nil.  REPEAT is the closest repeat after CURRENT,
-     ;;            ;; if all repeated time stamps are to be shown, or
-     ;;            ;; after TODAY otherwise.  REPEAT only applies to
-     ;;            ;; future dates.
-     ;;            (schedule (cond
-     ;;               (sexp? (org-agenda--timestamp-to-absolute s current))
-     ;;               (show-all (org-agenda--timestamp-to-absolute s))
-     ;;               (t (org-agenda--timestamp-to-absolute
-     ;;                   s today 'past (current-buffer) pos))))
-     ;;            (repeat (cond
-     ;;             (sexp? schedule)
-     ;;             ((< current today) schedule)
-     ;;             (t
-     ;;              (org-agenda--timestamp-to-absolute
-     ;;               s (if show-all current today) 'future
-     ;;               (current-buffer) pos))))
-     ;;            (diff (- current schedule))
-     ;;            (warntime (get-text-property (point) 'org-appt-warntime))
-     ;;            (pastschedp (< schedule today))
-     ;;            (habitp (and (fboundp 'org-is-habit-p) (org-is-habit-p)))
-     ;;            (suppress-delay
-     ;;         (let ((deadline (and org-agenda-skip-scheduled-delay-if-deadline
-     ;;                      (org-entry-get nil "DEADLINE"))))
-     ;;           (cond
-     ;;            ((not deadline) nil)
-     ;;            ;; The current item has a deadline date, so
-     ;;            ;; evaluate its delay time.
-     ;;            ((integerp org-agenda-skip-scheduled-delay-if-deadline)
-     ;;             ;; Use global delay time.
-     ;;             (- org-agenda-skip-scheduled-delay-if-deadline))
-     ;;            ((eq org-agenda-skip-scheduled-delay-if-deadline
-     ;;             'post-deadline)
-     ;;             ;; Set delay to no later than DEADLINE.
-     ;;             (min (- schedule
-     ;;                 (org-agenda--timestamp-to-absolute deadline))
-     ;;              org-scheduled-delay-days))
-     ;;            (t 0))))
-     ;;            (ddays
-     ;;         (cond
-     ;;          ;; Nullify delay when a repeater triggered already
-     ;;          ;; and the delay is of the form --Xd.
-     ;;          ((and (string-match-p "--[0-9]+[hdwmy]" s)
-     ;;                (> current schedule))
-     ;;           0)
-     ;;          (suppress-delay
-     ;;           (let ((org-scheduled-delay-days suppress-delay))
-     ;;             (org-get-wdays s t t)))
-     ;;          (t (org-get-wdays s t)))))
-     ;;       ;; Display scheduled items at base date (SCHEDULE), today if
-     ;;       ;; scheduled before the current date, and at any repeat past
-     ;;       ;; today.  However, skip delayed items and items that have
-     ;;       ;; been displayed for more than `org-scheduled-past-days'.
-     ;;       (unless (and todayp
-     ;;                habitp
-     ;;                (bound-and-true-p org-habit-show-all-today))
-     ;;         (when (or (and (> ddays 0) (< diff ddays))
-     ;;               (> diff org-scheduled-past-days)
-     ;;               (> schedule current)
-     ;;               (and (< schedule current)
-     ;;                (not todayp)
-     ;;                (/= repeat current)))
-     ;;           (throw :skip nil)))
-     ;;       ;; Possibly skip done tasks.
-     ;;       (when (and donep
-     ;;              (or org-agenda-skip-scheduled-if-done
-     ;;              (/= schedule current)))
-     ;;         (throw :skip nil))
-     ;;       ;; Skip entry if it already appears as a deadline, per
-     ;;       ;; `org-agenda-skip-scheduled-if-deadline-is-shown'.  This
-     ;;       ;; doesn't apply to habits.
-     ;;       (when (pcase org-agenda-skip-scheduled-if-deadline-is-shown
-     ;;           ((guard
-     ;;             (or (not (memq (line-beginning-position 0) deadline-pos))
-     ;;             habitp))
-     ;;            nil)
-     ;;           (`repeated-after-deadline
-     ;;            (>= repeat (time-to-days (org-get-deadline-time (point)))))
-     ;;           (`not-today pastschedp)
-     ;;           (`t t)
-     ;;           (_ nil))
-     ;;         (throw :skip nil))
-     ;;       ;; Skip habits if `org-habit-show-habits' is nil, or if we
-     ;;       ;; only show them for today.  Also skip done habits.
-     ;;       (when (and habitp
-     ;;              (or donep
-     ;;              (not (bound-and-true-p org-habit-show-habits))
-     ;;              (and (not todayp)
-     ;;                   (bound-and-true-p
-     ;;                    org-habit-show-habits-only-for-today))))
-     ;;         (throw :skip nil))
-     ;;       (save-excursion
-     ;;         (re-search-backward "^\\*+[ \t]+" nil t)
-     ;;         (goto-char (match-end 0))
-     ;;         (let* ((category (org-get-category))
-     ;;            (inherited-tags
-     ;;             (or (eq org-agenda-show-inherited-tags 'always)
-     ;;             (and (listp org-agenda-show-inherited-tags)
-     ;;                  (memq 'agenda org-agenda-show-inherited-tags))
-     ;;             (and (eq org-agenda-show-inherited-tags t)
-     ;;                  (or (eq org-agenda-use-tag-inheritance t)
-     ;;                  (memq 'agenda
-     ;;                        org-agenda-use-tag-inheritance)))))
-     ;;            (tags (org-get-tags-at nil (not inherited-tags)))
-     ;;            (level
-     ;;             (make-string (org-reduced-level (org-outline-level)) ?\s))
-     ;;            (head (buffer-substring (point) (line-end-position)))
-     ;;            (time
-     ;;             (cond
-     ;;              ;; No time of day designation if it is only
-     ;;              ;; a reminder.
-     ;;              ((and (/= current schedule) (/= current repeat)) nil)
-     ;;              ((string-match " \\([012]?[0-9]:[0-9][0-9]\\)" s)
-     ;;               (concat (substring s (match-beginning 1)) " "))
-     ;;              (t 'time)))
-     ;;            (item
-     ;;             (org-agenda-format-item
-     ;;              (pcase-let ((`(,first ,next) org-agenda-scheduled-leaders))
-     ;;                (cond
-     ;;             ;; If CURRENT is in the future, don't use past
-     ;;             ;; scheduled prefix.
-     ;;             ((> current today) first)
-     ;;             ;; SHOW-ALL focuses on future repeats.  If one
-     ;;             ;; such repeat happens today, ignore late
-     ;;             ;; schedule reminder.  However, still report
-     ;;             ;; such reminders when repeat happens later.
-     ;;             ((and (not show-all) (= repeat today)) first)
-     ;;             ;; Initial report.
-     ;;             ((= schedule current) first)
-     ;;             ;; Subsequent reminders.  Count from base
-     ;;             ;; schedule.
-     ;;             (t (format next (1+ diff)))))
-     ;;              head level category tags time nil habitp))
-     ;;            (face (cond ((and (not habitp) pastschedp)
-     ;;                 'org-scheduled-previously)
-     ;;                    (todayp 'org-scheduled-today)
-     ;;                    (t 'org-scheduled)))
-     ;;            (habitp (and habitp (org-habit-parse-todo))))
-     ;;           (org-add-props item props
-     ;;         'undone-face face
-     ;;         'face (if donep 'org-agenda-done face)
-     ;;         'org-marker (org-agenda-new-marker pos)
-     ;;         'org-hd-marker (org-agenda-new-marker (line-beginning-position))
-     ;;         'type (if pastschedp "past-scheduled" "scheduled")
-     ;;         'date (if pastschedp schedule date)
-     ;;         'ts-date schedule
-     ;;         'warntime warntime
-     ;;         'level level
-     ;;         'priority (if habitp (org-habit-get-priority habitp)
-     ;;                 (+ 99 diff (org-get-priority item)))
-     ;;         'org-habit-p habitp
-     ;;         'todo-state todo-state)
-     ;;           (push item scheduled-items))))))
-     ;;     (nreverse scheduled-items)))
-
      ;; Add a quick binding to remove org occur highlights/overlays
      (defun org-sparse-tree (&optional arg type)
        "Create a sparse tree, prompt for the details.
@@ -987,7 +791,7 @@ D      Show deadlines and scheduled items between a date range."
            (otherwise (user-error "No such sparse tree command \"%c\"" answer)))))
 
      (el-patch-defun org-babel-execute-src-block (&optional arg info params)
-  "Execute the current source code block.
+       "Execute the current source code block.
 Insert the results of execution into the buffer.  Source code
 execution and the collection and formatting of results can be
 controlled through a variety of header arguments.
@@ -1001,101 +805,101 @@ Optionally supply a value for INFO in the form returned by
 Optionally supply a value for PARAMS which will be merged with
 the header arguments specified at the front of the source code
 block."
-  (interactive)
-  (let* ((org-babel-current-src-block-location
-      (or org-babel-current-src-block-location
-          (nth 5 info)
-          (org-babel-where-is-src-block-head)))
-     (info (if info (copy-tree info) (org-babel-get-src-block-info))))
-    ;; Merge PARAMS with INFO before considering source block
-    ;; evaluation since both could disagree.
-    (cl-callf org-babel-merge-params (nth 2 info) params)
-    (when (org-babel-check-evaluate info)
-      (cl-callf org-babel-process-params (nth 2 info))
-      (let* ((params (nth 2 info))
-         (cache (let ((c (cdr (assq :cache params))))
-              (and (not arg) c (string= "yes" c))))
-         (new-hash (and cache (org-babel-sha1-hash info :eval)))
-         (old-hash (and cache (org-babel-current-result-hash)))
-         (current-cache (and new-hash (equal new-hash old-hash))))
-    (cond
-     (current-cache
-      (save-excursion		;Return cached result.
-        (goto-char (org-babel-where-is-src-block-result nil info))
-        (forward-line)
-        (skip-chars-forward " \t")
-        (let ((result (org-babel-read-result)))
-          (el-patch-remove (message (replace-regexp-in-string "%" "%%" (format "%S" result))))
-          result)))
-     ((org-babel-confirm-evaluate info)
-      (let* ((lang (nth 0 info))
-         (result-params (cdr (assq :result-params params)))
-         ;; Expand noweb references in BODY and remove any
-         ;; coderef.
-         (body
-          (let ((coderef (nth 6 info))
-            (expand
-             (if (org-babel-noweb-p params :eval)
-                 (org-babel-expand-noweb-references info)
-               (nth 1 info))))
-            (if (not coderef) expand
-              (replace-regexp-in-string
-               (org-src-coderef-regexp coderef) "" expand nil nil 1))))
-         (dir (cdr (assq :dir params)))
-         (default-directory
-           (or (and dir (file-name-as-directory (expand-file-name dir)))
-               default-directory))
-         (cmd (intern (concat "org-babel-execute:" lang)))
-         result)
-        (unless (fboundp cmd)
-          (error "No org-babel-execute function for %s!" lang))
-        (message "executing %s code block%s..."
-             (capitalize lang)
-             (let ((name (nth 4 info)))
-               (if name (format " (%s)" name) "")))
-        (if (member "none" result-params)
-        (progn (funcall cmd body params)
-               (message "result silenced"))
-          (setq result
-            (let ((r (funcall cmd body params)))
-              (if (and (eq (cdr (assq :result-type params)) 'value)
-                   (or (member "vector" result-params)
-                   (member "table" result-params))
-                   (not (listp r)))
-              (list (list r))
-            r)))
-          (let ((file (and (member "file" result-params)
-                   (cdr (assq :file params)))))
-        ;; If non-empty result and :file then write to :file.
-        (when file
-          ;; If `:results' are special types like `link' or
-          ;; `graphics', don't write result to `:file'.  Only
-          ;; insert a link to `:file'.
-          (when (and result
-                 (not (or (member "link" result-params)
-                      (member "graphics" result-params))))
-            (with-temp-file file
-              (insert (org-babel-format-result
-                   result
-                   (cdr (assq :sep params))))))
-          (setq result file))
-        ;; Possibly perform post process provided its
-        ;; appropriate.  Dynamically bind "*this*" to the
-        ;; actual results of the block.
-        (let ((post (cdr (assq :post params))))
-          (when post
-            (let ((*this* (if (not file) result
-                    (org-babel-result-to-file
-                     file
-                     (let ((desc (assq :file-desc params)))
-                       (and desc (or (cdr desc) result)))))))
-              (setq result (org-babel-ref-resolve post))
-              (when file
-            (setq result-params (remove "file" result-params))))))
-        (org-babel-insert-result
-         result result-params info new-hash lang)))
-        (run-hooks 'org-babel-after-execute-hook)
-        result)))))))
+       (interactive)
+       (let* ((org-babel-current-src-block-location
+               (or org-babel-current-src-block-location
+                   (nth 5 info)
+                   (org-babel-where-is-src-block-head)))
+              (info (if info (copy-tree info) (org-babel-get-src-block-info))))
+         ;; Merge PARAMS with INFO before considering source block
+         ;; evaluation since both could disagree.
+         (cl-callf org-babel-merge-params (nth 2 info) params)
+         (when (org-babel-check-evaluate info)
+           (cl-callf org-babel-process-params (nth 2 info))
+           (let* ((params (nth 2 info))
+                  (cache (let ((c (cdr (assq :cache params))))
+                           (and (not arg) c (string= "yes" c))))
+                  (new-hash (and cache (org-babel-sha1-hash info :eval)))
+                  (old-hash (and cache (org-babel-current-result-hash)))
+                  (current-cache (and new-hash (equal new-hash old-hash))))
+             (cond
+              (current-cache
+               (save-excursion		;Return cached result.
+                 (goto-char (org-babel-where-is-src-block-result nil info))
+                 (forward-line)
+                 (skip-chars-forward " \t")
+                 (let ((result (org-babel-read-result)))
+                   (el-patch-remove (message (replace-regexp-in-string "%" "%%" (format "%S" result))))
+                   result)))
+              ((org-babel-confirm-evaluate info)
+               (let* ((lang (nth 0 info))
+                      (result-params (cdr (assq :result-params params)))
+                      ;; Expand noweb references in BODY and remove any
+                      ;; coderef.
+                      (body
+                       (let ((coderef (nth 6 info))
+                             (expand
+                              (if (org-babel-noweb-p params :eval)
+                                  (org-babel-expand-noweb-references info)
+                                (nth 1 info))))
+                         (if (not coderef) expand
+                           (replace-regexp-in-string
+                            (org-src-coderef-regexp coderef) "" expand nil nil 1))))
+                      (dir (cdr (assq :dir params)))
+                      (default-directory
+                        (or (and dir (file-name-as-directory (expand-file-name dir)))
+                            default-directory))
+                      (cmd (intern (concat "org-babel-execute:" lang)))
+                      result)
+                 (unless (fboundp cmd)
+                   (error "No org-babel-execute function for %s!" lang))
+                 (message "executing %s code block%s..."
+                          (capitalize lang)
+                          (let ((name (nth 4 info)))
+                            (if name (format " (%s)" name) "")))
+                 (if (member "none" result-params)
+                     (progn (funcall cmd body params)
+                            (message "result silenced"))
+                   (setq result
+                         (let ((r (funcall cmd body params)))
+                           (if (and (eq (cdr (assq :result-type params)) 'value)
+                                    (or (member "vector" result-params)
+                                        (member "table" result-params))
+                                    (not (listp r)))
+                               (list (list r))
+                             r)))
+                   (let ((file (and (member "file" result-params)
+                                    (cdr (assq :file params)))))
+                     ;; If non-empty result and :file then write to :file.
+                     (when file
+                       ;; If `:results' are special types like `link' or
+                       ;; `graphics', don't write result to `:file'.  Only
+                       ;; insert a link to `:file'.
+                       (when (and result
+                                  (not (or (member "link" result-params)
+                                           (member "graphics" result-params))))
+                         (with-temp-file file
+                           (insert (org-babel-format-result
+                                    result
+                                    (cdr (assq :sep params))))))
+                       (setq result file))
+                     ;; Possibly perform post process provided its
+                     ;; appropriate.  Dynamically bind "*this*" to the
+                     ;; actual results of the block.
+                     (let ((post (cdr (assq :post params))))
+                       (when post
+                         (let ((*this* (if (not file) result
+                                         (org-babel-result-to-file
+                                          file
+                                          (let ((desc (assq :file-desc params)))
+                                            (and desc (or (cdr desc) result)))))))
+                           (setq result (org-babel-ref-resolve post))
+                           (when file
+                             (setq result-params (remove "file" result-params))))))
+                     (org-babel-insert-result
+                      result result-params info new-hash lang)))
+                 (run-hooks 'org-babel-after-execute-hook)
+                 result)))))))
      ))
 
 (eval-after-load "org-drill"
