@@ -1493,7 +1493,6 @@ use a directory-local variable to specify this per-project."
   :config
 
   (define-derived-mode nomad-mode hcl-mode "nomad")
-  (define-derived-mode terraform-mode hcl-mode "terraform")
 
   (lsp-register-client
    (make-lsp-client
@@ -1501,22 +1500,6 @@ use a directory-local variable to specify this per-project."
     :major-modes '(nomad-mode)
     :priority 1
     :server-id 'nomad-ls))
-
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection (lsp-stdio-connection (lambda () "terraform-lsp"))
-    :major-modes '(terraform-mode)
-    :priority 1
-    :server-id 'terraform-ls))
-
-  (flycheck-define-checker tflint
-    "Checker for tflint"
-    :command ("tflint")
-    :error-patterns
-    ((error line-start "Error: Failed to load configurations: " (file-name) ":" line "," column "-" column ": " (message)))
-    :predicate (lambda ()
-                 (equal "tf" (file-name-extension (buffer-file-name))))
-    :modes (hcl-mode))
 
   (defun my-terraform-find-resource (resource)
     (interactive (list (sp-get (sp-get-enclosing-sexp)
@@ -3239,6 +3222,16 @@ separate buffer."
 (use-package string-edit :straight t)
 
 (use-package systemd :straight t)
+
+(use-package terraform-mode
+  :straight (terraform-mode :fork t)
+  :config
+  (defun my-terraform-mode-init ()
+    (setq-local lsp-semantic-tokens-enable t)
+    (setq-local lsp-semantic-tokens-honor-refresh-requests t)
+    (my-lsp-init-all))
+
+  (add-hook 'terraform-mode-hook 'my-terraform-mode-init))
 
 (use-package textile-mode
   :straight t
