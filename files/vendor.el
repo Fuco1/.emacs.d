@@ -1002,7 +1002,11 @@ idle timer to do the actual update.")
 
 (use-package emr
   :straight t
-  :bind (("M-r" . emr-show-refactor-menu)))
+  :bind (("M-r" . emr-show-refactor-menu))
+  :config
+  ;; These commands are too generic to be useful in the age of LSP
+  (remhash 'emr-iedit-in-function emr:refactor-commands)
+  (remhash 'emr-iedit-global emr:refactor-commands))
 
 (use-package eshell
   :commands eshell
