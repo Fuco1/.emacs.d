@@ -286,12 +286,6 @@
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(editorconfig-mode t)
- '(elfeed-max-connections 5 t)
- '(elfeed-search-face-alist
-   '((unread elfeed-search-unread-title-face)
-     (tumblr font-lock-constant-face)))
- '(elfeed-search-title-max-width 90)
- '(elfeed-use-curl t)
  '(elpy-modules
    '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))
  '(elpy-rpc-backend "jedi")
@@ -361,15 +355,8 @@
  '(global-undo-tree-mode t)
  '(gnus-alias-default-identity "goljer")
  '(gnus-alias-identity-alist
-   '(("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" ""
-      (("Fcc" lambda nil "/home/matus/Maildir/Goljer/sent"))
-      "" "~/.emacs.d/.signature")
-     ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" ""
-      (("Fcc" lambda nil "/home/matus/Maildir/Dota/sent"))
-      "" "~/.emacs.d/.signature")
-     ("logio" "" "Matúš Goljer <goljer@logio.cz>" ""
-      (("Fcc" lambda nil "/home/matus/Maildir/Logio/sent"))
-      "" "~/.emacs.d/.signature-logio")))
+   '(("goljer" "" "Matúš Goljer <matus.goljer@gmail.com>" "" nil "" "~/.emacs.d/.signature")
+     ("dota" "" "Matúš Goljer <dota.keys@gmail.com>" "" nil "" "~/.emacs.d/.signature")))
  '(gnus-alias-identity-rules '(("logio-to-header" ("to" ".*logio.*" both) "logio")))
  '(god-mod-alist '((nil . "C-") ("g" . "M-") ("i" . "C-M-")))
  '(google-this-keybind "\"g\"")
@@ -1650,6 +1637,9 @@
  '(smart-jump-pop-key "C-M-'")
  '(smart-jump-refs-key "M-\"")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
+ '(smtpmail-smtp-server "smtp.gmail.com")
+ '(smtpmail-smtp-service 587)
+ '(smtpmail-stream-type 'starttls)
  '(solarized-scale-org-headlines nil)
  '(sp-ignore-modes-list nil)
  '(swb-crypt-key "matus.goljer@gmail.com")
