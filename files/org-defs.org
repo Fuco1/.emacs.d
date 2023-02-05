@@ -286,6 +286,7 @@ Use `org-speed-commands-user' for further customization."
              (looking-at-p org-list-full-item-re)
              (not (org-at-heading-p)))
     (cdr (assoc keys '(
+                       ("u" . org-up-element)
                        ("b" . org-previous-item)
                        ("f" . org-next-item)
                        ("p" . my-org-previous-item-ignore-indent)
