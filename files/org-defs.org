@@ -820,6 +820,67 @@ With these tweaks the whole capture experience is much more streamlined for me. 
           org-protocol-protocol-alist)))
 #+END_SRC
 
+* Org attach
+** Visit the org headline from the attach dired buffer               :published:
+:PROPERTIES:
+:BLOG_FILENAME: 2023-02-08-Visit-the-org-headline-from-the-attach-dired-buffer
+:PUBDATE:  [2023-02-08 Wed 16:03]
+:ID:       7f67c492-a882-4253-a6ba-03a80016a676
+:END:
+
+I am a heavy heavy user of =org-attach=.  Pretty much all my binary data
+from the last fifteen years live somewhere under =~/data/org-attach=
+(set via =org-attach-id-dir=), further nested under the org headline ID.
+After experimenting with many ways to organize data, including
+[[https://www.tagsistant.net/][tagsistant]] and other semantic filesystems, this is what stuck the
+best:
+
+Make a headline in some of your org files (I have various files such
+as =knowledgebase.org=, =bookmarks.org=, =movies.org=, =emacs.org=, ...), hit
+~C-c C-a~ and attach the file to the "headline".  To later search for it
+you can use all the powerful indexing and search facilities of
+org-mode.  The whole directory is checked into [[https://git-annex.branchable.com/][git-annex]] and backed in
+various cloud providers and external drives.
+
+I don't really care about where or how the data itself is stored and I
+treat the =org-attach= directory as an opaque "blob"
+store[fn:a9b9e350ffb6964:This really removed a lot of "create a
+perfect file hierarchy" anxiety that ultra-orderly people like me get
+all the time.  I am no longer slave to the perpetual fine-tuning of
+what is nested where.  The files on the disk are actually stored in a
+flat two-level hierarchy determined by some hash or uuid.  This is
+great!  And the semantics of what the file is and how to find it is
+delegated to org mode.  This is even greater because its metadata are
+so much ritcher than what you can store in the file system itself.].
+This works 99% of the time because I usually want to find the file
+where I have some vague semantic idea of what it is and usually find
+it via org interface and then open the attachment.
+
+For the rare cases I can't figure out where I stored a file, I use the
+usual =locate= or =find= utilities.  When I finally get to the dired
+buffer for this attachment, I usually want to visit its corresponding
+headline to either add more keywords or somehow make it easier to find
+this file again through the org interface.
+
+So I wrote this simple utility function to jump back to the headline
+to edit it:
+
+#+begin_src elisp
+(defun my-org-attach-visit-headline-from-dired ()
+  "Go to the headline corresponding to this org-attach directory."
+  (interactive)
+  (let* ((id-parts (last (split-string default-directory "/" t) 2))
+         (id (apply #'concat id-parts)))
+    (let ((m (org-id-find id 'marker)))
+      (unless m (user-error "Cannot find entry with ID \"%s\"" id))
+      (pop-to-buffer (marker-buffer m))
+      (goto-char m)
+      (move-marker m nil)
+      (org-fold-show-context))))
+#+end_src
+
+Bind this to some [[https://github.com/Fuco1/free-keys][free key]] in the dired mode map and you can jump back and forth with ease.
+
 * Logging
 ** Use the input method from original org buffer in log note buffer  :published:
 CLOSED: [2019-01-23 Wed 08:46]
@@ -1350,6 +1411,9 @@ the generated file to add a different color to the Google Calendar
 entries.
 
 * Org agenda
+:PROPERTIES:
+:ID:       024eb194-3f30-4f14-955b-f36ec56d2445
+:END:
 ** TODO Fontify agenda items based on category
 :PROPERTIES:
 :ID:       d2d0317b-32fe-45e4-a84a-6dc5ce679c6f
@@ -1374,7 +1438,7 @@ entries.
 
 (add-hook 'org-agenda-finalize-hook #'my-org-agenda-shadow-gcal 'append)
 #+end_src
-** Make agenda clockreport respect =org-extend-today-until=          :published:
+** Make agenda clockreport respect =org-extend-today-until=            :published:
 CLOSED: [2019-01-03 Thu 20:49]
 :PROPERTIES:
 :BLOG_FILENAME: 2019-01-03-Make-agenda-clockreport-respect-=org-extend-today-until=
@@ -1523,6 +1587,204 @@ set the org variables appropriately.
 (advice-add 'org-agenda-set-restriction-lock :around #'my-org-agenda-set-restriction-lock)
 #+end_src
 
+* Using OpenAI GPT to search your org files                          :published:
+:PROPERTIES:
+:BLOG_FILENAME: 2023-02-20-Using-OpenAI-GPT-to-search-your-org-files
+:PUBDATE:  [2023-02-20 Mon 20:18]
+:END:
+:LOGBOOK:
+- State "DONE"       from              [2023-02-20 Mon 20:18]
+- State "DONE"       from              [2023-02-20 Mon 20:05]
+:END:
+
+As I wrote [[id:7f67c492-a882-4253-a6ba-03a80016a676][previously]], I store all my files under =~/data/org-attach= by
+using the org mode file attachment feature.  To retrieve a file, I
+usually use agenda search or other org packages which can go over your
+org files and retrieve a headline.
+
+But what for those rare moments when I only have a vague idea of what
+I'm looking for and can't hit the query exactly?  Well... we can use a
+semantic search.
+
+OpenAI recently opened a Large Language Model Embedding API.  Roughly
+speaking, embedding takes a chunk of text and returns a fixed sized
+vector in the model's "knowledge space" (OpenAI's ada model returns
+1536 dimensional vector).  Two vectors which are close to each other
+in this knowledge space should correspond to similar things.
+
+The usual metric of judging closeness of vectors is the "angle"
+between them.  This is hard to imagine in 1536 dimensions, but to keep
+it short we can use the [[https://en.wikipedia.org/wiki/Dot_product][dot product]] operation to compute the
+"similarity".
+
+So the idea here is simple:
+
+1. Iterate over all headlines in my buffers.
+2. Submit them to the Embedding API and cache the embedding vectors for each headline.
+3. When querying for a headline, submit the query to the API, then
+   calculate similarity with all the cached embeddings and present the
+   closest ones as candidates.[fn:1ba7456d0bd02277:Now before we go
+   further, you need to register on [[https://platform.openai.com/][OpenAI platform]] and the API costs
+   money.  The good news is that it is *extremely* cheap.  It will cost
+   you $1 to embed 2.4 MILLION tokens.  With a query being roughly 10
+   words which corresponds to 10-15 tokens, one query will cost you
+   about $0.0000006.  So it's pretty much free and you only need a
+   credit card to formally register.  You can also set monthly
+   spending limit to $0.01 and you would probably never run over the
+   limit. The step 2 will cost based on how much data you have.  I
+   have about 200000 lines of org files and so far I spent less than
+   $0.50 including all the experimenting.]
+
+I wrote my own "org brain" clone which I called [[https://github.com/Fuco1/org-node-graph][org-graph]] because I
+wasn't happy with any available solution.  My biggest problem was that
+most systems either prescribed one file per note, or only worked with
+top level headlines, or had other artificial limitations.  So it was
+logical this feature would live in that package as well.
+
+But just after I got ready with all the preprocessing and data
+preparation and API implementation, there came a shock.  Emacs math is
+SLOOOOOOW.  So slow this "dot product" operation was taking ages and
+the interface sucked.
+
+But then I remembered about [[https://phst.eu/emacs-modules][dynamic modules]].  Not wanting to give up,
+I decided to write a C module for some good old linear algebra.
+
+You start with a header and some initialization:
+
+#+begin_src c
+#include <emacs-module.h>
+
+int plugin_is_GPL_compatible;
+
+int
+emacs_module_init (struct emacs_runtime *runtime)
+{
+  emacs_env *env = runtime->get_environment (runtime);
+
+  return 0;
+}
+#+end_src
+
+Then you can start implementing the functions.  I'm not going to
+repeat everything here, you can find the full C source at [[https://github.com/Fuco1/org-node-graph/blob/master/dotproduct.c][GitHub]].  The
+following function computes the dot product, which is really just a
+lot of multiplication and addition.
+
+#+begin_src c
+static emacs_value
+dot_product (emacs_env *env, ptrdiff_t nargs, emacs_value *args,
+            void *data)
+{
+  assert (nargs == 2);
+  emacs_value a = args[0];
+  emacs_value b = args[1];
+
+  ptrdiff_t size = env->vec_size (env, a);
+
+  double dp = 0;
+  for (int i = 0; i < size; i++) {
+    double first = get_at(env, a, i);
+    double second = get_at(env, b, i);
+    dp += first * second;
+  }
+
+  emacs_value result = env->make_float (env, dp);
+  return result;
+}
+#+end_src
+
+With a simple Makefile
+
+#+begin_src makefile
+.PHONY: all
+
+all: dotproduct.so
+
+dotproduct.o: dotproduct.c
+    gcc -Wall -c dotproduct.c
+
+dotproduct.so: dotproduct.o
+    gcc -shared -o dotproduct.so dotproduct.o
+#+end_src
+
+we can build the module
+
+#+begin_src bash
+> make
+gcc -Wall -c dotproduct.c
+gcc -shared -o dotproduct.so dotproduct.o
+#+end_src
+
+Finally, we load the module into Emacs with:
+
+#+begin_src elisp
+(module-load (expand-file-name "dotproduct.so"))
+#+end_src
+
+Armed with the now much faster math routines, I embedded about 2000
+headers and now I can search my files by just giving very vague
+queries---it works surprisingly well, even across multiple different
+natural languages (i.e. if I ask about Franz Kafka's Castle it will
+return "Das Schloß" entry from my foreign language reading file).
+
+#+begin_src elisp
+(org-graph-openai-query "Book about journey to the center of the Earth")
+#+end_src
+
+The top 10 results.  You can see it mixes the languages but all the
+things are somewhat related.  However, it got the first hit exactly
+right.
+
+#+begin_example
+[8de3805f-8971-404a-98d2-84305db1a444] 87.43 Voyage au centre de la Terre
+[f128f559-74a6-4435-a357-aa7d35976097] 85.43 Nicolai Klimii Iter Subterraneum
+[2e0f3f7a-73bd-4b0f-a588-c757432607ca] 85.26 Endurance: Shackleton's Incredible Voyage
+[d2828ffb-343c-431f-8657-521ef32de079] 85.11 Vesmír v orechovej škrupinke
+[724b7e0d-f804-4d1d-8767-c4d166492472] 84.83 Oheň nad hlubinou - Pád Straumli
+[5e2b17a4-902a-4e55-87f3-25a18f239346] 84.78 The Earthsea
+[5e5906eb-7ab6-4b86-b41f-2bd007ff8eba] 84.65 Tolkien: Sur les rivages de la Terre du Milieu
+[c33a670e-8ec2-4886-9e12-eee71891d2ea] 84.21 Vladimir Ulrich - Bis ans Ende der Welt - Ein Pilgerbuch
+[d3c57fb4-9458-487d-bcf7-9852b9fec3cf] 84.09 The Lost World
+[5d0d82de-df40-43f7-9868-3470d1bd376d] 83.95 Oheň nad hlubinou - Planeta spárů
+#+end_example
+
+Here's another example which is purposefully silly description of the
+[[https://en.wikipedia.org/wiki/Thus_Spoke_Zarathustra][expected]] book's title:
+
+#+begin_src elisp
+(org-graph-openai-query "Philosophical book where someone spoke in a particular way")
+#+end_src
+
+The top 10 results from my org files are:
+
+#+begin_example
+[5d59a53e-fb81-4927-bce2-5096d9fb8417] 88.69 Thus Spoke Zarathustra
+[15e61234-4d6b-413c-986d-391996f09a19] 87.82 Quotes
+[7922112d-e871-419f-a4f2-68e892d5dad1] 87.04 Epistemology
+[82e38b44-5ce1-416f-bd19-075aa70c7bf6] 86.96 Western Philosophy
+[babcdf60-5840-4772-ba2b-314faa756997] 86.94 Nietzsche
+[b192f472-d4f6-4596-8520-627b2c77e783] 86.90 Treatise on Human Nature
+[b6f1d479-53fb-4e88-a474-024fbafab99e] 86.75 The Short History of Modern Philosophy
+[1a366e71-eb03-472b-8c7c-d619494e9693] 86.62 The way of the bow
+[2d738ef8-4a23-4b32-bcc1-0a1cc941c4be] 86.55 The Discourses
+[2f00f564-af67-4d04-bf41-8cabe7764cdb] 86.36 The Life of Reason - Santayana
+#+end_example
+
+Not bad, eh :)
+
+To prepare the embeddings, you can run the function
+=org-graph-compute-embeddings-for-buffer= in an org buffer.  Make sure
+to set the environment variable =OPENAI_TOKEN=.  Also be aware that this
+will add the =ID= property to every headline as this is a way to track
+the cached embedding to the particular headline.  Make sure to backup
+your org files before running this (you have them checked in to git
+right... right?!).  This will fire several requests to the API (about
+20 headings per request), so be patient, it should take about a minute
+for 500-600 headings.
+
+You can discuss and ask questions on the [[https://github.com/Fuco1/Fuco1.github.io/discussions][discussions board on GitHub]].
+
+This blog post was inspired by [[https://reasonabledeviations.com/2023/02/05/gpt-for-second-brain/][GPT for second brains]].
 
 * Backmatter
 :PROPERTIES:
