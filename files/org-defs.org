@@ -255,7 +255,17 @@ _k_b.org    _r_eading.org"
 (bind-key "C-c r" #'my-org-refile-hydra/body org-mode-map)
 #+end_src
 
-* TODO Speed commands for regular lists
+* Speed commands
+** Speed commands for org-graph
+
+#+begin_src elisp
+;; push in opposite order
+(push (cons "C" 'org-graph-goto-child) org-speed-commands)
+(push (cons "P" 'org-graph-goto-parent) org-speed-commands)
+(push (list "Org Graph") org-speed-commands)
+#+end_src
+
+** TODO Speed commands for regular lists
 :PROPERTIES:
 :ID:       b1258951-366e-444f-be7c-d44ee4a6f618
 :END:
@@ -286,14 +296,12 @@ _k_b.org    _r_eading.org"
         (goto-char (car prev-item))
       (error "On first item"))))
 
-(defun my-org-speed-command-list-activate (keys)
-  "Hook for activating single-letter speed commands.
-`org-speed-commands-default' specifies a minimal command set.
-Use `org-speed-commands-user' for further customization."
+(defun my-org-speed-command-list-activate (key)
+  "Hook for activating single-letter speed commands in lists."
   (when (and (bolp)
              (looking-at-p org-list-full-item-re)
              (not (org-at-heading-p)))
-    (cdr (assoc keys '(
+    (cdr (assoc key '(
                        ("u" . org-up-element)
                        ("b" . org-previous-item)
                        ("f" . org-next-item)
