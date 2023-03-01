@@ -598,9 +598,9 @@ respective major mode.  Think org SRC blocks.")
    (textile-lang-face (:inherit markup-alias))
 
    ;; Terraform
-   (terraform--resource-type-face (:inherit font-lock-type-face))
-   (terraform--resource-name-face (:inherit font-lock-function-name-face))
-   (terraform--builtin-face (:inherit font-lock-keyword-face))
+   (terraform-resource-type-face (:inherit font-lock-type-face))
+   (terraform-resource-name-face (:inherit font-lock-function-name-face))
+   (terraform-builtin-face (:inherit font-lock-keyword-face))
 
    ;; Ido faces
    (ido-first-match (:foreground choc-1 :weight bold))
