@@ -400,52 +400,94 @@ existing formula for column %s"
 ;; Fix incorrectly returned default value when user simply hits RET
 ;; without doing any selection
 (eval-after-load "ediff-util"
-  '(defun ediff-read-file-name (prompt default-dir default-file &optional no-dirs)
-     ;; hack default-dir if it is not set
-     (setq default-dir
-           (file-name-as-directory
-            (ediff-abbreviate-file-name
-             (expand-file-name (or default-dir
-                                   (and default-file
-                                        (file-name-directory default-file))
-                                   default-directory)))))
+  '(progn
+     (el-patch-defun ediff-files (file-A file-B &optional startup-hooks)
+       "Run Ediff on a pair of files, FILE-A and FILE-B.
+STARTUP-HOOKS is a list of functions that Emacs calls without
+arguments after setting up the Ediff buffers."
+       (interactive
+        (let ((dir-A (if ediff-use-last-dir
+                         ediff-last-dir-A
+                       default-directory))
+              dir-B f)
+          (list (setq f (ediff-read-file-name
+                         "File A to compare"
+                         dir-A
+                         (ediff-get-default-file-name)
+                         'no-dirs))
+                (ediff-read-file-name
+                 "File B to compare"
+                 (setq dir-B
+                       (if ediff-use-last-dir
+                           ediff-last-dir-B
+                         (el-patch-wrap 2 0
+                           (or
+                            (dired-dwim-target-directory)
+                            (file-name-directory f)))))
+                 (progn
+                   (add-to-history
+                    'file-name-history
+                    (ediff-abbreviate-file-name
+                     (expand-file-name
+                      (file-name-nondirectory f)
+                      dir-B)))
+                   (ediff-get-default-file-name f 1)))
+                )))
+       (ediff-files-internal file-A
+                             (if (file-directory-p file-B)
+                                 (expand-file-name
+                                  (file-name-nondirectory file-A) file-B)
+                               file-B)
+                             nil ; file-C
+                             startup-hooks
+                             'ediff-files))
 
-     ;; strip the directory from default-file
-     (if default-file
-         (setq default-file (file-name-nondirectory default-file)))
-     (if (string= default-file "")
-         (setq default-file nil))
+     (defun ediff-read-file-name (prompt default-dir default-file &optional no-dirs)
+       ;; hack default-dir if it is not set
+       (setq default-dir
+             (file-name-as-directory
+              (ediff-abbreviate-file-name
+               (expand-file-name (or default-dir
+                                     (and default-file
+                                          (file-name-directory default-file))
+                                     default-directory)))))
 
-     (let ((defaults (and (fboundp 'dired-dwim-target-defaults)
-                          (dired-dwim-target-defaults
-                           (and default-file (list default-file))
-                           default-dir)))
-           f)
-       (setq f (ediff-minibuffer-with-setup-hook
-                (lambda () (when defaults
-                             (setq minibuffer-default defaults)))
-                (read-file-name
-                 (format "%s%s "
-                         prompt
-                         (cond (default-file
-                                 (concat " (default " default-file "):"))
-                               (t (concat " (default " default-dir "):"))))
-                 default-dir
-                 nil ;; FUCO: WAS: (or default-file default-dir)
-                 t          ; must match, no-confirm
-                 (if default-file (file-name-directory default-file))
-                 )))
-       (setq f (expand-file-name f default-dir))
-       ;; If user entered a directory name, expand the default file in that
-       ;; directory.  This allows the user to enter a directory name for the
-       ;; B-file and diff against the default-file in that directory instead
-       ;; of a DIRED listing!
-       (if (and (file-directory-p f) default-file)
-           (setq f (expand-file-name
-                    (file-name-nondirectory default-file) f)))
-       (if (and no-dirs (file-directory-p f))
-           (error "File %s is a directory" f))
-       f)))
+       ;; strip the directory from default-file
+       (if default-file
+           (setq default-file (file-name-nondirectory default-file)))
+       (if (string= default-file "")
+           (setq default-file nil))
+
+       (let ((defaults (and (fboundp 'dired-dwim-target-defaults)
+                            (dired-dwim-target-defaults
+                             (and default-file (list default-file))
+                             default-dir)))
+             f)
+         (setq f (ediff-minibuffer-with-setup-hook
+                     (lambda () (when defaults
+                                  (setq minibuffer-default defaults)))
+                   (read-file-name
+                    (format "%s%s "
+                            prompt
+                            (cond (default-file
+                                    (concat " (default " default-file "):"))
+                                  (t (concat " (default " default-dir "):"))))
+                    default-dir
+                    nil ;; FUCO: WAS: (or default-file default-dir)
+                    t          ; must match, no-confirm
+                    (if default-file (file-name-directory default-file))
+                    )))
+         (setq f (expand-file-name f default-dir))
+         ;; If user entered a directory name, expand the default file in that
+         ;; directory.  This allows the user to enter a directory name for the
+         ;; B-file and diff against the default-file in that directory instead
+         ;; of a DIRED listing!
+         (if (and (file-directory-p f) default-file)
+             (setq f (expand-file-name
+                      (file-name-nondirectory default-file) f)))
+         (if (and no-dirs (file-directory-p f))
+             (error "File %s is a directory" f))
+         f))))
 
 (eval-after-load "hi-lock"
   '(progn
