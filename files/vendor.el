@@ -2991,7 +2991,8 @@ separate buffer."
       (bind-keys :map html-mode-map
         ("C-c <deletechar>" . sgml-delete-tag)
         ("C-c C-f" . sp-html-next-tag)
-        ("C-c C-b" . sp-html-previous-tag)))
+        ("C-c C-b" . sp-html-previous-tag))
+      (unbind-key "M-o" html-mode-map))
     (add-hook 'html-mode-hook 'my-html-mode-setup)))
 
 (use-package shackle
