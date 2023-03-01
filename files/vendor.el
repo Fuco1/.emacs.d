@@ -3174,8 +3174,6 @@ separate buffer."
   :straight (terraform-mode :fork t)
   :config
   (defun my-terraform-mode-init ()
-    (setq-local lsp-semantic-tokens-enable t)
-    (setq-local lsp-semantic-tokens-honor-refresh-requests t)
     (my-lsp-init-all))
 
   (add-hook 'terraform-mode-hook 'my-terraform-mode-init))
