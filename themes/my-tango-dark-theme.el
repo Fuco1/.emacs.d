@@ -209,13 +209,13 @@ respective major mode.  Think org SRC blocks.")
     ,theme
     ,@(-map 'my-tango-resolve-face faces)))
 
-(let ((fixed-sys (if (eq system-type 'windows-nt) "Consolas" "Inconsolata"))
+(let ((fixed-sys (if (eq system-type 'windows-nt) "Consolas" "JetBrains Mono"))
       (variable-font (if (eq system-type 'windows-nt) "Verdana" "Source Sans Pro")))
   (my-tango-theme-set-faces
    'my-tango-dark
    (default (:foreground alum-1
              :background alum-6
-             :height 160
+             :height 136
              :family ,fixed-sys))
    (cursor (:background butter-1))
 
@@ -339,7 +339,7 @@ respective major mode.  Think org SRC blocks.")
    (message-separator (:foreground plum-1))
 
    ;; Info faces
-   (Info-quoted (:inherit markup-inline-code))
+   (Info-quoted (:inherit markup-inline-code :height 0.9 :weight light))
 
    ;; SMerge faces
    (smerge-refined-change (:background blue-3))
@@ -540,7 +540,7 @@ respective major mode.  Think org SRC blocks.")
    (org-verbatim (:inherit org-code))
    (org-quote (:inherit (shadow markup-block)))
 
-   (org-date (:inherit fixed-pitch :foreground blue-0))
+   (org-date (:inherit fixed-pitch :foreground blue-0 :weight normal))
    (org-table (:inherit fixed-pitch :foreground blue-0))
    (org-formula (:inherit fixed-pitch :foreground orange-2))
 
@@ -694,7 +694,7 @@ respective major mode.  Think org SRC blocks.")
    (hl-line (:inherit nil :background alum-7))
    (indent-guide-face (:inherit paren-face))
    (sp-pair-overlay-face (:background blue-3 :foreground alum-1))
-   (variable-pitch (:height 192 :family ,variable-font))
+   (variable-pitch (:height 192 :family ,variable-font :weight normal))
    (wgrep-delete-face (:inherit font-lock-warning-face))
    (fold-this-overlay (:inherit sp-pair-overlay-face))
    (highlight-thing (:background "black"))
