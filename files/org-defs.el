@@ -1980,7 +1980,7 @@ Use a prefix arg to get regular RET. "
         (if (not
              (string=
               ""
-              (org-element-property :title context)))
+              (car (-list (org-element-property :title context)))))
             (org-insert-heading-respect-content)
           (delete-region (line-beginning-position)
                          (line-end-position))))
