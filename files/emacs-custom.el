@@ -156,7 +156,7 @@
  '(cursor-type 'box)
  '(custom-enabled-themes '(my-tango-dark))
  '(custom-safe-themes
-   '("b467d90433db3e687056e45e1141044c2158dc4ef2ace6e5cab38b88cee5eb06" "c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
+   '("d9a89a0a87e861ffa9181b0d5c6b593f0108fee83cade906eb5433b16ed6386a" "f536c42e8d2c1139cac9533501376ecddb2f13d4cca68a12d0956db697d58730" "b467d90433db3e687056e45e1141044c2158dc4ef2ace6e5cab38b88cee5eb06" "c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -286,6 +286,9 @@
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(editorconfig-mode t)
+ '(eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
+ '(eldoc-echo-area-use-multiline-p t)
+ '(eldoc-idle-delay 0.1)
  '(elpy-modules
    '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))
  '(elpy-rpc-backend "jedi")
@@ -318,7 +321,9 @@
  '(eyebrowse-mode t)
  '(fci-rule-color "#eee8d5")
  '(find-grep-options "-qE")
+ '(flycheck-checker-error-threshold 2000)
  '(flycheck-disabled-checkers '(php-phplint php-phpmd emacs-lisp-checkdoc))
+ '(flycheck-display-errors-function 'ignore)
  '(flycheck-emacs-lisp-load-path 'inherit)
  '(flycheck-gcc-language-standard "c++14")
  '(flycheck-ghc-args nil)
@@ -347,9 +352,10 @@
    '(("s" . "pnPNjkhl1234567890qwerb")
      ("A" . "1234567890qwer,.[]=c")))
  '(free-keys-modifiers '("" "C" "M" "C-M" "A" "H" "s"))
- '(gc-cons-threshold 20000000)
+ '(gc-cons-threshold 10000000)
  '(geben-display-window-function 'display-buffer)
  '(global-flex-isearch-mode t)
+ '(global-ligature-mode t)
  '(global-paren-face-mode t)
  '(global-subword-mode t)
  '(global-undo-tree-mode t)
@@ -370,7 +376,7 @@
  '(guide-key/idle-delay 0.6)
  '(guide-key/popup-window-position 'bottom)
  '(guide-key/recursive-key-sequence-flag t)
- '(haskell-mode-hook '(turn-on-haskell-indentation turn-on-haskell-doc-mode))
+ '(haskell-mode-hook '(turn-on-haskell-indentation turn-on-haskell-doc-mode) t)
  '(haskell-process-args-ghci '("-ferror-spans" "-i."))
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
@@ -546,7 +552,7 @@
  '(jump-char-forward-key "m")
  '(keyfreq-autosave-mode t)
  '(keyfreq-mode t)
- '(ledger-copy-transaction-insert-blank-line-after t t)
+ '(ledger-copy-transaction-insert-blank-line-after t)
  '(ledger-reconcile-default-commodity "Kc")
  '(ledger-report-format-specifiers
    '(("ledger-file" . ledger-report-ledger-file-format-specifier)
@@ -613,6 +619,7 @@
  '(ls-lisp-use-string-collate nil)
  '(ls-lisp-verbosity '(uid gid))
  '(lsp-clients-r-server-command '("lsp-r"))
+ '(lsp-eldoc-render-all t)
  '(lsp-enable-completion-at-point nil)
  '(lsp-headerline-breadcrumb-segments '(symbols))
  '(lsp-inhibit-message t)
@@ -670,6 +677,10 @@
      :overlap-face nil :gap-face nil :no-end-time-face nil :long-face nil :short-face nil))
  '(org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3 :tcolumns 1))
  '(org-agenda-compact-blocks t)
+ '(org-agenda-deadline-faces
+   '((1.0 . org-imminent-deadline)
+     (0.8 . org-upcoming-deadline)
+     (0.0 . org-upcoming-distant-deadline)))
  '(org-agenda-files "~/org/.files")
  '(org-agenda-finalize-hook
    '(my-org-agenda-remove-empty-lists my-org-agenda-to-appt org-clock-budget-insert-into-agenda))
@@ -1475,6 +1486,10 @@
  '(org-format-latex-options
    '(:foreground default :background default :scale 3.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
      ("begin" "$1" "$" "$$" "\\(" "\\[")))
+ '(org-graph-targets
+   '((nil :maxlevel . 9)
+     (org-agenda-files :maxlevel . 9)
+     (my-org-graph-targets--config-files :maxlevel . 9)))
  '(org-habit-following-days 1)
  '(org-habit-graph-column 80)
  '(org-habit-preceding-days 30)
@@ -1593,6 +1608,18 @@
  '(restclient-inhibit-cookies t)
  '(safe-local-variable-values
    '((ft-source-to-test-mapping
+      (:path "Elsa/" :prefix "elsa-")
+      :path "Elsa/tests/" :prefix "test-")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (eval font-lock-add-keywords nil
+           `((,(concat "("
+                       (regexp-opt
+                        '("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl")
+                        t)
+                       "\\_>")
+              1 'font-lock-variable-name-face)))
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (ft-source-to-test-mapping
       (:path "/" :prefix "elsa-")
       :path "/tests/" :prefix "test-")
      (eval sql-set-product 'ms)
@@ -1630,6 +1657,7 @@
      (org-drill-scope . file)
      (eval ispell-change-dictionary "slovak")
      (eval set-input-method "slovak-prog-2")))
+ '(show-paren-mode nil)
  '(show-smartparens-global-mode t)
  '(smart-jump-bind-keys t)
  '(smart-jump-default-order-weight 500)
