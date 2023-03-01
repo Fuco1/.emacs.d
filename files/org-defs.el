@@ -30,6 +30,12 @@
 (use-package orgba :straight (:repo "Fuco1/orgba"))
 (use-package org-make-toc :straight t)
 
+(use-package org-graph
+  :bind (("C-c C-x S" . org-graph-openai-query))
+  :config
+  (defun my-org-graph-targets--config-files ()
+    (f-glob "*.org" "~/.emacs.d/files")))
+
 (use-package org-id
   :config
   (require 'org-element)
@@ -970,7 +976,8 @@ The second part is a regexp to search in the buffer."
 
 Also fontify the space in front to make sure nested lists are
 properly aligned."
-  (unless (org-in-block-p '("SRC" "EXAMPLE"))
+  (unless (or (bound-and-true-p org-graph-mode)
+              (org-in-block-p '("SRC" "EXAMPLE")))
     'org-list-dt))
 
 (font-lock-add-keywords 'org-mode
