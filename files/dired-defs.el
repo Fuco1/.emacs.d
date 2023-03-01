@@ -210,7 +210,7 @@ Also used for highlighting.")
 
   (bind-keys :map dired-mode-map
     ;; clean bullshit bindings so C-h e b shows us real info
-    ("A") ("F") ("G") ("P") ("Q") ("X") ("Z") ("#") (".")
+    ("F") ("G") ("P") ("Q") ("X") ("#") (".")
     ("~") ("e") ("f") ("l") ("v") ("^") ("?") ("<f1>")
 
     ("(" . dired-hide-details-mode)
@@ -245,7 +245,10 @@ Also used for highlighting.")
     ("M-<f5>" . dired-arc-pack-files)
     ("M-<f6>" . dired-arc-unpack-file)
 
+    ("Z" . my-org-attach-visit-headline-from-dired)
+
     ("* r" . diredp-mark-region-files)
+    ("A" . my-dired-md5-sum)
     ("E" . my-dired-encrypt-file))
 
   (bind-keys :map dired-mode-map
@@ -633,6 +636,13 @@ With \\[universal-argument] present user with list of possible methods to unpack
                         file "\"")))))
       (shell-command cmd))
     (revert-buffer)))
+
+(defun my-dired-md5-sum ()
+  (interactive)
+  (let ((file (dired-utils-get-filename)))
+    (with-temp-buffer
+      (call-process "md5sum" nil t nil file)
+      (message (s-trim (buffer-string))))))
 
 ;;;_. gpg stuff
 ;; gpg --output passwords.gpg --symmetric passwords.txt
