@@ -1,5 +1,6 @@
 (require 'ox-publish)
 (require 'ox-rss)
+(require 'ox-icalendar)
 
 (require 'f)
 
@@ -205,12 +206,14 @@ do not run `org-publish'."
                               (format-time-string "%Y-%m-%d" date)
                               post)))))))))
 
+(defconst my-org-publish-blog-directory (expand-file-name "~/Documents/Fuco1.github.io"))
+
 (setq org-publish-project-alist
       `(("blog"
          :components ("blog-posts" "blog-rss"))
         ("blog-posts"
-         :base-directory ,(expand-file-name "~/documents/blog/posts")
-         :publishing-directory ,(expand-file-name "~/documents/blog/")
+         :base-directory ,(expand-file-name "posts" my-org-publish-blog-directory)
+         :publishing-directory ,my-org-publish-blog-directory
          :publishing-function org-html-publish-to-html
 
          :auto-sitemap t
@@ -255,6 +258,7 @@ do not run `org-publish'."
   <a href=\"https://www.patreon.com/user?u=3282358\">Patreon</a>
 </div>
 <div style=\"text-align: right;\">
+  <a href=\"https://github.com/Fuco1/Fuco1.github.io/discussions\">Discussions</a>
   <a href=\"https://fuco1.github.io/rss.xml\">RSS</a>
   <a href=\"https://twitter.com/Fuco1337\">Twitter</a>
 </div>
@@ -262,18 +266,26 @@ do not run `org-publish'."
          :html-postamble
          (lambda (args)
            (-let (((&plist :input-file input :publishing-directory base) args))
+             (message "input file %s base %s" input base)
              (format
               "<hr />
-<div style=\"text-align: left; float: left;\">Last updated at: %s</div>
+<div style=\"text-align: left; float: left;\">Published at: %s Last updated at: %s</div>
 <div style=\"text-align: right;\">Found a typo? <a href=\"%s\">Edit on GitHub!</a></div>"
+              (with-current-buffer (find-file-noselect input)
+                (org-macro-initialize-templates)
+                (let* ((date-macro (assoc-default "date" org-macro-templates))
+                       (date (or (and (functionp date-macro)
+                                      (org-read-date t t (funcall date-macro)))
+                                 (current-time))))
+                  (format-time-string "%Y-%m-%d %H:%M" date)))
               (format-time-string "%Y-%m-%d %H:%M")
               (replace-regexp-in-string
                (regexp-quote base)
-               "https://github.com/Fuco1/fuco1.github.io/blob/master/" input)))))
+               "https://github.com/Fuco1/fuco1.github.io/blob/master" input)))))
         ("blog-rss"
-         :base-directory ,(expand-file-name "~/documents/blog/posts")
+         :base-directory ,(expand-file-name "posts" my-org-publish-blog-directory)
          :base-extension "org"
-         :publishing-directory ,(expand-file-name "~/documents/blog/")
+         :publishing-directory ,my-org-publish-blog-directory
          :publishing-function org-rss-publish-to-rss
 
          :html-link-home "https://fuco1.github.io/"
