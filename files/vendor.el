@@ -2811,6 +2811,8 @@ These are retrieved from `imenu--index-alist'."
         (setq-local compile-command (concat "php -l " (my-php-local-file-name buffer-file-name)))))
     (add-hook 'php-mode-hook 'my-php-mode-init 'append)))
 
+(use-package plz :straight t)
+
 (use-package popwin
   :commands popwin-mode
   :config
