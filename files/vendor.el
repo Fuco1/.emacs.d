@@ -1308,9 +1308,8 @@ idle timer to do the actual update.")
 
 (use-package find-test
   :straight (:repo "Fuco1/find-test" :files ("find-test.el"))
-  :commands ft-find-test-or-source
-  :init
-  (bind-key "C-c C-t" 'ft-find-test-or-source prog-mode-map))
+  :bind (:map prog-mode-map
+         ("C-c C-t" . ft-find-test-or-source)))
 
 (use-package find-local-executable
   :straight (:repo "Fuco1/find-local-executable"))
