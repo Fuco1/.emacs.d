@@ -2429,7 +2429,7 @@ by that command."
 (use-package org-jira
   :straight
   (org-jira :fork t)
-  :disable t
+  :disabled t
   :config
   (defun my-org-jira-add-issue-id-to-headline (Issue)
     (ensure-on-issue-id (oref Issue issue-id)
