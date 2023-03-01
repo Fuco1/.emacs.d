@@ -1588,7 +1588,7 @@ use a directory-local variable to specify this per-project."
   :after helm-mode)
 
 (use-package highlight-thing
-  :straight t
+  :straight (highlight-thing :fork t)
   :commands highlight-thing-mode)
 
 (use-package htmlize
@@ -2839,7 +2839,7 @@ These are retrieved from `imenu--index-alist'."
       (unless (string-prefix-p " *" (buffer-name))
         (flycheck-mode 1)
         (turn-on-smartparens-strict-mode)
-        (highlight-thing-mode)
+        (highlight-thing-mode 1)
         (which-function-mode 1)
         (apheleia-mode 1)
         (copilot-mode 1)
