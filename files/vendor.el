@@ -588,8 +588,20 @@ and `my-compile-auto-fold-header-match-data'."
   :straight (copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "assets" "*.el")
                      :fork (:host github :repo "Fuco1/copilot.el" :files ("dist" "assets" "*.el")))
   :bind (:map copilot-completion-map
-         ("TAB" . copilot-accept-completion)
-         ("<tab>" . copilot-accept-completion)))
+         ([remap forward-char] . my-copilot-complete-or-forward)
+         :map company-active-map
+         ("C-f" . my-copilot-complete-or-forward)
+         :map copilot-mode-map
+         ("C-f" . my-copilot-complete-or-forward))
+  :config
+  (defun my-copilot-complete-or-forward (&optional arg)
+    (interactive "^p")
+    (if (copilot--overlay-visible)
+        (progn
+          (company-cancel)
+          (copilot-accept-completion))
+      (forward-char arg)))
+  (eldoc-add-command 'my-copilot-complete-or-forward))
 
 (use-package crontab-mode
   :straight t
@@ -1182,6 +1194,7 @@ idle timer to do the actual update.")
     (add-hook 'ess-post-run-hook 'my-ess-post-run-hook)
     (defun my-inferior-ess-init ()
       (setq-local ansi-color-for-comint-mode 'filter)
+      (company-mode 1)
       (smartparens-mode 1))
     (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)))
 
@@ -2087,8 +2100,7 @@ called, percentage usage and the command."
       (elsa-setup-font-lock)
       (add-to-list 'imenu-generic-expression
                    '("Ert tests" "\\(^(ert-deftest +\\)\\(\\_<.+\\_>\\)" 2))
-      (company-mode 1)
-      (setq completion-at-point-functions nil))
+      (company-mode 1))
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init)))
 
 (use-package lsp-mode
