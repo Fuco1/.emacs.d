@@ -95,8 +95,9 @@
   (interactive)
   (save-restriction
     (widen)
-    (narrow-to-defun)
-    (indent-buffer)))
+    (narrow-to-defun :include-comments)
+    (indent-buffer)
+    (indent-for-tab-command)))
 
 ;;;###autoload
 (defun my-kill-this-buffer ()
