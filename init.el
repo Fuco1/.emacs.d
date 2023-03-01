@@ -92,11 +92,11 @@ There are %d customizable settings available."
 
 (my-with-elapsed-timer "Initializing packages"
   (straight-use-package 'dash)
+  (straight-use-package 'f)
+  (straight-use-package 's)
   (straight-use-package 'dash-functional)
 
   (require 'uniquify)
-  (require 'f)
-  (require 's)
 
   ;; add load paths
   (load "~/.emacs.d/site-lisp/my-bootstrap")
