@@ -3169,8 +3169,6 @@ separate buffer."
       '((t (:background "#4e9a06")))
       "Face to highlight stocks with a buy order.")))
 
-(use-package string-edit :straight t)
-
 (use-package systemd :straight t)
 
 (use-package terraform-mode
