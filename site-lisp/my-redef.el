@@ -331,103 +331,71 @@ existing formula for column %s"
 ;; bad, but gmail rewrites the From: address to the address ofthe user
 ;; you auth against smtp with, which breaks outgoing email
 (eval-after-load "smtpmail"
-  '(defun smtpmail-try-auth-methods (process supported-extensions host port
-                                             &optional ask-for-password)
-     (setq port
-           (if port
-               (format "%s" port)
-             "smtp"))
-     (let* ((mechs (cdr-safe (assoc 'auth supported-extensions)))
-            (mech (car (smtpmail-intersection mechs smtpmail-auth-supported)))
-            (auth-source-creation-prompts
-             '((user  . "SMTP user name for %h: ")
-               (secret . "SMTP password for %u@%h: ")))
-            ;; FUCO: this line was added to set smtp-user properly
-            (smtpmail-smtp-user envelope-from)
-            ;; FUCOEND:
-            (auth-info (car
-                        (auth-source-search
-                         :host host
-                         :port port
-                         :user smtpmail-smtp-user
-                         :max 1
-                         :require (and ask-for-password
-                                       '(:user :secret))
-                         :create ask-for-password)))
-            (user (plist-get auth-info :user))
-            (password (plist-get auth-info :secret))
-            (save-function (and ask-for-password
-                                (plist-get auth-info :save-function)))
-            ret)
-       (when (functionp password)
-         (setq password (funcall password)))
-       (when (and user
-                  (not password))
-         ;; The user has stored the user name, but not the password, so
-         ;; ask for the password, even if we're not forcing that through
-         ;; `ask-for-password'.
-         (setq auth-info
-               (car
-                (auth-source-search
-                 :max 1
-                 :host host
-                 :port port
-                 :user smtpmail-smtp-user
-                 :require '(:user :secret)
-                 :create t))
-               password (plist-get auth-info :secret)))
-       (when (functionp password)
-         (setq password (funcall password)))
-       (cond
-        ((or (not mech)
-             (not user)
-             (not password))
-         ;; No mechanism, or no credentials.
-         mech)
-        ((eq mech 'cram-md5)
-         (setq ret (smtpmail-command-or-throw process "AUTH CRAM-MD5"))
-         (when (eq (car ret) 334)
-           (let* ((challenge (substring (cadr ret) 4))
-                  (decoded (base64-decode-string challenge))
-                  (hash (rfc2104-hash 'md5 64 16 password decoded))
-                  (response (concat user " " hash))
-                  ;; Osamu Yamane <yamane@green.ocn.ne.jp>:
-                  ;; SMTP auth fails because the SMTP server identifies
-                  ;; only the first part of the string (delimited by
-                  ;; new line characters) as a response from the
-                  ;; client, and the rest as distinct commands.
-
-                  ;; In my case, the response string is 80 characters
-                  ;; long.  Without the no-line-break option for
-                  ;; `base64-encode-string', only the first 76 characters
-                  ;; are taken as a response to the server, and the
-                  ;; authentication fails.
-                  (encoded (base64-encode-string response t)))
-             (smtpmail-command-or-throw process encoded)
+  '(progn
+     (el-patch-defun smtpmail-try-auth-methods (process supported-extensions host port
+                                                        &optional ask-for-password)
+       (message "[smtpmail-try-auth-methods] host %s port %s" host port)
+       (setq port
+             (if port
+                 (format "%s" port)
+               "smtp"))
+       (let* ((mechs (seq-intersection
+                      smtpmail-auth-supported
+                      (cdr-safe (assoc 'auth supported-extensions))
+                      #'eq))
+              (auth-source-creation-prompts
+               '((user  . "SMTP user name for %h: ")
+                 (secret . "SMTP password for %u@%h: ")))
+              (el-patch-add (smtpmail-smtp-user
+                             (if (eq mail-envelope-from 'header)
+                                 (-when-let ((field (mail-fetch-field "From")))
+                                   (nth 1 (mail-extract-address-components field)))
+                               mail-envelope-from)))
+              (auth-info (car
+                          (auth-source-search
+                           :host host
+                           :port port
+                           :user smtpmail-smtp-user
+                           :max 1
+                           :require (and ask-for-password
+                                         '(:user :secret))
+                           :create ask-for-password)))
+              (mech (or (plist-get auth-info :smtp-auth) (car mechs)))
+              (user (plist-get auth-info :user))
+              (password (plist-get auth-info :secret))
+              (save-function (and ask-for-password
+                                  (plist-get auth-info :save-function))))
+         (when (functionp password)
+           (setq password (funcall password)))
+         (when (and user
+                    (not password))
+           ;; The user has stored the user name, but not the password, so
+           ;; ask for the password, even if we're not forcing that through
+           ;; `ask-for-password'.
+           (setq auth-info
+                 (car
+                  (auth-source-search
+                   :max 1
+                   :host host
+                   :port port
+                   :user smtpmail-smtp-user
+                   :require '(:user :secret)
+                   :create t))
+                 password (plist-get auth-info :secret)))
+         (when (functionp password)
+           (setq password (funcall password)))
+         (let ((result (catch 'done
+                         (if (and mech user password)
+                             (smtpmail-try-auth-method process mech user password)
+                           ;; No mechanism, or no credentials.
+                           mech))))
+           (if (stringp result)
+               (progn
+                 (auth-source-forget+ :host host :port port)
+                 (throw 'done result))
              (when save-function
-               (funcall save-function)))))
-        ((eq mech 'login)
-         (smtpmail-command-or-throw process "AUTH LOGIN")
-         (smtpmail-command-or-throw
-          process (base64-encode-string user t))
-         (smtpmail-command-or-throw process (base64-encode-string password t))
-         (when save-function
-           (funcall save-function)))
-        ((eq mech 'plain)
-         ;; We used to send an empty initial request, and wait for an
-         ;; empty response, and then send the password, but this
-         ;; violate a SHOULD in RFC 2222 paragraph 5.1.  Note that this
-         ;; is not sent if the server did not advertise AUTH PLAIN in
-         ;; the EHLO response.  See RFC 2554 for more info.
-         (smtpmail-command-or-throw
-          process
-          (concat "AUTH PLAIN "
-                  (base64-encode-string (concat "\0" user "\0" password) t))
-          235)
-         (when save-function
-           (funcall save-function)))
-        (t
-         (error "Mechanism %s not implemented" mech))))))
+               (funcall save-function))
+             result))))))
 
 ;; Fix incorrectly returned default value when user simply hits RET
 ;; without doing any selection

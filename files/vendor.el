@@ -857,7 +857,6 @@ config from before."
   (eldoc-in-minibuffer-mode 1))
 
 (use-package elfeed
-  :disabled t
   :straight t
   :if (member (my-where-am-i) '("home" "brno"))
   :bind (("C-. C-f" . elfeed))
@@ -869,93 +868,85 @@ config from before."
      (tumblr font-lock-constant-face))))
   (elfeed-search-title-max-width 90)
   (elfeed-use-curl t)
-  :init
-  (progn
-    ;; run an idle timer from this timer so it won't bother me while editing
-    ;; schedule timer, make it run idle timer, make that run this timer again... blerg
-    (defvar my-elfeed-update-timer
-      (run-with-timer 10 nil 'my-elfeed-update-schedule)
-      "`Elfeed' update timer.  This timer periodically starts an
+  :config
+  ;; run an idle timer from this timer so it won't bother me while editing
+  ;; schedule timer, make it run idle timer, make that run this timer again... blerg
+  (defvar my-elfeed-update-timer
+    (run-with-timer 10 nil 'my-elfeed-update-schedule)
+    "`Elfeed' update timer.  This timer periodically starts an
 idle timer to do the actual update.")
 
-    (defvar my-elfeed-idle-timer nil
-      "Timer performing `elfeed' update.")
+  (defvar my-elfeed-idle-timer nil
+    "Timer performing `elfeed' update.")
 
-    (defun my-elfeed-update-schedule ()
-      "Schedule an update."
-      (setq my-elfeed-idle-timer
-            (run-with-idle-timer 10 nil 'my-elfeed-update)))
+  (defun my-elfeed-update-schedule ()
+    "Schedule an update."
+    (setq my-elfeed-idle-timer
+          (run-with-idle-timer 10 nil 'my-elfeed-update)))
 
-    (defun my-elfeed-update ()
-      "Run `elfeed' update and schedule a new one in the future."
-      (elfeed-update)
-      (setq my-elfeed-update-timer
-            (run-with-timer 1200 nil 'my-elfeed-update-schedule))))
-  :config
-  (progn
-    (use-package elfeed-link)
+  (defun my-elfeed-update ()
+    "Run `elfeed' update and schedule a new one in the future."
+    (elfeed-update)
+    (setq my-elfeed-update-timer
+          (run-with-timer 1200 nil 'my-elfeed-update-schedule)))
 
-    (defun my-elfeed-search-print-entry--default (entry)
-      "Print ENTRY to the buffer."
-      (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
-             (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
-             (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
-             (feed (elfeed-entry-feed entry))
-             (author (elfeed-meta entry :author))
-             (feed-title
-              (when feed
-                (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
-             (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
-             (tags-str (mapconcat
-                        (lambda (s) (propertize s 'face 'elfeed-search-tag-face))
-                        tags ","))
-             (title-width (- (window-width) 10 elfeed-search-trailing-width))
-             (title-column (elfeed-format-column
-                            title (elfeed-clamp
-                                   elfeed-search-title-min-width
-                                   title-width
-                                   elfeed-search-title-max-width)
-                            :left)))
-        (insert (propertize date 'face 'elfeed-search-date-face) " ")
-        (insert (propertize title-column 'face title-faces 'kbd-help title) " ")
-        (when feed-title
-          (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))
-        (when tags
-          (insert "(" tags-str ")"))
-        (when author
-          (insert " " author))))
+  (defun my-elfeed-search-print-entry--default (entry)
+    "Print ENTRY to the buffer."
+    (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+           (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+           (feed (elfeed-entry-feed entry))
+           (author (elfeed-meta entry :author))
+           (feed-title
+            (when feed
+              (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+           (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
+           (tags-str (mapconcat
+                      (lambda (s) (propertize s 'face 'elfeed-search-tag-face))
+                      tags ","))
+           (title-width (- (window-width) 10 elfeed-search-trailing-width))
+           (title-column (elfeed-format-column
+                          title (elfeed-clamp
+                                 elfeed-search-title-min-width
+                                 title-width
+                                 elfeed-search-title-max-width)
+                          :left)))
+      (insert (propertize date 'face 'elfeed-search-date-face) " ")
+      (insert (propertize title-column 'face title-faces 'kbd-help title) " ")
+      (when feed-title
+        (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))
+      (when tags
+        (insert "(" tags-str ")"))
+      (when author
+        (insert " " author))))
 
-    (setq elfeed-search-print-entry-function
-          #'my-elfeed-search-print-entry--default)
+  (setq elfeed-search-print-entry-function
+        #'my-elfeed-search-print-entry--default)
 
-    (defvar my-elfeed-unread-count (let ((n 0))
-                                     (with-elfeed-db-visit (entry _feed)
-                                       (when (memq 'unread (elfeed-entry-tags entry))
-                                         (cl-incf n)))
-                                     n)
-      "Number of unread elfeed feeds.")
+  (defvar my-elfeed-unread-count 0
+    "Number of unread elfeed feeds.")
 
-    (defun my-elfeed-update-unread-count ()
-      (let ((n 0))
-        (with-elfeed-db-visit (entry _feed)
-          (when (memq 'unread (elfeed-entry-tags entry))
-            (cl-incf n)))
-        (setq my-elfeed-unread-count n)))
-    (add-hook 'elfeed-db-update-hook 'my-elfeed-update-unread-count)
+  (defun my-elfeed-update-unread-count ()
+    (let ((n 0))
+      (with-elfeed-db-visit (entry _feed)
+                            (when (memq 'unread (elfeed-entry-tags entry))
+                              (cl-incf n)))
+      (setq my-elfeed-unread-count n)))
+  (add-hook 'elfeed-db-update-hook 'my-elfeed-update-unread-count)
 
-    (defadvice elfeed-tag-1 (before update-unread activate)
-      (when (and (not (member 'unread (elfeed-entry-tags (ad-get-arg 0))))
-                 (member 'unread (ad-get-args 1)))
-        (cl-incf my-elfeed-unread-count)))
+  (defadvice elfeed-tag-1 (before update-unread activate)
+    (when (and (not (member 'unread (elfeed-entry-tags (ad-get-arg 0))))
+               (member 'unread (ad-get-args 1)))
+      (cl-incf my-elfeed-unread-count)))
 
-    (defadvice elfeed-untag-1 (before update-unread activate)
-      (when (and (member 'unread (elfeed-entry-tags (ad-get-arg 0)))
-                 (member 'unread (ad-get-args 1)))
-        (cl-decf my-elfeed-unread-count)))
+  (defadvice elfeed-untag-1 (before update-unread activate)
+    (when (and (member 'unread (elfeed-entry-tags (ad-get-arg 0)))
+               (member 'unread (ad-get-args 1)))
+      (cl-decf my-elfeed-unread-count)))
 
-    (bind-keys :map elfeed-show-mode-map
-      ("M-n" . shr-next-link)
-      ("M-p" . shr-previous-link))))
+  (bind-keys :map elfeed-show-mode-map
+    ("M-n" . shr-next-link)
+    ("M-p" . shr-previous-link)))
 
 (use-package elpy
   :straight t
@@ -2187,13 +2178,14 @@ delete it and re-insert new one."
 
 (use-package message
   :defer t
-  :init
-  (progn
-    (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
   :config
-  (progn
-    (use-package notmuch :disabled t)
-    (use-package smtpmail)))
+  (use-package notmuch)
+  (use-package smtpmail)
+
+  (defun my-message-mode-init ()
+    (notmuch-company-setup))
+  (add-hook 'message-mode-hook 'my-message-mode-init)
+  (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
 
 (use-package nomad-tramp
   :straight (:repo "ydistri/nomad-tramp"))
@@ -2254,77 +2246,78 @@ delete it and re-insert new one."
 
 (use-package notmuch
   :straight t
-  :disabled t
-  :init
-  (progn
-    (autoload #'my-notmuch-unread "notmuch" nil t)
-    (autoload #'my-notmuch-inbox "notmuch" nil t)
-    (bind-keys :map ctl-dot-prefix-map
-      ("C-u" . my-notmuch-unread)
-      ("TAB" . my-notmuch-inbox)
-      ("C-a" . my-notmuch-archived)
-      ("C-r" . my-notmuch-newsletter)
-      ("C-n" . notmuch)))
   :config
-  (progn
-    (defun my-notmuch-unread ()
-      "Display buffer with unread mail."
-      (interactive)
-      (notmuch-search "tag:unread"))
+  (autoload #'my-notmuch-unread "notmuch" nil t)
+  (autoload #'my-notmuch-inbox "notmuch" nil t)
+  (bind-keys :map ctl-dot-prefix-map
+    ("C-u" . my-notmuch-unread)
+    ("TAB" . my-notmuch-inbox)
+    ("C-a" . my-notmuch-archived)
+    ("C-r" . my-notmuch-newsletter)
+    ("C-n" . notmuch))
 
-    (defun my-notmuch-inbox ()
-      "Display buffer with inbox mail."
-      (interactive)
-      (notmuch-search "tag:inbox"))
+  (require 'ol-notmuch)
 
-    (defun my-notmuch-archived ()
-      "Display buffer with archived mail."
-      (interactive)
-      (notmuch-search "tag:archived"))
+  (defun my-notmuch-unread ()
+    "Display buffer with unread mail."
+    (interactive)
+    (notmuch-search "tag:unread"))
 
-    (defun my-notmuch-newsletter ()
-      "Display buffer with newsletter tag."
-      (interactive)
-      (notmuch-search "tag:newsletter and not tag:archived"))
+  (defun my-notmuch-inbox ()
+    "Display buffer with inbox mail."
+    (interactive)
+    (notmuch-search "tag:inbox"))
 
-    (defun my-notmuch-delete-mail (&optional beg end)
-      (interactive (if (use-region-p)
-                       (list (region-beginning) (region-end))
-                     (list nil nil)))
-      (let ((change '("+deleted" "-unread" "-inbox")))
-        (if (eq major-mode 'notmuch-search-mode)
-            (progn
-              (notmuch-search-tag change beg end)
-              (notmuch-search-next-thread))
-          (notmuch-show-tag change))))
+  (defun my-notmuch-archived ()
+    "Display buffer with archived mail."
+    (interactive)
+    (notmuch-search "tag:archived"))
 
-    (defun my-notmuch-open-attachment-dwim (command arg file)
-      "Open attachment at point using COMMAND.
+  (defun my-notmuch-newsletter ()
+    "Display buffer with newsletter tag."
+    (interactive)
+    (notmuch-search "tag:newsletter and not tag:archived"))
+
+  (defun my-notmuch-delete-mail (&optional beg end)
+    (interactive (if (use-region-p)
+                     (list (region-beginning) (region-end))
+                   (list nil nil)))
+    (let ((change '("+trash" "-unread" "-inbox")))
+      (if (eq major-mode 'notmuch-search-mode)
+          (progn
+            (notmuch-search-tag change beg end)
+            (notmuch-search-next-thread))
+        (notmuch-show-tag change))))
+
+  (defun my-notmuch-open-attachment-dwim (command arg file)
+    "Open attachment at point using COMMAND.
 
 ARG and FILE are passed to `dired-do-shell-command' as expected
 by that command."
-      (interactive
-       (-if-let (original-file (cdadr (assoc 'attachment (notmuch-show-current-part-handle nil))))
-           (let ((file (make-temp-name
-                        (expand-file-name
-                         (concat "notmuch-attachment-" original-file)
-                         temporary-file-directory))))
-             (list
-              (dired-read-shell-command "& on %s: " current-prefix-arg (list file))
-              current-prefix-arg
-              file))
-         (user-error "Point not on attachment.")))
-      (mm-save-part-to-file (notmuch-show-current-part-handle nil) file)
-      (dired-do-shell-command command arg (list file)))
+    (interactive
+     (-if-let (original-file (cdadr (assoc 'attachment (notmuch-show-current-part-handle nil))))
+         (let ((file (concat
+                      (make-temp-name
+                       (expand-file-name
+                        "notmuch-attachment-"
+                        temporary-file-directory))
+                      "-"
+                      original-file)))
+           (list
+            (dired-read-shell-command "& on %s: " current-prefix-arg (list file))
+            current-prefix-arg
+            file))
+       (user-error "Point not on attachment.")))
+    (mm-save-part-to-file (notmuch-show-current-part-handle nil) file)
+    (dired-do-shell-command command arg (list file)))
 
-    (bind-key "C-&" 'my-notmuch-open-attachment-dwim notmuch-show-mode-map)
-    (bind-key "RET" 'goto-address-at-point goto-address-highlight-keymap)
-    (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
-    (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
-    (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map)))
+  (bind-key "C-&" 'my-notmuch-open-attachment-dwim notmuch-show-mode-map)
+  (bind-key "RET" 'goto-address-at-point goto-address-highlight-keymap)
+  (bind-key "d" 'my-notmuch-delete-mail notmuch-show-mode-map)
+  (bind-key "d" 'my-notmuch-delete-mail notmuch-search-mode-map)
+  (bind-key "g" 'notmuch-poll-and-refresh-this-buffer notmuch-search-mode-map))
 
 (use-package notmuch-unread
-  :disabled t
   :after notmuch
   :straight t
   :config
