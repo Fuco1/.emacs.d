@@ -26,7 +26,7 @@ Enable lexical binding by default.
 |------------+-------------------------------------------------------------------------------|
 | 2017-06-21 | The regexp was fixed to match =$FOO_BAR= and skip escaped dollars (see this [[https://github.com/Fuco1/Fuco1.github.io/pull/6][PR]]) |
 
-Previously I have written about [[file:~/org/emacs.org::*The%20absolute%20awesomeness%20of%20anchored%20font-lock%20matchers][font-lock anchored matchers]].  Today I have come across another problem and another solution with Emacs's font-lock mechanism.  This trend is starting to annoy me.
+Previously I have written about [[file:~/org/emacs.org::*The absolute awesomeness of anchored font-lock matchers][font-lock anchored matchers]].  Today I have come across another problem and another solution with Emacs's font-lock mechanism.  This trend is starting to annoy me.
 
 I now work at a DevOps position and so I have been writing a lot of shell scripts lately to glue all the stuff we do together.  One missing feature that kept bugging me was the font-locking of interpolated variables in =sh-mode=... that is, the fact that there wasn't any!
 
