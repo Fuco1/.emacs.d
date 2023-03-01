@@ -386,9 +386,15 @@
                                   (:name "Monthly"
                                    :tag "#monthly"
                                    :order 1)
+                                  (:name "Reading for the week"
+                                   :and (:tag "readlater"
+                                         :deadline t)
+                                   :and (:tag "readlater"
+                                         :scheduled t)
+                                   :order 9)
                                   (:name "Habits"
                                    :and (:habit t
-                                         :not (:time-grid))
+                                         :not (:time-grid t))
                                    :order 11)
                                   (:name "Deadlines"
                                    :and (:deadline t
@@ -398,16 +404,16 @@
                                    :order 20)
                                   (:name "Scheduled"
                                    :and (:scheduled past
-                                         :not (:habit)
-                                         :not (:time-grid)
+                                         :not (:habit t)
+                                         :not (:time-grid t)
                                          :not (:todo "STOP")
                                          :not (:tag "piano"))
                                    :order 30)
                                   (:name "Scheduled - piano practice"
                                    :and (:scheduled past
                                          :tag "piano"
-                                         :not (:habit)
-                                         :not (:time-grid))
+                                         :not (:habit t)
+                                         :not (:time-grid t))
                                    :order 35)
                                   )))))
       (bugs-emacs . (tags-todo "bug/!-NEXT"
