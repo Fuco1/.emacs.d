@@ -3,6 +3,7 @@
 (server-start)
 (defconst emacs-start-time (current-time))
 (defmacro org-babel-header-args-safe-fn (safe-list) t)
+(setq eieio-backward-compatibility nil)
 
 ;; Emacs gurus don't need no stinking scroll bars & widgets
 (scroll-bar-mode -1)
