@@ -1322,6 +1322,7 @@ idle timer to do the actual update.")
            )
   :config
   (progn
+    (put 'flycheck-emacs-lisp-load-path 'safe-local-variable #'identity)
     (use-package flycheck-vale
       :straight t
       :config
@@ -1424,6 +1425,15 @@ use a directory-local variable to specify this per-project."
       (setq-local flycheck-error-indicators (flycheck-errors-to-indicator-list))
       (ind-update-event-handler))
     (add-hook 'flycheck-after-syntax-check-hook 'flycheck-add-indicators)
+
+    (defun flycheck-display-error-messages-using-eldoc (callback &rest _ignored)
+      (-when-let (errors (flycheck-overlay-errors-at (point)))
+        (let ((message (flycheck-help-echo-all-error-messages errors)))
+          (funcall callback message))))
+
+    (add-hook 'eldoc-documentation-functions
+              #'flycheck-display-error-messages-using-eldoc)
+    (setq flycheck-help-echo-function nil)
 
     (defun my-flycheck-init ()
       (indicators-mode t)
