@@ -1515,19 +1515,6 @@ use a directory-local variable to specify this per-project."
     :priority 1
     :server-id 'nomad-ls))
 
-  (defun my-terraform-find-resource (resource)
-    (interactive (list (sp-get (sp-get-enclosing-sexp)
-                         (buffer-substring-no-properties :beg-in :end-in))))
-    (-let* (((resource-type name) (s-split "\\." resource))
-            (root (locate-dominating-file (buffer-file-name) ".git"))
-            ((&plist :results) (dumb-jump-get-results "resource")))
-      (-filter
-       (-lambda ((&plist :context))
-         (and (string-match-p "\\`resource" context)
-              (string-match-p resource-type context)
-              (string-match-p name context)))
-       results)))
-
   (defun my-hcl-indirect-edit ()
     "Use `edit-indirect-region' to edit the heredoce in HCL."
     (interactive)
