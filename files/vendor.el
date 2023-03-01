@@ -1292,6 +1292,7 @@ idle timer to do the actual update.")
     (add-hook 'grep-mode-hook 'my-grep-mode-init)))
 
 (use-package grip
+  :disabled t
   :straight (:repo "git@github.com:seagle0128/grip-mode.git"
              :files ("grip-mode.el"))
   :config
