@@ -260,6 +260,7 @@ _k_b.org    _r_eading.org"
 
 #+begin_src elisp
 ;; push in opposite order
+(push (cons "R" (lambda () (org-graph-render-node))) org-speed-commands)
 (push (cons "C" 'org-graph-goto-child) org-speed-commands)
 (push (cons "P" 'org-graph-goto-parent) org-speed-commands)
 (push (list "Org Graph") org-speed-commands)
@@ -1591,6 +1592,8 @@ set the org variables appropriately.
 :PROPERTIES:
 :BLOG_FILENAME: 2023-02-20-Using-OpenAI-GPT-to-search-your-org-files
 :PUBDATE:  [2023-02-20 Mon 20:18]
+:ID:       cbd16aec-cc6a-4114-ab7a-7fb865820ce4
+:GRAPH_PARENTS: c5017331-a968-44b2-830c-ad0c007c22fa
 :END:
 :LOGBOOK:
 - State "DONE"       from              [2023-02-20 Mon 20:18]
