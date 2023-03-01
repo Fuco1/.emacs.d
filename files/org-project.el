@@ -65,6 +65,12 @@ task is a subtask in a project.")
           ;; "logic".  Also, make it return point
           (save-excursion (org-back-to-heading 'invisible-ok) (point)))))
 
+(defun my-org-is-in-done-project-p ()
+  "Non-nil if this task is subtask of a done project."
+  (save-excursion
+    (while (and (not (org-entry-is-done-p)) (org-up-heading-safe)))
+    (org-entry-is-done-p)))
+
 (defun my-org-is-project-p ()
   "Any task with a todo keyword subtask.
 
@@ -184,6 +190,13 @@ A stuck project has subtasks but no next task."
               (and (my-org-is-task-p)
                    (not (my-org-is-project-subtree-p))))
       (my-org-next-heading-pos))))
+
+(defun my-org-skip-inactive-tasks ()
+  "Skip TODO tasks nested under DONE projects."
+  (save-restriction
+    (widen)
+    (when (my-org-is-in-done-project-p)
+      (save-excursion (org-end-of-subtree t)))))
 
 (defun my-org-skip-project-tasks-maybe ()
   "Show tasks related to the current restriction.

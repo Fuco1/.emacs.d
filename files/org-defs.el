@@ -445,6 +445,13 @@
                            (org-agenda-todo-ignore-deadlines t)
                            (org-agenda-todo-ignore-with-date t)
                            (org-agenda-sorting-strategy '(priority-down category-keep)))))
+      (active-tasks . (todo "TODO"
+                            ((org-agenda-overriding-header "Active tasks")
+                             (org-agenda-skip-function 'my-org-skip-inactive-tasks)
+                             (org-agenda-todo-ignore-scheduled t)
+                             (org-agenda-todo-ignore-deadlines t)
+                             (org-agenda-todo-ignore-with-date t)
+                             (org-agenda-sorting-strategy '(priority-down category-keep)))))
       (tasks-to-discuss . (tags-todo "/!CONF"
                                      ((org-agenda-overriding-header "Tasks to discuss")
                                       (org-agenda-todo-ignore-scheduled t)
@@ -492,11 +499,14 @@
             ,(cdr (assoc 'waiting-tasks my-custom-agenda-sections))
             ,(cdr (assoc 'projects my-custom-agenda-sections))
             ,(cdr (assoc 'hold my-custom-agenda-sections))))
-          ("t" "Todo" tags "-HOLD-STOP-BOOKS-download/!+NEXT|+TODO"
+          ("x" . "Todo filters")
+          ("xt" "Todo" tags "-HOLD-STOP-BOOKS-download/!+NEXT|+TODO"
            ((org-agenda-skip-function 'my-org-skip-projects)
             (org-agenda-todo-ignore-scheduled t)
             (org-agenda-todo-ignore-deadlines t)
             (org-agenda-todo-ignore-with-date t)))
+          ("xa" "Active tasks"
+           (,(cdr (assoc 'active-tasks my-custom-agenda-sections))))
           ("e" "Emacs config"
            ((todo "TODO|NEXT"
                   ((org-agenda-overriding-header "Emacs config")
