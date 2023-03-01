@@ -261,7 +261,17 @@ instead."
           (skip-chars-forward " "))
       (dired-move-to-filename)))
    ((eq major-mode 'org-mode)
-    (org-beginning-of-line))
+    (let ((elem (org-element-at-point-no-context))
+          (p (point)))
+      (cond
+       ((and (eq (org-element-type elem) 'node-property)
+             (let ((key (org-element-property :key elem)))
+               (beginning-of-line)
+               (search-forward key)
+               (forward-char)
+               (skip-syntax-forward " ")
+               (/= p (point)))))
+       ((org-beginning-of-line)))))
    (t
     (let ((bol (my--line-beginning-position))
           (ind (my--indentation-position))
