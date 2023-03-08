@@ -3172,7 +3172,12 @@ separate buffer."
       (company-mode 1)
       (abbrev-mode 1))
 
-    (add-hook 'swb-mode-hook 'my-swb-mode-init)))
+    (add-hook 'swb-mode-hook 'my-swb-mode-init)
+
+    (defun my-swb-result-mode-init ()
+      (org-pretty-table-mode 1))
+
+    (add-hook 'swb-result-mode-hook 'my-swb-result-mode-init)))
 
 (use-package stocklist
   :bind (("C-. q" . stocklist-show))
