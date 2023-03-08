@@ -1253,6 +1253,17 @@ idle timer to do the actual update.")
       (setq-local cursor-type (if buffer-face-mode 'bar 'box))
       res))
 
+  (defvar my-face-cookie nil)
+
+  (defun my-face-remap-smaller-fixed-sys ()
+    (if buffer-face-mode
+        (setq my-face-cookie (face-remap-add-relative 'fixed-pitch `(:inherit fixed-pitch :height 0.9)))
+      (and my-face-cookie (face-remap-remove-relative my-face-cookie))
+      (setq my-face-cookie nil)))
+
+  (add-hook 'buffer-face-mode-on-hook #'my-face-remap-smaller-fixed-sys)
+  (add-hook 'buffer-face-mode-off-hook #'my-face-remap-smaller-fixed-sys)
+
   (advice-add 'variable-pitch-mode :around #'my-variable-pitch-mode-cursor-setup))
 
 (use-package feature-mode

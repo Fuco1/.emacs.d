@@ -339,7 +339,7 @@ respective major mode.  Think org SRC blocks.")
    (message-separator (:foreground plum-1))
 
    ;; Info faces
-   (Info-quoted (:inherit markup-inline-code :height 0.9 :weight light))
+   (Info-quoted (:inherit markup-inline-code :weight light))
 
    ;; SMerge faces
    (smerge-refined-change (:background blue-3))
@@ -436,7 +436,7 @@ respective major mode.  Think org SRC blocks.")
    (markup-bold (:weight bold :foreground butter-3))
    (markup-underline (:underline t))
    (markup-strike (:inherit shadow :strike-through "red"))
-   (markup-inline-code (:family ,fixed-sys :inherit font-lock-constant-face))
+   (markup-inline-code (:inherit (fixed-pitch font-lock-constant-face)))
    (markup-math (:foreground orange-2))
    (markup-string (:inherit font-lock-string-face))
 
@@ -454,7 +454,7 @@ respective major mode.  Think org SRC blocks.")
    (markup-block (:background alum-6.5))
    (markup-blockquote (:inherit (font-lock-doc-face markup-block)))
    (markup-code-block (:inherit (fixed-pitch markup-block)))
-   (markup-pre (:inherit markup-code-block :foreground plum-0))
+   (markup-pre (:inherit (markup-code-block font-lock-constant-face)))
    (markup-comment (:inherit font-lock-comment-face))
    (markup-metadata-key (:inherit font-lock-keyword-face))
    (markup-metadata-value (:foreground butter-2))
