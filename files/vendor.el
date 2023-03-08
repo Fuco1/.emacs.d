@@ -2123,6 +2123,14 @@ called, percentage usage and the command."
       (elsa-setup-font-lock)
       (add-to-list 'imenu-generic-expression
                    '("Ert tests" "\\(^(ert-deftest +\\)\\(\\_<.+\\_>\\)" 2))
+      (add-to-list 'imenu-generic-expression
+                   `("Methods" ,(rx "cl-" (or "defmethod" "defgeneric")
+                                    (1+ " ")
+                                    (group (1+ (or (syntax symbol) (syntax word)))
+                                           (1+ " ")
+                                           (* anything)
+                                           eol))
+                     1))
       (company-mode 1))
     (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-init)))
 
