@@ -678,6 +678,11 @@ respective major mode.  Think org SRC blocks.")
    (lsp-ui-doc-background (:background "black"))
    (lsp-ui-sideline-global (:background "black"))
 
+   ;; ess
+   (ess-constant-face (:inherit font-lock-constant-face))
+   (ess-assignment-face (:inherit font-lock-builtin-face))
+   (ess-%op%-face (:inherit font-lock-builtin-face))
+
    ;; prodigy
    (prodigy-green-face (:inherit font-lock-comment-face))
    (prodigy-red-face (:inherit font-lock-warning-face))
