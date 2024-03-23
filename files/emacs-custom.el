@@ -156,7 +156,7 @@
  '(cursor-type 'box)
  '(custom-enabled-themes '(my-tango-dark))
  '(custom-safe-themes
-   '("d9a89a0a87e861ffa9181b0d5c6b593f0108fee83cade906eb5433b16ed6386a" "f536c42e8d2c1139cac9533501376ecddb2f13d4cca68a12d0956db697d58730" "b467d90433db3e687056e45e1141044c2158dc4ef2ace6e5cab38b88cee5eb06" "c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
+   '("e45f9bae02efa875bf403ed93435d2e0a9de01c5804b152319f930d6fb1f9640" "bc047531e202c5ac167b82d3eafb1954bf87cac27acb477fe65a5eab4db49a36" "43c1fbcbafa8a1cb7e0d6fd42b9cd1b280c67c28b337fae8d784831b4e2db46f" "d9a89a0a87e861ffa9181b0d5c6b593f0108fee83cade906eb5433b16ed6386a" "f536c42e8d2c1139cac9533501376ecddb2f13d4cca68a12d0956db697d58730" "b467d90433db3e687056e45e1141044c2158dc4ef2ace6e5cab38b88cee5eb06" "c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -230,13 +230,22 @@
  '(dired-open-use-nohup t)
  '(diredfl-ignore-compressed-flag nil)
  '(display-buffer-alist
-   '(((lambda
+   '((shackle-display-buffer-condition shackle-display-buffer-action)
+     (shackle-display-buffer-condition shackle-display-buffer-action)
+     (my-compile-same-window
+      (display-buffer-reuse-window display-buffer-same-window)
+      (inhibit-same-window))
+     ((lambda
         (b _)
         (with-current-buffer b
-          (eq major-mode 'swb-result-mode)))
-      (display-buffer-reuse-window display-buffer-pop-up-window)
-      (reusable-frames)
-      (window-height . my-fit-window-to-buffer))
+          (or
+           (string-match-p "SQL Results"
+                           (buffer-name))
+           (eq major-mode 'swb-result-mode))))
+      (display-buffer-reuse-window display-buffer-at-bottom)
+      (reusable-frames . visible)
+      (window-height . my-fit-window-to-buffer)
+      (inhibit-same-window . t))
      (".*"
       (ignore)
       (reusable-frames . t))))
@@ -317,11 +326,24 @@
 ]*
 >[#$] ")
  '(eshell-skip-prompt-function 'my-eshell-skip-prompt)
+ '(ess-R-font-lock-keywords
+   '((ess-R-fl-keyword:keywords . t)
+     (ess-R-fl-keyword:constants . t)
+     (ess-R-fl-keyword:modifiers . t)
+     (ess-R-fl-keyword:fun-defs . t)
+     (ess-R-fl-keyword:assign-ops . t)
+     (ess-R-fl-keyword:%op% . t)
+     (ess-fl-keyword:fun-calls)
+     (ess-fl-keyword:numbers . t)
+     (ess-fl-keyword:operators)
+     (ess-fl-keyword:delimiters)
+     (ess-fl-keyword:=)
+     (ess-R-fl-keyword:F&T)))
  '(exec-path-from-shell-shell-name "fish")
  '(eyebrowse-mode t)
  '(fci-rule-color "#eee8d5")
  '(find-grep-options "-qE")
- '(flycheck-checker-error-threshold 2000)
+ '(flycheck-checker-error-threshold 3000)
  '(flycheck-disabled-checkers '(php-phplint php-phpmd emacs-lisp-checkdoc))
  '(flycheck-display-errors-function 'ignore)
  '(flycheck-emacs-lisp-load-path 'inherit)
@@ -352,7 +374,7 @@
    '(("s" . "pnPNjkhl1234567890qwerb")
      ("A" . "1234567890qwer,.[]=c")))
  '(free-keys-modifiers '("" "C" "M" "C-M" "A" "H" "s"))
- '(gc-cons-threshold 10000000)
+ '(gc-cons-threshold 200000000)
  '(geben-display-window-function 'display-buffer)
  '(global-flex-isearch-mode t)
  '(global-ligature-mode t)
@@ -378,6 +400,7 @@
  '(guide-key/recursive-key-sequence-flag t)
  '(haskell-mode-hook '(turn-on-haskell-indentation turn-on-haskell-doc-mode) t)
  '(haskell-process-args-ghci '("-ferror-spans" "-i."))
+ '(haskell-process-type 'stack-ghci)
  '(helm-buffer-max-length 50)
  '(helm-buffer-skip-remote-checking t)
  '(helm-candidate-number-limit 1000)
@@ -625,6 +648,7 @@
  '(lsp-inhibit-message t)
  '(lsp-keymap-prefix "s-o")
  '(lsp-modeline-code-actions-segments nil)
+ '(lsp-mssql-default-batch-size 50)
  '(lsp-ui-doc-border "#586e75")
  '(magit-auto-revert-mode nil)
  '(magit-bury-buffer-function 'quit-window)
@@ -643,7 +667,7 @@
  '(markdown-fontify-code-blocks-natively t)
  '(markdown-link-space-sub-char "-")
  '(max-lisp-eval-depth 100000)
- '(max-specpdl-size 10000)
+ '(max-specpdl-size 100000)
  '(message-forward-as-mime nil)
  '(message-kill-buffer-on-exit t)
  '(message-log-max 10000)
@@ -653,10 +677,12 @@
  '(mis-make-command "make -j2")
  '(mis-recipes-directory "~/.emacs.d/elpa/make-it-so-20141203.811/recipes/")
  '(mm-inline-large-images 'resize)
+ '(mml-secure-openpgp-sign-with-sender t)
  '(mocha-reporter "spec")
  '(mouse-highlight nil)
  '(mouse-wheel-progressive-speed nil)
  '(my-org-idle-task "bed6e54e-095d-477e-92c0-9a4e6f345284")
+ '(nomad-tramp-nomad-addr "http://nomad.service.consul:4646")
  '(notmuch-archive-tags '("-inbox" "-unread" "+archived"))
  '(notmuch-fcc-dirs nil)
  '(notmuch-hello-sections
@@ -1486,6 +1512,12 @@
  '(org-format-latex-options
    '(:foreground default :background default :scale 3.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
      ("begin" "$1" "$" "$$" "\\(" "\\[")))
+ '(org-graph-rendered-properties
+   '(("KEYWORDS" . :multi)
+     ("SOURCE" . :single)
+     ("AUTHOR" . :single)
+     ("PUBLISHED" . :single)
+     ("ID" . :single)))
  '(org-graph-targets
    '((nil :maxlevel . 9)
      (org-agenda-files :maxlevel . 9)
@@ -1524,6 +1556,7 @@
  '(org-modules
    '(org-bbdb org-bibtex org-crypt org-gnus org-habit org-id org-info org-inlinetask org-checklist org-depend org-drill))
  '(org-outline-path-complete-in-steps nil)
+ '(org-pretty-table-charset "╒╕╘╛╤╡╧╞╪═│")
  '(org-priority-default 67)
  '(org-priority-lowest 69)
  '(org-priority-start-cycle-with-default nil)
@@ -1587,7 +1620,7 @@
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
  '(pomidor-play-sound-file nil)
- '(pomidor-seconds 1200)
+ '(pomidor-seconds 1500)
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(preview-scale-function 1.5)
@@ -1607,7 +1640,11 @@
  '(require-final-newline t)
  '(restclient-inhibit-cookies t)
  '(safe-local-variable-values
-   '((ft-source-to-test-mapping
+   '((vc-prepare-patches-separately)
+     (diff-add-log-use-relative-names . t)
+     (vc-git-annotate-switches . "-w")
+     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
+     (ft-source-to-test-mapping
       (:path "Elsa/" :prefix "elsa-")
       :path "Elsa/tests/" :prefix "test-")
      (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
@@ -1660,6 +1697,8 @@
  '(show-paren-mode nil)
  '(show-smartparens-global-mode t)
  '(smart-jump-bind-keys t)
+ '(smart-jump-default-mode-list
+   '(cc-mode csharp-mode clojure-mode elisp-mode elixir-mode lisp-mode lispy python ruby-mode rust-mode scheme typescript-mode))
  '(smart-jump-default-order-weight 500)
  '(smart-jump-jump-key "M-'")
  '(smart-jump-pop-key "C-M-'")
@@ -1670,6 +1709,7 @@
  '(smtpmail-stream-type 'starttls)
  '(solarized-scale-org-headlines nil)
  '(sp-ignore-modes-list nil)
+ '(spotify-port 8187)
  '(swb-crypt-key "matus.goljer@gmail.com")
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
@@ -1698,6 +1738,7 @@
      (360 . "#268bd2")))
  '(vc-annotate-very-old-color nil)
  '(vc-follow-symlinks t)
+ '(warning-suppress-log-types '((straight) (comp)))
  '(warning-suppress-types '((comp)))
  '(weechat-color-list
    '(unspecified "#fdf6e3" "#eee8d5" "#a7020a" "#dc322f" "#5b7300" "#859900" "#866300" "#b58900" "#0061a8" "#268bd2" "#a00559" "#d33682" "#007d76" "#2aa198" "#657b83" "#839496"))
