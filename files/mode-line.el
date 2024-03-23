@@ -137,7 +137,10 @@ OLD is the string to act on."
     ("~/.emacs.d/" . "ED|")
     ("/var/www/html/devel/" . "WEBD|")
     ("/var/www/html/" . "WEB|")
-    ((lambda () (locate-dominating-file default-directory ".git")) . "")
+    ((lambda ()
+       (unless (file-remote-p default-directory)
+         (locate-dominating-file default-directory ".git")))
+     . "")
     )
   "An alist defining translations of paths to shortcuts.
 
