@@ -223,10 +223,12 @@ return to regular interpretation of self-insert characters."
   :config
   (autobookmarks-mode 1))
 
-;; (use-package auctex
-;;   :straight t)
+(use-package auctex
+  :enable nil
+  :straight t)
 
 (use-package better-jump
+  :enable nil
   :bind (("C-j" . bjump-hydra/body))
   :config
   (progn
@@ -1599,7 +1601,7 @@ use a directory-local variable to specify this per-project."
   :config
   (progn
     (defun my-help-mode-init ()
-      (use-package better-jump)
+      ;; (use-package better-jump)
       (helm-descbinds-mode 1))
     (add-hook 'help-mode-hook 'my-help-mode-init)
     (bind-key "<tab>" 'forward-button help-mode-map)
@@ -1682,7 +1684,8 @@ use a directory-local variable to specify this per-project."
   :config
   (defun my-info-mode-init ()
     (variable-pitch-mode 1)
-    (use-package better-jump))
+    ;; (use-package better-jump)
+    )
   (add-hook 'Info-mode-hook 'my-info-mode-init))
 
 (use-package "isearch"
@@ -2525,7 +2528,7 @@ by that command."
   (add-to-list 'magic-mode-alist `(,(rx "<?php") . php-mode))
   :config
   (progn
-    (use-package better-jump)
+    ;; (use-package better-jump)
     (use-package php-eldoc :straight t)
     (use-package php-refactor)
     (use-package nette-tester)
