@@ -135,8 +135,6 @@ OLD is the string to act on."
   `((,abbreviated-home-dir . "~/")
     ("~/languages/" . "L|")
     ("~/.emacs.d/" . "ED|")
-    ("/var/www/html/devel/" . "WEBD|")
-    ("/var/www/html/" . "WEB|")
     ((lambda ()
        (unless (file-remote-p default-directory)
          (locate-dominating-file default-directory ".git")))
