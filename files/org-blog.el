@@ -58,7 +58,9 @@ If BLOG_TITLE property is present, use that, otherwise default to
 the heading."
   (org-with-point-at pom
     (or (org-entry-get pom "BLOG_TITLE")
-        (org-get-heading :no-tags :no-todo))))
+        (->> (org-get-heading :no-tags :no-todo)
+             (replace-regexp-in-string "/" "")
+             (replace-regexp-in-string "\\*" "")))))
 
 (defun my-org-blog--get-filename-from-header (pom)
   "Generate filename for tree at POM."
@@ -223,7 +225,7 @@ do not run `org-publish'."
          :sitemap-format-entry
          (lambda (entry style project)
            (format "[[file:%s][%s %s]]"
-                   entry
+                   (url-hexify-string entry)
                    (format-time-string "%Y-%m-%d"
                                        (org-publish-find-date entry project))
                    (org-publish-find-title entry project)))
