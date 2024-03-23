@@ -118,3 +118,7 @@ directory, go right back into search."
 
 (bind-key "A-\"" 'my-isearch-backward-symbol-at-point)
 (bind-key "A-\"" 'my-isearch-backward isearch-mode-map)
+
+;; For some reason this function becomes very slow.  I don't really
+;; need the multibyte processing so I disable it here.
+(defalias 'isearch-process-search-multibyte-characters 'isearch-process-search-char)
