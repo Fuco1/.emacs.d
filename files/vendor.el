@@ -1904,7 +1904,7 @@ with the result of running jq(1)."
         (when (> (length data) 0)
           (erase-buffer)
           (insert "| " (mapconcat (lambda (x) (format "%s" (car x))) (aref data 0) " | ") " |\n")
-          (insert "|-")
+          (insert "|-\n")
           (mapc
            (lambda (row)
              (insert "| " (mapconcat (lambda (x) (format "%s" (cdr x))) row " | ") " |\n"))
