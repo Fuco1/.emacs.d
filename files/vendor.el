@@ -1,4 +1,4 @@
-;;; vendor.el --- Package configuration
+;;; vendor.el --- Package configuration -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;;; Code:
