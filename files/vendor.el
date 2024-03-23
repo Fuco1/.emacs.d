@@ -3200,19 +3200,67 @@ separate buffer."
   :mode ("\\.swb$" . swb-mode)
   :straight (:repo "Fuco1/sql-workbench")
   :config
-  (progn
-    (defun my-swb-mode-init ()
-      "Init swb mode."
-      (org-radiobutton-mode 1)
-      (company-mode 1)
-      (abbrev-mode 1))
+  (use-package lsp-mssql
+    :straight t
+    :config
+    (push 'swb-mode (lsp--client-major-modes (gethash 'sql lsp-clients)))
 
-    (add-hook 'swb-mode-hook 'my-swb-mode-init)
+    (defun my-prepare-lsp-mssql-result (&rest _)
+      (lsp-mssql-with-result-buffer
+       (insert "|-\n")))
 
-    (defun my-swb-result-mode-init ()
-      (org-pretty-table-mode 1))
+    (defun my-update-swb-metadata (&rest _)
+      (lsp-mssql-with-result-buffer
+       (let ((meta lsp-mssql-result-metadata))
+         (swb-result-mode)
+         (setq-local swb-metadata meta))))
 
-    (add-hook 'swb-result-mode-hook 'my-swb-result-mode-init)))
+    (advice-add 'lsp-mssql--result-set-complete
+                :before
+                #'my-prepare-lsp-mssql-result)
+
+    (advice-add 'lsp-mssql--result-set-complete
+                :after
+                #'my-update-swb-metadata)
+
+    (defun my-lsp-mssql-fit-result-buffer ()
+      (when (string-match-p "SQL Results" (buffer-name))
+        (my-fit-window-to-buffer (get-buffer-window (current-buffer)))))
+
+    (add-hook 'lsp-mssql-after-render-table-hook #'my-lsp-mssql-fit-result-buffer)
+
+    (defun my-lsp-mssql-connect ()
+      (interactive)
+      (lsp)
+      (lsp-mssql-connect
+       (list
+        :server (swb--get-default-host)
+        :connectionString
+        (format "SERVER=%s;DATABASE=%s;UID=%s;PWD=%s;AUTHENTICATION=ActiveDirectoryServicePrincipal"
+                (swb--get-default-host)
+                (swb--get-default-database)
+                (swb--get-default-user)
+                (swb--get-default-password))))))
+
+  (defun my-swb-mode-init ()
+    "Init swb mode."
+    (org-radiobutton-mode 1)
+    (company-mode 1)
+    (abbrev-mode 1))
+
+  (add-hook 'swb-mode-hook 'my-swb-mode-init)
+
+  (eldoc-add-command 'swb-result-forward-cell
+                     'swb-result-backward-cell
+                     'swb-result-up-cell
+                     'swb-result-down-cell
+                     'swb-result-up-page
+                     'swb-result-down-page)
+
+  (defun my-swb-result-mode-init ()
+    (org-pretty-table-mode 1))
+
+  (add-hook 'swb-result-mode-hook 'my-swb-result-mode-init))
 
 (use-package stocklist
   :bind (("C-. q" . stocklist-show))
