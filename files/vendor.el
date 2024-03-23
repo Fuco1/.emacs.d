@@ -2998,9 +2998,10 @@ These are retrieved from `imenu--index-alist'."
            (error "grep.el: No `grep-find-template' available"))
           (t (let* ((regexp (grep-read-regexp))
                     (files (grep-read-files regexp))
+                    (root (projectile-acquire-root))
                     (dir (read-directory-name "Base directory: "
-                                              (car (projectile-get-project-directories))
-                                              (car (projectile-get-project-directories)) t))
+                                              (car (projectile-get-project-directories root))
+                                              (car (projectile-get-project-directories root)) t))
                     (confirm (equal current-prefix-arg '(4))))
                (list regexp files dir confirm))))))
       (rgrep regexp files dir confirm))))
