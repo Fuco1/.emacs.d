@@ -3325,9 +3325,20 @@ Omitting FRAME means currently selected frame."
     (unbind-key "M-," tide-mode-map)
     (unbind-key "M-." tide-mode-map)
 
+    (defun my-tide-eldoc-function (callback &rest _ignored)
+      (unless (member last-command '(next-error previous-error))
+        (if (tide-method-call-p)
+            (tide-command:signatureHelp callback)
+          (when (looking-at "\\s_\\|\\sw")
+            (tide-command:quickinfo
+             (tide-on-response-success-callback response (:ignore-empty t)
+               (funcall callback (tide-doc-text (plist-get response :body)))))))))
+
     (defun setup-tide-mode ()
       (interactive)
       (tide-setup)
+      (add-hook 'eldoc-documentation-functions #'my-tide-eldoc-function nil 'local)
+      (setq-local eldoc-documentation-function 'eldoc-documentation-compose-eagerly)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
       (tide-hl-identifier-mode +1)
       ;; company is an optional dependency. You have to
