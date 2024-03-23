@@ -6,10 +6,11 @@
 (setq eieio-backward-compatibility nil)
 
 ;; Emacs gurus don't need no stinking scroll bars & widgets
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
+(when (display-graphic-p)
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1))
 
 (defmacro my-with-elapsed-timer (text &rest body)
   (declare (indent 1))
