@@ -43,7 +43,10 @@
 
 (use-package org-inlinetask)
 
-(use-package org-cliplink :straight t)
+(use-package org-cliplink
+  :straight t
+  :bind (:map org-mode-map
+         ("C-c C-x C-p" . org-cliplink)))
 
 (use-package org-noter
   :straight t
