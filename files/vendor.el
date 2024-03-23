@@ -1449,6 +1449,26 @@ use a directory-local variable to specify this per-project."
 
     (use-package indicators)
 
+    (el-patch-defun flycheck-eslint--find-working-directory (_checker)
+      "Look for a working directory to run ESLint CHECKER in.
+
+This will be the directory that contains the `node_modules'
+directory.  If no such directory is found in the directory
+hierarchy, it looks first for `.eslintignore' and then for
+`.eslintrc' files to detect the project root."
+      (let* ((regex-config (concat "\\`\\.eslintrc"
+                                   "\\(\\.\\(js\\|ya?ml\\|json\\)\\)?\\'")))
+        (when buffer-file-name
+          (or
+           (el-patch-add
+             (locate-dominating-file buffer-file-name "pnpm-workspace.yaml"))
+           (locate-dominating-file buffer-file-name "node_modules")
+           (locate-dominating-file buffer-file-name ".eslintignore")
+           (locate-dominating-file
+            (file-name-directory buffer-file-name)
+            (lambda (directory)
+              (> (length (directory-files directory nil regex-config t)) 0)))))))
+
     (defun flycheck-errors-to-indicator-list ()
       (let* ((lines (-uniq (--map (flycheck-error-line it) flycheck-current-errors))))
         (unless (> (length lines) 50)
