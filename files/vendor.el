@@ -3558,6 +3558,7 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
   (defun my-yaml-mode-init ()
     (setq-local beginning-of-defun-function 'my-yaml-beginning-of-defun)
     (smartparens-strict-mode 1)
+    (apheleia-mode 1)
     (font-lock-add-keywords nil '(("[^[:alnum:]]@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)) 'append)
     (font-lock-add-keywords nil '(("\\$\\(.*?\\)\\_>" 0 'font-lock-variable-name-face t)))
     (font-lock-add-keywords
