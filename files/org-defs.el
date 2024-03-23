@@ -1396,11 +1396,17 @@ point and rebuild the agenda view."
                "* TODO %?\n%U\n" :clock-keep t)
              targets))
         ("w" "Work")
-        ("wl" "Work - Logio" entry (file+olp "~/org/work.org" "Logio")
-         "* TODO %? :logio:
+        ("wy" "Work - Ydistri" entry (file+olp "~/org/work.org" "Ydistri" "Refile")
+         "* TODO %^{title} :refile:
 %^{HELPDESK}p%U
- - [ ] zadane v HD
- - [ ] zadany cas v HD
+
+%?
+
+:META:
+- [ ] organizacia
+  - [ ] zadane v HD
+  - [ ] stav potvrdeny v HD
+:END:
 " :clock-keep t
          )
         ("l" "Read later" entry (file "~/org/refile.org")
