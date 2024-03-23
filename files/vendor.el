@@ -3369,6 +3369,7 @@ Omitting FRAME means currently selected frame."
     (nvm-use-for-buffer)
     (add-hook 'after-save-hook 'my-eslint-fix nil 'local)
     (add-hook 'my-newline-hook 'my-php-open-line nil 'local)
+    (find-local-executable-nodejs-setup-eslint)
     ;; formats the buffer before saving
     (unless (find-local-executable-typescript-setup-prettier)
       (add-hook 'before-save-hook 'tide-format-before-save nil 'local)))
