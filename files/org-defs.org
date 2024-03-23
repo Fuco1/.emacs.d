@@ -260,7 +260,7 @@ _k_b.org    _r_eading.org"
 
 #+begin_src elisp
 ;; push in opposite order
-(push (cons "R" (lambda () (org-graph-render-node))) org-speed-commands)
+(push (cons "S" (lambda () (org-graph-render-node))) org-speed-commands)
 (push (cons "C" 'org-graph-goto-child) org-speed-commands)
 (push (cons "P" 'org-graph-goto-parent) org-speed-commands)
 (push (list "Org Graph") org-speed-commands)
