@@ -1063,6 +1063,7 @@ idle timer to do the actual update.")
       :config
       (bind-key "M-\\" " %>% " ess-r-mode-map)
       (bind-key "C-c C-t" 'ft-find-test-or-source ess-r-mode-map)
+      (bind-key "C-c C-l" 'my-r-load-all ess-r-mode-map)
       (bind-key "C-c t" 'my-ess-compile ess-r-mode-map))
 
     (put 'flycheck-lintr-linters 'safe-local-variable #'stringp)
@@ -1111,6 +1112,12 @@ idle timer to do the actual update.")
      ("M-\\" . " %>% ")
      :map ess-help-mode-map
      ("q" . quit-window))
+
+    (defun my-r-load-all ()
+      "Reload the project with devtools::load_all()"
+      (interactive)
+      (ess-command "devtools::load_all()" )
+      (ess-switch-to-ESS t))
 
     (defun my-r-read-logger ()
       (ess-get-words-from-vector "lgr::logger_index() %>% pull(name) %>% as.character\n"))
