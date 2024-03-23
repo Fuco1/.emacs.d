@@ -161,6 +161,7 @@
   ("s" . my-sprunge)
   ("r" . align-regexp)
   ("C-d" . my-change-identifier-style)
+  ("n" . my-copy-buffer-filename-as-kill)
   ("/" . my-insert-date-iso))
 
 (bind-keys :map ctl-dot-prefix-map
