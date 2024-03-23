@@ -1477,8 +1477,7 @@ use a directory-local variable to specify this per-project."
     (defun my-flycheck-init ()
       (indicators-mode t)
       (ind-create-indicator 'point :managed t :face font-lock-builtin-face)
-      (add-to-list 'ind-managed-list-relative 'flycheck-error-indicators)
-      (flycheck-haskell-setup))
+      (add-to-list 'ind-managed-list-relative 'flycheck-error-indicators))
     (add-hook 'flycheck-mode-hook 'my-flycheck-init)))
 
 (use-package flycheck-cask
@@ -1520,6 +1519,7 @@ use a directory-local variable to specify this per-project."
   :config
   (progn
     (require 'haskell-indentation)
+    (flycheck-haskell-setup)
 
     ;; interactive haskell setup
     (require 'haskell-interactive-mode)
