@@ -161,7 +161,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;;;###autoload
 (defun my-create-directory-on-save (&optional _)
-  (when buffer-file-name
+  (when (and buffer-file-name
+             (not (file-remote-p buffer-file-name)))
     (let ((dir (file-name-directory buffer-file-name)))
       (when (and (not (file-exists-p dir))
                  (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
