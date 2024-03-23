@@ -1308,7 +1308,12 @@ idle timer to do the actual update.")
   :mode ("\\.dockerignore" . 'gitignore-mode))
 
 (use-package go-mode
-  :straight t)
+  :straight t
+  :config
+  (defun my-go-mode-init ()
+    (lsp)
+    (lsp-completion-mode 1))
+  (add-hook 'go-mode-hook 'my-go-mode-init))
 
 (use-package gnuplot
   :straight t
