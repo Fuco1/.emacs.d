@@ -256,7 +256,13 @@ _k_b.org    _r_eading.org"
 #+end_src
 
 * Speed commands
+:PROPERTIES:
+:ID:       4a5cfe07-6831-411d-abac-3269e0eaa3a1
+:END:
 ** Speed commands for org-graph
+:PROPERTIES:
+:ID:       c445e854-ad96-481a-b426-047bf9b0bef0
+:END:
 
 #+begin_src elisp
 ;; push in opposite order
