@@ -2991,6 +2991,7 @@ These are retrieved from `imenu--index-alist'."
   :defer t
   :diminish projectile-mode
   :commands (my-projectile-rgrep)
+  :bind (("C-. C-p" . projectile-command-map))
   :config
   (progn
     (defun my-projectile-rgrep (regexp &optional files dir confirm)
