@@ -66,18 +66,20 @@ load the result."
 
   (defhydra input-methods-hydra (:color blue :hint nil)
     "
-European           | Indian           | Asian    | Special
--------------------+------------------+----------+-----------------------------
-_s_lovak             | devanagari (_h_)   | _j_apanese | _w_orkman
-_c_zech              | de_v_anagari-trans |          | ipa-_x_-sampa
-_p_olish             |                  |          | TeX (_t_)
-german (_d_)         |                  |          |
-_i_talian            |                  |          |
-_f_rench             |                  |          |
-_l_atin              |                  |          | dis_a_ble IM
-_g_reek              |                  |          | describe IM (_?_)
-_b_ulgarian          |                  |          | set input _m_ethod
-cyrillic-trans (_q_) |                  |          | toggle input m_e_thod
+╔════════════════════╦══════════════════╦══════════╦═════════════════════╗
+║ European           ║ Indian           ║ Asian    ║ Special             ║
+╠════════════════════╬══════════════════╬══════════╬═════════════════════╣
+║ _s_lovak             ║ devanagari (_h_)   ║ _j_apanese ║ _w_orkman             ║
+║ _c_zech              ║ de_v_anagari-trans ║          ║ ipa-_x_-sampa         ║
+║ _p_olish             ║                  ║          ║ TeX (_t_)             ║
+║ german (_d_)         ║                  ║          ║                     ║
+║ _i_talian            ║                  ║          ║                     ║
+║ _f_rench             ║                  ║          ║                     ║
+║ _l_atin              ║                  ║          ║ dis_a_ble IM          ║
+║ _g_reek              ║                  ║          ║ describe IM (_?_)     ║
+║ _b_ulgarian          ║                  ║          ║ set input _m_ethod    ║
+║ cyrillic-trans (_q_) ║                  ║          ║ toggle input m_e_thod ║
+╚════════════════════╩══════════════════╩══════════╩═════════════════════╝
 "
     ("m" set-input-method)
     ("?" describe-input-method)
