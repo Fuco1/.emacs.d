@@ -2448,6 +2448,9 @@ by that command."
   :custom
   (save-place-mode t))
 
+(use-package spotify
+  :straight (:type git :host github :repo "SnootierMoon/emacs-spotify"))
+
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :custom
