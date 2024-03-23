@@ -115,6 +115,8 @@ load the result."
   :straight t
   :defer t)
 
+(use-package ansi :straight t)
+
 (use-package apheleia :straight t)
 
 (use-package add-node-modules-path
@@ -379,6 +381,9 @@ If no region is active, use word udner point."
             (insert date)))
         (calendar-exit)))
     (bind-key "RET" 'my-calendar-insert-date calendar-mode-map)))
+
+(use-package cats
+  :straight  (:repo "Fuco1/emacs-cats" :local-repo "emacs-cats"))
 
 (use-package clippy
   :commands clippy-describe-function)
@@ -1204,6 +1209,11 @@ idle timer to do the actual update.")
       (smartparens-mode 1))
     (add-hook 'inferior-ess-mode-hook 'my-inferior-ess-init)))
 
+(use-package ess-view-data
+  :straight t
+  :bind (:map ess-extra-map
+         ("v" . ess-view-data-print)))
+
 (use-package exec-path-from-shell
   :straight t
   :init
@@ -1670,6 +1680,21 @@ use a directory-local variable to specify this per-project."
   (progn
     (load-relative "ido-defs")))
 
+(use-package impatient-mode
+  :straight t
+  :config
+  (defun my-markdown-html (buffer)
+    (princ
+     (with-current-buffer buffer
+       (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://ndossougbe.github.io/strapdown/dist/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+     (current-buffer)))
+
+  (defun my-impatient-markdown-setup ()
+    (impatient-mode 1)
+    (imp-set-user-filter #'my-markdown-html))
+
+  (add-hook 'markdown-mode-hook #'my-impatient-markdown-setup))
+
 (use-package inf-mongo
   :straight t
   :commands inf-mongo
@@ -2079,6 +2104,8 @@ called, percentage usage and the command."
 
 (use-package legalese :straight t)
 
+(use-package lgr :straight t)
+
 (use-package ligature
   :straight t
   :config
@@ -2424,6 +2451,25 @@ by that command."
     ("n" . occur-next)
     ("p" . occur-prev)
     ("o" . occur-mode-display-occurrence)))
+
+(use-package openai-api
+  :bind ("C-c o" . openai-api-hydra/body)
+  :config
+  (defhydra openai-api-hydra (:color blue :hint nil)
+    "
+Openai hydra:
+explanation        │ region           │ programming
+───────────────────┼──────────────────┼──────────────────────
+_s_imple explanation │ explain _r_egion   │ document _d_efun
+_e_xplanation        │ _w_ork on region   │
+_t_ranslate          │                  │
+"
+    ("s" openai-simple-explanation)
+    ("e" openai-explanation)
+    ("r" openai-explain-region)
+    ("w" openai-work-on-region)
+    ("t" openai-translate)
+    ("d" openai-document-defun)))
 
 (use-package overseer
   :straight (overseer :fork "Fuco1/overseer.el"))
