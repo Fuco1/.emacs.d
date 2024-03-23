@@ -283,7 +283,7 @@ _k_b.org    _r_eading.org"
                      s)))
     (if next-item
         (goto-char (car next-item))
-      (error "On last item"))))
+      (user-error "On last item"))))
 
 (defun my-org-previous-item-ignore-indent ()
   "Go to previous list item ignoring indent."
@@ -295,7 +295,7 @@ _k_b.org    _r_eading.org"
                      s)))
     (if prev-item
         (goto-char (car prev-item))
-      (error "On first item"))))
+      (user-error "On first item"))))
 
 (defun my-org-speed-command-list-activate (key)
   "Hook for activating single-letter speed commands in lists."
