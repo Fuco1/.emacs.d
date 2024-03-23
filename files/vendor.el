@@ -2234,6 +2234,9 @@ called, percentage usage and the command."
 (use-package markdown-mode
   :straight t
   :mode ("\\.mdx?$" . gfm-mode)
+  :bind (:map markdown-mode-map
+         ("M-<left>" . markdown-promote)
+         ("M-<right>" . markdown-demote))
   :config
   (use-package markdown-toc :straight t)
   (progn
