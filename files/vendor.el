@@ -2181,6 +2181,12 @@ called, percentage usage and the command."
                      (my-goto-dominating-form '(let let*)))))
 
     (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
+
+    (defun my-eval-expression-minibuffer-init ()
+      (setq-local indent-line-function (lambda () t))
+      (setq completion-at-point-functions nil))
+    (add-hook 'eval-expression-minibuffer-setup-hook 'my-eval-expression-minibuffer-init)
+
     (defun my-emacs-lisp-init ()
       (require 'my-lisp-mode-defs "~/.emacs.d/files/lisp-mode-defs")
       (add-hook 'my-newline-hook 'my-emacs-lisp-open-line nil :local)
