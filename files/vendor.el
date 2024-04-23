@@ -226,11 +226,11 @@ return to regular interpretation of self-insert characters."
   (autobookmarks-mode 1))
 
 (use-package auctex
-  :enable nil
+  :disable t
   :straight t)
 
 (use-package better-jump
-  :enable nil
+  :disable t
   :bind (("C-j" . bjump-hydra/body))
   :config
   (progn
