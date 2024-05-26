@@ -87,7 +87,9 @@ Done subtasks and subtask tagged with a tag in
                       (< (point) subtree-end)
                       (re-search-forward "^\*+ " subtree-end t))
             (when (and (org-entry-is-todo-p)
-                       (not (--any? (member it my-org-ignore-task-in-project-by-tag) (org-get-tags-at))))
+                       (not (--any?
+                             (member it my-org-ignore-task-in-project-by-tag)
+                             (org-get-tags))))
               (setq has-subtask t)))
           has-subtask)))))
 
