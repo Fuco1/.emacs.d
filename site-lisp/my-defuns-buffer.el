@@ -115,7 +115,7 @@ Warn me if I want to kill a scratch buffer."
   "Copy current buffer's filename to `kill-ring'."
   (interactive)
   (kill-new buffer-file-name)
-  (message "File name copied to kill ring"))
+  (message "Buffer file name copied to kill ring"))
 
 (defun my-open-buffer-xdg ()
   "Open the current buffer's file with xdg-open(1)."
