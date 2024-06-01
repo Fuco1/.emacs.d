@@ -97,7 +97,7 @@ string).  It returns t if a new expansion is found, nil otherwise."
      ((progn
         (cond
          ((and company-mode (shut-up (company-complete))))
-         ((ignore-errors (hippie-expand) (>= he-num 0)))
+         ((ignore-errors (hippie-expand nil) (>= he-num 0)))
          ;; Finally, run indent again.
          ((indent-for-tab-command)))
         nil))
@@ -137,7 +137,7 @@ This is a hack to turn off `smart-tab' behaviour and just use
    ((memq major-mode '(org-mode markdown-mode gfm-mode))
     (cond
      ((my-smart-tab-must-expand)
-      (hippie-expand))
+      (hippie-expand nil))
      ((use-region-p)
       (indent-region (region-beginning) (region-end)))
      (:otherwise (if (eq major-mode 'org-mode) (org-cycle) (markdown-cycle)))))
