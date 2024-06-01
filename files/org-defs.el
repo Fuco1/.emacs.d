@@ -27,7 +27,7 @@
 
 (require 'hydra)
 
-(use-package orgba :straight (:repo "Fuco1/orgba"))
+(use-package orgba :straight (:host github :repo "Fuco1/orgba"))
 (use-package org-make-toc :straight t)
 
 (use-package org-graph
@@ -49,7 +49,7 @@
          ("C-c C-x C-p" . org-cliplink)))
 
 (use-package org-noter
-  :straight t
+  :straight (org-noter :fork t)
   :config
   (unbind-key "C-M-." org-noter-doc-mode-map)
   (unbind-key "C-M-." org-noter-notes-mode-map)
@@ -81,7 +81,7 @@
 
 (use-package org-toggl
   :after org-clock
-  :straight (:repo "Fuco1/org-toggl")
+  :straight (org-toggl :fork t)
   :custom
   (org-toggl-inherit-toggl-properties t)
   :config
@@ -321,7 +321,7 @@
   :defer t
   :config
   (use-package org-timeline
-    :straight (:repo "Fuco1/org-timeline")
+    :straight (:host github :repo "Fuco1/org-timeline")
     :config
     (progn
       (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)))
@@ -869,7 +869,7 @@ by a REPEAT property."
         ad-do-it))))
 
 (use-package org-clock-budget
-  :straight (:repo "Fuco1/org-clock-budget"))
+  :straight (:host github :repo "Fuco1/org-clock-budget"))
 
 ;; add support for automatic org-files commits
 (defvar my-org-commit-timer

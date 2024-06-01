@@ -385,7 +385,7 @@ If no region is active, use word udner point."
     (bind-key "RET" 'my-calendar-insert-date calendar-mode-map)))
 
 (use-package cats
-  :straight  (:repo "Fuco1/emacs-cats" :local-repo "emacs-cats"))
+  :straight (:host github :repo "Fuco1/emacs-cats" :local-repo "emacs-cats"))
 
 (use-package clippy
   :commands clippy-describe-function)
@@ -723,7 +723,7 @@ and `my-compile-auto-fold-header-match-data'."
   :straight (deadgrep :fork t))
 
 (use-package diakritika
-  :straight (:repo "Fuco1/diakritika" :files ("diakritika.el")))
+  :straight (:host github :repo "Fuco1/diakritika" :files ("diakritika.el")))
 
 (use-package diff-mode
   :defer t
@@ -1348,12 +1348,12 @@ idle timer to do the actual update.")
 (defvar-local flycheck-error-indicators nil)
 
 (use-package find-test
-  :straight (:repo "Fuco1/find-test" :files ("find-test.el"))
+  :straight (:host github :repo "Fuco1/find-test" :files ("find-test.el"))
   :bind (:map prog-mode-map
          ("C-c C-t" . ft-find-test-or-source)))
 
 (use-package find-local-executable
-  :straight (:repo "Fuco1/find-local-executable"))
+  :straight (:host github :repo "Fuco1/find-local-executable"))
 
 (use-package flycheck
   :straight (flycheck :fork t)
@@ -1623,7 +1623,7 @@ hierarchy, it looks first for `.eslintignore' and then for
   (add-to-list 'flycheck-checkers 'tflint))
 
 (use-package helm
-  :straight (helm :repo "Fuco1/helm" :fetcher github :files ("*.el" "emacs-helm.sh"))
+  :straight (:host github :repo "Fuco1/helm" :files ("*.el" "emacs-helm.sh"))
   :defer t
   :config
   (progn
@@ -2311,7 +2311,7 @@ delete it and re-insert new one."
   (add-hook 'message-setup-hook 'mml-secure-message-sign-pgpmime))
 
 (use-package nomad-tramp
-  :straight (:repo "ydistri/nomad-tramp"))
+  :straight (:host github :repo "ydistri/nomad-tramp"))
 
 (use-package nvm
   :straight t)
@@ -2527,7 +2527,7 @@ _t_ranslate          │                  │
   (global-paren-face-mode 1))
 
 (use-package sallet
-  :straight (:repo "Fuco1/sallet")
+  :straight (:host github :repo "Fuco1/sallet")
   :bind (("C-. C-." . helm-occur)
          ("C-'" . csallet-buffer)
          ("H-b". sallet-register-point)
@@ -2606,7 +2606,7 @@ _t_ranslate          │                  │
   (add-hook 'org-clock-out-hook 'my-org-jira-update-workload-on-clock-out))
 
 (use-package ov
-  :straight (ov :fork t))
+  :straight (ov :fork (:host github :repo "Fuco1/ov.el")))
 
 (use-package pdf-tools
   :straight t)
@@ -3299,7 +3299,7 @@ separate buffer."
 
 (use-package sql-workbench
   :mode ("\\.swb$" . swb-mode)
-  :straight (:repo "Fuco1/sql-workbench")
+  :straight (:host github :repo "Fuco1/sql-workbench")
   :config
   (use-package lsp-mssql
     :straight t
@@ -3382,7 +3382,7 @@ separate buffer."
 (use-package systemd :straight t)
 
 (use-package terraform-mode
-  :straight (terraform-mode :fork t)
+  :straight t
   :config
   (defun my-terraform-mode-init ()
     (my-lsp-init-all))
