@@ -156,7 +156,7 @@
  '(cursor-type 'box)
  '(custom-enabled-themes '(my-tango-dark))
  '(custom-safe-themes
-   '("e45f9bae02efa875bf403ed93435d2e0a9de01c5804b152319f930d6fb1f9640" "bc047531e202c5ac167b82d3eafb1954bf87cac27acb477fe65a5eab4db49a36" "43c1fbcbafa8a1cb7e0d6fd42b9cd1b280c67c28b337fae8d784831b4e2db46f" "d9a89a0a87e861ffa9181b0d5c6b593f0108fee83cade906eb5433b16ed6386a" "f536c42e8d2c1139cac9533501376ecddb2f13d4cca68a12d0956db697d58730" "b467d90433db3e687056e45e1141044c2158dc4ef2ace6e5cab38b88cee5eb06" "c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
+   '("70b598f9110467c071ce2cd169446b3defa195bce839bb360325489c150f4d6f" "e45f9bae02efa875bf403ed93435d2e0a9de01c5804b152319f930d6fb1f9640" "bc047531e202c5ac167b82d3eafb1954bf87cac27acb477fe65a5eab4db49a36" "43c1fbcbafa8a1cb7e0d6fd42b9cd1b280c67c28b337fae8d784831b4e2db46f" "d9a89a0a87e861ffa9181b0d5c6b593f0108fee83cade906eb5433b16ed6386a" "f536c42e8d2c1139cac9533501376ecddb2f13d4cca68a12d0956db697d58730" "b467d90433db3e687056e45e1141044c2158dc4ef2ace6e5cab38b88cee5eb06" "c99e7ab141a261f47a722088d81b008d7e8114ea393e182c75223ccc31516fb2" "3e973dbe30070b42a5759aa0d83aaff8ee6a3baedd9f670a4a44a49352ebd4d2" "d7152245caee9d16a3b8c9ee5cd4ada85bbb0a743a5bfcbf598ce6bf20d40782" "a65e4c1c4e25e3a73b67fea435abd16eb3027f02de6be5e57e945f56322bb896" "3191eccbaa758e3492857051e093df4c657efb1f2fbb00634eca4979b9ad3572" "898d4445a22debe361a677b1462b85c934ffe1a71238ec71a13c07207b88b386" default))
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(custom-unlispify-remove-prefixes t)
  '(custom-unlispify-tag-names nil)
@@ -339,6 +339,7 @@
      (ess-fl-keyword:delimiters)
      (ess-fl-keyword:=)
      (ess-R-fl-keyword:F&T)))
+ '(eval-expression-print-length nil)
  '(exec-path-from-shell-shell-name "fish")
  '(eyebrowse-mode t)
  '(fci-rule-color "#eee8d5")
@@ -657,6 +658,7 @@
  '(magit-diff-arguments '("--no-ext-diff" "--stat"))
  '(magit-diff-refine-hunk 'all)
  '(magit-log-arguments '("--graph" "--color" "--decorate"))
+ '(magit-log-color-graph-limit 2560)
  '(magit-push-always-verify nil)
  '(magit-status-sections-hook
    '(magit-insert-status-headers magit-insert-merge-log magit-insert-rebase-sequence magit-insert-am-sequence magit-insert-sequencer-sequence magit-insert-bisect-output magit-insert-bisect-rest magit-insert-bisect-log magit-insert-untracked-files magit-insert-unstaged-changes magit-insert-staged-changes magit-insert-stashes magit-insert-unpushed-to-pushremote magit-insert-unpushed-to-upstream magit-insert-unpulled-from-pushremote magit-insert-unpulled-from-upstream magit-insert-modules))
@@ -1619,6 +1621,7 @@
  '(package-enable-at-startup nil)
  '(paren-face-regexp "[(){}]")
  '(pj-line-width 1100)
+ '(pomidor-alert 'my-pomidor-alert)
  '(pomidor-play-sound-file nil)
  '(pomidor-seconds 1500)
  '(pos-tip-background-color "#eee8d5")
@@ -1639,61 +1642,33 @@
      ("theorem" 32 "th:" "~\\cref{%s}" nil nil)))
  '(require-final-newline t)
  '(restclient-inhibit-cookies t)
+ '(rg-command-line-flags '("-z" "--follow"))
+ '(ripgrep-arguments '("-z" "--follow"))
  '(safe-local-variable-values
-   '((vc-prepare-patches-separately)
-     (diff-add-log-use-relative-names . t)
-     (vc-git-annotate-switches . "-w")
-     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
-     (ft-source-to-test-mapping
+   '((ft-source-to-test-mapping
       (:path "Elsa/" :prefix "elsa-")
       :path "Elsa/tests/" :prefix "test-")
      (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
-     (eval font-lock-add-keywords nil
-           `((,(concat "("
-                       (regexp-opt
-                        '("sp-do-move-op" "sp-do-move-cl" "sp-do-put-op" "sp-do-put-cl" "sp-do-del-op" "sp-do-del-cl")
-                        t)
-                       "\\_>")
-              1 'font-lock-variable-name-face)))
-     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
-     (ft-source-to-test-mapping
-      (:path "/" :prefix "elsa-")
-      :path "/tests/" :prefix "test-")
-     (eval sql-set-product 'ms)
-     (checkdoc-package-keywords-flag)
-     (eval font-lock-add-keywords nil
-           (-map
-            (-lambda
-              ((face . color))
-              (let
-                  ((pattern
-                    (concat "\\_<"
-                            (symbol-name face)
-                            "\\_>"))
-                   (color-resolved
-                    (if
-                        (stringp color)
-                        color
-                      (cdr
-                       (assq color
-                             (cdar my-tango-colors))))))
-                (list pattern 0
-                      `(rainbow-colorize-match ,color-resolved)
-                      'prepend)))
-            (cdar my-tango-colors))
-           'append)
-     (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
-     (compilation-search-path . "/home/matus/dev/ydistri/math")
-     (ft-source-to-test-mapping
-      (:path "/R/" :prefix "")
-      :path "/tests/testthat/" :prefix "test-")
-     (eval add-to-list 'imenu-generic-expression
-           '("Used Packages" "\\(^(use-package +\\)\\(\\_<.+\\_>\\)" 2))
      (flycheck-php-phpstan-executable . "/home/matus/dev/php/Sandbox/core/tests/phpstan/docker-phpstan")
      (org-drill-maximum-items-per-session . 1)
      (org-drill-scope . file)
      (eval ispell-change-dictionary "slovak")
-     (eval set-input-method "slovak-prog-2")))
+     (eval set-input-method "slovak-prog-2")
+     (compilation-search-path . "/home/matus/dev/ydistri/math")
+     (ft-source-to-test-mapping
+      (:path "/R/" :prefix "")
+      :path "/tests/testthat/" :prefix "test-")
+     (org-confirm-elisp-link-function)))
+ '(shackle-rules
+   '(("*Help*" :select t)
+     ("magit-log\\(-popup\\)?" :regexp t :select t :inhibit-window-quit t :same t)
+     ("\\`\\*?magit:" :regexp t :select t :inhibit-window-quit t :same t)
+     (Man-mode :select t :inhibit-window-quit t :same t)
+     ("\\*ag search\\|\\*rg\\*" :regexp t :inhibit-window-quit t :same t)
+     (messages-buffer-mode :select t :inhibit-window-quit t :same t)
+     (swb-result-mode :align 'below)
+     (ess-r-help-mode :inhibit-window-quit t :same t)
+     ("\\*prodigy" :regexp t :select t :inhibit-window-quit t :same t)))
  '(show-paren-mode nil)
  '(show-smartparens-global-mode t)
  '(smart-jump-bind-keys t)
@@ -1708,6 +1683,7 @@
  '(smtpmail-smtp-service 587)
  '(smtpmail-stream-type 'starttls)
  '(solarized-scale-org-headlines nil)
+ '(sp-comment-string '(((emacs-lisp-mode) . ";; ")))
  '(sp-ignore-modes-list nil)
  '(spotify-port 8187)
  '(swb-crypt-key "matus.goljer@gmail.com")
