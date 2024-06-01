@@ -1726,7 +1726,7 @@ gcc -shared -o dotproduct.so dotproduct.o
 
 Finally, we load the module into Emacs with:
 
-#+begin_src elisp
+#+begin_src elisp :tangle no
 (module-load (expand-file-name "dotproduct.so"))
 #+end_src
 
@@ -1736,7 +1736,7 @@ queries---it works surprisingly well, even across multiple different
 natural languages (i.e. if I ask about Franz Kafka's Castle it will
 return "Das Schloß" entry from my foreign language reading file).
 
-#+begin_src elisp
+#+begin_src elisp :tangle no
 (org-graph-openai-query "Book about journey to the center of the Earth")
 #+end_src
 
@@ -1760,7 +1760,7 @@ right.
 Here's another example which is purposefully silly description of the
 [[https://en.wikipedia.org/wiki/Thus_Spoke_Zarathustra][expected]] book's title:
 
-#+begin_src elisp
+#+begin_src elisp :tangle no
 (org-graph-openai-query "Philosophical book where someone spoke in a particular way")
 #+end_src
 
