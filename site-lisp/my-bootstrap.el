@@ -40,16 +40,12 @@ list of always-create directories."
 ;; TODO: we could probably use paths relative to this file instead of
 ;; the prefix format stuff
 (defun my-setup-load-path ()
-  "Add extra entries to `load-path', such as paths to dev
-  versions of packages."
+  "Add extra entries to `load-path'."
   (let ((prefix (if (getenv "CI") "/build/Fuco1" "")))
     (add-to-list 'load-path "/home/matus/dev/c++/ledger/lisp")
     (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/" prefix))
     (add-to-list 'load-path (format "~%s/.emacs.d/files/" prefix))
     (add-to-list 'load-path (format "~%s/.emacs.d/site-lisp/special/" prefix))
-    (mapc (apply-partially 'add-to-list 'load-path) (f-directories (format "~%s/.emacs.d/projects" prefix)))
-    (mapc (apply-partially 'add-to-list 'load-path) (f-directories (format "~%s/.emacs.d/dev/" prefix)))
-    (mapc (lambda (dir) (load (concat dir "/" (f-base dir) "-autoloads.el") t t))
-          (f-directories (format "~%s/.emacs.d/dev/" prefix)))))
+    (mapc (apply-partially 'add-to-list 'load-path) (f-directories (format "~%s/.emacs.d/projects" prefix)))))
 
 (provide 'my-bootstrap)
