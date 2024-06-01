@@ -323,6 +323,11 @@ https://i.imgur.com/hjJQVyL.png
 
 #+CAPTION: markup faces
 https://i.imgur.com/1ksWpt3.png
+
+#+begin_src elisp :exports none
+(use-package fontify-face :straight t)
+#+end_src
+
 * DONE Using bookmarks with eshell and docker-tramp
     CLOSED: [2017-10-08 Sun 12:25] SCHEDULED: <2017-10-08 Sun 12:00-12:40>
     :PROPERTIES:

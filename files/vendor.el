@@ -1525,8 +1525,6 @@ hierarchy, it looks first for `.eslintignore' and then for
 (use-package free-keys
   :commands free-keys)
 
-(use-package fontify-face :straight t)
-
 (use-package haskell-mode
   :straight t
   :mode (("\\.hs\\'" . haskell-mode)
