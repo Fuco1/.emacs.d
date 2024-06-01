@@ -9,6 +9,7 @@
 (require 'pcase)
 (require 'dash)
 (require 's)
+(require 'json)
 
 (defun my-scratch-autodetect-mode (beg end pre-change)
   "Detect major mode when text is first inserted into the buffer."
@@ -116,6 +117,14 @@ Warn me if I want to kill a scratch buffer."
   (interactive)
   (kill-new buffer-file-name)
   (message "Buffer file name copied to kill ring"))
+
+(defun my-copy-buffer-string-as-kill ()
+  "Copy current buffer's content to `kill-ring'."
+  (interactive)
+  (kill-new
+   (json-encode-string
+    (buffer-substring-no-properties (point-min) (point-max))))
+  (message "Buffer string copied to kill ring"))
 
 (defun my-open-buffer-xdg ()
   "Open the current buffer's file with xdg-open(1)."
