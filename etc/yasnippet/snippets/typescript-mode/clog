@@ -1,9 +1,6 @@
 # -*- coding: utf-8; mode: snippet -*-
-# name: if
-# key: if
+# name: clog
+# key: clog
 # contributor: Matus Goljer <matus.goljer@gmail.com>
 # --
-if (${1:condition})
-{
-    $0
-}
+console.log($0)
