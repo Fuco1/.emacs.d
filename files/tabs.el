@@ -145,8 +145,8 @@ This is a hack to turn off `smart-tab' behaviour and just use
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(bind-key "<tab>" 'smart-tab)
-(bind-key "<tab>" 'smart-tab minibuffer-local-map)
-(bind-key "<tab>" 'smart-tab read-expression-map)
+(bind-key "TAB" 'smart-tab)
+(bind-key "TAB" 'smart-tab minibuffer-local-map)
+(bind-key "TAB" 'smart-tab read-expression-map)
 
 ;;; tabs.el ends here
