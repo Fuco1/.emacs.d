@@ -44,7 +44,6 @@
 (prog1 "Set up no-littering"
   (straight-use-package 'no-littering)
   (require 'no-littering)
-  (setq abbrev-file-name "/home/matus/.emacs.d/abbrev_defs")
   (setq diary-file "/home/matus/org/diary"))
 
 (straight-use-package 'org-contrib)
