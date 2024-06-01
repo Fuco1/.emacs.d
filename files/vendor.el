@@ -297,6 +297,8 @@ better jump:
       (c-set-style "stroustrup"))
     (add-hook 'c++-mode-hook 'my-c++-mode-setup)
 
+    (bind-key "<tab>" 'smart-tab java-mode-map)
+
     (use-package lsp-java
       :straight t
       :after (emr lsp-mode)
