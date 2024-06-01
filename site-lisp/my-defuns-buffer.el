@@ -139,10 +139,7 @@ might be bad."
   (unless my-inhibit-buffer-cleanup-mode
     (let ((inhibit-read-only t))
       (when (or (called-interactively-p)
-                (and (not (memq major-mode '(snippet-mode)))
-                     (or (not (s-matches? "/var/www/html/" default-directory))
-                         (s-matches? "orders-refactor" default-directory))
-                     (not (s-matches? "dev/org-mode" default-directory))))
+                (not (memq major-mode '(snippet-mode))))
         (delete-trailing-whitespace)
         (unless (or (memq major-mode '(makefile-gmake-mode
                                        makefile-mode
