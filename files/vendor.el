@@ -2162,6 +2162,11 @@ called, percentage usage and the command."
 
   (global-ligature-mode t))
 
+(use-package linkmarks
+  :straight (linkmarks
+             :type git :host github
+             :repo "dustinlacewell/linkmarks"))
+
 (use-package lisp-mode
   :defer t
   :init
