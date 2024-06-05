@@ -44,6 +44,7 @@
 (prog1 "Set up no-littering"
   (straight-use-package 'no-littering)
   (require 'no-littering)
+  (no-littering-theme-backups)
   (setq diary-file "/home/matus/org/diary"))
 
 (straight-use-package 'org-contrib)

@@ -112,7 +112,6 @@
  '(appt-display-interval 5)
  '(appt-message-warning-time 15)
  '(auth-source-save-behavior nil)
- '(auto-save-file-name-transforms nil)
  '(autobookmarks-mode t)
  '(background-color "#002b36")
  '(background-mode dark)
