@@ -76,6 +76,11 @@ Also used for highlighting.")
 (use-package diredfl
   :straight t)
 
+(use-package dired-ui
+  :init
+  (bind-keys :map dired-mode-map
+    ("w" . dired-ui-dired-copy-filename-as-kill)))
+
 ;; we should just hijack C-t map from image-dired which is crap anyway
 (use-package dired-images)
 
