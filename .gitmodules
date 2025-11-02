@@ -61,9 +61,6 @@
 [submodule "projects/orgpath"]
 	path = projects/orgpath
 	url =  git@github.com:Fuco1/org-xpath.git
-[submodule "projects/org-pretty-table"]
-	path = projects/org-pretty-table
-	url =  git@github.com:Fuco1/org-pretty-table.git
 [submodule "projects/php-refactor"]
 	path = projects/php-refactor
 	url =  git@github.com:Fuco1/php-refactor.git

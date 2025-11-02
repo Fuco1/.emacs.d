@@ -2605,6 +2605,9 @@ _t_ranslate          │                  │
 
   (add-hook 'org-clock-out-hook 'my-org-jira-update-workload-on-clock-out))
 
+(use-package org-pretty-table
+  :straight (org-pretty-table :host github :repo "Fuco1/org-pretty-table"))
+
 (use-package ov
   :straight (ov :fork (:host github :repo "Fuco1/ov.el")))
 
