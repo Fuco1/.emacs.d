@@ -3738,9 +3738,6 @@ info, because it is INVISIBLE TEXT!!! Why not, IDK, use a text property?"
 
 (use-package yarn-mode :straight t)
 
-(use-package yankpad
-  :straight (yankpad :fork t))
-
 (use-package yasnippet
   :straight t
   :diminish yas-minor-mode
